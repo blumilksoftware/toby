@@ -23,8 +23,8 @@ use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Toby\Http\Middleware\Authenticate;
+use Toby\Http\Middleware\HandleInertiaRequests;
 use Toby\Http\Middleware\RedirectIfAuthenticated;
 use Toby\Http\Middleware\TrimStrings;
 use Toby\Http\Middleware\TrustProxies;
@@ -49,10 +49,9 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
+            HandleInertiaRequests::class,
         ],
-
         "api" => [
-            EnsureFrontendRequestsAreStateful::class,
             "throttle:api",
             SubstituteBindings::class,
         ],
