@@ -31,6 +31,10 @@ HR software you love to hate
 
       dcr php php artisan migrate --seed
 
+- install npm packages
+
+      dcr node npm install
+
 - build assets
 
       dcr node npm run dev
