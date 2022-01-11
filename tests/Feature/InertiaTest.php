@@ -14,6 +14,6 @@ class InertiaTest extends TestCase
         $response = $this->get("/");
 
         $response->assertOk();
-        $response->assertInertia(fn(Assert $page) => $page->component("Welcome"));
+        $response->assertInertia(fn(Assert $page) => $page->component("Dashboard"));
     }
 }

@@ -10,10 +10,13 @@
         "production": "mix --production"
     },
     "dependencies": {
+        "@headlessui/vue": "^1.4.2",
+        "@heroicons/vue": "^1.0.5",
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/progress": "^0.2.7",
         "@tailwindcss/forms": "^0.4.0",
+        "@tailwindcss/line-clamp": "^0.3.0",
         "@tailwindcss/typography": "^0.5.0",
         "@vue/compiler-sfc": "^3.2.26",
         "autoprefixer": "^10.4.2",

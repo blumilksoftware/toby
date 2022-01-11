@@ -27,13 +27,13 @@ HR software you love to hate
 
       dcr php php artisan key:generate
 
-- generate storage link
-
-      dcr php php artisan storage:link
-
 - migrate and seed database
 
       dcr php php artisan migrate --seed
+
+- build assets
+
+      dcr node npm run dev
 
 ## Available containers (local)
 - **php** - php and composer stuff
