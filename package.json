@@ -7,7 +7,9 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "lint": "./node_modules/.bin/eslint resources/js --ext .js,.vue",
+        "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
     },
     "dependencies": {
         "@headlessui/vue": "^1.4.2",
@@ -25,5 +27,9 @@
         "tailwindcss": "^3.0.12",
         "vue": "^3.2.26",
         "vue-loader": "^16.8.3"
+    },
+    "devDependencies": {
+        "eslint": "^8.6.0",
+        "eslint-plugin-vue": "^8.2.0"
     }
 }

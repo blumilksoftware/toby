@@ -1,4 +1,4 @@
-name: Build & Test
+name: Test & lint PHP stuff
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  test-and-lint-php:
     runs-on: ubuntu-20.04
 
     steps:
@@ -33,7 +33,7 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
 
-      - name: Run linter
+      - name: Run PHP linter
         run: composer ecs
 
       - name: Execute tests
