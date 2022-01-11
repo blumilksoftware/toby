@@ -27,13 +27,17 @@ HR software you love to hate
 
       dcr php php artisan key:generate
 
-- generate storage link
-
-      dcr php php artisan storage:link
-
 - migrate and seed database
 
       dcr php php artisan migrate --seed
+
+- install npm packages
+
+      dcr node npm install
+
+- build assets
+
+      dcr node npm run dev
 
 ## Available containers (local)
 - **php** - php and composer stuff
@@ -52,6 +56,8 @@ If xDebug is installed, set environment variable **XDEBUG_MODE=off** to improve 
       dcr php composer ecs
       dcr php php vendor/bin/ecs check --fix
       dcr php composer ecsf
+      dcr node npm run lint
+      dcr node rpm run lintf
 
 ## xDebug
 
