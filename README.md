@@ -56,6 +56,8 @@ If xDebug is installed, set environment variable **XDEBUG_MODE=off** to improve 
       dcr php composer ecs
       dcr php php vendor/bin/ecs check --fix
       dcr php composer ecsf
+      dcr node npm run lint
+      dcr node rpm run lintf
 
 ## xDebug
 
