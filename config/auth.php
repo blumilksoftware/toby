@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Toby\Models\User;
+
 return [
     "defaults" => [
         "guard" => "web",
@@ -16,7 +18,7 @@ return [
     "providers" => [
         "users" => [
             "driver" => "eloquent",
-            "model" => Toby\Models\User::class,
+            "model" => User::class,
         ],
     ],
     "passwords" => [

@@ -6,4 +6,4 @@ module.exports = {
             '@': path.resolve('resources/js')
         }
     }
-}
+};

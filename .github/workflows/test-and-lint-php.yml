@@ -8,6 +8,7 @@ on:
 
 jobs:
   test-and-lint-php:
+    name: Test & lint PHP stuff
     runs-on: ubuntu-20.04
 
     steps:

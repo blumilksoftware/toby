@@ -16,6 +16,7 @@
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^0.9.0",
+        "enlightn/enlightn": "^1.22",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.4",

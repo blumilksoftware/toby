@@ -2,23 +2,19 @@
 
 declare(strict_types=1);
 
-$app = new Illuminate\Foundation\Application(
-    $_ENV["APP_BASE_PATH"] ?? dirname(__DIR__),
-);
+use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
+use Illuminate\Contracts\Debug\ExceptionHandler as HandlerContract;
+use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
+use Illuminate\Foundation\Application;
+use Toby\Console\Kernel as ConsoleKernel;
+use Toby\Exceptions\Handler;
+use Toby\Http\Kernel as HttpKernel;
 
-$app->singleton(
-    Illuminate\Contracts\Http\Kernel::class,
-    Toby\Http\Kernel::class,
-);
+$basePath = $_ENV["APP_BASE_PATH"] ?? dirname(__DIR__);
+$application = new Application($basePath);
 
-$app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    Toby\Console\Kernel::class,
-);
+$application->singleton(HttpKernelContract::class, HttpKernel::class);
+$application->singleton(ConsoleKernelContract::class, ConsoleKernel::class);
+$application->singleton(HandlerContract::class, Handler::class);
 
-$app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    Toby\Exceptions\Handler::class,
-);
-
-return $app;
+return $application;
