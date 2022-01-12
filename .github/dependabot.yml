@@ -1,4 +1,5 @@
 version: 2
+
 updates:
   - package-ecosystem: composer
     directory: "/"
@@ -9,6 +10,7 @@ updates:
       prefix: "#5 - (php) "
     target-branch: main
     open-pull-requests-limit: 1
+
   - package-ecosystem: npm
     directory: "/"
     schedule:

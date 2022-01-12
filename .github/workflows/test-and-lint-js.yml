@@ -6,6 +6,7 @@ on:
 
 jobs:
   test-and-lint-js:
+    name: Test & lint JS stuff
     runs-on: ubuntu-20.04
 
     steps:
