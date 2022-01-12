@@ -14,11 +14,11 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             "auth" => fn() => [
                 "user" => [
-                    "name" => 'Chelsea Hagon',
-                    "email" => 'chelseahagon@example.com',
-                    "role" => 'Human Resources Manager',
+                    "name" => "Chelsea Hagon",
+                    "email" => "chelseahagon@example.com",
+                    "role" => "Human Resources Manager",
                     "imageUrl" =>
-                        'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+                        "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
                 ],
             ],
             "flash" => fn() => [
