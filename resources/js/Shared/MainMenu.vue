@@ -10,8 +10,8 @@
                 <div class="absolute left-0 py-5 flex-shrink-0 lg:static">
                     <InertiaLink href="/">
                         <img
-                            class="h-8 w-auto bg-gray-50 p-1 rounded-full"
-                            src="/img/logo.svg"
+                            class="h-8 w-auto"
+                            src="/img/logo.png"
                             alt="Workflow"
                         >
                     </InertiaLink>
