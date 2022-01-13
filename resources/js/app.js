@@ -1,13 +1,13 @@
 import {createApp, h} from 'vue';
 import {createInertiaApp, Head, Link} from '@inertiajs/inertia-vue3';
 import {InertiaProgress} from '@inertiajs/progress';
-import Layout from '@/Shared/Layout';
+import AppLayout from '@/Shared/Layout/AppLayout';
 
 createInertiaApp({
     resolve: name => {
         const page = require(`./Pages/${name}`).default;
 
-        page.layout = page.layout || Layout;
+        page.layout = page.layout || AppLayout;
 
         return page;
     },

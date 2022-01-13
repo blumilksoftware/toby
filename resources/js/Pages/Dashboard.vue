@@ -18,7 +18,7 @@
                                 <div class="flex-shrink-0">
                                     <img
                                         class="mx-auto h-20 w-20 rounded-full"
-                                        :src="user.imageUrl"
+                                        :src="user.avatar"
                                         alt=""
                                     >
                                 </div>
@@ -255,7 +255,6 @@ import {
 } from '@heroicons/vue/outline';
 import {computed} from 'vue';
 import {usePage} from '@inertiajs/inertia-vue3';
-
 export default {
     name: 'Dashboard',
     setup() {
@@ -362,7 +361,6 @@ export default {
                     'Tenetur libero voluptatem rerum occaecati qui est molestiae exercitationem. Voluptate quisquam iure assumenda consequatur ex et recusandae. Alias consectetur voluptatibus. Accusamus a ab dicta et. Consequatur quis dignissimos voluptatem nisi.',
             },
         ];
-
         return {
             user,
             stats,

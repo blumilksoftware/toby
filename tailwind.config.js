@@ -11,6 +11,7 @@ module.exports = {
             },
             colors: {
                 'blumilk': {
+                    '25': '#F4F8FD',
                     '50': '#D5DFEE',
                     '100': '#C7D4E9',
                     '200': '#AABDDD',
