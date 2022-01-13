@@ -22,7 +22,7 @@
                     </div>
                     <div class="ml-4 flex-shrink-0 flex">
                         <button
-                            class="bg-red-500 rounded-md inline-flex text-red-100 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                            class="bg-red-500 rounded-md inline-flex text-red-100 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600"
                             @click="delete errors.oauth"
                         >
                             <span class="sr-only">Close</span>
