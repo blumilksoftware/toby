@@ -1,4 +1,5 @@
 <template>
+    <InertiaHead title="Zaloguj się" />
     <transition
         enter-active-class="transform ease-out duration-300 transition"
         enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
