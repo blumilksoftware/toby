@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
+use Toby\Models\User;
 
 class InertiaTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function testInertia(): void
     {
-        $response = $this->get("/");
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->get("/");
 
         $response->assertOk();
         $response->assertInertia(fn(Assert $page) => $page->component("Dashboard"));

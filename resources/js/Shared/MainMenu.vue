@@ -42,7 +42,7 @@
                                 <span class="sr-only">Open user menu</span>
                                 <img
                                     class="h-8 w-8 rounded-full"
-                                    :src="user.imageUrl"
+                                    :src="user.avatar"
                                     alt=""
                                 >
                             </MenuButton>
@@ -62,7 +62,9 @@
                                 >
                                     <InertiaLink
                                         :href="item.href"
-                                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
+                                        :method="item.method"
+                                        :as="item.as"
+                                        :class="[active ? 'bg-gray-100' : '', 'block w-full text-left px-4 py-2 text-sm text-gray-700']"
                                     >
                                         {{ item.name }}
                                     </InertiaLink>
@@ -209,8 +211,10 @@
                                     <InertiaLink
                                         v-for="item in userNavigation"
                                         :key="item.name"
+                                        :method="item.method"
+                                        :as="item.as"
                                         :href="item.href"
-                                        class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
+                                        class="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
                                     >
                                         {{ item.name }}
                                     </InertiaLink>
@@ -270,7 +274,7 @@ export default {
         const userNavigation = [
             {name: 'Your Profile', href: '#'},
             {name: 'Settings', href: '#'},
-            {name: 'Sign out', href: '#'},
+            {name: 'Sign out', href: '/logout', method: 'post', as: 'button'},
         ];
 
         return {

@@ -6,9 +6,9 @@ namespace Toby\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Toby\Models\User;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Toby\Models\User;
 
 class GoogleController extends Controller
 {
@@ -28,8 +28,6 @@ class GoogleController extends Controller
                 ->firstOrFail();
 
             $auth->guard()->login($user, true);
-
-            $user->syncGoogleData($socialUser);
 
             return redirect()->route("dashboard");
         } catch (ModelNotFoundException) {

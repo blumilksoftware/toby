@@ -6,6 +6,7 @@ namespace Toby\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Toby\Http\Resources\UserResource;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -15,12 +16,7 @@ class HandleInertiaRequests extends Middleware
 
         return array_merge(parent::share($request), [
             "auth" => fn() => [
-                "user" => $user ? [
-                    "name" => $user->name,
-                    "email" => $user->email,
-                    "role" => "Human Resources Manager",
-                    "imageUrl" => $user->avatar,
-                ] : null,
+                "user" => $user ? new UserResource($user) : null,
             ],
             "flash" => fn() => [
                 "success" => $request->session()->get("success"),
