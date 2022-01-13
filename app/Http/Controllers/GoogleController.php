@@ -26,10 +26,6 @@ class GoogleController extends Controller
             $user = User::query()
                 ->where("email", $socialUser->getEmail())
                 ->firstOrFail();
-
-            $auth->guard()->login($user, true);
-
-            return redirect()->route("dashboard");
         } catch (ModelNotFoundException) {
             return redirect()
                 ->route("login")
@@ -37,5 +33,9 @@ class GoogleController extends Controller
                     "oauth" => __("User does not exist."),
                 ]);
         }
+
+        $auth->guard()->login($user, true);
+
+        return redirect()->route("dashboard");
     }
 }
