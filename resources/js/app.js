@@ -21,4 +21,7 @@ createInertiaApp({
     title: title => `${title} - Toby`,
 });
 
-InertiaProgress.init();
+InertiaProgress.init({
+    delay: 0,
+    color: 'red',
+});
