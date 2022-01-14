@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -19,9 +21,9 @@ class AuthenticationTest extends DuskTestCase
         $this->user = User::factory()->create();
     }
 
-    public function testUserCanLogout()
+    public function testUserCanLogout(): void
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser): void {
             $browser->loginAs($this->user)
                 ->visit("/")
                 ->assertVisible("@user-menu")
