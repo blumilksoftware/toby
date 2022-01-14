@@ -47,6 +47,7 @@
         <a
             href="/login/google/start"
             class="inline-flex justify-center py-2 px-6 rounded-md shadow-sm bg-blumilk-500 text-md font-medium text-white hover:bg-blumilk-700"
+            dusk="login-link"
         >
             Zaloguj się za pomocą Google
             <svg

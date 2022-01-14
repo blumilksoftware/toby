@@ -36,16 +36,30 @@ services:
 
   database:
     image: mysql:8.0
-    container_name: toby-db
+    container_name: toby-db-dev
     environment:
-      - MYSQL_ROOT_PASSWORD=${DOCKER_DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DOCKER_DB_DATABASE}
-      - MYSQL_USER=${DOCKER_DB_USERNAME}
-      - MYSQL_PASSWORD=${DOCKER_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DOCKER_DEV_DB_DATABASE}
+      - MYSQL_USER=${DOCKER_DEV_DB_USERNAME}
+      - MYSQL_PASSWORD=${DOCKER_DEV_DB_PASSWORD}
     ports:
       - ${DOCKER_DB_EXTERNAL_PORT:-3306}:3306
     volumes:
       - toby-mysql-data:/var/lib/mysql
+    networks:
+      - toby-dev
+    restart: unless-stopped
+
+  database-test:
+    image: mysql:8.0
+    container_name: toby-db-test
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DOCKER_TEST_DB_DATABASE}
+      - MYSQL_USER=${DOCKER_TEST_DB_USERNAME}
+      - MYSQL_PASSWORD=${DOCKER_TEST_DB_PASSWORD}
+    ports:
+      - ${DOCKER_TEST_DB_EXTERNAL_PORT:-3307}:3306
     networks:
       - toby-dev
     restart: unless-stopped
@@ -69,6 +83,14 @@ services:
     networks:
       - toby-dev
     restart: unless-stopped
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: toby-selenium
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - toby-dev
 
 networks:
   toby-dev:
