@@ -1,3 +1,7 @@
 {
-  "User does not exist.": "Użytkownik nie istnieje."
+  "User does not exist.": "Użytkownik nie istnieje.",
+  "employment_contract": "Umowa o pracę",
+  "commission_contract": "Umowa zlecenie",
+  "b2b_contract": "Kontrakt B2B",
+  "board_member_contract": "Członek zarządu"
 }

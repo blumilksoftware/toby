@@ -13,6 +13,9 @@ return new class() extends Migration {
             $table->id();
             $table->string("name");
             $table->string("email")->unique();
+            $table->string("avatar")->nullable();
+            $table->string("employment_form");
+            $table->dateTime("employment_start_date");
             $table->rememberToken();
             $table->timestamps();
         });

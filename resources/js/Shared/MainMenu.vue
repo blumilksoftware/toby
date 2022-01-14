@@ -265,7 +265,7 @@ export default {
     setup() {
         const user = computed(() => usePage().props.value.auth.user);
         const navigation = [
-            {name: 'Dashboard', href: '/', current: true},
+            {name: 'Strona główna', href: '/', current: true},
             {name: 'Użytkownicy', href: '/users', current: false},
             {name: 'Resources', href: '#', current: false},
             {name: 'Company Directory', href: '#', current: false},
