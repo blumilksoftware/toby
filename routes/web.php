@@ -12,7 +12,6 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", LogoutController::class);
 
     Route::resource("users", UserController::class);
-
 });
 
 Route::middleware("guest")->group(function (): void {

@@ -17,7 +17,7 @@ use Toby\Enums\FormOfEmployment;
  * @property string $email
  * @property string $avatar
  * @property FormOfEmployment $employment_form
- * @property Carbon $empoyment_start_date
+ * @property Carbon $employment_start_date
  */
 class User extends Authenticatable
 {
@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     public function scopeSearch(Builder $query, ?string $text): Builder
     {
-        if ($text == null) {
+        if ($text === null) {
             return $query;
         }
 

@@ -37,7 +37,7 @@
                     >
                         <div>
                             <MenuButton
-                                class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+                                class="rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
                             >
                                 <span class="sr-only">Open user menu</span>
                                 <img
