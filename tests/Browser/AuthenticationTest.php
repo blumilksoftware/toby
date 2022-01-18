@@ -32,7 +32,8 @@ class AuthenticationTest extends DuskTestCase
                 ->assertVisible("@user-menu-list")
                 ->assertSee("Sign out")
                 ->press("Sign out")
-                ->assertPathIs("/");
+                ->on(new HomePage())
+                ->waitFor("@login-link");
         });
     }
 }

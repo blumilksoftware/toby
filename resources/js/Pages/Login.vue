@@ -38,6 +38,7 @@
     </transition>
     <div
         class="sm:mx-auto sm:w-full sm:max-w-md text-white space-y-4 flex flex-col items-center rounded-lg px-4 py-8"
+        dusk="login-link"
     >
         <img
             class="mx-auto h-50 w-auto"
@@ -47,7 +48,6 @@
         <a
             href="/login/google/start"
             class="inline-flex justify-center py-2 px-6 rounded-md shadow-sm bg-blumilk-500 text-md font-medium text-white hover:bg-blumilk-700"
-            dusk="login-link"
         >
             Zaloguj się za pomocą Google
             <svg
