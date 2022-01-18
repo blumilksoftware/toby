@@ -59,35 +59,59 @@
                     </p>
                 </div>
             </div>
-            <div class="sm:grid sm:grid-cols-3 py-4 items-center">
-                <label
-                    for="employment_form"
-                    class="block text-sm font-medium text-gray-700 sm:mt-px"
+            <div>
+                <Listbox
+                    v-model="form.employmentForm"
+                    as="div"
+                    class="sm:grid sm:grid-cols-3 py-4 items-center"
                 >
-                    Forma zatrudnienia
-                </label>
-                <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <select
-                        id="employment_form"
-                        v-model="form.employmentForm"
-                        class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
-                        :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentForm }"
-                    >
-                        <option
-                            v-for="employmentForm in employmentForms"
-                            :key="employmentForm.value"
-                            :value="employmentForm.value"
+                    <ListboxLabel class="block text-sm font-medium text-gray-700">
+                        Forma zatrudnienia
+                    </ListboxLabel>
+                    <div class="mt-1 relative sm:mt-0 sm:col-span-2">
+                        <ListboxButton class="bg-white relative w-full max-w-lg border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm">
+                            <span class="block truncate">{{ form.employmentForm }}</span>
+                            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <SelectorIcon
+                                    class="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                />
+                            </span>
+                        </ListboxButton>
+
+                        <transition
+                            leave-active-class="transition ease-in duration-100"
+                            leave-from-class="opacity-100"
+                            leave-to-class="opacity-0"
                         >
-                            {{ employmentForm.label }}
-                        </option>
-                    </select>
-                    <p
-                        v-if="form.errors.employmentForm"
-                        class="mt-2 text-sm text-red-600"
-                    >
-                        {{ form.errors.employmentForm }}
-                    </p>
-                </div>
+                            <ListboxOptions class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                <ListboxOption
+                                    v-for="employmentForm in employmentForms"
+                                    :key="employmentForm.value"
+                                    v-slot="{ active, selected }"
+                                    as="template"
+                                    :value="employmentForm.value"
+                                >
+                                    <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                                        <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
+                                            {{ employmentForm.label }}
+                                        </span>
+
+                                        <span
+                                            v-if="selected"
+                                            :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                                        >
+                                            <CheckIcon
+                                                class="h-5 w-5"
+                                                aria-hidden="true"
+                                            />
+                                        </span>
+                                    </li>
+                                </ListboxOption>
+                            </ListboxOptions>
+                        </transition>
+                    </div>
+                </Listbox>
             </div>
             <div class="sm:grid sm:grid-cols-3 py-4 items-center">
                 <label
@@ -134,13 +158,22 @@
 </template>
 
 <script>
-import {useForm} from '@inertiajs/inertia-vue3';
+import { useForm } from '@inertiajs/inertia-vue3';
 import FlatPickr from 'vue-flatpickr-component';
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue';
+import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid';
 
 export default {
     employmentDate: 'UserCreate',
     components: {
         FlatPickr,
+        Listbox,
+        ListboxButton,
+        ListboxLabel,
+        ListboxOption,
+        ListboxOptions,
+        CheckIcon,
+        SelectorIcon,
     },
     props: {
         employmentForms: {
