@@ -10,7 +10,7 @@
             </p>
         </div>
         <form
-            class="border-t border-gray-200 px-6 divide-y"
+            class="border-t border-gray-200 px-6"
             @submit.prevent="form.put(`/users/${user.id}`)"
         >
             <div class="sm:grid sm:grid-cols-3 py-4 items-center">

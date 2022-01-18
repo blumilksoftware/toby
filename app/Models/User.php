@@ -18,15 +18,13 @@ use Toby\Enums\FormOfEmployment;
  * @property string $email
  * @property string $avatar
  * @property FormOfEmployment $employment_form
- * @property Carbon $empoyment_date
+ * @property Carbon $employment_date
  */
 class User extends Authenticatable
 {
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
-
-    protected $perPage = 10;
 
     protected $fillable = [
         "name",
@@ -47,7 +45,7 @@ class User extends Authenticatable
 
     public function scopeSearch(Builder $query, ?string $text): Builder
     {
-        if ($text == null) {
+        if ($text === null) {
             return $query;
         }
 

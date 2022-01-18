@@ -6,13 +6,14 @@ namespace Toby\Observers;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Toby\Models\User;
 use LasseRafn\InitialAvatarGenerator\InitialAvatar;
+use Toby\Models\User;
 
 class UserObserver
 {
-    public function __construct(protected InitialAvatar $generator)
-    {
+    public function __construct(
+        protected InitialAvatar $generator,
+    ) {
     }
 
     public function created(User $user): void
@@ -38,7 +39,7 @@ class UserObserver
     {
         $path = "avatars/{$user->id}.svg";
 
-        Storage::put($path, $this->generator->rounded()->background($this->getRandomColor())->generateSvg($user->name));
+        Storage::put($path, $this->generator->rounded()->background($this->getRandomColor())->color("#F4F8FD")->smooth()->generateSvg($user->name));
 
         return $path;
     }

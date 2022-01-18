@@ -11,14 +11,16 @@ class CreateUserCommand extends Command
 {
     protected $signature = "user:create
                             {email : an email for the user}";
-    protected $description = "Creates user";
+    protected $description = "Creates a user";
 
     public function handle(): void
     {
         $email = $this->argument("email");
 
-        User::factory(["email" => $email])->create();
+        User::factory([
+            "email" => $email,
+        ])->create();
 
-        $this->info("User has been created");
+        $this->info("The user has been created");
     }
 }

@@ -49,7 +49,7 @@ class UserController extends Controller
     {
         return inertia("Users/Edit", [
             "user" => new UserFormDataResource($user),
-            "employmentForms" => FormOfEmployment::casesToSelect()
+            "employmentForms" => FormOfEmployment::casesToSelect(),
         ]);
     }
 

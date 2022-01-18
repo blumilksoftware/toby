@@ -20,9 +20,11 @@ enum FormOfEmployment: string
     {
         $cases = collect(FormOfEmployment::cases());
 
-        return $cases->map(fn(FormOfEmployment $enum) => [
-            "label" => $enum->label(),
-            "value" => $enum->value]
+        return $cases->map(
+            fn(FormOfEmployment $enum) => [
+                "label" => $enum->label(),
+                "value" => $enum->value,
+            ],
         )->toArray();
     }
 }

@@ -76,7 +76,7 @@
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex">
                                     <span
-                                        class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blumilk-500"
+                                        class="inline-flex items-center justify-center h-10 w-10 rounded-full"
                                     >
                                         <img
                                             class="h-10 w-10 rounded-full"
