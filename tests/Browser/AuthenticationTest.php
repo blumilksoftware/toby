@@ -6,6 +6,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\HomePage;
 use Tests\DuskTestCase;
 use Toby\Models\User;
 
@@ -25,7 +26,7 @@ class AuthenticationTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser): void {
             $browser->loginAs($this->user)
-                ->visit("/")
+                ->visit(new HomePage())
                 ->assertVisible("@user-menu")
                 ->click("@user-menu")
                 ->assertVisible("@user-menu-list")
