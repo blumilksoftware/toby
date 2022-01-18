@@ -38,6 +38,7 @@
     </transition>
     <div
         class="sm:mx-auto sm:w-full sm:max-w-md text-white space-y-4 flex flex-col items-center rounded-lg px-4 py-8"
+        dusk="login-link"
     >
         <img
             class="mx-auto h-50 w-auto"
