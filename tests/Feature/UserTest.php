@@ -16,7 +16,7 @@ class UserTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -32,26 +32,36 @@ class UserTest extends TestCase
 
         $this->actingAs($admin)
             ->get("/users")
-            ->assertInertia(fn(Assert $page) => $page
-                ->component("Users/Index")
-                ->has("users.data", 11)
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Users/Index")
+                    ->has("users.data", 11),
             );
     }
 
     public function testAdminCanSearchUsersList(): void
     {
-        User::factory(["name" => "Test User1"])->create();
-        User::factory(["name" => "Test User2"])->create();
-        User::factory(["name" => "Test User3"])->create();
-        $admin = User::factory(["name" => "John Doe"])->create();
+        User::factory([
+            "name" => "Test User1",
+        ])->create();
+        User::factory([
+            "name" => "Test User2",
+        ])->create();
+        User::factory([
+            "name" => "Test User3",
+        ])->create();
+        $admin = User::factory([
+            "name" => "John Doe",
+        ])->create();
 
         $this->assertDatabaseCount("users", 4);
 
         $this->actingAs($admin)
             ->get("/users?search=test")
-            ->assertInertia(fn(Assert $page) => $page
-                ->component("Users/Index")
-                ->has("users.data", 3)
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Users/Index")
+                    ->has("users.data", 3),
             );
     }
 
@@ -64,9 +74,10 @@ class UserTest extends TestCase
 
         $this->actingAs($admin)
             ->get("/users?page=2")
-            ->assertInertia(fn(Assert $page) => $page
-                ->component("Users/Index")
-                ->has("users.data", 1)
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Users/Index")
+                    ->has("users.data", 1),
             );
     }
 

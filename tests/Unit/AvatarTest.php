@@ -13,7 +13,7 @@ class AvatarTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,7 +36,6 @@ class AvatarTest extends TestCase
         $user->forceDelete();
 
         Storage::assertMissing($user->avatar);
-
     }
 
     public function testAvatarIsReplacedWhenUserChangedTheirName(): void
@@ -46,7 +45,9 @@ class AvatarTest extends TestCase
 
         Storage::assertExists($oldAvatar);
 
-        $user->update(["name" => "John Doe"]);
+        $user->update([
+            "name" => "John Doe",
+        ]);
 
         Storage::assertMissing($oldAvatar);
         Storage::assertExists($user->avatar);
@@ -59,7 +60,9 @@ class AvatarTest extends TestCase
 
         Storage::assertExists($avatar);
 
-        $user->update(["email" => "john.doe@example.com"]);
+        $user->update([
+            "email" => "john.doe@example.com",
+        ]);
 
         Storage::assertExists($avatar);
     }
