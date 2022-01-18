@@ -5,11 +5,6 @@ declare(strict_types=1);
 return [
     "default" => env("DB_CONNECTION", "mysql"),
     "connections" => [
-        "testing" => [
-            "driver" => "sqlite",
-            "database" => ":memory:",
-            "prefix" => "",
-        ],
         "mysql" => [
             "driver" => "mysql",
             "url" => env("DATABASE_URL"),

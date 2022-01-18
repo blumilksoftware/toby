@@ -38,6 +38,7 @@
                         <div>
                             <MenuButton
                                 class="rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+                                dusk="user-menu"
                             >
                                 <span class="sr-only">Open user menu</span>
                                 <img
@@ -54,6 +55,7 @@
                         >
                             <MenuItems
                                 class="origin-top-right z-40 absolute -right-2 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                dusk="user-menu-list"
                             >
                                 <MenuItem
                                     v-for="item in userNavigation"
