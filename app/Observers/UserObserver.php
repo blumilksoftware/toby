@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Toby\Observers;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use LasseRafn\InitialAvatarGenerator\InitialAvatar;
+use Toby\Helpers\UserAvatarGenerator;
 use Toby\Models\User;
 
 class UserObserver
 {
     public function __construct(
-        protected InitialAvatar $generator,
+        protected UserAvatarGenerator $generator,
     ) {
     }
 
     public function created(User $user): void
     {
-        $user->avatar = $this->generateAvatar($user);
+        $user->avatar = $this->generator->generateFor($user);
 
         $user->save();
     }
@@ -26,28 +25,13 @@ class UserObserver
     public function updating(User $user): void
     {
         if ($user->isDirty("name")) {
-            $user->avatar = $this->generateAvatar($user);
+            Storage::delete($user->avatar);
+            $user->avatar = $this->generator->generateFor($user);
         }
     }
 
     public function forceDeleted(User $user): void
     {
         Storage::delete($user->avatar);
-    }
-
-    protected function generateAvatar(User $user): string
-    {
-        $path = "avatars/{$user->id}.svg";
-
-        Storage::put($path, $this->generator->rounded()->background($this->getRandomColor())->color("#F4F8FD")->smooth()->generateSvg($user->name));
-
-        return $path;
-    }
-
-    protected function getRandomColor(): string
-    {
-        $colors = config("colors");
-
-        return Arr::random($colors);
     }
 }
