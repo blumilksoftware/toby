@@ -1,4 +1,5 @@
 <template>
+    <InertiaHead title="Zaloguj się" />
     <transition
         enter-active-class="transform ease-out duration-300 transition"
         enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
@@ -21,7 +22,7 @@
                     </div>
                     <div class="ml-4 flex-shrink-0 flex">
                         <button
-                            class="bg-red-500 rounded-md inline-flex text-red-100 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                            class="bg-red-500 rounded-md inline-flex text-red-100 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600"
                             @click="delete errors.oauth"
                         >
                             <span class="sr-only">Close</span>
