@@ -15,8 +15,9 @@ return new class() extends Migration {
             $table->string("email")->unique();
             $table->string("avatar")->nullable();
             $table->string("employment_form");
-            $table->dateTime("employment_start_date");
+            $table->dateTime("employment_date");
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

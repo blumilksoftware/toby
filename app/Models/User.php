@@ -6,6 +6,7 @@ namespace Toby\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -17,12 +18,13 @@ use Toby\Enums\FormOfEmployment;
  * @property string $email
  * @property string $avatar
  * @property FormOfEmployment $employment_form
- * @property Carbon $empoyment_start_date
+ * @property Carbon $empoyment_date
  */
 class User extends Authenticatable
 {
     use HasFactory;
     use Notifiable;
+    use SoftDeletes;
 
     protected $perPage = 10;
 
@@ -31,12 +33,12 @@ class User extends Authenticatable
         "email",
         "avatar",
         "employment_form",
-        "employment_start_date",
+        "employment_date",
     ];
 
     protected $casts = [
         "employment_form" => FormOfEmployment::class,
-        "employment_start_date" => "datetime",
+        "employment_date" => "datetime",
     ];
 
     protected $hidden = [

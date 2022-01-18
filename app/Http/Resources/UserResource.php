@@ -16,8 +16,9 @@ class UserResource extends JsonResource
             "email" => $this->email,
             "role" => "Human Resources Manager",
             "avatar" => asset($this->avatar),
+            "trashed" => $this->trashed(),
             "employmentForm" => $this->employment_form->label(),
-            "employmentStartDate" => $this->employment_start_date->translatedFormat("j F Y"),
+            "employmentDate" => $this->employment_date->translatedFormat("j F Y"),
         ];
     }
 }

@@ -15,4 +15,14 @@ enum FormOfEmployment: string
     {
         return __($this->value);
     }
+
+    public static function casesToSelect(): array
+    {
+        $cases = collect(FormOfEmployment::cases());
+
+        return $cases->map(fn(FormOfEmployment $enum) => [
+            "label" => $enum->label(),
+            "value" => $enum->value]
+        )->toArray();
+    }
 }

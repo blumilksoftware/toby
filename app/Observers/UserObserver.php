@@ -29,7 +29,7 @@ class UserObserver
         }
     }
 
-    public function deleted(User $user): void
+    public function forceDeleted(User $user): void
     {
         Storage::delete($user->avatar);
     }

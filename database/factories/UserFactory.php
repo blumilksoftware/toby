@@ -16,7 +16,7 @@ class UserFactory extends Factory
             "name" => "{$this->faker->firstName} {$this->faker->lastName}",
             "email" => $this->faker->unique()->safeEmail(),
             "employment_form" => $this->faker->randomElement(FormOfEmployment::cases()),
-            "employment_start_date" => $this->faker->dateTimeBetween("2020-10-27"),
+            "employment_date" => $this->faker->dateTimeBetween("2020-10-27"),
             "remember_token" => Str::random(10),
         ];
     }

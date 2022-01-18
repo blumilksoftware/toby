@@ -1,13 +1,23 @@
 <template>
     <InertiaHead title="Użytkownicy" />
     <div class="bg-white sm:rounded-lg shadow-md">
-        <div class="p-4 sm:px-6">
-            <h2 class="text-lg leading-6 font-medium text-gray-900">
-                Użytkownicy w organizacji
-            </h2>
-            <p class="mt-1 text-sm text-gray-500">
-                Lista użytkowników w organizacji.
-            </p>
+        <div class="flex justify-between items-center p-4 sm:px-6">
+            <div>
+                <h2 class="text-lg leading-6 font-medium text-gray-900">
+                    Użytkownicy w organizacji
+                </h2>
+                <p class="mt-1 text-sm text-gray-500">
+                    Lista użytkowników w organizacji.
+                </p>
+            </div>
+            <div>
+                <InertiaLink
+                    href="users/create"
+                    class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                >
+                    Dodaj użytkownika
+                </InertiaLink>
+            </div>
         </div>
         <div class="border-t border-gray-200">
             <div class="px-4 py-3">
@@ -61,7 +71,7 @@
                         <tr
                             v-for="user in users.data"
                             :key="user.id"
-                            class="hover:bg-white"
+                            :class="{ 'bg-red-50': user.trashed, 'hover:bg-blumilk-25': !user.trashed }"
                         >
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex">
@@ -91,25 +101,72 @@
                                 {{ user.employmentForm }}
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ user.employmentStartDate }}
+                                {{ user.employmentDate }}
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                                <div>
-                                    <button
-                                        class="rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blumilk-500"
-                                    >
-                                        <svg
+                                <Menu
+                                    as="div"
+                                    class="relative inline-block text-left"
+                                >
+                                    <MenuButton class="rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blumilk-500">
+                                        <DotsVerticalIcon
                                             class="h-5 w-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-                                            />
-                                        </svg>
-                                    </button>
-                                </div>
+                                            aria-hidden="true"
+                                        />
+                                    </MenuButton>
+
+                                    <transition
+                                        enter-active-class="transition ease-out duration-100"
+                                        enter-from-class="transform opacity-0 scale-95"
+                                        enter-to-class="transform opacity-100 scale-100"
+                                        leave-active-class="transition ease-in duration-75"
+                                        leave-from-class="transform opacity-100 scale-100"
+                                        leave-to-class="transform opacity-0 scale-95"
+                                    >
+                                        <MenuItems class="origin-top-right absolute right-0 mt-2 w-56 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div
+                                                v-if="!user.trashed"
+                                                class="py-1"
+                                            >
+                                                <MenuItem v-slot="{ active }">
+                                                    <InertiaLink
+                                                        :href="`/users/${user.id}/edit`"
+                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                                    >
+                                                        Edytuj
+                                                    </InertiaLink>
+                                                </MenuItem>
+                                                <MenuItem v-slot="{ active }">
+                                                    <InertiaLink
+                                                        as="button"
+                                                        method="delete"
+                                                        :preserve-scroll="true"
+                                                        :href="`/users/${user.id}`"
+                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left px-4 py-2 text-sm']"
+                                                    >
+                                                        Usuń
+                                                    </InertiaLink>
+                                                </MenuItem>
+                                            </div>
+                                            <div
+                                                v-else
+                                                class="py-1"
+                                            >
+                                                <MenuItem v-slot="{ active }">
+                                                    <InertiaLink
+                                                        as="button"
+                                                        method="post"
+                                                        :preserve-scroll="true"
+                                                        :href="`/users/${user.id}/restore`"
+                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left px-4 py-2 text-sm']"
+                                                    >
+                                                        Przywróć
+                                                    </InertiaLink>
+                                                </MenuItem>
+                                            </div>
+                                        </MenuItems>
+                                    </transition>
+                                </Menu>
                             </td>
                         </tr>
                         <tr
@@ -162,6 +219,7 @@
                                 <Component
                                     :is="link.url ? 'InertiaLink' : 'span'"
                                     :href="link.url"
+                                    :preserve-scroll="true"
                                     class="relative inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium"
                                     :class="{ 'z-10 bg-blumilk-25 border-blumilk-500 text-blumilk-600': link.active, 'bg-white border-gray-300 text-gray-500': !link.active, 'hover:bg-blumilk-25': link.url, 'border-none': !link.url}"
                                     v-text="link.label"
@@ -180,11 +238,18 @@ import { ref, watch } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { debounce } from 'lodash';
 import { SearchIcon } from '@heroicons/vue/outline';
+import {DotsVerticalIcon} from '@heroicons/vue/solid';
+import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue';
 
 export default {
     name: 'UserIndex',
     components: {
         SearchIcon,
+        DotsVerticalIcon,
+        Menu,
+        MenuButton,
+        MenuItem,
+        MenuItems,
     },
     props: {
         users: {

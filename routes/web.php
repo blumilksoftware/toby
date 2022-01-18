@@ -12,7 +12,7 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", LogoutController::class);
 
     Route::resource("users", UserController::class);
-
+    Route::post("users/{user}/restore", [UserController::class, "restore"])->withTrashed();
 });
 
 Route::middleware("guest")->group(function (): void {
