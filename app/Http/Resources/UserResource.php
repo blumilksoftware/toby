@@ -18,7 +18,7 @@ class UserResource extends JsonResource
             "avatar" => asset($this->avatar),
             "trashed" => $this->trashed(),
             "employmentForm" => $this->employment_form->label(),
-            "employmentDate" => $this->employment_date->translatedFormat("j F Y"),
+            "employmentDate" => $this->employment_date->toDisplayString(),
         ];
     }
 }
