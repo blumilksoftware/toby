@@ -128,23 +128,35 @@
                                                 v-if="!user.trashed"
                                                 class="py-1"
                                             >
-                                                <MenuItem v-slot="{ active }">
+                                                <MenuItem
+                                                    v-slot="{ active }"
+                                                    class="flex"
+                                                >
                                                     <InertiaLink
                                                         :href="`/users/${user.id}/edit`"
-                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                                                     >
-                                                        Edytuj
+                                                        <PencilIcon
+                                                            class="mr-2 h-5 w-5 text-blue-500"
+                                                            aria-hidden="true"
+                                                        /> Edytuj
                                                     </InertiaLink>
                                                 </MenuItem>
-                                                <MenuItem v-slot="{ active }">
+                                                <MenuItem
+                                                    v-slot="{ active }"
+                                                    class="flex"
+                                                >
                                                     <InertiaLink
                                                         as="button"
                                                         method="delete"
                                                         :preserve-scroll="true"
                                                         :href="`/users/${user.id}`"
-                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left px-4 py-2 text-sm']"
+                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                                                     >
-                                                        Usuń
+                                                        <TrashIcon
+                                                            class="mr-2 h-5 w-5 text-red-500"
+                                                            aria-hidden="true"
+                                                        /> Usuń
                                                     </InertiaLink>
                                                 </MenuItem>
                                             </div>
@@ -152,15 +164,21 @@
                                                 v-else
                                                 class="py-1"
                                             >
-                                                <MenuItem v-slot="{ active }">
+                                                <MenuItem
+                                                    v-slot="{ active }"
+                                                    class="flex"
+                                                >
                                                     <InertiaLink
                                                         as="button"
                                                         method="post"
                                                         :preserve-scroll="true"
                                                         :href="`/users/${user.id}/restore`"
-                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left px-4 py-2 text-sm']"
+                                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                                                     >
-                                                        Przywróć
+                                                        <RefreshIcon
+                                                            class="mr-2 h-5 w-5 text-green-500"
+                                                            aria-hidden="true"
+                                                        /> Przywróć
                                                     </InertiaLink>
                                                 </MenuItem>
                                             </div>
@@ -238,14 +256,17 @@ import { ref, watch } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { debounce } from 'lodash';
 import { SearchIcon } from '@heroicons/vue/outline';
-import {DotsVerticalIcon} from '@heroicons/vue/solid';
-import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue';
+import { DotsVerticalIcon, PencilIcon, TrashIcon, RefreshIcon } from '@heroicons/vue/solid';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 
 export default {
     name: 'UserIndex',
     components: {
         SearchIcon,
         DotsVerticalIcon,
+        PencilIcon,
+        TrashIcon,
+        RefreshIcon,
         Menu,
         MenuButton,
         MenuItem,

@@ -13,8 +13,9 @@ use Toby\Models\User;
 
 class UserAvatarGenerator
 {
-    public function __construct(protected InitialAvatar $generator)
-    {
+    public function __construct(
+        protected InitialAvatar $generator,
+    ) {
     }
 
     public function generateFor(User $user): string
