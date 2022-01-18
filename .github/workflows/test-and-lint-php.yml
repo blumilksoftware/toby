@@ -10,6 +10,16 @@ jobs:
   test-and-lint-php:
     name: Test & lint PHP stuff
     runs-on: ubuntu-20.04
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: toby
+          MYSQL_USER: toby
+          MYSQL_PASSWORD: password
+          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        ports:
+          - 3306:3306
 
     steps:
       - uses: actions/checkout@v2
