@@ -7,7 +7,7 @@ namespace Toby\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
-use Toby\Enums\FormOfEmployment;
+use Toby\Enums\EmploymentForm;
 
 class UserRequest extends FormRequest
 {
@@ -16,7 +16,7 @@ class UserRequest extends FormRequest
         return [
             "name" => ["required", "min:3", "max: 150"],
             "email" => ["required", "email", Rule::unique("users", "email")->ignore($this->user)],
-            "employmentForm" => ["required", new Enum(FormOfEmployment::class)],
+            "employmentForm" => ["required", new Enum(EmploymentForm::class)],
             "employmentDate" => ["required", "date"],
         ];
     }

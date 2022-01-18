@@ -205,6 +205,6 @@ export default {
                 }))
                 .put(`/users/${this.user.id}`);
         },
-    }
+    },
 };
 </script>

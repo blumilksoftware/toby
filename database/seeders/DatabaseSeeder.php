@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(35)->create();
         User::factory([
-            "email" => env("USER_EMAIL"),
+            "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
         ])->create();
     }
 }

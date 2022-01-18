@@ -8,6 +8,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
+    public static $wrap = false;
+
     public function toArray($request): array
     {
         return [
@@ -16,7 +18,7 @@ class UserResource extends JsonResource
             "email" => $this->email,
             "role" => "Human Resources Manager",
             "avatar" => asset($this->avatar),
-            "trashed" => $this->trashed(),
+            "deleted" => $this->trashed(),
             "employmentForm" => $this->employment_form->label(),
             "employmentDate" => $this->employment_date->toDisplayString(),
         ];

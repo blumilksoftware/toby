@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Enums;
 
-enum FormOfEmployment: string
+enum EmploymentForm: string
 {
     case EMPLOYMENT_CONTRACT = "employment_contract";
     case COMMISSION_CONTRACT = "commission_contract";
@@ -18,10 +18,10 @@ enum FormOfEmployment: string
 
     public static function casesToSelect(): array
     {
-        $cases = collect(FormOfEmployment::cases());
+        $cases = collect(EmploymentForm::cases());
 
         return $cases->map(
-            fn(FormOfEmployment $enum) => [
+            fn(EmploymentForm $enum) => [
                 "label" => $enum->label(),
                 "value" => $enum->value,
             ],

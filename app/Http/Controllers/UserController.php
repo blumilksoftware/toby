@@ -7,7 +7,7 @@ namespace Toby\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
-use Toby\Enums\FormOfEmployment;
+use Toby\Enums\EmploymentForm;
 use Toby\Http\Requests\UserRequest;
 use Toby\Http\Resources\UserFormDataResource;
 use Toby\Http\Resources\UserResource;
@@ -33,7 +33,7 @@ class UserController extends Controller
     public function create(): Response
     {
         return inertia("Users/Create", [
-            "employmentForms" => FormOfEmployment::casesToSelect(),
+            "employmentForms" => EmploymentForm::casesToSelect(),
         ]);
     }
 
@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         return inertia("Users/Edit", [
             "user" => new UserFormDataResource($user),
-            "employmentForms" => FormOfEmployment::casesToSelect(),
+            "employmentForms" => EmploymentForm::casesToSelect(),
         ]);
     }
 

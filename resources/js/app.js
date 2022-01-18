@@ -33,6 +33,6 @@ Flatpickr.setDefaults({
     dateFormat: 'Y-m-d',
     enableTime: false,
     altFormat: 'j F Y',
-    altInput: true
+    altInput: true,
 });
 

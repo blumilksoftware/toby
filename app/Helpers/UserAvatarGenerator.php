@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Toby\Helpers;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use LasseRafn\InitialAvatarGenerator\InitialAvatar;
@@ -30,17 +29,18 @@ class UserAvatarGenerator
     protected function generate(User $user): SVG
     {
         return $this->generator->rounded()
-            ->background($this->getRandomColor())
+            ->background($this->getColor($user->name))
             ->color("#F4F8FD")
             ->smooth()
+            ->fontSize(0.33)
             ->generateSvg($user->name);
     }
 
-    protected function getRandomColor(): string
+    protected function getColor(string $name): string
     {
         $colors = config("colors");
 
-        return Arr::random($colors);
+        return $colors[strlen($name) % count($colors)];
     }
 
     protected function generateUuid(): string

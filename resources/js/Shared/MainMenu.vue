@@ -40,7 +40,7 @@
                                 class="rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
                                 dusk="user-menu"
                             >
-                                <span class="sr-only">Open user menu</span>
+                                <span class="sr-only">{{ user.avatar }}</span>
                                 <img
                                     class="h-8 w-8 rounded-full"
                                     :src="user.avatar"
@@ -241,7 +241,7 @@ import {
     PopoverOverlay,
     PopoverPanel,
     TransitionChild,
-    TransitionRoot
+    TransitionRoot,
 } from '@headlessui/vue';
 import {BellIcon, MenuIcon, XIcon} from '@heroicons/vue/outline';
 import {computed} from 'vue';
@@ -284,7 +284,7 @@ export default {
             navigation,
             userNavigation,
         };
-    }
+    },
 };
 
 </script>

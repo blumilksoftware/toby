@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
-use Toby\Enums\FormOfEmployment;
+use Toby\Enums\EmploymentForm;
 use Toby\Models\User;
 
 class UserTest extends TestCase
@@ -90,7 +90,7 @@ class UserTest extends TestCase
             ->post("/users", [
                 "name" => "John Doe",
                 "email" => "john.doe@example.com",
-                "employmentForm" => FormOfEmployment::B2B_CONTRACT->value,
+                "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
                 "employmentDate" => Carbon::now()->toDateTimeString(),
             ])
             ->assertSessionHasNoErrors();
@@ -98,7 +98,7 @@ class UserTest extends TestCase
         $this->assertDatabaseHas("users", [
             "name" => "John Doe",
             "email" => "john.doe@example.com",
-            "employment_form" => FormOfEmployment::B2B_CONTRACT->value,
+            "employment_form" => EmploymentForm::B2B_CONTRACT->value,
             "employment_date" => Carbon::now()->toDateTimeString(),
         ]);
     }
@@ -121,7 +121,7 @@ class UserTest extends TestCase
             ->put("/users/{$user->id}", [
                 "name" => "John Doe",
                 "email" => "john.doe@example.com",
-                "employmentForm" => FormOfEmployment::B2B_CONTRACT->value,
+                "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
                 "employmentDate" => Carbon::now()->toDateTimeString(),
             ])
             ->assertSessionHasNoErrors();
@@ -129,7 +129,7 @@ class UserTest extends TestCase
         $this->assertDatabaseHas("users", [
             "name" => "John Doe",
             "email" => "john.doe@example.com",
-            "employment_form" => FormOfEmployment::B2B_CONTRACT->value,
+            "employment_form" => EmploymentForm::B2B_CONTRACT->value,
             "employment_date" => Carbon::now()->toDateTimeString(),
         ]);
     }

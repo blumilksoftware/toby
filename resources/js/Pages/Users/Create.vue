@@ -201,6 +201,6 @@ export default {
                 }))
                 .post('/users');
         },
-    }
+    },
 };
 </script>

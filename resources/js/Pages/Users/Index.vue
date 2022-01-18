@@ -71,7 +71,7 @@
                         <tr
                             v-for="user in users.data"
                             :key="user.id"
-                            :class="{ 'bg-red-50': user.trashed, 'hover:bg-blumilk-25': !user.trashed }"
+                            :class="{ 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }"
                         >
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <div class="flex">
@@ -125,7 +125,7 @@
                                     >
                                         <MenuItems class="origin-top-right absolute right-0 mt-2 w-56 z-10 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             <div
-                                                v-if="!user.trashed"
+                                                v-if="!user.deleted"
                                                 class="py-1"
                                             >
                                                 <MenuItem
@@ -295,6 +295,6 @@ export default {
         return {
             search,
         };
-    }
+    },
 };
 </script>

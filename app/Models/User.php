@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Toby\Enums\FormOfEmployment;
+use Toby\Enums\EmploymentForm;
 
 /**
  * @property int $id
  * @property string $name
  * @property string $email
  * @property string $avatar
- * @property FormOfEmployment $employment_form
+ * @property EmploymentForm $employment_form
  * @property Carbon $employment_date
  */
 class User extends Authenticatable
@@ -35,7 +35,7 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        "employment_form" => FormOfEmployment::class,
+        "employment_form" => EmploymentForm::class,
         "employment_date" => "datetime",
     ];
 
