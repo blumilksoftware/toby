@@ -6,7 +6,7 @@
                 Edytuj użytkownika
             </h2>
             <p class="mt-1 text-sm text-gray-500">
-                Edytuj dane użytkownika, takie jak email czy formę zatrudnienia.
+                Edytuj dane użytkownika, takie jak e-mail czy formę zatrudnienia.
             </p>
         </div>
         <form
@@ -41,7 +41,7 @@
                     for="email"
                     class="block text-sm font-medium text-gray-700 sm:mt-px"
                 >
-                    Adres email
+                    Adres e-mail
                 </label>
                 <div class="mt-1 sm:mt-0 sm:col-span-2">
                     <input
