@@ -37,10 +37,10 @@
                     >
                         <div>
                             <MenuButton
-                                class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+                                class="rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
                                 dusk="user-menu"
                             >
-                                <span class="sr-only">Open user menu</span>
+                                <span class="sr-only">{{ user.avatar }}</span>
                                 <img
                                     class="h-8 w-8 rounded-full"
                                     :src="user.avatar"
@@ -154,7 +154,7 @@
                                     <div>
                                         <img
                                             class="h-8 w-auto"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-cyan-600.svg"
+                                            src="/img/logo-white.png"
                                             alt="Workflow"
                                         >
                                     </div>
@@ -186,7 +186,7 @@
                                     <div class="flex-shrink-0">
                                         <img
                                             class="h-10 w-10 rounded-full"
-                                            :src="user.imageUrl"
+                                            :src="user.avatar"
                                             alt=""
                                         >
                                     </div>
@@ -241,7 +241,7 @@ import {
     PopoverOverlay,
     PopoverPanel,
     TransitionChild,
-    TransitionRoot
+    TransitionRoot,
 } from '@headlessui/vue';
 import {BellIcon, MenuIcon, XIcon} from '@heroicons/vue/outline';
 import {computed} from 'vue';
@@ -267,8 +267,8 @@ export default {
     setup() {
         const user = computed(() => usePage().props.value.auth.user);
         const navigation = [
-            {name: 'Home', href: '/', current: true},
-            {name: 'Profile', href: '#', current: false},
+            {name: 'Strona główna', href: '/', current: true},
+            {name: 'Użytkownicy', href: '/users', current: false},
             {name: 'Resources', href: '#', current: false},
             {name: 'Company Directory', href: '#', current: false},
             {name: 'Openings', href: '#', current: false},
@@ -276,7 +276,7 @@ export default {
         const userNavigation = [
             {name: 'Your Profile', href: '#'},
             {name: 'Settings', href: '#'},
-            {name: 'Sign out', href: '/logout', method: 'post', as: 'button'},
+            {name: 'Wyloguj się', href: '/logout', method: 'post', as: 'button'},
         ];
 
         return {
@@ -284,7 +284,7 @@ export default {
             navigation,
             userNavigation,
         };
-    }
+    },
 };
 
 </script>

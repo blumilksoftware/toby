@@ -13,7 +13,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(10)->create();
+        User::factory(35)->create();
+        User::factory([
+            "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
+        ])->create();
 
         YearPeriod::factory([
             "year" => Carbon::now()->year,

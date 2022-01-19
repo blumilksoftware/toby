@@ -2,6 +2,8 @@ import {createApp, h} from 'vue';
 import {createInertiaApp, Head, Link} from '@inertiajs/inertia-vue3';
 import {InertiaProgress} from '@inertiajs/progress';
 import AppLayout from '@/Shared/Layout/AppLayout';
+import Flatpickr from 'flatpickr';
+import { Polish } from 'flatpickr/dist/l10n/pl.js';
 
 createInertiaApp({
     resolve: name => {
@@ -21,4 +23,16 @@ createInertiaApp({
     title: title => `${title} - Toby`,
 });
 
-InertiaProgress.init();
+InertiaProgress.init({
+    delay: 0,
+    color: 'red',
+});
+
+Flatpickr.localize(Polish);
+Flatpickr.setDefaults({
+    dateFormat: 'Y-m-d',
+    enableTime: false,
+    altFormat: 'j F Y',
+    altInput: true,
+});
+
