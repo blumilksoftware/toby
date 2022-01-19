@@ -291,7 +291,7 @@ export default {
                 name: 'Payroll',
                 href: '#',
                 iconForeground: 'text-yellow-700',
-                iconBackground: 'bg-yellow-50'
+                iconBackground: 'bg-yellow-50',
             },
             {
                 icon: ReceiptRefundIcon,

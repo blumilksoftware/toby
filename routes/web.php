@@ -5,10 +5,14 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Toby\Http\Controllers\GoogleController;
 use Toby\Http\Controllers\LogoutController;
+use Toby\Http\Controllers\UserController;
 
 Route::middleware("auth")->group(function (): void {
     Route::get("/", fn() => inertia("Dashboard"))->name("dashboard");
     Route::post("/logout", LogoutController::class);
+
+    Route::resource("users", UserController::class);
+    Route::post("users/{user}/restore", [UserController::class, "restore"])->withTrashed();
 });
 
 Route::middleware("guest")->group(function (): void {

@@ -13,7 +13,8 @@
         "laravel/framework": "^8.75",
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "lasserafn/php-initial-avatar-generator": "^4.2"
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^0.9.0",

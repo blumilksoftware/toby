@@ -80,7 +80,7 @@ export default {
         errors: {
             type: Object,
             default: () => ({oauth: null}),
-        }
+        },
     },
 };
 </script>
