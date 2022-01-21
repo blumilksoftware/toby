@@ -6,10 +6,15 @@ namespace Toby\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\UserResource;
 
 class HandleInertiaRequests extends Middleware
 {
+    public function __construct(protected YearPeriodRetriever $yearPeriodRetriever)
+    {
+    }
+
     public function share(Request $request): array
     {
         $user = $request->user();
@@ -22,6 +27,7 @@ class HandleInertiaRequests extends Middleware
                 "success" => $request->session()->get("success"),
                 "error" => $request->session()->get("error"),
             ],
+            "years" => fn() => $user ? $this->yearPeriodRetriever->links() : [],
         ]);
     }
 }

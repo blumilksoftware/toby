@@ -19,6 +19,8 @@ class VacationLimit extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     protected $casts = [
         "has_vacation" => "boolean",
     ];
