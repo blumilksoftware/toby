@@ -266,10 +266,11 @@ export default {
     },
     setup() {
         const user = computed(() => usePage().props.value.auth.user);
+
         const navigation = [
             {name: 'Strona główna', href: '/', current: true},
             {name: 'Użytkownicy', href: '/users', current: false},
-            {name: 'Resources', href: '#', current: false},
+            {name: 'Dostępne urlopy', href: '/vacation-days', current: false},
             {name: 'Company Directory', href: '#', current: false},
             {name: 'Openings', href: '#', current: false},
         ];
