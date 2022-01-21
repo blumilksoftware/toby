@@ -7,7 +7,9 @@ namespace Toby\Providers;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Toby\Models\User;
+use Toby\Models\VacationLimit;
 use Toby\Observers\UserObserver;
+use Toby\Scopes\SelectedYearPeriodScope;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,5 +18,7 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
 
         Carbon::macro("toDisplayString", fn() => $this->translatedFormat("j F Y"));
+
+        VacationLimit::addGlobalScope($this->app->make(SelectedYearPeriodScope::class));
     }
 }

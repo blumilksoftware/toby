@@ -10,45 +10,6 @@
                     Zarządzaj dostepnymi dniami urlopów dla użytkowników.
                 </p>
             </div>
-            <div class="ml-4">
-                <span class="relative z-0 inline-flex shadow-sm rounded-md">
-                    <InertiaLink
-                        v-if="yearPeriods.prev"
-                        :preserve-scroll="true"
-                        replace
-                        href="/vacation-days"
-                        :data="{year: yearPeriods.prev.year}"
-                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500"
-                    >
-                        <ChevronLeftIcon class="h-5 w-5" />
-                    </InertiaLink>
-                    <span
-                        v-else
-                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
-                    >
-                        <ChevronLeftIcon class="h-5 w-5" />
-                    </span>
-                    <span class="-ml-px relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500">
-                        {{ yearPeriods.current.year }}
-                    </span>
-                    <InertiaLink
-                        v-if="yearPeriods.next"
-                        :preserve-scroll="true"
-                        href="/vacation-days"
-                        replace
-                        :data="{year: yearPeriods.next.year}"
-                        class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500"
-                    >
-                        <ChevronRightIcon class="h-5 w-5" />
-                    </InertiaLink>
-                    <span
-                        v-else
-                        class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
-                    >
-                        <ChevronRightIcon class="h-5 w-5" />
-                    </span>
-                </span>
-            </div>
         </div>
         <div class="border-t border-gray-200">
             <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
@@ -84,7 +45,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-100">
                             <tr
-                                v-for="item in form.items"
+                                v-for="(item, index) in form.items"
                                 :key="item.id"
                                 class="hover:bg-blumilk-25"
                             >
@@ -128,14 +89,15 @@
                                             v-model="item.days"
                                             type="number"
                                             min="0"
-                                            class="block w-full shadow-sm rounded-md sm:text-sm"
-                                            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': false, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': true }"
+                                            class="block w-full shadow-sm rounded-md sm:text-sm disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none disabled:cursor-not-allowed"
+                                            :disabled="!item.hasVacation"
+                                            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`items.${index}.days`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`items.${index}.days`] }"
                                         >
                                         <p
-                                            v-if="false"
+                                            v-if="form.errors[`items.${index}.days`]"
                                             class="mt-2 text-sm text-red-600"
                                         >
-                                            {{ form.errors.name }}
+                                            {{ form.errors[`items.${index}.days`] }}
                                         </p>
                                     </div>
                                 </td>
@@ -153,20 +115,12 @@
                         </tbody>
                     </table>
                     <div class="flex justify-end py-3 px-4">
-                        <div class="space-x-3">
-                            <InertiaLink
-                                href="/users"
-                                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
-                            >
-                                Anuluj
-                            </InertiaLink>
-                            <button
-                                type="submit"
-                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
-                            >
-                                Zapisz
-                            </button>
-                        </div>
+                        <button
+                            type="submit"
+                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                        >
+                            Zapisz
+                        </button>
                     </div>
                 </form>
             </div>
@@ -175,30 +129,27 @@
 </template>
 
 <script>
-import { Switch } from '@headlessui/vue';
-import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/solid';
+import {Switch} from '@headlessui/vue';
 import {useForm} from '@inertiajs/inertia-vue3';
 
 export default {
-    name: 'VacationDays',
+    name: 'VacationLimits',
     components: {
         Switch,
-        ChevronLeftIcon,
-        ChevronRightIcon,
     },
     props: {
-        vacationLimits: {
+        limits: {
             type: Object,
             default: () => null,
         },
-        yearPeriods: {
+        years: {
             type: Object,
             default: () => null,
         },
     },
     setup(props) {
         const form = useForm({
-            items: props.vacationLimits.data,
+            items: props.limits.data,
         });
 
         return {
@@ -209,9 +160,16 @@ export default {
         submitVacationDays() {
             this.form
                 .transform(data => ({
-                    data,
+                    items: data.items.map(item => ({
+                        id: item.id,
+                        hasVacation: item.hasVacation,
+                        days: item.hasVacation ? item.days : null,
+                    })),
                 }))
-                .put('/vacation-days');
+                .put('/vacation-days', {
+                    preserveState: (page) => Object.keys(page.props.errors).length,
+                    preserveScroll: true,
+                });
         },
     },
 };

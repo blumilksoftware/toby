@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Controllers\GoogleController;
 use Toby\Http\Controllers\LogoutController;
 use Toby\Http\Controllers\UserController;
-use Toby\Http\Controllers\VacationDaysController;
+use Toby\Http\Controllers\VacationLimitController;
+use Toby\Models\YearPeriod;
 
 Route::middleware("auth")->group(function (): void {
     Route::get("/", fn() => inertia("Dashboard"))->name("dashboard");
@@ -15,8 +18,14 @@ Route::middleware("auth")->group(function (): void {
     Route::resource("users", UserController::class);
     Route::post("users/{user}/restore", [UserController::class, "restore"])->withTrashed();
 
-    Route::get("/vacation-days", [VacationDaysController::class, "edit"])->name("vacation.days");
-    Route::put("/vacation-days", [VacationDaysController::class, "update"]);
+    Route::get("/vacation-days", [VacationLimitController::class, "edit"])->name("vacation.days");
+    Route::put("/vacation-days", [VacationLimitController::class, "update"]);
+
+    Route::post("year-periods/{yearPeriod}/select", function (Request $request, YearPeriod $yearPeriod) {
+        $request->session()->put(YearPeriodRetriever::SESSION_KEY, $yearPeriod->id);
+
+        return redirect()->back();
+    })->name("year-periods.select");
 });
 
 Route::middleware("guest")->group(function (): void {
