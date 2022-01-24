@@ -166,7 +166,7 @@ export default {
                         days: item.hasVacation ? item.days : null,
                     })),
                 }))
-                .put('/vacation-days', {
+                .put('/vacation-limits', {
                     preserveState: (page) => Object.keys(page.props.errors).length,
                     preserveScroll: true,
                 });

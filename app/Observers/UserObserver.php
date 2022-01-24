@@ -21,7 +21,9 @@ class UserObserver
     {
         $user->saveAvatar($this->generator->generateFor($user));
 
-        $user->vacationLimits()->create(["year_period_id" => $this->yearPeriodRetriever->current()->id]);
+        $user->vacationLimits()->create([
+            "year_period_id" => $this->yearPeriodRetriever->current()->id,
+        ]);
     }
 
     public function updating(User $user): void

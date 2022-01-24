@@ -20,7 +20,6 @@ class VacationLimitRequest extends FormRequest
         ];
     }
 
-
     public function vacationLimits(): Collection
     {
         return VacationLimit::query()->find($this->collect("items")->pluck("id"));
@@ -32,7 +31,7 @@ class VacationLimitRequest extends FormRequest
             $item["id"] => [
                 "has_vacation" => $item["hasVacation"],
                 "days" => $item["days"],
-            ]
+            ],
         ]);
     }
 }

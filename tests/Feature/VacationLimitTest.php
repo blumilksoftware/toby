@@ -26,7 +26,7 @@ class VacationLimitTest extends FeatureTestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("VacationLimits")
-                    ->has("limits.data", 10)
+                    ->has("limits.data", 10),
             );
     }
 
@@ -58,14 +58,14 @@ class VacationLimitTest extends FeatureTestCase
 
         $this->actingAs($admin)
             ->put("/vacation-limits", [
-                "items" => $data
+                "items" => $data,
             ])
             ->assertRedirect();
 
         $this->assertDatabaseHas("vacation_limits", [
-           "id" => $limit1->id,
-           "has_vacation" => true,
-           "days" => 25,
+            "id" => $limit1->id,
+            "has_vacation" => true,
+            "days" => 25,
         ]);
 
         $this->assertDatabaseHas("vacation_limits", [

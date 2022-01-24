@@ -16,7 +16,9 @@ trait InteractsWithYearPeriods
     public function createYearPeriod(int $year): YearPeriod
     {
         /** @var YearPeriod $yearPeriod */
-        $yearPeriod = YearPeriod::factory()->create(["year" => $year]);
+        $yearPeriod = YearPeriod::factory()->create([
+            "year" => $year,
+        ]);
 
         return $yearPeriod;
     }
@@ -28,7 +30,9 @@ trait InteractsWithYearPeriods
 
     public function markYearPeriodAsSelected(YearPeriod $yearPeriod): void
     {
-        $this->session([YearPeriodRetriever::SESSION_KEY => $yearPeriod->id]);
+        $this->session([
+            YearPeriodRetriever::SESSION_KEY => $yearPeriod->id,
+        ]);
     }
 
     public function clearSelectedYearPeriod(): void

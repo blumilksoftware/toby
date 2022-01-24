@@ -11,7 +11,7 @@ use Toby\Models\YearPeriod;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create('vacation_limits', function (Blueprint $table): void {
+        Schema::create("vacation_limits", function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(YearPeriod::class)->constrained()->cascadeOnDelete();
@@ -23,6 +23,6 @@ return new class() extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('vacation_limits');
+        Schema::dropIfExists("vacation_limits");
     }
 };

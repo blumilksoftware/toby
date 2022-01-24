@@ -24,7 +24,7 @@ class YearPeriodRetrieverTest extends TestCase
     public YearPeriod $nextYearPeriod;
     public YearPeriodRetriever $yearPeriodRetriever;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -64,19 +64,18 @@ class YearPeriodRetrieverTest extends TestCase
             "navigation" => [
                 [
                     "year" => $this->previousYearPeriod->year,
-                    "link" => route("year-periods.select", $this->previousYearPeriod)
+                    "link" => route("year-periods.select", $this->previousYearPeriod),
                 ],
                 [
                     "year" => $this->currentYearPeriod->year,
-                    "link" => route("year-periods.select", $this->currentYearPeriod)
+                    "link" => route("year-periods.select", $this->currentYearPeriod),
                 ],
                 [
                     "year" => $this->nextYearPeriod->year,
-                    "link" => route("year-periods.select", $this->nextYearPeriod)
+                    "link" => route("year-periods.select", $this->nextYearPeriod),
                 ],
-            ]
+            ],
         ];
-
 
         $this->assertSame($expected, $this->yearPeriodRetriever->links());
     }

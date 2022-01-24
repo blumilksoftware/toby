@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Jobs\CheckYearPeriod;
-use Toby\Models\YearPeriod;
 
 class CheckYearPeriodTest extends TestCase
 {

@@ -20,7 +20,9 @@ class YearPeriodObserver
         $users = User::all();
 
         foreach ($users as $user) {
-            $yearPeriod->vacationLimits()->updateOrCreate(["user_id" => $user->id]);
+            $yearPeriod->vacationLimits()->updateOrCreate([
+                "user_id" => $user->id,
+            ]);
         }
     }
 }
