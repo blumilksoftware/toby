@@ -24,7 +24,7 @@ class YearPeriod extends Model
 
     public static function current(): ?static
     {
-        static::findByYear(Carbon::now()->year);
+        return static::findByYear(Carbon::now()->year);
     }
 
     public static function findByYear(int $year): ?static
