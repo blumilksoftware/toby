@@ -114,7 +114,7 @@ class UserTest extends FeatureTestCase
             "last_name" => $user->last_name,
             "email" => $user->email,
             "employment_form" => $user->employment_form->value,
-            "employment_date" => $user->employment_date->toDateTimeString(),
+            "employment_date" => $user->employment_date->toDateString(),
         ]);
 
         $this->actingAs($admin)
