@@ -113,7 +113,7 @@ class HolidayTest extends FeatureTestCase
         ]);
     }
 
-    public function testAdminCanDeleteUser(): void
+    public function testAdminCanDeleteHoliday(): void
     {
         $admin = User::factory()->create();
         $holiday = Holiday::factory()->create();
