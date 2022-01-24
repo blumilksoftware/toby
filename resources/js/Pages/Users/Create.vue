@@ -15,24 +15,47 @@
         >
             <div class="sm:grid sm:grid-cols-3 py-4 items-center">
                 <label
-                    for="name"
+                    for="firstName"
                     class="block text-sm font-medium text-gray-700 sm:mt-px"
                 >
-                    Imię i nazwisko
+                    Imię
                 </label>
                 <div class="mt-1 sm:mt-0 sm:col-span-2">
                     <input
-                        id="name"
-                        v-model="form.name"
+                        id="firstName"
+                        v-model="form.firstName"
                         type="text"
                         class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
-                        :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
+                        :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.firstName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.firstName }"
                     >
                     <p
-                        v-if="form.errors.name"
+                        v-if="form.errors.firstName"
                         class="mt-2 text-sm text-red-600"
                     >
-                        {{ form.errors.name }}
+                        {{ form.errors.firstName }}
+                    </p>
+                </div>
+            </div>
+            <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+                <label
+                    for="lastName"
+                    class="block text-sm font-medium text-gray-700 sm:mt-px"
+                >
+                    Nazwisko
+                </label>
+                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                    <input
+                        id="lastName"
+                        v-model="form.lastName"
+                        type="text"
+                        class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+                        :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.lastName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.lastName }"
+                    >
+                    <p
+                        v-if="form.errors.lastName"
+                        class="mt-2 text-sm text-red-600"
+                    >
+                        {{ form.errors.lastName }}
                     </p>
                 </div>
             </div>
@@ -184,7 +207,8 @@ export default {
     },
     setup(props) {
         const form = useForm({
-            name: null,
+            firstName: null,
+            lastName: null,
             email: null,
             employmentForm: props.employmentForms[0],
             employmentDate: new Date(),

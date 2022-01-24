@@ -17,7 +17,6 @@ class VacationLimitFactory extends Factory
         return [
             "user_id" => User::factory(),
             "year_period_id" => YearPeriod::factory(),
-            "has_vacation" => $hasVacation,
             "days" => $hasVacation ? $this->faker->numberBetween(20, 26) : null,
         ];
     }

@@ -14,8 +14,14 @@ class VacationLimitController extends Controller
 {
     public function edit(): Response
     {
+        $limits = VacationLimit::query()
+            ->with("user")
+            ->orderByUserField("last_name")
+            ->orderByUserField("first_name")
+            ->get();
+
         return inertia("VacationLimits", [
-            "limits" => VacationLimitResource::collection(VacationLimit::query()->with("user")->get()),
+            "limits" => VacationLimitResource::collection($limits),
         ]);
     }
 
