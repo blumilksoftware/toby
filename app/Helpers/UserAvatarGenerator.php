@@ -29,11 +29,11 @@ class UserAvatarGenerator
     protected function generate(User $user): SVG
     {
         return $this->generator->rounded()
-            ->background($this->getColor($user->name))
+            ->background($this->getColor($user->fullName))
             ->color("#F4F8FD")
             ->smooth()
             ->fontSize(0.33)
-            ->generateSvg($user->name);
+            ->generateSvg($user->fullName);
     }
 
     protected function getColor(string $name): string

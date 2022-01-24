@@ -200,7 +200,7 @@
                     </tbody>
                 </table>
                 <div
-                    v-if="users.data.length"
+                    v-if="users.data.length && users.meta.last_page !== 1"
                     class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-b-lg"
                 >
                     <div class="flex-1 flex justify-between sm:hidden">

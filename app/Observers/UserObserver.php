@@ -28,7 +28,7 @@ class UserObserver
 
     public function updating(User $user): void
     {
-        if ($user->isDirty("name")) {
+        if ($user->isDirty(["first_name", "last_name"])) {
             Storage::delete($user->avatar);
             $user->avatar = $this->generator->generateFor($user);
         }

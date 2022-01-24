@@ -20,7 +20,7 @@ class UserController extends Controller
         $users = User::query()
             ->withTrashed()
             ->search($request->query("search"))
-            ->latest()
+            ->orderBy("last_name")
             ->paginate()
             ->withQueryString();
 

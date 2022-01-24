@@ -16,7 +16,8 @@ use Toby\Enums\EmploymentForm;
 
 /**
  * @property int $id
- * @property string $name
+ * @property string $first_name
+ * @property string $last_name
  * @property string $email
  * @property string $avatar
  * @property EmploymentForm $employment_form
@@ -29,13 +30,7 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    protected $fillable = [
-        "name",
-        "email",
-        "avatar",
-        "employment_form",
-        "employment_date",
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         "employment_form" => EmploymentForm::class,
@@ -58,7 +53,8 @@ class User extends Authenticatable
         }
 
         return $query
-            ->where("name", "LIKE", "%{$text}%")
+            ->where("first_name", "LIKE", "%{$text}%")
+            ->orWhere("last_name", "LIKE", "%{$text}%")
             ->orWhere("email", "LIKE", "%{$text}%");
     }
 
@@ -67,5 +63,10 @@ class User extends Authenticatable
         $this->avatar = $path;
 
         $this->save();
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 }

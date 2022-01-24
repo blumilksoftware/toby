@@ -49,7 +49,8 @@ class AvatarTest extends TestCase
         Storage::assertExists($oldAvatar);
 
         $user->update([
-            "name" => "John Doe",
+            "first_name" => "John",
+            "last_name" => "Doe",
         ]);
 
         Storage::assertMissing($oldAvatar);
