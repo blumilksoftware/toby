@@ -6,7 +6,7 @@ namespace Toby\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserFormDataResource extends JsonResource
+class VacationLimitResource extends JsonResource
 {
     public static $wrap = null;
 
@@ -14,10 +14,9 @@ class UserFormDataResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "name" => $this->name,
-            "email" => $this->email,
-            "employmentForm" => $this->employment_form,
-            "employmentDate" => $this->employment_date,
+            "user" => new UserResource($this->user),
+            "hasVacation" => $this->hasVacation(),
+            "days" => $this->days,
         ];
     }
 }

@@ -19,6 +19,53 @@
 
                 <!-- Right section on desktop -->
                 <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5">
+                    <div class="mr-4">
+                        <Menu
+                            as="div"
+                            class="relative inline-block text-left"
+                        >
+                            <div>
+                                <MenuButton class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-300">
+                                    {{ years.current }}
+                                    <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
+                                </MenuButton>
+                            </div>
+
+                            <transition
+                                enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95"
+                            >
+                                <MenuItems class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div class="py-1">
+                                        <MenuItem
+                                            v-for="(item, index) in years.navigation"
+                                            :key="index"
+                                            v-slot="{ active }"
+                                        >
+                                            <InertiaLink
+                                                :href="item.link"
+                                                as="button"
+                                                method="post"
+                                                :preserve-state="false"
+                                                :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full px-4 py-2 text-sm']"
+                                            >
+                                                {{ item.year }}
+                                                <CheckIcon
+                                                    v-if="item.year === years.current"
+                                                    class="h-5 w-5 text-blumilk-500 ml-2"
+                                                />
+                                            </InertiaLink>
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
+                    </div>
+
                     <button
                         type="button"
                         class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
@@ -246,6 +293,7 @@ import {
 import {BellIcon, MenuIcon, XIcon} from '@heroicons/vue/outline';
 import {computed} from 'vue';
 import {usePage} from '@inertiajs/inertia-vue3';
+import {ChevronDownIcon, CheckIcon} from '@heroicons/vue/solid';
 
 export default {
     name: 'MainMenu',
@@ -263,13 +311,17 @@ export default {
         BellIcon,
         MenuIcon,
         XIcon,
+        ChevronDownIcon,
+        CheckIcon,
     },
     setup() {
         const user = computed(() => usePage().props.value.auth.user);
+        const years = computed(() => usePage().props.value.years);
+
         const navigation = [
             {name: 'Strona główna', href: '/', current: true},
             {name: 'Użytkownicy', href: '/users', current: false},
-            {name: 'Resources', href: '#', current: false},
+            {name: 'Dostępne urlopy', href: '/vacation-limits', current: false},
             {name: 'Company Directory', href: '#', current: false},
             {name: 'Openings', href: '#', current: false},
         ];
@@ -281,6 +333,7 @@ export default {
 
         return {
             user,
+            years,
             navigation,
             userNavigation,
         };

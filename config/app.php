@@ -42,5 +42,6 @@ return [
         Toby\Providers\EventServiceProvider::class,
         Toby\Providers\RouteServiceProvider::class,
         Toby\Providers\TelescopeServiceProvider::class,
+        Toby\Providers\ObserverServiceProvider::class,
     ],
 ];

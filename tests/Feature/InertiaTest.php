@@ -6,10 +6,10 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 use Toby\Models\User;
 
-class InertiaTest extends TestCase
+class InertiaTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 

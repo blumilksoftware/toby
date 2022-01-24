@@ -7,12 +7,13 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Jobs\CheckYearPeriod;
-use Toby\Models\YearPeriod;
 
 class CheckYearPeriodTest extends TestCase
 {
     use RefreshDatabase;
+    use InteractsWithYearPeriods;
 
     public function testYearPeriodsAreCreatedWhenDontExist(): void
     {
@@ -54,9 +55,7 @@ class CheckYearPeriodTest extends TestCase
         $now = Carbon::now();
         Carbon::setTestNow($now);
 
-        YearPeriod::factory([
-            "year" => $now->year,
-        ]);
+        $this->createCurrentYearPeriod();
 
         $this->assertDatabaseMissing("year_periods", [
             "year" => $now->year + 1,
@@ -74,12 +73,8 @@ class CheckYearPeriodTest extends TestCase
         $now = Carbon::now();
         Carbon::setTestNow($now);
 
-        YearPeriod::factory([
-            "year" => $now->year,
-        ])->create();
-        YearPeriod::factory([
-            "year" => $now->year + 1,
-        ])->create();
+        $this->createCurrentYearPeriod();
+        $this->createYearPeriod($now->year + 1);
 
         $this->assertDatabaseCount("year_periods", 2);
 
