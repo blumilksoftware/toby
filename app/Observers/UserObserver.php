@@ -6,20 +6,22 @@ namespace Toby\Observers;
 
 use Illuminate\Support\Facades\Storage;
 use Toby\Helpers\UserAvatarGenerator;
+use Toby\Helpers\YearPeriodRetriever;
 use Toby\Models\User;
 
 class UserObserver
 {
     public function __construct(
         protected UserAvatarGenerator $generator,
+        protected YearPeriodRetriever $yearPeriodRetriever,
     ) {
     }
 
     public function created(User $user): void
     {
-        $user->avatar = $this->generator->generateFor($user);
+        $user->saveAvatar($this->generator->generateFor($user));
 
-        $user->save();
+        $user->vacationLimits()->create(["year_period_id" => $this->yearPeriodRetriever->current()->id]);
     }
 
     public function updating(User $user): void

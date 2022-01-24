@@ -16,8 +16,8 @@ Route::middleware("auth")->group(function (): void {
     Route::resource("users", UserController::class);
     Route::post("users/{user}/restore", [UserController::class, "restore"])->withTrashed();
 
-    Route::get("/vacation-days", [VacationLimitController::class, "edit"])->name("vacation.days");
-    Route::put("/vacation-days", [VacationLimitController::class, "update"]);
+    Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
+    Route::put("/vacation-limits", [VacationLimitController::class, "update"]);
 
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)->name("year-periods.select");
 });

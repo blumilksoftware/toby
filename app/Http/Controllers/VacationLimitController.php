@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Toby\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Arr;
 use Inertia\Response;
 use Toby\Http\Requests\VacationLimitRequest;
 use Toby\Http\Resources\VacationLimitResource;
@@ -22,14 +21,14 @@ class VacationLimitController extends Controller
 
     public function update(VacationLimitRequest $request): RedirectResponse
     {
-       foreach ($request->data() as $data) {
-           $limit = VacationLimit::query()->find($data["id"]);
+        $data = $request->data();
 
-           $limit->update(Arr::only($data, ["has_vacation", "days"]));
-       }
+        foreach ($request->vacationLimits() as $limit) {
+            $limit->update($data[$limit->id]);
+        }
 
-       return redirect()
-           ->back()
-           ->with("success", __("Vacation limits have been updated"));
+        return redirect()
+            ->back()
+            ->with("success", __("Vacation limits have been updated"));
     }
 }

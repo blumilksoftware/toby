@@ -6,7 +6,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Enums\EmploymentForm;
@@ -15,13 +14,6 @@ use Toby\Models\User;
 class UserTest extends FeatureTestCase
 {
     use DatabaseMigrations;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Storage::fake();
-    }
 
     public function testAdminCanSeeUsersList(): void
     {

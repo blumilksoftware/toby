@@ -7,16 +7,19 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Models\User;
 
 class AvatarTest extends TestCase
 {
     use DatabaseMigrations;
+    use InteractsWithYearPeriods;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->createCurrentYearPeriod();
         Storage::fake();
     }
 
