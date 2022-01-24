@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserFormDataResource extends JsonResource
 {
-    public static $wrap = false;
+    public static $wrap = null;
 
     public function toArray($request): array
     {

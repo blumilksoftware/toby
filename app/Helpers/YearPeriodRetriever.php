@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace Toby\Helpers;
 
+use Illuminate\Contracts\Session\Session;
 use Toby\Models\YearPeriod;
 
 class YearPeriodRetriever
 {
     public const SESSION_KEY = "selected_year_period";
 
+    public function __construct(
+        protected Session $session,
+    ) {
+    }
+
     public function selected(): YearPeriod
     {
         /** @var YearPeriod $yearPeriod */
-        $yearPeriod = YearPeriod::query()->find(session()->get(static::SESSION_KEY));
+        $yearPeriod = YearPeriod::query()->find($this->session->get(static::SESSION_KEY));
 
         return $yearPeriod !== null ? $yearPeriod : $this->current();
     }

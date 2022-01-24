@@ -8,14 +8,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class VacationLimitResource extends JsonResource
 {
-    public static $wrap = false;
+    public static $wrap = null;
 
     public function toArray($request): array
     {
         return [
             "id" => $this->id,
             "user" => new UserResource($this->user),
-            "hasVacation" => $this->has_vacation,
+            "hasVacation" => $this->hasVacation(),
             "days" => $this->days,
         ];
     }

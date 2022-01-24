@@ -15,7 +15,6 @@ return new class() extends Migration {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(YearPeriod::class)->constrained()->cascadeOnDelete();
-            $table->boolean("has_vacation")->default(false);
             $table->integer("days")->nullable();
             $table->timestamps();
         });

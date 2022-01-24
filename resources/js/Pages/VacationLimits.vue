@@ -162,7 +162,6 @@ export default {
                 .transform(data => ({
                     items: data.items.map(item => ({
                         id: item.id,
-                        hasVacation: item.hasVacation,
                         days: item.hasVacation ? item.days : null,
                     })),
                 }))

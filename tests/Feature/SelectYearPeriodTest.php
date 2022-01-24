@@ -14,17 +14,25 @@ class SelectYearPeriodTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 
+    protected YearPeriodRetriever $yearPeriodRetriever;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->yearPeriodRetriever = $this->app->make(YearPeriodRetriever::class);
+    }
+
     public function testUserCanSelectNextYearPeriod(): void
     {
         $nextYearPeriod = $this->createYearPeriod(Carbon::now()->year + 1);
         $user = User::factory()->create();
-        $yearPeriodRetriever = new YearPeriodRetriever();
 
         $this->actingAs($user)
             ->post("/year-periods/{$nextYearPeriod->id}/select")
             ->assertRedirect();
 
-        $this->assertSame($nextYearPeriod->id, $yearPeriodRetriever->selected()->id);
+        $this->assertSame($nextYearPeriod->id, $this->yearPeriodRetriever->selected()->id);
     }
 
     public function testUserCannotSelectNextYearPeriodIfDoesntExist(): void
@@ -38,9 +46,8 @@ class SelectYearPeriodTest extends FeatureTestCase
 
     public function testIfUserDoesntSelectAnyYearPeriodCurrentActsAsSelected(): void
     {
-        $yearPeriodRetriever = new YearPeriodRetriever();
-        $currentYearPeriod = $yearPeriodRetriever->current();
+        $currentYearPeriod = $this->yearPeriodRetriever->current();
 
-        $this->assertSame($currentYearPeriod->id, $yearPeriodRetriever->selected()->id);
+        $this->assertSame($currentYearPeriod->id, $this->yearPeriodRetriever->selected()->id);
     }
 }

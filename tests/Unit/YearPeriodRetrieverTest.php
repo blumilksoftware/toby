@@ -31,7 +31,7 @@ class YearPeriodRetrieverTest extends TestCase
         $this->current = Carbon::now();
         Carbon::setTestNow($this->current);
 
-        $this->yearPeriodRetriever = new YearPeriodRetriever();
+        $this->yearPeriodRetriever = $this->app->make(YearPeriodRetriever::class);
 
         $this->previousYearPeriod = $this->createYearPeriod($this->current->year - 1);
         $this->currentYearPeriod = $this->createCurrentYearPeriod();
@@ -43,7 +43,7 @@ class YearPeriodRetrieverTest extends TestCase
         $this->assertSame($this->currentYearPeriod->id, $this->yearPeriodRetriever->current()->id);
     }
 
-    public function testRetrievesCurrentYearPeriodWhenNoSelected(): void
+    public function testRetrievesCurrentYearPeriodWhenNoneIsSelected(): void
     {
         $this->clearSelectedYearPeriod();
 

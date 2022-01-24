@@ -15,8 +15,7 @@ class VacationLimitRequest extends FormRequest
         return [
             "items" => ["required", "array"],
             "items.*.id" => ["required", "exists:vacation_limits,id"],
-            "items.*.hasVacation" => ["required", "boolean"],
-            "items.*.days" => ["exclude_if:items.*.hasVacation,false", "required", "integer", "min:0"],
+            "items.*.days" => ["nullable", "integer", "min:0"],
         ];
     }
 
@@ -25,13 +24,10 @@ class VacationLimitRequest extends FormRequest
         return VacationLimit::query()->find($this->collect("items")->pluck("id"));
     }
 
-    public function data(): Collection
+    public function data(): array
     {
-        return $this->collect("items")->mapWithKeys(fn(array $item): array => [
-            $item["id"] => [
-                "has_vacation" => $item["hasVacation"],
-                "days" => $item["days"],
-            ],
-        ]);
+        return $this->collect("items")
+            ->keyBy("id")
+            ->toArray();
     }
 }

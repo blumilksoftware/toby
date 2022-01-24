@@ -41,17 +41,14 @@ class VacationLimitTest extends FeatureTestCase
         $data = [
             [
                 "id" => $limit1->id,
-                "hasVacation" => true,
                 "days" => 25,
             ],
             [
                 "id" => $limit2->id,
-                "hasVacation" => false,
                 "days" => null,
             ],
             [
                 "id" => $limit3->id,
-                "hasVacation" => true,
                 "days" => 20,
             ],
         ];
@@ -64,19 +61,16 @@ class VacationLimitTest extends FeatureTestCase
 
         $this->assertDatabaseHas("vacation_limits", [
             "id" => $limit1->id,
-            "has_vacation" => true,
             "days" => 25,
         ]);
 
         $this->assertDatabaseHas("vacation_limits", [
             "id" => $limit2->id,
-            "has_vacation" => false,
             "days" => null,
         ]);
 
         $this->assertDatabaseHas("vacation_limits", [
             "id" => $limit3->id,
-            "has_vacation" => true,
             "days" => 20,
         ]);
     }

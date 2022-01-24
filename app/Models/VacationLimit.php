@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property User $user
  * @property YearPeriod $yearPeriod
- * @property bool $has_vacation
  * @property int $days
  */
 class VacationLimit extends Model
@@ -21,9 +20,10 @@ class VacationLimit extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        "has_vacation" => "boolean",
-    ];
+    public function hasVacation(): bool
+    {
+        return $this->days !== null;
+    }
 
     public function user(): BelongsTo
     {
