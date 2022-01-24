@@ -85,7 +85,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import FlatPickr from 'vue-flatpickr-component';
 
 export default {
-    name: 'HolidayCreate',
+    name: 'HolidayEdit',
     components: {
         FlatPickr,
     },
@@ -98,14 +98,15 @@ export default {
     setup(props) {
         const form = useForm({
             name: props.holiday.name,
-            date: new Date(props.holiday.date),
+            date: props.holiday.date,
         });
 
         return { form };
     },
     methods: {
         editHoliday() {
-            this.form.put(`/holidays/${this.holiday.id}`);
+            this.form
+                .put(`/holidays/${this.holiday.id}`);
         },
     },
 };

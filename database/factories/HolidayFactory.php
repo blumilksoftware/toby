@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
+use Toby\Models\YearPeriod;
 
 class HolidayFactory extends Factory
 {
     public function definition(): array
     {
-        $now = Carbon::now();
-
         return [
             "name" => $this->faker->word,
-            "date" => $this->faker->dateTimeBetween($now->startOfYear(), $now->endOfYear()),
+            "date" => $this->faker->unique->date,
+            "year_period_id" => YearPeriod::current()->id,
         ];
     }
 }

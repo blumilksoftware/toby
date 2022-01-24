@@ -92,7 +92,7 @@ export default {
     setup() {
         const form = useForm({
             name: null,
-            date: new Date(),
+            date: null,
         });
 
         return { form };

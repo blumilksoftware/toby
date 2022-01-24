@@ -211,7 +211,7 @@ export default {
             lastName: null,
             email: null,
             employmentForm: props.employmentForms[0],
-            employmentDate: new Date(),
+            employmentDate: null,
         });
 
         return { form };

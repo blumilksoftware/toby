@@ -19,6 +19,6 @@ class YearPeriodExists implements Rule
 
     public function message(): string
     {
-        return "The year period for given year doesn't exist";
+        return "The year period for given year doesn't exist.";
     }
 }

@@ -11,7 +11,7 @@ class YearPeriodFactory extends Factory
     public function definition(): array
     {
         return [
-            "year" => $this->faker->unique()->year,
+            "year" => (int)$this->faker->unique()->year,
         ];
     }
 }
