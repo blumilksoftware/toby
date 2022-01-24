@@ -17,6 +17,7 @@ class VacationLimitController extends Controller
         $limits = VacationLimit::query()
             ->with("user")
             ->orderByUserField("last_name")
+            ->orderByUserField("first_name")
             ->get();
 
         return inertia("VacationLimits", [

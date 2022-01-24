@@ -14,8 +14,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "firstName" => ["required", "min:3", "max: 80"],
-            "lastName" => ["required", "min:3", "max: 80"],
+            "firstName" => ["required", "min:3", "max:80"],
+            "lastName" => ["required", "min:3", "max:80"],
             "email" => ["required", "email", Rule::unique("users", "email")->ignore($this->user)],
             "employmentForm" => ["required", new Enum(EmploymentForm::class)],
             "employmentDate" => ["required", "date"],

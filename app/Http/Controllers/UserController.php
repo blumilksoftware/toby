@@ -21,6 +21,7 @@ class UserController extends Controller
             ->withTrashed()
             ->search($request->query("search"))
             ->orderBy("last_name")
+            ->orderBy("first_name")
             ->paginate()
             ->withQueryString();
 
