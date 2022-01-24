@@ -19,7 +19,8 @@ class HolidayRequest extends FormRequest
             "date" => ["required",
                 "date_format:Y-m-d",
                 Rule::unique("holidays", "date")->ignore($this->holiday),
-                new YearPeriodExists(), ],
+                new YearPeriodExists(),
+            ],
         ];
     }
 
