@@ -322,7 +322,7 @@ export default {
             {name: 'Strona główna', href: '/', current: true},
             {name: 'Użytkownicy', href: '/users', current: false},
             {name: 'Dostępne urlopy', href: '/vacation-limits', current: false},
-            {name: 'Company Directory', href: '#', current: false},
+            {name: 'Dni wolne', href: '/holidays', current: false},
             {name: 'Openings', href: '#', current: false},
         ];
         const userNavigation = [

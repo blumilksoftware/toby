@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Toby\Http\Controllers\GoogleController;
+use Toby\Http\Controllers\HolidayController;
 use Toby\Http\Controllers\LogoutController;
 use Toby\Http\Controllers\SelectYearPeriodController;
 use Toby\Http\Controllers\UserController;
@@ -14,7 +15,9 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", LogoutController::class);
 
     Route::resource("users", UserController::class);
-    Route::post("users/{user}/restore", [UserController::class, "restore"])->withTrashed();
+    Route::post("/users/{user}/restore", [UserController::class, "restore"])->withTrashed();
+
+    Route::resource("holidays", HolidayController::class);
 
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
     Route::put("/vacation-limits", [VacationLimitController::class, "update"]);

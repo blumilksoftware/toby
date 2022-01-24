@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Toby\Helpers\PolishHolidaysRetriever;
 use Toby\Helpers\UserAvatarGenerator;
 use Toby\Models\User;
 use Toby\Models\VacationLimit;
@@ -52,6 +53,16 @@ class DatabaseSeeder extends Seeder
                         ->for($yearPeriod)
                         ->for($user)
                         ->create();
+                }
+            })
+            ->afterCreating(function (YearPeriod $yearPeriod): void {
+                $polishHolidaysRetriever = new PolishHolidaysRetriever();
+
+                foreach ($polishHolidaysRetriever->getForYearPeriod($yearPeriod) as $holiday) {
+                    $yearPeriod->holidays()->create([
+                        "name" => $holiday["name"],
+                        "date" => $holiday["date"],
+                    ]);
                 }
             })
             ->create();

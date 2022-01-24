@@ -4,29 +4,33 @@ declare(strict_types=1);
 
 namespace Toby\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
  * @property int $id
  * @property int $year
  * @property Collection $vacationLimits
+ * @property Collection $holidays
  */
 class YearPeriod extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        "year",
-    ];
+    protected $guarded = [];
 
     public static function current(): ?static
     {
+        static::findByYear(Carbon::now()->year);
+    }
+
+    public static function findByYear(int $year): ?static
+    {
         /** @var YearPeriod $year */
-        $year = static::query()->where("year", Carbon::now()->year)->first();
+        $year = static::query()->where("year", $year)->first();
 
         return $year;
     }
@@ -34,5 +38,10 @@ class YearPeriod extends Model
     public function vacationLimits(): HasMany
     {
         return $this->hasMany(VacationLimit::class);
+    }
+
+    public function holidays(): HasMany
+    {
+        return $this->hasMany(Holiday::class);
     }
 }
