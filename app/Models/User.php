@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     protected $casts = [
         "employment_form" => EmploymentForm::class,
-        "employment_date" => "datetime",
+        "employment_date" => "date",
     ];
 
     protected $hidden = [

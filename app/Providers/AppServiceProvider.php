@@ -6,6 +6,7 @@ namespace Toby\Providers;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
+use Toby\Models\Holiday;
 use Toby\Models\VacationLimit;
 use Toby\Scopes\SelectedYearPeriodScope;
 
@@ -15,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::macro("toDisplayString", fn() => $this->translatedFormat("j F Y"));
 
-        VacationLimit::addGlobalScope($this->app->make(SelectedYearPeriodScope::class));
+        $selectedYearPeriodScope = $this->app->make(SelectedYearPeriodScope::class);
+
+        VacationLimit::addGlobalScope($selectedYearPeriodScope);
+        Holiday::addGlobalScope($selectedYearPeriodScope);
     }
 }

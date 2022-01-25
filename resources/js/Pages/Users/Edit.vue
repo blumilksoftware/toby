@@ -215,7 +215,7 @@ export default {
             lastName: props.user.lastName,
             email: props.user.email,
             employmentForm: props.employmentForms.find(form => form.value === props.user.employmentForm),
-            employmentDate: new Date(props.user.employmentDate),
+            employmentDate: props.user.employmentDate,
         });
 
         return { form };
