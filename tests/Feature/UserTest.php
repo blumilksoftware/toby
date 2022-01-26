@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Enums\EmploymentForm;
-use Toby\Models\User;
+use Toby\Domain\EmploymentForm;
+use Toby\Eloquent\Models\User;
 
 class UserTest extends FeatureTestCase
 {

@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Toby\Http\Controllers\GoogleController;
-use Toby\Http\Controllers\HolidayController;
-use Toby\Http\Controllers\LogoutController;
-use Toby\Http\Controllers\SelectYearPeriodController;
-use Toby\Http\Controllers\UserController;
-use Toby\Http\Controllers\VacationLimitController;
+use Toby\Infrastructure\Http\Controllers\GoogleController;
+use Toby\Infrastructure\Http\Controllers\HolidayController;
+use Toby\Infrastructure\Http\Controllers\LogoutController;
+use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
+use Toby\Infrastructure\Http\Controllers\UserController;
+use Toby\Infrastructure\Http\Controllers\VacationLimitController;
 
 Route::middleware("auth")->group(function (): void {
     Route::get("/", fn() => inertia("Dashboard"))->name("dashboard");

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\HomePage;
 use Tests\DuskTestCase;
-use Toby\Models\User;
+use Toby\Eloquent\Models\User;
 
 class AuthenticationTest extends DuskTestCase
 {

@@ -6,7 +6,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\FeatureTestCase;
-use Toby\Models\User;
+use Toby\Eloquent\Models\User;
 
 class AuthenticationTest extends FeatureTestCase
 {
