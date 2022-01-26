@@ -23,6 +23,7 @@ use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Toby\Http\Middleware\Authenticate;
 use Toby\Http\Middleware\HandleInertiaRequests;
 use Toby\Http\Middleware\RedirectIfAuthenticated;
@@ -52,6 +53,7 @@ class Kernel extends HttpKernel
             HandleInertiaRequests::class,
         ],
         "api" => [
+            EnsureFrontendRequestsAreStateful::class,
             "throttle:api",
             SubstituteBindings::class,
         ],

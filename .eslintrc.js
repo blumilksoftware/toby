@@ -1,17 +1,17 @@
 module.exports = {
-    env: {
-        node: true,
-    },
-    extends: [
-        'eslint:recommended',
-        'plugin:vue/vue3-recommended',
-    ],
-    rules: {
-        semi: [2, 'always'],
-        quotes: ['error', 'single'],
-        indent: ['error', 4],
-        'vue/html-indent': ['error', 4],
-        'vue/multi-word-component-names': 'off',
-        'comma-dangle': ['error', 'always-multiline'],
-    },
-};
+  env: {
+    node: true,
+    'vue/setup-compiler-macros': true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
+  ],
+  rules: {
+    semi: [2, 'never'],
+    quotes: ['error', 'single'],
+    indent: ['error', 2],
+    'vue/html-indent': ['error', 2],
+    'comma-dangle': ['error', 'always-multiline'],
+  },
+}

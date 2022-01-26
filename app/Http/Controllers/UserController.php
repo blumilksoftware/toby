@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Enums\EmploymentForm;
+use Toby\Enums\Role;
 use Toby\Http\Requests\UserRequest;
 use Toby\Http\Resources\UserFormDataResource;
 use Toby\Http\Resources\UserResource;
@@ -35,6 +36,7 @@ class UserController extends Controller
     {
         return inertia("Users/Create", [
             "employmentForms" => EmploymentForm::casesToSelect(),
+            "roles" => Role::casesToSelect(),
         ]);
     }
 
@@ -52,6 +54,7 @@ class UserController extends Controller
         return inertia("Users/Edit", [
             "user" => new UserFormDataResource($user),
             "employmentForms" => EmploymentForm::casesToSelect(),
+            "roles" => Role::casesToSelect(),
         ]);
     }
 
