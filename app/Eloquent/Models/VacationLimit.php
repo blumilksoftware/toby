@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Eloquent\Models;
 
+use Database\Factories\VacationLimitFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,5 +42,10 @@ class VacationLimit extends Model
         $userQuery = User::query()->select($field)->whereColumn("vacation_limits.user_id", "users.id");
 
         return $query->orderBy($userQuery);
+    }
+
+    protected static function newFactory(): VacationLimitFactory
+    {
+        return VacationLimitFactory::new();
     }
 }

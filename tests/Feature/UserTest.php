@@ -34,21 +34,21 @@ class UserTest extends FeatureTestCase
     public function testAdminCanSearchUsersList(): void
     {
         User::factory([
-                          "first_name" => "Test",
-                          "last_name" => "User1",
-                      ])->create();
+            "first_name" => "Test",
+            "last_name" => "User1",
+        ])->create();
         User::factory([
-                          "first_name" => "Test",
-                          "last_name" => "User2",
-                      ])->create();
+            "first_name" => "Test",
+            "last_name" => "User2",
+        ])->create();
         User::factory([
-                          "first_name" => "Test",
-                          "last_name" => "User3",
-                      ])->create();
+            "first_name" => "Test",
+            "last_name" => "User3",
+        ])->create();
         $admin = User::factory([
-                                   "first_name" => "John",
-                                   "last_name" => "Doe",
-                               ])->create();
+            "first_name" => "John",
+            "last_name" => "Doe",
+        ])->create();
 
         $this->assertDatabaseCount("users", 4);
 
@@ -89,7 +89,7 @@ class UserTest extends FeatureTestCase
                 "lastName" => "Doe",
                 "email" => "john.doe@example.com",
                 "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
-                "employmentDate" => Carbon::now()->toDateTimeString(),
+                "employmentDate" => Carbon::now()->toDateString(),
             ])
             ->assertSessionHasNoErrors();
 
@@ -98,7 +98,7 @@ class UserTest extends FeatureTestCase
             "last_name" => "Doe",
             "email" => "john.doe@example.com",
             "employment_form" => EmploymentForm::B2B_CONTRACT->value,
-            "employment_date" => Carbon::now()->toDateTimeString(),
+            "employment_date" => Carbon::now()->toDateString(),
         ]);
     }
 
@@ -114,7 +114,7 @@ class UserTest extends FeatureTestCase
             "last_name" => $user->last_name,
             "email" => $user->email,
             "employment_form" => $user->employment_form->value,
-            "employment_date" => $user->employment_date->toDateTimeString(),
+            "employment_date" => $user->employment_date->toDateString(),
         ]);
 
         $this->actingAs($admin)
@@ -123,7 +123,7 @@ class UserTest extends FeatureTestCase
                 "lastName" => "Doe",
                 "email" => "john.doe@example.com",
                 "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
-                "employmentDate" => Carbon::now()->toDateTimeString(),
+                "employmentDate" => Carbon::now()->toDateString(),
             ])
             ->assertSessionHasNoErrors();
 
@@ -132,7 +132,7 @@ class UserTest extends FeatureTestCase
             "last_name" => "Doe",
             "email" => "john.doe@example.com",
             "employment_form" => EmploymentForm::B2B_CONTRACT->value,
-            "employment_date" => Carbon::now()->toDateTimeString(),
+            "employment_date" => Carbon::now()->toDateString(),
         ]);
     }
 

@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Toby\Enums\EmploymentForm;
+use Toby\Domain\EmploymentForm;
+use Toby\Eloquent\Models\User;
 
 class UserFactory extends Factory
 {
+    protected $model = User::class;
+
     public function definition(): array
     {
         return [
@@ -17,7 +21,7 @@ class UserFactory extends Factory
             "last_name" => $this->faker->lastName(),
             "email" => $this->faker->unique()->safeEmail(),
             "employment_form" => $this->faker->randomElement(EmploymentForm::cases()),
-            "employment_date" => $this->faker->dateTimeBetween("2020-10-27"),
+            "employment_date" => Carbon::createFromInterface($this->faker->dateTimeBetween("2020-10-27"))->toDateString(),
             "remember_token" => Str::random(10),
         ];
     }

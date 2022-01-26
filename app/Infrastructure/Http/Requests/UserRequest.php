@@ -18,7 +18,7 @@ class UserRequest extends FormRequest
             "lastName" => ["required", "min:3", "max:80"],
             "email" => ["required", "email", Rule::unique("users", "email")->ignore($this->user)],
             "employmentForm" => ["required", new Enum(EmploymentForm::class)],
-            "employmentDate" => ["required", "date"],
+            "employmentDate" => ["required", "date_format:Y-m-d"],
         ];
     }
 

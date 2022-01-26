@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Eloquent\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,7 +35,7 @@ class User extends Authenticatable
 
     protected $casts = [
         "employment_form" => EmploymentForm::class,
-        "employment_date" => "datetime",
+        "employment_date" => "date",
     ];
 
     protected $hidden = [
@@ -68,5 +69,10 @@ class User extends Authenticatable
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
     }
 }
