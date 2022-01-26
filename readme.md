@@ -5,7 +5,7 @@
 > HR software you love to hate
 
 ## Architecture
-Directory structure little differs from a standard Laravel tree. We decided to refactor main `app` directory to better suite our needs. All classes are grouped in for major categories:
+Directory structure little differs from a standard Laravel tree. We decided to refactor main `app` directory to better suite our needs. All classes are grouped in four major categories:
 * `app/Architecture` for all framework-related stuff like service providers, exception handler and more;
 * `app/Domain` for all framework-agnostic services related to business logic of the application;
 * `app/Eloquent` for all database/ORM-related classes like models, observers and scopes;
