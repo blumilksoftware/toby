@@ -9,7 +9,7 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 * `app/Architecture` for all framework-related stuff like service providers, exception handler and more;
 * `app/Domain` for all framework-agnostic services related to business logic of the application;
 * `app/Eloquent` for all database/ORM-related classes like models, observers and scopes;
-* `app/Infrastructure` for entrypoints to the application: CLI, HTTP and async ones.
+* `app/Infrastructure` for entry points to the application: CLI, HTTP and async ones.
 
 ## Local setup
 - run `sh setup` or:
