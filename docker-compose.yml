@@ -43,7 +43,7 @@ services:
       - MYSQL_USER=${DOCKER_DEV_DB_USERNAME}
       - MYSQL_PASSWORD=${DOCKER_DEV_DB_PASSWORD}
     ports:
-      - ${DOCKER_DB_EXTERNAL_PORT:-3306}:3306
+      - ${DOCKER_DEV_DB_EXTERNAL_PORT:-3306}:3306
     volumes:
       - toby-mysql-data:/var/lib/mysql
     networks:

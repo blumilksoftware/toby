@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Enums\EmploymentForm;
-use Toby\Models\User;
+use Toby\Domain\EmploymentForm;
+use Toby\Eloquent\Models\User;
 
 class UserTest extends FeatureTestCase
 {
@@ -34,21 +34,21 @@ class UserTest extends FeatureTestCase
     public function testAdminCanSearchUsersList(): void
     {
         User::factory([
-            "first_name" => "Test",
-            "last_name" => "User1",
-        ])->create();
+                          "first_name" => "Test",
+                          "last_name" => "User1",
+                      ])->create();
         User::factory([
-            "first_name" => "Test",
-            "last_name" => "User2",
-        ])->create();
+                          "first_name" => "Test",
+                          "last_name" => "User2",
+                      ])->create();
         User::factory([
-            "first_name" => "Test",
-            "last_name" => "User3",
-        ])->create();
+                          "first_name" => "Test",
+                          "last_name" => "User3",
+                      ])->create();
         $admin = User::factory([
-            "first_name" => "John",
-            "last_name" => "Doe",
-        ])->create();
+                                   "first_name" => "John",
+                                   "last_name" => "Doe",
+                               ])->create();
 
         $this->assertDatabaseCount("users", 4);
 

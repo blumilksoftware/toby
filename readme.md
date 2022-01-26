@@ -5,6 +5,7 @@
 > HR software you love to hate
 
 ## Local setup
+- run `sh setup` or:
 
 > `dcr` is an alias to `docker-compose run --rm -u "$(id -u):$(id -g)"`
 
