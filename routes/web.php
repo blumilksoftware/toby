@@ -9,6 +9,7 @@ use Toby\Http\Controllers\LogoutController;
 use Toby\Http\Controllers\SelectYearPeriodController;
 use Toby\Http\Controllers\UserController;
 use Toby\Http\Controllers\VacationLimitController;
+use Toby\Http\Controllers\VacationRequestController;
 
 Route::middleware("auth")->group(function (): void {
     Route::get("/", fn() => inertia("Dashboard"))->name("dashboard");
@@ -21,6 +22,9 @@ Route::middleware("auth")->group(function (): void {
 
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
     Route::put("/vacation-limits", [VacationLimitController::class, "update"]);
+
+    Route::get("/vacation-requests", [VacationRequestController::class, "index"]);
+    Route::get("/vacation-requests/create", [VacationRequestController::class, "create"]);
 
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)->name("year-periods.select");
 });

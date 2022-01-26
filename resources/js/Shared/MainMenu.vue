@@ -323,6 +323,7 @@ export default {
             {name: 'Użytkownicy', href: '/users', current: false},
             {name: 'Dostępne urlopy', href: '/vacation-limits', current: false},
             {name: 'Dni wolne', href: '/holidays', current: false},
+            {name: 'Wnioski urlopowe', href: '/vacation-requests', current: false},
         ];
         const userNavigation = [
             {name: 'Your Profile', href: '#'},

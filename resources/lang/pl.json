@@ -3,5 +3,15 @@
   "employment_contract": "Umowa o pracę",
   "commission_contract": "Umowa zlecenie",
   "b2b_contract": "Kontrakt B2B",
-  "board_member_contract": "Członek zarządu"
+  "board_member_contract": "Członek zarządu",
+  "vacation": "Urlop wypoczynkowy",
+  "vacation_on_request": "Urlop na żądanie",
+  "special_vacation": "Urlop okolicznościowy",
+  "childcare_vacation": "Opieka nad dzieckiem art 188 kp",
+  "training_vacation": "Urlop szkoleniowy",
+  "unpaid_vacation": "Urlop bezpłatny",
+  "volunteering_vacation": "Wolontariat",
+  "look_for_work_vacation": "Urlop na poszukiwanie pracy",
+  "time_in_lieu": "Odbiór za święto",
+  "sick_vacation": "Zwolnienie lekarskie"
 }

@@ -23,6 +23,7 @@ use Toby\Enums\EmploymentForm;
  * @property EmploymentForm $employment_form
  * @property Carbon $employment_date
  * @property Collection $vacationLimits
+ * @property Collection $vacationRequests
  */
 class User extends Authenticatable
 {
@@ -44,6 +45,11 @@ class User extends Authenticatable
     public function vacationLimits(): HasMany
     {
         return $this->hasMany(VacationLimit::class);
+    }
+
+    public function vacationRequests(): HasMany
+    {
+        return $this->hasMany(VacationRequest::class);
     }
 
     public function scopeSearch(Builder $query, ?string $text): Builder

@@ -28,7 +28,9 @@ class DatabaseSeeder extends Seeder
         User::factory(9)->create();
         User::factory([
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
-        ])->create();
+        ])
+            ->hasVacationRequests(5)
+            ->create();
 
         $users = User::all();
 
