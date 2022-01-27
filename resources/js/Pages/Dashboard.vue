@@ -37,7 +37,7 @@
                             <div class="mt-5 flex justify-center sm:mt-0">
                                 <InertiaLink
                                     href="#"
-                                    class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                                    class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
                                 >
                                     View profile
                                 </InertiaLink>
@@ -371,3 +371,97 @@ export default {
     },
 };
 </script>
+
+
+<!--<script>-->
+<!--import { ref } from 'vue';-->
+<!--import {-->
+<!--    Dialog,-->
+<!--    DialogOverlay,-->
+<!--    Menu,-->
+<!--    MenuButton,-->
+<!--    MenuItem,-->
+<!--    MenuItems,-->
+<!--    TransitionChild,-->
+<!--    TransitionRoot,-->
+<!--} from '@headlessui/vue';-->
+<!--import {-->
+<!--    BellIcon,-->
+<!--    ClockIcon,-->
+<!--    CogIcon,-->
+<!--    CreditCardIcon,-->
+<!--    DocumentReportIcon,-->
+<!--    HomeIcon,-->
+<!--    MenuAlt1Icon,-->
+<!--    QuestionMarkCircleIcon,-->
+<!--    ScaleIcon,-->
+<!--    ShieldCheckIcon,-->
+<!--    UserGroupIcon,-->
+<!--    XIcon,-->
+<!--} from '@heroicons/vue/outline';-->
+<!--import {-->
+<!--    CalendarIcon,-->
+<!--    CashIcon,-->
+<!--    CheckCircleIcon,-->
+<!--    ChevronDownIcon,-->
+<!--    ChevronRightIcon,-->
+<!--    OfficeBuildingIcon,-->
+<!--    SearchIcon, SunIcon,-->
+<!--} from '@heroicons/vue/solid';-->
+
+<!--const cards = [-->
+<!--    { name: 'Account balance', href: '#', icon: ScaleIcon, amount: '$30,659.45' },-->
+<!--];-->
+<!--const transactions = [-->
+<!--    {-->
+<!--        id: 1,-->
+<!--        name: 'Payment to Molly Sanders',-->
+<!--        href: '#',-->
+<!--        amount: '$20,000',-->
+<!--        currency: 'USD',-->
+<!--        status: 'success',-->
+<!--        date: 'July 11, 2020',-->
+<!--        datetime: '2020-07-11',-->
+<!--    },-->
+<!--];-->
+<!--const statusStyles = {-->
+<!--    success: 'bg-green-100 text-green-800',-->
+<!--    processing: 'bg-yellow-100 text-yellow-800',-->
+<!--    failed: 'bg-gray-100 text-gray-800',-->
+<!--};-->
+
+<!--export default {-->
+<!--    components: {-->
+<!--        Dialog,-->
+<!--        DialogOverlay,-->
+<!--        Menu,-->
+<!--        MenuButton,-->
+<!--        MenuItem,-->
+<!--        MenuItems,-->
+<!--        TransitionChild,-->
+<!--        TransitionRoot,-->
+<!--        BellIcon,-->
+<!--        CashIcon,-->
+<!--        CheckCircleIcon,-->
+<!--        ChevronDownIcon,-->
+<!--        ChevronRightIcon,-->
+<!--        MenuAlt1Icon,-->
+<!--        OfficeBuildingIcon,-->
+<!--        SearchIcon,-->
+<!--        XIcon,-->
+<!--        HomeIcon,-->
+<!--        UserGroupIcon,-->
+<!--        SunIcon,-->
+<!--        CalendarIcon,-->
+<!--    },-->
+<!--    setup() {-->
+<!--        const sidebarOpen = ref(false);-->
+<!--        return {-->
+<!--            cards,-->
+<!--            transactions,-->
+<!--            statusStyles,-->
+<!--            sidebarOpen,-->
+<!--        };-->
+<!--    },-->
+<!--};-->
+<!--</script>-->

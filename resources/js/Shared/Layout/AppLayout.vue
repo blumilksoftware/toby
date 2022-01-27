@@ -1,9 +1,11 @@
 <template>
     <div class="min-h-full">
         <MainMenu />
-        <main class="-mt-24 pb-8">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <slot />
+        <main class="lg:ml-64 flex flex-col flex-1 py-8">
+            <div>
+                <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
+                    <slot />
+                </div>
             </div>
         </main>
     </div>
