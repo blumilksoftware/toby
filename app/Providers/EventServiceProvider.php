@@ -18,15 +18,6 @@ use Toby\Listeners\HandleCreatedVacationRequest;
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * TODO: docelowo może osobne klasy + cast z eloquenta, ale to jak zadziała opcja z enumami
-     * TODO: dopisać brakujące walidatory
-     * TODO: przyciski pokolorować
-     * TODO: warunkowo wyświetlać opcje (policy?)
-     * TODO: tworzenie wniosku po walidacji
-     * TODO: obliczanie dni urlopu
-     */
-
     protected $listen = [
         VacationRequestStateChanged::class => [CreateVacationRequestActivity::class],
         VacationRequestCreated::class => [HandleCreatedVacationRequest::class],

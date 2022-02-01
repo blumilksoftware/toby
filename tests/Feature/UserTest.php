@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Enums\EmploymentForm;
+use Toby\Enums\Role;
 use Toby\Models\User;
 
 class UserTest extends FeatureTestCase
@@ -87,6 +88,7 @@ class UserTest extends FeatureTestCase
             ->post("/users", [
                 "firstName" => "John",
                 "lastName" => "Doe",
+                "role" => Role::EMPLOYEE->value,
                 "email" => "john.doe@example.com",
                 "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
                 "employmentDate" => Carbon::now()->toDateString(),
@@ -122,6 +124,7 @@ class UserTest extends FeatureTestCase
                 "firstName" => "John",
                 "lastName" => "Doe",
                 "email" => "john.doe@example.com",
+                "role" => Role::EMPLOYEE->value,
                 "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
                 "employmentDate" => Carbon::now()->toDateString(),
             ])
