@@ -311,6 +311,7 @@ import {
     UserGroupIcon,
     XIcon,
     SunIcon,
+    StarIcon,
     CalendarIcon,
 } from '@heroicons/vue/outline';
 import {
@@ -349,6 +350,7 @@ export default {
         OfficeBuildingIcon,
         SearchIcon,
         XIcon,
+        StarIcon,
         HomeIcon,
         UserGroupIcon,
         SunIcon,
@@ -362,7 +364,8 @@ export default {
             {name: 'Strona główna', href: '/', icon: HomeIcon, current: true},
             {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, current: false},
             {name: 'Dostępne urlopy', href: '/vacation-limits', icon: SunIcon, current: false},
-            {name: 'Dni wolne', href: '/holidays', icon: CalendarIcon, current: false},
+            {name: 'Dni wolne', href: '/holidays', icon: StarIcon, current: false},
+            {name: 'Kalendarz', href: '/calendar', icon: CalendarIcon, current: false},
         ];
         const userNavigation = [
             {name: 'Your Profile', href: '#'},

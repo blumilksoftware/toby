@@ -23,6 +23,9 @@ module.exports = {
                     '800': '#1C2D47',
                     '900': '#0C141F'
                 },
+            },
+            gridTemplateColumns: {
+                '38': 'repeat(38, minmax(0, 1fr))',
             }
         },
     },

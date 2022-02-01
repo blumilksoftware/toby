@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
@@ -18,6 +19,8 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/users/{user}/restore", [UserController::class, "restore"])->withTrashed();
 
     Route::resource("holidays", HolidayController::class);
+
+    Route::get("/calendar", [HolidayController::class,"showCalendar"]);
 
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
     Route::put("/vacation-limits", [VacationLimitController::class, "update"]);
