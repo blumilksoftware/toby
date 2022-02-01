@@ -8,9 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Models\Holiday;
-use Toby\Models\User;
-use Toby\Models\YearPeriod;
+use Toby\Eloquent\Models\Holiday;
+use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\YearPeriod;
 
 class HolidayTest extends FeatureTestCase
 {

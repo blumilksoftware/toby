@@ -7,11 +7,14 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Toby\Enums\EmploymentForm;
-use Toby\Enums\Role;
+use Toby\Domain\Enums\EmploymentForm;
+use Toby\Domain\Enums\Role;
+use Toby\Eloquent\Models\User;
 
 class UserFactory extends Factory
 {
+    protected $model = User::class;
+
     public function definition(): array
     {
         return [

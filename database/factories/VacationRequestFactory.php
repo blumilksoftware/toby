@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Enums\VacationRequestState;
-use Toby\Enums\VacationType;
-use Toby\Models\User;
+use Toby\Domain\Enums\VacationRequestState;
+use Toby\Domain\Enums\VacationType;
+use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\VacationRequest;
 
 class VacationRequestFactory extends Factory
 {
+    protected $model = VacationRequest::class;
+
     public function definition(): array
     {
         $number = $this->faker->numberBetween(1, 20);

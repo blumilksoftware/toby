@@ -7,12 +7,12 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Helpers\PolishHolidaysRetriever;
-use Toby\Helpers\UserAvatarGenerator;
-use Toby\Models\User;
-use Toby\Models\VacationLimit;
-use Toby\Models\VacationRequest;
-use Toby\Models\YearPeriod;
+use Toby\Domain\PolishHolidaysRetriever;
+use Toby\Eloquent\Helpers\UserAvatarGenerator;
+use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\VacationLimit;
+use Toby\Eloquent\Models\VacationRequest;
+use Toby\Eloquent\Models\YearPeriod;
 
 class DatabaseSeeder extends Seeder
 {

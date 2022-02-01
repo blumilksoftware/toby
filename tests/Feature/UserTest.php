@@ -8,9 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Enums\EmploymentForm;
-use Toby\Enums\Role;
-use Toby\Models\User;
+use Toby\Domain\Enums\EmploymentForm;
+use Toby\Domain\Enums\Role;
+use Toby\Eloquent\Models\User;
 
 class UserTest extends FeatureTestCase
 {

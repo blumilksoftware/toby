@@ -7,8 +7,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Models\User;
-use Toby\Models\VacationLimit;
+use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\VacationLimit;
 
 class VacationLimitTest extends FeatureTestCase
 {

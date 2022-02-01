@@ -7,8 +7,8 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Models\User;
-use Toby\Models\YearPeriod;
+use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\YearPeriod;
 
 class VacationLimitTest extends TestCase
 {

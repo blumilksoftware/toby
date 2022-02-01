@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Toby\Enums\VacationType;
-use Toby\Helpers\VacationTypeConfigRetriever;
+use Toby\Domain\Enums\VacationType;
+use Toby\Domain\VacationTypeConfigRetriever;
 
 return [
     VacationType::VACATION->value => [

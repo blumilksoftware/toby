@@ -7,8 +7,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Tests\FeatureTestCase;
-use Toby\Helpers\YearPeriodRetriever;
-use Toby\Models\User;
+use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\User;
 
 class SelectYearPeriodTest extends FeatureTestCase
 {
