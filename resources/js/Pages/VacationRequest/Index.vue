@@ -17,6 +17,17 @@
       </div>
     </div>
     <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
+      <nav class="relative shadow flex divide-x divide-gray-200 border-t border-gray-200">
+        <InertiaLink
+          v-for="(status, index) in statuses"
+          :key="index"
+          :data="{ status: status.value }"
+          :class="[status.value === filters.status ? 'text-gray-900' : '', 'text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10']"
+        >
+          <span>{{ status.name }}</span>
+          <span :class="[status.value === filters.status ? 'bg-blumilk-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']" />
+        </InertiaLink>
+      </nav>
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
@@ -56,6 +67,7 @@
             >
               Dni urlopu
             </th>
+            <th scope="col" />
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-100">
@@ -65,12 +77,12 @@
             class="hover:bg-blumilk-25"
           >
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-              <a
+              <InertiaLink
                 :href="`/vacation-requests/${request.id}`"
                 class="font-semibold text-blumilk-600 hover:text-blumilk-500 hover:underline"
               >
                 {{ request.name }}
-              </a>
+              </InertiaLink>
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.type }}
@@ -86,6 +98,11 @@
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               X
+            </td>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+              <InertiaLink :href="`/vacation-requests/${request.id}`">
+                <ChevronRightIcon class="block w-6 h-6 fill-gray-400" />
+              </InertiaLink>
             </td>
           </tr>
           <tr
@@ -152,7 +169,7 @@
 </template>
 
 <script>
-import {DotsVerticalIcon, PencilIcon, TrashIcon} from '@heroicons/vue/solid'
+import {ChevronRightIcon, DotsVerticalIcon, PencilIcon, TrashIcon} from '@heroicons/vue/solid'
 
 export default {
   name: 'VacationRequestIndex',
@@ -160,12 +177,41 @@ export default {
     DotsVerticalIcon,
     PencilIcon,
     TrashIcon,
+    ChevronRightIcon,
   },
   props: {
     requests: {
       type: Object,
       default: () => null,
     },
+    filters: {
+      type: Object,
+      default: () => null,
+    },
+  },
+  setup() {
+    const statuses = [
+      {
+        name: 'Wszystkie',
+        value: 'all',
+      },
+      {
+        name: 'W trakcie',
+        value: 'pending',
+      },
+      {
+        name: 'Zatwierdzone',
+        value: 'success',
+      },
+      {
+        name: 'Odrzucone/anulowane',
+        value: 'failed',
+      },
+    ]
+
+    return {
+      statuses,
+    }
   },
 }
 </script>

@@ -284,6 +284,7 @@ export default {
         .transform(data => ({
           ...data,
           employmentForm: data.employmentForm.value,
+          role: data.role.value,
         }))
         .put(`/users/${this.user.id}`)
     },

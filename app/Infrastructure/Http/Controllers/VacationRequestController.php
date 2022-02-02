@@ -7,6 +7,7 @@ namespace Toby\Infrastructure\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\Validation\VacationRequestValidator;
@@ -19,16 +20,19 @@ class VacationRequestController extends Controller
 {
     public function index(Request $request): Response
     {
-        $requests = $request->user()
+        $vacationRequests = $request->user()
             ->vacationRequests()
+            ->latest()
+            ->states(VacationRequestState::filterByStatus($request->query("status", "all")))
             ->paginate();
 
         return inertia("VacationRequest/Index", [
-            "requests" => VacationRequestResource::collection($requests),
+            "requests" => VacationRequestResource::collection($vacationRequests),
+            "filters" => $request->only("status"),
         ]);
     }
 
-    public function show(Request $request, VacationRequest $vacationRequest): Response
+    public function show(VacationRequest $vacationRequest): Response
     {
         return inertia("VacationRequest/Show", [
             "request" => new VacationRequestResource($vacationRequest),

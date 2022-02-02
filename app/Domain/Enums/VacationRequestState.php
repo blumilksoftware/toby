@@ -19,4 +19,38 @@ enum VacationRequestState: string
     {
         return __($this->value);
     }
+
+    public static function pendingStates(): array
+    {
+        return [
+            self::CREATED,
+            self::WAITING_FOR_TECHNICAL,
+            self::WAITING_FOR_ADMINISTRATIVE,
+            self::ACCEPTED_BY_TECHNICAL,
+            self::ACCEPTED_BY_ADMINSTRATIVE,
+        ];
+    }
+
+    public static function successStates(): array
+    {
+        return [self::APPROVED];
+    }
+
+    public static function failedStates(): array
+    {
+        return [
+            self::REJECTED,
+            self::CANCELED,
+        ];
+    }
+
+    public static function filterByStatus(string $filter): array
+    {
+        return match ($filter) {
+            "pending" => VacationRequestState::pendingStates(),
+            "success" => VacationRequestState::successStates(),
+            "failed" => VacationRequestState::failedStates(),
+            default => VacationRequestState::cases(),
+        };
+    }
 }
