@@ -22,8 +22,8 @@
   "canceled": "Anulowany",
   "rejected": "Odrzucony",
   "approved": "Zatwierdzony",
-  "waiting_for_technical": "Czeka na akceptacje od technicznego",
-  "waiting_for_administrative": "Czeka na akceptacje od administracyjnego",
+  "waiting_for_technical": "Czeka na akceptację od technicznego",
+  "waiting_for_administrative": "Czeka na akceptację od administracyjnego",
   "accepted_by_technical": "Zaakceptowany przez technicznego",
   "accepted_by_administrative": "Zaakceptowany przez administracyjnego"
 }
