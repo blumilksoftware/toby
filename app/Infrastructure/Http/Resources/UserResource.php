@@ -16,7 +16,7 @@ class UserResource extends JsonResource
             "id" => $this->id,
             "name" => $this->fullName,
             "email" => $this->email,
-            "role" => "Human Resources Manager",
+            "role" => $this->role->label(),
             "avatar" => asset($this->avatar),
             "deleted" => $this->trashed(),
             "employmentForm" => $this->employment_form->label(),

@@ -13,7 +13,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Domain\EmploymentForm;
+use Toby\Domain\Enums\EmploymentForm;
+use Toby\Domain\Enums\Role;
 
 /**
  * @property int $id
@@ -21,9 +22,11 @@ use Toby\Domain\EmploymentForm;
  * @property string $last_name
  * @property string $email
  * @property string $avatar
+ * @property Role $role
  * @property EmploymentForm $employment_form
  * @property Carbon $employment_date
  * @property Collection $vacationLimits
+ * @property Collection $vacationRequests
  */
 class User extends Authenticatable
 {
@@ -34,6 +37,7 @@ class User extends Authenticatable
     protected $guarded = [];
 
     protected $casts = [
+        "role" => Role::class,
         "employment_form" => EmploymentForm::class,
         "employment_date" => "date",
     ];
@@ -45,6 +49,11 @@ class User extends Authenticatable
     public function vacationLimits(): HasMany
     {
         return $this->hasMany(VacationLimit::class);
+    }
+
+    public function vacationRequests(): HasMany
+    {
+        return $this->hasMany(VacationRequest::class);
     }
 
     public function scopeSearch(Builder $query, ?string $text): Builder
@@ -69,6 +78,11 @@ class User extends Authenticatable
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function hasRole(Role $role): bool
+    {
+        return $this->role === $role;
     }
 
     protected static function newFactory(): UserFactory

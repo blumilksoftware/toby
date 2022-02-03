@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain;
+namespace Toby\Domain\Enums;
 
 enum EmploymentForm: string
 {
