@@ -1,4 +1,5 @@
 <template>
+  <InertiaHead :title="`Wniosek ${request.name}`" />
   <div class="grid grid-cols-1 gap-6 xl:grid-flow-col-dense xl:grid-cols-3">
     <div class="space-y-6 xl:col-start-1 xl:col-span-2">
       <div class="bg-white sm:rounded-lg shadow-md">
