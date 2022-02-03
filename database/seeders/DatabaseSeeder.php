@@ -11,6 +11,7 @@ use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Eloquent\Helpers\UserAvatarGenerator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
+use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
 
 class DatabaseSeeder extends Seeder
@@ -24,11 +25,14 @@ class DatabaseSeeder extends Seeder
     {
         User::unsetEventDispatcher();
         YearPeriod::unsetEventDispatcher();
+        VacationRequest::unsetEventDispatcher();
 
         User::factory(9)->create();
         User::factory([
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
-        ])->create();
+        ])
+            ->hasVacationRequests(5)
+            ->create();
 
         $users = User::all();
 

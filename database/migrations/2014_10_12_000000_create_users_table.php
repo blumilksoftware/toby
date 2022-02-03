@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Toby\Domain\Enums\Role;
 
 return new class() extends Migration {
     public function up(): void
@@ -15,6 +16,7 @@ return new class() extends Migration {
             $table->string("last_name");
             $table->string("email")->unique();
             $table->string("avatar")->nullable();
+            $table->string("role")->default(Role::EMPLOYEE->value);
             $table->string("employment_form");
             $table->date("employment_date");
             $table->rememberToken();
