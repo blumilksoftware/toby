@@ -33,6 +33,8 @@ Route::middleware("auth")->group(function (): void {
         ->name("vacation.requests.store");
     Route::get("/vacation-requests/{vacationRequest}", [VacationRequestController::class, "show"])
         ->name("vacation.requests.show");
+    Route::get("/vacation-requests/{vacationRequest}/download", [VacationRequestController::class, "download"])
+        ->name("vacation.requests.download");
     Route::post("/vacation-requests/{vacationRequest}/reject", [VacationRequestController::class, "reject"])
         ->name("vacation.requests.reject");
     Route::post("/vacation-requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])

@@ -23,7 +23,10 @@ use Toby\Domain\Enums\VacationType;
  * @property Carbon $to
  * @property string $comment
  * @property User $user
+ * @property YearPeriod $yearPeriod
  * @property Collection $activities
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class VacationRequest extends Model
 {
@@ -41,6 +44,11 @@ class VacationRequest extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function yearPeriod(): BelongsTo
+    {
+        return $this->belongsTo(YearPeriod::class);
     }
 
     public function activities(): HasMany

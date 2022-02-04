@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules\Enum;
 use Toby\Domain\Enums\VacationType;
+use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Http\Rules\YearPeriodExists;
 
 class VacationRequestRequest extends FormRequest
@@ -23,10 +25,13 @@ class VacationRequestRequest extends FormRequest
 
     public function data(): array
     {
+        $from = $this->get("from");
+
         return [
             "type" => $this->get("type"),
-            "from" => $this->get("from"),
+            "from" => $from,
             "to" => $this->get("to"),
+            "year_period_id" => YearPeriod::findByYear(Carbon::create($from)->year)->id,
             "comment" => $this->get("comment"),
         ];
     }
