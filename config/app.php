@@ -43,5 +43,6 @@ return [
         Toby\Architecture\Providers\RouteServiceProvider::class,
         Toby\Architecture\Providers\TelescopeServiceProvider::class,
         Toby\Architecture\Providers\ObserverServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 ];

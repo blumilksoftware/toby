@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Toby\Infrastructure\Http\Controllers\GeneratePdfController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
@@ -44,6 +45,8 @@ Route::middleware("auth")->group(function (): void {
 
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->name("year-periods.select");
+
+    Route::get("/generate-pdf", [GeneratePdfController::class, "generatePDF"]);
 });
 
 Route::middleware("guest")->group(function (): void {
