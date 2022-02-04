@@ -64,19 +64,4 @@ class HolidayController extends Controller
             ->route("holidays.index")
             ->with("success", __("Holiday has been deleted"));
     }
-
-    public function showCalendar(): Response
-    {
-            $users = User::query()
-                ->withTrashed()
-                ->orderBy("last_name")
-                ->orderBy("first_name")
-                ->paginate()
-                ->withQueryString();
-
-            return inertia("Holidays/Calendar", [
-                "users" => UserResource::collection($users),
-            ]);
-    }
-
 }

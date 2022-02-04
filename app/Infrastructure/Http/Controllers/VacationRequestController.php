@@ -20,15 +20,19 @@ class VacationRequestController extends Controller
 {
     public function index(Request $request): Response
     {
+        $status = $request->get("status", "all");
+
         $vacationRequests = $request->user()
             ->vacationRequests()
             ->latest()
-            ->states(VacationRequestState::filterByStatus($request->query("status", "all")))
+            ->states(VacationRequestState::filterByStatus($status))
             ->paginate();
 
         return inertia("VacationRequest/Index", [
             "requests" => VacationRequestResource::collection($vacationRequests),
-            "filters" => $request->only("status"),
+            "filters" => [
+                "status" => $status,
+            ],
         ]);
     }
 
