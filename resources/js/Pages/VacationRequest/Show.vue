@@ -73,7 +73,7 @@
                       <a
                         :href="`/vacation-requests/${request.id}/download`"
                         target="_blank"
-                        class="font-medium text-indigo-600 hover:text-indigo-500"
+                        class="font-medium text-blumilk-600 hover:text-blumilk-500"
                       >
                         Pobierz
                       </a>
