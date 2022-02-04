@@ -54,7 +54,7 @@ class VacationRequestStateManager
 
     public function acceptAsAdministrative(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::ACCEPTED_BY_ADMINSTRATIVE);
+        $this->changeState($vacationRequest, VacationRequestState::ACCEPTED_BY_ADMINISTRATIVE);
 
         $this->dispatcher->dispatch(new VacationRequestAcceptedByAdministrative($vacationRequest));
     }
