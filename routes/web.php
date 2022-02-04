@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Toby\Infrastructure\Http\Controllers\GeneratePdfController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
@@ -34,6 +33,8 @@ Route::middleware("auth")->group(function (): void {
         ->name("vacation.requests.store");
     Route::get("/vacation-requests/{vacationRequest}", [VacationRequestController::class, "show"])
         ->name("vacation.requests.show");
+    Route::get("/vacation-requests/{vacationRequest}/download", [VacationRequestController::class, "download"])
+        ->name("vacation.requests.download");
     Route::post("/vacation-requests/{vacationRequest}/reject", [VacationRequestController::class, "reject"])
         ->name("vacation.requests.reject");
     Route::post("/vacation-requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
@@ -45,8 +46,6 @@ Route::middleware("auth")->group(function (): void {
 
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->name("year-periods.select");
-
-    Route::get("/generate-pdf", [GeneratePdfController::class, "generatePDF"]);
 });
 
 Route::middleware("guest")->group(function (): void {

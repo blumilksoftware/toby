@@ -18,6 +18,7 @@ class UserFormDataResource extends JsonResource
             "lastName" => $this->last_name,
             "email" => $this->email,
             "role" => $this->role,
+            "position" => $this->position,
             "employmentForm" => $this->employment_form,
             "employmentDate" => $this->employment_date->toDateString(),
         ];

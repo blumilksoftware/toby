@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as LaravelResponse;
 use Inertia\Response;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\Validation\VacationRequestValidator;
+use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
 use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
@@ -18,10 +21,11 @@ use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class VacationRequestController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
     {
         $vacationRequests = $request->user()
             ->vacationRequests()
+            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
             ->states(VacationRequestState::filterByStatus($request->query("status", "all")))
             ->paginate();
@@ -38,6 +42,15 @@ class VacationRequestController extends Controller
             "request" => new VacationRequestResource($vacationRequest),
             "activities" => VacationRequestActivityResource::collection($vacationRequest->activities),
         ]);
+    }
+
+    public function download(VacationRequest $vacationRequest): LaravelResponse
+    {
+        $pdf = PDF::loadView("pdf.vacation-request", [
+            "vacationRequest" => $vacationRequest,
+        ]);
+
+        return $pdf->stream();
     }
 
     public function create(): Response

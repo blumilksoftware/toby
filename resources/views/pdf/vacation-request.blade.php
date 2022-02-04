@@ -54,14 +54,14 @@
         <table>
             <tbody>
             <tr>
-                <td>Jan Kowalski</td>
-                <td>Legnica, 02.02.2022</td>
+                <td>{{ $vacationRequest->user->fullName }}</td>
+                <td>Legnica, {{ $vacationRequest->created_at->format("d.m.Y") }}</td>
             </tr>
             <tr>
                 <td class="helper-text">imię i nazwisko</td>
             </tr>
             <tr>
-                <td>tester oprogramowania</td>
+                <td>{{ $vacationRequest->user->position }}</td>
             </tr>
             <tr>
                 <td class="helper-text">stanowisko</td>
@@ -72,15 +72,17 @@
 
     <div class="main">
         <h2>Wniosek o urlop</h2>
-        <p class="content">Proszę o udzielenie urlopu wypoczynkowego w okresie od dnia 03.02.2022 do dnia 10.02.2022
-            włącznie tj. 5 dni roboczych za rok 2022. </p>
+        <p class="content">
+            Proszę o {{ mb_strtolower($vacationRequest->type->label()) }} w okresie od dnia {{ $vacationRequest->from->format("d.m.Y") }}
+            do dnia {{ $vacationRequest->to->format("d.m.Y") }} włącznie tj. x dni roboczych za rok {{ $vacationRequest->yearPeriod->year }}.
+        </p>
     </div>
 
     <table class="signatureTable">
         <tbody>
         <tr>
-            <td>Super Przełożony</td>
-            <td>Jan Kowalski</td>
+            <td>........................</td>
+            <td>........................</td>
         </tr>
         <tr>
             <td class="helper-text">podpis przełożonego</td>

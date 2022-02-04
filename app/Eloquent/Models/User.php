@@ -22,6 +22,7 @@ use Toby\Domain\Enums\Role;
  * @property string $last_name
  * @property string $email
  * @property string $avatar
+ * @property string $position
  * @property Role $role
  * @property EmploymentForm $employment_form
  * @property Carbon $employment_date

@@ -89,6 +89,7 @@ class UserTest extends FeatureTestCase
                 "firstName" => "John",
                 "lastName" => "Doe",
                 "role" => Role::EMPLOYEE->value,
+                "position" => "Test position",
                 "email" => "john.doe@example.com",
                 "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
                 "employmentDate" => Carbon::now()->toDateString(),
@@ -99,6 +100,8 @@ class UserTest extends FeatureTestCase
             "first_name" => "John",
             "last_name" => "Doe",
             "email" => "john.doe@example.com",
+            "role" => Role::EMPLOYEE->value,
+            "position" => "Test position",
             "employment_form" => EmploymentForm::B2B_CONTRACT->value,
             "employment_date" => Carbon::now()->toDateString(),
         ]);
@@ -125,6 +128,7 @@ class UserTest extends FeatureTestCase
                 "lastName" => "Doe",
                 "email" => "john.doe@example.com",
                 "role" => Role::EMPLOYEE->value,
+                "position" => "Test position",
                 "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
                 "employmentDate" => Carbon::now()->toDateString(),
             ])
@@ -134,6 +138,8 @@ class UserTest extends FeatureTestCase
             "first_name" => "John",
             "last_name" => "Doe",
             "email" => "john.doe@example.com",
+            "role" => Role::EMPLOYEE->value,
+            "position" => "Test position",
             "employment_form" => EmploymentForm::B2B_CONTRACT->value,
             "employment_date" => Carbon::now()->toDateString(),
         ]);
