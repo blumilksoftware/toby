@@ -93,6 +93,7 @@
           <input
             id="position"
             v-model="form.position"
+            type="text"
             class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.position, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.position }"
           >
