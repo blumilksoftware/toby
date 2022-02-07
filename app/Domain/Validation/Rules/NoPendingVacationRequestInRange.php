@@ -7,11 +7,11 @@ namespace Toby\Domain\Validation\Rules;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Eloquent\Models\VacationRequest;
 
-class NoPendingVacationRequestInRange extends VacationRequestRule
+class NoPendingVacationRequestInRange implements VacationRequestRule
 {
-    public function passes(VacationRequest $vacationRequest): bool
+    public function check(VacationRequest $vacationRequest): bool
     {
-        return $vacationRequest
+        return !$vacationRequest
             ->user
             ->vacationRequests()
             ->overlapsWith($vacationRequest)

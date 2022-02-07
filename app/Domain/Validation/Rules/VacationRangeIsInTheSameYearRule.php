@@ -6,9 +6,9 @@ namespace Toby\Domain\Validation\Rules;
 
 use Toby\Eloquent\Models\VacationRequest;
 
-class VacationRangeIsInTheSameYearRule extends VacationRequestRule
+class VacationRangeIsInTheSameYearRule implements VacationRequestRule
 {
-    public function passes(VacationRequest $vacationRequest): bool
+    public function check(VacationRequest $vacationRequest): bool
     {
         return $vacationRequest->from->isSameYear($vacationRequest->to);
     }

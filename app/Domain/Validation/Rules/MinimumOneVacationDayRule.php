@@ -7,13 +7,14 @@ namespace Toby\Domain\Validation\Rules;
 use Toby\Domain\VacationDaysCalculator;
 use Toby\Eloquent\Models\VacationRequest;
 
-class MinimumOneVacationDayRule extends VacationRequestRule
+class MinimumOneVacationDayRule implements VacationRequestRule
 {
-    public function __construct(protected VacationDaysCalculator $vacationDaysCalculator)
-    {
+    public function __construct(
+        protected VacationDaysCalculator $vacationDaysCalculator,
+    ) {
     }
 
-    public function passes(VacationRequest $vacationRequest): bool
+    public function check(VacationRequest $vacationRequest): bool
     {
         return $this->vacationDaysCalculator
             ->calculateDays($vacationRequest->yearPeriod, $vacationRequest->from, $vacationRequest->to)

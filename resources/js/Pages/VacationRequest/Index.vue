@@ -61,12 +61,6 @@
             >
               Do
             </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
-            >
-              Dni urlopu
-            </th>
             <th scope="col" />
           </tr>
         </thead>
@@ -95,9 +89,6 @@
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.to }}
-            </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-              X
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink :href="`/vacation-requests/${request.id}`">

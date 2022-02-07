@@ -7,13 +7,14 @@ namespace Toby\Domain\Validation\Rules;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Models\VacationRequest;
 
-class DoesNotExceedLimitRule extends VacationRequestRule
+class DoesNotExceedLimitRule implements VacationRequestRule
 {
-    public function __construct(protected VacationTypeConfigRetriever $configRetriever)
-    {
+    public function __construct(
+        protected VacationTypeConfigRetriever $configRetriever,
+    ) {
     }
 
-    public function passes(VacationRequest $vacationRequest): bool
+    public function check(VacationRequest $vacationRequest): bool
     {
         return true;
     }

@@ -15,6 +15,7 @@ use Toby\Eloquent\Models\YearPeriod;
 class VacationRequestFactory extends Factory
 {
     protected $model = VacationRequest::class;
+    private static int $number = 1;
 
     public function definition(): array
     {
@@ -36,13 +37,7 @@ class VacationRequestFactory extends Factory
     protected function generateName(array $attributes): string
     {
         $year = YearPeriod::find($attributes["year_period_id"])->year;
-        $user = User::find($attributes["user_id"]);
-
-        $number = $user->vacationRequests()
-            ->whereYear("from", $year)
-            ->count() + 1;
-
-        dump($user->vacationRequests()->count());
+        $number = static::$number++;
 
         return "{$number}/{$year}";
     }
