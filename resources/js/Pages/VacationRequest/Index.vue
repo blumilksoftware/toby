@@ -97,7 +97,7 @@
               X
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
-                <ThumbDownIcon class="w-4 h-4 text-rose-600 mr-1"/> <span>{{ request.state }}</span>
+              <ThumbDownIcon class="w-4 h-4 text-rose-600 mr-1" /> <span>{{ request.state }}</span>
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink :href="`/vacation-requests/${request.id}`">
@@ -179,7 +179,7 @@ import {
   TrashIcon,
   XIcon,
   CheckIcon,
-    DocumentTextIcon,
+  DocumentTextIcon,
 } from '@heroicons/vue/solid'
 
 export default {
@@ -193,8 +193,8 @@ export default {
     ClockIcon,
     XIcon,
     CheckIcon,
-      DocumentTextIcon,
-      ThumbDownIcon,
+    DocumentTextIcon,
+    ThumbDownIcon,
   },
   props: {
     requests: {
