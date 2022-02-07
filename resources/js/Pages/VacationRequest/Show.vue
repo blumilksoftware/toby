@@ -2,7 +2,7 @@
   <InertiaHead :title="`Wniosek ${request.name}`" />
   <div class="grid grid-cols-1 gap-6 xl:grid-flow-col-dense xl:grid-cols-3">
     <div class="space-y-6 xl:col-start-1 xl:col-span-2">
-      <div class="bg-white sm:rounded-lg shadow-md">
+      <div class="bg-white shadow-md">
         <div class="px-4 py-5 sm:px-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Informacje na temat wniosku
@@ -47,7 +47,7 @@
                 Dni urlopu
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ request.estimatedDays }}
+                {{ request.days.length }}
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -85,7 +85,7 @@
           </dl>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg">
+      <div class="bg-white shadow">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Zaakceptuj wniosek jako osoba techniczna
@@ -108,7 +108,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg">
+      <div class="bg-white shadow">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Zaakceptuj wniosek jako osoba administracyjna
@@ -130,7 +130,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg">
+      <div class="bg-white shadow">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Odrzuć wniosek
@@ -152,7 +152,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg border border-red-500">
+      <div class="bg-white shadow border border-red-500">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Anuluj wniosek
@@ -176,7 +176,7 @@
       </div>
     </div>
     <div class="xl:col-start-3 xl:col-span-1 space-y-6">
-      <div class="bg-white sm:rounded-lg shadow-md">
+      <div class="bg-white shadow-md">
         <div class="px-4 py-5 sm:px-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Historia wniosku

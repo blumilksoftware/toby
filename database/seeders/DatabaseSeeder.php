@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Domain\PolishHolidaysRetriever;
+use Toby\Domain\VacationDaysCalculator;
 use Toby\Eloquent\Helpers\UserAvatarGenerator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
@@ -79,6 +80,20 @@ class DatabaseSeeder extends Seeder
                 ->sequence(fn() => [
                     "year_period_id" => $yearPeriods->random()->id,
                 ])
+                ->afterCreating(function (VacationRequest $vacationRequest) {
+                    $days = app(VacationDaysCalculator::class)->calculateDays(
+                        $vacationRequest->yearPeriod,
+                        $vacationRequest->from,
+                        $vacationRequest->to
+                    );
+
+                    foreach ($days as $day) {
+                        $vacationRequest->vacations()->create([
+                            "date" => $day,
+                            "user_id" => $vacationRequest->user->id
+                        ]);
+                    }
+                })
                 ->create();
         }
     }

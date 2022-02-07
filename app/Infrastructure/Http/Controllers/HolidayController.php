@@ -7,11 +7,9 @@ namespace Toby\Infrastructure\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Toby\Eloquent\Models\Holiday;
-use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Http\Requests\HolidayRequest;
 use Toby\Infrastructure\Http\Resources\HolidayFormDataResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
-use Toby\Infrastructure\Http\Resources\UserResource;
 
 class HolidayController extends Controller
 {

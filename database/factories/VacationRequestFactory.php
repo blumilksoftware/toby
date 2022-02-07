@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Carbon\CarbonImmutable;
-use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
@@ -31,7 +30,6 @@ class VacationRequestFactory extends Factory
             "state" => $this->faker->randomElement(VacationRequestState::cases()),
             "from" => $from,
             "to" => $from->addDays($days),
-            "estimated_days" => fn(array $attributes) => $this->estimateDays($attributes),
             "comment" => $this->faker->boolean ? $this->faker->paragraph() : null,
         ];
     }
@@ -42,12 +40,5 @@ class VacationRequestFactory extends Factory
         $number = static::$number++;
 
         return "{$number}/{$year}";
-    }
-
-    protected function estimateDays(array $attributes): int
-    {
-        $period = CarbonPeriod::create($attributes["from"], $attributes["to"]);
-
-        return $period->count();
     }
 }

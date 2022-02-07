@@ -1,6 +1,6 @@
 <template>
   <InertiaHead title="Dni wolne od pracy" />
-  <div class="bg-white sm:rounded-lg shadow-md">
+  <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg leading-6 font-medium text-gray-900">

@@ -28,6 +28,7 @@ class VacationRequestController extends Controller
 
         $vacationRequests = $request->user()
             ->vacationRequests()
+            ->with("vacations")
             ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
             ->states(VacationRequestState::filterByStatus($status))
@@ -73,15 +74,11 @@ class VacationRequestController extends Controller
     ): RedirectResponse {
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->vacationRequests()->make($request->data());
-        $vacationRequest->estimated_days = $vacationDaysCalculator->calculateDays(
-            $vacationRequest->yearPeriod,
-            $vacationRequest->from,
-            $vacationRequest->to,
-        )->count();
 
         $vacationRequestValidator->validate($vacationRequest);
 
         $vacationRequest->save();
+
         $stateManager->markAsCreated($vacationRequest);
 
         return redirect()

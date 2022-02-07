@@ -20,8 +20,8 @@ class VacationRequestResource extends JsonResource
             "state" => $this->state->label(),
             "from" => $this->from->toDisplayString(),
             "to" => $this->to->toDisplayString(),
-            "estimatedDays" => $this->estimated_days,
             "comment" => $this->comment,
+            "days" => VacationResource::collection($this->vacations),
         ];
     }
 }

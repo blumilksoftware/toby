@@ -26,6 +26,7 @@ use Toby\Domain\Enums\VacationType;
  * @property User $user
  * @property YearPeriod $yearPeriod
  * @property Collection $activities
+ * @property Collection $vacations
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -55,6 +56,11 @@ class VacationRequest extends Model
     public function activities(): HasMany
     {
         return $this->hasMany(VacationRequestActivity::class);
+    }
+
+    public function vacations(): HasMany
+    {
+        return $this->hasMany(Vacation::class);
     }
 
     public function changeStateTo(VacationRequestState $state): void

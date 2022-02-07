@@ -1,6 +1,6 @@
 <template>
   <InertiaHead title="Kalendarz urlopów" />
-  <div class="bg-white sm:rounded-lg shadow-md">
+  <div class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg leading-6 font-medium text-gray-900">
         Kalendarz urlopów
