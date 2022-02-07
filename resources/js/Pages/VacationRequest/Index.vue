@@ -33,40 +33,40 @@
           <tr>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
             >
               Numer
             </th>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
             >
               Rodzaj urlopu
             </th>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
-            >
-              Status
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
             >
               Od
             </th>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
             >
               Do
             </th>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider"
             >
               Dni urlopu
             </th>
+              <th
+                  scope="col"
+                  class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              >
+                  Status
+              </th>
             <th scope="col" />
           </tr>
         </thead>
@@ -88,9 +88,6 @@
               {{ request.type }}
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ request.state }}
-            </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.from }}
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -99,6 +96,9 @@
             <td class="px-4 py-4 whitespace-nowrap text-right text-sm text-gray-500">
               {{ request.estimatedDays }}
             </td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ request.state }}
+              </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink :href="`/vacation-requests/${request.id}`">
                 <ChevronRightIcon class="block w-6 h-6 fill-gray-400" />
