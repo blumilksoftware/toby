@@ -21,9 +21,13 @@ use Toby\Domain\Enums\VacationType;
  * @property VacationRequestState $state
  * @property Carbon $from
  * @property Carbon $to
+ * @property int $estimated_days
  * @property string $comment
  * @property User $user
+ * @property YearPeriod $yearPeriod
  * @property Collection $activities
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class VacationRequest extends Model
 {
@@ -43,6 +47,11 @@ class VacationRequest extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function yearPeriod(): BelongsTo
+    {
+        return $this->belongsTo(YearPeriod::class);
+    }
+
     public function activities(): HasMany
     {
         return $this->hasMany(VacationRequestActivity::class);
@@ -58,6 +67,12 @@ class VacationRequest extends Model
     public function scopeStates(Builder $query, array $states): Builder
     {
         return $query->whereIn("state", $states);
+    }
+
+    public function scopeOverlapsWith(Builder $query, self $vacationRequest): Builder
+    {
+        return $query->where("from", "<=", $vacationRequest->to)
+            ->where("to", ">=", $vacationRequest->from);
     }
 
     protected static function newFactory(): VacationRequestFactory

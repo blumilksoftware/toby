@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\YearPeriod;
 
 return new class() extends Migration {
     public function up(): void
@@ -14,8 +15,10 @@ return new class() extends Migration {
             $table->id();
             $table->string("name");
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(YearPeriod::class)->constrained()->cascadeOnDelete();
             $table->string("type");
             $table->string("state")->nullable();
+            $table->integer("estimated_days");
             $table->date("from");
             $table->date("to");
             $table->text("comment")->nullable();

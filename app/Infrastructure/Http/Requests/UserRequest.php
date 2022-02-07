@@ -19,6 +19,7 @@ class UserRequest extends FormRequest
             "lastName" => ["required", "min:3", "max:80"],
             "email" => ["required", "email", Rule::unique("users", "email")->ignore($this->user)],
             "role" => ["required", new Enum(Role::class)],
+            "position" => ["required"],
             "employmentForm" => ["required", new Enum(EmploymentForm::class)],
             "employmentDate" => ["required", "date_format:Y-m-d"],
         ];
@@ -30,6 +31,7 @@ class UserRequest extends FormRequest
             "first_name" => $this->get("firstName"),
             "last_name" => $this->get("lastName"),
             "email" => $this->get("email"),
+            "position" => $this->get("position"),
             "role" => $this->get("role"),
             "employment_form" => $this->get("employmentForm"),
             "employment_date" => $this->get("employmentDate"),

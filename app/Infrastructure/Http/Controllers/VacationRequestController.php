@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as LaravelResponse;
 use Inertia\Response;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\Validation\VacationRequestValidator;
+use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
 use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
@@ -18,12 +22,13 @@ use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class VacationRequestController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
     {
         $status = $request->get("status", "all");
 
         $vacationRequests = $request->user()
             ->vacationRequests()
+            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
             ->states(VacationRequestState::filterByStatus($status))
             ->paginate();
@@ -44,6 +49,15 @@ class VacationRequestController extends Controller
         ]);
     }
 
+    public function download(VacationRequest $vacationRequest): LaravelResponse
+    {
+        $pdf = PDF::loadView("pdf.vacation-request", [
+            "vacationRequest" => $vacationRequest,
+        ]);
+
+        return $pdf->stream();
+    }
+
     public function create(): Response
     {
         return inertia("VacationRequest/Create", [
@@ -55,9 +69,15 @@ class VacationRequestController extends Controller
         VacationRequestRequest $request,
         VacationRequestValidator $vacationRequestValidator,
         VacationRequestStateManager $stateManager,
+        VacationDaysCalculator $vacationDaysCalculator,
     ): RedirectResponse {
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->vacationRequests()->make($request->data());
+        $vacationRequest->estimated_days = $vacationDaysCalculator->calculateDays(
+            $vacationRequest->yearPeriod,
+            $vacationRequest->from,
+            $vacationRequest->to,
+        )->count();
 
         $vacationRequestValidator->validate($vacationRequest);
 

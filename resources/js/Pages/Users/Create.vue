@@ -82,6 +82,29 @@
           </p>
         </div>
       </div>
+      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+        <label
+          for="position"
+          class="block text-sm font-medium text-gray-700 sm:mt-px"
+        >
+          Stanowisko
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <input
+            id="position"
+            v-model="form.position"
+            type="text"
+            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.position, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.position }"
+          >
+          <p
+            v-if="form.errors.position"
+            class="mt-2 text-sm text-red-600"
+          >
+            {{ form.errors.position }}
+          </p>
+        </div>
+      </div>
       <Listbox
         v-model="form.role"
         as="div"
@@ -270,6 +293,7 @@ export default {
       email: null,
       employmentForm: props.employmentForms[0],
       role: props.roles[0],
+      position: null,
       employmentDate: null,
     })
 

@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
         User::factory([
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
         ])
-            ->hasVacationRequests(5)
             ->create();
 
         $users = User::all();
@@ -70,6 +69,18 @@ class DatabaseSeeder extends Seeder
                 }
             })
             ->create();
+
+        $yearPeriods = YearPeriod::all();
+
+        foreach ($users as $user) {
+            VacationRequest::factory()
+                ->count(10)
+                ->for($user)
+                ->sequence(fn() => [
+                    "year_period_id" => $yearPeriods->random()->id,
+                ])
+                ->create();
+        }
     }
 
     protected function generateAvatarsForUsers(Collection $users): void
