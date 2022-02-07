@@ -4,13 +4,22 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Validation\Rules;
 
-use Closure;
+use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Models\VacationRequest;
 
-class DoesNotExceedLimitRule implements VacationRequestRule
+class DoesNotExceedLimitRule extends VacationRequestRule
 {
-    public function check(VacationRequest $vacationRequest, Closure $next)
+    public function __construct(protected VacationTypeConfigRetriever $configRetriever)
     {
-        return $next($vacationRequest);
+    }
+
+    public function passes(VacationRequest $vacationRequest): bool
+    {
+        return true;
+    }
+
+    public function errorMessage(): string
+    {
+        return __("You have exceeded your vacation limit.");
     }
 }

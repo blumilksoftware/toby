@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Eloquent\Models;
 
+use Carbon\CarbonInterface;
 use Database\Factories\VacationRequestFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,6 +67,12 @@ class VacationRequest extends Model
     public function scopeStates(Builder $query, array $states): Builder
     {
         return $query->whereIn("state", $states);
+    }
+
+    public function scopeOverlapsWith(Builder $query, VacationRequest $vacationRequest): Builder
+    {
+        return $query->where("from", '<=', $vacationRequest->to)
+            ->where("to", '>=', $vacationRequest->from);
     }
 
     protected static function newFactory(): VacationRequestFactory

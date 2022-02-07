@@ -42,6 +42,8 @@ class VacationRequestFactory extends Factory
             ->whereYear("from", $year)
             ->count() + 1;
 
+        dump($user->vacationRequests()->count());
+
         return "{$number}/{$year}";
     }
 }
