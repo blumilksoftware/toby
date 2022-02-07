@@ -4,32 +4,49 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Validation;
 
-use Illuminate\Pipeline\Pipeline;
-use Toby\Domain\Validation\Rules\ApprovedVacationDaysInSameRange;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Validation\ValidationException;
 use Toby\Domain\Validation\Rules\DoesNotExceedLimitRule;
 use Toby\Domain\Validation\Rules\MinimumOneVacationDayRule;
-use Toby\Domain\Validation\Rules\PendingVacationRequestInSameRange;
+use Toby\Domain\Validation\Rules\NoApprovedVacationRequestsInRange;
+use Toby\Domain\Validation\Rules\NoPendingVacationRequestInRange;
+use Toby\Domain\Validation\Rules\VacationRangeIsInTheSameYearRule;
+use Toby\Domain\Validation\Rules\VacationRequestRule;
 use Toby\Eloquent\Models\VacationRequest;
 
 class VacationRequestValidator
 {
     protected array $rules = [
+        VacationRangeIsInTheSameYearRule::class,
         MinimumOneVacationDayRule::class,
         DoesNotExceedLimitRule::class,
-        PendingVacationRequestInSameRange::class,
-        ApprovedVacationDaysInSameRange::class,
+        NoPendingVacationRequestInRange::class,
+        NoApprovedVacationRequestsInRange::class,
     ];
 
     public function __construct(
-        protected Pipeline $pipeline,
+        protected Container $container,
     ) {
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function validate(VacationRequest $vacationRequest): void
     {
-        $this->pipeline
-            ->send($vacationRequest)
-            ->through($this->rules)
-            ->via("check");
+        foreach ($this->rules as $rule) {
+            $rule = $this->makeRule($rule);
+
+            if (!$rule->check($vacationRequest)) {
+                throw ValidationException::withMessages([
+                    "vacationRequest" => $rule->errorMessage(),
+                ]);
+            }
+        }
+    }
+
+    protected function makeRule(string $class): VacationRequestRule
+    {
+        return $this->container->make($class);
     }
 }

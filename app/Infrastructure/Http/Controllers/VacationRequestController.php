@@ -11,6 +11,7 @@ use Illuminate\Http\Response as LaravelResponse;
 use Inertia\Response;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\Validation\VacationRequestValidator;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
@@ -64,9 +65,15 @@ class VacationRequestController extends Controller
         VacationRequestRequest $request,
         VacationRequestValidator $vacationRequestValidator,
         VacationRequestStateManager $stateManager,
+        VacationDaysCalculator $vacationDaysCalculator,
     ): RedirectResponse {
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->vacationRequests()->make($request->data());
+        $vacationRequest->estimated_days = $vacationDaysCalculator->calculateDays(
+            $vacationRequest->yearPeriod,
+            $vacationRequest->from,
+            $vacationRequest->to,
+        )->count();
 
         $vacationRequestValidator->validate($vacationRequest);
 

@@ -10,8 +10,26 @@
       class="border-t border-gray-200 px-6"
       @submit.prevent="createForm"
     >
+      <div
+        v-if="form.errors.vacationRequest"
+        class="rounded-md bg-red-50 p-4 mt-2"
+      >
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <XCircleIcon class="h-5 w-5 text-red-400" />
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">
+              Wniosek nie mógł zostać utworzony
+            </h3>
+            <div class="mt-2 text-sm text-red-700">
+              <span>{{ form.errors.vacationRequest }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <Listbox
-        v-model="form.vacationType"
+        v-model="form.type"
         as="div"
         class="sm:grid sm:grid-cols-3 py-4 items-center"
       >
@@ -21,9 +39,9 @@
         <div class="mt-1 relative sm:mt-0 sm:col-span-2">
           <ListboxButton
             class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.vacationType, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.vacationType }"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
           >
-            <span class="block truncate">{{ form.vacationType.label }}</span>
+            <span class="block truncate">{{ form.type.label }}</span>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <SelectorIcon class="h-5 w-5 text-gray-400" />
             </span>
@@ -38,15 +56,15 @@
               class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
             >
               <ListboxOption
-                v-for="vacationType in vacationTypes"
-                :key="vacationType.value"
+                v-for="type in vacationTypes"
+                :key="type.value"
                 v-slot="{ active, selected }"
                 as="template"
-                :value="vacationType"
+                :value="type"
               >
                 <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                   <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                    {{ vacationType.label }}
+                    {{ type.label }}
                   </span>
 
                   <span
@@ -60,10 +78,10 @@
             </ListboxOptions>
           </transition>
           <p
-            v-if="form.errors.vacationType"
+            v-if="form.errors.type"
             class="mt-2 text-sm text-red-600"
           >
-            {{ form.errors.vacationType }}
+            {{ form.errors.type }}
           </p>
         </div>
       </Listbox>
@@ -77,18 +95,18 @@
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <FlatPickr
             id="date_from"
-            v-model="form.dateFrom"
+            v-model="form.from"
             :config="fromInputConfig"
             placeholder="Wybierz datę"
             class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.dateFrom, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.dateFrom }"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.from, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.from }"
             @on-change="onFromChange"
           />
           <p
-            v-if="form.errors.dateFrom"
+            v-if="form.errors.from"
             class="mt-2 text-sm text-red-600"
           >
-            {{ form.errors.dateFrom }}
+            {{ form.errors.from }}
           </p>
         </div>
       </div>
@@ -102,25 +120,25 @@
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <FlatPickr
             id="date_to"
-            v-model="form.dateTo"
+            v-model="form.to"
             :config="toInputConfig"
             placeholder="Wybierz datę"
             class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.dateTo, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.dateTo }"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.to, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.to }"
             @on-change="onToChange"
           />
           <p
-            v-if="form.errors.dateTo"
+            v-if="form.errors.to"
             class="mt-2 text-sm text-red-600"
           >
-            {{ form.errors.dateTo }}
+            {{ form.errors.to }}
           </p>
         </div>
       </div>
       <div class="sm:grid sm:grid-cols-3 py-4 items-center">
         <span class="block text-sm font-medium text-gray-700 sm:mt-px">Liczba dni urlopu</span>
         <div class="mt-1 sm:mt-0 sm:col-span-2 w-full max-w-lg bg-gray-50 border border-gray-300 rounded-md px-4 py-2 inline-flex items-center text-gray-500 sm:text-sm">
-          1
+          {{ estimatedDays.length }}
         </div>
       </div>
       <div class="sm:grid sm:grid-cols-3 py-4 items-center">
@@ -135,7 +153,7 @@
             id="comment"
             v-model="form.comment"
             rows="4"
-            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full max-w-lg sm:text-sm border-gray-300 rounded-md"
+            class="shadow-sm focus:ring-blumilk-500 focus:border-blumilk-500 block w-full max-w-lg sm:text-sm border-gray-300 rounded-md"
           />
         </div>
       </div>
@@ -164,8 +182,9 @@
 import {useForm} from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
-import {CheckIcon, SelectorIcon} from '@heroicons/vue/solid'
-import {reactive} from 'vue'
+import {CheckIcon, SelectorIcon, XCircleIcon} from '@heroicons/vue/solid'
+import {reactive, ref} from 'vue'
+import axios from 'axios'
 
 export default {
   name: 'VacationRequestCreate',
@@ -178,6 +197,7 @@ export default {
     ListboxOptions,
     CheckIcon,
     SelectorIcon,
+    XCircleIcon,
   },
   props: {
     vacationTypes: {
@@ -191,11 +211,13 @@ export default {
   },
   setup(props) {
     const form = useForm({
-      dateFrom: null,
-      dateTo: null,
-      vacationType: props.vacationTypes[0],
+      from: null,
+      to: null,
+      type: props.vacationTypes[0],
       comment: null,
     })
+
+    const estimatedDays = ref([])
 
     const disableDates = [
       date => (date.getDay() === 0 || date.getDay() === 6),
@@ -213,6 +235,7 @@ export default {
 
     return {
       form,
+      estimatedDays,
       fromInputConfig,
       toInputConfig,
     }
@@ -221,18 +244,26 @@ export default {
     createForm() {
       this.form
         .transform(data => ({
-          from: data.dateFrom,
-          to: data.dateTo,
-          type: data.vacationType.value,
-          comment: data.comment,
+          ...data,
+          type: data.type.value,
         }))
         .post('/vacation-requests')
     },
     onFromChange(selectedDates, dateStr) {
       this.toInputConfig.minDate = dateStr
+
+      this.refreshEstimatedDays(this.form.from, this.form.to)
     },
     onToChange(selectedDates, dateStr) {
       this.fromInputConfig.maxDate = dateStr
+
+      this.refreshEstimatedDays(this.form.from, this.form.to)
+    },
+    refreshEstimatedDays(from, to) {
+      if (from && to) {
+        axios.post('/api/calculate-vacation-days', {from, to})
+          .then(res => this.estimatedDays = res.data)
+      }
     },
   },
 
