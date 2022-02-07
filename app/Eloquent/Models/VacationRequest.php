@@ -21,6 +21,7 @@ use Toby\Domain\Enums\VacationType;
  * @property VacationRequestState $state
  * @property Carbon $from
  * @property Carbon $to
+ * @property int $estimated_days
  * @property string $comment
  * @property User $user
  * @property YearPeriod $yearPeriod

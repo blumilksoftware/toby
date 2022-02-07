@@ -18,6 +18,7 @@ return new class() extends Migration {
             $table->foreignIdFor(YearPeriod::class)->constrained()->cascadeOnDelete();
             $table->string("type");
             $table->string("state")->nullable();
+            $table->integer("estimated_days");
             $table->date("from");
             $table->date("to");
             $table->text("comment")->nullable();

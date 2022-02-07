@@ -153,7 +153,7 @@
             id="comment"
             v-model="form.comment"
             rows="4"
-            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full max-w-lg sm:text-sm border-gray-300 rounded-md"
+            class="shadow-sm focus:ring-blumilk-500 focus:border-blumilk-500 block w-full max-w-lg sm:text-sm border-gray-300 rounded-md"
           />
         </div>
       </div>
