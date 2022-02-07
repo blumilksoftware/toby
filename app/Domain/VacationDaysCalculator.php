@@ -16,7 +16,7 @@ class VacationDaysCalculator
         $period = CarbonPeriod::create($from, $to);
         $holidays = $yearPeriod->holidays()->pluck("date");
 
-        $validDays = collect();
+        $validDays = new Collection();
 
         foreach ($period as $day) {
             if ($this->passes($day, $holidays)) {

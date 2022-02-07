@@ -54,8 +54,17 @@
               <dt class="text-sm font-medium text-gray-500">
                 Komentarz
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd
+                v-if="request.comment != null"
+                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+              >
                 {{ request.comment }}
+              </dd>
+              <dd
+                v-else
+                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                -
               </dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -183,37 +192,37 @@
           </h3>
         </div>
         <div class="border-t border-gray-200 px-4 py-4">
-          <!--                    <ul>-->
-          <!--                        <li-->
-          <!--                            v-for="(activity, index) in activities.data"-->
-          <!--                            :key="activity.id"-->
-          <!--                        >-->
-          <!--                            <div :class="{'relative pb-8': index !== activities.data.length - 1}">-->
-          <!--                <span-->
-          <!--                    v-if="(index !== activities.data.length - 1)"-->
-          <!--                    class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"-->
-          <!--                />-->
-          <!--                                <div class="relative flex space-x-3">-->
-          <!--                                    <div>-->
-          <!--                    <span-->
-          <!--                        class="bg-blumilk-500 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white">-->
-          <!--                      <ThumbUpIcon class="w-5 h-5 text-white"/>-->
-          <!--                    </span>-->
-          <!--                                    </div>-->
-          <!--                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">-->
-          <!--                                        <div>-->
-          <!--                                            <p class="text-sm text-gray-500">-->
-          <!--                                                {{ activity.to }}-->
-          <!--                                            </p>-->
-          <!--                                        </div>-->
-          <!--                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">-->
-          <!--                                            <time>{{ activity.date }}</time>-->
-          <!--                                        </div>-->
-          <!--                                    </div>-->
-          <!--                                </div>-->
-          <!--                            </div>-->
-          <!--                        </li>-->
-          <!--                    </ul>-->
+<!--                              <ul>-->
+<!--                                  <li-->
+<!--                                      v-for="(activity, index) in activities.data"-->
+<!--                                      :key="activity.id"-->
+<!--                                  >-->
+<!--                                      <div :class="{'relative pb-8': index !== activities.data.length - 1}">-->
+<!--                          <span-->
+<!--                              v-if="(index !== activities.data.length - 1)"-->
+<!--                              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"-->
+<!--                          />-->
+<!--                                          <div class="relative flex space-x-3">-->
+<!--                                              <div>-->
+<!--                              <span-->
+<!--                                  class="bg-blumilk-500 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white">-->
+<!--                                <ThumbUpIcon class="w-5 h-5 text-white"/>-->
+<!--                              </span>-->
+<!--                                              </div>-->
+<!--                                              <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">-->
+<!--                                                  <div>-->
+<!--                                                      <p class="text-sm text-gray-500">-->
+<!--                                                          {{ activity.to }}-->
+<!--                                                      </p>-->
+<!--                                                  </div>-->
+<!--                                                  <div class="text-right text-sm whitespace-nowrap text-gray-500">-->
+<!--                                                      <time>{{ activity.date }}</time>-->
+<!--                                                  </div>-->
+<!--                                              </div>-->
+<!--                                          </div>-->
+<!--                                      </div>-->
+<!--                                  </li>-->
+<!--                              </ul>-->
           <ul>
             <li
               v-for="(status, index) in statuses"
@@ -236,14 +245,18 @@
                     </span>
                   </div>
                   <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                    <div>
-                      <p class="text-sm text-gray-500">
+                    <div class="flex flex-col items-start">
+                      <div class="text-sm font-medium text-gray-700">
                         {{ status.name }}
-                      </p>
+                      </div>
+                        <div class="text-right text-sm whitespace-nowrap font-medium text-gray-400">
+                            Jan Kowalski
+                        </div>
                     </div>
-                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                      <time>4 lutego 2022</time>
-                    </div>
+                      <div class="text-right text-sm whitespace-nowrap text-gray-500 flex flex-col">
+                          <time>29.10.2022</time>
+                          <time>09:04</time>
+                      </div>
                   </div>
                 </div>
               </div>

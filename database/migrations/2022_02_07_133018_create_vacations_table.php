@@ -11,7 +11,7 @@ use Toby\Eloquent\Models\VacationRequest;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create("vacations", function (Blueprint $table) {
+        Schema::create("vacations", function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(VacationRequest::class)->constrained()->cascadeOnDelete();

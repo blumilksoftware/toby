@@ -80,17 +80,17 @@ class DatabaseSeeder extends Seeder
                 ->sequence(fn() => [
                     "year_period_id" => $yearPeriods->random()->id,
                 ])
-                ->afterCreating(function (VacationRequest $vacationRequest) {
+                ->afterCreating(function (VacationRequest $vacationRequest): void {
                     $days = app(VacationDaysCalculator::class)->calculateDays(
                         $vacationRequest->yearPeriod,
                         $vacationRequest->from,
-                        $vacationRequest->to
+                        $vacationRequest->to,
                     );
 
                     foreach ($days as $day) {
                         $vacationRequest->vacations()->create([
                             "date" => $day,
-                            "user_id" => $vacationRequest->user->id
+                            "user_id" => $vacationRequest->user->id,
                         ]);
                     }
                 })

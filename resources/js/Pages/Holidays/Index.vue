@@ -144,7 +144,7 @@ import { DotsVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 export default {
-  name: 'HolidayINdex',
+  name: 'HolidayIndex',
   components: {
     DotsVerticalIcon,
     PencilIcon,
