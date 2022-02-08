@@ -45,7 +45,6 @@ class VacationCalendarController extends Controller
                 "dayOfWeek" => $day->translatedFormat("D"),
                 "isToday" => $day->isToday(),
                 "isWeekend" => $day->isWeekend(),
-                "isVacation" => Arr::random([false, false, false, false, true]),
                 "isHoliday" => $holidays->contains($day),
             ];
         }
@@ -59,7 +58,6 @@ class VacationCalendarController extends Controller
                 "vacations" => $user->vacations->map(fn (Vacation $vacation) => $vacation->date->toDateString()),
             ];
         }
-
 
         return inertia("Calendar", [
             "calendar" => $calendar,
