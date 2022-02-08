@@ -74,10 +74,21 @@ class VacationRequestController extends Controller
     ): RedirectResponse {
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->vacationRequests()->make($request->data());
-
         $vacationRequestValidator->validate($vacationRequest);
-
         $vacationRequest->save();
+
+        $days = $vacationDaysCalculator->calculateDays(
+            $vacationRequest->yearPeriod,
+            $vacationRequest->from,
+            $vacationRequest->to
+        );
+
+        foreach ($days as $day) {
+            $vacationRequest->vacations()->create([
+                "date" => $day,
+                "user_id" => $vacationRequest->user_id,
+            ]);
+        }
 
         $stateManager->markAsCreated($vacationRequest);
 
