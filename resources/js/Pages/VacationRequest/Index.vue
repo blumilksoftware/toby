@@ -96,8 +96,8 @@
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.days.length }}
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
-              <ThumbDownIcon class="w-4 h-4 text-rose-600 mr-1" /> <span>{{ request.state }}</span>
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+              <Status :status="request.state" />
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink
@@ -184,6 +184,7 @@ import {
   CheckIcon,
   DocumentTextIcon,
 } from '@heroicons/vue/solid'
+import Status from '@/Shared/Status'
 
 export default {
   name: 'VacationRequestIndex',
@@ -198,6 +199,7 @@ export default {
     CheckIcon,
     DocumentTextIcon,
     ThumbDownIcon,
+    Status,
   },
   props: {
     requests: {

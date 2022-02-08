@@ -28,6 +28,14 @@
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
+                Obecny status
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <Status :status="request.state" />
+              </dd>
+            </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
                 Urlop od
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -192,74 +200,15 @@
           </h3>
         </div>
         <div class="border-t border-gray-200 px-4 py-4">
-<!--                              <ul>-->
-<!--                                  <li-->
-<!--                                      v-for="(activity, index) in activities.data"-->
-<!--                                      :key="activity.id"-->
-<!--                                  >-->
-<!--                                      <div :class="{'relative pb-8': index !== activities.data.length - 1}">-->
-<!--                          <span-->
-<!--                              v-if="(index !== activities.data.length - 1)"-->
-<!--                              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"-->
-<!--                          />-->
-<!--                                          <div class="relative flex space-x-3">-->
-<!--                                              <div>-->
-<!--                              <span-->
-<!--                                  class="bg-blumilk-500 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white">-->
-<!--                                <ThumbUpIcon class="w-5 h-5 text-white"/>-->
-<!--                              </span>-->
-<!--                                              </div>-->
-<!--                                              <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">-->
-<!--                                                  <div>-->
-<!--                                                      <p class="text-sm text-gray-500">-->
-<!--                                                          {{ activity.to }}-->
-<!--                                                      </p>-->
-<!--                                                  </div>-->
-<!--                                                  <div class="text-right text-sm whitespace-nowrap text-gray-500">-->
-<!--                                                      <time>{{ activity.date }}</time>-->
-<!--                                                  </div>-->
-<!--                                              </div>-->
-<!--                                          </div>-->
-<!--                                      </div>-->
-<!--                                  </li>-->
-<!--                              </ul>-->
           <ul>
             <li
-              v-for="(status, index) in statuses"
-              :key="status.name"
+              v-for="(activity, index) in activities.data"
+              :key="index"
             >
-              <div :class="{'relative pb-8': index !== statuses.length - 1}">
-                <span
-                  v-if="(index !== statuses.length - 1)"
-                  class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                />
-                <div class="relative flex space-x-3">
-                  <div>
-                    <span
-                      :class="[status.iconBackground, status.iconForeground, 'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white']"
-                    >
-                      <component
-                        :is="status.icon"
-                        class="w-5 h-5 text-white"
-                      />
-                    </span>
-                  </div>
-                  <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                    <div class="flex flex-col items-start">
-                      <div class="text-sm font-medium text-gray-700">
-                        {{ status.name }}
-                      </div>
-                        <div class="text-right text-sm whitespace-nowrap font-medium text-gray-400">
-                            Jan Kowalski
-                        </div>
-                    </div>
-                      <div class="text-right text-sm whitespace-nowrap text-gray-500 flex flex-col">
-                          <time>29.10.2022</time>
-                          <time>09:04</time>
-                      </div>
-                  </div>
-                </div>
-              </div>
+              <Activity
+                :activity="activity"
+                :last="index !== activities.data.length - 1"
+              />
             </li>
           </ul>
         </div>
@@ -269,21 +218,16 @@
 </template>
 
 <script>
-import {
-  CheckIcon,
-  ClockIcon,
-  DocumentTextIcon,
-  PaperClipIcon,
-  ThumbDownIcon,
-  ThumbUpIcon,
-  XIcon,
-} from '@heroicons/vue/outline'
+import {PaperClipIcon} from '@heroicons/vue/outline'
+import Activity from '@/Shared/Activity'
+import Status from '@/Shared/Status'
 
 export default {
   name: 'VacationRequestShow',
   components: {
-    ThumbUpIcon,
+    Activity,
     PaperClipIcon,
+    Status,
   },
   props: {
     request: {
@@ -294,63 +238,6 @@ export default {
       type: Object,
       default: () => null,
     },
-  },
-  setup() {
-    const statuses = [
-      {
-        icon: DocumentTextIcon,
-        name: 'Utworzony',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-gray-400',
-      },
-      {
-        icon: ClockIcon,
-        name: 'Czeka na akceptację od technicznego',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-amber-400',
-      },
-      {
-        icon: ClockIcon,
-        name: 'Czeka na akceptację od administracyjnego',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-amber-400',
-      },
-      {
-        icon: ThumbDownIcon,
-        name: 'Odrzucony',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-rose-600',
-      },
-      {
-        icon: ThumbUpIcon,
-        name: 'Zaakceptowany przez technicznego',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-green-500',
-      },
-      {
-        icon: ThumbUpIcon,
-        name: 'Zaakceptowany przez administracyjnego',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-green-500',
-      },
-      {
-        icon: CheckIcon,
-        name: 'Zatwierdzony',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-blumilk-500',
-      },
-      {
-        icon: XIcon,
-        name: 'Anulowany',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-gray-900',
-      },
-
-    ]
-
-    return {
-      statuses,
-    }
   },
 }
 </script>

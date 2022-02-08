@@ -80,7 +80,7 @@ class VacationRequestController extends Controller
         $days = $vacationDaysCalculator->calculateDays(
             $vacationRequest->yearPeriod,
             $vacationRequest->from,
-            $vacationRequest->to
+            $vacationRequest->to,
         );
 
         foreach ($days as $day) {

@@ -7,7 +7,6 @@ namespace Toby\Infrastructure\Http\Controllers;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Domain\Enums\VacationRequestState;
@@ -29,7 +28,7 @@ class VacationCalendarController extends Controller
             ->with([
                 "vacations" => fn($query) => $query
                     ->whereBetween("date", [$period->start, $period->end])
-                    ->whereRelation("vacationRequest", "state", VacationRequestState::APPROVED->value)
+                    ->whereRelation("vacationRequest", "state", VacationRequestState::APPROVED->value),
             ])
             ->orderBy("last_name")
             ->orderBy("first_name")
@@ -54,7 +53,7 @@ class VacationCalendarController extends Controller
         foreach ($users as $user) {
             $userVacations[] = [
                 "user" => new UserResource($user),
-                "vacations" => $user->vacations->map(fn (Vacation $vacation) => $vacation->date->toDateString()),
+                "vacations" => $user->vacations->map(fn(Vacation $vacation) => $vacation->date->toDateString()),
             ];
         }
 
@@ -67,7 +66,7 @@ class VacationCalendarController extends Controller
 
     protected function monthNameToNumber(?string $name): int
     {
-        return match($name) {
+        return match ($name) {
             default => CarbonInterface::JANUARY,
             "february" => CarbonInterface::FEBRUARY,
             "march" => CarbonInterface::MARCH,
