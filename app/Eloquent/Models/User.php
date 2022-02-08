@@ -28,6 +28,7 @@ use Toby\Domain\Enums\Role;
  * @property Carbon $employment_date
  * @property Collection $vacationLimits
  * @property Collection $vacationRequests
+ * @property Collection $vacations
  */
 class User extends Authenticatable
 {
@@ -55,6 +56,11 @@ class User extends Authenticatable
     public function vacationRequests(): HasMany
     {
         return $this->hasMany(VacationRequest::class);
+    }
+
+    public function vacations(): HasMany
+    {
+        return $this->hasMany(Vacation::class);
     }
 
     public function scopeSearch(Builder $query, ?string $text): Builder

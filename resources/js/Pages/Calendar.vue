@@ -7,7 +7,7 @@
       </h2>
     </div>
     <div class="overflow-x-auto">
-      <table class="w-full text-center border border-gray-300">
+      <table class="w-full text-center table-fixed text-sm border border-gray-300">
         <thead>
           <tr>
             <th class="w-64 py-2 border border-gray-300">
@@ -17,13 +17,10 @@
               >
                 <div>
                   <MenuButton
-                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blumilk-500"
+                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
                   >
-                    Styczeń
-                    <ChevronDownIcon
-                      class="-mr-1 ml-2 h-5 w-5"
-                      aria-hidden="true"
-                    />
+                    {{ selectedMonth.name }}
+                    <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
                   </MenuButton>
                 </div>
 
@@ -36,26 +33,25 @@
                   leave-to-class="transform opacity-0 scale-95"
                 >
                   <MenuItems
-                    class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                   >
                     <div class="py-1">
-                      <MenuItem>
-                        <a
-                          href="#"
-                          class="text-gray-900 block px-4 py-2 text-sm"
-                        >Styczeń</a>
-                      </MenuItem>
-                      <MenuItem>
-                        <a
-                          href="#"
-                          class="text-gray-900 block px-4 py-2 text-sm"
-                        >Luty</a>
-                      </MenuItem>
-                      <MenuItem>
-                        <a
-                          href="#"
-                          class="text-gray-900 block px-4 py-2 text-sm"
-                        >Marzec</a>
+                      <MenuItem
+                        v-for="(month, index) in months"
+                        :key="index"
+                        v-slot="{ active }"
+                      >
+                        <InertiaLink
+                          href="/vacation-calendar"
+                          :data="{ month: month.value }"
+                          :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full font-normal px-4 py-2 text-sm']"
+                        >
+                          {{ month.name }}
+                          <CheckIcon
+                            v-if="currentMonth === month.value"
+                            class="h-5 w-5 text-blumilk-500 ml-2"
+                          />
+                        </InertiaLink>
                       </MenuItem>
                     </div>
                   </MenuItems>
@@ -63,43 +59,63 @@
               </Menu>
             </th>
             <th
-              v-for="i in 31"
-              :key="i"
-              class="border border-gray-300 font-semibold text-gray-900 py-4 px-2 bg-gray-50"
+              v-for="day in calendar"
+              :key="day.dayOfMonth"
+              class="border border-gray-300 text-lg font-semibold text-gray-900 py-4 px-2"
+              :class="{ 'bg-blumilk-500 text-white': day.isToday}"
             >
-              {{ i }}
-              <p class="text-gray-800 font-normal mt-1">
-                Pt
-              </p>
+              <div>
+                {{ day.dayOfMonth }}
+                <p class="font-normal mt-1 text-sm capitalize">
+                  {{ day.dayOfWeek }}
+                </p>
+              </div>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="user in users.data"
-            :key="user.id"
+            v-for="userVacation in userVacations"
+            :key="userVacation.user.id"
           >
             <th class="border border-gray-300 py-2 px-4">
               <div class="flex justify-start items-center">
                 <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
                   <img
                     class="h-10 w-10 rounded-full"
-                    :src="user.avatar"
+                    :src="userVacation.user.avatar"
                     alt=""
                   >
                 </span>
                 <div class="ml-3">
                   <div class="text-sm font-medium text-gray-900">
-                    {{ user.name }}
+                    {{ userVacation.user.name }}
                   </div>
                 </div>
               </div>
             </th>
             <td
-              v-for="i in 31"
-              :key="i"
-              class="border border-gray-300 bg-blumilk-25"
-            />
+              v-for="day in calendar"
+              :key="day.dayOfMonth"
+              class="border border-gray-300"
+              :class="{'bg-gray-100': day.isWeekend, 'bg-green-100': day.isHoliday, 'bg-blumilk-200': userVacation.vacations.includes(day.date) }"
+            >
+              <div
+                v-if="userVacation.vacations.includes(day.date)"
+                class="flex justify-center items-center"
+              >
+                <svg
+                  class="w-6 h-6 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M115.38 136.9l102.11 37.18c35.19-81.54 86.21-144.29 139-173.7-95.88-4.89-188.78 36.96-248.53 111.8-6.69 8.4-2.66 21.05 7.42 24.72zm132.25 48.16l238.48 86.83c35.76-121.38 18.7-231.66-42.63-253.98-7.4-2.7-15.13-4-23.09-4-58.02.01-128.27 69.17-172.76 171.15zM521.48 60.5c6.22 16.3 10.83 34.6 13.2 55.19 5.74 49.89-1.42 108.23-18.95 166.98l102.62 37.36c10.09 3.67 21.31-3.43 21.57-14.17 2.32-95.69-41.91-187.44-118.44-245.36zM560 447.98H321.06L386 269.5l-60.14-21.9-72.9 200.37H16c-8.84 0-16 7.16-16 16.01v32.01C0 504.83 7.16 512 16 512h544c8.84 0 16-7.17 16-16.01v-32.01c0-8.84-7.16-16-16-16z"
+                  />
+                </svg>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -109,7 +125,8 @@
 
 <script>
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import {ChevronDownIcon} from '@heroicons/vue/solid'
+import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/solid'
+import {computed} from 'vue'
 
 export default {
   name: 'VacationCalendar',
@@ -118,13 +135,81 @@ export default {
     MenuButton,
     MenuItem,
     MenuItems,
+    CheckIcon,
     ChevronDownIcon,
   },
   props: {
-    users: {
+    userVacations: {
       type: Object,
       default: () => null,
     },
+    calendar: {
+      type: Object,
+      default: () => null,
+    },
+    currentMonth: {
+      type: String,
+      default: () => 'january',
+    },
+  },
+  setup(props) {
+    const months = [
+      {
+        'name': 'Styczeń',
+        'value': 'january',
+      },
+      {
+        'name': 'Luty',
+        'value': 'february',
+      },
+      {
+        'name': 'Marzec',
+        'value': 'march',
+      },
+      {
+        'name': 'Kwiecień',
+        'value': 'april',
+      },
+      {
+        'name': 'Maj',
+        'value': 'may',
+      },
+      {
+        'name': 'Czerwiec',
+        'value': 'june',
+      },
+      {
+        'name': 'Lipiec',
+        'value': 'july',
+      },
+      {
+        'name': 'Sierpień',
+        'value': 'august',
+      },
+      {
+        'name': 'Wrzesień',
+        'value': 'september',
+      },
+      {
+        'name': 'Październik',
+        'value': 'october',
+      },
+      {
+        'name': 'Listopad',
+        'value': 'november',
+      },
+      {
+        'name': 'Grudzień',
+        'value': 'december',
+      },
+    ]
+
+    const selectedMonth = computed(() => months.find(month => month.value === props.currentMonth))
+
+    return {
+      months,
+      selectedMonth,
+    }
   },
 }
 </script>

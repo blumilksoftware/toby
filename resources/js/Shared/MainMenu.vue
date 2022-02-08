@@ -110,7 +110,6 @@
 
   <!-- Static sidebar for desktop -->
   <div class="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
-    <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex flex-col flex-grow bg-blumilk-700 pt-5 pb-4 overflow-y-auto">
       <div class="flex items-center flex-shrink-0 px-4">
         <InertiaLink href="/">
@@ -248,9 +247,10 @@
                   :src="user.avatar"
                   alt="Avatar"
                 >
-                <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block"><span class="sr-only">Open user menu for </span>{{
-                  user.name
-                }}</span>
+                <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
+                  <span class="sr-only">Open user menu for </span>
+                  {{ user.name }}
+                </span>
                 <ChevronDownIcon
                   class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
                   aria-hidden="true"
