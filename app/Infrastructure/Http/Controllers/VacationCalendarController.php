@@ -9,7 +9,6 @@ use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Inertia\Response;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
@@ -34,7 +33,7 @@ class VacationCalendarController extends Controller
             ])
             ->orderBy("last_name")
             ->orderBy("first_name")
-            ->paginate();
+            ->get();
 
         $calendar = [];
 
