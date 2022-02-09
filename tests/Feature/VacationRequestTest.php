@@ -61,6 +61,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
             ])
             ->assertSessionHasNoErrors();
+
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
             "year_period_id" => $currentYearPeriod->id,
@@ -89,6 +90,7 @@ class VacationRequestTest extends FeatureTestCase
         $this->actingAs($technicalApprover)
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-technical")
             ->assertSessionHasNoErrors();
+
         $this->assertDatabaseHas("vacation_requests", [
             "state" => VacationRequestState::WAITING_FOR_ADMINISTRATIVE,
         ]);
@@ -110,6 +112,7 @@ class VacationRequestTest extends FeatureTestCase
         $this->actingAs($administrativeApprover)
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-administrative")
             ->assertSessionHasNoErrors();
+
         $this->assertDatabaseHas("vacation_requests", [
             "state" => VacationRequestState::APPROVED,
         ]);
@@ -131,6 +134,7 @@ class VacationRequestTest extends FeatureTestCase
         $this->actingAs($technicalApprover)
             ->post("/vacation-requests/{$vacationRequest->id}/reject")
             ->assertSessionHasNoErrors();
+
         $this->assertDatabaseHas("vacation_requests", [
             "state" => VacationRequestState::REJECTED,
         ]);
