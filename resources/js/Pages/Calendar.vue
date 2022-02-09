@@ -62,7 +62,7 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300 text-lg font-semibold text-gray-900 py-4 px-2"
-              :class="{ 'bg-blumilk-500 text-white': day.isToday}"
+              :class="{ 'text-blumilk-600 bg-blumilk-25 font-black': day.isToday}"
             >
               <div>
                 {{ day.dayOfMonth }}
@@ -98,7 +98,7 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300"
-              :class="{'bg-gray-100': day.isWeekend, 'bg-green-100': day.isHoliday, 'bg-blumilk-200': userVacation.vacations.includes(day.date) }"
+              :class="{'bg-gray-100': day.isWeekend, 'bg-green-100': day.isHoliday, 'bg-blumilk-500': userVacation.vacations.includes(day.date) }"
             >
               <div
                 v-if="userVacation.vacations.includes(day.date)"

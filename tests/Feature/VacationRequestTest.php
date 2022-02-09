@@ -1,18 +1,33 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Tests\Feature;
+
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
+
 class VacationRequestTest extends FeatureTestCase
 {
     use DatabaseMigrations;
+
+    protected PolishHolidaysRetriever $polishHolidaysRetriever;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->polishHolidaysRetriever = $this->app->make(PolishHolidaysRetriever::class);
+    }
+
     public function testUserCanSeeVacationRequestsList(): void
     {
         $user = User::factory()->createQuietly();
@@ -35,7 +50,9 @@ class VacationRequestTest extends FeatureTestCase
     public function testUserCanCreateVacationRequest(): void
     {
         $user = User::factory()->createQuietly();
+
         $currentYearPeriod = YearPeriod::current();
+
         $this->actingAs($user)
             ->post("/vacation-requests", [
                 "type" => VacationType::VACATION->value,
@@ -83,7 +100,9 @@ class VacationRequestTest extends FeatureTestCase
 
         $currentYearPeriod = YearPeriod::current();
 
-        $vacationRequest = VacationRequest::factory(["state" => VacationRequestState::WAITING_FOR_ADMINISTRATIVE])
+        $vacationRequest = VacationRequest::factory([
+            "state" => VacationRequestState::WAITING_FOR_ADMINISTRATIVE,
+        ])
             ->for($user)
             ->for($currentYearPeriod)
             ->create();
@@ -116,6 +135,48 @@ class VacationRequestTest extends FeatureTestCase
             "state" => VacationRequestState::REJECTED,
         ]);
     }
+
+    public function testUserCannotCreateVacationRequestAtWeekend(): void
+    {
+        $user = User::factory()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        $this->actingAs($user)
+            ->post("/vacation-requests", [
+                "type" => VacationType::VACATION->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 5)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 6)->toDateString(),
+                "comment" => "Vacation at weekend.",
+            ])
+            ->assertSessionHasErrors([
+                "vacationRequest" => trans("Vacation needs minimum one day."),
+            ]);
+    }
+
+    public function testUserCannotCreateVacationRequestAtHoliday(): void
+    {
+        $user = User::factory()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        foreach ($this->polishHolidaysRetriever->getForYearPeriod($currentYearPeriod) as $holiday) {
+            $currentYearPeriod->holidays()->create([
+                "name" => $holiday["name"],
+                "date" => $holiday["date"],
+            ]);
+        }
+
+        $this->actingAs($user)
+            ->post("/vacation-requests", [
+                "type" => VacationType::VACATION->value,
+                "from" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
+                "comment" => "Vacation at holiday.",
+            ])
+            ->assertSessionHasErrors([
+                "vacationRequest" => trans("Vacation needs minimum one day."),
+            ]);
+    }
+
     public function testUserCannotCreateVacationRequestIfHeHasPendingVacationRequestInThisRange(): void
     {
         $user = User::factory()->createQuietly();
