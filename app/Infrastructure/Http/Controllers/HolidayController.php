@@ -35,7 +35,7 @@ class HolidayController extends Controller
 
         return redirect()
             ->route("holidays.index")
-            ->with("success", __("Holiday has been created"));
+            ->with("success", __("Holiday has been created."));
     }
 
     public function edit(Holiday $holiday): Response
@@ -51,7 +51,7 @@ class HolidayController extends Controller
 
         return redirect()
             ->route("holidays.index")
-            ->with("success", __("Holiday has been updated"));
+            ->with("success", __("Holiday has been updated."));
     }
 
     public function destroy(Holiday $holiday): RedirectResponse
@@ -60,6 +60,6 @@ class HolidayController extends Controller
 
         return redirect()
             ->route("holidays.index")
-            ->with("success", __("Holiday has been deleted"));
+            ->with("success", __("Holiday has been deleted."));
     }
 }

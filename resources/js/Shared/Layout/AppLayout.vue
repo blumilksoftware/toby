@@ -2,6 +2,7 @@
   <div class="min-h-full">
     <MainMenu />
     <main class="lg:ml-64 flex flex-col flex-1 py-8">
+      <FlashMessage />
       <div>
         <slot />
       </div>
@@ -11,9 +12,13 @@
 
 <script>
 import MainMenu from '@/Shared/MainMenu'
+import FlashMessage from '@/Shared/FlashMessage'
 
 export default {
   name: 'AppLayout',
-  components: {MainMenu},
+  components: {
+    FlashMessage,
+    MainMenu,
+  },
 }
 </script>

@@ -29,9 +29,7 @@ class GoogleController extends Controller
         } catch (ModelNotFoundException) {
             return redirect()
                 ->route("login")
-                ->withErrors([
-                    "oauth" => __("User does not exist."),
-                ]);
+                ->with("error", __("User does not exist."));
         }
 
         $auth->guard()->login($user, true);

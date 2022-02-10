@@ -1,41 +1,5 @@
 <template>
   <InertiaHead title="Zaloguj się" />
-  <transition
-    enter-active-class="transform ease-out duration-300 transition"
-    enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-    enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
-    leave-active-class="transition ease-in duration-100"
-    leave-from-class="opacity-100"
-    leave-to-class="opacity-0"
-  >
-    <div
-      v-if="errors.oauth"
-      class="absolute inset-x-2 top-2 sm:mx-auto sm:w-full sm:max-w-md bg-red-500 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
-    >
-      <div class="p-4">
-        <div class="flex items-center">
-          <div class="w-0 flex-1 flex justify-between">
-            <ExclamationIcon class="h-5 w-5 text-white" />
-            <p class="w-0 flex-1 text-sm font-medium text-white">
-              {{ errors.oauth }}
-            </p>
-          </div>
-          <div class="ml-4 flex-shrink-0 flex">
-            <button
-              class="bg-red-500 rounded-md inline-flex text-red-100 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600"
-              @click="delete errors.oauth"
-            >
-              <span class="sr-only">Close</span>
-              <XIcon
-                class="h-5 w-5"
-                aria-hidden="true"
-              />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </transition>
   <div
     class="sm:mx-auto sm:w-full sm:max-w-md text-white space-y-4 flex flex-col items-center rounded-lg px-4 py-8"
     dusk="login-link"
@@ -66,21 +30,10 @@
 
 <script>
 import GuestLayout from '@/Shared/Layout/GuestLayout'
-import {XIcon} from '@heroicons/vue/solid'
-import {ExclamationIcon} from '@heroicons/vue/solid'
 
 export default {
   name: 'LoginPage',
-  components: {
-    XIcon,
-    ExclamationIcon,
-  },
+
   layout: GuestLayout,
-  props: {
-    errors: {
-      type: Object,
-      default: () => ({oauth: null}),
-    },
-  },
 }
 </script>
