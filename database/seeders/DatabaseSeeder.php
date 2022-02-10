@@ -73,29 +73,29 @@ class DatabaseSeeder extends Seeder
 
         $yearPeriods = YearPeriod::all();
 
-//        foreach ($users as $user) {
-//            VacationRequest::factory()
-//                ->count(10)
-//                ->for($user)
-//                ->sequence(fn() => [
-//                    "year_period_id" => $yearPeriods->random()->id,
-//                ])
-//                ->afterCreating(function (VacationRequest $vacationRequest): void {
-//                    $days = app(VacationDaysCalculator::class)->calculateDays(
-//                        $vacationRequest->yearPeriod,
-//                        $vacationRequest->from,
-//                        $vacationRequest->to,
-//                    );
-//
-//                    foreach ($days as $day) {
-//                        $vacationRequest->vacations()->create([
-//                            "date" => $day,
-//                            "user_id" => $vacationRequest->user->id,
-//                        ]);
-//                    }
-//                })
-//                ->create();
-//        }
+        foreach ($users as $user) {
+            VacationRequest::factory()
+                ->count(10)
+                ->for($user)
+                ->sequence(fn() => [
+                    "year_period_id" => $yearPeriods->random()->id,
+                ])
+                ->afterCreating(function (VacationRequest $vacationRequest): void {
+                    $days = app(VacationDaysCalculator::class)->calculateDays(
+                        $vacationRequest->yearPeriod,
+                        $vacationRequest->from,
+                        $vacationRequest->to,
+                    );
+
+                    foreach ($days as $day) {
+                        $vacationRequest->vacations()->create([
+                            "date" => $day,
+                            "user_id" => $vacationRequest->user->id,
+                        ]);
+                    }
+                })
+                ->create();
+        }
     }
 
     protected function generateAvatarsForUsers(Collection $users): void

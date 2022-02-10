@@ -32,6 +32,7 @@ class VacationRequestTest extends FeatureTestCase
     {
         $user = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
+
         VacationRequest::factory()
             ->count(10)
             ->for($user)
@@ -47,6 +48,7 @@ class VacationRequestTest extends FeatureTestCase
                     ->has("requests.data", 10),
             );
     }
+
     public function testUserCanCreateVacationRequest(): void
     {
         $user = User::factory()->createQuietly();
@@ -73,6 +75,7 @@ class VacationRequestTest extends FeatureTestCase
             "comment" => "Comment for the vacation request.",
         ]);
     }
+
     public function testTechnicalApproverCanApproveVacationRequest(): void
     {
         $user = User::factory()->createQuietly();
@@ -95,6 +98,7 @@ class VacationRequestTest extends FeatureTestCase
             "state" => VacationRequestState::WAITING_FOR_ADMINISTRATIVE,
         ]);
     }
+
     public function testAdministrativeApproverCanApproveVacationRequest(): void
     {
         $user = User::factory()->createQuietly();
@@ -117,6 +121,7 @@ class VacationRequestTest extends FeatureTestCase
             "state" => VacationRequestState::APPROVED,
         ]);
     }
+
     public function testTechnicalApproverCanRejectVacationRequest(): void
     {
         $user = User::factory()->createQuietly();
@@ -208,6 +213,7 @@ class VacationRequestTest extends FeatureTestCase
                 "vacationRequest" => trans("You have pending vacation request in this range."),
             ]);
     }
+
     public function testUserCannotCreateVacationRequestIfHeHasApprovedVacationRequestInThisRange(): void
     {
         $user = User::factory()->createQuietly();
@@ -235,6 +241,7 @@ class VacationRequestTest extends FeatureTestCase
                 "vacationRequest" => trans("You have approved vacation request in this range."),
             ]);
     }
+
     public function testUserCannotCreateVacationRequestWithEndDatePriorToTheStartDate(): void
     {
         $user = User::factory()->createQuietly();
@@ -250,6 +257,7 @@ class VacationRequestTest extends FeatureTestCase
                 "vacationRequest" => trans("Vacation needs minimum one day."),
             ]);
     }
+
     public function testUserCannotCreateVacationRequestAtTheTurnOfTheYear(): void
     {
         $user = User::factory()->createQuietly();
