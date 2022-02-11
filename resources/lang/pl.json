@@ -30,5 +30,12 @@
   "You have approved vacation request in this range.": "Masz zaakceptowany wniosek urlopowy w tym zakresie dat.",
   "You have exceeded your vacation limit.": "Przekroczyłeś/aś limit urlopu.",
   "Vacation needs minimum one day.": "Urlop musi być co najmniej na jeden dzień.",
-  "The vacation request cannot be created at the turn of the year.": "Wniosek urlopowy nie może zostać złożony na przełomie roku."
+  "The vacation request cannot be created at the turn of the year.": "Wniosek urlopowy nie może zostać złożony na przełomie roku.",
+  "Hi :user!": "Cześć :user!",
+  "The vacation request :title has changed state to :state.": "Wniosek urlopowy :title zmienił status na :state.",
+  "Vacation request :title": "Wniosek urlopowy :title",
+  "Regards": "Z poważaniem",
+  "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "Jeżeli masz problemy z kliknięciem przycisku \":actionText\", skopiuj i wklej poniższy adres w pasek przeglądarki:",
+  "All rights reserved.": "Wszelkie prawa zastrzeżone",
+  "Show vacation request": "Pokaż wniosek"
 }

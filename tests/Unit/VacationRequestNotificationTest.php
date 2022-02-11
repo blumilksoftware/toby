@@ -18,7 +18,7 @@ use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
 
-class VacationRequestStatesTest extends TestCase
+class VacationRequestNotificationTest extends TestCase
 {
     use DatabaseMigrations;
     use InteractsWithYearPeriods;
@@ -34,9 +34,13 @@ class VacationRequestStatesTest extends TestCase
         $this->createCurrentYearPeriod();
     }
 
-    public function testAfterCreatingVacationRequestOfTypeVacationItTransitsToProperState(): void
+    public function testAfterChangingVacationRequestStateNotificationAreSentToUsers() :void
     {
-        $user = User::factory()->createQuietly();
+        Notification::fake();
+
+        $user = User::factory(["role" => Role::EMPLOYEE])->createQuietly();
+        $technicalApprover = User::factory(["role" => Role::TECHNICAL_APPROVER])->createQuietly();
+        $administrativeApprover = User::factory(["role" => Role::ADMINISTRATIVE_APPROVER])->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -54,50 +58,37 @@ class VacationRequestStatesTest extends TestCase
 
         $this->stateManager->waitForTechnical($vacationRequest);
 
-        $this->assertEquals(VacationRequestState::WAITING_FOR_TECHNICAL, $vacationRequest->state);
+        Notification::assertSentTo([$user, $technicalApprover, $administrativeApprover],VacationRequestNotification::class);
     }
 
-    public function testAfterCreatingVacationRequestOfTypeSickVacationItTransitsToProperState(): void
-    {
-        $user = User::factory()->createQuietly();
+    public function testAfterChangingVacationRequestStateNotificationIsNotSentToAnotherEmployee(): void {
+        Notification::fake();
+
+        $user = User::factory(["role" => Role::EMPLOYEE])->createQuietly();
+        $anotherUser = User::factory(["role" => Role::EMPLOYEE])->createQuietly();
+        $technicalApprover = User::factory(["role" => Role::TECHNICAL_APPROVER])->createQuietly();
+        $administrativeApprover = User::factory(["role" => Role::ADMINISTRATIVE_APPROVER])->createQuietly();
+
 
         $currentYearPeriod = YearPeriod::current();
 
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
-            "type" => VacationType::SICK_VACATION->value,
+            "type" => VacationType::VACATION->value,
             "state" => VacationRequestState::CREATED,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
+            "comment" => "Comment for the vacation request.",
         ])
             ->for($user)
             ->for($currentYearPeriod)
             ->create();
 
-        $this->stateManager->approve($vacationRequest);
+        $this->stateManager->waitForTechnical($vacationRequest);
 
-        $this->assertEquals(VacationRequestState::APPROVED, $vacationRequest->state);
-    }
-
-    public function testAfterCreatingVacationRequestOfTypeTimeInLieuItTransitsToProperState(): void
-    {
-        $user = User::factory()->createQuietly();
-
-        $currentYearPeriod = YearPeriod::current();
-
-        /** @var VacationRequest $vacationRequest */
-        $vacationRequest = VacationRequest::factory([
-            "type" => VacationType::TIME_IN_LIEU->value,
-            "state" => VacationRequestState::CREATED,
-            "from" => Carbon::create($currentYearPeriod->year, 2, 2)->toDateString(),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 2)->toDateString(),
-        ])
-            ->for($user)
-            ->for($currentYearPeriod)
-            ->create();
-
-        $this->stateManager->approve($vacationRequest);
-
-        $this->assertEquals(VacationRequestState::APPROVED, $vacationRequest->state);
+        Notification::assertSentTo([$user, $technicalApprover, $administrativeApprover],VacationRequestNotification::class);
+        Notification::assertNotSentTo([$anotherUser],VacationRequestNotification::class);
     }
 }
+
+
