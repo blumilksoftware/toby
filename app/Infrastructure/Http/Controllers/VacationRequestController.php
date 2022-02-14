@@ -75,6 +75,9 @@ class VacationRequestController extends Controller
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->vacationRequests()->make($request->data());
         $vacationRequestValidator->validate($vacationRequest);
+
+        dd("ok");
+
         $vacationRequest->save();
 
         $days = $vacationDaysCalculator->calculateDays(

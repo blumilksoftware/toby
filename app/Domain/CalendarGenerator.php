@@ -50,8 +50,11 @@ class CalendarGenerator
     protected function generateCalendar(CarbonPeriod $period, Collection $holidays): array
     {
         $calendar = [];
+        $vacations = $this->getVacationsForPeriod($period);
 
         foreach ($period as $day) {
+            $vacationsForDay = $vacations[$day->toDateString()] ?? new Collection();
+
             $calendar[] = [
                 "date" => $day->toDateString(),
                 "dayOfMonth" => $day->translatedFormat("j"),
@@ -59,18 +62,19 @@ class CalendarGenerator
                 "isToday" => $day->isToday(),
                 "isWeekend" => $day->isWeekend(),
                 "isHoliday" => $holidays->contains($day),
-                "vacations" => $this->getVacationsForDay($day),
+                "vacations" => $vacationsForDay->pluck("user_id"),
             ];
         }
 
         return $calendar;
     }
 
-    protected function getVacationsForDay(CarbonInterface $day): Collection
+    protected function getVacationsForPeriod(CarbonPeriod $period): Collection
     {
         return Vacation::query()
-            ->whereDate("date", $day)
+            ->whereBetween("date", [$period->start, $period->end])
             ->whereRelation("vacationRequest", "state", VacationRequestState::APPROVED->value)
-            ->pluck("user_id");
+            ->get()
+            ->groupBy(fn(Vacation $vacation) => $vacation->date->toDateString());
     }
 }

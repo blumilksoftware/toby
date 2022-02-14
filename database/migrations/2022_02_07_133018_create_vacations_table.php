@@ -7,6 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Eloquent\Models\YearPeriod;
 
 return new class() extends Migration {
     public function up(): void
@@ -15,6 +16,7 @@ return new class() extends Migration {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(VacationRequest::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(YearPeriod::class)->constrained()->cascadeOnDelete();
             $table->date("date");
         });
     }

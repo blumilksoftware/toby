@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
-use Carbon\CarbonInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -35,23 +34,5 @@ class VacationCalendarController extends Controller
             "currentMonth" => $month,
             "users" => UserResource::collection($users),
         ]);
-    }
-
-    protected function monthNameToNumber(?string $name): int
-    {
-        return match ($name) {
-            default => CarbonInterface::JANUARY,
-            "february" => CarbonInterface::FEBRUARY,
-            "march" => CarbonInterface::MARCH,
-            "april" => CarbonInterface::APRIL,
-            "may" => CarbonInterface::MAY,
-            "june" => CarbonInterface::JUNE,
-            "july" => CarbonInterface::JULY,
-            "august" => CarbonInterface::AUGUST,
-            "september" => CarbonInterface::SEPTEMBER,
-            "october" => CarbonInterface::OCTOBER,
-            "november" => CarbonInterface::NOVEMBER,
-            "december" => CarbonInterface::DECEMBER,
-        };
     }
 }
