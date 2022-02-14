@@ -1,14 +1,23 @@
 <template>
   <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-blumilk-25">
-    <FlashMessage />
+    <ErrorAlert
+      v-if="flash.error"
+      :message="flash.error"
+    />
     <slot />
   </div>
 </template>
 
 <script>
-import FlashMessage from '@/Shared/FlashMessage'
+import ErrorAlert from '@/Shared/Alerts/ErrorAlert'
 export default {
   name: 'GuestLayout',
-  components: {FlashMessage},
+  components: {ErrorAlert},
+  props: {
+    flash: {
+      type: Object,
+      default: () => null,
+    },
+  },
 }
 </script>
