@@ -2,7 +2,14 @@
   <div class="min-h-full">
     <MainMenu />
     <main class="lg:ml-64 flex flex-col flex-1 py-8">
-      <FlashMessage />
+      <SuccessAlert
+        v-if="flash.success"
+        :message="flash.success"
+      />
+      <ErrorAlert
+        v-if="flash.error"
+        :message="flash.error"
+      />
       <div>
         <slot />
       </div>
@@ -12,13 +19,21 @@
 
 <script>
 import MainMenu from '@/Shared/MainMenu'
-import FlashMessage from '@/Shared/FlashMessage'
+import SuccessAlert from '@/Shared/Alerts/SuccessAlert'
+import ErrorAlert from '@/Shared/Alerts/ErrorAlert'
 
 export default {
   name: 'AppLayout',
   components: {
-    FlashMessage,
+    SuccessAlert,
+    ErrorAlert,
     MainMenu,
+  },
+  props: {
+    flash: {
+      type: Object,
+      default: () => null,
+    },
   },
 }
 </script>
