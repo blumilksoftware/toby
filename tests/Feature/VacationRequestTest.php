@@ -181,7 +181,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => __("You have exceeded your vacation limit."),
+                "vacationRequest" => __("Vacation limit has been exceeded."),
             ]);
     }
 
