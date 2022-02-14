@@ -56,13 +56,12 @@ class VacationRequestTest extends FeatureTestCase
 
         $currentYearPeriod = YearPeriod::current();
 
-         VacationLimit::factory([
+        VacationLimit::factory([
             "days" => 20,
         ])
             ->for($user)
             ->for($currentYearPeriod)
             ->create();
-
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
@@ -184,7 +183,6 @@ class VacationRequestTest extends FeatureTestCase
                 "vacationRequest" => __("Vacation limit has been exceeded."),
             ]);
     }
-
 
     public function testUserCannotCreateVacationRequestAtWeekend(): void
     {

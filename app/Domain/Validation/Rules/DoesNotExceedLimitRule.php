@@ -52,8 +52,8 @@ class DoesNotExceedLimitRule implements VacationRequestRule
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query
-            ->whereIn("type", $this->getLimitableVacationTypes())
-            ->noStates(VacationRequestState::failedStates()),
+                    ->whereIn("type", $this->getLimitableVacationTypes())
+                    ->noStates(VacationRequestState::failedStates()),
             )
             ->count();
     }
