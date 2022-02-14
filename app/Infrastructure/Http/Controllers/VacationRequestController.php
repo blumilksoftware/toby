@@ -87,7 +87,8 @@ class VacationRequestController extends Controller
         foreach ($days as $day) {
             $vacationRequest->vacations()->create([
                 "date" => $day,
-                "user_id" => $vacationRequest->user_id,
+                "user_id" => $vacationRequest->user->id,
+                "year_period_id" => $vacationRequest->yearPeriod->id,
             ]);
         }
 
