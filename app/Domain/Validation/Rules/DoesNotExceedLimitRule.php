@@ -37,7 +37,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
 
     public function errorMessage(): string
     {
-        return __("You have exceeded your vacation limit.");
+        return __("Vacation limit has been exceeded.");
     }
 
     protected function getUserVacationLimit(User $user, YearPeriod $yearPeriod): int
@@ -52,8 +52,8 @@ class DoesNotExceedLimitRule implements VacationRequestRule
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query
-            ->whereIn("type", $this->getLimitableVacationTypes())
-            ->noStates(VacationRequestState::failedStates()),
+                    ->whereIn("type", $this->getLimitableVacationTypes())
+                    ->noStates(VacationRequestState::failedStates()),
             )
             ->count();
     }

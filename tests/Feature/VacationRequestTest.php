@@ -12,6 +12,7 @@ use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
 
@@ -54,6 +55,13 @@ class VacationRequestTest extends FeatureTestCase
         $user = User::factory()->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
@@ -128,6 +136,13 @@ class VacationRequestTest extends FeatureTestCase
         $technicalApprover = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
 
+        $vacationLimit = VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
         $vacationRequest = VacationRequest::factory([
             "state" => VacationRequestState::WAITING_FOR_TECHNICAL,
             "type" => VacationType::VACATION,
@@ -145,10 +160,41 @@ class VacationRequestTest extends FeatureTestCase
         ]);
     }
 
+    public function testUserCannotCreateVacationRequestIfHeExceedsHisVacationLimit(): void
+    {
+        $user = User::factory()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 3,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/vacation-requests", [
+                "type" => VacationType::VACATION->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
+                "comment" => "Comment for the vacation request.",
+            ])
+            ->assertSessionHasErrors([
+                "vacationRequest" => __("Vacation limit has been exceeded."),
+            ]);
+    }
+
     public function testUserCannotCreateVacationRequestAtWeekend(): void
     {
         $user = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
@@ -158,7 +204,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Vacation at weekend.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => trans("Vacation needs minimum one day."),
+                "vacationRequest" => __("Vacation needs minimum one day."),
             ]);
     }
 
@@ -166,6 +212,13 @@ class VacationRequestTest extends FeatureTestCase
     {
         $user = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
 
         foreach ($this->polishHolidaysRetriever->getForYearPeriod($currentYearPeriod) as $holiday) {
             $currentYearPeriod->holidays()->create([
@@ -182,7 +235,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Vacation at holiday.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => trans("Vacation needs minimum one day."),
+                "vacationRequest" => __("Vacation needs minimum one day."),
             ]);
     }
 
@@ -190,6 +243,13 @@ class VacationRequestTest extends FeatureTestCase
     {
         $user = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
 
         VacationRequest::factory([
             "type" => VacationType::VACATION->value,
@@ -210,14 +270,22 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Another comment for the another vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => trans("You have pending vacation request in this range."),
-            ]);
+                "vacationRequest" => __("You have pending vacation request in this range."),
+            ])
+        ;
     }
 
     public function testUserCannotCreateVacationRequestIfHeHasApprovedVacationRequestInThisRange(): void
     {
         $user = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
+
+        $vacationLimit = VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
 
         VacationRequest::factory([
             "type" => VacationType::VACATION->value,
@@ -238,7 +306,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Another comment for the another vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => trans("You have approved vacation request in this range."),
+                "vacationRequest" => __("You have approved vacation request in this range."),
             ]);
     }
 
@@ -254,7 +322,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => trans("Vacation needs minimum one day."),
+                "vacationRequest" => __("Vacation needs minimum one day."),
             ]);
     }
 
@@ -271,7 +339,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => trans("The vacation request cannot be created at the turn of the year."),
+                "vacationRequest" => __("The vacation request cannot be created at the turn of the year."),
             ]);
     }
 }
