@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property Carbon $date
+ * @property string $event_id
  * @property User $user
  * @property VacationRequest $vacationRequest
  * @property YearPeriod $yearPeriod
