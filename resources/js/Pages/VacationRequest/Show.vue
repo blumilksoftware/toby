@@ -118,6 +118,7 @@
               :href="`/vacation-requests/${request.id}/accept-as-technical`"
               method="post"
               as="button"
+              preserve-scroll
               class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
             >
               Zaakceptuj wniosek
@@ -140,6 +141,7 @@
               :href="`/vacation-requests/${request.id}/accept-as-administrative`"
               method="post"
               as="button"
+              preserve-scroll
               class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
             >
               Zaakceptuj wniosek
@@ -162,6 +164,7 @@
               :href="`/vacation-requests/${request.id}/reject`"
               method="post"
               as="button"
+              preserve-scroll
               class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
             >
               Odrzuć wniosek
@@ -184,6 +187,7 @@
               :href="`/vacation-requests/${request.id}/cancel`"
               method="post"
               as="button"
+              preserve-scroll
               class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
             >
               Anuluj wniosek
