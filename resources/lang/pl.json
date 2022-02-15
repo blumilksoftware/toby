@@ -28,7 +28,7 @@
   "accepted_by_administrative": "Zaakceptowany przez administracyjnego",
   "You have pending vacation request in this range.": "Masz oczekujący wniosek urlopowy w tym zakresie dat.",
   "You have approved vacation request in this range.": "Masz zaakceptowany wniosek urlopowy w tym zakresie dat.",
-  "You have exceeded your vacation limit.": "Przekroczyłeś/aś limit urlopu.",
+  "Vacation limit has been exceeded.": "Limit urlopu został przekroczony.",
   "Vacation needs minimum one day.": "Urlop musi być co najmniej na jeden dzień.",
   "The vacation request cannot be created at the turn of the year.": "Wniosek urlopowy nie może zostać złożony na przełomie roku.",
   "User has been created.": "Użytkownik został utworzony.",

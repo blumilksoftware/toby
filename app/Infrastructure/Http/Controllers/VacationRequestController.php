@@ -75,6 +75,7 @@ class VacationRequestController extends Controller
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->vacationRequests()->make($request->data());
         $vacationRequestValidator->validate($vacationRequest);
+
         $vacationRequest->save();
 
         $days = $vacationDaysCalculator->calculateDays(
@@ -86,7 +87,8 @@ class VacationRequestController extends Controller
         foreach ($days as $day) {
             $vacationRequest->vacations()->create([
                 "date" => $day,
-                "user_id" => $vacationRequest->user_id,
+                "user_id" => $vacationRequest->user->id,
+                "year_period_id" => $vacationRequest->yearPeriod->id,
             ]);
         }
 

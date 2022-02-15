@@ -62,7 +62,7 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300 text-lg font-semibold text-gray-900 py-4 px-2"
-              :class="{ 'text-blumilk-600 bg-blumilk-25 font-black': day.isToday}"
+              :class="{ 'text-blumilk-600 bg-blumilk-25 font-black': day.isToday }"
             >
               <div>
                 {{ day.dayOfMonth }}
@@ -75,21 +75,20 @@
         </thead>
         <tbody>
           <tr
-            v-for="userVacation in userVacations"
-            :key="userVacation.user.id"
+            v-for="user in users.data"
+            :key="user.id"
           >
             <th class="border border-gray-300 py-2 px-4">
               <div class="flex justify-start items-center">
                 <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
                   <img
                     class="h-10 w-10 rounded-full"
-                    :src="userVacation.user.avatar"
-                    alt=""
+                    :src="user.avatar"
                   >
                 </span>
                 <div class="ml-3">
                   <div class="text-sm font-medium text-gray-900">
-                    {{ userVacation.user.name }}
+                    {{ user.name }}
                   </div>
                 </div>
               </div>
@@ -98,10 +97,10 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300"
-              :class="{'bg-gray-100': day.isWeekend, 'bg-green-100': day.isHoliday, 'bg-blumilk-500': userVacation.vacations.includes(day.date) }"
+              :class="{'bg-red-100': day.isWeekend || day.isHoliday, 'bg-blumilk-500': day.vacations.includes(user.id) }"
             >
               <div
-                v-if="userVacation.vacations.includes(day.date)"
+                v-if="day.vacations.includes(user.id)"
                 class="flex justify-center items-center"
               >
                 <svg
@@ -127,6 +126,7 @@
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
 import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/solid'
 import {computed} from 'vue'
+import {useMonthInfo} from '@/Composables/monthInfo'
 
 export default {
   name: 'VacationCalendar',
@@ -139,7 +139,7 @@ export default {
     ChevronDownIcon,
   },
   props: {
-    userVacations: {
+    users: {
       type: Object,
       default: () => null,
     },
@@ -153,58 +153,10 @@ export default {
     },
   },
   setup(props) {
-    const months = [
-      {
-        'name': 'Styczeń',
-        'value': 'january',
-      },
-      {
-        'name': 'Luty',
-        'value': 'february',
-      },
-      {
-        'name': 'Marzec',
-        'value': 'march',
-      },
-      {
-        'name': 'Kwiecień',
-        'value': 'april',
-      },
-      {
-        'name': 'Maj',
-        'value': 'may',
-      },
-      {
-        'name': 'Czerwiec',
-        'value': 'june',
-      },
-      {
-        'name': 'Lipiec',
-        'value': 'july',
-      },
-      {
-        'name': 'Sierpień',
-        'value': 'august',
-      },
-      {
-        'name': 'Wrzesień',
-        'value': 'september',
-      },
-      {
-        'name': 'Październik',
-        'value': 'october',
-      },
-      {
-        'name': 'Listopad',
-        'value': 'november',
-      },
-      {
-        'name': 'Grudzień',
-        'value': 'december',
-      },
-    ]
+    const {getMonths, findMonth} = useMonthInfo()
+    const months = getMonths()
 
-    const selectedMonth = computed(() => months.find(month => month.value === props.currentMonth))
+    const selectedMonth = computed(() => findMonth(props.currentMonth))
 
     return {
       months,

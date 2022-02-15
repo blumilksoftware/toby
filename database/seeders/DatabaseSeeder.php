@@ -91,6 +91,7 @@ class DatabaseSeeder extends Seeder
                         $vacationRequest->vacations()->create([
                             "date" => $day,
                             "user_id" => $vacationRequest->user->id,
+                            "year_period_id" => $vacationRequest->yearPeriod->id,
                         ]);
                     }
                 })

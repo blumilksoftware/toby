@@ -21,7 +21,6 @@ use Toby\Domain\Enums\VacationType;
  * @property VacationRequestState $state
  * @property Carbon $from
  * @property Carbon $to
- * @property int $estimated_days
  * @property string $comment
  * @property User $user
  * @property YearPeriod $yearPeriod
@@ -73,6 +72,11 @@ class VacationRequest extends Model
     public function scopeStates(Builder $query, array $states): Builder
     {
         return $query->whereIn("state", $states);
+    }
+
+    public function scopeNoStates(Builder $query, array $states): Builder
+    {
+        return $query->whereNotIn("state", $states);
     }
 
     public function scopeOverlapsWith(Builder $query, self $vacationRequest): Builder
