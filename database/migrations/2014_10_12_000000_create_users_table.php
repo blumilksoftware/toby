@@ -16,7 +16,7 @@ return new class() extends Migration {
             $table->string("last_name");
             $table->string("email")->unique();
             $table->string("avatar")->nullable();
-            $table->string("role")->default(Role::EMPLOYEE->value);
+            $table->string("role")->default(Role::Employee->value);
             $table->string("position");
             $table->string("employment_form");
             $table->date("employment_date");
