@@ -1,6 +1,6 @@
 <template>
   <InertiaHead title="Twoje wnioski urlopowe" />
-  <div class="bg-white sm:rounded-lg shadow-md">
+  <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg leading-6 font-medium text-gray-900">
@@ -57,7 +57,7 @@
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
             >
               Dni urlopu
             </th>
@@ -84,7 +84,7 @@
                 {{ request.name }}
               </InertiaLink>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
               {{ request.type }}
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -93,15 +93,18 @@
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.to }}
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-right text-sm text-gray-500">
-              {{ request.estimatedDays }}
+            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ request.days.length }}
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ request.state }}
+              <Status :status="request.state" />
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-              <InertiaLink :href="`/vacation-requests/${request.id}`">
-                <ChevronRightIcon class="block w-6 h-6 fill-gray-400" />
+              <InertiaLink
+                :href="`/vacation-requests/${request.id}`"
+                class="flex justify-around"
+              >
+                <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
               </InertiaLink>
             </td>
           </tr>
@@ -169,7 +172,19 @@
 </template>
 
 <script>
-import {ChevronRightIcon, DotsVerticalIcon, PencilIcon, TrashIcon} from '@heroicons/vue/solid'
+import {
+  ChevronRightIcon,
+  ClockIcon,
+  DotsVerticalIcon,
+  PencilIcon,
+  ThumbDownIcon,
+  ThumbUpIcon,
+  TrashIcon,
+  XIcon,
+  CheckIcon,
+  DocumentTextIcon,
+} from '@heroicons/vue/solid'
+import Status from '@/Shared/Status'
 
 export default {
   name: 'VacationRequestIndex',
@@ -178,6 +193,13 @@ export default {
     PencilIcon,
     TrashIcon,
     ChevronRightIcon,
+    ThumbUpIcon,
+    ClockIcon,
+    XIcon,
+    CheckIcon,
+    DocumentTextIcon,
+    ThumbDownIcon,
+    Status,
   },
   props: {
     requests: {

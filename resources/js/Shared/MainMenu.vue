@@ -1,34 +1,198 @@
 <template>
-  <Popover
-    v-slot="{ open }"
-    as="header"
-    class="pb-24 bg-gradient-to-r from-blumilk-500 to-blumilk-600"
+  <TransitionRoot
+    as="template"
+    :show="sidebarOpen"
   >
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-      <div class="relative flex flex-wrap items-center justify-center lg:justify-between">
-        <!-- Logo -->
-        <div class="absolute left-0 py-5 flex-shrink-0 lg:static">
-          <InertiaLink href="/">
-            <img
-              class="h-8 w-auto"
-              src="/img/logo-white.png"
-              alt="Workflow"
-            >
+    <Dialog
+      as="div"
+      class="fixed inset-0 flex z-40 lg:hidden"
+      @close="sidebarOpen = false"
+    >
+      <TransitionChild
+        as="template"
+        enter="transition-opacity ease-linear duration-300"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="transition-opacity ease-linear duration-300"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+      </TransitionChild>
+      <TransitionChild
+        as="template"
+        enter="transition ease-in-out duration-300 transform"
+        enter-from="-translate-x-full"
+        enter-to="translate-x-0"
+        leave="transition ease-in-out duration-300 transform"
+        leave-from="translate-x-0"
+        leave-to="-translate-x-full"
+      >
+        <div class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-blumilk-700">
+          <TransitionChild
+            as="template"
+            enter="ease-in-out duration-300"
+            enter-from="opacity-0"
+            enter-to="opacity-100"
+            leave="ease-in-out duration-300"
+            leave-from="opacity-100"
+            leave-to="opacity-0"
+          >
+            <div class="absolute top-0 right-0 -mr-12 pt-2">
+              <button
+                type="button"
+                class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                @click="sidebarOpen = false"
+              >
+                <span class="sr-only">Close sidebar</span>
+                <XIcon
+                  class="h-6 w-6 text-white"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          </TransitionChild>
+          <div class="flex-shrink-0 flex items-center px-4">
+            <InertiaLink href="/">
+              <img
+                class="h-8 w-auto"
+                src="/img/logo-white.png"
+                alt="Workflow"
+              >
+            </InertiaLink>
+          </div>
+          <nav
+            class="mt-5 flex-shrink-0 h-full divide-y divide-blumilk-800 overflow-y-auto"
+            aria-label="Sidebar"
+          >
+            <div class="px-2 space-y-1">
+              <InertiaLink
+                v-for="item in navigation"
+                :key="item.name"
+                :href="item.href"
+                :class="[item.current ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                :aria-current="item.current ? 'page' : undefined"
+              >
+                <component
+                  :is="item.icon"
+                  class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
+                  aria-hidden="true"
+                />
+                {{ item.name }}
+              </InertiaLink>
+            </div>
+            <div class="mt-6 pt-6">
+              <div class="px-2 space-y-1">
+                <InertiaLink
+                  v-for="item in secondaryNavigation"
+                  :key="item.name"
+                  :href="item.href"
+                  class="group flex items-center px-2 py-2 text-base font-medium rounded-md text-blumilk-100 hover:text-white hover:bg-blumilk-600"
+                >
+                  <component
+                    :is="item.icon"
+                    class="mr-4 h-6 w-6 text-blumilk-200"
+                    aria-hidden="true"
+                  />
+                  {{ item.name }}
+                </InertiaLink>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </TransitionChild>
+      <div
+        class="flex-shrink-0 w-14"
+        aria-hidden="true"
+      />
+    </Dialog>
+  </TransitionRoot>
+
+  <!-- Static sidebar for desktop -->
+  <div class="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
+    <div class="flex flex-col flex-grow bg-blumilk-700 pt-5 pb-4 overflow-y-auto">
+      <div class="flex items-center flex-shrink-0 px-4">
+        <InertiaLink href="/">
+          <img
+            class="h-8 w-auto"
+            src="/img/logo-white.png"
+            alt="Workflow"
+          >
+        </InertiaLink>
+      </div>
+      <nav
+        class="mt-5 flex-1 flex flex-col divide-y divide-blumilk-800 overflow-y-auto"
+        aria-label="Sidebar"
+      >
+        <div class="px-2 space-y-1">
+          <InertiaLink
+            v-for="item in navigation"
+            :key="item.name"
+            :href="item.href"
+            :class="[item.current ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :aria-current="item.current ? 'page' : undefined"
+          >
+            <component
+              :is="item.icon"
+              class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
+              aria-hidden="true"
+            />
+            {{ item.name }}
           </InertiaLink>
         </div>
+        <div class="mt-6 pt-6">
+          <div class="px-2 space-y-1">
+            <InertiaLink
+              v-for="item in secondaryNavigation"
+              :key="item.name"
+              :href="item.href"
+              class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-blumilk-100 hover:text-white hover:bg-blumilk-600"
+            >
+              <component
+                :is="item.icon"
+                class="mr-4 h-6 w-6 text-blumilk-200"
+                aria-hidden="true"
+              />
+              {{ item.name }}
+            </InertiaLink>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
 
-        <!-- Right section on desktop -->
-        <div class="hidden lg:ml-4 lg:flex lg:items-center lg:py-5 lg:pr-0.5">
-          <div class="mr-4">
+  <div class="lg:pl-64 flex flex-col flex-1">
+    <div class="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200">
+      <button
+        type="button"
+        class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
+        @click="sidebarOpen = true"
+      >
+        <span class="sr-only">Open sidebar</span>
+        <MenuAlt1Icon
+          class="h-6 w-6"
+          aria-hidden="true"
+        />
+      </button>
+      <div class="flex-1 px-4 flex justify-between sm:px-6 lg:px-8">
+        <div class="flex items-center">
+          <div>
             <Menu
               as="div"
               class="relative inline-block text-left"
             >
-              <div>
-                <MenuButton class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-300">
-                  {{ years.current }}
-                  <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
-                </MenuButton>
+              <div class="flex justify-center items-center">
+                <div class="mr-4">
+                  Wybrany rok:
+                </div>
+                <div>
+                  <MenuButton
+                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                  >
+                    {{ years.current }}
+                    <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
+                  </MenuButton>
+                </div>
               </div>
 
               <transition
@@ -39,7 +203,9 @@
                 leave-from-class="transform opacity-100 scale-100"
                 leave-to-class="transform opacity-0 scale-95"
               >
-                <MenuItems class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <MenuItems
+                  class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                >
                   <div class="py-1">
                     <MenuItem
                       v-for="(item, index) in years.navigation"
@@ -65,44 +231,42 @@
               </transition>
             </Menu>
           </div>
-
-          <button
-            type="button"
-            class="flex-shrink-0 p-1 text-cyan-200 rounded-full hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
-          >
-            <span class="sr-only">View notifications</span>
-            <BellIcon
-              class="h-6 w-6"
-              aria-hidden="true"
-            />
-          </button>
-
+        </div>
+        <div class="ml-4 flex items-center md:ml-6">
           <!-- Profile dropdown -->
           <Menu
             as="div"
-            class="ml-4 relative flex-shrink-0"
+            class="ml-3 relative"
           >
             <div>
               <MenuButton
-                class="rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
-                dusk="user-menu"
+                class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
               >
-                <span class="sr-only">{{ user.avatar }}</span>
                 <img
                   class="h-8 w-8 rounded-full"
                   :src="user.avatar"
-                  alt=""
+                  alt="Avatar"
                 >
+                <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
+                  <span class="sr-only">Open user menu for </span>
+                  {{ user.name }}
+                </span>
+                <ChevronDownIcon
+                  class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
+                  aria-hidden="true"
+                />
               </MenuButton>
             </div>
             <transition
+              enter-active-class="transition ease-out duration-100"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
               leave-active-class="transition ease-in duration-75"
               leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="origin-top-right z-40 absolute -right-2 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                dusk="user-menu-list"
+                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 <MenuItem
                   v-for="item in userNavigation"
@@ -122,208 +286,88 @@
             </transition>
           </Menu>
         </div>
-
-        <div class="w-full py-5 lg:border-t lg:border-white lg:border-opacity-20">
-          <div class="lg:items-center">
-            <div class="hidden lg:block">
-              <nav class="flex space-x-4">
-                <InertiaLink
-                  v-for="item in navigation"
-                  :key="item.name"
-                  :href="item.href"
-                  :class="[item.current ? 'text-white' : 'text-cyan-100', 'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10']"
-                  :aria-current="item.current ? 'page' : undefined"
-                >
-                  {{ item.name }}
-                </InertiaLink>
-              </nav>
-            </div>
-          </div>
-        </div>
-
-        <!-- Menu button -->
-        <div class="absolute right-0 flex-shrink-0 lg:hidden">
-          <!-- Mobile menu button -->
-          <PopoverButton
-            class="bg-transparent p-2 rounded-md inline-flex items-center justify-center text-cyan-200 hover:text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-white"
-          >
-            <span class="sr-only">Open main menu</span>
-            <MenuIcon
-              v-if="!open"
-              class="block h-6 w-6"
-              aria-hidden="true"
-            />
-            <XIcon
-              v-else
-              class="block h-6 w-6"
-              aria-hidden="true"
-            />
-          </PopoverButton>
-        </div>
       </div>
     </div>
-
-    <TransitionRoot
-      as="template"
-      :show="open"
-    >
-      <div class="lg:hidden">
-        <TransitionChild
-          as="template"
-          enter="duration-150 ease-out"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="duration-150 ease-in"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-        >
-          <PopoverOverlay class="z-20 fixed inset-0 bg-black bg-opacity-25" />
-        </TransitionChild>
-
-        <TransitionChild
-          as="template"
-          enter="duration-150 ease-out"
-          enter-from="opacity-0 scale-95"
-          enter-to="opacity-100 scale-100"
-          leave="duration-150 ease-in"
-          leave-from="opacity-100 scale-100"
-          leave-to="opacity-0 scale-95"
-        >
-          <PopoverPanel
-            focus
-            class="z-30 absolute top-0 inset-x-0 max-w-3xl mx-auto w-full p-2 transition transform origin-top"
-          >
-            <div
-              class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y divide-gray-200"
-            >
-              <div class="pt-3 pb-2">
-                <div class="flex items-center justify-between px-4">
-                  <div>
-                    <img
-                      class="h-8 w-auto"
-                      src="/img/logo-white.png"
-                      alt="Workflow"
-                    >
-                  </div>
-                  <div class="-mr-2">
-                    <PopoverButton
-                      class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
-                    >
-                      <span class="sr-only">Close menu</span>
-                      <XIcon
-                        class="h-6 w-6"
-                        aria-hidden="true"
-                      />
-                    </PopoverButton>
-                  </div>
-                </div>
-                <div class="mt-3 px-2 space-y-1">
-                  <InertiaLink
-                    v-for="item in navigation"
-                    :key="item.name"
-                    :href="item.href"
-                    class="block rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                  >
-                    {{ item.name }}
-                  </InertiaLink>
-                </div>
-              </div>
-              <div class="pt-4 pb-2">
-                <div class="flex items-center px-5">
-                  <div class="flex-shrink-0">
-                    <img
-                      class="h-10 w-10 rounded-full"
-                      :src="user.avatar"
-                      alt=""
-                    >
-                  </div>
-                  <div class="ml-3 min-w-0 flex-1">
-                    <div class="text-base font-medium text-gray-800 truncate">
-                      {{ user.name }}
-                    </div>
-                    <div class="text-sm font-medium text-gray-500 truncate">
-                      {{ user.email }}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    class="ml-auto flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
-                  >
-                    <span class="sr-only">View notifications</span>
-                    <BellIcon
-                      class="h-6 w-6"
-                      aria-hidden="true"
-                    />
-                  </button>
-                </div>
-                <div class="mt-3 px-2 space-y-1">
-                  <InertiaLink
-                    v-for="item in userNavigation"
-                    :key="item.name"
-                    :method="item.method"
-                    :as="item.as"
-                    :href="item.href"
-                    class="block w-full text-left rounded-md px-3 py-2 text-base text-gray-900 font-medium hover:bg-gray-100 hover:text-gray-800"
-                  >
-                    {{ item.name }}
-                  </InertiaLink>
-                </div>
-              </div>
-            </div>
-          </PopoverPanel>
-        </TransitionChild>
-      </div>
-    </TransitionRoot>
-  </Popover>
+  </div>
 </template>
 
 <script>
+import {ref} from 'vue'
 import {
+  Dialog,
+  DialogOverlay,
   Menu,
   MenuButton,
   MenuItem,
   MenuItems,
-  Popover,
-  PopoverButton,
-  PopoverOverlay,
-  PopoverPanel,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import {BellIcon, MenuIcon, XIcon} from '@heroicons/vue/outline'
+import {
+  BellIcon,
+  CogIcon,
+  HomeIcon,
+  CollectionIcon,
+  MenuAlt1Icon,
+  QuestionMarkCircleIcon,
+  ShieldCheckIcon,
+  UserGroupIcon,
+  XIcon,
+  SunIcon,
+  StarIcon,
+  CalendarIcon,
+} from '@heroicons/vue/outline'
+import {
+  CashIcon,
+  CheckCircleIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  OfficeBuildingIcon,
+  SearchIcon,
+} from '@heroicons/vue/solid'
 import {computed} from 'vue'
 import {usePage} from '@inertiajs/inertia-vue3'
-import {ChevronDownIcon, CheckIcon} from '@heroicons/vue/solid'
 
 export default {
-  name: 'MainMenu',
   components: {
+    Dialog,
+    DialogOverlay,
     Menu,
     MenuButton,
     MenuItem,
     MenuItems,
-    Popover,
-    PopoverButton,
-    PopoverOverlay,
-    PopoverPanel,
     TransitionChild,
     TransitionRoot,
     BellIcon,
-    MenuIcon,
-    XIcon,
+    CashIcon,
+    CheckCircleIcon,
     ChevronDownIcon,
+    ChevronRightIcon,
+    MenuAlt1Icon,
+    OfficeBuildingIcon,
+    SearchIcon,
+    XIcon,
+    StarIcon,
+    HomeIcon,
     CheckIcon,
+    UserGroupIcon,
+    SunIcon,
+    CalendarIcon,
   },
   setup() {
+    const sidebarOpen = ref(false)
+
     const user = computed(() => usePage().props.value.auth.user)
     const years = computed(() => usePage().props.value.years)
 
     const navigation = [
-      {name: 'Strona główna', href: '/', current: true},
-      {name: 'Użytkownicy', href: '/users', current: false},
-      {name: 'Dostępne urlopy', href: '/vacation-limits', current: false},
-      {name: 'Dni wolne', href: '/holidays', current: false},
-      {name: 'Wnioski urlopowe', href: '/vacation-requests', current: false},
+      {name: 'Strona główna', href: '/', icon: HomeIcon, current: true},
+      {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, current: false},
+      {name: 'Dostępne urlopy', href: '/vacation-limits', icon: SunIcon, current: false},
+      {name: 'Twoje wnioski', href: '/vacation-requests', icon: CollectionIcon, current: false},
+      {name: 'Dni wolne', href: '/holidays', icon: StarIcon, current: false},
+      {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, current: false},
     ]
     const userNavigation = [
       {name: 'Your Profile', href: '#'},
@@ -331,11 +375,18 @@ export default {
       {name: 'Wyloguj się', href: '/logout', method: 'post', as: 'button'},
     ]
 
+    const secondaryNavigation = [
+      {name: 'Settings', href: '#', icon: CogIcon},
+      {name: 'Help', href: '#', icon: QuestionMarkCircleIcon},
+      {name: 'Privacy', href: '#', icon: ShieldCheckIcon},
+    ]
     return {
       user,
       years,
       navigation,
+      secondaryNavigation,
       userNavigation,
+      sidebarOpen,
     }
   },
 }

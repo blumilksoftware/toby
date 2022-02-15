@@ -6,10 +6,10 @@ namespace Toby\Domain\Enums;
 
 enum EmploymentForm: string
 {
-    case EMPLOYMENT_CONTRACT = "employment_contract";
-    case COMMISSION_CONTRACT = "commission_contract";
-    case B2B_CONTRACT = "b2b_contract";
-    case BOARD_MEMBER_CONTRACT = "board_member_contract";
+    case EmploymentContract = "employment_contract";
+    case ComissionContract = "commission_contract";
+    case B2bContract = "b2b_contract";
+    case BoardMemberContract = "board_member_contract";
 
     public function label(): string
     {

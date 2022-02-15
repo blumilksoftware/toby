@@ -17,7 +17,7 @@ abstract class FeatureTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        Carbon::setTestNow(Carbon::now());
+        Carbon::setTestNow(Carbon::createFromDate(2022, 1, 1));
         $this->createCurrentYearPeriod();
     }
 }

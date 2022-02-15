@@ -24,16 +24,21 @@ class VacationRequestController extends Controller
 {
     public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
     {
+        $status = $request->get("status", "all");
+
         $vacationRequests = $request->user()
             ->vacationRequests()
+            ->with("vacations")
             ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
-            ->states(VacationRequestState::filterByStatus($request->query("status", "all")))
+            ->states(VacationRequestState::filterByStatus($status))
             ->paginate();
 
         return inertia("VacationRequest/Index", [
             "requests" => VacationRequestResource::collection($vacationRequests),
-            "filters" => $request->only("status"),
+            "filters" => [
+                "status" => $status,
+            ],
         ]);
     }
 
@@ -69,15 +74,24 @@ class VacationRequestController extends Controller
     ): RedirectResponse {
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->vacationRequests()->make($request->data());
-        $vacationRequest->estimated_days = $vacationDaysCalculator->calculateDays(
-            $vacationRequest->yearPeriod,
-            $vacationRequest->from,
-            $vacationRequest->to,
-        )->count();
-
         $vacationRequestValidator->validate($vacationRequest);
 
         $vacationRequest->save();
+
+        $days = $vacationDaysCalculator->calculateDays(
+            $vacationRequest->yearPeriod,
+            $vacationRequest->from,
+            $vacationRequest->to,
+        );
+
+        foreach ($days as $day) {
+            $vacationRequest->vacations()->create([
+                "date" => $day,
+                "user_id" => $vacationRequest->user->id,
+                "year_period_id" => $vacationRequest->yearPeriod->id,
+            ]);
+        }
+
         $stateManager->markAsCreated($vacationRequest);
 
         return redirect()

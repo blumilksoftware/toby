@@ -23,50 +23,50 @@ class VacationRequestStateManager
 
     public function markAsCreated(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::CREATED);
+        $this->changeState($vacationRequest, VacationRequestState::Created);
 
         $this->dispatcher->dispatch(new VacationRequestCreated($vacationRequest));
     }
 
     public function approve(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::APPROVED);
+        $this->changeState($vacationRequest, VacationRequestState::Approved);
 
         $this->dispatcher->dispatch(new VacationRequestApproved($vacationRequest));
     }
 
     public function reject(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::REJECTED);
+        $this->changeState($vacationRequest, VacationRequestState::Rejected);
     }
 
     public function cancel(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::CANCELED);
+        $this->changeState($vacationRequest, VacationRequestState::Canceled);
     }
 
     public function acceptAsTechnical(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::ACCEPTED_BY_TECHNICAL);
+        $this->changeState($vacationRequest, VacationRequestState::AcceptedByTechnical);
 
         $this->dispatcher->dispatch(new VacationRequestAcceptedByTechnical($vacationRequest));
     }
 
     public function acceptAsAdministrative(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::ACCEPTED_BY_ADMINSTRATIVE);
+        $this->changeState($vacationRequest, VacationRequestState::AcceptedByAdministrative);
 
         $this->dispatcher->dispatch(new VacationRequestAcceptedByAdministrative($vacationRequest));
     }
 
     public function waitForTechnical(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::WAITING_FOR_TECHNICAL);
+        $this->changeState($vacationRequest, VacationRequestState::WaitingForTechnical);
     }
 
     public function waitForAdministrative(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::WAITING_FOR_ADMINISTRATIVE);
+        $this->changeState($vacationRequest, VacationRequestState::WaitingForAdministrative);
     }
 
     protected function changeState(VacationRequest $vacationRequest, VacationRequestState $state): void

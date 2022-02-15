@@ -13,9 +13,11 @@ class VacationRequestActivityResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            "date" => $this->created_at->toDisplayString(),
-            "who" => $this->user ? $this->user->fullName : __("System"),
-            "to" => $this->to->label(),
+            "date" => $this->created_at->format("d.m.Y"),
+            "time" => $this->created_at->format("H:i"),
+            "user" => $this->user ? $this->user->fullName : __("System"),
+            "state" => $this->to,
+            "text" => $this->to->label(),
         ];
     }
 }

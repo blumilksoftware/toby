@@ -2,7 +2,7 @@
   <InertiaHead :title="`Wniosek ${request.name}`" />
   <div class="grid grid-cols-1 gap-6 xl:grid-flow-col-dense xl:grid-cols-3">
     <div class="space-y-6 xl:col-start-1 xl:col-span-2">
-      <div class="bg-white sm:rounded-lg shadow-md">
+      <div class="bg-white shadow-md">
         <div class="px-4 py-5 sm:px-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Informacje na temat wniosku
@@ -20,10 +20,26 @@
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
+                Pracownik
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ request.user.name }}
+              </dd>
+            </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
                 Rodzaj urlopu
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {{ request.type }}
+              </dd>
+            </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                Obecny status
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <Status :status="request.state" />
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -47,15 +63,24 @@
                 Dni urlopu
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ request.estimatedDays }}
+                {{ request.days.length }}
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
                 Komentarz
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd
+                v-if="request.comment != null"
+                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+              >
                 {{ request.comment }}
+              </dd>
+              <dd
+                v-else
+                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+              >
+                -
               </dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -85,14 +110,15 @@
           </dl>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg">
+      <div class="bg-white shadow">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Zaakceptuj wniosek jako osoba techniczna
           </h3>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
             <p>
-              W zależności od typu wniosku, zostanie on zatwierdzony lub osoba administracyjna będzie musiała go zaakceptować.
+              W zależności od typu wniosku, zostanie on zatwierdzony lub osoba administracyjna będzie
+              musiała go zaakceptować.
             </p>
           </div>
           <div class="mt-5">
@@ -107,7 +133,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg">
+      <div class="bg-white shadow">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Zaakceptuj wniosek jako osoba administracyjna
@@ -129,7 +155,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg">
+      <div class="bg-white shadow">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Odrzuć wniosek
@@ -151,7 +177,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow sm:rounded-lg border border-red-500">
+      <div class="bg-white shadow border border-red-500">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Anuluj wniosek
@@ -175,7 +201,7 @@
       </div>
     </div>
     <div class="xl:col-start-3 xl:col-span-1 space-y-6">
-      <div class="bg-white sm:rounded-lg shadow-md">
+      <div class="bg-white shadow-md">
         <div class="px-4 py-5 sm:px-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Historia wniosku
@@ -185,31 +211,12 @@
           <ul>
             <li
               v-for="(activity, index) in activities.data"
-              :key="activity.id"
+              :key="index"
             >
-              <div :class="{'relative pb-8': index !== activities.data.length - 1}">
-                <span
-                  v-if="(index !== activities.data.length - 1)"
-                  class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                />
-                <div class="relative flex space-x-3">
-                  <div>
-                    <span class="bg-blumilk-500 h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white">
-                      <ThumbUpIcon class="w-5 h-5 text-white" />
-                    </span>
-                  </div>
-                  <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                    <div>
-                      <p class="text-sm text-gray-500">
-                        {{ activity.to }}
-                      </p>
-                    </div>
-                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                      <time>{{ activity.date }}</time>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Activity
+                :activity="activity"
+                :last="index !== activities.data.length - 1"
+              />
             </li>
           </ul>
         </div>
@@ -219,14 +226,16 @@
 </template>
 
 <script>
-import { ThumbUpIcon } from '@heroicons/vue/outline'
-import {PaperClipIcon} from '@heroicons/vue/solid'
+import {PaperClipIcon} from '@heroicons/vue/outline'
+import Activity from '@/Shared/Activity'
+import Status from '@/Shared/Status'
 
 export default {
   name: 'VacationRequestShow',
   components: {
-    ThumbUpIcon,
+    Activity,
     PaperClipIcon,
+    Status,
   },
   props: {
     request: {

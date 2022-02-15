@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-full">
     <MainMenu />
-    <main class="-mt-24 pb-8">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <main class="lg:ml-64 flex flex-col flex-1 py-8">
+      <div>
         <slot />
       </div>
     </main>

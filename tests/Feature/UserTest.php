@@ -88,10 +88,10 @@ class UserTest extends FeatureTestCase
             ->post("/users", [
                 "firstName" => "John",
                 "lastName" => "Doe",
-                "role" => Role::EMPLOYEE->value,
+                "role" => Role::Employee->value,
                 "position" => "Test position",
                 "email" => "john.doe@example.com",
-                "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
+                "employmentForm" => EmploymentForm::B2bContract->value,
                 "employmentDate" => Carbon::now()->toDateString(),
             ])
             ->assertSessionHasNoErrors();
@@ -100,9 +100,9 @@ class UserTest extends FeatureTestCase
             "first_name" => "John",
             "last_name" => "Doe",
             "email" => "john.doe@example.com",
-            "role" => Role::EMPLOYEE->value,
+            "role" => Role::Employee->value,
             "position" => "Test position",
-            "employment_form" => EmploymentForm::B2B_CONTRACT->value,
+            "employment_form" => EmploymentForm::B2bContract->value,
             "employment_date" => Carbon::now()->toDateString(),
         ]);
     }
@@ -127,9 +127,9 @@ class UserTest extends FeatureTestCase
                 "firstName" => "John",
                 "lastName" => "Doe",
                 "email" => "john.doe@example.com",
-                "role" => Role::EMPLOYEE->value,
+                "role" => Role::Employee->value,
                 "position" => "Test position",
-                "employmentForm" => EmploymentForm::B2B_CONTRACT->value,
+                "employmentForm" => EmploymentForm::B2bContract->value,
                 "employmentDate" => Carbon::now()->toDateString(),
             ])
             ->assertSessionHasNoErrors();
@@ -138,9 +138,9 @@ class UserTest extends FeatureTestCase
             "first_name" => "John",
             "last_name" => "Doe",
             "email" => "john.doe@example.com",
-            "role" => Role::EMPLOYEE->value,
+            "role" => Role::Employee->value,
             "position" => "Test position",
-            "employment_form" => EmploymentForm::B2B_CONTRACT->value,
+            "employment_form" => EmploymentForm::B2bContract->value,
             "employment_date" => Carbon::now()->toDateString(),
         ]);
     }

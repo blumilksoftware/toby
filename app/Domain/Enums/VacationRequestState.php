@@ -6,14 +6,14 @@ namespace Toby\Domain\Enums;
 
 enum VacationRequestState: string
 {
-    case CREATED = "created";
-    case CANCELED = "canceled";
-    case REJECTED = "rejected";
-    case APPROVED = "approved";
-    case WAITING_FOR_TECHNICAL = "waiting_for_technical";
-    case WAITING_FOR_ADMINISTRATIVE = "waiting_for_administrative";
-    case ACCEPTED_BY_TECHNICAL = "accepted_by_technical";
-    case ACCEPTED_BY_ADMINSTRATIVE = "accepted_by_administrative";
+    case Created = "created";
+    case Canceled = "canceled";
+    case Rejected = "rejected";
+    case Approved = "approved";
+    case WaitingForTechnical = "waiting_for_technical";
+    case WaitingForAdministrative = "waiting_for_administrative";
+    case AcceptedByTechnical = "accepted_by_technical";
+    case AcceptedByAdministrative = "accepted_by_administrative";
 
     public function label(): string
     {
@@ -23,24 +23,24 @@ enum VacationRequestState: string
     public static function pendingStates(): array
     {
         return [
-            self::CREATED,
-            self::WAITING_FOR_TECHNICAL,
-            self::WAITING_FOR_ADMINISTRATIVE,
-            self::ACCEPTED_BY_TECHNICAL,
-            self::ACCEPTED_BY_ADMINSTRATIVE,
+            self::Created,
+            self::WaitingForTechnical,
+            self::WaitingForAdministrative,
+            self::AcceptedByTechnical,
+            self::AcceptedByAdministrative,
         ];
     }
 
     public static function successStates(): array
     {
-        return [self::APPROVED];
+        return [self::Approved];
     }
 
     public static function failedStates(): array
     {
         return [
-            self::REJECTED,
-            self::CANCELED,
+            self::Rejected,
+            self::Canceled,
         ];
     }
 

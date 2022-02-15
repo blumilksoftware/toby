@@ -23,7 +23,7 @@ class UserFactory extends Factory
             "email" => $this->faker->unique()->safeEmail(),
             "employment_form" => $this->faker->randomElement(EmploymentForm::cases()),
             "position" => $this->faker->jobTitle(),
-            "role" => Role::EMPLOYEE,
+            "role" => Role::Employee,
             "employment_date" => Carbon::createFromInterface($this->faker->dateTimeBetween("2020-10-27"))->toDateString(),
             "remember_token" => Str::random(10),
         ];
