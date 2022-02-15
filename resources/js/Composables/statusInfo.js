@@ -70,7 +70,7 @@ const statuses = [
     },
   },
   {
-    text: 'Zaakceptowany przez technicznego',
+    text: 'Zaakceptowany przez przełożonego technicznego',
     value: 'accepted_by_technical',
     outline: {
       icon: OutlineThumbUpIcon,
@@ -83,7 +83,7 @@ const statuses = [
     },
   },
   {
-    text: 'Zaakceptowany przez administracyjnego',
+    text: 'Zaakceptowany przez przełożonego administracyjnego',
     value: 'accepted_by_administrative',
     outline: {
       icon: OutlineThumbUpIcon,
