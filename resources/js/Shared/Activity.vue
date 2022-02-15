@@ -6,9 +6,9 @@
     />
     <div class="relative flex space-x-3">
       <div>
-        <span :class="[statusInfo.iconBackground, statusInfo.iconForeground, 'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white']">
+        <span :class="[statusInfo.outline.background, statusInfo.outline.foreground, 'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white']">
           <component
-            :is="statusInfo.icon"
+            :is="statusInfo.outline.icon"
             class="w-5 h-5 text-white"
           />
         </span>
@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import {CheckIcon, ClockIcon, DocumentTextIcon, ThumbDownIcon, ThumbUpIcon, XIcon} from '@heroicons/vue/outline'
 import {computed} from 'vue'
+import {useStatusInfo} from '@/Composables/statusInfo'
 
 export default {
   name: 'VacationRequestActivity',
@@ -48,65 +48,7 @@ export default {
     },
   },
   setup(props) {
-    const statuses = [
-      {
-        text: 'Utworzony',
-        icon: DocumentTextIcon,
-        value: 'created',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-gray-400',
-      },
-      {
-        text: 'Czeka na akceptację od technicznego',
-        icon: ClockIcon,
-        value: 'waiting_for_technical',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-amber-400',
-      },
-      {
-        text: 'Czeka na akceptację od administracyjnego',
-        icon: ClockIcon,
-        value: 'waiting_for_administrative',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-amber-400',
-      },
-      {
-        text: 'Odrzucony',
-        icon: ThumbDownIcon,
-        value: 'rejected',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-rose-600',
-      },
-      {
-        text: 'Zaakceptowany przez technicznego',
-        icon: ThumbUpIcon,
-        value: 'accepted_by_technical',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-green-500',
-      },
-      {
-        text: 'Zaakceptowany przez administracyjnego',
-        icon: ThumbUpIcon,
-        value: 'accepted_by_administrative',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-green-500',
-      },
-      {
-        text: 'Zatwierdzony',
-        icon: CheckIcon,
-        value: 'approved',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-blumilk-500',
-      },
-      {
-        text: 'Anulowany',
-        icon: XIcon,
-        value: 'canceled',
-        iconForeground: 'text-white',
-        iconBackground: 'bg-gray-900',
-      },
-    ]
-    const statusInfo = computed(() => statuses.find(status => status.value === props.activity.state))
+    const statusInfo = computed(() => useStatusInfo(props.activity.state))
 
     return {
       statusInfo,

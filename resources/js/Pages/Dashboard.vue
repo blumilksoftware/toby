@@ -257,7 +257,7 @@ import {computed} from 'vue'
 import {usePage} from '@inertiajs/inertia-vue3'
 
 export default {
-  name: 'Dashboard',
+  name: 'DashboardPage',
   setup() {
     const user = computed(() => usePage().props.value.auth.user)
     const stats = [
