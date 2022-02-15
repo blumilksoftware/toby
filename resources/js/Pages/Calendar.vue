@@ -126,6 +126,7 @@
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
 import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/solid'
 import {computed} from 'vue'
+import {useMonthInfo} from '@/Composables/monthInfo'
 
 export default {
   name: 'VacationCalendar',
@@ -152,58 +153,10 @@ export default {
     },
   },
   setup(props) {
-    const months = [
-      {
-        'name': 'Styczeń',
-        'value': 'january',
-      },
-      {
-        'name': 'Luty',
-        'value': 'february',
-      },
-      {
-        'name': 'Marzec',
-        'value': 'march',
-      },
-      {
-        'name': 'Kwiecień',
-        'value': 'april',
-      },
-      {
-        'name': 'Maj',
-        'value': 'may',
-      },
-      {
-        'name': 'Czerwiec',
-        'value': 'june',
-      },
-      {
-        'name': 'Lipiec',
-        'value': 'july',
-      },
-      {
-        'name': 'Sierpień',
-        'value': 'august',
-      },
-      {
-        'name': 'Wrzesień',
-        'value': 'september',
-      },
-      {
-        'name': 'Październik',
-        'value': 'october',
-      },
-      {
-        'name': 'Listopad',
-        'value': 'november',
-      },
-      {
-        'name': 'Grudzień',
-        'value': 'december',
-      },
-    ]
+    const {getMonths, findMonth} = useMonthInfo()
+    const months = getMonths()
 
-    const selectedMonth = computed(() => months.find(month => month.value === props.currentMonth))
+    const selectedMonth = computed(() => findMonth(props.currentMonth))
 
     return {
       months,

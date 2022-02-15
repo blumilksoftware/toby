@@ -69,7 +69,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
@@ -80,8 +80,8 @@ class VacationRequestTest extends FeatureTestCase
             "user_id" => $user->id,
             "year_period_id" => $currentYearPeriod->id,
             "name" => "1/" . $currentYearPeriod->year,
-            "type" => VacationType::VACATION->value,
-            "state" => VacationRequestState::WAITING_FOR_TECHNICAL,
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::WaitingForTechnical,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -95,8 +95,8 @@ class VacationRequestTest extends FeatureTestCase
         $currentYearPeriod = YearPeriod::current();
 
         $vacationRequest = VacationRequest::factory([
-            "state" => VacationRequestState::WAITING_FOR_TECHNICAL,
-            "type" => VacationType::VACATION,
+            "state" => VacationRequestState::WaitingForTechnical,
+            "type" => VacationType::Vacation,
         ])
             ->for($user)
             ->for($currentYearPeriod)
@@ -107,7 +107,7 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::WAITING_FOR_ADMINISTRATIVE,
+            "state" => VacationRequestState::WaitingForAdministrative,
         ]);
     }
 
@@ -119,7 +119,7 @@ class VacationRequestTest extends FeatureTestCase
         $currentYearPeriod = YearPeriod::current();
 
         $vacationRequest = VacationRequest::factory([
-            "state" => VacationRequestState::WAITING_FOR_ADMINISTRATIVE,
+            "state" => VacationRequestState::WaitingForAdministrative,
         ])
             ->for($user)
             ->for($currentYearPeriod)
@@ -130,7 +130,7 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::APPROVED,
+            "state" => VacationRequestState::Approved,
         ]);
 
         Bus::assertDispatched(SendVacationRequestDaysToGoogleCalendar::class);
@@ -150,8 +150,8 @@ class VacationRequestTest extends FeatureTestCase
             ->create();
 
         $vacationRequest = VacationRequest::factory([
-            "state" => VacationRequestState::WAITING_FOR_TECHNICAL,
-            "type" => VacationType::VACATION,
+            "state" => VacationRequestState::WaitingForTechnical,
+            "type" => VacationType::Vacation,
         ])
             ->for($user)
             ->for($currentYearPeriod)
@@ -162,7 +162,7 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::REJECTED,
+            "state" => VacationRequestState::Rejected,
         ]);
     }
 
@@ -180,7 +180,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
@@ -204,7 +204,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 5)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 6)->toDateString(),
                 "comment" => "Vacation at weekend.",
@@ -235,7 +235,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
                 "comment" => "Vacation at holiday.",
@@ -258,8 +258,8 @@ class VacationRequestTest extends FeatureTestCase
             ->create();
 
         VacationRequest::factory([
-            "type" => VacationType::VACATION->value,
-            "state" => VacationRequestState::WAITING_FOR_TECHNICAL,
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::WaitingForTechnical,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -270,7 +270,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
                 "comment" => "Another comment for the another vacation request.",
@@ -294,8 +294,8 @@ class VacationRequestTest extends FeatureTestCase
             ->create();
 
         VacationRequest::factory([
-            "type" => VacationType::VACATION->value,
-            "state" => VacationRequestState::APPROVED,
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::Approved,
             "from" => Carbon::create($currentYearPeriod->year, 2, 2)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -306,7 +306,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
                 "comment" => "Another comment for the another vacation request.",
@@ -322,7 +322,7 @@ class VacationRequestTest extends FeatureTestCase
         $currentYearPeriod = YearPeriod::current();
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 6)->toDateString(),
                 "comment" => "Comment for the vacation request.",
@@ -339,7 +339,7 @@ class VacationRequestTest extends FeatureTestCase
         $nextYearPeriod = $this->createYearPeriod(Carbon::now()->year + 1);
         $this->actingAs($user)
             ->post("/vacation-requests", [
-                "type" => VacationType::VACATION->value,
+                "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 12, 27)->toDateString(),
                 "to" => Carbon::create($nextYearPeriod->year, 1, 2)->toDateString(),
                 "comment" => "Comment for the vacation request.",

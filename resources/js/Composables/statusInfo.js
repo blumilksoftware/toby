@@ -31,7 +31,7 @@ const statuses = [
     },
   },
   {
-    text: 'Czeka na akceptację od technicznego',
+    text: 'Czeka na akceptację od przełożonego technicznego',
     value: 'waiting_for_technical',
     outline: {
       icon: OutlineClockIcon,
@@ -44,7 +44,7 @@ const statuses = [
     },
   },
   {
-    text: 'Czeka na akceptację od administracyjnego',
+    text: 'Czeka na akceptację od przełożonego administracyjnego',
     value: 'waiting_for_administrative',
     outline: {
       icon: OutlineClockIcon,
@@ -70,7 +70,7 @@ const statuses = [
     },
   },
   {
-    text: 'Zaakceptowany przez technicznego',
+    text: 'Zaakceptowany przez przełożonego technicznego',
     value: 'accepted_by_technical',
     outline: {
       icon: OutlineThumbUpIcon,
@@ -83,7 +83,7 @@ const statuses = [
     },
   },
   {
-    text: 'Zaakceptowany przez administracyjnego',
+    text: 'Zaakceptowany przez przełożonego administracyjnego',
     value: 'accepted_by_administrative',
     outline: {
       icon: OutlineThumbUpIcon,

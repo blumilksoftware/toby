@@ -6,55 +6,55 @@ use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationTypeConfigRetriever;
 
 return [
-    VacationType::VACATION->value => [
+    VacationType::Vacation->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => true,
     ],
-    VacationType::VACATION_ON_REQUEST->value => [
+    VacationType::OnRequest->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => true,
     ],
-    VacationType::TIME_IN_LIEU->value => [
+    VacationType::TimeInLieu->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,
     ],
-    VacationType::SICK_VACATION->value => [
+    VacationType::Sick->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,
     ],
-    VacationType::UNPAID_VACATION->value => [
+    VacationType::Unpaid->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => false,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,
     ],
-    VacationType::SPECIAL_VACATION->value => [
+    VacationType::Special->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => false,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,
     ],
-    VacationType::CHILDCARE_VACATION->value => [
+    VacationType::Childcare->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => false,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,
     ],
-    VacationType::TRAINING_VACATION->value => [
+    VacationType::Training->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,
     ],
-    VacationType::VOLUNTEERING_VACATION->value => [
+    VacationType::Volunteering->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
