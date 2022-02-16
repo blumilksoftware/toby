@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\VacationRequestState;
@@ -15,6 +16,7 @@ use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
+use Toby\Infrastructure\Jobs\SendVacationRequestDaysToGoogleCalendar;
 
 class VacationRequestTest extends FeatureTestCase
 {
@@ -25,6 +27,8 @@ class VacationRequestTest extends FeatureTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Bus::fake();
 
         $this->polishHolidaysRetriever = $this->app->make(PolishHolidaysRetriever::class);
     }
@@ -128,6 +132,8 @@ class VacationRequestTest extends FeatureTestCase
         $this->assertDatabaseHas("vacation_requests", [
             "state" => VacationRequestState::Approved,
         ]);
+
+        Bus::assertDispatched(SendVacationRequestDaysToGoogleCalendar::class);
     }
 
     public function testTechnicalApproverCanRejectVacationRequest(): void

@@ -17,6 +17,7 @@ return new class() extends Migration {
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(VacationRequest::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(YearPeriod::class)->constrained()->cascadeOnDelete();
+            $table->string("event_id")->nullable();
             $table->date("date");
         });
     }

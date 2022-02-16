@@ -17,7 +17,8 @@
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
-        "lasserafn/php-initial-avatar-generator": "^4.2"
+        "lasserafn/php-initial-avatar-generator": "^4.2",
+        "spatie/laravel-google-calendar": "^3.5"
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^0.9.0",
