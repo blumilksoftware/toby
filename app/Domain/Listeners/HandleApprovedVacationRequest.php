@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Listeners;
 
-use Illuminate\Support\Facades\Log;
 use Toby\Domain\Events\VacationRequestApproved;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\Infrastructure\Jobs\SendVacationRequestDaysToGoogleCalendar;
 
 class HandleApprovedVacationRequest
 {
@@ -17,8 +17,6 @@ class HandleApprovedVacationRequest
 
     public function handle(VacationRequestApproved $event): void
     {
-        $vacationRequest = $event->vacationRequest;
-
-        Log::info("approved! {$vacationRequest->id}");
+        SendVacationRequestDaysToGoogleCalendar::dispatch($event->vacationRequest);
     }
 }
