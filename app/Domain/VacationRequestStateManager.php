@@ -11,6 +11,7 @@ use Toby\Domain\Events\VacationRequestAcceptedByAdministrative;
 use Toby\Domain\Events\VacationRequestAcceptedByTechnical;
 use Toby\Domain\Events\VacationRequestApproved;
 use Toby\Domain\Events\VacationRequestCreated;
+use Toby\Domain\Events\VacationRequestRejected;
 use Toby\Eloquent\Models\VacationRequest;
 
 class VacationRequestStateManager
@@ -38,6 +39,7 @@ class VacationRequestStateManager
     public function reject(VacationRequest $vacationRequest): void
     {
         $this->changeState($vacationRequest, VacationRequestState::Rejected);
+        $this->dispatcher->dispatch(new VacationRequestRejected($vacationRequest));
     }
 
     public function cancel(VacationRequest $vacationRequest): void

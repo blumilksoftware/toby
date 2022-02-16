@@ -6,17 +6,19 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Event;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\Events\VacationRequestAcceptedByAdministrative;
+use Toby\Domain\Events\VacationRequestAcceptedByTechnical;
+use Toby\Domain\Events\VacationRequestRejected;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
-use Toby\Infrastructure\Jobs\SendVacationRequestDaysToGoogleCalendar;
 
 class VacationRequestTest extends FeatureTestCase
 {
@@ -27,8 +29,6 @@ class VacationRequestTest extends FeatureTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        Bus::fake();
 
         $this->polishHolidaysRetriever = $this->app->make(PolishHolidaysRetriever::class);
     }
@@ -90,6 +90,8 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testTechnicalApproverCanApproveVacationRequest(): void
     {
+        Event::fake();
+
         $user = User::factory()->createQuietly();
         $technicalApprover = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
@@ -106,13 +108,13 @@ class VacationRequestTest extends FeatureTestCase
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-technical")
             ->assertSessionHasNoErrors();
 
-        $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::WaitingForAdministrative,
-        ]);
+        Event::assertDispatched(VacationRequestAcceptedByTechnical::class);
     }
 
     public function testAdministrativeApproverCanApproveVacationRequest(): void
     {
+        Event::fake(VacationRequestAcceptedByAdministrative::class);
+
         $user = User::factory()->createQuietly();
         $administrativeApprover = User::factory()->createQuietly();
 
@@ -129,20 +131,18 @@ class VacationRequestTest extends FeatureTestCase
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-administrative")
             ->assertSessionHasNoErrors();
 
-        $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::Approved,
-        ]);
-
-        Bus::assertDispatched(SendVacationRequestDaysToGoogleCalendar::class);
+        Event::assertDispatched(VacationRequestAcceptedByAdministrative::class);
     }
 
     public function testTechnicalApproverCanRejectVacationRequest(): void
     {
+        Event::fake();
+
         $user = User::factory()->createQuietly();
         $technicalApprover = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
 
-        $vacationLimit = VacationLimit::factory([
+        VacationLimit::factory([
             "days" => 20,
         ])
             ->for($user)
@@ -161,9 +161,7 @@ class VacationRequestTest extends FeatureTestCase
             ->post("/vacation-requests/{$vacationRequest->id}/reject")
             ->assertSessionHasNoErrors();
 
-        $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::Rejected,
-        ]);
+        Event::assertDispatched(VacationRequestRejected::class);
     }
 
     public function testUserCannotCreateVacationRequestIfHeExceedsHisVacationLimit(): void

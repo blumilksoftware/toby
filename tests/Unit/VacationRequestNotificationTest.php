@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\Enums\Role;
@@ -34,20 +34,26 @@ class VacationRequestNotificationTest extends TestCase
         $this->createCurrentYearPeriod();
     }
 
-    public function testAfterChangingVacationRequestStateNotificationAreSentToUsers() :void
+    public function testAfterChangingVacationRequestStateNotificationAreSentToUsers(): void
     {
         Notification::fake();
 
-        $user = User::factory(["role" => Role::EMPLOYEE])->createQuietly();
-        $technicalApprover = User::factory(["role" => Role::TECHNICAL_APPROVER])->createQuietly();
-        $administrativeApprover = User::factory(["role" => Role::ADMINISTRATIVE_APPROVER])->createQuietly();
+        $user = User::factory([
+            "role" => Role::Employee,
+        ])->createQuietly();
+        $technicalApprover = User::factory([
+            "role" => Role::TechnicalApprover,
+        ])->createQuietly();
+        $administrativeApprover = User::factory([
+            "role" => Role::AdministrativeApprover,
+        ])->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
 
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
-            "type" => VacationType::VACATION->value,
-            "state" => VacationRequestState::CREATED,
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::Created,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -58,24 +64,32 @@ class VacationRequestNotificationTest extends TestCase
 
         $this->stateManager->waitForTechnical($vacationRequest);
 
-        Notification::assertSentTo([$user, $technicalApprover, $administrativeApprover],VacationRequestNotification::class);
+        Notification::assertSentTo([$user, $technicalApprover, $administrativeApprover], VacationRequestNotification::class);
     }
 
-    public function testAfterChangingVacationRequestStateNotificationIsNotSentToAnotherEmployee(): void {
+    public function testAfterChangingVacationRequestStateNotificationIsNotSentToAnotherEmployee(): void
+    {
         Notification::fake();
 
-        $user = User::factory(["role" => Role::EMPLOYEE])->createQuietly();
-        $anotherUser = User::factory(["role" => Role::EMPLOYEE])->createQuietly();
-        $technicalApprover = User::factory(["role" => Role::TECHNICAL_APPROVER])->createQuietly();
-        $administrativeApprover = User::factory(["role" => Role::ADMINISTRATIVE_APPROVER])->createQuietly();
-
+        $user = User::factory([
+            "role" => Role::Employee,
+        ])->createQuietly();
+        $anotherUser = User::factory([
+            "role" => Role::Employee,
+        ])->createQuietly();
+        $technicalApprover = User::factory([
+            "role" => Role::TechnicalApprover,
+        ])->createQuietly();
+        $administrativeApprover = User::factory([
+            "role" => Role::AdministrativeApprover,
+        ])->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
 
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
-            "type" => VacationType::VACATION->value,
-            "state" => VacationRequestState::CREATED,
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::Created,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -86,9 +100,7 @@ class VacationRequestNotificationTest extends TestCase
 
         $this->stateManager->waitForTechnical($vacationRequest);
 
-        Notification::assertSentTo([$user, $technicalApprover, $administrativeApprover],VacationRequestNotification::class);
-        Notification::assertNotSentTo([$anotherUser],VacationRequestNotification::class);
+        Notification::assertSentTo([$user, $technicalApprover, $administrativeApprover], VacationRequestNotification::class);
+        Notification::assertNotSentTo([$anotherUser], VacationRequestNotification::class);
     }
 }
-
-
