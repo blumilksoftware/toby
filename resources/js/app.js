@@ -4,6 +4,7 @@ import {InertiaProgress} from '@inertiajs/progress'
 import AppLayout from '@/Shared/Layout/AppLayout'
 import Flatpickr from 'flatpickr'
 import { Polish } from 'flatpickr/dist/l10n/pl.js'
+import Toast from 'vue-toastification'
 
 createInertiaApp({
   resolve: name => {
@@ -16,6 +17,11 @@ createInertiaApp({
   setup({el, App, props, plugin}) {
     createApp({render: () => h(App, props)})
       .use(plugin)
+      .use(Toast, {
+        position: 'bottom-right',
+        maxToast: 5,
+
+      })
       .component('InertiaLink', Link)
       .component('InertiaHead', Head)
       .mount(el)

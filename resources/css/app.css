@@ -1,4 +1,5 @@
 @import 'flatpickr/dist/themes/light.css';
+@import 'vue-toastification/dist/index.css';
 
 @tailwind base;
 @tailwind components;

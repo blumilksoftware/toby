@@ -15,7 +15,7 @@
       <div class="p-4">
         <div class="flex items-center">
           <div class="w-0 flex-1 flex justify-between">
-            <ExclamationIcon class="h-5 w-5 text-white" />
+            <ExclamationIcon class="h-5 w-5 mr-1 text-white" />
             <p class="w-0 flex-1 text-sm font-medium text-white">
               {{ errors.oauth }}
             </p>

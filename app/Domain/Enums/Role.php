@@ -6,10 +6,10 @@ namespace Toby\Domain\Enums;
 
 enum Role: string
 {
-    case EMPLOYEE = "employee";
-    case ADMINISTRATOR = "administrator";
-    case TECHNICAL_APPROVER = "technical_approver";
-    case ADMINISTRATIVE_APPROVER = "administrative_approver";
+    case Employee = "employee";
+    case Administrator = "administrator";
+    case TechnicalApprover = "technical_approver";
+    case AdministrativeApprover = "administrative_approver";
 
     public function label(): string
     {

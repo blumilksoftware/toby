@@ -73,7 +73,7 @@ class CalendarGenerator
     {
         return Vacation::query()
             ->whereBetween("date", [$period->start, $period->end])
-            ->whereRelation("vacationRequest", "state", VacationRequestState::APPROVED->value)
+            ->whereRelation("vacationRequest", "state", VacationRequestState::Approved->value)
             ->get()
             ->groupBy(fn(Vacation $vacation) => $vacation->date->toDateString());
     }

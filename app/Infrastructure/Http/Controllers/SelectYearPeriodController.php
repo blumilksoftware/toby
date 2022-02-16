@@ -17,6 +17,6 @@ class SelectYearPeriodController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Selected year period has been changed"));
+            ->with("success", __("Selected year period has been changed."));
     }
 }

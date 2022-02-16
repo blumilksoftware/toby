@@ -32,7 +32,8 @@
         "vue": "^3.2.26",
         "vue-echarts": "^6.0.2",
         "vue-flatpickr-component": "^9.0.5",
-        "vue-loader": "^17.0.0"
+        "vue-loader": "^17.0.0",
+        "vue-toastification": "^2.0.0-rc.5"
     },
     "devDependencies": {
         "eslint": "^8.6.0",
