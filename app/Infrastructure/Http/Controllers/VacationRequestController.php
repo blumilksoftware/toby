@@ -95,7 +95,8 @@ class VacationRequestController extends Controller
         $stateManager->markAsCreated($vacationRequest);
 
         return redirect()
-            ->route("vacation.requests.index");
+            ->route("vacation.requests.show", $vacationRequest)
+            ->with("success", __("Vacation request has been created."));
     }
 
     public function reject(
@@ -104,7 +105,8 @@ class VacationRequestController extends Controller
     ): RedirectResponse {
         $stateManager->reject($vacationRequest);
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with("success", __("Vacation request has been rejected."));
     }
 
     public function cancel(
@@ -113,7 +115,8 @@ class VacationRequestController extends Controller
     ): RedirectResponse {
         $stateManager->cancel($vacationRequest);
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with("success", __("Vacation request has been canceled."));
     }
 
     public function acceptAsTechnical(
@@ -122,7 +125,8 @@ class VacationRequestController extends Controller
     ): RedirectResponse {
         $stateManager->acceptAsTechnical($vacationRequest);
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with("success", __("Vacation request has been accepted."));
     }
 
     public function acceptAsAdministrative(
@@ -131,6 +135,7 @@ class VacationRequestController extends Controller
     ): RedirectResponse {
         $stateManager->acceptAsAdministrative($vacationRequest);
 
-        return redirect()->back();
+        return redirect()->back()
+            ->with("success", __("Vacation request has been accepted."));
     }
 }

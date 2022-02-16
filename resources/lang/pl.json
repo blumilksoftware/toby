@@ -30,5 +30,19 @@
   "You have approved vacation request in this range.": "Masz zaakceptowany wniosek urlopowy w tym zakresie dat.",
   "Vacation limit has been exceeded.": "Limit urlopu został przekroczony.",
   "Vacation needs minimum one day.": "Urlop musi być co najmniej na jeden dzień.",
-  "The vacation request cannot be created at the turn of the year.": "Wniosek urlopowy nie może zostać złożony na przełomie roku."
+  "The vacation request cannot be created at the turn of the year.": "Wniosek urlopowy nie może zostać złożony na przełomie roku.",
+  "User has been created.": "Użytkownik został utworzony.",
+  "User has been updated.": "Użytkownik został zaktualizowany.",
+  "User has been deleted.": "Użytkownik został usunięty.",
+  "User has been restored.": "Użytkownik został przywrócony.",
+  "Holiday has been created.": "Dzień wolny został utworzony.",
+  "Holiday has been updated.": "Dzień wolny został zaktualizowany.",
+  "Holiday has been deleted.": "Dzień wolny został usunięty.",
+  "Selected year period has been changed.": "Wybrany rok został zmieniony.",
+  "Vacation limits have been updated.": "Limity urlopów zostały zaktualizowane.",
+  "Vacation request has been created.": "Wniosek urlopowy został utworzony.",
+  "Vacation request has been accepted.": "Wniosek urlopowy został zaakceptowany.",
+  "Vacation request has been rejected.": "Wniosek urlopowy został odrzucony.",
+  "Vacation request has been canceled.": "Wniosek urlopowy został anulowany."
+
 }

@@ -363,11 +363,11 @@ export default {
 
     const navigation = [
       {name: 'Strona główna', href: '/', icon: HomeIcon, current: true},
-      {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, current: false},
-      {name: 'Dostępne urlopy', href: '/vacation-limits', icon: SunIcon, current: false},
-      {name: 'Twoje wnioski', href: '/vacation-requests', icon: CollectionIcon, current: false},
-      {name: 'Dni wolne', href: '/holidays', icon: StarIcon, current: false},
+      {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, current: false},
       {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, current: false},
+      {name: 'Dni wolne', href: '/holidays', icon: StarIcon, current: false},
+      {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, current: false},
+      {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, current: false},
     ]
     const userNavigation = [
       {name: 'Your Profile', href: '#'},

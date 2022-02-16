@@ -11,9 +11,36 @@
 
 <script>
 import MainMenu from '@/Shared/MainMenu'
+import {useToast} from 'vue-toastification'
+import {watch} from 'vue'
 
 export default {
   name: 'AppLayout',
-  components: {MainMenu},
+  components: {
+    MainMenu,
+  },
+  props: {
+    flash: {
+      type: Object,
+      default: () => null,
+    },
+  },
+  setup(props) {
+    const toast = useToast()
+
+    watch(() => props.flash, flash => {
+      if (flash.success) {
+        toast.success(flash.success)
+      }
+
+      if (flash.error) {
+        toast.error(flash.error)
+      }
+    }, {immediate:true})
+
+    return {
+      toast,
+    }
+  },
 }
 </script>
