@@ -225,7 +225,6 @@ export default {
     const minDate = computed(() => new Date(usePage().props.value.years.current, 0, 1))
     const maxDate = computed(() => new Date(usePage().props.value.years.current, 11, 31))
 
-
     const disableDates = [
       date => (date.getDay() === 0 || date.getDay() === 6),
     ]
