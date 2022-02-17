@@ -7,7 +7,7 @@ namespace Toby\Domain\Enums;
 enum VacationRequestState: string
 {
     case Created = "created";
-    case Canceled = "canceled";
+    case Cancelled = "cancelled";
     case Rejected = "rejected";
     case Approved = "approved";
     case WaitingForTechnical = "waiting_for_technical";
@@ -40,7 +40,7 @@ enum VacationRequestState: string
     {
         return [
             self::Rejected,
-            self::Canceled,
+            self::Cancelled,
         ];
     }
 

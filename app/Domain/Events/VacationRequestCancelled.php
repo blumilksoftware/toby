@@ -8,7 +8,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Toby\Eloquent\Models\VacationRequest;
 
-class VacationRequestCanceled
+class VacationRequestCancelled
 {
     use Dispatchable;
     use SerializesModels;
