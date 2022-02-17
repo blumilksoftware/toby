@@ -29,7 +29,7 @@ class CalendarGenerator
         return $this->generateCalendar($period, $holidays);
     }
 
-    protected function monthNameToNumber($name): int
+    protected function monthNameToNumber(string $name): int
     {
         return match ($name) {
             default => CarbonInterface::JANUARY,

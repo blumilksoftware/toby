@@ -43,6 +43,11 @@
   "Vacation request has been created.": "Wniosek urlopowy został utworzony.",
   "Vacation request has been accepted.": "Wniosek urlopowy został zaakceptowany.",
   "Vacation request has been rejected.": "Wniosek urlopowy został odrzucony.",
-  "Vacation request has been canceled.": "Wniosek urlopowy został anulowany."
-
+  "Vacation request has been canceled.": "Wniosek urlopowy został anulowany.",
+  "Sum:": "Suma:",
+  "Date": "Data",
+  "Day of week": "Dzień tygodnia",
+  "Start date": "Data rozpoczecia",
+  "End date": "Data zakończenia",
+  "Worked hours": "Ilość godzin"
 }

@@ -1,10 +1,20 @@
 <template>
   <InertiaHead title="Kalendarz urlopów" />
   <div class="bg-white shadow-md">
-    <div class="p-4 sm:px-6">
-      <h2 class="text-lg leading-6 font-medium text-gray-900">
-        Kalendarz urlopów
-      </h2>
+    <div class="flex justify-between items-center p-4 sm:px-6">
+      <div>
+        <h2 class="text-lg leading-6 font-medium text-gray-900">
+          Kalendarz urlopów
+        </h2>
+      </div>
+      <div>
+        <a
+          :href="`timesheet?month=${currentMonth}`"
+          class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+        >
+          Pobierz plik excel
+        </a>
+      </div>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-center table-fixed text-sm border border-gray-300">
