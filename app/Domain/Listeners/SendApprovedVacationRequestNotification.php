@@ -6,23 +6,23 @@ namespace Toby\Domain\Listeners;
 
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\Role;
-use Toby\Domain\Events\VacationRequestRejected;
-use Toby\Domain\Notifications\VacationRequestRejectedNotification;
+use Toby\Domain\Events\VacationRequestApproved;
+use Toby\Domain\Notifications\VacationRequestApprovedNotification;
 use Toby\Eloquent\Models\User;
 
-class SendRejectedVacationRequestNotification
+class SendApprovedVacationRequestNotification
 {
     public function __construct(
     ) {
     }
 
-    public function handle(VacationRequestRejected $event): void
+    public function handle(VacationRequestApproved $event): void
     {
         foreach ($this->getUsersForNotifications() as $user) {
-            $user->notify(new VacationRequestRejectedNotification($event->vacationRequest, $user));
+            $user->notify(new VacationRequestApprovedNotification($event->vacationRequest, $user));
         }
 
-        $event->vacationRequest->user->notify(new VacationRequestRejectedNotification($event->vacationRequest, $event->vacationRequest->user));
+        $event->vacationRequest->user->notify(new VacationRequestApprovedNotification($event->vacationRequest, $event->vacationRequest->user));
     }
 
     protected function getUsersForNotifications(): Collection

@@ -8,14 +8,16 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
+use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
-class VacationRequestCreatedNotification extends Notification
+class VacationRequestWaitedForAdministrativeNotification extends Notification
 {
     use Queueable;
 
     public function __construct(
         protected VacationRequest $vacationRequest,
+        protected User $user,
     ) {
     }
 
@@ -35,29 +37,30 @@ class VacationRequestCreatedNotification extends Notification
                 "vacationRequest" => $this->vacationRequest,
             ],
         );
+
         return $this->buildMailMessage($url);
     }
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $user = $this->vacationRequest->user->first_name;
+        $user = $this->user->first_name;
+        $requester = $this->vacationRequest->user->fullName;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
         $from = $this->vacationRequest->from->format("d.m.Y");
         $to = $this->vacationRequest->to->format("d.m.Y");
         $days = $this->vacationRequest->vacations()->count();
-        $appName = config("app.name");
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
                 "user" => $user,
             ]))
-            ->subject(__("Vacation request :title has been created", [
+            ->subject(__("Vacation request :title is waiting for your approval", [
                 "title" => $title,
             ]))
-            ->line(__("The vacation request :title has been created correctly in the :appName.", [
+            ->line(__("The vacation request :title from user: :requester is waiting for your approval.", [
                 "title" => $title,
-                "appName" => $appName,
+                "requester" => $requester,
             ]))
             ->line(__("Vacation type: :type", [
                 "type" => $type,

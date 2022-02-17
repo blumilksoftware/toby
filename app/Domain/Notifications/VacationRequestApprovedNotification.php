@@ -8,14 +8,16 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
+use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
-class VacationRequestCreatedNotification extends Notification
+class VacationRequestApprovedNotification extends Notification
 {
     use Queueable;
 
     public function __construct(
         protected VacationRequest $vacationRequest,
+        protected User $user,
     ) {
     }
 
@@ -35,6 +37,7 @@ class VacationRequestCreatedNotification extends Notification
                 "vacationRequest" => $this->vacationRequest,
             ],
         );
+
         return $this->buildMailMessage($url);
     }
 
@@ -46,18 +49,18 @@ class VacationRequestCreatedNotification extends Notification
         $from = $this->vacationRequest->from->format("d.m.Y");
         $to = $this->vacationRequest->to->format("d.m.Y");
         $days = $this->vacationRequest->vacations()->count();
-        $appName = config("app.name");
+        $requester = $this->vacationRequest->user->fullName;
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
                 "user" => $user,
             ]))
-            ->subject(__("Vacation request :title has been created", [
+            ->subject(__("Vacation request :title has been approved", [
                 "title" => $title,
             ]))
-            ->line(__("The vacation request :title has been created correctly in the :appName.", [
+            ->line(__("The vacation request :title for user :requester has been approved.", [
                 "title" => $title,
-                "appName" => $appName,
+                "requester" => $requester,
             ]))
             ->line(__("Vacation type: :type", [
                 "type" => $type,

@@ -43,17 +43,33 @@ class VacationRequestRejectedNotification extends Notification
 
     protected function buildMailMessage(string $url): MailMessage
     {
+        $user = $this->vacationRequest->user->first_name;
         $title = $this->vacationRequest->name;
+        $type = $this->vacationRequest->type->label();
+        $from = $this->vacationRequest->from->format("d.m.Y");
+        $to = $this->vacationRequest->to->format("d.m.Y");
+        $days = $this->vacationRequest->vacations()->count();
+        $requester = $this->vacationRequest->user->fullName;
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
-                "user" => $this->user->fullName,
+                "user" => $user,
             ]))
-            ->subject(__("Vacation request :title", [
+            ->subject(__("Vacation request :title has been rejected", [
                 "title" => $title,
             ]))
-            ->line(__("Vacation request has been rejected.", [
+            ->line(__("The vacation request :title for user :requester has been rejected.", [
+                "title" => $title,
+                "requester" => $requester,
             ]))
-            ->action(__("Show vacation request"), $url);
+            ->line(__("Vacation type: :type", [
+                "type" => $type,
+            ]))
+            ->line(__("From :from to :to (number of days: :days)", [
+                "from" => $from,
+                "to" => $to,
+                "days" => $days,
+            ]))
+            ->action(__("Click here for details"), $url);
     }
 }
