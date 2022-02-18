@@ -18,6 +18,7 @@ use Toby\Domain\Listeners\CreateVacationRequestActivity;
 use Toby\Domain\Listeners\HandleAcceptedByAdministrativeVacationRequest;
 use Toby\Domain\Listeners\HandleAcceptedByTechnicalVacationRequest;
 use Toby\Domain\Listeners\HandleApprovedVacationRequest;
+use Toby\Domain\Listeners\HandleCancelledVacationRequest;
 use Toby\Domain\Listeners\HandleCreatedVacationRequest;
 use Toby\Domain\Listeners\SendApprovedVacationRequestNotification;
 use Toby\Domain\Listeners\SendCancelledVacationRequestNotification;
@@ -39,5 +40,4 @@ class EventServiceProvider extends ServiceProvider
         VacationRequestWaitedForTechnical::class => [SendWaitedForTechnicalVacationRequestNotification::class],
         VacationRequestWaitedForAdministrative::class => [SendWaitedForAdministrativeVacationRequestNotification::class],
     ];
-
 }
