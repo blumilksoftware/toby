@@ -90,7 +90,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testTechnicalApproverCanApproveVacationRequest(): void
     {
-        Event::fake();
+        Event::fake(VacationRequestAcceptedByTechnical::class);
 
         $user = User::factory()->createQuietly();
         $technicalApprover = User::factory()->createQuietly();
@@ -136,7 +136,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testTechnicalApproverCanRejectVacationRequest(): void
     {
-        Event::fake();
+        Event::fake(VacationRequestRejected::class);
 
         $user = User::factory()->createQuietly();
         $technicalApprover = User::factory()->createQuietly();
