@@ -43,7 +43,7 @@ class VacationRequestRejectedNotification extends Notification
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $user = $this->vacationRequest->user->first_name;
+        $user = $this->user->first_name;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
         $from = $this->vacationRequest->from->format("d.m.Y");
