@@ -14,6 +14,7 @@ return new class() extends Migration {
         Schema::create("vacation_requests", function (Blueprint $table): void {
             $table->id();
             $table->string("name");
+            $table->foreignIdFor(User::class, "creator_id")->constrained("users")->cascadeOnDelete();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(YearPeriod::class)->constrained()->cascadeOnDelete();
             $table->string("type");
@@ -21,6 +22,7 @@ return new class() extends Migration {
             $table->date("from");
             $table->date("to");
             $table->text("comment")->nullable();
+            $table->boolean("skip_flow")->default(false);
             $table->timestamps();
         });
     }
