@@ -122,6 +122,6 @@ class HolidayTest extends FeatureTestCase
             ->delete("/holidays/{$holiday->id}")
             ->assertSessionHasNoErrors();
 
-        $this->assertDeleted($holiday);
+        $this->assertModelMissing($holiday);
     }
 }
