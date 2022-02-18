@@ -48,7 +48,7 @@ class VacationRequestStateManager
 
     public function cancel(VacationRequest $vacationRequest): void
     {
-        $this->changeState($vacationRequest, VacationRequestState::Canceled);
+        $this->changeState($vacationRequest, VacationRequestState::Cancelled);
 
         $this->dispatcher->dispatch(new VacationRequestCancelled($vacationRequest));
     }

@@ -35,8 +35,9 @@ class EventServiceProvider extends ServiceProvider
         VacationRequestAcceptedByAdministrative::class => [HandleAcceptedByAdministrativeVacationRequest::class],
         VacationRequestApproved::class => [HandleApprovedVacationRequest::class, SendApprovedVacationRequestNotification::class],
         VacationRequestRejected::class => [SendRejectedVacationRequestNotification::class],
-        VacationRequestCancelled::class => [SendCancelledVacationRequestNotification::class],
+        VacationRequestCancelled::class => [HandleCancelledVacationRequest::class, SendCancelledVacationRequestNotification::class],
         VacationRequestWaitedForTechnical::class => [SendWaitedForTechnicalVacationRequestNotification::class],
         VacationRequestWaitedForAdministrative::class => [SendWaitedForAdministrativeVacationRequestNotification::class],
     ];
+
 }

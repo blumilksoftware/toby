@@ -62,7 +62,9 @@
                 as="template"
                 :value="type"
               >
-                <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                <li
+                  :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                >
                   <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                     {{ type.label }}
                   </span>
@@ -137,7 +139,9 @@
       </div>
       <div class="sm:grid sm:grid-cols-3 py-4 items-center">
         <span class="block text-sm font-medium text-gray-700 sm:mt-px">Liczba dni urlopu</span>
-        <div class="mt-1 sm:mt-0 sm:col-span-2 w-full max-w-lg bg-gray-50 border border-gray-300 rounded-md px-4 py-2 inline-flex items-center text-gray-500 sm:text-sm">
+        <div
+          class="mt-1 sm:mt-0 sm:col-span-2 w-full max-w-lg bg-gray-50 border border-gray-300 rounded-md px-4 py-2 inline-flex items-center text-gray-500 sm:text-sm"
+        >
           {{ estimatedDays.length }}
         </div>
       </div>
@@ -179,11 +183,11 @@
 </template>
 
 <script>
-import {useForm} from '@inertiajs/inertia-vue3'
+import {useForm, usePage} from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
 import {CheckIcon, SelectorIcon, XCircleIcon} from '@heroicons/vue/solid'
-import {reactive, ref} from 'vue'
+import {reactive, ref, computed} from 'vue'
 import axios from 'axios'
 
 export default {
@@ -218,18 +222,22 @@ export default {
     })
 
     const estimatedDays = ref([])
+    const minDate = computed(() => new Date(usePage().props.value.years.current, 0, 1))
+    const maxDate = computed(() => new Date(usePage().props.value.years.current, 11, 31))
 
     const disableDates = [
       date => (date.getDay() === 0 || date.getDay() === 6),
     ]
 
     const fromInputConfig = reactive({
-      maxDate: null,
+      minDate: minDate,
+      maxDate: maxDate,
       disable: disableDates,
     })
 
     const toInputConfig = reactive({
-      minDate: null,
+      minDate: minDate,
+      maxDate: maxDate,
       disable: disableDates,
     })
 
@@ -250,13 +258,11 @@ export default {
         .post('/vacation-requests')
     },
     onFromChange(selectedDates, dateStr) {
-      this.toInputConfig.minDate = dateStr
+      this.form.to = dateStr
 
       this.refreshEstimatedDays(this.form.from, this.form.to)
     },
-    onToChange(selectedDates, dateStr) {
-      this.fromInputConfig.maxDate = dateStr
-
+    onToChange() {
       this.refreshEstimatedDays(this.form.from, this.form.to)
     },
     refreshEstimatedDays(from, to) {

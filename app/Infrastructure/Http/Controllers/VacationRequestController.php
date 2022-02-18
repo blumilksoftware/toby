@@ -116,7 +116,7 @@ class VacationRequestController extends Controller
         $stateManager->cancel($vacationRequest);
 
         return redirect()->back()
-            ->with("success", __("Vacation request has been canceled."));
+            ->with("success", __("Vacation request has been cancelled."));
     }
 
     public function acceptAsTechnical(
