@@ -6,8 +6,8 @@ namespace Toby\Domain\Listeners;
 
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\Role;
-use Toby\Domain\Events\VacationRequestWaitedForAdministrative;
-use Toby\Domain\Notifications\VacationRequestWaitedForAdministrativeNotification;
+use Toby\Domain\Events\VacationRequestWaitsForAdminApproval;
+use Toby\Domain\Notifications\VacationRequestWaitsForAdminApprovalNotification;
 use Toby\Eloquent\Models\User;
 
 class SendWaitedForAdministrativeVacationRequestNotification
@@ -16,10 +16,10 @@ class SendWaitedForAdministrativeVacationRequestNotification
     ) {
     }
 
-    public function handle(VacationRequestWaitedForAdministrative $event): void
+    public function handle(VacationRequestWaitsForAdminApproval $event): void
     {
         foreach ($this->getUsersForNotifications() as $user) {
-            $user->notify(new VacationRequestWaitedForAdministrativeNotification($event->vacationRequest, $user));
+            $user->notify(new VacationRequestWaitsForAdminApprovalNotification($event->vacationRequest, $user));
         }
     }
 

@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
-class VacationRequestWaitedForTechnicalNotification extends Notification
+class VacationRequestWaitsForAdminApprovalNotification extends Notification
 {
     use Queueable;
 
@@ -47,8 +47,8 @@ class VacationRequestWaitedForTechnicalNotification extends Notification
         $requester = $this->vacationRequest->user->fullName;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
-        $from = $this->vacationRequest->from->format("d.m.Y");
-        $to = $this->vacationRequest->to->format("d.m.Y");
+        $from = $this->vacationRequest->from->toDisplayDate();
+        $to = $this->vacationRequest->to->toDisplayDate();
         $days = $this->vacationRequest->vacations()->count();
 
         return (new MailMessage())

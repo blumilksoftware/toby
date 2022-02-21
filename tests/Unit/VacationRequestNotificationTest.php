@@ -12,7 +12,7 @@ use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\Notifications\VacationRequestWaitedForTechnicalNotification;
+use Toby\Domain\Notifications\VacationRequestWaitsForTechApprovalNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
@@ -64,7 +64,7 @@ class VacationRequestNotificationTest extends TestCase
 
         $this->stateManager->waitForTechnical($vacationRequest);
 
-        Notification::assertSentTo($technicalApprover, VacationRequestWaitedForTechnicalNotification::class);
-        Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestWaitedForTechnicalNotification::class);
+        Notification::assertSentTo($technicalApprover, VacationRequestWaitsForTechApprovalNotification::class);
+        Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestWaitsForTechApprovalNotification::class);
     }
 }

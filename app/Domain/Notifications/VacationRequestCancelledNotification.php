@@ -46,8 +46,8 @@ class VacationRequestCancelledNotification extends Notification
         $user = $this->user->first_name;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
-        $from = $this->vacationRequest->from->format("d.m.Y");
-        $to = $this->vacationRequest->to->format("d.m.Y");
+        $from = $this->vacationRequest->from->toDisplayDate();
+        $to = $this->vacationRequest->to->toDisplayDate();
         $days = $this->vacationRequest->vacations()->count();
         $requester = $this->vacationRequest->user->fullName;
 

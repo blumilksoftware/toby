@@ -6,8 +6,8 @@ namespace Toby\Domain\Listeners;
 
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\Role;
-use Toby\Domain\Events\VacationRequestWaitedForTechnical;
-use Toby\Domain\Notifications\VacationRequestWaitedForTechnicalNotification;
+use Toby\Domain\Events\VacationRequestWaitsForTechApproval;
+use Toby\Domain\Notifications\VacationRequestWaitsForTechApprovalNotification;
 use Toby\Eloquent\Models\User;
 
 class SendWaitedForTechnicalVacationRequestNotification
@@ -16,10 +16,10 @@ class SendWaitedForTechnicalVacationRequestNotification
     ) {
     }
 
-    public function handle(VacationRequestWaitedForTechnical $event): void
+    public function handle(VacationRequestWaitsForTechApproval $event): void
     {
         foreach ($this->getUsersForNotifications() as $user) {
-            $user->notify(new VacationRequestWaitedForTechnicalNotification($event->vacationRequest, $user));
+            $user->notify(new VacationRequestWaitsForTechApprovalNotification($event->vacationRequest, $user));
         }
     }
 
