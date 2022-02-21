@@ -25,9 +25,9 @@ Route::middleware("auth")->group(function (): void {
 
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])
         ->name("vacation.limits");
-    Route::get("/vacation-calendar", [VacationCalendarController::class, "index"])
+    Route::get("/vacation-calendar/{month?}", [VacationCalendarController::class, "index"])
         ->name("vacation.calendar");
-    Route::get("/timesheet", TimesheetController::class)
+    Route::get("/timesheet/{month}", TimesheetController::class)
         ->name("timesheet");
 
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
