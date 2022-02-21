@@ -9,9 +9,12 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
+use Toby\Domain\States\VacationRequest\Approved;
+use Toby\Domain\States\VacationRequest\Rejected;
+use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
+use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -81,7 +84,7 @@ class VacationRequestTest extends FeatureTestCase
             "year_period_id" => $currentYearPeriod->id,
             "name" => "1/" . $currentYearPeriod->year,
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::WaitingForTechnical,
+            "state" => WaitingForTechnical::$name,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -95,7 +98,7 @@ class VacationRequestTest extends FeatureTestCase
         $currentYearPeriod = YearPeriod::current();
 
         $vacationRequest = VacationRequest::factory([
-            "state" => VacationRequestState::WaitingForTechnical,
+            "state" => WaitingForTechnical::class,
             "type" => VacationType::Vacation,
         ])
             ->for($user)
@@ -107,7 +110,7 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::WaitingForAdministrative,
+            "state" => WaitingForAdministrative::$name,
         ]);
     }
 
@@ -119,7 +122,7 @@ class VacationRequestTest extends FeatureTestCase
         $currentYearPeriod = YearPeriod::current();
 
         $vacationRequest = VacationRequest::factory([
-            "state" => VacationRequestState::WaitingForAdministrative,
+            "state" => WaitingForAdministrative::class,
         ])
             ->for($user)
             ->for($currentYearPeriod)
@@ -130,7 +133,7 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::Approved,
+            "state" => Approved::$name,
         ]);
 
         Bus::assertDispatched(SendVacationRequestDaysToGoogleCalendar::class);
@@ -142,7 +145,7 @@ class VacationRequestTest extends FeatureTestCase
         $technicalApprover = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
 
-        $vacationLimit = VacationLimit::factory([
+        VacationLimit::factory([
             "days" => 20,
         ])
             ->for($user)
@@ -150,7 +153,7 @@ class VacationRequestTest extends FeatureTestCase
             ->create();
 
         $vacationRequest = VacationRequest::factory([
-            "state" => VacationRequestState::WaitingForTechnical,
+            "state" => WaitingForTechnical::class,
             "type" => VacationType::Vacation,
         ])
             ->for($user)
@@ -162,7 +165,7 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas("vacation_requests", [
-            "state" => VacationRequestState::Rejected,
+            "state" => Rejected::$name,
         ]);
     }
 
@@ -259,7 +262,7 @@ class VacationRequestTest extends FeatureTestCase
 
         VacationRequest::factory([
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::WaitingForTechnical,
+            "state" => WaitingForTechnical::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -286,7 +289,7 @@ class VacationRequestTest extends FeatureTestCase
         $user = User::factory()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
 
-        $vacationLimit = VacationLimit::factory([
+        VacationLimit::factory([
             "days" => 20,
         ])
             ->for($user)
@@ -295,7 +298,7 @@ class VacationRequestTest extends FeatureTestCase
 
         VacationRequest::factory([
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::Approved,
+            "state" => Approved::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 2)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",

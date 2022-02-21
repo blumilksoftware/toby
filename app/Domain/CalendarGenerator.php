@@ -7,8 +7,8 @@ namespace Toby\Domain;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\YearPeriod;
@@ -73,7 +73,7 @@ class CalendarGenerator
     {
         return Vacation::query()
             ->whereBetween("date", [$period->start, $period->end])
-            ->whereRelation("vacationRequest", "state", VacationRequestState::Approved->value)
+            ->whereRelation("vacationRequest", fn(Builder $query) => $query->states(VacationRequestStatesRetriever::successStates()))
             ->get()
             ->groupBy(fn(Vacation $vacation) => $vacation->date->toDateString());
     }

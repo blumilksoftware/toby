@@ -8,11 +8,17 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
+use Illuminate\Support\Arr;
 use Inertia\Response;
-use Toby\Domain\Enums\VacationRequestState;
+use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
+use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
+use Toby\Domain\States\VacationRequest\Cancelled;
+use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStateManager;
+use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\Validation\VacationRequestValidator;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\VacationRequest;
@@ -31,7 +37,7 @@ class VacationRequestController extends Controller
             ->with("vacations")
             ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
-            ->states(VacationRequestState::filterByStatus($status))
+            ->states(VacationRequestStatesRetriever::filterByStatus($status))
             ->paginate();
 
         return inertia("VacationRequest/Index", [
@@ -42,11 +48,23 @@ class VacationRequestController extends Controller
         ]);
     }
 
-    public function show(VacationRequest $vacationRequest): Response
+    public function show(Request $request, VacationRequest $vacationRequest): Response
     {
+        $user = $request->user();
+
         return inertia("VacationRequest/Show", [
             "request" => new VacationRequestResource($vacationRequest),
             "activities" => VacationRequestActivityResource::collection($vacationRequest->activities),
+            "can" => [
+                "acceptAsTechnical" => $vacationRequest->state->canTransitionTo(AcceptedByTechnical::class)
+                    && $user === Role::TechnicalApprover,
+                "acceptAsAdministrative" => $vacationRequest->state->canTransitionTo(AcceptedByAdministrative::class)
+                    && $user === Role::AdministrativeApprover,
+                "reject" => $vacationRequest->state->canTransitionTo(Rejected::class)
+                    && in_array($user->role, [Role::TechnicalApprover, Role::AdministrativeApprover]),
+                "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
+                    && $user === Role::TechnicalApprover,
+            ]
         ]);
     }
 
@@ -92,7 +110,7 @@ class VacationRequestController extends Controller
             ]);
         }
 
-        $stateManager->markAsCreated($vacationRequest);
+        $stateManager->markAsCreated($vacationRequest, $request->user());
 
         return redirect()
             ->route("vacation.requests.show", $vacationRequest)
@@ -100,40 +118,44 @@ class VacationRequestController extends Controller
     }
 
     public function reject(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->reject($vacationRequest);
+        $stateManager->reject($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been rejected."));
     }
 
     public function cancel(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->cancel($vacationRequest);
+        $stateManager->cancel($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been cancelled."));
     }
 
     public function acceptAsTechnical(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->acceptAsTechnical($vacationRequest);
+        $stateManager->acceptAsTechnical($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been accepted."));
     }
 
     public function acceptAsAdministrative(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->acceptAsAdministrative($vacationRequest);
+        $stateManager->acceptAsAdministrative($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been accepted."));

@@ -8,8 +8,10 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\States\VacationRequest\Approved;
+use Toby\Domain\States\VacationRequest\Created;
+use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
@@ -40,7 +42,7 @@ class VacationRequestStatesTest extends TestCase
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::Created,
+            "state" => Created::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",
@@ -51,7 +53,7 @@ class VacationRequestStatesTest extends TestCase
 
         $this->stateManager->waitForTechnical($vacationRequest);
 
-        $this->assertEquals(VacationRequestState::WaitingForTechnical, $vacationRequest->state);
+        $this->assertTrue($vacationRequest->state->equals(WaitingForTechnical::class));
     }
 
     public function testAfterCreatingVacationRequestOfTypeSickVacationItTransitsToProperState(): void
@@ -63,7 +65,7 @@ class VacationRequestStatesTest extends TestCase
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
             "type" => VacationType::Sick->value,
-            "state" => VacationRequestState::Created,
+            "state" => Created::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
         ])
@@ -73,7 +75,7 @@ class VacationRequestStatesTest extends TestCase
 
         $this->stateManager->approve($vacationRequest);
 
-        $this->assertEquals(VacationRequestState::Approved, $vacationRequest->state);
+        $this->assertTrue($vacationRequest->state->equals(Approved::class));
     }
 
     public function testAfterCreatingVacationRequestOfTypeTimeInLieuItTransitsToProperState(): void
@@ -85,7 +87,7 @@ class VacationRequestStatesTest extends TestCase
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
             "type" => VacationType::TimeInLieu->value,
-            "state" => VacationRequestState::Created,
+            "state" => Created::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 2)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 2)->toDateString(),
         ])
@@ -95,6 +97,6 @@ class VacationRequestStatesTest extends TestCase
 
         $this->stateManager->approve($vacationRequest);
 
-        $this->assertEquals(VacationRequestState::Approved, $vacationRequest->state);
+        $this->assertTrue($vacationRequest->state->equals(Approved::class));
     }
 }
