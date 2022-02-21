@@ -21,6 +21,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -141,7 +142,9 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
         $sheet->getStyle("A1:{$lastColumn}{$lastRow}")
             ->getBorders()
             ->getAllBorders()
-            ->setBorderStyle(Border::BORDER_THIN);
+            ->setBorderStyle(Border::BORDER_THIN)
+            ->getColor()
+            ->setRGB("B7B7B7");
     }
 
     public static function afterSheet(AfterSheet $event): void
@@ -176,7 +179,9 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
         $sheet->getDelegate()->getStyle("A{$lastRow}:E{$lastRow}")
             ->getBorders()
             ->getAllBorders()
-            ->setBorderStyle(Border::BORDER_THIN);
+            ->setBorderStyle(Border::BORDER_THIN)
+            ->getColor()
+            ->setRGB("B7B7B7");
     }
 
     protected function getVacationsForPeriod(User $user, CarbonPeriod $period): Collection
