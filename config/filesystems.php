@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    "default" => env("FILESYSTEM_DRIVER", "local"),
+    "default" => env("FILESYSTEM_DISK", "local"),
     "disks" => [
         "local" => [
             "driver" => "local",

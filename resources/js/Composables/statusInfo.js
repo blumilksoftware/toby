@@ -110,7 +110,7 @@ const statuses = [
   },
   {
     text: 'Anulowany',
-    value: 'canceled',
+    value: 'cancelled',
     outline: {
       icon: OutlineXIcon,
       foreground: 'text-white',
