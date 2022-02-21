@@ -63,7 +63,7 @@ class VacationRequestController extends Controller
                 "reject" => $vacationRequest->state->canTransitionTo(Rejected::class)
                     && in_array($user->role, [Role::TechnicalApprover, Role::AdministrativeApprover]),
                 "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
-                    && $user === Role::TechnicalApprover,
+                    && $user === Role::AdministrativeApprover,
             ]
         ]);
     }
