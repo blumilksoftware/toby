@@ -7,6 +7,7 @@ namespace Toby\Domain;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Toby\Eloquent\Models\User;
 
 class TimesheetExport implements WithMultipleSheets
 {
@@ -15,13 +16,9 @@ class TimesheetExport implements WithMultipleSheets
 
     public function sheets(): array
     {
-        $sheets = [];
-
-        foreach ($this->users as $user) {
-            $sheets[] = new TimesheetPerUserSheet($user, $this->month);
-        }
-
-        return $sheets;
+        return $this->users
+            ->map(fn(User $user) => new TimesheetPerUserSheet($user, $this->month))
+            ->toArray();
     }
 
     public function forUsers(Collection $users): static

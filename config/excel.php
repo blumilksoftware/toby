@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Maatwebsite\Excel\DefaultValueBinder;
 use Maatwebsite\Excel\Excel;
 
 return [
@@ -75,7 +76,7 @@ return [
         "pdf" => Excel::DOMPDF,
     ],
     "value_binder" => [
-        "default" => Maatwebsite\Excel\DefaultValueBinder::class,
+        "default" => DefaultValueBinder::class,
     ],
 
     "cache" => [

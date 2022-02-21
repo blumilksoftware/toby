@@ -35,6 +35,8 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
     use RegistersEventListeners;
 
     protected const HOURS_PER_DAY = 8;
+    protected const START_HOUR = 8;
+    protected const END_HOUR = 16;
 
     public function __construct(
         protected User $user,
@@ -79,8 +81,8 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
             $row = [
                 Date::dateTimeToExcel($day),
                 $day->translatedFormat("l"),
-                $workedThisDay ? $this->toExcelTime(Carbon::createFromTime(8)) : null,
-                $workedThisDay ? $this->toExcelTime(Carbon::createFromTime(16)) : null,
+                $workedThisDay ? $this->toExcelTime(Carbon::createFromTime(static::START_HOUR)) : null,
+                $workedThisDay ? $this->toExcelTime(Carbon::createFromTime(static::END_HOUR)) : null,
                 $workedThisDay ? static::HOURS_PER_DAY : null,
             ];
 

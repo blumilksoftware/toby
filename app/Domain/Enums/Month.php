@@ -48,6 +48,6 @@ enum Month: string
 
     public static function fromNameOrCurrent(string $name): Month
     {
-        return Month::tryFrom($name) ?? Month::current();     
+        return Month::tryFrom($name) ?? Month::current();
     }
 }
