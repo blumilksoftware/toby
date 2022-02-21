@@ -29,7 +29,7 @@
                   <MenuButton
                     class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
                   >
-                    {{ selectedMonth.name }}
+                    {{ selectedMonth.name }} {{ years.current }}
                     <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
                   </MenuButton>
                 </div>
@@ -159,6 +159,10 @@ export default {
     currentMonth: {
       type: String,
       default: () => 'january',
+    },
+    years: {
+      type: Object,
+      default: () => null,
     },
   },
   setup(props) {
