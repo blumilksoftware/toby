@@ -13,6 +13,7 @@ use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\Events\VacationRequestAcceptedByAdministrative;
 use Toby\Domain\Events\VacationRequestAcceptedByTechnical;
+use Toby\Domain\Events\VacationRequestApproved;
 use Toby\Domain\Events\VacationRequestRejected;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Eloquent\Models\User;
@@ -83,6 +84,85 @@ class VacationRequestTest extends FeatureTestCase
             "name" => "1/" . $currentYearPeriod->year,
             "type" => VacationType::Vacation->value,
             "state" => VacationRequestState::WaitingForTechnical,
+            "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ]);
+    }
+
+    public function testUserCanCreateVacationRequestOnEmployeeBehalf(): void
+    {
+        $creator = User::factory()->createQuietly();
+        $user = User::factory()->createQuietly();
+
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($creator)
+            ->post("/vacation-requests", [
+                "user" => $user->id,
+                "creator_id" => $creator->id,
+                "type" => VacationType::Vacation->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
+                "comment" => "Comment for the vacation request.",
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $user->id,
+            "creator_id" => $creator->id,
+            "year_period_id" => $currentYearPeriod->id,
+            "name" => "1/" . $currentYearPeriod->year,
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::WaitingForTechnical,
+            "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ]);
+    }
+
+    public function testUserCanCreateVacationRequestOnEmployeeBehalfAndSkipAcceptanceFlow(): void
+    {
+        Event::fake(VacationRequestApproved::class);
+
+        $creator = User::factory()->createQuietly();
+        $user = User::factory()->createQuietly();
+
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($creator)
+            ->post("/vacation-requests", [
+                "user" => $user->id,
+                "creator_id" => $creator->id,
+                "type" => VacationType::Vacation->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
+                "comment" => "Comment for the vacation request.",
+                "skipFlow" => 1,
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $user->id,
+            "creator_id" => $creator->id,
+            "year_period_id" => $currentYearPeriod->id,
+            "name" => "1/" . $currentYearPeriod->year,
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::Approved,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
             "comment" => "Comment for the vacation request.",

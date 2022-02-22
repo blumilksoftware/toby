@@ -53,10 +53,10 @@ class VacationRequestCreatedOnEmployeeBehalf extends Notification
             ->greeting(__("Hi :user!", [
                 "user" => $user,
             ]))
-            ->subject(__("Vacation request :title has been created on your behalf.", [
+            ->subject(__("Vacation request :title has been created on your behalf", [
                 "title" => $title,
             ]))
-            ->line(__("The vacation request :title has been created correctly by :creator on your behalf in the :appName.", [
+            ->line(__("The vacation request :title has been created correctly by user :creator on your behalf in the :appName.", [
                 "title" => $title,
                 "appName" => $appName,
                 "creator" => $creator,
