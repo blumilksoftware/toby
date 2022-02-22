@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Toby\Domain;
 
-use Carbon\CarbonImmutable;
-use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
@@ -20,31 +19,14 @@ class CalendarGenerator
     ) {
     }
 
-    public function generate(YearPeriod $yearPeriod, string $month): array
+    public function generate(Carbon $month): array
     {
-        $date = CarbonImmutable::create($yearPeriod->year, $this->monthNameToNumber($month));
-        $period = CarbonPeriod::create($date->startOfMonth(), $date->endOfMonth());
+        $period = CarbonPeriod::create($month->copy()->startOfMonth(), $month->copy()->endOfMonth());
+        $yearPeriod = YearPeriod::findByYear($month->year);
+
         $holidays = $yearPeriod->holidays()->pluck("date");
 
         return $this->generateCalendar($period, $holidays);
-    }
-
-    protected function monthNameToNumber($name): int
-    {
-        return match ($name) {
-            default => CarbonInterface::JANUARY,
-            "february" => CarbonInterface::FEBRUARY,
-            "march" => CarbonInterface::MARCH,
-            "april" => CarbonInterface::APRIL,
-            "may" => CarbonInterface::MAY,
-            "june" => CarbonInterface::JUNE,
-            "july" => CarbonInterface::JULY,
-            "august" => CarbonInterface::AUGUST,
-            "september" => CarbonInterface::SEPTEMBER,
-            "october" => CarbonInterface::OCTOBER,
-            "november" => CarbonInterface::NOVEMBER,
-            "december" => CarbonInterface::DECEMBER,
-        };
     }
 
     protected function generateCalendar(CarbonPeriod $period, Collection $holidays): array

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Eloquent\Observers;
 
 use Illuminate\Contracts\Auth\Factory as Auth;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Events\VacationRequestStateChanged;
 use Toby\Eloquent\Models\User;

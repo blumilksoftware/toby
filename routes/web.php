@@ -7,6 +7,7 @@ use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
+use Toby\Infrastructure\Http\Controllers\TimesheetController;
 use Toby\Infrastructure\Http\Controllers\UserController;
 use Toby\Infrastructure\Http\Controllers\VacationCalendarController;
 use Toby\Infrastructure\Http\Controllers\VacationLimitController;
@@ -24,8 +25,10 @@ Route::middleware("auth")->group(function (): void {
 
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])
         ->name("vacation.limits");
-    Route::get("/vacation-calendar", [VacationCalendarController::class, "index"])
+    Route::get("/vacation-calendar/{month?}", [VacationCalendarController::class, "index"])
         ->name("vacation.calendar");
+    Route::get("/timesheet/{month}", TimesheetController::class)
+        ->name("timesheet");
 
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
     Route::put("/vacation-limits", [VacationLimitController::class, "update"]);
