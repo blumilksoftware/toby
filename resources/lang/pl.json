@@ -70,5 +70,7 @@
   "Vacation request :title has been cancelled": "Wniosek urlopowy :title został anulowany",
   "The vacation request :title for user :requester has been cancelled.": "Wniosek urlopowy :title  od użytkownika :requester został anulowany.",
   "Vacation request :title has been rejected": "Wniosek urlopowy :title został odrzucony",
-  "The vacation request :title for user :requester has been rejected.": "Wniosek urlopowy :title od użytkownika :requester został odrzucony."
+  "The vacation request :title for user :requester has been rejected.": "Wniosek urlopowy :title od użytkownika :requester został odrzucony.",
+  "Vacation request :title has been created on your behalf.": "Wniosek urlopowy :title został utworzony w Twoim imieniu",
+  "The vacation request :title has been created correctly by :creator on your behalf in the :appName.": "W systemie :appName został w Twoim imieniu poprawnie utworzony wnioskek urlopowy :title przez :creator"
 }

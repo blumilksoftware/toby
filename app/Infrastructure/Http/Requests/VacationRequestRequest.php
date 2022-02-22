@@ -20,7 +20,7 @@ class VacationRequestRequest extends FormRequest
             "type" => ["required", new Enum(VacationType::class)],
             "from" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
             "to" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
-            "skipFlow" => ["required", "boolean"],
+            "skipFlow" => ["nullable", "boolean"],
             "comment" => ["nullable"],
         ];
     }

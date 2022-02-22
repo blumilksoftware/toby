@@ -24,6 +24,7 @@ class VacationRequestFactory extends Factory
 
         return [
             "user_id" => User::factory(),
+            "creator_id" => fn(array $attributes) => $attributes["user_id"],
             "year_period_id" => YearPeriod::factory(),
             "name" => fn(array $attributes) => $this->generateName($attributes),
             "type" => $this->faker->randomElement(VacationType::cases()),

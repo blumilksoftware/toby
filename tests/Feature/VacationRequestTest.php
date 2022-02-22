@@ -69,6 +69,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
@@ -178,6 +179,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
@@ -202,6 +204,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 5)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 6)->toDateString(),
@@ -233,6 +236,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
@@ -268,6 +272,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
@@ -304,6 +309,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
@@ -320,6 +326,7 @@ class VacationRequestTest extends FeatureTestCase
         $currentYearPeriod = YearPeriod::current();
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 6)->toDateString(),
@@ -337,6 +344,7 @@ class VacationRequestTest extends FeatureTestCase
         $nextYearPeriod = $this->createYearPeriod(Carbon::now()->year + 1);
         $this->actingAs($user)
             ->post("/vacation-requests", [
+                "user" => $user->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 12, 27)->toDateString(),
                 "to" => Carbon::create($nextYearPeriod->year, 1, 2)->toDateString(),

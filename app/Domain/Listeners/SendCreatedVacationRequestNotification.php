@@ -6,6 +6,7 @@ namespace Toby\Domain\Listeners;
 
 use Toby\Domain\Events\VacationRequestCreated;
 use Toby\Domain\Notifications\VacationRequestCreatedNotification;
+use Toby\Domain\Notifications\VacationRequestCreatedOnEmployeeBehalf;
 
 class SendCreatedVacationRequestNotification
 {
@@ -15,6 +16,12 @@ class SendCreatedVacationRequestNotification
 
     public function handle(VacationRequestCreated $event): void
     {
-        $event->vacationRequest->user->notify(new VacationRequestCreatedNotification($event->vacationRequest));
+        $vacationRequest = $event->vacationRequest;
+
+        if ($vacationRequest->creator->is($vacationRequest->user)) {
+            $event->vacationRequest->user->notify(new VacationRequestCreatedNotification($event->vacationRequest));
+        } else {
+            $event->vacationRequest->user->notify(new VacationRequestCreatedOnEmployeeBehalf($event->vacationRequest));
+        }
     }
 }
