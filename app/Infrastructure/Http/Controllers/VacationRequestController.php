@@ -63,9 +63,14 @@ class VacationRequestController extends Controller
 
     public function create(): Response
     {
+        $users = User::query()
+            ->orderBy("last_name")
+            ->orderBy("first_name")
+            ->get();
+
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
-            "users" => UserResource::collection(User::all()),
+            "users" => UserResource::collection($users),
         ]);
     }
 
