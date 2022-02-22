@@ -15,8 +15,10 @@ use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\Validation\VacationRequestValidator;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
+use Toby\Infrastructure\Http\Resources\UserResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
@@ -61,8 +63,14 @@ class VacationRequestController extends Controller
 
     public function create(): Response
     {
+        $users = User::query()
+            ->orderBy("last_name")
+            ->orderBy("first_name")
+            ->get();
+
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
+            "users" => UserResource::collection($users),
         ]);
     }
 
@@ -73,7 +81,7 @@ class VacationRequestController extends Controller
         VacationDaysCalculator $vacationDaysCalculator,
     ): RedirectResponse {
         /** @var VacationRequest $vacationRequest */
-        $vacationRequest = $request->user()->vacationRequests()->make($request->data());
+        $vacationRequest = $request->user()->createdVacationRequests()->make($request->data());
         $vacationRequestValidator->validate($vacationRequest);
 
         $vacationRequest->save();

@@ -48,9 +48,9 @@
   "Sum:": "Suma:",
   "Date": "Data",
   "Day of week": "Dzień tygodnia",
-  "Start date": "Data rozpoczecia",
+  "Start date": "Data rozpoczęcia",
   "End date": "Data zakończenia",
-  "Worked hours": "Ilość godzin",
+  "Worked hours": "Liczba godzin",
   "Hi :user!": "Cześć :user!",
   "The vacation request :title has changed state to :state.": "Wniosek urlopowy :title zmienił status na :state.",
   "Vacation request :title": "Wniosek urlopowy :title",
@@ -68,7 +68,9 @@
   "Vacation request :title has been approved": "Wniosek urlopowy :title został zatwierdzony",
   "The vacation request :title for user :requester has been approved.": "Wniosek urlopowy :title od użytkownika :requester został zatwierdzony.",
   "Vacation request :title has been cancelled": "Wniosek urlopowy :title został anulowany",
-  "The vacation request :title for user :requester has been cancelled.": "Wniosek urlopowy :title  od użytkownika :requester został anulowany.",
+  "The vacation request :title for user :requester has been cancelled.": "Wniosek urlopowy :title od użytkownika :requester został anulowany.",
   "Vacation request :title has been rejected": "Wniosek urlopowy :title został odrzucony",
-  "The vacation request :title for user :requester has been rejected.": "Wniosek urlopowy :title od użytkownika :requester został odrzucony."
+  "The vacation request :title for user :requester has been rejected.": "Wniosek urlopowy :title od użytkownika :requester został odrzucony.",
+  "Vacation request :title has been created on your behalf": "Wniosek urlopowy :title został utworzony w Twoim imieniu",
+  "The vacation request :title has been created correctly by user :creator on your behalf in the :appName.": "W systemie :appName został poprawnie utworzony wniosek urlopowy :title w Twoim imieniu przez użytkownika :creator."
 }

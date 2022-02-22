@@ -77,6 +77,7 @@ class DatabaseSeeder extends Seeder
             VacationRequest::factory()
                 ->count(10)
                 ->for($user)
+                ->for($user, "creator")
                 ->sequence(fn() => [
                     "year_period_id" => $yearPeriods->random()->id,
                 ])

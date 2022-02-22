@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(VacationRequest::class);
     }
 
+    public function createdVacationRequests(): HasMany
+    {
+        return $this->hasMany(VacationRequest::class, "creator_id");
+    }
+
     public function vacations(): HasMany
     {
         return $this->hasMany(Vacation::class);

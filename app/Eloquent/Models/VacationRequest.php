@@ -22,7 +22,9 @@ use Toby\Domain\Enums\VacationType;
  * @property Carbon $from
  * @property Carbon $to
  * @property string $comment
+ * @property bool $flow_skipped
  * @property User $user
+ * @property User $creator
  * @property YearPeriod $yearPeriod
  * @property Collection $activities
  * @property Collection $vacations
@@ -47,6 +49,11 @@ class VacationRequest extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "creator_id");
+    }
+
     public function yearPeriod(): BelongsTo
     {
         return $this->belongsTo(YearPeriod::class);
@@ -67,6 +74,11 @@ class VacationRequest extends Model
         $this->state = $state;
 
         $this->save();
+    }
+
+    public function hasFlowSkipped(): bool
+    {
+        return $this->flow_skipped;
     }
 
     public function scopeStates(Builder $query, array $states): Builder
