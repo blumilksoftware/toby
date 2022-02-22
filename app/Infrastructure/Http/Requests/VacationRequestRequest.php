@@ -20,7 +20,7 @@ class VacationRequestRequest extends FormRequest
             "type" => ["required", new Enum(VacationType::class)],
             "from" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
             "to" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
-            "skipFlow" => ["nullable", "boolean"],
+            "flowSkipped" => ["nullable", "boolean"],
             "comment" => ["nullable"],
         ];
     }
@@ -36,7 +36,7 @@ class VacationRequestRequest extends FormRequest
             "to" => $this->get("to"),
             "year_period_id" => YearPeriod::findByYear(Carbon::create($from)->year)->id,
             "comment" => $this->get("comment"),
-            "skip_flow" => $this->boolean("skipFlow"),
+            "flow_skipped" => $this->boolean("flowSkipped"),
         ];
     }
 }

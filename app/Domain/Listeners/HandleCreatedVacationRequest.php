@@ -20,7 +20,7 @@ class HandleCreatedVacationRequest
     {
         $vacationRequest = $event->vacationRequest;
 
-        if ($vacationRequest->shouldSkipFlow()) {
+        if ($vacationRequest->hasFlowSkipped()) {
             $this->stateManager->approve($vacationRequest);
 
             return;

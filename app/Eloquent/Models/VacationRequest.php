@@ -22,7 +22,7 @@ use Toby\Domain\Enums\VacationType;
  * @property Carbon $from
  * @property Carbon $to
  * @property string $comment
- * @property boolean $skip_flow
+ * @property bool $flow_skipped
  * @property User $user
  * @property User $creator
  * @property YearPeriod $yearPeriod
@@ -76,9 +76,9 @@ class VacationRequest extends Model
         $this->save();
     }
 
-    public function shouldSkipFlow(): bool
+    public function hasFlowSkipped(): bool
     {
-        return $this->skip_flow;
+        return $this->flow_skipped;
     }
 
     public function scopeStates(Builder $query, array $states): Builder

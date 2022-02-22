@@ -22,7 +22,7 @@ return new class() extends Migration {
             $table->date("from");
             $table->date("to");
             $table->text("comment")->nullable();
-            $table->boolean("skip_flow")->default(false);
+            $table->boolean("flow_skipped")->default(false);
             $table->timestamps();
         });
     }

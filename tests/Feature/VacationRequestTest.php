@@ -150,7 +150,7 @@ class VacationRequestTest extends FeatureTestCase
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
-                "skipFlow" => 1,
+                "flowSkipped" => true,
             ])
             ->assertSessionHasNoErrors();
 

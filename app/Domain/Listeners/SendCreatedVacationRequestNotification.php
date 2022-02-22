@@ -19,9 +19,9 @@ class SendCreatedVacationRequestNotification
         $vacationRequest = $event->vacationRequest;
 
         if ($vacationRequest->creator->is($vacationRequest->user)) {
-            $event->vacationRequest->user->notify(new VacationRequestCreatedNotification($event->vacationRequest));
+            $vacationRequest->user->notify(new VacationRequestCreatedNotification($vacationRequest));
         } else {
-            $event->vacationRequest->user->notify(new VacationRequestCreatedOnEmployeeBehalf($event->vacationRequest));
+            $vacationRequest->user->notify(new VacationRequestCreatedOnEmployeeBehalf($vacationRequest));
         }
     }
 }
