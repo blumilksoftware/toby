@@ -107,7 +107,6 @@ class VacationRequestTest extends FeatureTestCase
         $this->actingAs($creator)
             ->post("/vacation-requests", [
                 "user" => $user->id,
-                "creator_id" => $creator->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
@@ -147,7 +146,6 @@ class VacationRequestTest extends FeatureTestCase
         $this->actingAs($creator)
             ->post("/vacation-requests", [
                 "user" => $user->id,
-                "creator_id" => $creator->id,
                 "type" => VacationType::Vacation->value,
                 "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
