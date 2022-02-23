@@ -37,6 +37,10 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 
       dcr php php artisan key:generate
 
+- generate storage link
+
+      dcr php php artisan storage:link
+
 - migrate and seed database
 
       dcr php php artisan migrate --seed
