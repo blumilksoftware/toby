@@ -8,7 +8,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
-use Illuminate\Support\Arr;
 use Inertia\Response;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationType;
@@ -21,8 +20,10 @@ use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\Validation\VacationRequestValidator;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
+use Toby\Infrastructure\Http\Resources\UserResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
@@ -61,10 +62,10 @@ class VacationRequestController extends Controller
                 "acceptAsAdministrative" => $vacationRequest->state->canTransitionTo(AcceptedByAdministrative::class)
                     && $user === Role::AdministrativeApprover,
                 "reject" => $vacationRequest->state->canTransitionTo(Rejected::class)
-                    && in_array($user->role, [Role::TechnicalApprover, Role::AdministrativeApprover]),
+                    && in_array($user->role, [Role::TechnicalApprover, Role::AdministrativeApprover], true),
                 "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
                     && $user === Role::AdministrativeApprover,
-            ]
+            ],
         ]);
     }
 
@@ -79,8 +80,14 @@ class VacationRequestController extends Controller
 
     public function create(): Response
     {
+        $users = User::query()
+            ->orderBy("last_name")
+            ->orderBy("first_name")
+            ->get();
+
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
+            "users" => UserResource::collection($users),
         ]);
     }
 
@@ -91,7 +98,7 @@ class VacationRequestController extends Controller
         VacationDaysCalculator $vacationDaysCalculator,
     ): RedirectResponse {
         /** @var VacationRequest $vacationRequest */
-        $vacationRequest = $request->user()->vacationRequests()->make($request->data());
+        $vacationRequest = $request->user()->createdVacationRequests()->make($request->data());
         $vacationRequestValidator->validate($vacationRequest);
 
         $vacationRequest->save();

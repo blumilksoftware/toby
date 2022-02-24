@@ -29,6 +29,76 @@
         </div>
       </div>
       <Listbox
+        v-model="form.user"
+        as="div"
+        class="sm:grid sm:grid-cols-3 py-4 items-center"
+      >
+        <ListboxLabel class="block text-sm font-medium text-gray-700">
+          Osoba składająca wniosek
+        </ListboxLabel>
+        <div class="mt-1 relative sm:mt-0 sm:col-span-2">
+          <ListboxButton
+            class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
+          >
+            <span class="flex items-center">
+              <img
+                :src="form.user.avatar"
+                class="flex-shrink-0 h-6 w-6 rounded-full"
+              >
+              <span class="ml-3 block truncate">{{ form.user.name }}</span>
+            </span>
+            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <SelectorIcon class="h-5 w-5 text-gray-400" />
+            </span>
+          </ListboxButton>
+
+          <transition
+            leave-active-class="transition ease-in duration-100"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
+          >
+            <ListboxOptions
+              class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+            >
+              <ListboxOption
+                v-for="user in users.data"
+                :key="user.id"
+                v-slot="{ active, selected }"
+                as="template"
+                :value="user"
+              >
+                <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                  <div class="flex items-center">
+                    <img
+                      :src="user.avatar"
+                      alt=""
+                      class="flex-shrink-0 h-6 w-6 rounded-full"
+                    >
+                    <span :class="[selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">
+                      {{ user.name }}
+                    </span>
+                  </div>
+
+                  <span
+                    v-if="selected"
+                    :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                  >
+                    <CheckIcon class="h-5 w-5" />
+                  </span>
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </transition>
+          <p
+            v-if="form.errors.type"
+            class="mt-2 text-sm text-red-600"
+          >
+            {{ form.errors.type }}
+          </p>
+        </div>
+      </Listbox>
+      <Listbox
         v-model="form.type"
         as="div"
         class="sm:grid sm:grid-cols-3 py-4 items-center"
@@ -161,6 +231,25 @@
           />
         </div>
       </div>
+      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+        <label
+          for="flowSkipped"
+          class="block text-sm font-medium text-gray-700"
+        >
+          Natychmiastowo zatwierdź wniosek
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <Switch
+            id="flowSkipped"
+            v-model="form.flowSkipped"
+            :class="[form.flowSkipped ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
+          >
+            <span
+              :class="[form.flowSkipped ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"
+            />
+          </Switch>
+        </div>
+      </div>
       <div class="flex justify-end py-3">
         <div class="space-x-3">
           <InertiaLink
@@ -183,16 +272,18 @@
 </template>
 
 <script>
-import {useForm, usePage} from '@inertiajs/inertia-vue3'
+import {useForm} from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
-import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
+import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch} from '@headlessui/vue'
 import {CheckIcon, SelectorIcon, XCircleIcon} from '@heroicons/vue/solid'
-import {reactive, ref, computed} from 'vue'
+import {reactive, ref} from 'vue'
 import axios from 'axios'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 
 export default {
   name: 'VacationRequestCreate',
   components: {
+    Switch,
     FlatPickr,
     Listbox,
     ListboxButton,
@@ -204,6 +295,14 @@ export default {
     XCircleIcon,
   },
   props: {
+    auth: {
+      type: Object,
+      default: () => null,
+    },
+    users: {
+      type: Object,
+      default: () => null,
+    },
     vacationTypes: {
       type: Object,
       default: () => null,
@@ -215,15 +314,16 @@ export default {
   },
   setup(props) {
     const form = useForm({
+      user: props.users.data.find(user => user.id === props.auth.user.id),
       from: null,
       to: null,
       type: props.vacationTypes[0],
       comment: null,
+      flowSkipped: false,
     })
 
     const estimatedDays = ref([])
-    const minDate = computed(() => new Date(usePage().props.value.years.current, 0, 1))
-    const maxDate = computed(() => new Date(usePage().props.value.years.current, 11, 31))
+    const {minDate, maxDate} = useCurrentYearPeriodInfo()
 
     const disableDates = [
       date => (date.getDay() === 0 || date.getDay() === 6),
@@ -254,6 +354,7 @@ export default {
         .transform(data => ({
           ...data,
           type: data.type.value,
+          user: data.user.id,
         }))
         .post('/vacation-requests')
     },

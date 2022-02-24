@@ -20,6 +20,12 @@ class HandleCreatedVacationRequest
     {
         $vacationRequest = $event->vacationRequest;
 
+        if ($vacationRequest->hasFlowSkipped()) {
+            $this->stateManager->approve($vacationRequest);
+
+            return;
+        }
+
         if ($this->configRetriever->needsTechnicalApproval($vacationRequest->type)) {
             $this->stateManager->waitForTechnical($vacationRequest);
 

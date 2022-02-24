@@ -11,7 +11,10 @@ use Toby\Domain\Events\VacationRequestAcceptedByTechnical;
 use Toby\Domain\Events\VacationRequestApproved;
 use Toby\Domain\Events\VacationRequestCancelled;
 use Toby\Domain\Events\VacationRequestCreated;
+use Toby\Domain\Events\VacationRequestRejected;
 use Toby\Domain\Events\VacationRequestStateChanged;
+use Toby\Domain\Events\VacationRequestWaitsForAdminApproval;
+use Toby\Domain\Events\VacationRequestWaitsForTechApproval;
 use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
 use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
 use Toby\Domain\States\VacationRequest\Approved;
@@ -48,6 +51,7 @@ class VacationRequestStateManager
     public function reject(VacationRequest $vacationRequest, ?User $user = null): void
     {
         $this->changeState($vacationRequest, Rejected::class, $user);
+        $this->dispatcher->dispatch(new VacationRequestRejected($vacationRequest));
     }
 
     public function cancel(VacationRequest $vacationRequest, ?User $user = null): void
@@ -74,11 +78,15 @@ class VacationRequestStateManager
     public function waitForTechnical(VacationRequest $vacationRequest, ?User $user = null): void
     {
         $this->changeState($vacationRequest, WaitingForTechnical::class, $user);
+
+        $this->dispatcher->dispatch(new VacationRequestWaitsForTechApproval($vacationRequest));
     }
 
     public function waitForAdministrative(VacationRequest $vacationRequest, ?User $user = null): void
     {
         $this->changeState($vacationRequest, WaitingForAdministrative::class, $user);
+
+        $this->dispatcher->dispatch(new VacationRequestWaitsForAdminApproval($vacationRequest));
     }
 
     protected function changeState(VacationRequest $vacationRequest, string $state, ?User $user = null): void

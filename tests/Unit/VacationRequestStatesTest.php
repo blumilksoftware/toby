@@ -6,6 +6,7 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\Enums\VacationType;
@@ -27,6 +28,8 @@ class VacationRequestStatesTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Notification::fake();
 
         $this->stateManager = $this->app->make(VacationRequestStateManager::class);
 

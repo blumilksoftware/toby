@@ -23,7 +23,9 @@ use Toby\Domain\States\VacationRequest\VacationRequestState;
  * @property Carbon $from
  * @property Carbon $to
  * @property string $comment
+ * @property bool $flow_skipped
  * @property User $user
+ * @property User $creator
  * @property YearPeriod $yearPeriod
  * @property Collection $activities
  * @property Collection $vacations
@@ -47,6 +49,11 @@ class VacationRequest extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, "creator_id");
     }
 
     public function yearPeriod(): BelongsTo
@@ -78,6 +85,11 @@ class VacationRequest extends Model
     {
         return $query->where("from", "<=", $vacationRequest->to)
             ->where("to", ">=", $vacationRequest->from);
+    }
+
+    public function hasFlowSkipped(): bool
+    {
+        return $this->flow_skipped;
     }
 
     protected static function newFactory(): VacationRequestFactory

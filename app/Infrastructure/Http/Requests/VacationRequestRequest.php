@@ -16,9 +16,11 @@ class VacationRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "user" => ["required", "exists:users,id"],
             "type" => ["required", new Enum(VacationType::class)],
             "from" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
             "to" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
+            "flowSkipped" => ["nullable", "boolean"],
             "comment" => ["nullable"],
         ];
     }
@@ -28,11 +30,13 @@ class VacationRequestRequest extends FormRequest
         $from = $this->get("from");
 
         return [
+            "user_id" => $this->get("user"),
             "type" => $this->get("type"),
             "from" => $from,
             "to" => $this->get("to"),
             "year_period_id" => YearPeriod::findByYear(Carbon::create($from)->year)->id,
             "comment" => $this->get("comment"),
+            "flow_skipped" => $this->boolean("flowSkipped"),
         ];
     }
 }
