@@ -24,7 +24,7 @@ class DashboardController extends Controller
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
-        protected YearPeriodRetriever $yearPeriodRetriever
+        protected YearPeriodRetriever $yearPeriodRetriever,
     ) {
     }
 
@@ -35,7 +35,7 @@ class DashboardController extends Controller
             ->whereDate("date", Carbon::now())
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query->states(VacationRequestState::successStates())
+                fn(Builder $query) => $query->states(VacationRequestState::successStates()),
             )
             ->get();
 
@@ -51,10 +51,10 @@ class DashboardController extends Controller
             ->get();
 
         $limit = $request->user()
-                ->vacationLimits()
-                ->where("year_period_id", $this->yearPeriodRetriever->current()->id)
-                ->first()
-                ->days ?? 0;
+            ->vacationLimits()
+            ->where("year_period_id", $this->yearPeriodRetriever->current()->id)
+            ->first()
+            ->days ?? 0;
 
         $used = $request->user()
             ->vacations()
@@ -62,7 +62,7 @@ class DashboardController extends Controller
                 "vacationRequest",
                 fn(Builder $query) => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
-                    ->noStates(VacationRequestState::successStates()),
+                    ->states(VacationRequestState::successStates()),
             )
             ->count();
 
@@ -72,7 +72,7 @@ class DashboardController extends Controller
                 "vacationRequest",
                 fn(Builder $query) => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
-                    ->noStates(VacationRequestState::pendingStates()),
+                    ->states(VacationRequestState::pendingStates()),
             )
             ->count();
 
@@ -82,7 +82,7 @@ class DashboardController extends Controller
                 "vacationRequest",
                 fn(Builder $query) => $query
                     ->whereIn("type", $this->getNotLimitableVacationTypes())
-                    ->noStates(VacationRequestState::successStates()),
+                    ->states(VacationRequestState::successStates()),
             )
             ->count();
 

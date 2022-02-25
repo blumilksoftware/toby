@@ -221,7 +221,7 @@ export default {
       default: () => ({
         used: 0,
         pending: 0,
-        other: 0,
+        remaining: 0,
       }),
     },
   },
