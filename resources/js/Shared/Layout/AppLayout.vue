@@ -2,7 +2,7 @@
   <div class="min-h-full">
     <MainMenu />
     <main class="lg:ml-64 flex flex-col flex-1 py-8">
-      <div>
+      <div class="px-4">
         <slot />
       </div>
     </main>
