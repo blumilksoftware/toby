@@ -38,36 +38,70 @@
           <div class="h-full">
             <div class="grid grid-cols-2 gap-4 h-full">
               <div class="px-4 py-5 bg-white shadow-md sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">
-                  Limit urlopów
-                </dt>
-                <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                  {{ stats.limit }}
-                </dd>
-              </div>
-              <div class="px-4 py-5 bg-white shadow-md sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">
-                  Dni do wykorzystania
-                </dt>
-                <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                <dd class="mt-1 text-4xl font-semibold text-blumilk-500">
                   {{ stats.remaining }}
                 </dd>
+                <dt class="text-md font-medium text-gray-700 truncate">
+                  Pozostało
+                </dt>
+                <dt class="text-sm font-medium text-gray-500 mt-2">
+                  Dni do wykorzystania teraz.
+                </dt>
               </div>
               <div class="px-4 py-5 bg-white shadow-md sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">
-                  Dni wykorzystane
-                </dt>
-                <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                <dd class="mt-1 text-4xl font-semibold text-blumilk-700">
                   {{ stats.used }}
                 </dd>
+                <dt class="text-md font-medium text-gray-700 truncate">
+                  Dni wykorzystane
+                </dt>
+                <dt class="text-sm font-medium text-gray-500 mt-2">
+                  Dni, które zostały już wykorzystane na urlop wypoczynkowy.
+                </dt>
               </div>
               <div class="px-4 py-5 bg-white shadow-md sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">
-                  Inne urlopy
+                <dt class="mt-1 text-4xl font-semibold text-blumilk-200">
+                  {{ stats.pending }}
                 </dt>
-                <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                  {{ stats.other }}
+                <dd class="text-md font-medium text-gray-500 truncate">
+                  Rozpatrywane
                 </dd>
+                <dt class="text-sm font-medium text-gray-500 mt-2">
+                  Dni czekające na akceptację przełożonych
+                </dt>
+              </div>
+              <div class="px-4 py-5 bg-white shadow-md sm:p-6">
+                <dt class="mt-1 text-4xl font-semibold text-gray-900">
+                  {{ stats.limit }}
+                </dt>
+                <dd class="text-md font-medium text-gray-500 truncate">
+                  Limit urlopu
+                </dd>
+                <dt class="text-sm font-medium text-gray-500 mt-2">
+                  Twój roczny limit urlopu wypoczynkowego.
+                </dt>
+              </div>
+              <div class="px-4 py-5 bg-white shadow-md sm:p-6">
+                <dt class="mt-1 text-4xl font-semibold text-gray-900">
+                  {{ stats.onRequest }}
+                </dt>
+                <dd class="text-md font-medium text-gray-500 truncate">
+                  Urlop na żądanie
+                </dd>
+                <dt class="text-sm font-medium text-gray-500 mt-2">
+                  Ilość dni urlopu na żądanie, który wlicza się w limit urlopu wypoczynkowego.
+                </dt>
+              </div>
+              <div class="px-4 py-5 bg-white shadow-md sm:p-6">
+                <dt class="mt-1 text-4xl font-semibold text-gray-900">
+                  {{ stats.other }}
+                </dt>
+                <dd class="text-md font-medium text-gray-500 truncate">
+                  Inne urlopy
+                </dd>
+                <dt class="text-sm font-medium text-gray-500 mt-2">
+                  Urlopy bezpłatne, okolicznościowe, zwolnienia lekarskie, itd., które zostały już zatwierdzone.
+                </dt>
               </div>
             </div>
           </div>

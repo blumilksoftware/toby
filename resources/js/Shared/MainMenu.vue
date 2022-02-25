@@ -110,7 +110,7 @@
             :class="[$page.url === '/' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
           >
             <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
-            Dashboard
+            Strona główna
           </InertiaLink>
         </div>
         <div class="mt-4 pt-4">

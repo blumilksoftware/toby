@@ -146,8 +146,8 @@ class DemoSeeder extends Seeder
 
         $currentYearPeriod = YearPeriod::query()->where("year", 2022)->first();
 
-        /** @var VacationRequest $vacationRequest */
-        $vacationRequest = VacationRequest::factory([
+        /** @var VacationRequest $vacationRequestApproved */
+        $vacationRequestApproved = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
             "state" => VacationRequestState::Created,
             "from" => Carbon::create($currentYearPeriod->year, 1, 31)->toDateString(),
@@ -177,43 +177,149 @@ class DemoSeeder extends Seeder
         VacationRequestActivity::factory([
             "from" => null,
             "to" => VacationRequestState::Created,
-        ])->for($vacationRequest)
+        ])->for($vacationRequestApproved)
             ->for($employee1)
             ->create();
 
         VacationRequestActivity::factory([
             "from" => VacationRequestState::Created,
             "to" => VacationRequestState::WaitingForTechnical,
-        ])->for($vacationRequest)
+        ])->for($vacationRequestApproved)
             ->create();
 
         VacationRequestActivity::factory([
             "from" => VacationRequestState::WaitingForTechnical,
             "to" => VacationRequestState::AcceptedByTechnical,
-        ])->for($vacationRequest)
+        ])->for($vacationRequestApproved)
             ->for($technicalApprover)
             ->create();
 
         VacationRequestActivity::factory([
             "from" => VacationRequestState::AcceptedByTechnical,
             "to" => VacationRequestState::WaitingForAdministrative,
-        ])->for($vacationRequest)
+        ])->for($vacationRequestApproved)
             ->create();
 
         VacationRequestActivity::factory([
             "from" => VacationRequestState::WaitingForAdministrative,
             "to" => VacationRequestState::AcceptedByAdministrative,
-        ])->for($vacationRequest)
+        ])->for($vacationRequestApproved)
             ->for($administrativeApprover)
             ->create();
 
         VacationRequestActivity::factory([
             "from" => VacationRequestState::AcceptedByAdministrative,
             "to" => VacationRequestState::Approved,
-        ])->for($vacationRequest)
+        ])->for($vacationRequestApproved)
             ->create();
 
-        $vacationRequest->changeStateTo(VacationRequestState::Approved);
+        $vacationRequestApproved->changeStateTo(VacationRequestState::Approved);
+
+        /** @var VacationRequest $vacationRequestWaitsForAdminApproval */
+        $vacationRequestWaitsForAdminApproval = VacationRequest::factory([
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::Created,
+            "from" => Carbon::create($currentYearPeriod->year, 2, 14)->toDateString(),
+            "to" => Carbon::create($currentYearPeriod->year, 2, 14)->toDateString(),
+            "comment" => "Komentarz do wniosku urlopowego.",
+        ])
+            ->for($employee1)
+            ->for($employee1, "creator")
+            ->for($currentYearPeriod)
+            ->afterCreating(function (VacationRequest $vacationRequest): void {
+                $days = app(VacationDaysCalculator::class)->calculateDays(
+                    $vacationRequest->yearPeriod,
+                    $vacationRequest->from,
+                    $vacationRequest->to,
+                );
+
+                foreach ($days as $day) {
+                    $vacationRequest->vacations()->create([
+                        "date" => $day,
+                        "user_id" => $vacationRequest->user->id,
+                        "year_period_id" => $vacationRequest->yearPeriod->id,
+                    ]);
+                }
+            })
+            ->create();
+
+        VacationRequestActivity::factory([
+            "from" => null,
+            "to" => VacationRequestState::Created,
+        ])->for($vacationRequestWaitsForAdminApproval)
+            ->for($employee1)
+            ->create();
+
+        VacationRequestActivity::factory([
+            "from" => VacationRequestState::Created,
+            "to" => VacationRequestState::WaitingForTechnical,
+        ])->for($vacationRequestWaitsForAdminApproval)
+            ->create();
+
+        VacationRequestActivity::factory([
+            "from" => VacationRequestState::WaitingForTechnical,
+            "to" => VacationRequestState::AcceptedByTechnical,
+        ])->for($vacationRequestWaitsForAdminApproval)
+            ->for($technicalApprover)
+            ->create();
+
+        VacationRequestActivity::factory([
+            "from" => VacationRequestState::AcceptedByTechnical,
+            "to" => VacationRequestState::WaitingForAdministrative,
+        ])->for($vacationRequestWaitsForAdminApproval)
+            ->create();
+
+        $vacationRequestWaitsForAdminApproval->changeStateTo(VacationRequestState::WaitingForAdministrative);
+
+        /** @var VacationRequest $vacationRequestRejected */
+        $vacationRequestRejected = VacationRequest::factory([
+            "type" => VacationType::Vacation->value,
+            "state" => VacationRequestState::Created,
+            "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+            "comment" => "",
+        ])
+            ->for($employee1)
+            ->for($employee1, "creator")
+            ->for($currentYearPeriod)
+            ->afterCreating(function (VacationRequest $vacationRequest): void {
+                $days = app(VacationDaysCalculator::class)->calculateDays(
+                    $vacationRequest->yearPeriod,
+                    $vacationRequest->from,
+                    $vacationRequest->to,
+                );
+
+                foreach ($days as $day) {
+                    $vacationRequest->vacations()->create([
+                        "date" => $day,
+                        "user_id" => $vacationRequest->user->id,
+                        "year_period_id" => $vacationRequest->yearPeriod->id,
+                    ]);
+                }
+            })
+            ->create();
+
+        VacationRequestActivity::factory([
+            "from" => null,
+            "to" => VacationRequestState::Created,
+        ])->for($vacationRequestRejected)
+            ->for($employee1)
+            ->create();
+
+        VacationRequestActivity::factory([
+            "from" => VacationRequestState::Created,
+            "to" => VacationRequestState::WaitingForTechnical,
+        ])->for($vacationRequestRejected)
+            ->create();
+
+        VacationRequestActivity::factory([
+            "from" => VacationRequestState::WaitingForTechnical,
+            "to" => VacationRequestState::Rejected,
+        ])->for($vacationRequestRejected)
+            ->for($technicalApprover)
+            ->create();
+
+        $vacationRequestRejected->changeStateTo(VacationRequestState::Rejected);
     }
 
     protected function generateAvatarsForUsers(Collection $users): void
