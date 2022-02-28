@@ -79,7 +79,7 @@ export default {
               borderWidth: 2,
               label: {
                 position: 'inner',
-                formatter: params => params.value,
+                formatter: param => param.value !== 0 ? param.value : '' ,
                 fontWeight: 'bold',
                 fontSize: 16,
                 color: '#FFFFFF',
