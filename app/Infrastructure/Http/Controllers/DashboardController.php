@@ -5,34 +5,30 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\Enums\VacationRequestState;
-use Toby\Domain\Enums\VacationType;
-use Toby\Domain\VacationTypeConfigRetriever;
-use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Http\Resources\AbsenceResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class DashboardController extends Controller
 {
-    public function __construct(
-        protected VacationTypeConfigRetriever $configRetriever,
-        protected YearPeriodRetriever $yearPeriodRetriever,
-    ) {
-    }
-
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, UserVacationStatsRetriever $vacationStatsRetriever): Response
     {
+        $user = $request->user();
+        $now = Carbon::now();
+        $yearPeriod = YearPeriod::findByYear($now->year);
+
         $absences = Vacation::query()
             ->with(["user", "vacationRequest"])
-            ->whereDate("date", Carbon::now())
+            ->whereDate("date", $now)
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query->states(VacationRequestState::successStates()),
@@ -45,46 +41,15 @@ class DashboardController extends Controller
             ->get();
 
         $holidays = Holiday::query()
-            ->whereDate("date", ">=", Carbon::now())
+            ->whereDate("date", ">=", $now)
             ->latest()
             ->limit(3)
             ->get();
 
-        $limit = $request->user()
-            ->vacationLimits()
-            ->where("year_period_id", $this->yearPeriodRetriever->current()->id)
-            ->first()
-            ->days ?? 0;
-
-        $used = $request->user()
-            ->vacations()
-            ->whereRelation(
-                "vacationRequest",
-                fn(Builder $query) => $query
-                    ->whereIn("type", $this->getLimitableVacationTypes())
-                    ->states(VacationRequestState::successStates()),
-            )
-            ->count();
-
-        $pending = $request->user()
-            ->vacations()
-            ->whereRelation(
-                "vacationRequest",
-                fn(Builder $query) => $query
-                    ->whereIn("type", $this->getLimitableVacationTypes())
-                    ->states(VacationRequestState::pendingStates()),
-            )
-            ->count();
-
-        $other = $request->user()
-            ->vacations()
-            ->whereRelation(
-                "vacationRequest",
-                fn(Builder $query) => $query
-                    ->whereIn("type", $this->getNotLimitableVacationTypes())
-                    ->states(VacationRequestState::successStates()),
-            )
-            ->count();
+        $limit = $vacationStatsRetriever->getVacationDaysLimit($user, $yearPeriod);
+        $used = $vacationStatsRetriever->getUsedVacationDays($user, $yearPeriod);
+        $pending = $vacationStatsRetriever->getPendingVacationDays($user, $yearPeriod);
+        $other = $vacationStatsRetriever->getOtherApprovedVacationDays($user, $yearPeriod);
 
         return inertia("Dashboard", [
             "absences" => AbsenceResource::collection($absences),
@@ -98,19 +63,5 @@ class DashboardController extends Controller
                 "other" => $other,
             ],
         ]);
-    }
-
-    protected function getLimitableVacationTypes(): Collection
-    {
-        $types = new Collection(VacationType::cases());
-
-        return $types->filter(fn(VacationType $type) => $this->configRetriever->hasLimit($type));
-    }
-
-    protected function getNotLimitableVacationTypes(): Collection
-    {
-        $types = new Collection(VacationType::cases());
-
-        return $types->filter(fn(VacationType $type) => !$this->configRetriever->hasLimit($type));
     }
 }
