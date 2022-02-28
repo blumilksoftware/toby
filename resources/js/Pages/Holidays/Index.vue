@@ -10,7 +10,7 @@
           Lista dni wolnych od pracy w danym roku
         </p>
       </div>
-      <div>
+      <div v-if="can.create">
         <InertiaLink
           href="holidays/create"
           class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
@@ -156,6 +156,10 @@ export default {
   },
   props: {
     holidays: {
+      type: Object,
+      default: () => null,
+    },
+    can: {
       type: Object,
       default: () => null,
     },
