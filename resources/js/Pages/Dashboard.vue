@@ -67,7 +67,7 @@
                   Rozpatrywane
                 </dd>
                 <dt class="text-sm font-medium text-gray-500 mt-2">
-                  Dni czekające na akceptację przełożonych
+                  Dni czekające na akceptację przełożonych.
                 </dt>
               </div>
               <div class="px-4 py-5 bg-white shadow-md sm:p-6">
@@ -81,18 +81,7 @@
                   Twój roczny limit urlopu wypoczynkowego.
                 </dt>
               </div>
-              <div class="px-4 py-5 bg-white shadow-md sm:p-6">
-                <dt class="mt-1 text-4xl font-semibold text-gray-900">
-                  {{ stats.onRequest }}
-                </dt>
-                <dd class="text-md font-medium text-gray-500 truncate">
-                  Urlop na żądanie
-                </dd>
-                <dt class="text-sm font-medium text-gray-500 mt-2">
-                  Ilość dni urlopu na żądanie, który wlicza się w limit urlopu wypoczynkowego.
-                </dt>
-              </div>
-              <div class="px-4 py-5 bg-white shadow-md sm:p-6">
+              <div class="px-4 py-5 bg-white shadow-md sm:p-6 col-span-2">
                 <dt class="mt-1 text-4xl font-semibold text-gray-900">
                   {{ stats.other }}
                 </dt>
@@ -182,6 +171,11 @@
                     {{ absence.user.email }}
                   </p>
                 </div>
+              </li>
+              <li v-if="! absences.data.length">
+                <p class="py-2">
+                  Brak danych
+                </p>
               </li>
             </ul>
           </div>

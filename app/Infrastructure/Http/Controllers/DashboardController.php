@@ -66,16 +66,6 @@ class DashboardController extends Controller
             )
             ->count();
 
-        $onRequest = $request->user()
-            ->vacations()
-            ->whereRelation(
-                "vacationRequest",
-                fn(Builder $query) => $query
-                    ->where("type", VacationType::OnRequest)
-                    ->states(VacationRequestState::successStates()),
-            )
-            ->count();
-
         $pending = $request->user()
             ->vacations()
             ->whereRelation(
@@ -106,7 +96,6 @@ class DashboardController extends Controller
                 "used" => $used,
                 "pending" => $pending,
                 "other" => $other,
-                "onRequest" => 4 - $onRequest,
             ],
         ]);
     }
