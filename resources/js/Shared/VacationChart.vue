@@ -71,6 +71,24 @@ export default {
             { value: props.stats.pending, name: 'Rozpatrywane' },
             { value: props.stats.remaining, name: 'Pozostałe' },
           ],
+          radius: ['30%', '70%'],
+          itemStyle : {
+            normal: {
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2,
+              label: {
+                position: 'inner',
+                formatter: params => params.value,
+                fontWeight: 'bold',
+                fontSize: 16,
+                color: '#FFFFFF',
+              },
+              labelLine: {
+                show: false,
+              },
+            },
+          },
         },
       ],
     }))
