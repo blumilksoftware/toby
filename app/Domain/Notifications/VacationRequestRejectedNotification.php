@@ -18,8 +18,7 @@ class VacationRequestRejectedNotification extends Notification
     public function __construct(
         protected VacationRequest $vacationRequest,
         protected User $user,
-    ) {
-    }
+    ) {}
 
     public function via(): array
     {

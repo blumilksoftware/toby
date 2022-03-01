@@ -22,8 +22,7 @@ class VacationRequestStateManager
     public function __construct(
         protected Auth $auth,
         protected Dispatcher $dispatcher,
-    ) {
-    }
+    ) {}
 
     public function markAsCreated(VacationRequest $vacationRequest): void
     {

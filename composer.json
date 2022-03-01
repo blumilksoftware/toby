@@ -22,7 +22,7 @@
         "spatie/laravel-google-calendar": "^3.5"
     },
     "require-dev": {
-        "blumilksoftware/codestyle": "^0.9.0",
+        "blumilksoftware/codestyle": "^0.10.0",
         "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/dusk": "^6.21",

@@ -12,31 +12,32 @@
         "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
     },
     "dependencies": {
-        "@headlessui/vue": "^1.4.2",
+        "@headlessui/vue": "^1.5.0",
         "@heroicons/vue": "^1.0.5",
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/progress": "^0.2.7",
         "@tailwindcss/forms": "^0.4.0",
         "@tailwindcss/line-clamp": "^0.3.1",
-        "@tailwindcss/typography": "^0.5.0",
-        "@vue/compiler-sfc": "^3.2.26",
+        "@tailwindcss/typography": "^0.5.2",
+        "@vue/compiler-sfc": "^3.2.31",
         "autoprefixer": "^10.4.2",
-        "axios": "^0.25.0",
+        "axios": "^0.26.0",
         "echarts": "^5.3.0",
+        "eslit": "^6.0.0",
         "flatpickr": "^4.6.9",
-        "laravel-mix": "^6.0.6",
+        "laravel-mix": "^6.0.43",
         "lodash": "^4.17.21",
-        "postcss": "^8.4.5",
-        "tailwindcss": "^3.0.13",
-        "vue": "^3.2.26",
+        "postcss": "^8.4.7",
+        "tailwindcss": "^3.0.23",
+        "vue": "^3.2.31",
         "vue-echarts": "^6.0.2",
         "vue-flatpickr-component": "^9.0.5",
         "vue-loader": "^17.0.0",
         "vue-toastification": "^2.0.0-rc.5"
     },
     "devDependencies": {
-        "eslint": "^8.6.0",
-        "eslint-plugin-vue": "^8.2.0"
+        "eslint": "^8.10.0",
+        "eslint-plugin-vue": "^8.5.0"
     }
 }

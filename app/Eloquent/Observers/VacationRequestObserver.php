@@ -16,8 +16,7 @@ class VacationRequestObserver
     public function __construct(
         protected Auth $auth,
         protected Dispatcher $dispatcher,
-    ) {
-    }
+    ) {}
 
     public function creating(VacationRequest $vacationRequest): void
     {

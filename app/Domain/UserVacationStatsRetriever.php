@@ -13,9 +13,9 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class UserVacationStatsRetriever
 {
-    public function __construct(protected VacationTypeConfigRetriever $configRetriever)
-    {
-    }
+    public function __construct(
+        protected VacationTypeConfigRetriever $configRetriever,
+    ) {}
 
     public function getUsedVacationDays(User $user, YearPeriod $yearPeriod): int
     {

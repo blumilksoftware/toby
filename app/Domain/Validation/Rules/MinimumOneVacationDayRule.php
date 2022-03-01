@@ -11,8 +11,7 @@ class MinimumOneVacationDayRule implements VacationRequestRule
 {
     public function __construct(
         protected VacationDaysCalculator $vacationDaysCalculator,
-    ) {
-    }
+    ) {}
 
     public function check(VacationRequest $vacationRequest): bool
     {

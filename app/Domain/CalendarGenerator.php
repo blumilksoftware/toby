@@ -16,8 +16,7 @@ class CalendarGenerator
 {
     public function __construct(
         protected YearPeriodRetriever $yearPeriodRetriever,
-    ) {
-    }
+    ) {}
 
     public function generate(Carbon $month): array
     {
