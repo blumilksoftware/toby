@@ -38,6 +38,12 @@
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
               >
+                Pozostałe dni z poprzedniego roku
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              >
                 Dostępne dni w roku
               </th>
             </tr>
@@ -81,6 +87,11 @@
                     :class="[item.hasVacation ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"
                   />
                 </Switch>
+              </td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                <div class="mt-1 sm:mt-0 sm:col-span-2 w-full max-w-lg bg-gray-50 border border-gray-300 rounded-md px-4 py-2 inline-flex items-center text-gray-500 sm:text-sm">
+                  {{ item.remainingLastYear }}
+                </div>
               </td>
               <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -147,7 +158,7 @@ export default {
   },
   setup(props) {
     const form = useForm({
-      items: props.limits.data,
+      items: props.limits,
     })
 
     return {

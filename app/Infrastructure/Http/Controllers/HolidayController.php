@@ -6,6 +6,7 @@ namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
+use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Infrastructure\Http\Requests\HolidayRequest;
 use Toby\Infrastructure\Http\Resources\HolidayFormDataResource;
@@ -13,9 +14,12 @@ use Toby\Infrastructure\Http\Resources\HolidayResource;
 
 class HolidayController extends Controller
 {
-    public function index(): Response
+    public function index(YearPeriodRetriever $yearPeriodRetriever): Response
     {
-        $holidays = Holiday::query()
+        $yearPeriod = $yearPeriodRetriever->selected();
+
+        $holidays = $yearPeriod
+            ->holidays()
             ->orderBy("date")
             ->get();
 

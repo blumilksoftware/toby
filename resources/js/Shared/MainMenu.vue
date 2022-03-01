@@ -336,8 +336,6 @@ export default {
     ]
 
     const userNavigation = [
-      {name: 'Your Profile', href: '#'},
-      {name: 'Settings', href: '#'},
       {name: 'Wyloguj się', href: '/logout', method: 'post', as: 'button'},
     ]
 
