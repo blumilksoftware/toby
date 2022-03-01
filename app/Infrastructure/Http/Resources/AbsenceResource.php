@@ -16,7 +16,6 @@ class AbsenceResource extends JsonResource
             "id" => $this->id,
             "user" => new UserResource($this->user),
             "date" => $this->date->toDisplayString(),
-            "cause" => $this->vacationRequest->type,
         ];
     }
 }
