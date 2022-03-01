@@ -61,7 +61,11 @@ class UserVacationStatsRetriever
 
     public function getRemainingVacationDays(User $user, YearPeriod $yearPeriod): int
     {
-        return $this->getVacationDaysLimit($user, $yearPeriod) - $this->getUsedVacationDays($user, $yearPeriod);
+        $limit = $this->getVacationDaysLimit($user, $yearPeriod);
+        $used = $this->getUsedVacationDays($user, $yearPeriod);
+        $pending = $this->getPendingVacationDays($user, $yearPeriod);
+
+        return $limit - $used - $pending;
     }
 
     public function getVacationDaysLimit(User $user, YearPeriod $yearPeriod): int
