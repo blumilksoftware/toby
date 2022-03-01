@@ -95,7 +95,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testUserCanCreateVacationRequestOnEmployeeBehalf(): void
     {
-        $creator = User::factory()->createQuietly();
+        $creator = User::factory()->admin()->createQuietly();
         $user = User::factory()->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
@@ -134,7 +134,7 @@ class VacationRequestTest extends FeatureTestCase
     {
         Event::fake(VacationRequestApproved::class);
 
-        $creator = User::factory()->createQuietly();
+        $creator = User::factory()->admin()->createQuietly();
         $user = User::factory()->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
@@ -175,7 +175,7 @@ class VacationRequestTest extends FeatureTestCase
         Event::fake(VacationRequestAcceptedByTechnical::class);
 
         $user = User::factory()->createQuietly();
-        $technicalApprover = User::factory()->createQuietly();
+        $technicalApprover = User::factory()->technicalApprover()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
 
         $vacationRequest = VacationRequest::factory([
@@ -198,7 +198,7 @@ class VacationRequestTest extends FeatureTestCase
         Event::fake(VacationRequestAcceptedByAdministrative::class);
 
         $user = User::factory()->createQuietly();
-        $administrativeApprover = User::factory()->createQuietly();
+        $administrativeApprover = User::factory()->administrativeApprover()->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -221,7 +221,7 @@ class VacationRequestTest extends FeatureTestCase
         Event::fake(VacationRequestRejected::class);
 
         $user = User::factory()->createQuietly();
-        $technicalApprover = User::factory()->createQuietly();
+        $technicalApprover = User::factory()->technicalApprover()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([

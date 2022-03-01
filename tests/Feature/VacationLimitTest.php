@@ -16,7 +16,7 @@ class VacationLimitTest extends FeatureTestCase
 
     public function testAdminCanSeeVacationLimits(): void
     {
-        $admin = User::factory()->createQuietly();
+        $admin = User::factory()->admin()->createQuietly();
 
         User::factory(10)->create();
 
@@ -32,7 +32,7 @@ class VacationLimitTest extends FeatureTestCase
 
     public function testAdminCanUpdateVacationLimits(): void
     {
-        $admin = User::factory()->createQuietly();
+        $admin = User::factory()->admin()->createQuietly();
 
         User::factory(3)->create();
 

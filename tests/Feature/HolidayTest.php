@@ -34,7 +34,8 @@ class HolidayTest extends FeatureTestCase
 
     public function testAdminCanCreateHoliday(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $currentYearPeriod = YearPeriod::current();
 
         $this->actingAs($admin)
@@ -53,7 +54,8 @@ class HolidayTest extends FeatureTestCase
 
     public function testAdminCannotCreateHolidayForYearPeriodThatDoesntExist(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $year = YearPeriod::query()->max("year") + 1;
 
         $this->actingAs($admin)
@@ -66,7 +68,8 @@ class HolidayTest extends FeatureTestCase
 
     public function testAdminCannotCreateHolidayIfGivenDataIsUsed(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $currentYearPeriod = YearPeriod::current();
         $sameDate = Carbon::create($currentYearPeriod->year, 5, 20)->toDateString();
 
@@ -85,7 +88,8 @@ class HolidayTest extends FeatureTestCase
 
     public function testAdminCanEditHoliday(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $currentYearPeriod = YearPeriod::current();
 
         $holiday = Holiday::factory()->create([
@@ -115,7 +119,8 @@ class HolidayTest extends FeatureTestCase
 
     public function testAdminCanDeleteHoliday(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $holiday = Holiday::factory()->create();
 
         $this->actingAs($admin)
