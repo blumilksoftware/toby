@@ -45,10 +45,7 @@
                 @click="sidebarOpen = false"
               >
                 <span class="sr-only">Close sidebar</span>
-                <XIcon
-                  class="h-6 w-6 text-white"
-                  aria-hidden="true"
-                />
+                <XIcon class="h-6 w-6 text-white" />
               </button>
             </div>
           </TransitionChild>
@@ -61,38 +58,27 @@
               >
             </InertiaLink>
           </div>
-          <nav
-            class="mt-5 flex-shrink-0 h-full divide-y divide-blumilk-800 overflow-y-auto"
-            aria-label="Sidebar"
-          >
+          <nav class="mt-5 flex-shrink-0 h-full divide-y divide-blumilk-800 overflow-y-auto">
             <div class="px-2 space-y-1">
               <InertiaLink
-                v-for="item in navigation"
-                :key="item.name"
-                :href="item.href"
-                :class="[item.current ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
-                :aria-current="item.current ? 'page' : undefined"
+                href="/"
+                :class="[$page.url === '/' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
               >
-                <component
-                  :is="item.icon"
-                  class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
-                  aria-hidden="true"
-                />
-                {{ item.name }}
+                <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
+                Strona główna
               </InertiaLink>
             </div>
-            <div class="mt-6 pt-6">
+            <div class="mt-3 pt-3">
               <div class="px-2 space-y-1">
                 <InertiaLink
-                  v-for="item in secondaryNavigation"
+                  v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
-                  class="group flex items-center px-2 py-2 text-base font-medium rounded-md text-blumilk-100 hover:text-white hover:bg-blumilk-600"
+                  :class="[$page.url.startsWith(item.href) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
                 >
                   <component
                     :is="item.icon"
-                    class="mr-4 h-6 w-6 text-blumilk-200"
-                    aria-hidden="true"
+                    class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
                   />
                   {{ item.name }}
                 </InertiaLink>
@@ -101,10 +87,7 @@
           </nav>
         </div>
       </TransitionChild>
-      <div
-        class="flex-shrink-0 w-14"
-        aria-hidden="true"
-      />
+      <div class="flex-shrink-0 w-14" />
     </Dialog>
   </TransitionRoot>
 
@@ -120,38 +103,27 @@
           >
         </InertiaLink>
       </div>
-      <nav
-        class="mt-5 flex-1 flex flex-col divide-y divide-blumilk-800 overflow-y-auto"
-        aria-label="Sidebar"
-      >
+      <nav class="mt-5 flex-1 flex flex-col divide-y divide-blumilk-800 overflow-y-auto">
         <div class="px-2 space-y-1">
           <InertiaLink
-            v-for="item in navigation"
-            :key="item.name"
-            :href="item.href"
-            :class="[item.current ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
-            :aria-current="item.current ? 'page' : undefined"
+            href="/"
+            :class="[$page.url === '/' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
           >
-            <component
-              :is="item.icon"
-              class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
-              aria-hidden="true"
-            />
-            {{ item.name }}
+            <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
+            Dashboard
           </InertiaLink>
         </div>
-        <div class="mt-6 pt-6">
+        <div class="mt-4 pt-4">
           <div class="px-2 space-y-1">
             <InertiaLink
-              v-for="item in secondaryNavigation"
+              v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              class="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-blumilk-100 hover:text-white hover:bg-blumilk-600"
+              :class="[$page.url.startsWith(item.href) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
             >
               <component
                 :is="item.icon"
-                class="mr-4 h-6 w-6 text-blumilk-200"
-                aria-hidden="true"
+                class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
               />
               {{ item.name }}
             </InertiaLink>
@@ -169,10 +141,7 @@
         @click="sidebarOpen = true"
       >
         <span class="sr-only">Open sidebar</span>
-        <MenuAlt1Icon
-          class="h-6 w-6"
-          aria-hidden="true"
-        />
+        <MenuAlt1Icon class="h-6 w-6" />
       </button>
       <div class="flex-1 px-4 flex justify-between sm:px-6 lg:px-8">
         <div class="flex items-center">
@@ -305,12 +274,9 @@ import {
 } from '@headlessui/vue'
 import {
   BellIcon,
-  CogIcon,
   HomeIcon,
   CollectionIcon,
   MenuAlt1Icon,
-  QuestionMarkCircleIcon,
-  ShieldCheckIcon,
   UserGroupIcon,
   XIcon,
   SunIcon,
@@ -362,29 +328,23 @@ export default {
     const years = computed(() => usePage().props.value.years)
 
     const navigation = [
-      {name: 'Strona główna', href: '/', icon: HomeIcon, current: true},
-      {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, current: false},
-      {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, current: false},
-      {name: 'Dni wolne', href: '/holidays', icon: StarIcon, current: false},
-      {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, current: false},
-      {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, current: false},
+      {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon},
+      {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon},
+      {name: 'Dni wolne', href: '/holidays', icon: StarIcon},
+      {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon},
+      {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon},
     ]
+
     const userNavigation = [
       {name: 'Your Profile', href: '#'},
       {name: 'Settings', href: '#'},
       {name: 'Wyloguj się', href: '/logout', method: 'post', as: 'button'},
     ]
 
-    const secondaryNavigation = [
-      {name: 'Settings', href: '#', icon: CogIcon},
-      {name: 'Help', href: '#', icon: QuestionMarkCircleIcon},
-      {name: 'Privacy', href: '#', icon: ShieldCheckIcon},
-    ]
     return {
       user,
       years,
       navigation,
-      secondaryNavigation,
       userNavigation,
       sidebarOpen,
     }
