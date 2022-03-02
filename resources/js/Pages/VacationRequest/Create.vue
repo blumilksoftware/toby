@@ -11,7 +11,7 @@
         class="border-t border-gray-200 h-full px-6"
         @submit.prevent="createForm"
       >
-        <div class="h-full flex flex-col justify-between">
+        <div class="h-full flex flex-col justify-around">
           <div>
             <div
               v-if="form.errors.vacationRequest"
@@ -102,6 +102,32 @@
                 </p>
               </div>
             </Listbox>
+            <div
+              v-else
+              class="sm:grid sm:grid-cols-3 py-4 items-center"
+            >
+              <label
+                for="date_from"
+                class="block text-sm font-medium text-gray-700 sm:mt-px"
+              >
+                Osoba składająca wniosek
+              </label>
+              <div class="mt-1 sm:mt-0 sm:col-span-2">
+                <div class="flex justify-start items-center">
+                  <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
+                    <img
+                      class="h-10 w-10 rounded-full"
+                      :src="auth.user.avatar"
+                    >
+                  </span>
+                  <div class="ml-3">
+                    <div class="text-sm font-medium text-gray-900">
+                      {{ auth.user.name }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <Listbox
               v-model="form.type"
               as="div"
@@ -281,7 +307,12 @@
     <div class="bg-white shadow-md h-full">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg leading-6 font-medium text-gray-900">
-          Urlop wypoczynkowy
+          <span v-if="auth.user.id !== form.user.id">
+            Urlop wypoczynkowy, dane dla: {{ form.user.name }}
+          </span>
+          <span v-else>
+            Twoje dane o urlopie wypoczynkowym
+          </span>
         </h2>
       </div>
       <div class="border-t border-gray-200 px-6 pt-8">
