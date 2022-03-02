@@ -22,6 +22,10 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             "auth" => fn() => [
                 "user" => $user ? new UserResource($user) : null,
+                "can" => [
+                    "manageVacationLimits" => $user ? $user->can("manageVacationLimits") : false,
+                    "manageUsers" => $user ? $user->can("manageUsers") : false,
+                ],
             ],
             "flash" => fn() => [
                 "success" => $request->session()->get("success"),

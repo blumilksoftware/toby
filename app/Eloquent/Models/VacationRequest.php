@@ -12,8 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Domain\Enums\VacationRequestState;
+use Spatie\ModelStates\HasStates;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\States\VacationRequest\VacationRequestState;
 
 /**
  * @property int $id
@@ -34,6 +35,7 @@ use Toby\Domain\Enums\VacationType;
 class VacationRequest extends Model
 {
     use HasFactory;
+    use HasStates;
 
     protected $guarded = [];
 
@@ -69,32 +71,25 @@ class VacationRequest extends Model
         return $this->hasMany(Vacation::class);
     }
 
-    public function changeStateTo(VacationRequestState $state): void
+    public function scopeStates(Builder $query, VacationRequestState|array $states): Builder
     {
-        $this->state = $state;
-
-        $this->save();
+        return $query->whereState("state", $states);
     }
 
-    public function hasFlowSkipped(): bool
+    public function scopeNoStates(Builder $query, VacationRequestState|array $states): Builder
     {
-        return $this->flow_skipped;
-    }
-
-    public function scopeStates(Builder $query, array $states): Builder
-    {
-        return $query->whereIn("state", $states);
-    }
-
-    public function scopeNoStates(Builder $query, array $states): Builder
-    {
-        return $query->whereNotIn("state", $states);
+        return $query->whereNotState("state", $states);
     }
 
     public function scopeOverlapsWith(Builder $query, self $vacationRequest): Builder
     {
         return $query->where("from", "<=", $vacationRequest->to)
             ->where("to", ">=", $vacationRequest->from);
+    }
+
+    public function hasFlowSkipped(): bool
+    {
+        return $this->flow_skipped;
     }
 
     protected static function newFactory(): VacationRequestFactory

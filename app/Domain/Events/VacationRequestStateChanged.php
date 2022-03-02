@@ -6,7 +6,7 @@ namespace Toby\Domain\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Toby\Domain\Enums\VacationRequestState;
+use Toby\Domain\States\VacationRequest\VacationRequestState;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 

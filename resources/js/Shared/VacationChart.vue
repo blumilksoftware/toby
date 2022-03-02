@@ -1,6 +1,7 @@
 <template>
   <v-chart
     style="height: 600px;"
+    :autoresize="true"
     :option="option"
   />
 </template>
@@ -60,10 +61,20 @@ export default {
         {
           name: 'Urlop wypoczynkowy',
           type: 'pie',
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2,
+          },
           label: {
             show: true,
-            textStyle: {
-              fontSize: 16,
+            position: 'inner',
+            formatter: param => param.value !== 0 ? param.value : '' ,
+            fontWeight: 'bold',
+            fontSize: 16,
+            color: '#FFFFFF',
+            labelLine: {
+              show: false,
             },
           },
           data: [
@@ -72,23 +83,6 @@ export default {
             { value: props.stats.remaining, name: 'Pozostałe' },
           ],
           radius: ['30%', '70%'],
-          itemStyle : {
-            normal: {
-              borderRadius: 10,
-              borderColor: '#fff',
-              borderWidth: 2,
-              label: {
-                position: 'inner',
-                formatter: param => param.value !== 0 ? param.value : '' ,
-                fontWeight: 'bold',
-                fontSize: 16,
-                color: '#FFFFFF',
-              },
-              labelLine: {
-                show: false,
-              },
-            },
-          },
         },
       ],
     }))

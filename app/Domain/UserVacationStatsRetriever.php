@@ -6,7 +6,6 @@ namespace Toby\Domain;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
@@ -26,7 +25,7 @@ class UserVacationStatsRetriever
                 "vacationRequest",
                 fn(Builder $query) => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
-                    ->states(VacationRequestState::successStates()),
+                    ->states(VacationRequestStatesRetriever::successStates()),
             )
             ->count();
     }
@@ -40,7 +39,7 @@ class UserVacationStatsRetriever
                 "vacationRequest",
                 fn(Builder $query) => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
-                    ->states(VacationRequestState::pendingStates()),
+                    ->states(VacationRequestStatesRetriever::pendingStates()),
             )
             ->count();
     }
@@ -54,7 +53,7 @@ class UserVacationStatsRetriever
                 "vacationRequest",
                 fn(Builder $query) => $query
                     ->whereIn("type", $this->getNotLimitableVacationTypes())
-                    ->states(VacationRequestState::successStates()),
+                    ->states(VacationRequestStatesRetriever::successStates()),
             )
             ->count();
     }

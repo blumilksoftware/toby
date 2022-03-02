@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\Enums\Role;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\Notifications\VacationRequestWaitsForTechApprovalNotification;
+use Toby\Domain\States\VacationRequest\Created;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
@@ -53,7 +53,7 @@ class VacationRequestNotificationTest extends TestCase
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::Created,
+            "state" => Created::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Comment for the vacation request.",

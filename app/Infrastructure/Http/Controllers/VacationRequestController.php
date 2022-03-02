@@ -5,15 +5,21 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Controllers;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
+use Illuminate\Validation\ValidationException;
 use Inertia\Response;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
+use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
+use Toby\Domain\States\VacationRequest\Cancelled;
+use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStateManager;
+use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\Validation\VacationRequestValidator;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
@@ -34,7 +40,7 @@ class VacationRequestController extends Controller
             ->with("vacations")
             ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
-            ->states(VacationRequestState::filterByStatus($status))
+            ->states(VacationRequestStatesRetriever::filterByStatus($status))
             ->paginate();
 
         return inertia("VacationRequest/Index", [
@@ -45,16 +51,37 @@ class VacationRequestController extends Controller
         ]);
     }
 
-    public function show(VacationRequest $vacationRequest): Response
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Request $request, VacationRequest $vacationRequest): Response
     {
+        $this->authorize("show", $vacationRequest);
+        $user = $request->user();
+
         return inertia("VacationRequest/Show", [
             "request" => new VacationRequestResource($vacationRequest),
             "activities" => VacationRequestActivityResource::collection($vacationRequest->activities),
+            "can" => [
+                "acceptAsTechnical" => $vacationRequest->state->canTransitionTo(AcceptedByTechnical::class)
+                    && $user->can("acceptAsTechApprover", $vacationRequest),
+                "acceptAsAdministrative" => $vacationRequest->state->canTransitionTo(AcceptedByAdministrative::class)
+                    && $user->can("acceptAsAdminApprover", $vacationRequest),
+                "reject" => $vacationRequest->state->canTransitionTo(Rejected::class)
+                    && $user->can("reject", $vacationRequest),
+                "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
+                    && $user->can("cancel", $vacationRequest),
+            ],
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function download(VacationRequest $vacationRequest): LaravelResponse
     {
+        $this->authorize("show", $vacationRequest);
+
         $pdf = PDF::loadView("pdf.vacation-request", [
             "vacationRequest" => $vacationRequest,
         ]);
@@ -62,7 +89,7 @@ class VacationRequestController extends Controller
         return $pdf->stream();
     }
 
-    public function create(YearPeriodRetriever $yearPeriodRetriever): Response
+    public function create(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
     {
         $yearPeriod = $yearPeriodRetriever->selected();
 
@@ -78,15 +105,31 @@ class VacationRequestController extends Controller
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
             "users" => UserResource::collection($users),
+            "can" => [
+                "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
+                "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),
+            ],
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     * @throws ValidationException
+     */
     public function store(
         VacationRequestRequest $request,
         VacationRequestValidator $vacationRequestValidator,
         VacationRequestStateManager $stateManager,
         VacationDaysCalculator $vacationDaysCalculator,
     ): RedirectResponse {
+        if ($request->createsOnBehalfOfEmployee()) {
+            $this->authorize("createOnBehalfOfEmployee", VacationRequest::class);
+        }
+
+        if ($request->wantsSkipFlow()) {
+            $this->authorize("skipFlow", VacationRequest::class);
+        }
+
         /** @var VacationRequest $vacationRequest */
         $vacationRequest = $request->user()->createdVacationRequests()->make($request->data());
         $vacationRequestValidator->validate($vacationRequest);
@@ -107,48 +150,72 @@ class VacationRequestController extends Controller
             ]);
         }
 
-        $stateManager->markAsCreated($vacationRequest);
+        $stateManager->markAsCreated($vacationRequest, $request->user());
 
         return redirect()
             ->route("vacation.requests.show", $vacationRequest)
             ->with("success", __("Vacation request has been created."));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function reject(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->reject($vacationRequest);
+        $this->authorize("reject", $vacationRequest);
+
+        $stateManager->reject($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been rejected."));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function cancel(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->cancel($vacationRequest);
+        $this->authorize("cancel", $vacationRequest);
+
+        $stateManager->cancel($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been cancelled."));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function acceptAsTechnical(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->acceptAsTechnical($vacationRequest);
+        $this->authorize("acceptAsTechApprover", $vacationRequest);
+
+        $stateManager->acceptAsTechnical($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been accepted."));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function acceptAsAdministrative(
+        Request $request,
         VacationRequest $vacationRequest,
         VacationRequestStateManager $stateManager,
     ): RedirectResponse {
-        $stateManager->acceptAsAdministrative($vacationRequest);
+        $this->authorize("acceptAsAdminApprover", $vacationRequest);
+
+        $stateManager->acceptAsAdministrative($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been accepted."));

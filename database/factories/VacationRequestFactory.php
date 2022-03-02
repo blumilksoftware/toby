@@ -6,8 +6,8 @@ namespace Database\Factories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
@@ -28,7 +28,7 @@ class VacationRequestFactory extends Factory
             "year_period_id" => YearPeriod::factory(),
             "name" => fn(array $attributes): string => $this->generateName($attributes),
             "type" => $this->faker->randomElement(VacationType::cases()),
-            "state" => $this->faker->randomElement(VacationRequestState::cases()),
+            "state" => $this->faker->randomElement(VacationRequestStatesRetriever::all()),
             "from" => $from,
             "to" => $from->addDays($days),
             "comment" => $this->faker->boolean ? $this->faker->paragraph() : null,

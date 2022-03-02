@@ -110,7 +110,10 @@
           </dl>
         </div>
       </div>
-      <div class="bg-white shadow">
+      <div
+        v-if="can.acceptAsTechnical"
+        class="bg-white shadow"
+      >
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Zaakceptuj wniosek jako osoba techniczna
@@ -134,7 +137,10 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow">
+      <div
+        v-if="can.acceptAsAdministrative"
+        class="bg-white shadow"
+      >
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Zaakceptuj wniosek jako osoba administracyjna
@@ -157,7 +163,10 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow">
+      <div
+        v-if="can.reject"
+        class="bg-white shadow"
+      >
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Odrzuć wniosek
@@ -180,7 +189,10 @@
           </div>
         </div>
       </div>
-      <div class="bg-white shadow border border-red-500">
+      <div
+        v-if="can.cancel"
+        class="bg-white shadow border border-red-500"
+      >
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Anuluj wniosek
@@ -243,6 +255,10 @@ export default {
   },
   props: {
     request: {
+      type: Object,
+      default: () => null,
+    },
+    can: {
       type: Object,
       default: () => null,
     },

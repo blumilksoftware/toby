@@ -16,6 +16,8 @@ class TimesheetController extends Controller
 {
     public function __invoke(Month $month, YearPeriodRetriever $yearPeriodRetriever): BinaryFileResponse
     {
+        $this->authorize("generateTimesheet");
+
         $yearPeriod = $yearPeriodRetriever->selected();
         $carbonMonth = Carbon::create($yearPeriod->year, $month->toCarbonNumber());
 

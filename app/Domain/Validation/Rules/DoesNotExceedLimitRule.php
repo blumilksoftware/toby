@@ -6,9 +6,9 @@ namespace Toby\Domain\Validation\Rules;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationDaysCalculator;
+use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
@@ -52,7 +52,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
                 "vacationRequest",
                 fn(Builder $query) => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
-                    ->noStates(VacationRequestState::failedStates()),
+                    ->noStates(VacationRequestStatesRetriever::failedStates()),
             )
             ->count();
     }

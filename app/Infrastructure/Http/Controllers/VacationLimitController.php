@@ -17,6 +17,8 @@ class VacationLimitController extends Controller
 {
     public function edit(YearPeriodRetriever $yearPeriodRetriever, UserVacationStatsRetriever $statsRetriever): Response
     {
+        $this->authorize("manageVacationLimits");
+
         $yearPeriod = $yearPeriodRetriever->selected();
         $previousYearPeriod = YearPeriod::findByYear($yearPeriod->year - 1);
 
@@ -44,6 +46,8 @@ class VacationLimitController extends Controller
 
     public function update(VacationLimitRequest $request): RedirectResponse
     {
+        $this->authorize("manageVacationLimits");
+
         $data = $request->data();
 
         foreach ($request->vacationLimits() as $limit) {

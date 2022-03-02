@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\UserVacationStatsRetriever;
+use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
@@ -31,7 +31,7 @@ class DashboardController extends Controller
             ->whereDate("date", $now)
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query->states(VacationRequestState::successStates()),
+                fn(Builder $query) => $query->states(VacationRequestStatesRetriever::successStates()),
             )
             ->get();
 

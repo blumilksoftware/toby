@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\CalendarGenerator;
@@ -15,6 +16,7 @@ use Toby\Infrastructure\Http\Resources\UserResource;
 class VacationCalendarController extends Controller
 {
     public function index(
+        Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
         CalendarGenerator $calendarGenerator,
         ?string $month = null,
@@ -35,6 +37,9 @@ class VacationCalendarController extends Controller
             "calendar" => $calendar,
             "currentMonth" => $month->value,
             "users" => UserResource::collection($users),
+            "can" => [
+                "generateTimesheet" => $request->user()->can("generateTimesheet"),
+            ],
         ]);
     }
 }
