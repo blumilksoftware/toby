@@ -26,10 +26,11 @@ class CalculateUserVacationStatsController extends Controller
         $used = $vacationStatsRetriever->getUsedVacationDays($user, $yearPeriod);
         $pending = $vacationStatsRetriever->getPendingVacationDays($user, $yearPeriod);
         $other = $vacationStatsRetriever->getOtherApprovedVacationDays($user, $yearPeriod);
+        $remaining = $limit - $used - $pending;
 
         return new JsonResponse([
             "limit" => $limit,
-            "remaining" => $limit - $used - $pending,
+            "remaining" => $remaining,
             "used" => $used,
             "pending" => $pending,
             "other" => $other,
