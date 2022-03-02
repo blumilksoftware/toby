@@ -28,4 +28,25 @@ class UserFactory extends Factory
             "remember_token" => Str::random(10),
         ];
     }
+
+    public function admin(): static
+    {
+        return $this->state([
+            "role" => Role::Administrator,
+        ]);
+    }
+
+    public function technicalApprover(): static
+    {
+        return $this->state([
+            "role" => Role::TechnicalApprover,
+        ]);
+    }
+
+    public function administrativeApprover(): static
+    {
+        return $this->state([
+            "role" => Role::AdministrativeApprover,
+        ]);
+    }
 }

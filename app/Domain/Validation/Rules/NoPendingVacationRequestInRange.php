@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Validation\Rules;
 
-use Toby\Domain\Enums\VacationRequestState;
+use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Models\VacationRequest;
 
 class NoPendingVacationRequestInRange implements VacationRequestRule
@@ -15,7 +15,7 @@ class NoPendingVacationRequestInRange implements VacationRequestRule
             ->user
             ->vacationRequests()
             ->overlapsWith($vacationRequest)
-            ->states(VacationRequestState::pendingStates())
+            ->states(VacationRequestStatesRetriever::pendingStates())
             ->exists();
     }
 

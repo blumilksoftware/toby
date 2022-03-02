@@ -213,12 +213,12 @@
               >
                 <img
                   class="h-8 w-8 rounded-full"
-                  :src="user.avatar"
+                  :src="auth.user.avatar"
                   alt="Avatar"
                 >
                 <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
                   <span class="sr-only">Open user menu for </span>
-                  {{ user.name }}
+                  {{ auth.user.name }}
                 </span>
                 <ChevronDownIcon
                   class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
@@ -324,16 +324,17 @@ export default {
   setup() {
     const sidebarOpen = ref(false)
 
-    const user = computed(() => usePage().props.value.auth.user)
+    const auth = computed(() => usePage().props.value.auth)
     const years = computed(() => usePage().props.value.years)
 
-    const navigation = [
-      {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon},
-      {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon},
-      {name: 'Dni wolne', href: '/holidays', icon: StarIcon},
-      {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon},
-      {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon},
-    ]
+    const navigation = computed(() =>
+      [
+        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: true},
+        {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, can: true},
+        {name: 'Dni wolne', href: '/holidays', icon: StarIcon, can: true},
+        {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, can: auth.value.can.manageVacationLimits},
+        {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, can: auth.value.can.manageUsers},
+      ].filter(item => item.can))
 
     const userNavigation = [
       {name: 'Your Profile', href: '#'},
@@ -342,7 +343,7 @@ export default {
     ]
 
     return {
-      user,
+      auth,
       years,
       navigation,
       userNavigation,

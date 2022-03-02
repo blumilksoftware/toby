@@ -6,7 +6,7 @@ namespace Toby\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Toby\Domain\Enums\VacationRequestState;
+use Toby\Domain\States\VacationRequest\VacationRequestState;
 
 /**
  * @property int $id

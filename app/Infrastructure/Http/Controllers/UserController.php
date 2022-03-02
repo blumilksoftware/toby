@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -16,8 +17,13 @@ use Toby\Infrastructure\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    /**
+     * @throws AuthorizationException
+     */
     public function index(Request $request): Response
     {
+        $this->authorize("manageUsers");
+
         $users = User::query()
             ->withTrashed()
             ->search($request->query("search"))
@@ -32,16 +38,26 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function create(): Response
     {
+        $this->authorize("manageUsers");
+
         return inertia("Users/Create", [
             "employmentForms" => EmploymentForm::casesToSelect(),
             "roles" => Role::casesToSelect(),
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function store(UserRequest $request): RedirectResponse
     {
+        $this->authorize("manageUsers");
+
         User::query()->create($request->data());
 
         return redirect()
@@ -49,8 +65,13 @@ class UserController extends Controller
             ->with("success", __("User has been created."));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(User $user): Response
     {
+        $this->authorize("manageUsers");
+
         return inertia("Users/Edit", [
             "user" => new UserFormDataResource($user),
             "employmentForms" => EmploymentForm::casesToSelect(),
@@ -58,8 +79,13 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(UserRequest $request, User $user): RedirectResponse
     {
+        $this->authorize("manageUsers");
+
         $user->update($request->data());
 
         return redirect()
@@ -67,8 +93,13 @@ class UserController extends Controller
             ->with("success", __("User has been updated."));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(User $user): RedirectResponse
     {
+        $this->authorize("manageUsers");
+
         $user->delete();
 
         return redirect()
@@ -76,8 +107,13 @@ class UserController extends Controller
             ->with("success", __("User has been deleted."));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function restore(User $user): RedirectResponse
     {
+        $this->authorize("manageUsers");
+
         $user->restore();
 
         return redirect()

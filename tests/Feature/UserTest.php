@@ -19,7 +19,7 @@ class UserTest extends FeatureTestCase
     public function testAdminCanSeeUsersList(): void
     {
         User::factory()->count(10)->create();
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
 
         $this->assertDatabaseCount("users", 11);
 
@@ -38,18 +38,21 @@ class UserTest extends FeatureTestCase
             "first_name" => "Test",
             "last_name" => "User1",
         ])->create();
+
         User::factory([
             "first_name" => "Test",
             "last_name" => "User2",
         ])->create();
+
         User::factory([
             "first_name" => "Test",
             "last_name" => "User3",
         ])->create();
+
         $admin = User::factory([
             "first_name" => "John",
             "last_name" => "Doe",
-        ])->create();
+        ])->admin()->create();
 
         $this->assertDatabaseCount("users", 4);
 
@@ -66,7 +69,7 @@ class UserTest extends FeatureTestCase
     public function testUserListIsPaginated(): void
     {
         User::factory()->count(15)->create();
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
 
         $this->assertDatabaseCount("users", 16);
 
@@ -81,7 +84,7 @@ class UserTest extends FeatureTestCase
 
     public function testAdminCanCreateUser(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
         Carbon::setTestNow(Carbon::now());
 
         $this->actingAs($admin)
@@ -109,7 +112,8 @@ class UserTest extends FeatureTestCase
 
     public function testAdminCanEditUser(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $user = User::factory()->create();
 
         Carbon::setTestNow();
@@ -147,7 +151,8 @@ class UserTest extends FeatureTestCase
 
     public function testAdminCanDeleteUser(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $user = User::factory()->create();
 
         $this->actingAs($admin)
@@ -159,7 +164,8 @@ class UserTest extends FeatureTestCase
 
     public function testAdminCanRestoreUser(): void
     {
-        $admin = User::factory()->create();
+        $admin = User::factory()->admin()->create();
+
         $user = User::factory()->create();
         $user->delete();
 

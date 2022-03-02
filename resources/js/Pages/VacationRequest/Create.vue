@@ -29,6 +29,7 @@
         </div>
       </div>
       <Listbox
+        v-if="can.createOnBehalfOfEmployee"
         v-model="form.user"
         as="div"
         class="sm:grid sm:grid-cols-3 py-4 items-center"
@@ -231,7 +232,10 @@
           />
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div
+        v-if="can.skipFlow"
+        class="sm:grid sm:grid-cols-3 py-4 items-center"
+      >
         <label
           for="flowSkipped"
           class="block text-sm font-medium text-gray-700"
@@ -311,10 +315,16 @@ export default {
       type: Object,
       default: () => null,
     },
+    can: {
+      type: Object,
+      default: () => null,
+    },
   },
   setup(props) {
     const form = useForm({
-      user: props.users.data.find(user => user.id === props.auth.user.id),
+      user: props.can.createOnBehalfOfEmployee
+        ? props.users.data.find(user => user.id === props.auth.user.id)
+        : props.auth.user,
       from: null,
       to: null,
       type: props.vacationTypes[0],

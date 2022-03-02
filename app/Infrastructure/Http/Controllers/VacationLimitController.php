@@ -14,6 +14,8 @@ class VacationLimitController extends Controller
 {
     public function edit(): Response
     {
+        $this->authorize("manageVacationLimits");
+
         $limits = VacationLimit::query()
             ->with("user")
             ->orderByUserField("last_name")
@@ -27,6 +29,8 @@ class VacationLimitController extends Controller
 
     public function update(VacationLimitRequest $request): RedirectResponse
     {
+        $this->authorize("manageVacationLimits");
+
         $data = $request->data();
 
         foreach ($request->vacationLimits() as $limit) {

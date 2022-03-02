@@ -27,16 +27,29 @@ class VacationRequestRequest extends FormRequest
 
     public function data(): array
     {
-        $from = $this->get("from");
-
         return [
             "user_id" => $this->get("user"),
             "type" => $this->get("type"),
-            "from" => $from,
+            "from" => $this->get("from"),
             "to" => $this->get("to"),
-            "year_period_id" => YearPeriod::findByYear(Carbon::create($from)->year)->id,
+            "year_period_id" => $this->yearPeriod()->id,
             "comment" => $this->get("comment"),
             "flow_skipped" => $this->boolean("flowSkipped"),
         ];
+    }
+
+    public function yearPeriod(): YearPeriod
+    {
+        return YearPeriod::findByYear(Carbon::create($this->get("from"))->year);
+    }
+
+    public function createsOnBehalfOfEmployee(): bool
+    {
+        return $this->user()->id !== $this->get("user");
+    }
+
+    public function wantsSkipFlow(): bool
+    {
+        return $this->boolean("flowSkipped");
     }
 }
