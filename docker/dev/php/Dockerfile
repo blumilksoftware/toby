@@ -10,10 +10,12 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 ;fi
 
 RUN apk --no-cache add \
+    postgresql-dev \
     zip \
     libzip-dev \
     libpng-dev \
     && docker-php-ext-install \
+    pdo_pgsql \
     zip \
     gd \
     && docker-php-ext-configure \

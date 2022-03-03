@@ -75,9 +75,9 @@ class User extends Authenticatable
         }
 
         return $query
-            ->where("first_name", "LIKE", "%{$text}%")
-            ->orWhere("last_name", "LIKE", "%{$text}%")
-            ->orWhere("email", "LIKE", "%{$text}%");
+            ->where("first_name", "ILIKE", $text)
+            ->orWhere("last_name", "ILIKE", $text)
+            ->orWhere("email", "ILIKE", $text);
     }
 
     public function saveAvatar(string $path): void
