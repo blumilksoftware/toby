@@ -26,7 +26,7 @@ class VacationLimitTest extends FeatureTestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("VacationLimits")
-                    ->has("limits.data", 10),
+                    ->has("limits", 10),
             );
     }
 

@@ -11,8 +11,7 @@ class HandleAcceptedByAdministrativeVacationRequest
 {
     public function __construct(
         protected VacationRequestStateManager $stateManager,
-    ) {
-    }
+    ) {}
 
     public function handle(VacationRequestAcceptedByAdministrative $event): void
     {

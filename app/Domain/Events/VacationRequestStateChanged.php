@@ -20,6 +20,5 @@ class VacationRequestStateChanged
         public ?VacationRequestState $from,
         public VacationRequestState $to,
         public ?User $user = null,
-    ) {
-    }
+    ) {}
 }

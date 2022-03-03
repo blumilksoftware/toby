@@ -13,8 +13,7 @@ class YearPeriodRetriever
 
     public function __construct(
         protected Session $session,
-    ) {
-    }
+    ) {}
 
     public function selected(): YearPeriod
     {

@@ -13,8 +13,7 @@ class HandleAcceptedByTechnicalVacationRequest
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
         protected VacationRequestStateManager $stateManager,
-    ) {
-    }
+    ) {}
 
     public function handle(VacationRequestAcceptedByTechnical $event): void
     {

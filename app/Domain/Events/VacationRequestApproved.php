@@ -15,6 +15,5 @@ class VacationRequestApproved
 
     public function __construct(
         public VacationRequest $vacationRequest,
-    ) {
-    }
+    ) {}
 }

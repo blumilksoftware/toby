@@ -14,8 +14,7 @@ class YearPeriodObserver
     public function __construct(
         protected UserAvatarGenerator $generator,
         protected PolishHolidaysRetriever $polishHolidaysRetriever,
-    ) {
-    }
+    ) {}
 
     public function created(YearPeriod $yearPeriod): void
     {

@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Infrastructure\Http\Requests\HolidayRequest;
 use Toby\Infrastructure\Http\Resources\HolidayFormDataResource;
@@ -15,9 +16,12 @@ use Toby\Infrastructure\Http\Resources\HolidayResource;
 
 class HolidayController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
     {
-        $holidays = Holiday::query()
+        $yearPeriod = $yearPeriodRetriever->selected();
+
+        $holidays = $yearPeriod
+            ->holidays()
             ->orderBy("date")
             ->get();
 

@@ -19,8 +19,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
         protected VacationDaysCalculator $vacationDaysCalculator,
-    ) {
-    }
+    ) {}
 
     public function check(VacationRequest $vacationRequest): bool
     {

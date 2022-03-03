@@ -15,6 +15,5 @@ class VacationRequestAcceptedByTechnical
 
     public function __construct(
         public VacationRequest $vacationRequest,
-    ) {
-    }
+    ) {}
 }

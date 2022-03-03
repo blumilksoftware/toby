@@ -16,8 +16,7 @@ class VacationRequestCreatedOnEmployeeBehalf extends Notification
 
     public function __construct(
         protected VacationRequest $vacationRequest,
-    ) {
-    }
+    ) {}
 
     public function via(): array
     {

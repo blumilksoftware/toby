@@ -7,7 +7,7 @@ namespace Toby\Domain\Enums;
 enum EmploymentForm: string
 {
     case EmploymentContract = "employment_contract";
-    case ComissionContract = "commission_contract";
+    case CommissionContract = "commission_contract";
     case B2bContract = "b2b_contract";
     case BoardMemberContract = "board_member_contract";
 

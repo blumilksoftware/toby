@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
 {
     public function __construct(
         protected UserAvatarGenerator $avatarGenerator,
-    ) {
-    }
+    ) {}
 
     public function run(): void
     {
