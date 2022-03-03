@@ -11,8 +11,7 @@ use Toby\Domain\Notifications\VacationRequestCreatedOnEmployeeBehalf;
 class SendCreatedVacationRequestNotification
 {
     public function __construct(
-    ) {
-    }
+    ) {}
 
     public function handle(VacationRequestCreated $event): void
     {

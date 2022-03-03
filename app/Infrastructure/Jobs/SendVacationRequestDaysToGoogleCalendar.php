@@ -18,8 +18,7 @@ class SendVacationRequestDaysToGoogleCalendar implements ShouldQueue
 
     public function __construct(
         protected VacationRequest $vacationRequest,
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {

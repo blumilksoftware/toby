@@ -13,8 +13,7 @@ use Toby\Eloquent\Models\User;
 class SendApprovedVacationRequestNotification
 {
     public function __construct(
-    ) {
-    }
+    ) {}
 
     public function handle(VacationRequestApproved $event): void
     {

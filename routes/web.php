@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
@@ -14,7 +15,7 @@ use Toby\Infrastructure\Http\Controllers\VacationLimitController;
 use Toby\Infrastructure\Http\Controllers\VacationRequestController;
 
 Route::middleware("auth")->group(function (): void {
-    Route::get("/", fn() => inertia("Dashboard"))
+    Route::get("/", DashboardController::class)
         ->name("dashboard");
     Route::post("/logout", LogoutController::class);
 

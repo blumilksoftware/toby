@@ -15,6 +15,5 @@ class VacationRequestWaitsForTechApproval
 
     public function __construct(
         public VacationRequest $vacationRequest,
-    ) {
-    }
+    ) {}
 }

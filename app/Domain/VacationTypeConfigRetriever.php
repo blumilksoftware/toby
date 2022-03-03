@@ -16,8 +16,7 @@ class VacationTypeConfigRetriever
 
     public function __construct(
         protected Repository $config,
-    ) {
-    }
+    ) {}
 
     public function needsTechnicalApproval(VacationType $type): bool
     {

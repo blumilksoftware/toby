@@ -6,7 +6,7 @@ namespace Toby\Infrastructure\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VacationLimitResource extends JsonResource
+class AbsenceResource extends JsonResource
 {
     public static $wrap = null;
 
@@ -15,8 +15,7 @@ class VacationLimitResource extends JsonResource
         return [
             "id" => $this->id,
             "user" => new UserResource($this->user),
-            "hasVacation" => $this->hasVacation(),
-            "days" => $this->days,
+            "date" => $this->date->toDisplayString(),
         ];
     }
 }

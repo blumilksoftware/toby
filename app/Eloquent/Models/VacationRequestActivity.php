@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Toby\Eloquent\Models;
 
+use Database\Factories\VacationRequestActivityFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Toby\Domain\States\VacationRequest\VacationRequestState;
@@ -17,6 +19,8 @@ use Toby\Domain\States\VacationRequest\VacationRequestState;
  */
 class VacationRequestActivity extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     protected $casts = [
@@ -32,5 +36,10 @@ class VacationRequestActivity extends Model
     public function vacationRequest(): BelongsTo
     {
         return $this->belongsTo(VacationRequest::class);
+    }
+
+    protected static function newFactory(): VacationRequestActivityFactory
+    {
+        return VacationRequestActivityFactory::new();
     }
 }

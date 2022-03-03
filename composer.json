@@ -23,7 +23,7 @@
         "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
-        "blumilksoftware/codestyle": "^0.9.0",
+        "blumilksoftware/codestyle": "^0.10.0",
         "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/dusk": "^6.21",
@@ -47,6 +47,11 @@
         "ecs": "./vendor/bin/ecs check --clear-cache",
         "ecsf": "./vendor/bin/ecs check --clear-cache --fix",
         "test": "@php artisan test",
+        "fresh": "@php artisan migrate:fresh",
+        "fresh:demo": [
+            "composer fresh",
+            "@php artisan db:seed --class=DemoSeeder"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

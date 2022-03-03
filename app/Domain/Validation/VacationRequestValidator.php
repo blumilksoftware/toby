@@ -26,8 +26,7 @@ class VacationRequestValidator
 
     public function __construct(
         protected Container $container,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws ValidationException

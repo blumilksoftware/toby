@@ -13,8 +13,7 @@ class SelectedYearPeriodScope implements Scope
 {
     public function __construct(
         protected YearPeriodRetriever $yearPeriodRetriever,
-    ) {
-    }
+    ) {}
 
     public function apply(Builder $builder, Model $model): Builder
     {

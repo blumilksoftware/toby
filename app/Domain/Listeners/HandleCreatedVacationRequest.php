@@ -13,8 +13,7 @@ class HandleCreatedVacationRequest
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
         protected VacationRequestStateManager $stateManager,
-    ) {
-    }
+    ) {}
 
     public function handle(VacationRequestCreated $event): void
     {

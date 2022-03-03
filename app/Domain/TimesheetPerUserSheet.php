@@ -41,8 +41,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
     public function __construct(
         protected User $user,
         protected Carbon $month,
-    ) {
-    }
+    ) {}
 
     public function title(): string
     {
