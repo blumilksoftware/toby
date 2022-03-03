@@ -64,6 +64,16 @@ services:
       - toby-dev
     restart: unless-stopped
 
+  redis:
+    image: redis:6
+    container_name: toby-redis
+    ports:
+      - ${FORWARD_REDIS_PORT:-6379}:6379
+    volumes:
+      - toby-redis-data:/var/lib/redis
+    networks:
+      - toby-dev
+
   node:
     image: node:17.2.0-alpine3.14
     container_name: toby-node
@@ -99,3 +109,5 @@ networks:
 volumes:
   toby-pgsql-data:
     name: toby-pgsql-data
+  toby-redis-data:
+    name: toby-redis-data
