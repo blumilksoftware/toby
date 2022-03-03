@@ -281,7 +281,7 @@ import {
   XIcon,
   SunIcon,
   StarIcon,
-  CalendarIcon,
+  CalendarIcon, DocumentTextIcon,
 } from '@heroicons/vue/outline'
 import {
   CashIcon,
@@ -329,7 +329,8 @@ export default {
 
     const navigation = computed(() =>
       [
-        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: true},
+        {name: 'Moje wnioski', href: '/vacation-requests/me', icon: DocumentTextIcon, can: true},
+        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests},
         {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, can: true},
         {name: 'Dni wolne', href: '/holidays', icon: StarIcon, can: true},
         {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, can: auth.value.can.manageVacationLimits},

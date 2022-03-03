@@ -7,6 +7,7 @@ namespace Toby\Infrastructure\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\UserResource;
 
 class HandleInertiaRequests extends Middleware
@@ -25,6 +26,7 @@ class HandleInertiaRequests extends Middleware
                 "can" => [
                     "manageVacationLimits" => $user ? $user->can("manageVacationLimits") : false,
                     "manageUsers" => $user ? $user->can("manageUsers") : false,
+                    "listAllVacationRequests" => $user ? $user->can("listAll", VacationRequest::class) : false,
                 ],
             ],
             "flash" => fn() => [

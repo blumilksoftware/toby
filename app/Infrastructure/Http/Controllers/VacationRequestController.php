@@ -51,6 +51,45 @@ class VacationRequestController extends Controller
         ]);
     }
 
+    public function indexForApprovers(
+        Request $request,
+        YearPeriodRetriever $yearPeriodRetriever
+    ): RedirectResponse|Response {
+        if ($request->user()->cannot("listAll", VacationRequest::class)) {
+            return redirect()->route("vacation.requests.index");
+        }
+
+        $yearPeriod = $yearPeriodRetriever->selected();
+        $status = $request->get("status");
+        $user = $request->get("user");
+
+        $vacationRequests = VacationRequest::query()
+            ->with(["user", "vacations"])
+            ->where("year_period_id", $yearPeriod->id)
+            ->when($user !== null, fn(Builder $query) => $query->where("user_id", $user))
+            ->when($status !== null, fn (Builder $query) => $query->states(VacationRequestStatesRetriever::filterByStatus($status)))
+            ->latest()
+            ->paginate();
+
+        $users = User::query()
+            ->whereRelation(
+                "vacationlimits",
+                fn(Builder $query) => $query->where("year_period_id", $yearPeriod->id)->whereNotNull("days"),
+            )
+            ->orderBy("last_name")
+            ->orderBy("first_name")
+            ->get();
+
+        return inertia("VacationRequest/IndexForApprovers", [
+            "requests" => VacationRequestResource::collection($vacationRequests),
+            "users" => UserResource::collection($users),
+            "filters" => [
+                "status" => $status,
+                "user" => $user,
+            ],
+        ]);
+    }
+
     /**
      * @throws AuthorizationException
      */
