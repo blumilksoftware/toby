@@ -6,15 +6,19 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
-use Toby\Domain\Enums\VacationRequestState;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
+use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
+use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
+use Toby\Domain\States\VacationRequest\Approved;
+use Toby\Domain\States\VacationRequest\Created;
+use Toby\Domain\States\VacationRequest\Rejected;
+use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
+use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\VacationDaysCalculator;
-use Toby\Eloquent\Helpers\UserAvatarGenerator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -23,10 +27,6 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class DemoSeeder extends Seeder
 {
-    public function __construct(
-        protected UserAvatarGenerator $avatarGenerator,
-    ) {}
-
     public function run(): void
     {
         User::unsetEventDispatcher();
@@ -107,8 +107,6 @@ class DemoSeeder extends Seeder
 
         $users = User::all();
 
-        $this->generateAvatarsForUsers($users);
-
         $year = 2021;
 
         YearPeriod::factory()
@@ -148,7 +146,7 @@ class DemoSeeder extends Seeder
         /** @var VacationRequest $vacationRequestApproved */
         $vacationRequestApproved = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::Created,
+            "state" => Created::class,
             "from" => Carbon::create($currentYearPeriod->year, 1, 31)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Komentarz do wniosku urlopowego.",
@@ -175,49 +173,50 @@ class DemoSeeder extends Seeder
 
         VacationRequestActivity::factory([
             "from" => null,
-            "to" => VacationRequestState::Created,
+            "to" => Created::class,
         ])->for($vacationRequestApproved)
             ->for($employee1)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::Created,
-            "to" => VacationRequestState::WaitingForTechnical,
+            "from" => Created::class,
+            "to" => WaitingForTechnical::class,
         ])->for($vacationRequestApproved)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::WaitingForTechnical,
-            "to" => VacationRequestState::AcceptedByTechnical,
+            "from" => WaitingForTechnical::class,
+            "to" => AcceptedByTechnical::class,
         ])->for($vacationRequestApproved)
             ->for($technicalApprover)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::AcceptedByTechnical,
-            "to" => VacationRequestState::WaitingForAdministrative,
+            "from" => AcceptedByTechnical::class,
+            "to" => WaitingForAdministrative::class,
         ])->for($vacationRequestApproved)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::WaitingForAdministrative,
-            "to" => VacationRequestState::AcceptedByAdministrative,
+            "from" => WaitingForAdministrative::class,
+            "to" => AcceptedByAdministrative::class,
         ])->for($vacationRequestApproved)
             ->for($administrativeApprover)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::AcceptedByAdministrative,
-            "to" => VacationRequestState::Approved,
+            "from" => AcceptedByAdministrative::class,
+            "to" => Approved::class,
         ])->for($vacationRequestApproved)
             ->create();
 
-        $vacationRequestApproved->changeStateTo(VacationRequestState::Approved);
+        $vacationRequestApproved->state = new Approved($vacationRequestApproved);
+        $vacationRequestApproved->save();
 
         /** @var VacationRequest $vacationRequestWaitsForAdminApproval */
         $vacationRequestWaitsForAdminApproval = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::Created,
+            "state" => Created::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 14)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 14)->toDateString(),
             "comment" => "Komentarz do wniosku urlopowego.",
@@ -244,36 +243,37 @@ class DemoSeeder extends Seeder
 
         VacationRequestActivity::factory([
             "from" => null,
-            "to" => VacationRequestState::Created,
+            "to" => Created::class,
         ])->for($vacationRequestWaitsForAdminApproval)
             ->for($employee1)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::Created,
-            "to" => VacationRequestState::WaitingForTechnical,
+            "from" => Created::class,
+            "to" => WaitingForTechnical::class,
         ])->for($vacationRequestWaitsForAdminApproval)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::WaitingForTechnical,
-            "to" => VacationRequestState::AcceptedByTechnical,
+            "from" => WaitingForTechnical::class,
+            "to" => AcceptedByTechnical::class,
         ])->for($vacationRequestWaitsForAdminApproval)
             ->for($technicalApprover)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::AcceptedByTechnical,
-            "to" => VacationRequestState::WaitingForAdministrative,
+            "from" => AcceptedByTechnical::class,
+            "to" => WaitingForAdministrative::class,
         ])->for($vacationRequestWaitsForAdminApproval)
             ->create();
 
-        $vacationRequestWaitsForAdminApproval->changeStateTo(VacationRequestState::WaitingForAdministrative);
+        $vacationRequestWaitsForAdminApproval->state = new WaitingForAdministrative($vacationRequestWaitsForAdminApproval);
+        $vacationRequestWaitsForAdminApproval->save();
 
         /** @var VacationRequest $vacationRequestRejected */
         $vacationRequestRejected = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
-            "state" => VacationRequestState::Created,
+            "state" => Created::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
             "to" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
             "comment" => "",
@@ -300,31 +300,25 @@ class DemoSeeder extends Seeder
 
         VacationRequestActivity::factory([
             "from" => null,
-            "to" => VacationRequestState::Created,
+            "to" => Created::class,
         ])->for($vacationRequestRejected)
             ->for($employee1)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::Created,
-            "to" => VacationRequestState::WaitingForTechnical,
+            "from" => Created::class,
+            "to" => WaitingForTechnical::class,
         ])->for($vacationRequestRejected)
             ->create();
 
         VacationRequestActivity::factory([
-            "from" => VacationRequestState::WaitingForTechnical,
-            "to" => VacationRequestState::Rejected,
+            "from" => WaitingForTechnical::class,
+            "to" => Rejected::class,
         ])->for($vacationRequestRejected)
             ->for($technicalApprover)
             ->create();
 
-        $vacationRequestRejected->changeStateTo(VacationRequestState::Rejected);
-    }
-
-    protected function generateAvatarsForUsers(Collection $users): void
-    {
-        foreach ($users as $user) {
-            $user->saveAvatar($this->avatarGenerator->generateFor($user));
-        }
+        $vacationRequestRejected->state = new Rejected($vacationRequestRejected);
+        $vacationRequestRejected->save();
     }
 }

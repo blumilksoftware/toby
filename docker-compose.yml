@@ -35,31 +35,42 @@ services:
     restart: unless-stopped
 
   database:
-    image: mysql:8.0
+    image: postgres:13
     container_name: toby-db-dev
     environment:
-      - MYSQL_ROOT_PASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DOCKER_DEV_DB_DATABASE}
-      - MYSQL_USER=${DOCKER_DEV_DB_USERNAME}
-      - MYSQL_PASSWORD=${DOCKER_DEV_DB_PASSWORD}
+      - PGPASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
+      - POSTGRES_DB=${DOCKER_DEV_DB_DATABASE}
+      - POSTGRES_USER=${DOCKER_DEV_DB_USERNAME}
+      - POSTGRES_PASSWORD=${DOCKER_DEV_DB_PASSWORD}
     ports:
-      - ${DOCKER_DEV_DB_EXTERNAL_PORT:-3306}:3306
+      - ${DOCKER_DEV_DB_EXTERNAL_PORT:-5432}:5432
     volumes:
-      - toby-mysql-data:/var/lib/mysql
+      - toby-pgsql-data:/var/lib/pgsql
     networks:
       - toby-dev
     restart: unless-stopped
 
   database-test:
-    image: mysql:8.0
+    image: postgres:13
     container_name: toby-db-test
     environment:
-      - MYSQL_ROOT_PASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DOCKER_TEST_DB_DATABASE}
-      - MYSQL_USER=${DOCKER_TEST_DB_USERNAME}
-      - MYSQL_PASSWORD=${DOCKER_TEST_DB_PASSWORD}
+      - PGPASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
+      - POSTGRES_DB=${DOCKER_TEST_DB_DATABASE}
+      - POSTGRES_USER=${DOCKER_TEST_DB_USERNAME}
+      - POSTGRES_PASSWORD=${DOCKER_TEST_DB_PASSWORD}
     ports:
-      - ${DOCKER_TEST_DB_EXTERNAL_PORT:-3307}:3306
+      - ${DOCKER_TEST_DB_EXTERNAL_PORT:-5433}:5432
+    networks:
+      - toby-dev
+    restart: unless-stopped
+
+  redis:
+    image: redis:6
+    container_name: toby-redis
+    ports:
+      - ${FORWARD_REDIS_PORT:-6379}:6379
+    volumes:
+      - toby-redis-data:/var/lib/redis
     networks:
       - toby-dev
     restart: unless-stopped
@@ -91,11 +102,14 @@ services:
       - /dev/shm:/dev/shm
     networks:
       - toby-dev
+    restart: unless-stopped
 
 networks:
   toby-dev:
     driver: bridge
 
 volumes:
-  toby-mysql-data:
-    name: toby-mysql-data
+  toby-pgsql-data:
+    name: toby-pgsql-data
+  toby-redis-data:
+    name: toby-redis-data

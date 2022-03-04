@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Toby\Eloquent\Observers;
 
 use Toby\Domain\PolishHolidaysRetriever;
-use Toby\Eloquent\Helpers\UserAvatarGenerator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
 
 class YearPeriodObserver
 {
     public function __construct(
-        protected UserAvatarGenerator $generator,
         protected PolishHolidaysRetriever $polishHolidaysRetriever,
     ) {}
 
