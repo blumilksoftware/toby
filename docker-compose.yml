@@ -73,6 +73,7 @@ services:
       - toby-redis-data:/var/lib/redis
     networks:
       - toby-dev
+    restart: unless-stopped
 
   node:
     image: node:17.2.0-alpine3.14
@@ -101,6 +102,7 @@ services:
       - /dev/shm:/dev/shm
     networks:
       - toby-dev
+    restart: unless-stopped
 
 networks:
   toby-dev:

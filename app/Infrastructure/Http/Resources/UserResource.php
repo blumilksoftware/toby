@@ -18,7 +18,7 @@ class UserResource extends JsonResource
             "email" => $this->email,
             "role" => $this->role->label(),
             "position" => $this->position,
-            "avatar" => asset($this->avatar),
+            "avatar" => $this->getAvatar(),
             "deleted" => $this->trashed(),
             "employmentForm" => $this->employment_form->label(),
             "employmentDate" => $this->employment_date->toDisplayString(),

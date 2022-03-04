@@ -17,6 +17,6 @@ return [
         ],
     ],
     "links" => [
-        public_path("avatars") => storage_path("app/avatars"),
+        public_path("storage") => storage_path("app/storage"),
     ],
 ];

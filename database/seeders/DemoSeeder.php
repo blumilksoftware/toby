@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
@@ -20,7 +19,6 @@ use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\VacationDaysCalculator;
-use Toby\Eloquent\Helpers\UserAvatarGenerator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -29,10 +27,6 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class DemoSeeder extends Seeder
 {
-    public function __construct(
-        protected UserAvatarGenerator $avatarGenerator,
-    ) {}
-
     public function run(): void
     {
         User::unsetEventDispatcher();
@@ -112,8 +106,6 @@ class DemoSeeder extends Seeder
             ->create();
 
         $users = User::all();
-
-        $this->generateAvatarsForUsers($users);
 
         $year = 2021;
 
@@ -328,12 +320,5 @@ class DemoSeeder extends Seeder
 
         $vacationRequestRejected->state = new Rejected($vacationRequestRejected);
         $vacationRequestRejected->save();
-    }
-
-    protected function generateAvatarsForUsers(Collection $users): void
-    {
-        foreach ($users as $user) {
-            $user->saveAvatar($this->avatarGenerator->generateFor($user));
-        }
     }
 }
