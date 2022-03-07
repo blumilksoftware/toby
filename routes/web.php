@@ -50,9 +50,15 @@ Route::middleware("auth")->group(function (): void {
         ->name("vacation.requests.reject");
     Route::post("/vacation-requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
         ->name("vacation.requests.cancel");
-    Route::post("/vacation-requests/{vacationRequest}/accept-as-technical", [VacationRequestController::class, "acceptAsTechnical"])
+    Route::post(
+        "/vacation-requests/{vacationRequest}/accept-as-technical",
+        [VacationRequestController::class, "acceptAsTechnical"],
+    )
         ->name("vacation.requests.accept-as-technical");
-    Route::post("/vacation-requests/{vacationRequest}/accept-as-administrative", [VacationRequestController::class, "acceptAsAdministrative"])
+    Route::post(
+        "/vacation-requests/{vacationRequest}/accept-as-administrative",
+        [VacationRequestController::class, "acceptAsAdministrative"],
+    )
         ->name("vacation.requests.accept-as-administrative");
 
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)

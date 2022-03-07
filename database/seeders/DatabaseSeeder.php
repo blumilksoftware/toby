@@ -6,10 +6,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\VacationDaysCalculator;
-use Toby\Eloquent\Helpers\UserAvatarGenerator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -17,10 +15,6 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class DatabaseSeeder extends Seeder
 {
-    public function __construct(
-        protected UserAvatarGenerator $avatarGenerator,
-    ) {}
-
     public function run(): void
     {
         User::unsetEventDispatcher();
@@ -34,8 +28,6 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         $users = User::all();
-
-        $this->generateAvatarsForUsers($users);
 
         YearPeriod::factory()
             ->count(3)
@@ -96,13 +88,6 @@ class DatabaseSeeder extends Seeder
                     }
                 })
                 ->create();
-        }
-    }
-
-    protected function generateAvatarsForUsers(Collection $users): void
-    {
-        foreach ($users as $user) {
-            $user->saveAvatar($this->avatarGenerator->generateFor($user));
         }
     }
 }

@@ -11,15 +11,15 @@ jobs:
     name: Test & lint PHP stuff
     runs-on: ubuntu-20.04
     services:
-      mysql:
-        image: mysql:8.0
+      pgsql:
+        image: postgres:13
         env:
-          MYSQL_DATABASE: toby
-          MYSQL_USER: toby
-          MYSQL_PASSWORD: password
-          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+          POSTGRES_DB: toby
+          POSTGRES_USER: toby
+          POSTGRES_PASSWORD: password
+          PGPASSWORD: password
         ports:
-          - 3306:3306
+          - 5432:5432
 
     steps:
       - uses: actions/checkout@v2

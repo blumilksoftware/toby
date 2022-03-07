@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Rackbeat\UIAvatars\HasAvatar;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
 
@@ -35,6 +36,7 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use HasAvatar;
 
     protected $guarded = [];
 
@@ -75,16 +77,18 @@ class User extends Authenticatable
         }
 
         return $query
-            ->where("first_name", "LIKE", "%{$text}%")
-            ->orWhere("last_name", "LIKE", "%{$text}%")
-            ->orWhere("email", "LIKE", "%{$text}%");
+            ->where("first_name", "ILIKE", $text)
+            ->orWhere("last_name", "ILIKE", $text)
+            ->orWhere("email", "ILIKE", $text);
     }
 
-    public function saveAvatar(string $path): void
+    public function getAvatar(): string
     {
-        $this->avatar = $path;
+        $colors = config("colors");
 
-        $this->save();
+        return $this->getAvatarGenerator()
+            ->backgroundColor($colors[strlen($this->fullname) % count($colors)])
+            ->image();
     }
 
     public function getFullNameAttribute(): string
@@ -95,6 +99,11 @@ class User extends Authenticatable
     public function hasRole(Role $role): bool
     {
         return $this->role === $role;
+    }
+
+    protected function getAvatarNameKey(): string
+    {
+        return "fullName";
     }
 
     protected static function newFactory(): UserFactory

@@ -22,7 +22,7 @@
         <env name="APP_KEY" value="base64:SKEJSy9oF9chQBCMbxqgj5zhtAvug9kwZ+cDiP1Y8A8="/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_CONNECTION" value="pgsql"/>
         <env name="DB_HOST" value="toby-db-test"/>
         <env name="DB_DATABASE" value="toby"/>
         <env name="DB_USERNAME" value="toby"/>
