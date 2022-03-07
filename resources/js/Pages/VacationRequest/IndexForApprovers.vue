@@ -231,7 +231,7 @@
               </InertiaLink>
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-              <div class="flex justify-center items-center">
+              <div class="flex">
                 <img
                   class="h-10 w-10 rounded-full"
                   :src="request.user.avatar"

@@ -112,7 +112,7 @@
                   :key="request.id"
                   class="py-5"
                 >
-                  <div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
+                  <div class="relative focus-within:ring-2 focus-within:ring-blumilk-500">
                     <h3 class="text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
                       <InertiaLink
                         :href="`/vacation-requests/${request.id}`"
@@ -155,7 +155,7 @@
               <InertiaLink
                 href="/vacation-requests"
                 :data="{status: 'waiting_for_action'}"
-                class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blumilk-500"
               >
                 Zobacz wszystkie
               </InertiaLink>
@@ -178,7 +178,7 @@
                   :key="request.id"
                   class="py-5"
                 >
-                  <div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
+                  <div class="relative focus-within:ring-2 focus-within:ring-blumilk-500">
                     <h3 class="text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
                       <InertiaLink
                         :href="`/vacation-requests/${request.id}`"
@@ -207,7 +207,7 @@
             <div class="mt-6">
               <InertiaLink
                 href="/vacation-requests/me"
-                class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blumilk-500"
               >
                 Zobacz wszystkie
               </InertiaLink>
@@ -284,7 +284,7 @@
               <div>
                 <InertiaLink
                   href="/holidays"
-                  class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blumilk-500"
                 >
                   Zobacz wszystkie
                 </InertiaLink>

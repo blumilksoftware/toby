@@ -18,8 +18,8 @@ class VacationRequestResource extends JsonResource
             "user" => new UserResource($this->user),
             "type" => $this->type->label(),
             "state" => $this->state,
-            "from" => $this->from->toDisplayString(),
-            "to" => $this->to->toDisplayString(),
+            "from" => $this->from->toDisplayDate(),
+            "to" => $this->to->toDisplayDate(),
             "comment" => $this->comment,
             "days" => VacationResource::collection($this->vacations),
         ];
