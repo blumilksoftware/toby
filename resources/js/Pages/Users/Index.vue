@@ -101,7 +101,7 @@
                 </div>
               </td>
               <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ user.displayRole }}
+                {{ user.role }}
               </td>
               <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ user.position }}

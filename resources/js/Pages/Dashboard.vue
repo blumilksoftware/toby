@@ -21,7 +21,7 @@
                     {{ user.name }}
                   </p>
                   <p class="text-sm font-medium text-gray-600">
-                    {{ user.displayRole }}
+                    {{ user.role }}
                   </p>
                 </div>
               </div>
@@ -97,54 +97,7 @@
       </section>
     </div>
     <div class="grid grid-cols-1 gap-4">
-      <section v-if="user.role === 'employee'">
-        <div class="bg-white shadow-md">
-          <div class="p-4 sm:px-6">
-            <h2 class="text-lg leading-6 font-medium text-gray-900">
-              Twoje wnioski
-            </h2>
-          </div>
-          <div class="border-t border-gray-200 pb-5 px-4 sm:px-6">
-            <div class="flow-root mt-6">
-              <ul class="-my-5 divide-y divide-gray-200">
-                <li
-                  v-for="request in vacationRequests.data"
-                  :key="request.id"
-                  class="py-5"
-                >
-                  <div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
-                    <h3 class="text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
-                      <InertiaLink
-                        :href="`/vacation-requests/${request.id}`"
-                        class="hover:underline focus:outline-none"
-                      >
-                        <span class="absolute inset-0" />
-                        Wniosek o {{ request.type.toLowerCase() }}
-                        [{{ request.name }}]
-                      </InertiaLink>
-                    </h3>
-                    <p class="mt-1 text-sm text-gray-600">
-                      {{ request.from }} - {{ request.to }}
-                    </p>
-                    <p class="mt-2 text-sm text-gray-600">
-                      <Status :status="request.state" />
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="mt-6">
-              <InertiaLink
-                href="/vacation-requests/me"
-                class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-              >
-                Zobacz wszystkie
-              </InertiaLink>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section v-else>
+      <section v-if="can.listAllVacationRequests">
         <div class="bg-white shadow-md">
           <div class="p-4 sm:px-6">
             <h2 class="text-lg leading-6 font-medium text-gray-900">
@@ -191,12 +144,69 @@
                     </div>
                   </div>
                 </li>
+                <li v-if="! vacationRequests.data.length">
+                  <p class="py-2">
+                    Brak danych
+                  </p>
+                </li>
               </ul>
             </div>
             <div class="mt-6">
               <InertiaLink
                 href="/vacation-requests"
                 :data="{status: 'waiting_for_action'}"
+                class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              >
+                Zobacz wszystkie
+              </InertiaLink>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section v-else>
+        <div class="bg-white shadow-md">
+          <div class="p-4 sm:px-6">
+            <h2 class="text-lg leading-6 font-medium text-gray-900">
+              Twoje wnioski
+            </h2>
+          </div>
+          <div class="border-t border-gray-200 pb-5 px-4 sm:px-6">
+            <div class="flow-root mt-6">
+              <ul class="-my-5 divide-y divide-gray-200">
+                <li
+                  v-for="request in vacationRequests.data"
+                  :key="request.id"
+                  class="py-5"
+                >
+                  <div class="relative focus-within:ring-2 focus-within:ring-cyan-500">
+                    <h3 class="text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
+                      <InertiaLink
+                        :href="`/vacation-requests/${request.id}`"
+                        class="hover:underline focus:outline-none"
+                      >
+                        <span class="absolute inset-0" />
+                        Wniosek o {{ request.type.toLowerCase() }}
+                        [{{ request.name }}]
+                      </InertiaLink>
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                      {{ request.from }} - {{ request.to }}
+                    </p>
+                    <p class="mt-2 text-sm text-gray-600">
+                      <Status :status="request.state" />
+                    </p>
+                  </div>
+                </li>
+                <li v-if="! vacationRequests.data.length">
+                  <p class="py-2">
+                    Brak danych
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-6">
+              <InertiaLink
+                href="/vacation-requests/me"
                 class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
                 Zobacz wszystkie
@@ -265,6 +275,11 @@
                     </p>
                   </div>
                 </li>
+                <li v-if="! holidays.data.length">
+                  <p class="py-2">
+                    Brak danych
+                  </p>
+                </li>
               </ul>
               <div>
                 <InertiaLink
@@ -301,6 +316,10 @@ export default {
       default: null,
     },
     holidays: {
+      type: Object,
+      default: null,
+    },
+    can: {
       type: Object,
       default: null,
     },

@@ -36,7 +36,7 @@ class DashboardController extends Controller
             )
             ->get();
 
-        if ($user->role !== Role::Employee) {
+        if ($user->can("listAll", VacationRequest::class)) {
             $vacationRequests = VacationRequest::query()
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")
@@ -72,6 +72,9 @@ class DashboardController extends Controller
                 "pending" => $pending,
                 "other" => $other,
             ],
+            "can" => [
+                "listAllVacationRequests" => $user->can("listAll", VacationRequest::class),
+            ]
         ]);
     }
 }
