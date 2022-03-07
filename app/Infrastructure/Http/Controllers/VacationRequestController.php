@@ -40,7 +40,7 @@ class VacationRequestController extends Controller
             ->with("vacations")
             ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
-            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status))
+            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->paginate();
 
         return inertia("VacationRequest/Index", [
@@ -67,7 +67,7 @@ class VacationRequestController extends Controller
             ->with(["user", "vacations"])
             ->where("year_period_id", $yearPeriod->id)
             ->when($user !== null, fn(Builder $query) => $query->where("user_id", $user))
-            ->when($status !== null, fn(Builder $query) => $query->states([$status]))
+            ->when($status !== null, fn(Builder $query) => $query->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user())))
             ->latest()
             ->paginate();
 

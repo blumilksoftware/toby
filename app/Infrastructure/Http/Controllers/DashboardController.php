@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
+use Toby\Domain\Enums\Role;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Models\Holiday;
@@ -35,10 +36,18 @@ class DashboardController extends Controller
             )
             ->get();
 
-        $vacationRequests = VacationRequest::query()
-            ->latest("updated_at")
-            ->limit(3)
-            ->get();
+        if ($user->role !== Role::Employee) {
+            $vacationRequests = VacationRequest::query()
+                ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
+                ->latest("updated_at")
+                ->limit(3)
+                ->get();
+        } else {
+            $vacationRequests = $user->vacationRequests()
+                ->latest("updated_at")
+                ->limit(3)
+                ->get();
+        }
 
         $holidays = Holiday::query()
             ->whereDate("date", ">=", $now)

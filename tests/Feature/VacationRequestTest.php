@@ -49,7 +49,7 @@ class VacationRequestTest extends FeatureTestCase
             ->create();
 
         $this->actingAs($user)
-            ->get("/vacation-requests")
+            ->get("/vacation-requests/me")
             ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page

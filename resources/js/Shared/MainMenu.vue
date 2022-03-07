@@ -74,7 +74,7 @@
                   v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
-                  :class="[$page.url.startsWith(item.href) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                  :class="[$page.url === item.href ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
                 >
                   <component
                     :is="item.icon"
@@ -119,7 +119,7 @@
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              :class="[$page.url.startsWith(item.href) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+              :class="[$page.url === item.href ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
             >
               <component
                 :is="item.icon"

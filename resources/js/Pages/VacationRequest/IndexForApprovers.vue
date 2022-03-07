@@ -123,14 +123,10 @@
                 <ListboxButton
                   class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
                 >
-                  <span v-if="form.status === null">
-                    Wszystkie
-                  </span>
                   <span
-                    v-else
                     class="flex items-center"
                   >
-                    {{ form.status.text }}
+                    {{ form.status.name }}
                   </span>
                   <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <SelectorIcon class="h-5 w-5 text-gray-400" />
@@ -146,39 +142,19 @@
                     class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
-                      v-slot="{ active }"
-                      as="template"
-                      :value="null"
-                    >
-                      <li
-                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                      >
-                        <div class="flex items-center">
-                          Wszystkie statusy
-                        </div>
-
-                        <span
-                          v-if="form.status === null"
-                          :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
-                        >
-                          <CheckIcon class="h-5 w-5" />
-                        </span>
-                      </li>
-                    </ListboxOption>
-                    <ListboxOption
                       v-for="status in statuses"
                       :key="status.value"
-                      v-slot="{ active }"
+                      v-slot="{ active, selected }"
                       as="template"
                       :value="status"
                     >
                       <li
                         :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                       >
-                        {{ status.text }}
+                        {{ status.name }}
 
                         <span
-                          v-if="form.status?.value === status.value"
+                          v-if="selected"
                           :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
                           <CheckIcon class="h-5 w-5" />
@@ -255,17 +231,18 @@
               </InertiaLink>
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-              <div class="flex justify-start items-center">
-                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
-                  <img
-                    class="h-10 w-10 rounded-full"
-                    :src="request.user.avatar"
-                  >
-                </span>
+              <div class="flex justify-center items-center">
+                <img
+                  class="h-10 w-10 rounded-full"
+                  :src="request.user.avatar"
+                >
                 <div class="ml-3">
-                  <div class="text-sm font-medium text-gray-500">
+                  <p class="text-sm font-medium text-gray-900">
                     {{ request.user.name }}
-                  </div>
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    {{ request.user.email }}
+                  </p>
                 </div>
               </div>
             </td>
@@ -376,7 +353,6 @@ import {watch, reactive} from 'vue'
 import {debounce} from 'lodash'
 import {Inertia} from '@inertiajs/inertia'
 import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
-import {useStatusInfo} from '@/Composables/statusInfo'
 
 export default {
   name: 'VacationRequestIndex',
@@ -415,17 +391,36 @@ export default {
     },
   },
   setup(props) {
-    const {getStatues, findStatus} = useStatusInfo()
+    const statuses = [
+      {
+        name: 'Wszystkie',
+        value: 'all',
+      },
+      {
+        name: 'Oczekujące na akcje',
+        value: 'waiting_for_action',
+      },
+      {
+        name: 'W trakcie',
+        value: 'pending',
+      },
+      {
+        name: 'Zatwierdzone',
+        value: 'success',
+      },
+      {
+        name: 'Odrzucone/anulowane',
+        value: 'failed',
+      },
+    ]
 
     const form = reactive({
       user: props.users.data.find(user => user.id === props.filters.user) ?? null,
-      status: findStatus(props.filters.status) ?? null,
+      status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
     })
 
-    const statuses = getStatues()
-
     watch(form, debounce(() => {
-      Inertia.get('/vacation-requests', {user: form.user?.id, status: form.status?.value}, {
+      Inertia.get('/vacation-requests', {user: form.user?.id, status: form.status.value}, {
         preserveState: true,
         replace: true,
       })
