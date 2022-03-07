@@ -43,8 +43,8 @@ class VacationRequestCreatedOnEmployeeBehalf extends Notification
         $user = $this->vacationRequest->user->first_name;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
-        $from = $this->vacationRequest->from->toDisplayDate();
-        $to = $this->vacationRequest->to->toDisplayDate();
+        $from = $this->vacationRequest->from->toDisplayString();
+        $to = $this->vacationRequest->to->toDisplayString();
         $days = $this->vacationRequest->vacations()->count();
         $appName = config("app.name");
 

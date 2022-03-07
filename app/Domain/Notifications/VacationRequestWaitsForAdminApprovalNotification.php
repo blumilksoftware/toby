@@ -46,8 +46,8 @@ class VacationRequestWaitsForAdminApprovalNotification extends Notification
         $requester = $this->vacationRequest->user->fullName;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
-        $from = $this->vacationRequest->from->toDisplayDate();
-        $to = $this->vacationRequest->to->toDisplayDate();
+        $from = $this->vacationRequest->from->toDisplayString();
+        $to = $this->vacationRequest->to->toDisplayString();
         $days = $this->vacationRequest->vacations()->count();
 
         return (new MailMessage())
