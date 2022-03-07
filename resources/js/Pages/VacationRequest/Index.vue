@@ -74,7 +74,7 @@
           <tr
             v-for="request in requests.data"
             :key="request.id"
-            class="hover:bg-blumilk-25"
+            class="hover:bg-blumilk-25 relative"
           >
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink
@@ -106,6 +106,10 @@
               >
                 <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
               </InertiaLink>
+              <InertiaLink
+                :href="`/vacation-requests/${request.id}`"
+                class="absolute inset-0"
+              />
             </td>
           </tr>
           <tr
