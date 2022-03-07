@@ -18,8 +18,8 @@
     </div>
     <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
       <div class="border-t border-gray-200">
-        <div class="px-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="max-w-md">
+        <div class="px-4 grid grid-cols-2 gap-4">
+          <div>
             <Listbox
               v-model="form.user"
               as="div"
@@ -59,7 +59,7 @@
                     class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
-                      v-slot="{ active, selected }"
+                      v-slot="{ active }"
                       as="template"
                       :value="null"
                     >
@@ -71,7 +71,7 @@
                         </div>
 
                         <span
-                          v-if="selected"
+                          v-if="form.user === null"
                           :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
                           <CheckIcon class="h-5 w-5" />
@@ -81,7 +81,7 @@
                     <ListboxOption
                       v-for="user in users.data"
                       :key="user.id"
-                      v-slot="{ active, selected }"
+                      v-slot="{ active }"
                       as="template"
                       :value="user"
                     >
@@ -91,16 +91,14 @@
                         <div class="flex items-center">
                           <img
                             :src="user.avatar"
-                            alt=""
                             class="flex-shrink-0 h-6 w-6 rounded-full"
                           >
-                          <span :class="[selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">
+                          <span :class="[form.user?.id === user.id ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">
                             {{ user.name }}
                           </span>
                         </div>
-
                         <span
-                          v-if="selected"
+                          v-if="form.user?.id === user.id"
                           :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
                           <CheckIcon class="h-5 w-5" />
@@ -112,7 +110,7 @@
               </div>
             </Listbox>
           </div>
-          <div class="max-w-md">
+          <div>
             <Listbox
               v-model="form.status"
               as="div"
@@ -132,7 +130,7 @@
                     v-else
                     class="flex items-center"
                   >
-                    <Status :status="form.status" />
+                    {{ form.status.text }}
                   </span>
                   <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <SelectorIcon class="h-5 w-5 text-gray-400" />
@@ -148,7 +146,7 @@
                     class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                   >
                     <ListboxOption
-                      v-slot="{ active, selected }"
+                      v-slot="{ active }"
                       as="template"
                       :value="null"
                     >
@@ -156,11 +154,11 @@
                         :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                       >
                         <div class="flex items-center">
-                          Wszyscy pracownicy
+                          Wszystkie statusy
                         </div>
 
                         <span
-                          v-if="selected"
+                          v-if="form.status === null"
                           :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
                           <CheckIcon class="h-5 w-5" />
@@ -168,28 +166,19 @@
                       </li>
                     </ListboxOption>
                     <ListboxOption
-                      v-for="user in users.data"
-                      :key="user.id"
-                      v-slot="{ active, selected }"
+                      v-for="status in statuses"
+                      :key="status.value"
+                      v-slot="{ active }"
                       as="template"
-                      :value="user"
+                      :value="status"
                     >
                       <li
                         :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                       >
-                        <div class="flex items-center">
-                          <img
-                            :src="user.avatar"
-                            alt=""
-                            class="flex-shrink-0 h-6 w-6 rounded-full"
-                          >
-                          <span :class="[selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">
-                            {{ user.name }}
-                          </span>
-                        </div>
+                        {{ status.text }}
 
                         <span
-                          v-if="selected"
+                          v-if="form.status?.value === status.value"
                           :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
                           <CheckIcon class="h-5 w-5" />
@@ -387,6 +376,7 @@ import {watch, reactive} from 'vue'
 import {debounce} from 'lodash'
 import {Inertia} from '@inertiajs/inertia'
 import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
+import {useStatusInfo} from '@/Composables/statusInfo'
 
 export default {
   name: 'VacationRequestIndex',
@@ -425,21 +415,23 @@ export default {
     },
   },
   setup(props) {
+    const {getStatues, findStatus} = useStatusInfo()
+
     const form = reactive({
       user: props.users.data.find(user => user.id === props.filters.user) ?? null,
-      status: props.filters.status,
+      status: findStatus(props.filters.status) ?? null,
     })
 
-    const statuses = useStatusInfo()
+    const statuses = getStatues()
 
     watch(form, debounce(() => {
-      Inertia.get('/vacation-requests', {user: form.user?.id, status: form.status}, {
+      Inertia.get('/vacation-requests', {user: form.user?.id, status: form.status?.value}, {
         preserveState: true,
         replace: true,
       })
     }, 300))
 
-    return {form}
+    return {form, statuses}
   },
 }
 </script>

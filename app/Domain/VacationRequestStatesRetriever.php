@@ -48,7 +48,7 @@ class VacationRequestStatesRetriever
         ];
     }
 
-    public static function filterByStatus(string $filter): array
+    public static function filterByStatusGroup(string $filter): array
     {
         return match ($filter) {
             "pending" => self::pendingStates(),

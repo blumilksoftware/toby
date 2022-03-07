@@ -48,7 +48,9 @@ export default {
     },
   },
   setup(props) {
-    const statusInfo = computed(() => useStatusInfo(props.activity.state))
+    const { findStatus } = useStatusInfo()
+
+    const statusInfo = computed(() => findStatus(props.activity.state))
 
     return {
       statusInfo,

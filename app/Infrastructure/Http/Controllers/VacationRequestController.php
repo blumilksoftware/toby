@@ -40,7 +40,7 @@ class VacationRequestController extends Controller
             ->with("vacations")
             ->where("year_period_id", $yearPeriodRetriever->selected()->id)
             ->latest()
-            ->states(VacationRequestStatesRetriever::filterByStatus($status))
+            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status))
             ->paginate();
 
         return inertia("VacationRequest/Index", [
@@ -53,7 +53,7 @@ class VacationRequestController extends Controller
 
     public function indexForApprovers(
         Request $request,
-        YearPeriodRetriever $yearPeriodRetriever
+        YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
         if ($request->user()->cannot("listAll", VacationRequest::class)) {
             return redirect()->route("vacation.requests.index");
@@ -67,7 +67,7 @@ class VacationRequestController extends Controller
             ->with(["user", "vacations"])
             ->where("year_period_id", $yearPeriod->id)
             ->when($user !== null, fn(Builder $query) => $query->where("user_id", $user))
-            ->when($status !== null, fn (Builder $query) => $query->states(VacationRequestStatesRetriever::filterByStatus($status)))
+            ->when($status !== null, fn(Builder $query) => $query->states([$status]))
             ->latest()
             ->paginate();
 
