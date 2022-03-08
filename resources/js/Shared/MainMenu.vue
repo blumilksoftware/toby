@@ -74,7 +74,7 @@
                   v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
-                  :class="[$page.url.startsWith(item.href) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                  :class="[$page.url === item.href ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
                 >
                   <component
                     :is="item.icon"
@@ -119,7 +119,7 @@
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              :class="[$page.url.startsWith(item.href) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+              :class="[$page.url === item.href ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
             >
               <component
                 :is="item.icon"
@@ -281,7 +281,7 @@ import {
   XIcon,
   SunIcon,
   StarIcon,
-  CalendarIcon,
+  CalendarIcon, DocumentTextIcon,
 } from '@heroicons/vue/outline'
 import {
   CashIcon,
@@ -329,7 +329,8 @@ export default {
 
     const navigation = computed(() =>
       [
-        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: true},
+        {name: 'Moje wnioski', href: '/vacation-requests/me', icon: DocumentTextIcon, can: true},
+        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests},
         {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, can: true},
         {name: 'Dni wolne', href: '/holidays', icon: StarIcon, can: true},
         {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, can: auth.value.can.manageVacationLimits},

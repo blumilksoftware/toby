@@ -10,6 +10,11 @@ use Toby\Eloquent\Models\VacationRequest;
 
 class VacationRequestPolicy
 {
+    public function listAll(User $user): bool
+    {
+        return in_array($user->role, [Role::AdministrativeApprover, Role::TechnicalApprover], true);
+    }
+
     public function createOnBehalfOfEmployee(User $user): bool
     {
         return $user->role === Role::AdministrativeApprover;

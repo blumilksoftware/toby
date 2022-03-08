@@ -38,7 +38,7 @@ Flatpickr.localize(Polish)
 Flatpickr.setDefaults({
   dateFormat: 'Y-m-d',
   enableTime: false,
-  altFormat: 'j F Y',
+  altFormat: 'd.m.Y',
   altInput: true,
 })
 

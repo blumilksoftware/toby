@@ -9,7 +9,7 @@
       </div>
       <div>
         <InertiaLink
-          href="vacation-requests/create"
+          href="/vacation-requests/create"
           class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
         >
           Dodaj wniosek
@@ -74,7 +74,7 @@
           <tr
             v-for="request in requests.data"
             :key="request.id"
-            class="hover:bg-blumilk-25"
+            class="hover:bg-blumilk-25 relative"
           >
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink
@@ -106,6 +106,10 @@
               >
                 <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
               </InertiaLink>
+              <InertiaLink
+                :href="`/vacation-requests/${request.id}`"
+                class="absolute inset-0"
+              />
             </td>
           </tr>
           <tr

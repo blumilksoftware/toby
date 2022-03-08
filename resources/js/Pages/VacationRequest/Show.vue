@@ -19,11 +19,24 @@
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">
+              <dt class="text-sm font-medium text-gray-500 flex items-center">
                 Pracownik
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ request.user.name }}
+                <div class="flex">
+                  <img
+                    class="h-10 w-10 rounded-full"
+                    :src="request.user.avatar"
+                  >
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ request.user.name }}
+                    </p>
+                    <p class="text-sm text-gray-500">
+                      {{ request.user.email }}
+                    </p>
+                  </div>
+                </div>
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -44,26 +57,17 @@
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
-                Urlop od
+                Data
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ request.from }}
-              </dd>
-            </div>
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">
-                Urlop do
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ request.to }}
-              </dd>
-            </div>
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">
-                Dni urlopu
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ request.days.length }}
+                <span class="font-semibold">
+                  <template v-if="request.days.length > 1">
+                    {{ request.from }} - {{ request.to }} [Liczba dni: {{ request.days.length }}]
+                  </template>
+                  <template v-else>
+                    {{ request.from }}
+                  </template>
+                </span>
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -84,7 +88,7 @@
               </dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">
+              <dt class="text-sm font-medium text-gray-500 flex items-center">
                 Załączniki
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">

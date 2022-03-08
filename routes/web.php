@@ -34,8 +34,10 @@ Route::middleware("auth")->group(function (): void {
     Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
     Route::put("/vacation-limits", [VacationLimitController::class, "update"]);
 
-    Route::get("/vacation-requests", [VacationRequestController::class, "index"])
+    Route::get("/vacation-requests/me", [VacationRequestController::class, "index"])
         ->name("vacation.requests.index");
+    Route::get("/vacation-requests", [VacationRequestController::class, "indexForApprovers"])
+        ->name("vacation.requests.indexForApprovers");
     Route::get("/vacation-requests/create", [VacationRequestController::class, "create"])
         ->name("vacation.requests.create");
     Route::post("/vacation-requests", [VacationRequestController::class, "store"])

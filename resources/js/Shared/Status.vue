@@ -25,7 +25,9 @@ export default {
     },
   },
   setup(props) {
-    const statusInfo = computed(() => useStatusInfo(props.status))
+    const { findStatus } = useStatusInfo()
+
+    const statusInfo = computed(() => findStatus(props.status))
 
     return {
       statusInfo,

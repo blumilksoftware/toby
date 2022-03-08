@@ -11,7 +11,6 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        Carbon::macro("toDisplayString", fn() => $this->translatedFormat("j F Y"));
-        Carbon::macro("toDisplayDate", fn() => $this->translatedFormat("d.m.Y"));
+        Carbon::macro("toDisplayString", fn() => $this->translatedFormat("d.m.Y"));
     }
 }

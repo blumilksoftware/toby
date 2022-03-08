@@ -123,6 +123,12 @@ const statuses = [
   },
 ]
 
-export function useStatusInfo(status) {
-  return statuses.find(statusInfo => statusInfo.value === status)
+export function useStatusInfo() {
+  const getStatues = () => statuses
+  const findStatus = value => statuses.find(month => month.value === value)
+
+  return {
+    getStatues,
+    findStatus,
+  }
 }

@@ -35,10 +35,18 @@ class DashboardController extends Controller
             )
             ->get();
 
-        $vacationRequests = VacationRequest::query()
-            ->latest("updated_at")
-            ->limit(3)
-            ->get();
+        if ($user->can("listAll", VacationRequest::class)) {
+            $vacationRequests = VacationRequest::query()
+                ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
+                ->latest("updated_at")
+                ->limit(3)
+                ->get();
+        } else {
+            $vacationRequests = $user->vacationRequests()
+                ->latest("updated_at")
+                ->limit(3)
+                ->get();
+        }
 
         $holidays = Holiday::query()
             ->whereDate("date", ">=", $now)
@@ -62,6 +70,9 @@ class DashboardController extends Controller
                 "used" => $used,
                 "pending" => $pending,
                 "other" => $other,
+            ],
+            "can" => [
+                "listAllVacationRequests" => $user->can("listAll", VacationRequest::class),
             ],
         ]);
     }
