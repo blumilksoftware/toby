@@ -9,7 +9,8 @@
         "prod": "npm run production",
         "production": "mix --production",
         "lint": "./node_modules/.bin/eslint resources/js --ext .js,.vue",
-        "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
+        "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix",
+        "postinstall": "npm run dev"
     },
     "dependencies": {
         "@headlessui/vue": "^1.5.0",
