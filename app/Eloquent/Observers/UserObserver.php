@@ -6,6 +6,7 @@ namespace Toby\Eloquent\Observers;
 
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\YearPeriod;
 
 class UserObserver
 {
@@ -15,8 +16,12 @@ class UserObserver
 
     public function created(User $user): void
     {
-        $user->vacationLimits()->create([
-            "year_period_id" => $this->yearPeriodRetriever->current()->id,
-        ]);
+        $yearPeriods = YearPeriod::all();
+
+        foreach ($yearPeriods as $yearPeriod) {
+            $user->vacationLimits()->create([
+                "year_period_id" => $yearPeriod->id,
+            ]);
+        }
     }
 }
