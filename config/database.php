@@ -30,8 +30,6 @@ return [
             "prefix" => env("REDIS_PREFIX", Str::slug(env("APP_NAME", "laravel"), "_") . "_database_"),
         ],
         "default" => [
-            "scheme" => "tls",
-            "read_timeout" => 0,
             "url" => env("REDIS_URL"),
             "host" => env("REDIS_HOST", "127.0.0.1"),
             "password" => env("REDIS_PASSWORD"),
@@ -39,8 +37,6 @@ return [
             "database" => env("REDIS_DB", "0"),
         ],
         "cache" => [
-            "scheme" => "tls",
-            "read_timeout" => 0,
             "url" => env("REDIS_URL"),
             "host" => env("REDIS_HOST", "127.0.0.1"),
             "password" => env("REDIS_PASSWORD"),
