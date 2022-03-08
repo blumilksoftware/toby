@@ -31,7 +31,7 @@ return [
         ],
         "default" => [
             "scheme" => "tls",
-            "read_timeout" => -1,
+            "read_timeout" => 0,
             "url" => env("REDIS_URL"),
             "host" => env("REDIS_HOST", "127.0.0.1"),
             "password" => env("REDIS_PASSWORD"),
@@ -40,7 +40,7 @@ return [
         ],
         "cache" => [
             "scheme" => "tls",
-            "read_timeout" => -1,
+            "read_timeout" => 0,
             "url" => env("REDIS_URL"),
             "host" => env("REDIS_HOST", "127.0.0.1"),
             "password" => env("REDIS_PASSWORD"),
