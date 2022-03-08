@@ -53,7 +53,7 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 
       dcr node npm run dev
 
-- place google credentials here: `/storage/app/google-calendar/service-account-credentials.json` ([how to obtain the credentials](https://github.com/spatie/laravel-google-calendar#how-to-obtain-the-credentials-to-communicate-with-google-calendar))
+- place google credentials here: `/google-credentials.json` ([how to obtain the credentials](https://github.com/spatie/laravel-google-calendar#how-to-obtain-the-credentials-to-communicate-with-google-calendar))
 
 ### Available containers (local)
 
