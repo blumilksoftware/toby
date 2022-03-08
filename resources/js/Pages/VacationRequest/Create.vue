@@ -372,7 +372,7 @@ export default {
   setup(props) {
     const form = useForm({
       user: props.can.createOnBehalfOfEmployee
-        ? props.users.data.find(user => user.id === props.auth.user.id)
+        ? props.users.data.find(user => user.id === props.auth.user.id) ?? props.users.data[0]
         : props.auth.user,
       from: null,
       to: null,
