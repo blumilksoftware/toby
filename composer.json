@@ -10,6 +10,7 @@
         "ext-redis": "*",
         "azuyalabs/yasumi": "^2.4",
         "barryvdh/laravel-dompdf": "^1.0",
+        "fakerphp/faker": "^1.19",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.5.1",
@@ -27,7 +28,6 @@
     "require-dev": {
         "blumilksoftware/codestyle": "^0.10.0",
         "spatie/laravel-ignition": "^1.0",
-        "fakerphp/faker": "^1.9.1",
         "laravel/dusk": "^6.21",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
