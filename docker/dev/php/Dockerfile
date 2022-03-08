@@ -9,17 +9,14 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     && docker-php-ext-enable xdebug \
 ;fi
 
-RUN apk add --no-cache pcre-dev $PHPIZE_DEPS \
+RUN apk add --no-cache \
     postgresql-dev \
     zip \
     libzip-dev \
     libpng-dev \
-    && pecl install redis \
     && docker-php-ext-install \
     pdo_pgsql \
     zip \
     gd \
     && docker-php-ext-configure \
-    zip \
-    && docker-php-ext-enable \
-    redis
+    zip
