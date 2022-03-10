@@ -247,7 +247,7 @@
               </div>
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-              {{ request.type }}
+              <VacationType :status="request.type" />
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.from }}
@@ -353,6 +353,7 @@ import {
   XIcon,
 } from '@heroicons/vue/solid'
 import Status from '@/Shared/Status'
+import VacationType from '@/Shared/VacationType'
 import {watch, reactive} from 'vue'
 import {debounce} from 'lodash'
 import {Inertia} from '@inertiajs/inertia'
@@ -377,6 +378,7 @@ export default {
     DocumentTextIcon,
     ThumbDownIcon,
     Status,
+    VacationType,
     SelectorIcon,
     XCircleIcon,
   },

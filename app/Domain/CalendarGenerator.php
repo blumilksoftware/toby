@@ -44,6 +44,7 @@ class CalendarGenerator
                 "isWeekend" => $day->isWeekend(),
                 "isHoliday" => $holidays->contains($day),
                 "vacations" => $vacationsForDay->pluck("user_id"),
+                "vacationTypes" => $vacationsForDay->pluck("vacationRequest.type", "user_id"),
             ];
         }
 
@@ -55,6 +56,7 @@ class CalendarGenerator
         return Vacation::query()
             ->whereBetween("date", [$period->start, $period->end])
             ->whereRelation("vacationRequest", fn(Builder $query) => $query->states(VacationRequestStatesRetriever::successStates()))
+            ->with("vacationRequest")
             ->get()
             ->groupBy(fn(Vacation $vacation) => $vacation->date->toDateString());
     }
