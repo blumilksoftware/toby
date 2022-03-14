@@ -16,7 +16,7 @@ import {useVacationTypeInfo} from '@/Composables/vacationTypeInfo'
 export default {
   name: 'VacationType',
   props: {
-    status: {
+    type: {
       type: String,
       default: () => null,
     },
@@ -26,9 +26,9 @@ export default {
     },
   },
   setup(props) {
-    const { findStatus } = useVacationTypeInfo()
+    const { findType } = useVacationTypeInfo()
 
-    const vacationTypeInfo = computed(() => findStatus(props.status))
+    const vacationTypeInfo = computed(() => findType(props.type))
 
     return {
       vacationTypeInfo,

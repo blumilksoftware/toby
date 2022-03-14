@@ -1,24 +1,35 @@
 <template>
-  <div class="flex items-center">
-    <div>
-      <span :class="[statusInfo.outline.background, statusInfo.outline.foreground, 'flex items-center justify-center']">
-        <component
-          :is="statusInfo.outline.icon"
-          :class="statusInfo.outline.background"
-        />
-      </span>
+  <Popper hover>
+    <div class="flex items-center">
+      <div>
+        <span :class="[typeInfo.outline.background, typeInfo.outline.foreground, 'flex items-center justify-center']">
+          <component
+            :is="typeInfo.outline.icon"
+            :class="typeInfo.outline.background"
+          />
+        </span>
+      </div>
     </div>
-  </div>
+    <template #content>
+      <div class="px-2 py-1 bg-white text-xs text-gray-900 shadow-md ">
+        {{ typeInfo.text }}
+      </div>
+    </template>
+  </Popper>
 </template>
 
 <script>
 import {computed} from 'vue'
 import {useVacationTypeInfo} from '@/Composables/vacationTypeInfo'
+import Popper from 'vue3-popper'
 
 export default {
   name: 'VacationTypeCalendarIcon',
+  components: {
+    Popper,
+  },
   props: {
-    status: {
+    type: {
       type: String,
       default: () => null,
     },
@@ -28,12 +39,12 @@ export default {
     },
   },
   setup(props) {
-    const { findStatus } = useVacationTypeInfo()
+    const { findType } = useVacationTypeInfo()
 
-    const statusInfo = computed(() => findStatus(props.status))
+    const typeInfo = computed(() => findType(props.type))
 
     return {
-      statusInfo,
+      typeInfo,
     }
   },
 }

@@ -247,7 +247,7 @@
               </div>
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-              <VacationType :status="request.type" />
+              <VacationType :type="request.type" />
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.from }}

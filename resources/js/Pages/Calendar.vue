@@ -112,14 +112,7 @@
                 v-if="day.vacations.includes(user.id)"
                 class="flex justify-center items-center"
               >
-                <Popper hover>
-                  <VacationTypeCalendarIcon :status="day.vacationTypes[user.id]" />
-                  <template #content>
-                    <div class="px-2 py-1 bg-white text-xs text-gray-900 shadow-md ">
-                      {{ day.vacationTypes[user.id] }}
-                    </div>
-                  </template>
-                </Popper>
+                <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
             </td>
           </tr>
@@ -135,7 +128,6 @@ import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/solid'
 import {computed} from 'vue'
 import {useMonthInfo} from '@/Composables/monthInfo'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon'
-import Popper from 'vue3-popper'
 
 export default {
   name: 'VacationCalendar',
@@ -147,7 +139,6 @@ export default {
     MenuItems,
     CheckIcon,
     ChevronDownIcon,
-    Popper,
   },
   props: {
     users: {

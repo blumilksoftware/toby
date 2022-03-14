@@ -8,7 +8,7 @@ import HandHeartOutlineIcon from 'vue-material-design-icons/HandHeartOutline.vue
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
 
-const statuses = [
+const types = [
   {
     text: 'Urlop wypoczynkowy',
     value: 'vacation',
@@ -129,11 +129,11 @@ const statuses = [
 ]
 
 export function useVacationTypeInfo() {
-  const getStatues = () => statuses
-  const findStatus = value => statuses.find(month => month.value === value)
+  const getTypes = () => types
+  const findType = value => types.find(type => type.value === value)
 
   return {
-    getStatues,
-    findStatus,
+    getTypes,
+    findType,
   }
 }
