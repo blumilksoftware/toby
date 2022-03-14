@@ -121,7 +121,7 @@
                     >
                   </span>
                   <div class="ml-3">
-                    <div class="text-sm font-medium text-gray-900">
+                    <div class="text-sm font-medium text-gray-900" dusk="name-input">
                       {{ auth.user.name }}
                     </div>
                   </div>
@@ -139,6 +139,7 @@
               <div class="mt-1 relative sm:mt-0 sm:col-span-2">
                 <ListboxButton
                   class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
+                  dusk="type-select"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
                 >
                   <span class="block truncate">{{ form.type.label }}</span>
@@ -154,6 +155,7 @@
                 >
                   <ListboxOptions
                     class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                    dusk="type-options"
                   >
                     <ListboxOption
                       v-for="type in vacationTypes"
@@ -163,7 +165,7 @@
                       :value="type"
                     >
                       <li
-                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']" :dusk="type.value"
                       >
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                           {{ type.label }}
@@ -194,7 +196,7 @@
               >
                 Planowany urlop od
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-1 sm:mt-0 sm:col-span-2" dusk="date-from-input">
                 <FlatPickr
                   id="date_from"
                   v-model="form.from"
@@ -212,7 +214,7 @@
                 </p>
               </div>
             </div>
-            <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+            <div class="sm:grid sm:grid-cols-3 py-4 items-center" dusk="date-to-input">
               <label
                 for="date_from"
                 class="block text-sm font-medium text-gray-700 sm:mt-px"
@@ -258,6 +260,7 @@
                   v-model="form.comment"
                   rows="4"
                   class="shadow-sm focus:ring-blumilk-500 focus:border-blumilk-500 block w-full max-w-lg sm:text-sm border-gray-300 rounded-md"
+                  dusk="comment-input"
                 />
               </div>
             </div>
@@ -296,6 +299,7 @@
                 type="submit"
                 :disabled="form.processing"
                 class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                dusk="save-button"
               >
                 Zapisz
               </button>

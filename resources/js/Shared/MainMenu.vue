@@ -119,6 +119,7 @@
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
+              :dusk="item.dusk"
               :class="[$page.url === item.href ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
             >
               <component
@@ -329,12 +330,12 @@ export default {
 
     const navigation = computed(() =>
       [
-        {name: 'Moje wnioski', href: '/vacation-requests/me', icon: DocumentTextIcon, can: true},
-        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests},
-        {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, can: true},
-        {name: 'Dni wolne', href: '/holidays', icon: StarIcon, can: true},
-        {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, can: auth.value.can.manageVacationLimits},
-        {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, can: auth.value.can.manageUsers},
+        {name: 'Moje wnioski', href: '/vacation-requests/me', icon: DocumentTextIcon, can: true, dusk: 'my-vacation-requests-menu-item'},
+        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests, dusk: 'vacation-requests-menu-item'},
+        {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, can: true, dusk: 'vacation-calendar-menu-item'},
+        {name: 'Dni wolne', href: '/holidays', icon: StarIcon, can: true, dusk: 'holidays-menu-item'},
+        {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, can: auth.value.can.manageVacationLimits, dusk: 'vacation-limits-menu-item'},
+        {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, can: auth.value.can.manageUsers, dusk: 'users-menu-item'},
       ].filter(item => item.can))
 
     const userNavigation = [

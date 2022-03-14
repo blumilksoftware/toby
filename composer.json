@@ -24,12 +24,12 @@
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^0.10.0",
-        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
-        "laravel/dusk": "^6.21",
+        "laravel/dusk": "^6.22",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
         "psr-4": {
