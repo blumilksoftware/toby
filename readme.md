@@ -60,7 +60,7 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 - **web** - nginx HTTP server
 - **php** - php and composer stuff
 - **node** - npm stuff
-- **mysql** - database for local development
+- **pgsql** - database for local development
 - **mailhog** - for emails preview
 
 ### Running tests

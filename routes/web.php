@@ -65,6 +65,12 @@ Route::middleware("auth")->group(function (): void {
         ->name("year-periods.select");
 });
 
+
+Route::get("/dupa", function () {
+    \Toby\Infrastructure\Jobs\CheckYearPeriod::dispatchSync();
+});
+
+
 Route::middleware("guest")->group(function (): void {
     Route::get("login", fn() => inertia("Login"))
         ->name("login");
