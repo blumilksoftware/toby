@@ -46,7 +46,7 @@
         }
     },
     "scripts": {
-        "ecs": "./vendor/bin/ecs check --clear-cachefak",
+        "ecs": "./vendor/bin/ecs check --clear-cache",
         "ecsf": "./vendor/bin/ecs check --clear-cache --fix",
         "test": "@php artisan test",
         "fresh": "@php artisan migrate:fresh",
