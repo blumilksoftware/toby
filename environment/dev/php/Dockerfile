@@ -13,10 +13,12 @@ RUN apk add --no-cache pcre-dev $PHPIZE_DEPS \
     postgresql-dev \
     zip \
     libzip-dev \
+    libpng-dev \
     && pecl install redis \
     && docker-php-ext-install \
     pdo_pgsql \
     zip \
+    gd \
     && docker-php-ext-configure \
     zip \
     && docker-php-ext-enable \

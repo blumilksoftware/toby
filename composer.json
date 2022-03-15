@@ -10,7 +10,6 @@
         "ext-redis": "*",
         "azuyalabs/yasumi": "^2.4",
         "barryvdh/laravel-dompdf": "^1.0",
-        "fakerphp/faker": "^1.19",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.5.1",
@@ -27,11 +26,12 @@
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^0.10.0",
-        "spatie/laravel-ignition": "^1.0",
+        "fakerphp/faker": "^1.19",
         "laravel/dusk": "^6.21",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -46,7 +46,7 @@
         }
     },
     "scripts": {
-        "ecs": "./vendor/bin/ecs check --clear-cache",
+        "ecs": "./vendor/bin/ecs check --clear-cachefak",
         "ecsf": "./vendor/bin/ecs check --clear-cache --fix",
         "test": "@php artisan test",
         "fresh": "@php artisan migrate:fresh",
