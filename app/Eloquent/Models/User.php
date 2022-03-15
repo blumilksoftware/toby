@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Rackbeat\UIAvatars\HasAvatar;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
@@ -101,9 +102,9 @@ class User extends Authenticatable
         return $this->role === $role;
     }
 
-    protected function getAvatarNameKey(): string
+    protected function getAvatarName(): string
     {
-        return "fullName";
+        return mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1);
     }
 
     protected static function newFactory(): UserFactory
