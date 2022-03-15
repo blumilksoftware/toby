@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Rackbeat\UIAvatars\HasAvatar;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
