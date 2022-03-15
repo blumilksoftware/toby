@@ -6,7 +6,7 @@ services:
     container_name: toby-web
     working_dir: /application
     volumes:
-      - ./docker/dev/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./environment/dev/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - .:/application
     networks:
       - toby-dev
@@ -19,7 +19,7 @@ services:
 
   php:
     build:
-      context: docker/dev/php
+      context: environment/dev/php
       args:
         INSTALL_XDEBUG: ${DOCKER_INSTALL_XDEBUG:-false}
     container_name: toby-php
@@ -27,7 +27,7 @@ services:
     user: ${CURRENT_UID:-1000}
     volumes:
       - .:/application
-      - ./docker/dev/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./environment/dev/php/php.ini:/usr/local/etc/php/conf.d/php.ini
     networks:
       - toby-dev
     extra_hosts:

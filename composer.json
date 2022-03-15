@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "ext-pdo": "*",
+        "ext-redis": "*",
         "azuyalabs/yasumi": "^2.4",
         "barryvdh/laravel-dompdf": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -24,12 +25,12 @@
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^0.10.0",
-        "spatie/laravel-ignition": "^1.0",
-        "fakerphp/faker": "^1.9.1",
+        "fakerphp/faker": "^1.19",
         "laravel/dusk": "^6.21",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
         "psr-4": {

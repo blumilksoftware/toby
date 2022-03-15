@@ -50,7 +50,7 @@ class DashboardController extends Controller
 
         $holidays = Holiday::query()
             ->whereDate("date", ">=", $now)
-            ->latest()
+            ->orderBy("date")
             ->limit(3)
             ->get();
 

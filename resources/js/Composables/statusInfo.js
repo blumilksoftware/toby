@@ -125,7 +125,7 @@ const statuses = [
 
 export function useStatusInfo() {
   const getStatues = () => statuses
-  const findStatus = value => statuses.find(month => month.value === value)
+  const findStatus = value => statuses.find(status => status.value === value)
 
   return {
     getStatues,
