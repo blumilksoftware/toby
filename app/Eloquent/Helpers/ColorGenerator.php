@@ -16,7 +16,7 @@ class ColorGenerator
         return $colors[$index];
     }
 
-    protected static function calculateHash(string $text): int
+    protected static function calculateHash(string $text): float
     {
         $hash = 0;
 
