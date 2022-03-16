@@ -25,7 +25,7 @@ class ColorGenerator
         }
 
         for ($i = 0; $i < mb_strlen($text); $i++) {
-            $hash = abs((int) (($hash << 2) - $hash) + mb_ord($text[$i]));
+            $hash = abs((int)(($hash << 2) - $hash) + mb_ord($text[$i]));
         }
 
         return $hash;
