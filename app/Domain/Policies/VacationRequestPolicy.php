@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Toby\Domain\Policies;
 
 use Toby\Domain\Enums\Role;
+use Toby\Domain\States\VacationRequest\Created;
+use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
+use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
@@ -40,8 +43,16 @@ class VacationRequestPolicy
         return in_array($user->role, [Role::AdministrativeApprover, Role::TechnicalApprover], true);
     }
 
-    public function cancel(User $user): bool
+    public function cancel(User $user, VacationRequest $vacationRequest): bool
     {
+        if ($vacationRequest->user->is($user) && $vacationRequest->state->equals(
+            Created::class,
+            WaitingForAdministrative::class,
+            WaitingForTechnical::class,
+        )) {
+            return true;
+        }
+
         return $user->role === Role::AdministrativeApprover;
     }
 
