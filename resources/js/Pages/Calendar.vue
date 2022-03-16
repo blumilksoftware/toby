@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="overflow-x-auto">
-      <table class="w-full text-center table-fixed text-sm border border-gray-300">
+      <table class="w-full text-center text-sm border border-gray-300">
         <thead>
           <tr>
             <th class="w-64 py-2 border border-gray-300">
@@ -71,7 +71,8 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300 text-lg font-semibold text-gray-900 py-4 px-2"
-              :class="{ 'text-blumilk-600 bg-blumilk-25 font-black': day.isToday }"
+              style="min-width: 46px;"
+              :class="{ 'bg-red-100 text-red-800': day.isWeekend || day.isHoliday, 'text-blumilk-600 bg-blumilk-25': day.isToday }"
             >
               <div>
                 {{ day.dayOfMonth }}
@@ -87,7 +88,9 @@
             v-for="user in users.data"
             :key="user.id"
           >
-            <th class="border border-gray-300 py-2 px-4">
+            <th
+              class="border border-gray-300 py-2 px-4"
+            >
               <div class="flex justify-start items-center">
                 <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
                   <img
@@ -96,7 +99,9 @@
                   >
                 </span>
                 <div class="ml-3">
-                  <div class="text-sm font-medium text-gray-900">
+                  <div
+                    class="text-sm font-medium text-gray-900 whitespace-nowrap"
+                  >
                     {{ user.name }}
                   </div>
                 </div>
@@ -106,7 +111,7 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300"
-              :class="{'bg-red-100': day.isWeekend || day.isHoliday, 'bg-blumilk-500': day.vacations.includes(user.id) }"
+              :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday, 'bg-blumilk-500': day.vacations.includes(user.id) }"
             >
               <div
                 v-if="day.vacations.includes(user.id)"
@@ -149,6 +154,10 @@ export default {
   },
   props: {
     users: {
+      type: Object,
+      default: () => null,
+    },
+    auth: {
       type: Object,
       default: () => null,
     },
