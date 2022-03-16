@@ -33,19 +33,19 @@ class DemoSeeder extends Seeder
         YearPeriod::unsetEventDispatcher();
         VacationRequest::unsetEventDispatcher();
 
-        $employee1 = User::factory([
+        $user = User::factory([
             "first_name" => "Jan",
             "last_name" => "Kowalski",
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
             "employment_form" => EmploymentForm::EmploymentContract,
             "position" => "programista",
-            "role" => Role::Employee,
+            "role" => Role::Administrator,
             "employment_date" => Carbon::createFromDate(2021, 12, 31),
             "remember_token" => Str::random(10),
         ])
             ->create();
 
-        $employee2 = User::factory([
+        User::factory([
             "first_name" => "Anna",
             "last_name" => "Nowak",
             "email" => "anna.nowak@example.com",
@@ -57,7 +57,7 @@ class DemoSeeder extends Seeder
         ])
             ->create();
 
-        $employee3 = User::factory([
+        User::factory([
             "first_name" => "Tola",
             "last_name" => "Sawicka",
             "email" => "tola.sawicka@example.com",
@@ -93,7 +93,7 @@ class DemoSeeder extends Seeder
         ])
             ->create();
 
-        $admin = User::factory([
+        User::factory([
             "first_name" => "Miłosz",
             "last_name" => "Borowski",
             "email" => "milosz.borowski@example.com",
@@ -151,8 +151,8 @@ class DemoSeeder extends Seeder
             "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
             "comment" => "Komentarz do wniosku urlopowego.",
         ])
-            ->for($employee1)
-            ->for($employee1, "creator")
+            ->for($user)
+            ->for($user, "creator")
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(VacationDaysCalculator::class)->calculateDays(
@@ -175,7 +175,7 @@ class DemoSeeder extends Seeder
             "from" => null,
             "to" => Created::class,
         ])->for($vacationRequestApproved)
-            ->for($employee1)
+            ->for($user)
             ->create();
 
         VacationRequestActivity::factory([
@@ -221,8 +221,8 @@ class DemoSeeder extends Seeder
             "to" => Carbon::create($currentYearPeriod->year, 2, 14)->toDateString(),
             "comment" => "Komentarz do wniosku urlopowego.",
         ])
-            ->for($employee1)
-            ->for($employee1, "creator")
+            ->for($user)
+            ->for($user, "creator")
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(VacationDaysCalculator::class)->calculateDays(
@@ -245,7 +245,7 @@ class DemoSeeder extends Seeder
             "from" => null,
             "to" => Created::class,
         ])->for($vacationRequestWaitsForAdminApproval)
-            ->for($employee1)
+            ->for($user)
             ->create();
 
         VacationRequestActivity::factory([
@@ -278,8 +278,8 @@ class DemoSeeder extends Seeder
             "to" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
             "comment" => "",
         ])
-            ->for($employee1)
-            ->for($employee1, "creator")
+            ->for($user)
+            ->for($user, "creator")
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(VacationDaysCalculator::class)->calculateDays(
@@ -302,7 +302,7 @@ class DemoSeeder extends Seeder
             "from" => null,
             "to" => Created::class,
         ])->for($vacationRequestRejected)
-            ->for($employee1)
+            ->for($user)
             ->create();
 
         VacationRequestActivity::factory([
