@@ -27,7 +27,7 @@
           <span>{{ status.name }}</span>
           <span
             v-if="stats[status.value]"
-            :class="[status.value === filters.status ? 'bg-blumilk-50 text-blumilk-600' : 'bg-gray-100 text-gray-600', 'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-semibold md:inline-block']"
+            :class="[status.value === filters.status ? 'bg-blumilk-50 text-blumilk-600' : 'bg-gray-100 text-gray-600', 'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-semibold 2xl:inline-block']"
           >
             {{ stats[status.value] }}
           </span>
