@@ -22,7 +22,7 @@
           v-for="(status, index) in statuses"
           :key="index"
           :data="{ status: status.value }"
-          :class="[status.value === filters.status ? 'text-gray-900' : '', 'text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10']"
+          :class="[status.value === filters.status ? 'text-blumilk-600 font-semibold' : 'hover:bg-blumilk-25 text-gray-700 focus:z-10', 'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center']"
         >
           <span>{{ status.name }}</span>
           <span :class="[status.value === filters.status ? 'bg-blumilk-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']" />
