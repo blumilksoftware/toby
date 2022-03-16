@@ -119,7 +119,7 @@
                         class="hover:underline focus:outline-none"
                       >
                         <span class="absolute inset-0" />
-                        Wniosek o {{ request.type.toLowerCase() }}
+                        Wniosek o {{ findType(request.type).text.toLowerCase() }}
                         [{{ request.name }}]
                       </InertiaLink>
                     </h3>
@@ -185,7 +185,7 @@
                         class="hover:underline focus:outline-none"
                       >
                         <span class="absolute inset-0" />
-                        Wniosek o {{ request.type.toLowerCase() }}
+                        Wniosek o {{ findType(request.type).text.toLowerCase() }}
                         [{{ request.name }}]
                       </InertiaLink>
                     </h3>
@@ -302,6 +302,7 @@ import {computed} from 'vue'
 import {usePage} from '@inertiajs/inertia-vue3'
 import Status from '@/Shared/Status'
 import VacationChart from '@/Shared/VacationChart'
+import {useVacationTypeInfo} from '@/Composables/vacationTypeInfo'
 
 export default {
   name: 'DashboardPage',
@@ -335,8 +336,11 @@ export default {
   setup() {
     const user = computed(() => usePage().props.value.auth.user)
 
+    const { findType } = useVacationTypeInfo()
+
     return {
       user,
+      findType,
     }
   },
 }
