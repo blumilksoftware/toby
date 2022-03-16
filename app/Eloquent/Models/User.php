@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
 use Rackbeat\UIAvatars\HasAvatar;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
+use Toby\Eloquent\Helpers\ColorGenerator;
 
 /**
  * @property int $id
@@ -84,10 +85,8 @@ class User extends Authenticatable
 
     public function getAvatar(): string
     {
-        $colors = config("colors");
-
         return $this->getAvatarGenerator()
-            ->backgroundColor($colors[strlen($this->fullname) % count($colors)])
+            ->backgroundColor(ColorGenerator::generate($this->fullName))
             ->image();
     }
 
@@ -101,9 +100,9 @@ class User extends Authenticatable
         return $this->role === $role;
     }
 
-    protected function getAvatarNameKey(): string
+    protected function getAvatarName(): string
     {
-        return "fullName";
+        return mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1);
     }
 
     protected static function newFactory(): UserFactory

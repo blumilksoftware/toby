@@ -11,8 +11,8 @@ return [
     "rounded" => true,
     "smooth_rounding" => true,
     "uppercase" => true,
-    "background_color" => "#a0a0a0",
-    "font_color" => "#F4F8FD",
+    "background_color" => "#A0A0A0",
+    "font_color" => "#FFFFFF",
     "font_bold" => true,
     "providers" => [
         "api" => Rackbeat\UIAvatars\Generators\ApiGenerator::class,
