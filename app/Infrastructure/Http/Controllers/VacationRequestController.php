@@ -43,8 +43,32 @@ class VacationRequestController extends Controller
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->paginate();
 
+        $pending = $request->user()
+            ->vacationRequests()
+            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
+            ->states(VacationRequestStatesRetriever::pendingStates())
+            ->count();
+
+        $success = $request->user()
+            ->vacationRequests()
+            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
+            ->states(VacationRequestStatesRetriever::successStates())
+            ->count();
+
+        $failed = $request->user()
+            ->vacationRequests()
+            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
+            ->states(VacationRequestStatesRetriever::failedStates())
+            ->count();
+
         return inertia("VacationRequest/Index", [
             "requests" => VacationRequestResource::collection($vacationRequests),
+            "stats" => [
+                "all" => $pending + $success + $failed,
+                "pending" => $pending,
+                "success" => $success,
+                "failed" => $failed,
+            ],
             "filters" => [
                 "status" => $status,
             ],
