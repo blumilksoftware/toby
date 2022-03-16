@@ -62,7 +62,7 @@
             <div class="px-2 space-y-1">
               <InertiaLink
                 href="/"
-                :class="[$page.url === '/' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+                :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
               >
                 <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
                 Strona główna
@@ -74,7 +74,7 @@
                   v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
-                  :class="[$page.url === item.href ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                  :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
                 >
                   <component
                     :is="item.icon"
@@ -107,7 +107,7 @@
         <div class="px-2 space-y-1">
           <InertiaLink
             href="/"
-            :class="[$page.url === '/' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
           >
             <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
             Strona główna
@@ -119,7 +119,7 @@
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              :class="[$page.url === item.href ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+              :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
             >
               <component
                 :is="item.icon"
@@ -329,12 +329,12 @@ export default {
 
     const navigation = computed(() =>
       [
-        {name: 'Moje wnioski', href: '/vacation-requests/me', icon: DocumentTextIcon, can: true},
-        {name: 'Wnioski urlopowe', href: '/vacation-requests', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests},
-        {name: 'Kalendarz urlopów', href: '/vacation-calendar', icon: CalendarIcon, can: true},
-        {name: 'Dni wolne', href: '/holidays', icon: StarIcon, can: true},
-        {name: 'Limity urlopów', href: '/vacation-limits', icon: SunIcon, can: auth.value.can.manageVacationLimits},
-        {name: 'Użytkownicy', href: '/users', icon: UserGroupIcon, can: auth.value.can.manageUsers},
+        {name: 'Moje wnioski', href: '/vacation-requests/me', component: 'VacationRequest/Index' , icon: DocumentTextIcon, can: true},
+        {name: 'Wnioski urlopowe', href: '/vacation-requests', component: 'VacationRequest/IndexForApprovers', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests},
+        {name: 'Kalendarz urlopów', href: '/vacation-calendar', component: 'Calendar', icon: CalendarIcon, can: true},
+        {name: 'Dni wolne', href: '/holidays', component: 'Holidays/Index', icon: StarIcon, can: true},
+        {name: 'Limity urlopów', href: '/vacation-limits', component: 'VacationLimits', icon: SunIcon, can: auth.value.can.manageVacationLimits},
+        {name: 'Użytkownicy', href: '/users', component: 'Users/Index', icon: UserGroupIcon, can: auth.value.can.manageUsers},
       ].filter(item => item.can))
 
     const userNavigation = [
