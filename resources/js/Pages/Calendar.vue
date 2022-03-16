@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="overflow-x-auto">
-      <table class="w-full text-center table-fixed text-sm border border-gray-300">
+      <table class="w-full text-center text-sm border border-gray-300">
         <thead>
           <tr>
             <th class="w-64 py-2 border border-gray-300">
@@ -70,6 +70,7 @@
             <th
               v-for="day in calendar"
               :key="day.dayOfMonth"
+              style="min-width: 46px;"
               class="border border-gray-300 text-lg font-semibold text-gray-900 py-4 px-2"
               :class="{ 'text-blumilk-600 bg-blumilk-25 font-black': day.isToday }"
             >
@@ -96,7 +97,7 @@
                   >
                 </span>
                 <div class="ml-3">
-                  <div class="text-sm font-medium text-gray-900">
+                  <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
                     {{ user.name }}
                   </div>
                 </div>
