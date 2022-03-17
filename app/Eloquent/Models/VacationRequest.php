@@ -6,6 +6,7 @@ namespace Toby\Eloquent\Models;
 
 use Database\Factories\VacationRequestFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +30,7 @@ use Toby\Domain\States\VacationRequest\VacationRequestState;
  * @property YearPeriod $yearPeriod
  * @property Collection $activities
  * @property Collection $vacations
+ * @property Collection $event_ids
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -44,6 +46,7 @@ class VacationRequest extends Model
         "state" => VacationRequestState::class,
         "from" => "date",
         "to" => "date",
+        "event_ids" => AsCollection::class,
     ];
 
     public function user(): BelongsTo

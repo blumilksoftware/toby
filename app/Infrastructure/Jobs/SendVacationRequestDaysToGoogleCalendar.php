@@ -7,8 +7,9 @@ namespace Toby\Infrastructure\Jobs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Spatie\GoogleCalendar\Event;
-use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
 
 class SendVacationRequestDaysToGoogleCalendar implements ShouldQueue
@@ -22,21 +23,55 @@ class SendVacationRequestDaysToGoogleCalendar implements ShouldQueue
 
     public function handle(): void
     {
-        $vacations = $this->vacationRequest->vacations()
-            ->whereNull("event_id")
-            ->get();
+        $days = $this->vacationRequest
+            ->vacations()
+            ->orderBy("date")
+            ->pluck("date");
 
-        /** @var Vacation $vacation */
-        foreach ($vacations as $vacation) {
+        $this->vacationRequest->event_ids = new Collection();
+        $ranges = $this->prepareRanges($days);
+
+        foreach ($ranges as $range) {
             $event = Event::create([
                 "name" => "{$this->vacationRequest->type->label()} - {$this->vacationRequest->user->fullName}",
-                "startDate" => $vacation->date,
-                "endDate" => $vacation->date,
+                "startDate" => Carbon::create($range["from"]),
+                "endDate" => Carbon::create($range["to"])->addDay(),
             ]);
 
-            $vacation->update([
-                "event_id" => $event->id,
-            ]);
+            $this->vacationRequest->event_ids->add($event->id);
         }
+
+        $this->vacationRequest->save();
+    }
+
+    protected function prepareRanges(Collection $days): array
+    {
+        $ranges = [];
+        $index = 0;
+        $first = $days->shift();
+
+        $ranges[$index] = [
+            "from" => $first,
+            "to" => $first,
+        ];
+
+        foreach ($days as $day) {
+            if ($day->diffInDays($ranges[$index]["to"]) !== 1) {
+                $index++;
+
+                $ranges[$index] = [
+                    "from" => $day,
+                    "to" => $day,
+                ];
+
+                continue;
+            }
+
+            if ($day->isAfter($ranges[$index]["to"])) {
+                $ranges[$index]["to"] = $day;
+            }
+        }
+
+        return $ranges;
     }
 }
