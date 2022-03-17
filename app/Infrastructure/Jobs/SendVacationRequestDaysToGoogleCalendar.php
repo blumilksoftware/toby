@@ -32,8 +32,10 @@ class SendVacationRequestDaysToGoogleCalendar implements ShouldQueue
         $ranges = $this->prepareRanges($days);
 
         foreach ($ranges as $range) {
+            $text = "{$this->vacationRequest->type->label()} - {$this->vacationRequest->user->fullName} [{$this->vacationRequest->name}]";
+
             $event = Event::create([
-                "name" => "{$this->vacationRequest->type->label()} - {$this->vacationRequest->user->fullName}",
+                "name" => $text,
                 "startDate" => Carbon::create($range["from"]),
                 "endDate" => Carbon::create($range["to"])->addDay(),
             ]);

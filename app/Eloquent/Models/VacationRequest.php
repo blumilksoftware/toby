@@ -19,6 +19,7 @@ use Toby\Domain\States\VacationRequest\VacationRequestState;
 
 /**
  * @property int $id
+ * @property string $name
  * @property VacationType $type
  * @property VacationRequestState $state
  * @property Carbon $from
@@ -88,6 +89,11 @@ class VacationRequest extends Model
     {
         return $query->where("from", "<=", $vacationRequest->to)
             ->where("to", ">=", $vacationRequest->from);
+    }
+
+    public function getNameAttribute(): string
+    {
+        return "{$this->id}/{$this->yearPeriod->year}";
     }
 
     public function hasFlowSkipped(): bool
