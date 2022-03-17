@@ -6,6 +6,7 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
@@ -30,6 +31,7 @@ class VacationRequestStatesTest extends TestCase
         parent::setUp();
 
         Notification::fake();
+        Bus::fake();
 
         $this->stateManager = $this->app->make(VacationRequestStateManager::class);
 
