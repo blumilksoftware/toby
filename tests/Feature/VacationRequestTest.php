@@ -84,7 +84,6 @@ class VacationRequestTest extends FeatureTestCase
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
             "year_period_id" => $currentYearPeriod->id,
-            "name" => "1/" . $currentYearPeriod->year,
             "type" => VacationType::Vacation->value,
             "state" => WaitingForTechnical::$name,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
@@ -121,7 +120,6 @@ class VacationRequestTest extends FeatureTestCase
             "user_id" => $user->id,
             "creator_id" => $creator->id,
             "year_period_id" => $currentYearPeriod->id,
-            "name" => "1/" . $currentYearPeriod->year,
             "type" => VacationType::Vacation->value,
             "state" => WaitingForTechnical::$name,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
@@ -161,7 +159,6 @@ class VacationRequestTest extends FeatureTestCase
             "user_id" => $user->id,
             "creator_id" => $creator->id,
             "year_period_id" => $currentYearPeriod->id,
-            "name" => "1/" . $currentYearPeriod->year,
             "type" => VacationType::Vacation->value,
             "state" => Approved::$name,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),

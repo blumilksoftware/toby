@@ -19,7 +19,7 @@ return new class() extends Migration {
     {
         Schema::table("vacation_requests", function (Blueprint $table): void {
             $table->dropColumn("event_ids");
-            $table->string("name");
+            $table->string("name")->nullable();
         });
     }
 };
