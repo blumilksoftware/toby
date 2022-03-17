@@ -203,7 +203,7 @@
           </h3>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
             <p>
-              Wniosek można anulować w każdej chwili - nawet jeśli był już zatwierdzony.
+              Anulowanego wniosku nie można przywrócić - należy utworzyć nowy.
             </p>
           </div>
           <div class="mt-5">
