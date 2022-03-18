@@ -29,6 +29,7 @@ class ApproveAction
     protected function notify(VacationRequest $vacationRequest): void
     {
         $users = User::query()
+            ->where("id", "!=", $vacationRequest->user->id)
             ->whereIn("role", [Role::TechnicalApprover, Role::AdministrativeApprover, Role::Administrator])
             ->get();
 
