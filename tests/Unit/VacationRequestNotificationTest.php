@@ -9,11 +9,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
+use Toby\Domain\Actions\VacationRequest\RejectAction;
 use Toby\Domain\Actions\VacationRequest\WaitForTechApprovalAction;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationType;
+use Toby\Domain\Notifications\VacationRequestRejectedNotification;
 use Toby\Domain\Notifications\VacationRequestWaitsForTechApprovalNotification;
 use Toby\Domain\States\VacationRequest\Created;
+use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
@@ -43,6 +46,9 @@ class VacationRequestNotificationTest extends TestCase
         $administrativeApprover = User::factory([
             "role" => Role::AdministrativeApprover,
         ])->createQuietly();
+        $admin = User::factory([
+            "role" => Role::Administrator,
+        ])->createQuietly();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -62,7 +68,43 @@ class VacationRequestNotificationTest extends TestCase
 
         $waitForTechApprovalAction->execute($vacationRequest);
 
-        Notification::assertSentTo($technicalApprover, VacationRequestWaitsForTechApprovalNotification::class);
+        Notification::assertSentTo([$technicalApprover, $admin], VacationRequestWaitsForTechApprovalNotification::class);
         Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestWaitsForTechApprovalNotification::class);
+    }
+
+    public function testNotificationIsSentOnceToUser(): void
+    {
+        Notification::fake();
+
+        $technicalApprover = User::factory([
+            "role" => Role::TechnicalApprover,
+        ])->createQuietly();
+        $administrativeApprover = User::factory([
+            "role" => Role::AdministrativeApprover,
+        ])->createQuietly();
+        $admin = User::factory([
+            "role" => Role::Administrator,
+        ])->createQuietly();
+
+        $currentYearPeriod = YearPeriod::current();
+
+        /** @var VacationRequest $vacationRequest */
+        $vacationRequest = VacationRequest::factory([
+            "type" => VacationType::Vacation->value,
+            "state" => WaitingForTechnical::class,
+            "from" => Carbon::create($currentYearPeriod->year, 2, 1)->toDateString(),
+            "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ])
+            ->for($administrativeApprover)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $rejectAction = $this->app->make(RejectAction::class);
+
+        $rejectAction->execute($vacationRequest, $technicalApprover);
+
+        Notification::assertSentTo([$technicalApprover, $admin, $administrativeApprover], VacationRequestRejectedNotification::class);
+        Notification::assertTimesSent(3,VacationRequestRejectedNotification::class);
     }
 }
