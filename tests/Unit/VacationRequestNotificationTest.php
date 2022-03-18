@@ -9,11 +9,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
+use Toby\Domain\Actions\VacationRequest\WaitForTechApprovalAction;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\Notifications\VacationRequestWaitsForTechApprovalNotification;
 use Toby\Domain\States\VacationRequest\Created;
-use Toby\Domain\VacationRequestStateManager;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
@@ -23,13 +23,9 @@ class VacationRequestNotificationTest extends TestCase
     use DatabaseMigrations;
     use InteractsWithYearPeriods;
 
-    protected VacationRequestStateManager $stateManager;
-
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->stateManager = $this->app->make(VacationRequestStateManager::class);
 
         $this->createCurrentYearPeriod();
     }
@@ -62,7 +58,9 @@ class VacationRequestNotificationTest extends TestCase
             ->for($currentYearPeriod)
             ->create();
 
-        $this->stateManager->waitForTechnical($vacationRequest);
+        $waitForTechApprovalAction = $this->app->make(WaitForTechApprovalAction::class);
+
+        $waitForTechApprovalAction->execute($vacationRequest);
 
         Notification::assertSentTo($technicalApprover, VacationRequestWaitsForTechApprovalNotification::class);
         Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestWaitsForTechApprovalNotification::class);
