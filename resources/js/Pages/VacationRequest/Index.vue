@@ -1,10 +1,10 @@
 <template>
-  <InertiaHead title="Twoje wnioski urlopowe" />
+  <InertiaHead title="Moje wnioski urlopowe" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg leading-6 font-medium text-gray-900">
-          Twoje wnioski urlopowe
+          Moje wnioski urlopowe
         </h2>
       </div>
       <div>

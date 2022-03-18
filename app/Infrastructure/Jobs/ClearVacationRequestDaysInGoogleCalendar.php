@@ -8,7 +8,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Spatie\GoogleCalendar\Event;
-use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
 
 class ClearVacationRequestDaysInGoogleCalendar implements ShouldQueue
@@ -22,17 +21,16 @@ class ClearVacationRequestDaysInGoogleCalendar implements ShouldQueue
 
     public function handle(): void
     {
-        $vacations = $this->vacationRequest->vacations()
-            ->whereNotNull("event_id")
-            ->get();
+        foreach ($this->vacationRequest->event_ids as $eventId) {
+            $calendarEvent = Event::find($eventId);
 
-        /** @var Vacation $vacation */
-        foreach ($vacations as $vacation) {
-            Event::find($vacation->event_id)->delete();
-
-            $vacation->update([
-                "event_id" => null,
-            ]);
+            if ($calendarEvent->googleEvent->getStatus() !== "cancelled") {
+                $calendarEvent->delete();
+            }
         }
+
+        $this->vacationRequest->update([
+            "event_ids" => null,
+        ]);
     }
 }
