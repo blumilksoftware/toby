@@ -6,6 +6,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\VacationType;
@@ -28,6 +30,9 @@ class VacationRequestTest extends FeatureTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Bus::fake();
+        Notification::fake();
 
         $this->polishHolidaysRetriever = $this->app->make(PolishHolidaysRetriever::class);
     }

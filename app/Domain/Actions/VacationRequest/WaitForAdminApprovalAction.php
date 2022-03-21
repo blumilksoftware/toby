@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Actions\VacationRequest;
 
 use Toby\Domain\Enums\Role;
-use Toby\Domain\Notifications\VacationRequestWaitsForAdminApprovalNotification;
+use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Models\User;
@@ -33,7 +33,7 @@ class WaitForAdminApprovalAction
             ->get();
 
         foreach ($users as $user) {
-            $user->notify(new VacationRequestWaitsForAdminApprovalNotification($vacationRequest, $user));
+            $user->notify(new VacationRequestWaitsForApprovalNotification($vacationRequest, $user));
         }
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Actions\VacationRequest;
 
 use Illuminate\Validation\ValidationException;
+use Toby\Domain\Notifications\VacationRequestCreatedNotification;
 use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -31,6 +32,7 @@ class CreateAction
     {
         $vacationRequest = $this->createVacationRequest($data, $creator);
         $this->handleCreatedVacationRequest($vacationRequest);
+        $this->notify($vacationRequest);
 
         return $vacationRequest;
     }
@@ -87,5 +89,10 @@ class CreateAction
         }
 
         $this->stateManager->approve($vacationRequest);
+    }
+
+    protected function notify(VacationRequest $vacationRequest): void
+    {
+        $vacationRequest->user->notify(new VacationRequestCreatedNotification($vacationRequest));
     }
 }

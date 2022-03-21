@@ -8,14 +8,16 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
+use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
-class VacationRequestCreatedOnEmployeeBehalf extends Notification
+class VacationRequestStatusChangedNotification extends Notification
 {
     use Queueable;
 
     public function __construct(
         protected VacationRequest $vacationRequest,
+        protected User $user,
     ) {}
 
     public function via(): array
@@ -34,31 +36,33 @@ class VacationRequestCreatedOnEmployeeBehalf extends Notification
                 "vacationRequest" => $this->vacationRequest,
             ],
         );
+
         return $this->buildMailMessage($url);
     }
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $creator = $this->vacationRequest->creator->fullName;
-        $user = $this->vacationRequest->user->first_name;
+        $user = $this->user->first_name;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
+        $status = $this->vacationRequest->state;
         $from = $this->vacationRequest->from->toDisplayString();
         $to = $this->vacationRequest->to->toDisplayString();
         $days = $this->vacationRequest->vacations()->count();
-        $appName = config("app.name");
+        $requester = $this->vacationRequest->user->fullName;
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
                 "user" => $user,
             ]))
-            ->subject(__("Vacation request :title has been created on your behalf", [
+            ->subject(__("Vacation request :title has been :status", [
                 "title" => $title,
+                "status" => $status,
             ]))
-            ->line(__("The vacation request :title has been created correctly by user :creator on your behalf in the :appName.", [
+            ->line(__("The vacation request :title for user :requester has been :status.", [
                 "title" => $title,
-                "appName" => $appName,
-                "creator" => $creator,
+                "requester" => $requester,
+                "status" => $status,
             ]))
             ->line(__("Vacation type: :type", [
                 "type" => $type,

@@ -13,8 +13,8 @@ use Toby\Domain\Actions\VacationRequest\RejectAction;
 use Toby\Domain\Actions\VacationRequest\WaitForTechApprovalAction;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\Notifications\VacationRequestRejectedNotification;
-use Toby\Domain\Notifications\VacationRequestWaitsForTechApprovalNotification;
+use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
+use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
 use Toby\Domain\States\VacationRequest\Created;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Eloquent\Models\User;
@@ -68,8 +68,8 @@ class VacationRequestNotificationTest extends TestCase
 
         $waitForTechApprovalAction->execute($vacationRequest);
 
-        Notification::assertSentTo([$technicalApprover, $admin], VacationRequestWaitsForTechApprovalNotification::class);
-        Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestWaitsForTechApprovalNotification::class);
+        Notification::assertSentTo([$technicalApprover, $admin], VacationRequestWaitsForApprovalNotification::class);
+        Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestWaitsForApprovalNotification::class);
     }
 
     public function testNotificationIsSentOnceToUser(): void
@@ -104,7 +104,7 @@ class VacationRequestNotificationTest extends TestCase
 
         $rejectAction->execute($vacationRequest, $technicalApprover);
 
-        Notification::assertSentTo([$technicalApprover, $admin, $administrativeApprover], VacationRequestRejectedNotification::class);
-        Notification::assertTimesSent(3,VacationRequestRejectedNotification::class);
+        Notification::assertSentTo([$technicalApprover, $admin, $administrativeApprover], VacationRequestStatusChangedNotification::class);
+        Notification::assertTimesSent(3,VacationRequestStatusChangedNotification::class);
     }
 }

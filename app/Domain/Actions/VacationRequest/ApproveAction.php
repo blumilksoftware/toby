@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Actions\VacationRequest;
 
 use Toby\Domain\Enums\Role;
-use Toby\Domain\Notifications\VacationRequestApprovedNotification;
+use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
@@ -34,9 +34,9 @@ class ApproveAction
             ->get();
 
         foreach ($users as $user) {
-            $user->notify(new VacationRequestApprovedNotification($vacationRequest, $user));
+            $user->notify(new VacationRequestStatusChangedNotification($vacationRequest, $user));
         }
 
-        $vacationRequest->user->notify(new VacationRequestApprovedNotification($vacationRequest, $vacationRequest->user));
+        $vacationRequest->user->notify(new VacationRequestStatusChangedNotification($vacationRequest, $vacationRequest->user));
     }
 }

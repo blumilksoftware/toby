@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
-class VacationRequestWaitsForAdminApprovalNotification extends Notification
+class VacationRequestWaitsForApprovalNotification extends Notification
 {
     use Queueable;
 
