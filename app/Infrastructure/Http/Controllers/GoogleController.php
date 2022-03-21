@@ -36,7 +36,9 @@ class GoogleController extends Controller
                 ]);
         }
 
-        $user->update(["password" => $hash->make(Str::random(40))]);
+        $user->update([
+            "password" => $hash->make(Str::random(40)),
+        ]);
         $auth->guard()->login($user, true);
 
         return redirect()->route("dashboard");
