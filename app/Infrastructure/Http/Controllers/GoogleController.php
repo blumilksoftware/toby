@@ -7,7 +7,6 @@ namespace Toby\Infrastructure\Http\Controllers;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Str;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Toby\Eloquent\Models\User;
@@ -36,9 +35,6 @@ class GoogleController extends Controller
                 ]);
         }
 
-        $user->update([
-            "password" => $hash->make(Str::random(40)),
-        ]);
         $auth->guard()->login($user, true);
 
         return redirect()->route("dashboard");
