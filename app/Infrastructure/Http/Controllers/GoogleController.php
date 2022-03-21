@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,7 +17,7 @@ class GoogleController extends Controller
         return $socialiteManager->driver("google")->redirect();
     }
 
-    public function callback(AuthFactory $auth, SocialiteManager $socialiteManager, Hasher $hash): RedirectResponse
+    public function callback(AuthFactory $auth, SocialiteManager $socialiteManager): RedirectResponse
     {
         $socialUser = $socialiteManager->driver("google")->user();
 
