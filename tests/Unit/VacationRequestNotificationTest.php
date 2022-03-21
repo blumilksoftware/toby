@@ -105,6 +105,6 @@ class VacationRequestNotificationTest extends TestCase
         $rejectAction->execute($vacationRequest, $technicalApprover);
 
         Notification::assertSentTo([$technicalApprover, $admin, $administrativeApprover], VacationRequestStatusChangedNotification::class);
-        Notification::assertTimesSent(3,VacationRequestStatusChangedNotification::class);
+        Notification::assertTimesSent(3, VacationRequestStatusChangedNotification::class);
     }
 }
