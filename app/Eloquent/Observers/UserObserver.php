@@ -13,6 +13,10 @@ class UserObserver
 {
     public function creating(User $user): void
     {
+        /**
+         * A random password for user is generated because AuthenticateSession middleware needs a user's password
+         * for some checks. Users use Google to login, so they don't need to know the password (GitHub issue #84)
+         */
         $user->password = Hash::make(Str::random(40));
     }
 
