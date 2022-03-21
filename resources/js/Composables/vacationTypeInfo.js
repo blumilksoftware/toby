@@ -12,119 +12,56 @@ const types = [
   {
     text: 'Urlop wypoczynkowy',
     value: 'vacation',
-    outline: {
-      icon: WhiteBalanceSunnyIcon,
-      background: 'bg-white',
-      foreground: 'text-amber-500',
-    },
-    solid: {
-      icon: WhiteBalanceSunnyIcon,
-      color: 'text-amber-500',
-    },
+    icon: WhiteBalanceSunnyIcon,
+    color: 'text-amber-500',
   },
   {
     text: 'Urlop na żądanie',
     value: 'vacation_on_request',
-    outline: {
-      icon: CommentAlertIcon,
-      background: 'bg-white',
-      foreground: 'text-slate-500',
-    },
-    solid: {
-      icon: CommentAlertIcon,
-      color: 'text-slate-500',
-    },
+    icon: CommentAlertIcon,
+    color: 'text-slate-500',
   },
   {
     text: 'Urlop okolicznościowy',
     value: 'special_vacation',
-    outline: {
-      icon: StarShootingIcon,
-      background: 'bg-white',
-      foreground: 'text-orange-500',
-    },
-    solid: {
-      icon: StarShootingIcon,
-      color: 'text-orange-500',
-    },
+    icon: StarShootingIcon,
+    color: 'text-orange-500',
   },
   {
     text: 'Opieka nad dzieckiem art 188 kp',
     value: 'childcare_vacation',
-    outline: {
-      icon: BabyCarriageIcon,
-      background: 'bg-white',
-      foreground: 'text-purple-500',
-    },
-    solid: {
-      icon: BabyCarriageIcon,
-      color: 'text-purple-500',
-    },
+    icon: BabyCarriageIcon,
+    color: 'text-purple-500',
   },
   {
     text: 'Urlop szkoleniowy',
     value: 'training_vacation',
-    outline: {
-      icon: HumanMaleBoardIcon,
-      background: 'bg-white',
-      foreground: 'text-blumilk-500',
-    },
-    solid: {
-      icon: HumanMaleBoardIcon,
-      color: 'text-blumilk-500',
-    },
+    icon: HumanMaleBoardIcon,
+    color: 'text-blumilk-500',
   },
   {
     text: 'Urlop bezpłatny',
     value: 'unpaid_vacation',
-    outline: {
-      icon: CurrencyUsdOffIcon,
-      background: 'bg-white',
-      foreground: 'text-emerald-500',
-    },
-    solid: {
-      icon: CurrencyUsdOffIcon,
-      color: 'text-emerald-500',
-    },
+    icon: CurrencyUsdOffIcon,
+    color: 'text-emerald-500',
   },
   {
     text: 'Wolontariat',
     value: 'volunteering_vacation',
-    outline: {
-      icon: HandHeartOutlineIcon,
-      background: 'bg-white',
-      foreground: 'text-pink-500',
-    },
-    solid: {
-      icon: HandHeartOutlineIcon,
-      color: 'text-pink-500',
-    },
+    icon: HandHeartOutlineIcon,
+    color: 'text-pink-500',
   },
   {
     text: 'Odbiór za święto',
     value: 'time_in_lieu',
-    outline: {
-      icon: CalendarCheckIcon,
-      background: 'bg-white',
-      foreground: 'text-stone-500',
-    },
-    solid: {
-      icon: CalendarCheckIcon,
-      color: 'text-stone-500',
-    },
+    icon: CalendarCheckIcon,
+    color: 'text-stone-500',
   },
   {
     text: 'Zwolnienie lekarskie',
     value: 'sick_vacation',
-    outline: {
-      icon: MedicalBagIcon,
-      background: 'bg-white',
-      foreground: 'text-rose-500',
-    },
-    solid: {
-      icon: MedicalBagIcon,
-      color: 'text-rose-500',
-    },
+    icon: MedicalBagIcon,
+    color: 'text-rose-500',
   },
 ]
 
