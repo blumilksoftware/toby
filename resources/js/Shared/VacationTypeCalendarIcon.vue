@@ -2,11 +2,8 @@
   <Popper hover>
     <div class="flex items-center">
       <div>
-        <span :class="[typeInfo.outline.background, typeInfo.outline.foreground, 'flex items-center justify-center']">
-          <component
-            :is="typeInfo.outline.icon"
-            :class="typeInfo.outline.background"
-          />
+        <span :class="[typeInfo.outline.foreground, 'flex items-center justify-center']">
+          <component :is="typeInfo.outline.icon" />
         </span>
       </div>
     </div>

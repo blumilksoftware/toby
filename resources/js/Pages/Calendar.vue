@@ -6,79 +6,43 @@
         <h2 class="text-lg leading-6 font-medium text-gray-900">
           Kalendarz urlopów
         </h2>
-        <span class="ml-6 inline-flex shadow-sm rounded-md">
+        <div class="ml-5 flex items-center rounded-md shadow-sm md:items-stretch">
           <InertiaLink
             v-if="previousMonth"
+            as="button"
             :href="`/vacation-calendar/${previousMonth.value}`"
-            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-600 focus:border-blumilk-600"
+            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="h-5 w-5" />
           </InertiaLink>
           <span
             v-else
-            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
+            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="h-5 w-5" />
           </span>
-          <Menu
-            as="div"
-            class="-ml-px relative inline-block text-left"
+          <InertiaLink
+            as="button"
+            :href="`/vacation-calendar/${currentMonth.value}`"
+            class="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
           >
-            <div>
-              <MenuButton
-                class="relative inline-flex items-center justify-center px-4 py-2 w-44 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-600 focus:border-blumilk-600"
-              >
-                {{ selectedMonth.name }} {{ years.current }}
-                <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
-              </MenuButton>
-            </div>
-
-            <transition
-              enter-active-class="transition ease-out duration-100"
-              enter-from-class="transform opacity-0 scale-95"
-              enter-to-class="transform opacity-100 scale-100"
-              leave-active-class="transition ease-in duration-75"
-              leave-from-class="transform opacity-100 scale-100"
-              leave-to-class="transform opacity-0 scale-95"
-            >
-              <MenuItems
-                class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-              >
-                <div class="py-1">
-                  <MenuItem
-                    v-for="(month, index) in months"
-                    :key="index"
-                    v-slot="{ active }"
-                  >
-                    <InertiaLink
-                      :href="`/vacation-calendar/${month.value}`"
-                      :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full font-normal px-4 py-2 text-sm']"
-                    >
-                      {{ month.name }}
-                      <CheckIcon
-                        v-if="currentMonth === month.value"
-                        class="h-5 w-5 text-blumilk-500 ml-2"
-                      />
-                    </InertiaLink>
-                  </MenuItem>
-                </div>
-              </MenuItems>
-            </transition>
-          </Menu>
+            Dzisiaj
+          </InertiaLink>
           <InertiaLink
             v-if="nextMonth"
+            as="button"
             :href="`/vacation-calendar/${nextMonth.value}`"
-            class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-600 focus:border-blumilk-600"
+            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="h-5 w-5" />
           </InertiaLink>
           <span
             v-else
-            class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
+            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="h-5 w-5" />
           </span>
-        </span>
+        </div>
       </div>
       <div v-if="can.generateTimesheet">
         <a
@@ -93,7 +57,11 @@
       <table class="w-full text-center text-sm border border-gray-300">
         <thead>
           <tr>
-            <th class="w-64 py-2 border border-gray-300" />
+            <th class="w-64 py-2 border text-lg font-semibold text-gray-800 border-gray-300">
+              <div class="flex justify-center items-center">
+                {{ selectedMonth.name }} {{ years.current }}
+              </div>
+            </th>
             <th
               v-for="day in calendar"
               :key="day.dayOfMonth"
@@ -155,8 +123,7 @@
 </template>
 
 <script>
-import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/solid'
+import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/solid'
 import {computed} from 'vue'
 import {useMonthInfo} from '@/Composables/monthInfo'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon'
@@ -165,12 +132,6 @@ export default {
   name: 'VacationCalendar',
   components: {
     VacationTypeCalendarIcon,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    CheckIcon,
-    ChevronDownIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
   },
@@ -187,7 +148,11 @@ export default {
       type: Object,
       default: () => null,
     },
-    currentMonth: {
+    current: {
+      type: String,
+      default: () => 'january',
+    },
+    selected: {
       type: String,
       default: () => 'january',
     },
@@ -204,15 +169,15 @@ export default {
     const {getMonths, findMonth} = useMonthInfo()
     const months = getMonths()
 
-
-    const selectedMonth = computed(() => findMonth(props.currentMonth))
-
+    const currentMonth = computed(() => findMonth(props.current))
+    const selectedMonth = computed(() => findMonth(props.selected))
     const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
     const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
 
 
     return {
       months,
+      currentMonth,
       selectedMonth,
       previousMonth,
       nextMonth,
