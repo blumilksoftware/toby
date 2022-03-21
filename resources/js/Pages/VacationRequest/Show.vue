@@ -44,7 +44,7 @@
                 Rodzaj urlopu
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {{ request.type }}
+                <VacationType :type="request.type" />
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -65,7 +65,7 @@
                     {{ request.from }} - {{ request.to }} [Liczba dni: {{ request.days.length }}]
                   </template>
                   <template v-else>
-                    {{ request.from }}
+                    {{ request.from }} [Liczba dni: {{ request.days.length }}]
                   </template>
                 </span>
               </dd>
@@ -249,10 +249,12 @@
 import {PaperClipIcon} from '@heroicons/vue/outline'
 import Activity from '@/Shared/Activity'
 import Status from '@/Shared/Status'
+import VacationType from '@/Shared/VacationType'
 
 export default {
   name: 'VacationRequestShow',
   components: {
+    VacationType,
     Activity,
     PaperClipIcon,
     Status,

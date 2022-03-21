@@ -91,7 +91,7 @@
               </InertiaLink>
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
-              {{ request.type }}
+              <VacationType :type="request.type" />
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ request.from }}
@@ -195,6 +195,7 @@ import {
   DocumentTextIcon,
 } from '@heroicons/vue/solid'
 import Status from '@/Shared/Status'
+import VacationType from '@/Shared/VacationType'
 
 export default {
   name: 'VacationRequestIndex',
@@ -210,6 +211,7 @@ export default {
     DocumentTextIcon,
     ThumbDownIcon,
     Status,
+    VacationType,
   },
   props: {
     requests: {
