@@ -36,4 +36,9 @@ abstract class VacationRequestState extends State
                 Approved::class,
             ], Cancelled::class);
     }
+
+    public function label(): string
+    {
+        return __(static::$name);
+    }
 }
