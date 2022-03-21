@@ -12,11 +12,11 @@ class LogoutController extends Controller
 {
     public function __invoke(Request $request): RedirectResponse
     {
-        Auth::logout();
-
         $request->user()->update([
             "password" => null,
         ]);
+
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
