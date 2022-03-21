@@ -14,6 +14,10 @@ class LogoutController extends Controller
     {
         Auth::logout();
 
+        $request->user()->update([
+            "password" => null,
+        ]);
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
