@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Toby\Eloquent\Models\User;
@@ -17,7 +19,7 @@ class GoogleController extends Controller
         return $socialiteManager->driver("google")->redirect();
     }
 
-    public function callback(AuthFactory $auth, SocialiteManager $socialiteManager): RedirectResponse
+    public function callback(AuthFactory $auth, SocialiteManager $socialiteManager, Hasher $hash): RedirectResponse
     {
         $socialUser = $socialiteManager->driver("google")->user();
 
@@ -34,6 +36,7 @@ class GoogleController extends Controller
                 ]);
         }
 
+        $user->update(["password" => $hash->make(Str::random(40))]);
         $auth->guard()->login($user, true);
 
         return redirect()->route("dashboard");
