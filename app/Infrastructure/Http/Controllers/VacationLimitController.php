@@ -25,6 +25,7 @@ class VacationLimitController extends Controller
         $limits = $yearPeriod
             ->vacationLimits()
             ->with("user")
+            ->has("user")
             ->orderByUserField("last_name")
             ->orderByUserField("first_name")
             ->get();

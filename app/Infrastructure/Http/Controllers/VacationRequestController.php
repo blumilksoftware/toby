@@ -12,15 +12,17 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Validation\ValidationException;
 use Inertia\Response;
+use Toby\Domain\Actions\VacationRequest\AcceptAsAdministrativeAction;
+use Toby\Domain\Actions\VacationRequest\AcceptAsTechnicalAction;
+use Toby\Domain\Actions\VacationRequest\CancelAction;
+use Toby\Domain\Actions\VacationRequest\CreateAction;
+use Toby\Domain\Actions\VacationRequest\RejectAction;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
 use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
 use Toby\Domain\States\VacationRequest\Cancelled;
 use Toby\Domain\States\VacationRequest\Rejected;
-use Toby\Domain\VacationDaysCalculator;
-use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationRequestStatesRetriever;
-use Toby\Domain\Validation\VacationRequestValidator;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
@@ -91,7 +93,12 @@ class VacationRequestController extends Controller
             ->with(["user", "vacations"])
             ->where("year_period_id", $yearPeriod->id)
             ->when($user !== null, fn(Builder $query) => $query->where("user_id", $user))
-            ->when($status !== null, fn(Builder $query) => $query->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user())))
+            ->when(
+                $status !== null,
+                fn(Builder $query) => $query->states(
+                    VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()),
+                ),
+            )
             ->latest()
             ->paginate();
 
@@ -179,12 +186,8 @@ class VacationRequestController extends Controller
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    public function store(
-        VacationRequestRequest $request,
-        VacationRequestValidator $vacationRequestValidator,
-        VacationRequestStateManager $stateManager,
-        VacationDaysCalculator $vacationDaysCalculator,
-    ): RedirectResponse {
+    public function store(VacationRequestRequest $request, CreateAction $createAction): RedirectResponse
+    {
         if ($request->createsOnBehalfOfEmployee()) {
             $this->authorize("createOnBehalfOfEmployee", VacationRequest::class);
         }
@@ -193,27 +196,7 @@ class VacationRequestController extends Controller
             $this->authorize("skipFlow", VacationRequest::class);
         }
 
-        /** @var VacationRequest $vacationRequest */
-        $vacationRequest = $request->user()->createdVacationRequests()->make($request->data());
-        $vacationRequestValidator->validate($vacationRequest);
-
-        $vacationRequest->save();
-
-        $days = $vacationDaysCalculator->calculateDays(
-            $vacationRequest->yearPeriod,
-            $vacationRequest->from,
-            $vacationRequest->to,
-        );
-
-        foreach ($days as $day) {
-            $vacationRequest->vacations()->create([
-                "date" => $day,
-                "user_id" => $vacationRequest->user->id,
-                "year_period_id" => $vacationRequest->yearPeriod->id,
-            ]);
-        }
-
-        $stateManager->markAsCreated($vacationRequest, $request->user());
+        $vacationRequest = $createAction->execute($request->data(), $request->user());
 
         return redirect()
             ->route("vacation.requests.show", $vacationRequest)
@@ -226,11 +209,11 @@ class VacationRequestController extends Controller
     public function reject(
         Request $request,
         VacationRequest $vacationRequest,
-        VacationRequestStateManager $stateManager,
+        RejectAction $rejectAction,
     ): RedirectResponse {
         $this->authorize("reject", $vacationRequest);
 
-        $stateManager->reject($vacationRequest, $request->user());
+        $rejectAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been rejected."));
@@ -242,11 +225,11 @@ class VacationRequestController extends Controller
     public function cancel(
         Request $request,
         VacationRequest $vacationRequest,
-        VacationRequestStateManager $stateManager,
+        CancelAction $cancelAction,
     ): RedirectResponse {
         $this->authorize("cancel", $vacationRequest);
 
-        $stateManager->cancel($vacationRequest, $request->user());
+        $cancelAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been cancelled."));
@@ -258,11 +241,11 @@ class VacationRequestController extends Controller
     public function acceptAsTechnical(
         Request $request,
         VacationRequest $vacationRequest,
-        VacationRequestStateManager $stateManager,
+        AcceptAsTechnicalAction $acceptAsTechnicalAction,
     ): RedirectResponse {
         $this->authorize("acceptAsTechApprover", $vacationRequest);
 
-        $stateManager->acceptAsTechnical($vacationRequest, $request->user());
+        $acceptAsTechnicalAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been accepted."));
@@ -274,11 +257,11 @@ class VacationRequestController extends Controller
     public function acceptAsAdministrative(
         Request $request,
         VacationRequest $vacationRequest,
-        VacationRequestStateManager $stateManager,
+        AcceptAsAdministrativeAction $acceptAsAdministrativeAction,
     ): RedirectResponse {
         $this->authorize("acceptAsAdminApprover", $vacationRequest);
 
-        $stateManager->acceptAsAdministrative($vacationRequest, $request->user());
+        $acceptAsAdministrativeAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
             ->with("success", __("Vacation request has been accepted."));

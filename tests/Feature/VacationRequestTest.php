@@ -6,14 +6,11 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\Events\VacationRequestAcceptedByAdministrative;
-use Toby\Domain\Events\VacationRequestAcceptedByTechnical;
-use Toby\Domain\Events\VacationRequestApproved;
-use Toby\Domain\Events\VacationRequestRejected;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Domain\States\VacationRequest\Rejected;
@@ -33,6 +30,9 @@ class VacationRequestTest extends FeatureTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Bus::fake();
+        Notification::fake();
 
         $this->polishHolidaysRetriever = $this->app->make(PolishHolidaysRetriever::class);
     }
@@ -130,8 +130,6 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testUserCanCreateVacationRequestOnEmployeeBehalfAndSkipAcceptanceFlow(): void
     {
-        Event::fake(VacationRequestApproved::class);
-
         $creator = User::factory()->admin()->createQuietly();
         $user = User::factory()->createQuietly();
 
@@ -169,8 +167,6 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testTechnicalApproverCanApproveVacationRequest(): void
     {
-        Event::fake(VacationRequestAcceptedByTechnical::class);
-
         $user = User::factory()->createQuietly();
         $technicalApprover = User::factory()->technicalApprover()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
@@ -187,13 +183,13 @@ class VacationRequestTest extends FeatureTestCase
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-technical")
             ->assertSessionHasNoErrors();
 
-        Event::assertDispatched(VacationRequestAcceptedByTechnical::class);
+        $vacationRequest->refresh();
+
+        $this->assertTrue($vacationRequest->state->equals(WaitingForAdministrative::class));
     }
 
     public function testAdministrativeApproverCanApproveVacationRequest(): void
     {
-        Event::fake(VacationRequestAcceptedByAdministrative::class);
-
         $user = User::factory()->createQuietly();
         $administrativeApprover = User::factory()->administrativeApprover()->createQuietly();
 
@@ -210,13 +206,13 @@ class VacationRequestTest extends FeatureTestCase
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-administrative")
             ->assertSessionHasNoErrors();
 
-        Event::assertDispatched(VacationRequestAcceptedByAdministrative::class);
+        $vacationRequest->refresh();
+
+        $this->assertTrue($vacationRequest->state->equals(Approved::class));
     }
 
     public function testTechnicalApproverCanRejectVacationRequest(): void
     {
-        Event::fake(VacationRequestRejected::class);
-
         $user = User::factory()->createQuietly();
         $technicalApprover = User::factory()->technicalApprover()->createQuietly();
         $currentYearPeriod = YearPeriod::current();
@@ -228,6 +224,7 @@ class VacationRequestTest extends FeatureTestCase
             ->for($currentYearPeriod)
             ->create();
 
+        /** @var VacationRequest $vacationRequest */
         $vacationRequest = VacationRequest::factory([
             "state" => WaitingForTechnical::class,
             "type" => VacationType::Vacation,
@@ -240,10 +237,9 @@ class VacationRequestTest extends FeatureTestCase
             ->post("/vacation-requests/{$vacationRequest->id}/reject")
             ->assertSessionHasNoErrors();
 
-        Event::assertDispatched(VacationRequestRejected::class);
-        $this->assertDatabaseHas("vacation_requests", [
-            "state" => Rejected::$name,
-        ]);
+        $vacationRequest->refresh();
+
+        $this->assertTrue($vacationRequest->state->equals(Rejected::class));
     }
 
     public function testUserCannotCreateVacationRequestIfHeExceedsHisVacationLimit(): void
