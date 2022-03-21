@@ -2,10 +2,83 @@
   <InertiaHead title="Kalendarz urlopów" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
-      <div>
+      <div class="flex items-center">
         <h2 class="text-lg leading-6 font-medium text-gray-900">
           Kalendarz urlopów
         </h2>
+        <span class="ml-6 inline-flex shadow-sm rounded-md">
+          <InertiaLink
+            v-if="previousMonth"
+            :href="`/vacation-calendar/${previousMonth.value}`"
+            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-600 focus:border-blumilk-600"
+          >
+            <ChevronLeftIcon class="h-5 w-5" />
+          </InertiaLink>
+          <span
+            v-else
+            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
+          >
+            <ChevronLeftIcon class="h-5 w-5" />
+          </span>
+          <Menu
+            as="div"
+            class="-ml-px relative inline-block text-left"
+          >
+            <div>
+              <MenuButton
+                class="relative inline-flex items-center justify-center px-4 py-2 w-44 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-600 focus:border-blumilk-600"
+              >
+                {{ selectedMonth.name }} {{ years.current }}
+                <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
+              </MenuButton>
+            </div>
+
+            <transition
+              enter-active-class="transition ease-out duration-100"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
+              leave-active-class="transition ease-in duration-75"
+              leave-from-class="transform opacity-100 scale-100"
+              leave-to-class="transform opacity-0 scale-95"
+            >
+              <MenuItems
+                class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
+                <div class="py-1">
+                  <MenuItem
+                    v-for="(month, index) in months"
+                    :key="index"
+                    v-slot="{ active }"
+                  >
+                    <InertiaLink
+                      :href="`/vacation-calendar/${month.value}`"
+                      :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full font-normal px-4 py-2 text-sm']"
+                    >
+                      {{ month.name }}
+                      <CheckIcon
+                        v-if="currentMonth === month.value"
+                        class="h-5 w-5 text-blumilk-500 ml-2"
+                      />
+                    </InertiaLink>
+                  </MenuItem>
+                </div>
+              </MenuItems>
+            </transition>
+          </Menu>
+          <InertiaLink
+            v-if="nextMonth"
+            :href="`/vacation-calendar/${nextMonth.value}`"
+            class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blumilk-600 focus:border-blumilk-600"
+          >
+            <ChevronRightIcon class="h-5 w-5" />
+          </InertiaLink>
+          <span
+            v-else
+            class="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
+          >
+            <ChevronRightIcon class="h-5 w-5" />
+          </span>
+        </span>
       </div>
       <div v-if="can.generateTimesheet">
         <a
@@ -20,53 +93,7 @@
       <table class="w-full text-center text-sm border border-gray-300">
         <thead>
           <tr>
-            <th class="w-64 py-2 border border-gray-300">
-              <Menu
-                as="div"
-                class="relative inline-block text-left"
-              >
-                <div>
-                  <MenuButton
-                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
-                  >
-                    {{ selectedMonth.name }} {{ years.current }}
-                    <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
-                  </MenuButton>
-                </div>
-
-                <transition
-                  enter-active-class="transition ease-out duration-100"
-                  enter-from-class="transform opacity-0 scale-95"
-                  enter-to-class="transform opacity-100 scale-100"
-                  leave-active-class="transition ease-in duration-75"
-                  leave-from-class="transform opacity-100 scale-100"
-                  leave-to-class="transform opacity-0 scale-95"
-                >
-                  <MenuItems
-                    class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  >
-                    <div class="py-1">
-                      <MenuItem
-                        v-for="(month, index) in months"
-                        :key="index"
-                        v-slot="{ active }"
-                      >
-                        <InertiaLink
-                          :href="`/vacation-calendar/${month.value}`"
-                          :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full font-normal px-4 py-2 text-sm']"
-                        >
-                          {{ month.name }}
-                          <CheckIcon
-                            v-if="currentMonth === month.value"
-                            class="h-5 w-5 text-blumilk-500 ml-2"
-                          />
-                        </InertiaLink>
-                      </MenuItem>
-                    </div>
-                  </MenuItems>
-                </transition>
-              </Menu>
-            </th>
+            <th class="w-64 py-2 border border-gray-300" />
             <th
               v-for="day in calendar"
               :key="day.dayOfMonth"
@@ -111,7 +138,7 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300"
-              :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday, 'bg-blumilk-500': day.vacations.includes(user.id) }"
+              :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday}"
             >
               <div
                 v-if="day.vacations.includes(user.id)"
@@ -129,7 +156,7 @@
 
 <script>
 import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/solid'
+import {CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/solid'
 import {computed} from 'vue'
 import {useMonthInfo} from '@/Composables/monthInfo'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon'
@@ -144,6 +171,8 @@ export default {
     MenuItems,
     CheckIcon,
     ChevronDownIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
   },
   props: {
     users: {
@@ -175,11 +204,18 @@ export default {
     const {getMonths, findMonth} = useMonthInfo()
     const months = getMonths()
 
+
     const selectedMonth = computed(() => findMonth(props.currentMonth))
+
+    const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
+    const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
+
 
     return {
       months,
       selectedMonth,
+      previousMonth,
+      nextMonth,
     }
   },
 }
