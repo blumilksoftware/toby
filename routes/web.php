@@ -7,6 +7,7 @@ use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
+use Toby\Infrastructure\Http\Controllers\MonthlyUsage;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
 use Toby\Infrastructure\Http\Controllers\TimesheetController;
 use Toby\Infrastructure\Http\Controllers\UserController;
@@ -63,6 +64,8 @@ Route::middleware("auth")->group(function (): void {
 
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->name("year-periods.select");
+
+    Route::get("/monthly-usage", [MonthlyUsage::class, "index"])->name("monthly-usage");
 });
 
 Route::middleware("guest")->group(function (): void {

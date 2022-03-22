@@ -281,7 +281,9 @@ import {
   XIcon,
   SunIcon,
   StarIcon,
-  CalendarIcon, DocumentTextIcon,
+  CalendarIcon,
+  DocumentTextIcon,
+  AdjustmentsIcon,
 } from '@heroicons/vue/outline'
 import {
   CashIcon,
@@ -320,6 +322,7 @@ export default {
     UserGroupIcon,
     SunIcon,
     CalendarIcon,
+    AdjustmentsIcon,
   },
   setup() {
     const sidebarOpen = ref(false)
@@ -332,6 +335,7 @@ export default {
         {name: 'Moje wnioski', href: '/vacation-requests/me', component: 'VacationRequest/Index' , icon: DocumentTextIcon, can: true},
         {name: 'Wnioski urlopowe', href: '/vacation-requests', component: 'VacationRequest/IndexForApprovers', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests},
         {name: 'Kalendarz urlopów', href: '/vacation-calendar', component: 'Calendar', icon: CalendarIcon, can: true},
+        {name: 'Wykorzystanie urlopu', href: '/monthly-usage', component: 'MonthlyUsage', icon: AdjustmentsIcon, can: auth.value.can.listMonthlyUsage},
         {name: 'Dni wolne', href: '/holidays', component: 'Holidays/Index', icon: StarIcon, can: true},
         {name: 'Limity urlopów', href: '/vacation-limits', component: 'VacationLimits', icon: SunIcon, can: auth.value.can.manageVacationLimits},
         {name: 'Użytkownicy', href: '/users', component: 'Users/Index', icon: UserGroupIcon, can: auth.value.can.manageUsers},

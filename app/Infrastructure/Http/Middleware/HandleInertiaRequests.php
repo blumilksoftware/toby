@@ -27,6 +27,7 @@ class HandleInertiaRequests extends Middleware
                     "manageVacationLimits" => $user ? $user->can("manageVacationLimits") : false,
                     "manageUsers" => $user ? $user->can("manageUsers") : false,
                     "listAllVacationRequests" => $user ? $user->can("listAll", VacationRequest::class) : false,
+                    "listMonthlyUsage" => $user ? $user->can("listMonthlyUsage") : false,
                 ],
             ],
             "flash" => fn() => [
