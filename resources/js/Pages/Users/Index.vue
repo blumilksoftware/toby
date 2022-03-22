@@ -81,13 +81,10 @@
             >
               <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div class="flex">
-                  <span
-                    class="inline-flex items-center justify-center h-10 w-10 rounded-full"
-                  >
+                  <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
                     <img
                       class="h-10 w-10 rounded-full"
                       :src="user.avatar"
-                      alt=""
                     >
                   </span>
                   <div class="ml-3">
@@ -118,10 +115,7 @@
                   class="relative inline-block text-left"
                 >
                   <MenuButton class="rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blumilk-500">
-                    <DotsVerticalIcon
-                      class="h-5 w-5"
-                      aria-hidden="true"
-                    />
+                    <DotsVerticalIcon class="h-5 w-5" />
                   </MenuButton>
 
                   <transition
@@ -145,10 +139,7 @@
                             :href="`/users/${user.id}/edit`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                           >
-                            <PencilIcon
-                              class="mr-2 h-5 w-5 text-blue-500"
-                              aria-hidden="true"
-                            /> Edytuj
+                            <PencilIcon class="mr-2 h-5 w-5 text-blue-500" /> Edytuj
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
@@ -162,10 +153,7 @@
                             :href="`/users/${user.id}`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                           >
-                            <TrashIcon
-                              class="mr-2 h-5 w-5 text-red-500"
-                              aria-hidden="true"
-                            /> Usuń
+                            <TrashIcon class="mr-2 h-5 w-5 text-red-500" /> Usuń
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -184,10 +172,7 @@
                             :href="`/users/${user.id}/restore`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                           >
-                            <RefreshIcon
-                              class="mr-2 h-5 w-5 text-green-500"
-                              aria-hidden="true"
-                            /> Przywróć
+                            <RefreshIcon class="mr-2 h-5 w-5 text-green-500" /> Przywróć
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -208,102 +193,32 @@
             </tr>
           </tbody>
         </table>
-        <div
-          v-if="users.data.length && users.meta.last_page !== 1"
-          class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-b-lg"
-        >
-          <div class="flex-1 flex justify-between sm:hidden">
-            <InertiaLink
-              :is="users.links.prev ? 'InertiaLink': 'span'"
-              :href="users.links.prev"
-              class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-            >
-              Poprzednia
-            </InertiaLink>
-            <Component
-              :is="users.links.next ? 'InertiaLink': 'span'"
-              :href="users.links.next"
-              class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-            >
-              Następna
-            </Component>
-          </div>
-          <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div class="text-sm text-gray-700">
-              Wyświetlanie
-              <span class="font-medium">{{ users.meta.from }}</span>
-              od
-              <span class="font-medium">{{ users.meta.to }}</span>
-              do
-              <span class="font-medium">{{ users.meta.total }}</span>
-              wyników
-            </div>
-            <nav class="relative z-0 inline-flex space-x-1">
-              <template
-                v-for="(link, index) in users.meta.links"
-                :key="index"
-              >
-                <Component
-                  :is="link.url ? 'InertiaLink' : 'span'"
-                  :href="link.url"
-                  :preserve-scroll="true"
-                  class="relative inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium"
-                  :class="{ 'z-10 bg-blumilk-25 border-blumilk-500 text-blumilk-600': link.active, 'bg-white border-gray-300 text-gray-500': !link.active, 'hover:bg-blumilk-25': link.url, 'border-none': !link.url}"
-                  v-text="link.label"
-                />
-              </template>
-            </nav>
-          </div>
-        </div>
+        <Pagination :pagination="users.meta" />
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, watch } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { debounce } from 'lodash'
 import { SearchIcon } from '@heroicons/vue/outline'
 import { DotsVerticalIcon, PencilIcon, TrashIcon, RefreshIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import Pagination from '@/Shared/Pagination'
 
-export default {
-  name: 'UserIndex',
-  components: {
-    SearchIcon,
-    DotsVerticalIcon,
-    PencilIcon,
-    TrashIcon,
-    RefreshIcon,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-  },
-  props: {
-    users: {
-      type: Object,
-      default: () => null,
-    },
-    filters: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup(props) {
-    let search = ref(props.filters.search)
+const props = defineProps({
+  users: Object,
+  filters: Object,
+})
 
-    watch(search, debounce(value => {
-      Inertia.get('/users', value ? { search: value} : {}, {
-        preserveState: true,
-        replace: true,
-      })
-    }, 300))
+const search = ref(props.filters.search)
 
-    return {
-      search,
-    }
-  },
-}
+watch(search, debounce(value => {
+  Inertia.get('/users', value ? { search: value } : {}, {
+    preserveState: true,
+    replace: true,
+  })
+}, 300))
 </script>

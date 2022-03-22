@@ -118,9 +118,7 @@
               />
             </td>
           </tr>
-          <tr
-            v-if="! requests.data.length"
-          >
+          <tr v-if="! requests.data.length">
             <td
               colspan="100%"
               class="text-center py-4 text-xl leading-5 text-gray-700"
@@ -130,131 +128,39 @@
           </tr>
         </tbody>
       </table>
-      <div
-        v-if="requests.data.length && requests.meta.last_page !== 1"
-        class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-b-lg"
-      >
-        <div class="flex-1 flex justify-between sm:hidden">
-          <InertiaLink
-            :is="requests.links.prev ? 'InertiaLink': 'span'"
-            :href="requests.links.prev"
-            class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-          >
-            Poprzednia
-          </InertiaLink>
-          <Component
-            :is="requests.links.next ? 'InertiaLink': 'span'"
-            :href="requests.links.next"
-            class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-          >
-            Następna
-          </Component>
-        </div>
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-          <div class="text-sm text-gray-700">
-            Wyświetlanie
-            <span class="font-medium">{{ requests.meta.from }}</span>
-            od
-            <span class="font-medium">{{ requests.meta.to }}</span>
-            do
-            <span class="font-medium">{{ requests.meta.total }}</span>
-            wyników
-          </div>
-          <nav class="relative z-0 inline-flex space-x-1">
-            <template
-              v-for="(link, index) in requests.meta.links"
-              :key="index"
-            >
-              <Component
-                :is="link.url ? 'InertiaLink' : 'span'"
-                :href="link.url"
-                :preserve-scroll="true"
-                class="relative inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium"
-                :class="{ 'z-10 bg-blumilk-25 border-blumilk-500 text-blumilk-600': link.active, 'bg-white border-gray-300 text-gray-500': !link.active, 'hover:bg-blumilk-25': link.url, 'border-none': !link.url}"
-                v-text="link.label"
-              />
-            </template>
-          </nav>
-        </div>
-      </div>
+      <Pagination :pagination="requests.meta" />
     </div>
   </div>
 </template>
 
-<script>
-import {
-  ChevronRightIcon,
-  ClockIcon,
-  DotsVerticalIcon,
-  PencilIcon,
-  ThumbDownIcon,
-  ThumbUpIcon,
-  TrashIcon,
-  XIcon,
-  CheckIcon,
-  DocumentTextIcon,
-} from '@heroicons/vue/solid'
+<script setup>
+import { ChevronRightIcon } from '@heroicons/vue/solid'
 import Status from '@/Shared/Status'
 import VacationType from '@/Shared/VacationType'
+import Pagination from '@/Shared/Pagination'
 
-export default {
-  name: 'VacationRequestIndex',
-  components: {
-    DotsVerticalIcon,
-    PencilIcon,
-    TrashIcon,
-    ChevronRightIcon,
-    ThumbUpIcon,
-    ClockIcon,
-    XIcon,
-    CheckIcon,
-    DocumentTextIcon,
-    ThumbDownIcon,
-    Status,
-    VacationType,
-  },
-  props: {
-    requests: {
-      type: Object,
-      default: () => null,
-    },
-    stats: {
-      type: Object,
-      default: () => ({
-        all: 0,
-        pending: 0,
-        success: 0,
-        failed: 0,
-      }),
-    },
-    filters: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup() {
-    const statuses = [
-      {
-        name: 'Wszystkie',
-        value: 'all',
-      },
-      {
-        name: 'W trakcie',
-        value: 'pending',
-      },
-      {
-        name: 'Zatwierdzone',
-        value: 'success',
-      },
-      {
-        name: 'Odrzucone/anulowane',
-        value: 'failed',
-      },
-    ]
+defineProps({
+  requests: Object,
+  stats: Object,
+  filters: Object,
+})
 
-    return {
-      statuses,
-    }
+const statuses = [
+  {
+    name: 'Wszystkie',
+    value: 'all',
   },
-}
+  {
+    name: 'W trakcie',
+    value: 'pending',
+  },
+  {
+    name: 'Zatwierdzone',
+    value: 'success',
+  },
+  {
+    name: 'Odrzucone/anulowane',
+    value: 'failed',
+  },
+]
 </script>

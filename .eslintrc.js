@@ -13,5 +13,7 @@ module.exports = {
     indent: ['error', 2],
     'vue/html-indent': ['error', 2],
     'comma-dangle': ['error', 'always-multiline'],
+    'object-curly-spacing': ['error', 'always'],
+    'vue/require-default-prop': 0,
   },
 }

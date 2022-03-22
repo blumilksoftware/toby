@@ -65,7 +65,7 @@ const types = [
   },
 ]
 
-export function useVacationTypeInfo() {
+export default function useVacationTypeInfo() {
   const getTypes = () => types
   const findType = value => types.find(type => type.value === value)
 

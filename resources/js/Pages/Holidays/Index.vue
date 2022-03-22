@@ -94,10 +94,7 @@
                             :href="`/holidays/${holiday.id}/edit`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                           >
-                            <PencilIcon
-                              class="mr-2 h-5 w-5 text-blue-500"
-                              aria-hidden="true"
-                            /> Edytuj
+                            <PencilIcon class="mr-2 h-5 w-5 text-blue-500" /> Edytuj
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
@@ -111,10 +108,7 @@
                             :href="`/holidays/${holiday.id}`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                           >
-                            <TrashIcon
-                              class="mr-2 h-5 w-5 text-red-500"
-                              aria-hidden="true"
-                            /> Usuń
+                            <TrashIcon class="mr-2 h-5 w-5 text-red-500" /> Usuń
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -123,9 +117,7 @@
                 </Menu>
               </td>
             </tr>
-            <tr
-              v-if="!holidays.data.length"
-            >
+            <tr v-if="!holidays.data.length">
               <td
                 colspan="100%"
                 class="text-center py-4 text-xl leading-5 text-gray-700"
@@ -140,33 +132,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { DotsVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
-export default {
-  name: 'HolidayIndex',
-  components: {
-    DotsVerticalIcon,
-    PencilIcon,
-    TrashIcon,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-  },
-  props: {
-    holidays: {
-      type: Object,
-      default: () => null,
-    },
-    can: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup() {
-    return {}
-  },
-}
+defineProps({
+  holidays: Object,
+  can: Object,
+})
 </script>

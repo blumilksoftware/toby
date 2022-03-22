@@ -91,7 +91,6 @@
     </Dialog>
   </TransitionRoot>
 
-  <!-- Static sidebar for desktop -->
   <div class="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
     <div class="flex flex-col flex-grow bg-blumilk-700 pt-5 pb-4 overflow-y-auto">
       <div class="flex items-center flex-shrink-0 px-4">
@@ -202,30 +201,23 @@
           </div>
         </div>
         <div class="ml-4 flex items-center md:ml-6">
-          <!-- Profile dropdown -->
           <Menu
             as="div"
             class="ml-3 relative"
           >
-            <div>
-              <MenuButton
-                class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
+            <MenuButton
+              class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
+            >
+              <img
+                class="h-8 w-8 rounded-full"
+                :src="auth.user.avatar"
               >
-                <img
-                  class="h-8 w-8 rounded-full"
-                  :src="auth.user.avatar"
-                  alt="Avatar"
-                >
-                <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
-                  <span class="sr-only">Open user menu for </span>
-                  {{ auth.user.name }}
-                </span>
-                <ChevronDownIcon
-                  class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
-                  aria-hidden="true"
-                />
-              </MenuButton>
-            </div>
+              <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
+                <span class="sr-only">Open user menu for </span>
+                {{ auth.user.name }}
+              </span>
+              <ChevronDownIcon class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block" />
+            </MenuButton>
             <transition
               enter-active-class="transition ease-out duration-100"
               enter-from-class="transform opacity-0 scale-95"
@@ -237,18 +229,14 @@
               <MenuItems
                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
-                <MenuItem
-                  v-for="item in userNavigation"
-                  :key="item.name"
-                  v-slot="{ active }"
-                >
+                <MenuItem v-slot="{ active }">
                   <InertiaLink
-                    :href="item.href"
-                    :method="item.method"
-                    :as="item.as"
+                    href="/logout"
+                    method="POST"
+                    as="button"
                     :class="[active ? 'bg-gray-100' : '', 'block w-full text-left px-4 py-2 text-sm text-gray-700']"
                   >
-                    {{ item.name }}
+                    Wyloguj się
                   </InertiaLink>
                 </MenuItem>
               </MenuItems>
@@ -260,8 +248,8 @@
   </div>
 </template>
 
-<script>
-import {ref} from 'vue'
+<script setup>
+import { computed, ref } from 'vue'
 import {
   Dialog,
   DialogOverlay,
@@ -273,7 +261,6 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 import {
-  BellIcon,
   HomeIcon,
   CollectionIcon,
   MenuAlt1Icon,
@@ -283,71 +270,58 @@ import {
   StarIcon,
   CalendarIcon, DocumentTextIcon,
 } from '@heroicons/vue/outline'
-import {
-  CashIcon,
-  CheckCircleIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  OfficeBuildingIcon,
-  SearchIcon,
-} from '@heroicons/vue/solid'
-import {computed} from 'vue'
-import {usePage} from '@inertiajs/inertia-vue3'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
-export default {
-  components: {
-    Dialog,
-    DialogOverlay,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild,
-    TransitionRoot,
-    BellIcon,
-    CashIcon,
-    CheckCircleIcon,
-    ChevronDownIcon,
-    ChevronRightIcon,
-    MenuAlt1Icon,
-    OfficeBuildingIcon,
-    SearchIcon,
-    XIcon,
-    StarIcon,
-    HomeIcon,
-    CheckIcon,
-    UserGroupIcon,
-    SunIcon,
-    CalendarIcon,
-  },
-  setup() {
-    const sidebarOpen = ref(false)
+const props = defineProps({
+  auth: Object,
+  years: Object,
+})
 
-    const auth = computed(() => usePage().props.value.auth)
-    const years = computed(() => usePage().props.value.years)
+const sidebarOpen = ref(false)
 
-    const navigation = computed(() =>
-      [
-        {name: 'Moje wnioski', href: '/vacation-requests/me', component: 'VacationRequest/Index' , icon: DocumentTextIcon, can: true},
-        {name: 'Wnioski urlopowe', href: '/vacation-requests', component: 'VacationRequest/IndexForApprovers', icon: CollectionIcon, can: auth.value.can.listAllVacationRequests},
-        {name: 'Kalendarz urlopów', href: '/vacation-calendar', component: 'Calendar', icon: CalendarIcon, can: true},
-        {name: 'Dni wolne', href: '/holidays', component: 'Holidays/Index', icon: StarIcon, can: true},
-        {name: 'Limity urlopów', href: '/vacation-limits', component: 'VacationLimits', icon: SunIcon, can: auth.value.can.manageVacationLimits},
-        {name: 'Użytkownicy', href: '/users', component: 'Users/Index', icon: UserGroupIcon, can: auth.value.can.manageUsers},
-      ].filter(item => item.can))
-
-    const userNavigation = [
-      {name: 'Wyloguj się', href: '/logout', method: 'post', as: 'button'},
-    ]
-
-    return {
-      auth,
-      years,
-      navigation,
-      userNavigation,
-      sidebarOpen,
-    }
-  },
-}
+const navigation = computed(() =>
+  [
+    {
+      name: 'Moje wnioski',
+      href: '/vacation-requests/me',
+      component: 'VacationRequest/Index',
+      icon: DocumentTextIcon,
+      can: true,
+    },
+    {
+      name: 'Wnioski urlopowe',
+      href: '/vacation-requests',
+      component: 'VacationRequest/IndexForApprovers',
+      icon: CollectionIcon,
+      can: props.auth.can.listAllVacationRequests,
+    },
+    {
+      name: 'Kalendarz urlopów',
+      href: '/vacation-calendar',
+      component: 'Calendar',
+      icon: CalendarIcon,
+      can: true,
+    },
+    {
+      name: 'Dni wolne',
+      href: '/holidays',
+      component: 'Holidays/Index',
+      icon: StarIcon,
+      can: true,
+    },
+    {
+      name: 'Limity urlopów',
+      href: '/vacation-limits',
+      component: 'VacationLimits',
+      icon: SunIcon,
+      can: props.auth.can.manageVacationLimits,
+    },
+    {
+      name: 'Użytkownicy',
+      href: '/users',
+      component: 'Users/Index',
+      icon: UserGroupIcon,
+      can: props.auth.can.manageUsers,
+    },
+  ].filter(item => item.can))
 </script>

@@ -9,30 +9,15 @@
   </div>
 </template>
 
-<script>
-import {computed} from 'vue'
-import {useVacationTypeInfo} from '@/Composables/vacationTypeInfo'
+<script setup>
+import { computed } from 'vue'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
 
-export default {
-  name: 'VacationType',
-  props: {
-    type: {
-      type: String,
-      default: () => null,
-    },
-    last: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  setup(props) {
-    const { findType } = useVacationTypeInfo()
+const props = defineProps({
+  type: String,
+})
 
-    const vacationTypeInfo = computed(() => findType(props.type))
+const { findType } = useVacationTypeInfo()
 
-    return {
-      vacationTypeInfo,
-    }
-  },
-}
+const vacationTypeInfo = computed(() => findType(props.type))
 </script>
