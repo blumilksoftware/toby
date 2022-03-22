@@ -56,13 +56,10 @@
             >
               <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div class="flex">
-                  <span
-                    class="inline-flex items-center justify-center h-10 w-10 rounded-full"
-                  >
+                  <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
                     <img
                       class="h-10 w-10 rounded-full"
                       :src="item.user.avatar"
-                      alt=""
                     >
                   </span>
                   <div class="ml-3">
@@ -112,9 +109,7 @@
                 </div>
               </td>
             </tr>
-            <tr
-              v-if="!form.items.length"
-            >
+            <tr v-if="!form.items.length">
               <td
                 colspan="100%"
                 class="text-center py-4 text-xl leading-5 text-gray-700"
@@ -137,48 +132,30 @@
   </div>
 </template>
 
-<script>
-import {Switch} from '@headlessui/vue'
-import {useForm} from '@inertiajs/inertia-vue3'
+<script setup>
+import { Switch } from '@headlessui/vue'
+import { useForm } from '@inertiajs/inertia-vue3'
 
-export default {
-  name: 'VacationLimits',
-  components: {
-    Switch,
-  },
-  props: {
-    limits: {
-      type: Object,
-      default: () => null,
-    },
-    years: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup(props) {
-    const form = useForm({
-      items: props.limits,
+const props = defineProps({
+  limits: Object,
+  years: Object,
+})
+
+const form = useForm({
+  items: props.limits,
+})
+
+function submitVacationDays() {
+  form
+    .transform(data => ({
+      items: data.items.map(item => ({
+        id: item.id,
+        days: item.hasVacation ? item.days : null,
+      })),
+    }))
+    .put('/vacation-limits', {
+      preserveState: (page) => Object.keys(page.props.errors).length,
+      preserveScroll: true,
     })
-
-    return {
-      form,
-    }
-  },
-  methods: {
-    submitVacationDays() {
-      this.form
-        .transform(data => ({
-          items: data.items.map(item => ({
-            id: item.id,
-            days: item.hasVacation ? item.days : null,
-          })),
-        }))
-        .put('/vacation-limits', {
-          preserveState: (page) => Object.keys(page.props.errors).length,
-          preserveScroll: true,
-        })
-    },
-  },
 }
 </script>

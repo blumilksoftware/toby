@@ -1,6 +1,6 @@
-import {createApp, h} from 'vue'
-import {createInertiaApp, Head, Link} from '@inertiajs/inertia-vue3'
-import {InertiaProgress} from '@inertiajs/progress'
+import { createApp, h } from 'vue'
+import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue3'
+import { InertiaProgress } from '@inertiajs/progress'
 import AppLayout from '@/Shared/Layout/AppLayout'
 import Flatpickr from 'flatpickr'
 import { Polish } from 'flatpickr/dist/l10n/pl.js'
@@ -14,8 +14,8 @@ createInertiaApp({
 
     return page
   },
-  setup({el, App, props, plugin}) {
-    createApp({render: () => h(App, props)})
+  setup({ el, App, props, plugin }) {
+    createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(Toast, {
         position: 'bottom-right',

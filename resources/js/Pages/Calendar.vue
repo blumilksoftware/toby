@@ -83,9 +83,7 @@
             v-for="user in users.data"
             :key="user.id"
           >
-            <th
-              class="border border-gray-300 py-2 px-4"
-            >
+            <th class="border border-gray-300 py-2 px-4">
               <div class="flex justify-start items-center">
                 <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
                   <img
@@ -94,9 +92,7 @@
                   >
                 </span>
                 <div class="ml-3">
-                  <div
-                    class="text-sm font-medium text-gray-900 whitespace-nowrap"
-                  >
+                  <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
                     {{ user.name }}
                   </div>
                 </div>
@@ -122,66 +118,28 @@
   </div>
 </template>
 
-<script>
-import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/vue/solid'
-import {computed} from 'vue'
-import {useMonthInfo} from '@/Composables/monthInfo'
+<script setup>
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/solid'
+import { computed } from 'vue'
+import { useMonthInfo } from '@/Composables/monthInfo'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon'
 
-export default {
-  name: 'VacationCalendar',
-  components: {
-    VacationTypeCalendarIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-  },
-  props: {
-    users: {
-      type: Object,
-      default: () => null,
-    },
-    auth: {
-      type: Object,
-      default: () => null,
-    },
-    calendar: {
-      type: Object,
-      default: () => null,
-    },
-    current: {
-      type: String,
-      default: () => 'january',
-    },
-    selected: {
-      type: String,
-      default: () => 'january',
-    },
-    years: {
-      type: Object,
-      default: () => null,
-    },
-    can: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup(props) {
-    const {getMonths, findMonth} = useMonthInfo()
-    const months = getMonths()
+const props = defineProps({
+  users: Object,
+  auth: Object,
+  calendar: Object,
+  current: String,
+  selected: String,
+  years: Object,
+  can: Object,
+})
 
-    const currentMonth = computed(() => findMonth(props.current))
-    const selectedMonth = computed(() => findMonth(props.selected))
-    const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
-    const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
+const { getMonths, findMonth } = useMonthInfo()
 
+const months = getMonths()
 
-    return {
-      months,
-      currentMonth,
-      selectedMonth,
-      previousMonth,
-      nextMonth,
-    }
-  },
-}
+const currentMonth = computed(() => findMonth(props.current))
+const selectedMonth = computed(() => findMonth(props.selected))
+const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
+const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
 </script>

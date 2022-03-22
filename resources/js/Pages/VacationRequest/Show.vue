@@ -245,33 +245,15 @@
   </div>
 </template>
 
-<script>
-import {PaperClipIcon} from '@heroicons/vue/outline'
+<script setup>
+import { PaperClipIcon } from '@heroicons/vue/outline'
 import Activity from '@/Shared/Activity'
 import Status from '@/Shared/Status'
 import VacationType from '@/Shared/VacationType'
 
-export default {
-  name: 'VacationRequestShow',
-  components: {
-    VacationType,
-    Activity,
-    PaperClipIcon,
-    Status,
-  },
-  props: {
-    request: {
-      type: Object,
-      default: () => null,
-    },
-    can: {
-      type: Object,
-      default: () => null,
-    },
-    activities: {
-      type: Object,
-      default: () => null,
-    },
-  },
-}
+defineProps({
+  request: Object,
+  can: Object,
+  activities: Object,
+})
 </script>
