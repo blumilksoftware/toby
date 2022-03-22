@@ -7,7 +7,7 @@
           Dostępne dni urlopu dla użytkowników
         </h2>
         <p class="mt-1 text-sm text-gray-500">
-          Zarządzaj dostepnymi dniami urlopów dla użytkowników.
+          Zarządzaj dostępnymi dniami urlopów dla użytkowników.
         </p>
       </div>
     </div>

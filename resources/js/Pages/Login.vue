@@ -61,8 +61,7 @@
 </template>
 
 <script setup>
-import { XIcon } from '@heroicons/vue/solid'
-import { ExclamationIcon } from '@heroicons/vue/solid'
+import { XIcon, ExclamationIcon } from '@heroicons/vue/solid'
 
 defineProps({
   errors: Object,
