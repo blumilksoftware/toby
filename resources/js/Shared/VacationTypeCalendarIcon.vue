@@ -15,34 +15,16 @@
   </Popper>
 </template>
 
-<script>
-import {computed} from 'vue'
-import {useVacationTypeInfo} from '@/Composables/vacationTypeInfo'
+<script setup>
+import { computed } from 'vue'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
 import Popper from 'vue3-popper'
 
-export default {
-  name: 'VacationTypeCalendarIcon',
-  components: {
-    Popper,
-  },
-  props: {
-    type: {
-      type: String,
-      default: () => null,
-    },
-    last: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  setup(props) {
-    const { findType } = useVacationTypeInfo()
+const props = defineProps({
+  type: String,
+})
 
-    const typeInfo = computed(() => findType(props.type))
+const { findType } = useVacationTypeInfo()
 
-    return {
-      typeInfo,
-    }
-  },
-}
+const typeInfo = computed(() => findType(props.type))
 </script>

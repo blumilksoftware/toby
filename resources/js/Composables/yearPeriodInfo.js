@@ -1,5 +1,5 @@
-import {computed} from 'vue'
-import {usePage} from '@inertiajs/inertia-vue3'
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/inertia-vue3'
 
 export default function useCurrentYearPeriodInfo() {
   const minDate = computed(() => new Date(usePage().props.value.years.current, 0, 1))

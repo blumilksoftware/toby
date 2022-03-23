@@ -128,7 +128,9 @@
             leave-from-class="opacity-100"
             leave-to-class="opacity-0"
           >
-            <ListboxOptions class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+            <ListboxOptions
+              class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+            >
               <ListboxOption
                 v-for="role in roles"
                 :key="role.value"
@@ -136,7 +138,9 @@
                 as="template"
                 :value="role"
               >
-                <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                <li
+                  :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                >
                   <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                     {{ role.label }}
                   </span>
@@ -182,7 +186,9 @@
             leave-from-class="opacity-100"
             leave-to-class="opacity-0"
           >
-            <ListboxOptions class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+            <ListboxOptions
+              class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+            >
               <ListboxOption
                 v-for="employmentForm in employmentForms"
                 :key="employmentForm.value"
@@ -190,7 +196,9 @@
                 as="template"
                 :value="employmentForm"
               >
-                <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                <li
+                  :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                >
                   <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                     {{ employmentForm.label }}
                   </span>
@@ -257,61 +265,35 @@
   </div>
 </template>
 
-<script>
-import {useForm} from '@inertiajs/inertia-vue3'
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
-import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
-import {CheckIcon, SelectorIcon} from '@heroicons/vue/solid'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
 
-export default {
-  name: 'UserEdit',
-  components: {
-    FlatPickr,
-    Listbox,
-    ListboxButton,
-    ListboxLabel,
-    ListboxOption,
-    ListboxOptions,
-    CheckIcon,
-    SelectorIcon,
-  },
-  props: {
-    employmentForms: {
-      type: Object,
-      default: () => null,
-    },
-    roles: {
-      type: Object,
-      default: () => null,
-    },
-    user: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup(props) {
-    const form = useForm({
-      firstName: props.user.firstName,
-      lastName: props.user.lastName,
-      email: props.user.email,
-      role: props.roles.find(role => role.value === props.user.role),
-      position: props.user.position,
-      employmentForm: props.employmentForms.find(form => form.value === props.user.employmentForm),
-      employmentDate: props.user.employmentDate,
-    })
+const props = defineProps({
+  employmentForms: Object,
+  roles: Object,
+  user: Object,
+})
 
-    return { form }
-  },
-  methods: {
-    editUser() {
-      this.form
-        .transform(data => ({
-          ...data,
-          employmentForm: data.employmentForm.value,
-          role: data.role.value,
-        }))
-        .put(`/users/${this.user.id}`)
-    },
-  },
+const form = useForm({
+  firstName: props.user.firstName,
+  lastName: props.user.lastName,
+  email: props.user.email,
+  role: props.roles.find(role => role.value === props.user.role),
+  position: props.user.position,
+  employmentForm: props.employmentForms.find(form => form.value === props.user.employmentForm),
+  employmentDate: props.user.employmentDate,
+})
+
+function editUser() {
+  form
+    .transform(data => ({
+      ...data,
+      employmentForm: data.employmentForm.value,
+      role: data.role.value,
+    }))
+    .put(`/users/${props.user.id}`)
 }
 </script>

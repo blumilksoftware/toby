@@ -31,30 +31,16 @@
   </div>
 </template>
 
-<script>
-import {computed} from 'vue'
-import {useStatusInfo} from '@/Composables/statusInfo'
+<script setup>
+import { computed } from 'vue'
+import { useStatusInfo } from '@/Composables/statusInfo'
 
-export default {
-  name: 'VacationRequestActivity',
-  props: {
-    activity: {
-      type: Object,
-      default: () => null,
-    },
-    last: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  setup(props) {
-    const { findStatus } = useStatusInfo()
+const props = defineProps({
+  activity: Object,
+  last: Boolean,
+})
 
-    const statusInfo = computed(() => findStatus(props.activity.state))
+const { findStatus } = useStatusInfo()
 
-    return {
-      statusInfo,
-    }
-  },
-}
+const statusInfo = computed(() => findStatus(props.activity.state))
 </script>

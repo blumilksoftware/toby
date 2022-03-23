@@ -93,7 +93,9 @@
                             :src="user.avatar"
                             class="flex-shrink-0 h-6 w-6 rounded-full"
                           >
-                          <span :class="[form.user?.id === user.id ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">
+                          <span
+                            :class="[form.user?.id === user.id ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']"
+                          >
                             {{ user.name }}
                           </span>
                         </div>
@@ -123,9 +125,7 @@
                 <ListboxButton
                   class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
                 >
-                  <span
-                    class="flex items-center"
-                  >
+                  <span class="flex items-center">
                     {{ form.status.name }}
                   </span>
                   <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -274,9 +274,7 @@
               />
             </td>
           </tr>
-          <tr
-            v-if="! requests.data.length"
-          >
+          <tr v-if="! requests.data.length">
             <td
               colspan="100%"
               class="text-center py-4 text-xl leading-5 text-gray-700"
@@ -286,153 +284,59 @@
           </tr>
         </tbody>
       </table>
-      <div
-        v-if="requests.data.length && requests.meta.last_page !== 1"
-        class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-b-lg"
-      >
-        <div class="flex-1 flex justify-between sm:hidden">
-          <InertiaLink
-            :is="requests.links.prev ? 'InertiaLink': 'span'"
-            :href="requests.links.prev"
-            class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-          >
-            Poprzednia
-          </InertiaLink>
-          <Component
-            :is="requests.links.next ? 'InertiaLink': 'span'"
-            :href="requests.links.next"
-            class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-          >
-            Następna
-          </Component>
-        </div>
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-          <div class="text-sm text-gray-700">
-            Wyświetlanie
-            <span class="font-medium">{{ requests.meta.from }}</span>
-            od
-            <span class="font-medium">{{ requests.meta.to }}</span>
-            do
-            <span class="font-medium">{{ requests.meta.total }}</span>
-            wyników
-          </div>
-          <nav class="relative z-0 inline-flex space-x-1">
-            <template
-              v-for="(link, index) in requests.meta.links"
-              :key="index"
-            >
-              <Component
-                :is="link.url ? 'InertiaLink' : 'span'"
-                :href="link.url"
-                :preserve-scroll="true"
-                class="relative inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium"
-                :class="{ 'z-10 bg-blumilk-25 border-blumilk-500 text-blumilk-600': link.active, 'bg-white border-gray-300 text-gray-500': !link.active, 'hover:bg-blumilk-25': link.url, 'border-none': !link.url}"
-                v-text="link.label"
-              />
-            </template>
-          </nav>
-        </div>
-      </div>
+      <Pagination :pagination="requests.meta" />
     </div>
   </div>
 </template>
 
-<script>
-import {
-  CheckIcon,
-  ChevronRightIcon,
-  ClockIcon,
-  DocumentTextIcon,
-  DotsVerticalIcon,
-  PencilIcon,
-  SelectorIcon,
-  ThumbDownIcon,
-  ThumbUpIcon,
-  TrashIcon,
-  XCircleIcon,
-  XIcon,
-} from '@heroicons/vue/solid'
+<script setup>
+import { CheckIcon, ChevronRightIcon, SelectorIcon } from '@heroicons/vue/solid'
 import Status from '@/Shared/Status'
 import VacationType from '@/Shared/VacationType'
-import {watch, reactive} from 'vue'
-import {debounce} from 'lodash'
-import {Inertia} from '@inertiajs/inertia'
-import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
+import { watch, reactive } from 'vue'
+import { debounce } from 'lodash'
+import { Inertia } from '@inertiajs/inertia'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import Pagination from '@/Shared/Pagination'
 
-export default {
-  name: 'VacationRequestIndex',
-  components: {
-    Listbox,
-    ListboxButton,
-    ListboxLabel,
-    ListboxOption,
-    ListboxOptions,
-    DotsVerticalIcon,
-    PencilIcon,
-    TrashIcon,
-    ChevronRightIcon,
-    ThumbUpIcon,
-    ClockIcon,
-    XIcon,
-    CheckIcon,
-    DocumentTextIcon,
-    ThumbDownIcon,
-    Status,
-    VacationType,
-    SelectorIcon,
-    XCircleIcon,
+const props = defineProps({
+  requests: Object,
+  users: Object,
+  filters: Object,
+})
+
+const statuses = [
+  {
+    name: 'Wszystkie',
+    value: 'all',
   },
-  props: {
-    requests: {
-      type: Object,
-      default: () => null,
-    },
-    users: {
-      type: Object,
-      default: () => null,
-    },
-    filters: {
-      type: Object,
-      default: () => null,
-    },
+  {
+    name: 'Oczekujące na akcje',
+    value: 'waiting_for_action',
   },
-  setup(props) {
-    const statuses = [
-      {
-        name: 'Wszystkie',
-        value: 'all',
-      },
-      {
-        name: 'Oczekujące na akcje',
-        value: 'waiting_for_action',
-      },
-      {
-        name: 'W trakcie',
-        value: 'pending',
-      },
-      {
-        name: 'Zatwierdzone',
-        value: 'success',
-      },
-      {
-        name: 'Odrzucone/anulowane',
-        value: 'failed',
-      },
-    ]
-
-    const form = reactive({
-      user: props.users.data.find(user => user.id === props.filters.user) ?? null,
-      status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
-    })
-
-    watch(form, debounce(() => {
-      Inertia.get('/vacation-requests', {user: form.user?.id, status: form.status.value}, {
-        preserveState: true,
-        replace: true,
-      })
-    }, 300))
-
-    return {form, statuses}
+  {
+    name: 'W trakcie',
+    value: 'pending',
   },
-}
+  {
+    name: 'Zatwierdzone',
+    value: 'success',
+  },
+  {
+    name: 'Odrzucone/anulowane',
+    value: 'failed',
+  },
+]
+
+const form = reactive({
+  user: props.users.data.find(user => user.id === props.filters.user) ?? null,
+  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+})
+
+watch(form, debounce(() => {
+  Inertia.get('/vacation-requests', { user: form.user?.id, status: form.status.value }, {
+    preserveState: true,
+    replace: true,
+  })
+}, 300))
 </script>

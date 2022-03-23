@@ -322,128 +322,94 @@
   </div>
 </template>
 
-<script>
-import {useForm} from '@inertiajs/inertia-vue3'
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
-import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch} from '@headlessui/vue'
-import {CheckIcon, SelectorIcon, XCircleIcon} from '@heroicons/vue/solid'
-import {reactive, ref, watch} from 'vue'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch } from '@headlessui/vue'
+import { CheckIcon, SelectorIcon, XCircleIcon } from '@heroicons/vue/solid'
+import { reactive, ref, watch } from 'vue'
 import axios from 'axios'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 import VacationChart from '@/Shared/VacationChart'
 
-export default {
-  name: 'VacationRequestCreate',
-  components: {
-    VacationChart,
-    Switch,
-    FlatPickr,
-    Listbox,
-    ListboxButton,
-    ListboxLabel,
-    ListboxOption,
-    ListboxOptions,
-    CheckIcon,
-    SelectorIcon,
-    XCircleIcon,
-  },
-  props: {
-    auth: {
-      type: Object,
-      default: () => null,
-    },
-    users: {
-      type: Object,
-      default: () => null,
-    },
-    vacationTypes: {
-      type: Object,
-      default: () => null,
-    },
-    holidays: {
-      type: Object,
-      default: () => null,
-    },
-    can: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup(props) {
-    const form = useForm({
-      user: props.can.createOnBehalfOfEmployee
-        ? props.users.data.find(user => user.id === props.auth.user.id) ?? props.users.data[0]
-        : props.auth.user,
-      from: null,
-      to: null,
-      type: props.vacationTypes[0],
-      comment: null,
-      flowSkipped: false,
-    })
 
-    const estimatedDays = ref([])
+const props = defineProps({
+  auth: Object,
+  users: Object,
+  vacationTypes: Object,
+  holidays: Object,
+  can: Object,
+})
 
-    const stats = ref({
-      used: 0,
-      pending: 0,
-      remaining: 0,
-    })
+const form = useForm({
+  user: props.can.createOnBehalfOfEmployee
+    ? props.users.data.find(user => user.id === props.auth.user.id) ?? props.users.data[0]
+    : props.auth.user,
+  from: null,
+  to: null,
+  type: props.vacationTypes[0],
+  comment: null,
+  flowSkipped: false,
+})
 
-    const {minDate, maxDate} = useCurrentYearPeriodInfo()
+const estimatedDays = ref([])
 
-    const disableDates = [
-      date => (date.getDay() === 0 || date.getDay() === 6),
-    ]
+const stats = ref({
+  used: 0,
+  pending: 0,
+  remaining: 0,
+})
 
-    const fromInputConfig = reactive({
-      minDate: minDate,
-      maxDate: maxDate,
-      disable: disableDates,
-    })
+const { minDate, maxDate } = useCurrentYearPeriodInfo()
 
-    const toInputConfig = reactive({
-      minDate: minDate,
-      maxDate: maxDate,
-      disable: disableDates,
-    })
+const disableDates = [
+  date => (date.getDay() === 0 || date.getDay() === 6),
+]
 
-    watch(() => form.user, user => {
-      axios.post('/api/calculate-vacations-stats', {user: user.id})
-        .then(res => stats.value = res.data)
-    }, {immediate: true})
+const fromInputConfig = reactive({
+  minDate,
+  maxDate,
+  disable: disableDates,
+})
 
-    return {
-      form,
-      estimatedDays,
-      stats,
-      fromInputConfig,
-      toInputConfig,
-    }
-  },
-  methods: {
-    createForm() {
-      this.form
-        .transform(data => ({
-          ...data,
-          type: data.type.value,
-          user: data.user.id,
-        }))
-        .post('/vacation-requests')
-    },
-    onFromChange(selectedDates, dateStr) {
-      this.form.to = dateStr
+const toInputConfig = reactive({
+  minDate,
+  maxDate,
+  disable: disableDates,
+})
 
-      this.refreshEstimatedDays(this.form.from, this.form.to)
-    },
-    onToChange() {
-      this.refreshEstimatedDays(this.form.from, this.form.to)
-    },
-    refreshEstimatedDays(from, to) {
-      if (from && to) {
-        axios.post('/api/calculate-vacation-days', {from, to})
-          .then(res => this.estimatedDays = res.data)
-      }
-    },
-  },
+watch(() => form.user, async user => {
+  const res = await axios.post('/api/calculate-vacations-stats', { user: user.id })
+
+  stats.value = res.data
+}, { immediate: true })
+
+function createForm() {
+  form
+    .transform(data => ({
+      ...data,
+      type: data.type.value,
+      user: data.user.id,
+    }))
+    .post('/vacation-requests')
 }
+
+function onFromChange(selectedDates, dateStr) {
+  form.to = dateStr
+
+  refreshEstimatedDays(form.from, form.to)
+}
+
+function onToChange() {
+  refreshEstimatedDays(form.from, form.to)
+}
+
+async function refreshEstimatedDays(from, to) {
+  if (from && to) {
+    const res = await axios.post('/api/calculate-vacation-days', { from, to })
+
+    estimatedDays.value = res.data
+  }
+}
+
 </script>

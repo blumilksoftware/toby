@@ -26,10 +26,7 @@
               @click="delete errors.oauth"
             >
               <span class="sr-only">Close</span>
-              <XIcon
-                class="h-5 w-5"
-                aria-hidden="true"
-              />
+              <XIcon class="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -43,7 +40,6 @@
     <img
       class="mx-auto h-50 w-auto"
       src="img/logo.png"
-      alt="Blumilk"
     >
     <a
       href="/login/google/start"
@@ -64,23 +60,16 @@
   </div>
 </template>
 
+<script setup>
+import { XIcon, ExclamationIcon } from '@heroicons/vue/solid'
+
+defineProps({
+  errors: Object,
+})
+</script>
+
 <script>
 import GuestLayout from '@/Shared/Layout/GuestLayout'
-import {XIcon} from '@heroicons/vue/solid'
-import {ExclamationIcon} from '@heroicons/vue/solid'
 
-export default {
-  name: 'LoginPage',
-  components: {
-    XIcon,
-    ExclamationIcon,
-  },
-  layout: GuestLayout,
-  props: {
-    errors: {
-      type: Object,
-      default: () => ({oauth: null}),
-    },
-  },
-}
+export default { name: 'LoginPage', layout: GuestLayout }
 </script>

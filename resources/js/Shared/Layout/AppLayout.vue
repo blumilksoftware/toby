@@ -1,6 +1,9 @@
 <template>
   <div class="min-h-full">
-    <MainMenu />
+    <MainMenu
+      :auth="auth"
+      :years="years"
+    />
     <main class="lg:ml-64 flex flex-col flex-1 py-8">
       <div class="px-4">
         <slot />
@@ -9,38 +12,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import MainMenu from '@/Shared/MainMenu'
-import {useToast} from 'vue-toastification'
-import {watch} from 'vue'
+import { useToast } from 'vue-toastification'
+import { defineProps, watch } from 'vue'
 
-export default {
-  name: 'AppLayout',
-  components: {
-    MainMenu,
-  },
-  props: {
-    flash: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  setup(props) {
-    const toast = useToast()
+const props = defineProps({
+  flash: Object,
+  auth: Object,
+  years: Object,
+})
 
-    watch(() => props.flash, flash => {
-      if (flash.success) {
-        toast.success(flash.success)
-      }
+const toast = useToast()
 
-      if (flash.error) {
-        toast.error(flash.error)
-      }
-    }, {immediate:true})
+watch(() => props.flash, flash => {
+  if (flash.success) {
+    toast.success(flash.success)
+  }
 
-    return {
-      toast,
-    }
-  },
-}
+  if (flash.error) {
+    toast.error(flash.error)
+  }
+}, { immediate:true })
 </script>
