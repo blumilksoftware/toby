@@ -24,7 +24,7 @@
                 style="min-width: 46px;"
               >
                 <span :class="{'text-blumilk-600': isCurrentMonth(month)}">
-                  {{ month.name }}
+                  {{ month.shortcut }}
                 </span>
               </th>
               <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">
