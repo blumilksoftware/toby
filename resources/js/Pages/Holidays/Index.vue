@@ -22,7 +22,7 @@
     <div class="border-t border-gray-200">
       <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-100">
+          <thead class="bg-gray-50">
             <tr>
               <th
                 scope="col"

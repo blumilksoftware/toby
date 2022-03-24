@@ -33,6 +33,7 @@ class HandleInertiaRequests extends Middleware
             "flash" => fn() => [
                 "success" => $request->session()->get("success"),
                 "error" => $request->session()->get("error"),
+                "info" => $request->session()->get("info"),
             ],
             "years" => fn() => $user ? $this->yearPeriodRetriever->links() : [],
         ]);

@@ -100,6 +100,14 @@ class User extends Authenticatable
         return $this->role === $role;
     }
 
+    public function hasVacationLimit(YearPeriod $yearPeriod): bool
+    {
+        return $this->vacationLimits()
+            ->where("year_period_id", $yearPeriod->id)
+            ->whereNotNull("days")
+            ->exists();
+    }
+
     protected function getAvatarName(): string
     {
         return mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1);

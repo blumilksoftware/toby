@@ -20,7 +20,8 @@ createInertiaApp({
       .use(Toast, {
         position: 'bottom-right',
         maxToast: 5,
-
+        timeout: 3000,
+        pauseOnFocusLoss: false,
       })
       .component('InertiaLink', Link)
       .component('InertiaHead', Head)

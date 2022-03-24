@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Toby\Domain;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
 use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\YearPeriod;
 
 class UserVacationStatsRetriever
@@ -28,6 +29,21 @@ class UserVacationStatsRetriever
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
             ->count();
+    }
+
+    public function getUsedVacationDaysByMonth(User $user, YearPeriod $yearPeriod): Collection
+    {
+        return $user->vacations()
+            ->whereRelation(
+                "vacationRequest",
+                fn(Builder $query) => $query
+                    ->where("year_period_id", $yearPeriod->id)
+                    ->whereIn("type", $this->getLimitableVacationTypes())
+                    ->states(VacationRequestStatesRetriever::successStates()),
+            )
+            ->get()
+            ->groupBy(fn(Vacation $vacation) => strtolower($vacation->date->englishMonth))
+            ->map(fn(Collection $items) => $items->count());
     }
 
     public function getPendingVacationDays(User $user, YearPeriod $yearPeriod): int

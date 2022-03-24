@@ -249,7 +249,7 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import { computed, ref } from 'vue'
 import {
   Dialog,
   DialogOverlay,
@@ -272,7 +272,7 @@ import {
   DocumentTextIcon,
   AdjustmentsIcon,
 } from '@heroicons/vue/outline'
-import {CheckIcon, ChevronDownIcon} from '@heroicons/vue/solid'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
 const props = defineProps({
   auth: Object,
@@ -309,7 +309,7 @@ const navigation = computed(() =>
       href: '/monthly-usage',
       component: 'MonthlyUsage',
       icon: AdjustmentsIcon,
-      can: auth.value.can.listMonthlyUsage
+      can: props.auth.can.listMonthlyUsage,
     },
     {
       name: 'Dni wolne',
