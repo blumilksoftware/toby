@@ -268,7 +268,9 @@ import {
   XIcon,
   SunIcon,
   StarIcon,
-  CalendarIcon, DocumentTextIcon,
+  CalendarIcon,
+  DocumentTextIcon,
+  AdjustmentsIcon,
 } from '@heroicons/vue/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
@@ -301,6 +303,13 @@ const navigation = computed(() =>
       component: 'Calendar',
       icon: CalendarIcon,
       can: true,
+    },
+    {
+      name: 'Wykorzystanie urlopu',
+      href: '/monthly-usage',
+      component: 'MonthlyUsage',
+      icon: AdjustmentsIcon,
+      can: props.auth.can.listMonthlyUsage,
     },
     {
       name: 'Dni wolne',
