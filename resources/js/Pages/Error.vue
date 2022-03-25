@@ -1,33 +1,21 @@
 <template>
   <InertiaHead :title="error.title" />
-  <div class="min-h-screen pt-16 pb-12 flex flex-col">
-    <main class="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex-shrink-0 flex justify-center">
-        <div>
-          <InertiaLink
-            href="/"
-            class="inline-flex items-center"
-          >
-            <img
-              class="block h-16 w-auto"
-              src="/img/logo.png"
-              alt="Logo"
-            >
-          </InertiaLink>
-        </div>
-      </div>
-      <div class="py-8">
-        <div class="text-center">
-          <p class="text-7xl font-semibold text-blumilk-500 uppercase tracking-wide">
-            {{ error.code }}
-          </p>
-          <h1 class="mt-2 text-2xl font-extrabold text-gray-900 tracking-tight">
-            {{ error.title }}
-          </h1>
-          <p class="mt-2 text-base text-gray-500">
-            {{ error.message }}
-          </p>
-          <div class="mt-6">
+  <div class="min-h-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
+    <div class="max-w-max mx-auto">
+      <main class="sm:flex">
+        <p class="text-4xl font-extrabold text-blumilk-600 sm:text-5xl">
+          {{ error.code }}
+        </p>
+        <div class="sm:ml-6">
+          <div class="sm:border-l sm:border-gray-200 sm:pl-6">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+              {{ error.title }}
+            </h1>
+            <p class="mt-1 text-base text-gray-500">
+              {{ error.message }}
+            </p>
+          </div>
+          <div class="mt-10 flex space-x-3 sm:border-l sm:border-transparent sm:pl-6">
             <InertiaLink
               href="/"
               class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
@@ -36,8 +24,8 @@
             </InertiaLink>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -53,10 +41,35 @@ export default {
   computed: {
     error() {
       return {
+        401: {
+          code: '401',
+          title: 'Nieuprawniony dostęp',
+          message: 'Aby mieć dostęp do tej strony, musisz się zalogować.',
+        },
+        403: {
+          code: '403',
+          title: 'Zabroniony',
+          message: 'Dostęp do żądanej strony jest zabroniony.',
+        },
         404: {
           code: '404',
-          title: 'Błąd 404',
+          title: 'Nie znaleziono strony',
           message: 'Przykro nam, ale strona, której szukasz, nie istnieje.',
+        },
+        419: {
+          code: '419',
+          title: 'Strona wygasła',
+          message: 'Ta strona wygasła. Zaloguj się ponownie.',
+        },
+        500: {
+          code: '500',
+          title: 'Błąd serwera',
+          message: 'Wystąpił wewnętrzny błąd serwera.',
+        },
+        503: {
+          code: '503',
+          title: 'Serwis niedostępny',
+          message: 'Serwer jest tymczasowo niedostępny. Spróbuj ponownie później.',
         },
       }[this.status]
     },
