@@ -332,7 +332,6 @@ import axios from 'axios'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 import VacationChart from '@/Shared/VacationChart'
 
-
 const props = defineProps({
   auth: Object,
   users: Object,
@@ -362,26 +361,24 @@ const stats = ref({
 
 const { minDate, maxDate } = useCurrentYearPeriodInfo()
 
-const disableDates = [
-  date => (date.getDay() === 0 || date.getDay() === 6),
-]
+const weekends = date => (date.getDay() === 0 || date.getDay() === 6)
 
 const fromInputConfig = reactive({
   minDate,
   maxDate,
-  disable: disableDates,
+  disable: [weekends],
 })
 
 const toInputConfig = reactive({
   minDate,
   maxDate,
-  disable: disableDates,
+  disable: [weekends],
 })
 
-watch(() => form.user, async user => {
-  const res = await axios.post('/api/calculate-vacations-stats', { user: user.id })
-
-  stats.value = res.data
+watch(() => form.user, user => {
+  resetForm()
+  refreshVacationStats(user)
+  refreshUnavailableDays(user)
 }, { immediate: true })
 
 function createForm() {
@@ -395,13 +392,28 @@ function createForm() {
 }
 
 function onFromChange(selectedDates, dateStr) {
-  form.to = dateStr
+  if (form.to === null) {
+    form.to = dateStr
+
+    return
+  }
 
   refreshEstimatedDays(form.from, form.to)
 }
 
-function onToChange() {
+function onToChange(selectedDates, dateStr) {
+  if (form.from === null) {
+    form.from = dateStr
+
+    return
+  }
   refreshEstimatedDays(form.from, form.to)
+}
+
+function resetForm() {
+  form.reset('type', 'to', 'from', 'comment', 'flowSkipped')
+  form.clearErrors()
+  estimatedDays.value = []
 }
 
 async function refreshEstimatedDays(from, to) {
@@ -410,6 +422,27 @@ async function refreshEstimatedDays(from, to) {
 
     estimatedDays.value = res.data
   }
+}
+
+async function refreshVacationStats(user) {
+  const res = await axios.post('/api/calculate-vacation-stats', { user: user.id })
+
+  stats.value = res.data
+}
+
+async function refreshUnavailableDays(user) {
+  const res = await axios.post('/api/calculate-unavailable-days', { user: user.id })
+  const unavailableDays = res.data
+
+  fromInputConfig.disable = [
+    weekends,
+    ...unavailableDays,
+  ]
+
+  toInputConfig.disable = [
+    weekends,
+    ...unavailableDays,
+  ]
 }
 
 </script>
