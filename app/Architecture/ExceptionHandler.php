@@ -29,6 +29,8 @@ class ExceptionHandler extends Handler
                 ->setStatusCode($response->status());
         }
 
-        return $response;
+        return Inertia::render("DefaultError")
+            ->toResponse($request)
+            ->setStatusCode($response->status());
     }
 }
