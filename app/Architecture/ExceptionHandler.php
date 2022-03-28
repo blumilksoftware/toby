@@ -6,6 +6,7 @@ namespace Toby\Architecture;
 
 use Illuminate\Foundation\Exceptions\Handler;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class ExceptionHandler extends Handler
@@ -16,17 +17,21 @@ class ExceptionHandler extends Handler
         "password_confirmation",
     ];
 
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e): Response
     {
         $response = parent::render($request, $e);
 
-        if (!app()->environment(['local', 'testing']) && in_array($response->status(), [500, 503, 404, 403])) {
-            return Inertia::render('Error', ['status' => $response->status()])
+        if (!app()->environment(["local", "testing"]) && in_array($response->status(), [500, 503, 404, 403], true)) {
+            return Inertia::render("Error", [
+                "status" => $response->status(),
+            ])
                 ->toResponse($request)
                 ->setStatusCode($response->status());
-        } else if ($response->status() === 419) {
+        }
+
+        if ($response->status() === 419) {
             return back()->with([
-                'message' => 'The page expired, please try again.',
+                "message" => "The page expired, please try again.",
             ]);
         }
 
