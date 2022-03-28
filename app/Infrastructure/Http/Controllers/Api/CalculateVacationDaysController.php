@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use Toby\Domain\VacationDaysCalculator;
 use Toby\Infrastructure\Http\Controllers\Controller;
 use Toby\Infrastructure\Http\Requests\Api\CalculateVacationDaysRequest;
@@ -15,6 +16,6 @@ class CalculateVacationDaysController extends Controller
     {
         $days = $calculator->calculateDays($request->yearPeriod(), $request->from(), $request->to());
 
-        return new JsonResponse($days->all());
+        return new JsonResponse($days->map(fn(Carbon $day) => $day->toDateString())->all());
     }
 }
