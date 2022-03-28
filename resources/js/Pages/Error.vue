@@ -64,7 +64,7 @@ export default {
         429: {
           code: '429',
           title: 'Przekroczono limit zapytań',
-          message: 'Wysłano ostatnio zbyt wiele zapytań. Poczekaj i spróbuj ponownie później.'
+          message: 'Wysłano ostatnio zbyt wiele zapytań. Poczekaj i spróbuj ponownie później.',
         },
         500: {
           code: '500',
