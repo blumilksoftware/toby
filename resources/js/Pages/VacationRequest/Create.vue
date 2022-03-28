@@ -401,7 +401,12 @@ function onFromChange(selectedDates, dateStr) {
   refreshEstimatedDays(form.from, form.to)
 }
 
-function onToChange() {
+function onToChange(selectedDates, dateStr) {
+  if (form.from === null) {
+    form.from = dateStr
+
+    return
+  }
   refreshEstimatedDays(form.from, form.to)
 }
 
