@@ -61,6 +61,11 @@ export default {
           title: 'Strona wygasła',
           message: 'Ta strona wygasła. Zaloguj się ponownie.',
         },
+        429: {
+          code: '429',
+          title: 'Przekroczono limit zapytań',
+          message: 'Wysłano ostatnio zbyt wiele zapytań. Poczekaj i spróbuj ponownie później.'
+        },
         500: {
           code: '500',
           title: 'Błąd serwera',
