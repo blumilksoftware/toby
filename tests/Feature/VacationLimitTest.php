@@ -9,6 +9,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
+use Toby\Eloquent\Models\YearPeriod;
 
 class VacationLimitTest extends FeatureTestCase
 {
@@ -16,12 +17,14 @@ class VacationLimitTest extends FeatureTestCase
 
     public function testAdminCanSeeVacationLimits(): void
     {
-        $admin = User::factory()->admin()->createQuietly();
+        $admin = User::factory()->admin()->create();
 
-        User::factory(10)->create();
+        VacationLimit::factory(10)
+            ->for(YearPeriod::current())
+            ->create();
 
         $this->actingAs($admin)
-            ->get("/vacation-limits")
+            ->get("/vacation/limits")
             ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page
@@ -32,9 +35,11 @@ class VacationLimitTest extends FeatureTestCase
 
     public function testAdminCanUpdateVacationLimits(): void
     {
-        $admin = User::factory()->admin()->createQuietly();
+        $admin = User::factory()->admin()->create();
 
-        User::factory(3)->create();
+        VacationLimit::factory(3)
+            ->for(YearPeriod::current())
+            ->create();
 
         [$limit1, $limit2, $limit3] = VacationLimit::all();
 
@@ -54,7 +59,7 @@ class VacationLimitTest extends FeatureTestCase
         ];
 
         $this->actingAs($admin)
-            ->put("/vacation-limits", [
+            ->put("/vacation/limits", [
                 "items" => $data,
             ])
             ->assertRedirect();

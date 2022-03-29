@@ -28,7 +28,7 @@ Route::middleware("auth")->group(function (): void {
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->name("year-periods.select");
 
-    Route::prefix("/vacation")->group(function () {
+    Route::prefix("/vacation")->group(function (): void {
         Route::get("/limits", [VacationLimitController::class, "edit"])
             ->name("vacation.limits");
         Route::get("/calendar/{month?}", [VacationCalendarController::class, "index"])
@@ -56,9 +56,9 @@ Route::middleware("auth")->group(function (): void {
             ->name("vacation.requests.reject");
         Route::post("/requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
             ->name("vacation.requests.cancel");
-        Route::post("/requests/{vacationRequest}/accept-as-technical", [VacationRequestController::class, "acceptAsTechnical"],)
+        Route::post("/requests/{vacationRequest}/accept-as-technical", [VacationRequestController::class, "acceptAsTechnical"], )
             ->name("vacation.requests.accept-as-technical");
-        Route::post("/requests/{vacationRequest}/accept-as-administrative", [VacationRequestController::class, "acceptAsAdministrative"],)
+        Route::post("/requests/{vacationRequest}/accept-as-administrative", [VacationRequestController::class, "acceptAsAdministrative"], )
             ->name("vacation.requests.accept-as-administrative");
 
         Route::get("/monthly-usage", MonthlyUsageController::class)

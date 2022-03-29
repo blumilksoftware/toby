@@ -16,7 +16,7 @@ trait InteractsWithYearPeriods
     public function createYearPeriod(int $year): YearPeriod
     {
         /** @var YearPeriod $yearPeriod */
-        $yearPeriod = YearPeriod::factory()->createQuietly([
+        $yearPeriod = YearPeriod::factory()->create([
             "year" => $year,
         ]);
 

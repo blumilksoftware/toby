@@ -88,7 +88,7 @@ class UserVacationStatsRetriever
         $limit = $user->vacationLimits()
             ->where("year_period_id", $yearPeriod->id)
             ->first()
-            ->days;
+            ?->days;
 
         return $limit ?? 0;
     }

@@ -7,6 +7,8 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
+use Toby\Domain\Actions\CreateUserAction;
+use Toby\Domain\Actions\CreateYearPeriodAction;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
 
@@ -27,7 +29,11 @@ class VacationLimitTest extends TestCase
         $this->assertDatabaseCount("vacation_limits", 0);
 
         $currentYearPeriod = YearPeriod::current();
-        $user = User::factory()->create();
+        $createUserAction = $this->app->make(CreateUserAction::class);
+
+        $dumpData = User::factory()->raw();
+
+        $user = $createUserAction->execute($dumpData);
 
         $this->assertDatabaseCount("vacation_limits", 1);
 
@@ -40,10 +46,12 @@ class VacationLimitTest extends TestCase
     public function testWhenYearPeriodIsCreatedThenVacationLimitsForThisYearPeriodAreCreated(): void
     {
         $this->assertDatabaseCount("vacation_limits", 0);
+        $createYearPeriodAction = $this->app->make(CreateYearPeriodAction::class);
+        $lastYear = YearPeriod::query()->max("year") + 1;
 
-        User::factory(10)->createQuietly();
+        User::factory(10)->create();
 
-        YearPeriod::factory()->create();
+        $createYearPeriodAction->execute($lastYear);
 
         $this->assertDatabaseCount("vacation_limits", 10);
     }

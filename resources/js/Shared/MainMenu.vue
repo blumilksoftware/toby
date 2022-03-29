@@ -109,7 +109,7 @@
           <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
           Strona główna
         </InertiaLink>
-        <div class="mt-1 pt-1">
+        <div class="mt-1 pt-1 space-y-1">
           <InertiaLink
             v-for="item in navigation"
             :key="item.name"
@@ -202,9 +202,9 @@
               as="button"
               method="post"
               :preserve-state="false"
-              class="font-medium text-blumilk-600 hover:text-blumilk-500"
+              class="font-semibold text-blumilk-600 hover:text-blumilk-500"
             >
-              Kliknij, aby wrócić do obecnego roku
+              Wróc do obecnego roku
             </inertialink>
           </div>
         </div>

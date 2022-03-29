@@ -81,6 +81,7 @@ import { useMonthInfo } from '@/Composables/monthInfo'
 import VacationBar from '@/Shared/VacationBar'
 
 const props = defineProps({
+  years: Object,
   monthlyUsage: Object,
   currentMonth: String,
 })
@@ -89,6 +90,6 @@ const { getMonths } = useMonthInfo()
 const months = getMonths()
 
 function isCurrentMonth(month) {
-  return props.currentMonth === month.value
+  return (props.years.selected.year === props.years.current.year && props.currentMonth === month.value)
 }
 </script>

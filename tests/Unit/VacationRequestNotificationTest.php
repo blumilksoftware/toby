@@ -39,16 +39,16 @@ class VacationRequestNotificationTest extends TestCase
 
         $user = User::factory([
             "role" => Role::Employee,
-        ])->createQuietly();
+        ])->create();
         $technicalApprover = User::factory([
             "role" => Role::TechnicalApprover,
-        ])->createQuietly();
+        ])->create();
         $administrativeApprover = User::factory([
             "role" => Role::AdministrativeApprover,
-        ])->createQuietly();
+        ])->create();
         $admin = User::factory([
             "role" => Role::Administrator,
-        ])->createQuietly();
+        ])->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -78,13 +78,13 @@ class VacationRequestNotificationTest extends TestCase
 
         $technicalApprover = User::factory([
             "role" => Role::TechnicalApprover,
-        ])->createQuietly();
+        ])->create();
         $administrativeApprover = User::factory([
             "role" => Role::AdministrativeApprover,
-        ])->createQuietly();
+        ])->create();
         $admin = User::factory([
             "role" => Role::Administrator,
-        ])->createQuietly();
+        ])->create();
 
         $currentYearPeriod = YearPeriod::current();
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
@@ -29,10 +28,7 @@ class DashboardController extends Controller
         $absences = Vacation::query()
             ->with(["user", "vacationRequest"])
             ->whereDate("date", $now)
-            ->whereRelation(
-                "vacationRequest",
-                fn(Builder $query) => $query->states(VacationRequestStatesRetriever::successStates()),
-            )
+            ->approved()
             ->get();
 
         if ($user->can("listAll", VacationRequest::class)) {
