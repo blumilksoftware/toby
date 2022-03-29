@@ -436,14 +436,6 @@ class VacationRequestTest extends FeatureTestCase
     {
         $user = User::factory()->createQuietly();
 
-        $currentYearPeriod = YearPeriod::current();
-
-        VacationRequest::factory()
-            ->count(10)
-            ->for($user)
-            ->for($currentYearPeriod)
-            ->create();
-
         $this->actingAs($user)
             ->get("/vacation-requests")
             ->assertRedirect("/vacation-requests/me");
@@ -520,7 +512,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests/{$vacationRequest->id}/cancel")
-            ->assertStatus(403);
+            ->assertForbidden();
     }
 
     public function testAdministrativeApproverCanCancelVacationRequestWithApprovedStatus(): void
