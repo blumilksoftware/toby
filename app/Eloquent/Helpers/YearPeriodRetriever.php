@@ -30,13 +30,15 @@ class YearPeriodRetriever
 
     public function links(): array
     {
-        $current = $this->selected();
+        $selected = $this->selected();
+        $current = $this->current();
 
-        $years = YearPeriod::query()->whereIn("year", $this->offset($current->year))->get();
+        $years = YearPeriod::query()->whereIn("year", $this->offset($selected->year))->get();
         $navigation = $years->map(fn(YearPeriod $yearPeriod) => $this->toNavigation($yearPeriod));
 
         return [
-            "current" => $current->year,
+            "current" => $this->toNavigation($current),
+            "selected" => $this->toNavigation($selected),
             "navigation" => $navigation->toArray(),
         ];
     }

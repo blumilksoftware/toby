@@ -16,7 +16,7 @@
             <div class="relative focus-within:ring-2 focus-within:ring-blumilk-500">
               <h3 class="text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
                 <InertiaLink
-                  :href="`/vacation-requests/${request.id}`"
+                  :href="`/vacation/requests/${request.id}`"
                   class="hover:underline focus:outline-none"
                 >
                   <span class="absolute inset-0" />
@@ -41,7 +41,7 @@
       </div>
       <div class="mt-6">
         <InertiaLink
-          href="/vacation-requests/me"
+          href="/vacation/requests/me"
           class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blumilk-500"
         >
           Zobacz wszystkie

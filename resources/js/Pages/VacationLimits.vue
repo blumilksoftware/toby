@@ -155,7 +155,7 @@ function submitVacationDays() {
         days: item.hasVacation ? item.days : null,
       })),
     }))
-    .put('/vacation-limits', {
+    .put('/vacation/limits', {
       preserveState: (page) => Object.keys(page.props.errors).length,
       preserveScroll: true,
     })

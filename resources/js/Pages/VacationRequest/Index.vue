@@ -9,7 +9,7 @@
       </div>
       <div>
         <InertiaLink
-          href="/vacation-requests/create"
+          href="/vacation/requests/create"
           class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
         >
           Dodaj wniosek
@@ -84,7 +84,7 @@
           >
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink
-                :href="`/vacation-requests/${request.id}`"
+                :href="`/vacation/requests/${request.id}`"
                 class="font-semibold text-blumilk-600 hover:text-blumilk-500 hover:underline"
               >
                 {{ request.name }}
@@ -107,13 +107,13 @@
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
               <InertiaLink
-                :href="`/vacation-requests/${request.id}`"
+                :href="`/vacation/requests/${request.id}`"
                 class="flex justify-around"
               >
                 <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
               </InertiaLink>
               <InertiaLink
-                :href="`/vacation-requests/${request.id}`"
+                :href="`/vacation/requests/${request.id}`"
                 class="absolute inset-0"
               />
             </td>

@@ -44,7 +44,6 @@
                 class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 @click="sidebarOpen = false"
               >
-                <span class="sr-only">Close sidebar</span>
                 <XIcon class="h-6 w-6 text-white" />
               </button>
             </div>
@@ -102,31 +101,27 @@
           >
         </InertiaLink>
       </div>
-      <nav class="mt-5 flex-1 flex flex-col divide-y divide-blumilk-800 overflow-y-auto">
-        <div class="px-2 space-y-1">
+      <nav class="mt-5 px-2 flex-1 flex flex-col divide-y divide-blumilk-800 overflow-y-auto">
+        <InertiaLink
+          href="/"
+          :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+        >
+          <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
+          Strona główna
+        </InertiaLink>
+        <div class="mt-1 pt-1">
           <InertiaLink
-            href="/"
-            :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            v-for="item in navigation"
+            :key="item.name"
+            :href="item.href"
+            :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
           >
-            <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
-            Strona główna
+            <component
+              :is="item.icon"
+              class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
+            />
+            {{ item.name }}
           </InertiaLink>
-        </div>
-        <div class="mt-4 pt-4">
-          <div class="px-2 space-y-1">
-            <InertiaLink
-              v-for="item in navigation"
-              :key="item.name"
-              :href="item.href"
-              :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
-            >
-              <component
-                :is="item.icon"
-                class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
-              />
-              {{ item.name }}
-            </InertiaLink>
-          </div>
         </div>
       </nav>
     </div>
@@ -139,7 +134,6 @@
         class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
         @click="sidebarOpen = true"
       >
-        <span class="sr-only">Open sidebar</span>
         <MenuAlt1Icon class="h-6 w-6" />
       </button>
       <div class="flex-1 px-4 flex justify-between sm:px-6 lg:px-8">
@@ -150,14 +144,14 @@
               class="relative inline-block text-left"
             >
               <div class="flex justify-center items-center">
-                <div class="mr-4">
+                <div class="mr-4 text-sm">
                   Wybrany rok:
                 </div>
                 <div>
                   <MenuButton
                     class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
                   >
-                    {{ years.current }}
+                    {{ years.selected.year }}
                     <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
                   </MenuButton>
                 </div>
@@ -189,7 +183,7 @@
                       >
                         {{ item.year }}
                         <CheckIcon
-                          v-if="item.year === years.current"
+                          v-if="item.year === years.selected"
                           class="h-5 w-5 text-blumilk-500 ml-2"
                         />
                       </InertiaLink>
@@ -198,6 +192,20 @@
                 </MenuItems>
               </transition>
             </Menu>
+          </div>
+          <div
+            v-if="years.current.year !== years.selected.year"
+            class="ml-3 text-sm hidden sm:block"
+          >
+            <InertiaLink
+              :href="years.current.link"
+              as="button"
+              method="post"
+              :preserve-state="false"
+              class="font-medium text-blumilk-600 hover:text-blumilk-500"
+            >
+              Kliknij, aby wrócić do obecnego roku
+            </inertialink>
           </div>
         </div>
         <div class="ml-4 flex items-center md:ml-6">
@@ -213,7 +221,6 @@
                 :src="auth.user.avatar"
               >
               <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
-                <span class="sr-only">Open user menu for </span>
                 {{ auth.user.name }}
               </span>
               <ChevronDownIcon class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block" />
@@ -285,28 +292,28 @@ const navigation = computed(() =>
   [
     {
       name: 'Moje wnioski',
-      href: '/vacation-requests/me',
+      href: '/vacation/requests/me',
       component: 'VacationRequest/Index',
       icon: DocumentTextIcon,
       can: true,
     },
     {
       name: 'Wnioski urlopowe',
-      href: '/vacation-requests',
+      href: '/vacation/requests',
       component: 'VacationRequest/IndexForApprovers',
       icon: CollectionIcon,
       can: props.auth.can.listAllVacationRequests,
     },
     {
       name: 'Kalendarz urlopów',
-      href: '/vacation-calendar',
+      href: '/vacation/calendar',
       component: 'Calendar',
       icon: CalendarIcon,
       can: true,
     },
     {
       name: 'Wykorzystanie urlopu',
-      href: '/monthly-usage',
+      href: '/vacation/monthly-usage',
       component: 'MonthlyUsage',
       icon: AdjustmentsIcon,
       can: props.auth.can.listMonthlyUsage,
@@ -320,7 +327,7 @@ const navigation = computed(() =>
     },
     {
       name: 'Limity urlopów',
-      href: '/vacation-limits',
+      href: '/vacation/limits',
       component: 'VacationLimits',
       icon: SunIcon,
       can: props.auth.can.manageVacationLimits,

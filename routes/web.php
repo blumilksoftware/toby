@@ -21,51 +21,49 @@ Route::middleware("auth")->group(function (): void {
     Route::post("/logout", LogoutController::class);
 
     Route::resource("users", UserController::class);
-    Route::post("/users/{user}/restore", [UserController::class, "restore"])->withTrashed();
+    Route::post("/users/{user}/restore", [UserController::class, "restore"])
+        ->withTrashed();
 
     Route::resource("holidays", HolidayController::class);
-
-    Route::get("/vacation-limits", [VacationLimitController::class, "edit"])
-        ->name("vacation.limits");
-    Route::get("/vacation-calendar/{month?}", [VacationCalendarController::class, "index"])
-        ->name("vacation.calendar");
-    Route::get("/timesheet/{month}", TimesheetController::class)
-        ->name("timesheet");
-
-    Route::get("/vacation-limits", [VacationLimitController::class, "edit"])->name("vacation.limits");
-    Route::put("/vacation-limits", [VacationLimitController::class, "update"]);
-
-    Route::get("/vacation-requests/me", [VacationRequestController::class, "index"])
-        ->name("vacation.requests.index");
-    Route::get("/vacation-requests", [VacationRequestController::class, "indexForApprovers"])
-        ->name("vacation.requests.indexForApprovers");
-    Route::get("/vacation-requests/create", [VacationRequestController::class, "create"])
-        ->name("vacation.requests.create");
-    Route::post("/vacation-requests", [VacationRequestController::class, "store"])
-        ->name("vacation.requests.store");
-    Route::get("/vacation-requests/{vacationRequest}", [VacationRequestController::class, "show"])
-        ->name("vacation.requests.show");
-    Route::get("/vacation-requests/{vacationRequest}/download", [VacationRequestController::class, "download"])
-        ->name("vacation.requests.download");
-    Route::post("/vacation-requests/{vacationRequest}/reject", [VacationRequestController::class, "reject"])
-        ->name("vacation.requests.reject");
-    Route::post("/vacation-requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
-        ->name("vacation.requests.cancel");
-    Route::post(
-        "/vacation-requests/{vacationRequest}/accept-as-technical",
-        [VacationRequestController::class, "acceptAsTechnical"],
-    )
-        ->name("vacation.requests.accept-as-technical");
-    Route::post(
-        "/vacation-requests/{vacationRequest}/accept-as-administrative",
-        [VacationRequestController::class, "acceptAsAdministrative"],
-    )
-        ->name("vacation.requests.accept-as-administrative");
-
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->name("year-periods.select");
 
-    Route::get("/monthly-usage", MonthlyUsageController::class)->name("monthly-usage");
+    Route::prefix("/vacation")->group(function () {
+        Route::get("/limits", [VacationLimitController::class, "edit"])
+            ->name("vacation.limits");
+        Route::get("/calendar/{month?}", [VacationCalendarController::class, "index"])
+            ->name("vacation.calendar");
+        Route::get("/timesheet/{month}", TimesheetController::class)
+            ->name("timesheet");
+
+        Route::get("/limits", [VacationLimitController::class, "edit"])
+            ->name("vacation.limits");
+        Route::put("/limits", [VacationLimitController::class, "update"]);
+
+        Route::get("/requests", [VacationRequestController::class, "indexForApprovers"])
+            ->name("vacation.requests.indexForApprovers");
+        Route::get("/requests/me", [VacationRequestController::class, "index"])
+            ->name("vacation.requests.index");
+        Route::get("/requests/create", [VacationRequestController::class, "create"])
+            ->name("vacation.requests.create");
+        Route::post("/requests", [VacationRequestController::class, "store"])
+            ->name("vacation.requests.store");
+        Route::get("/requests/{vacationRequest}", [VacationRequestController::class, "show"])
+            ->name("vacation.requests.show");
+        Route::get("/requests/{vacationRequest}/download", [VacationRequestController::class, "download"])
+            ->name("vacation.requests.download");
+        Route::post("/requests/{vacationRequest}/reject", [VacationRequestController::class, "reject"])
+            ->name("vacation.requests.reject");
+        Route::post("/requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
+            ->name("vacation.requests.cancel");
+        Route::post("/requests/{vacationRequest}/accept-as-technical", [VacationRequestController::class, "acceptAsTechnical"],)
+            ->name("vacation.requests.accept-as-technical");
+        Route::post("/requests/{vacationRequest}/accept-as-administrative", [VacationRequestController::class, "acceptAsAdministrative"],)
+            ->name("vacation.requests.accept-as-administrative");
+
+        Route::get("/monthly-usage", MonthlyUsageController::class)
+            ->name("vacation.monthly-usage");
+    });
 });
 
 Route::middleware("guest")->group(function (): void {

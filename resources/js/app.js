@@ -32,7 +32,7 @@ createInertiaApp({
 
 InertiaProgress.init({
   delay: 0,
-  color: 'red',
+  color: '#527ABA',
 })
 
 Flatpickr.localize(Polish)
