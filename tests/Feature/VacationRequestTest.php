@@ -13,6 +13,7 @@ use Tests\FeatureTestCase;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\States\VacationRequest\Approved;
+use Toby\Domain\States\VacationRequest\Cancelled;
 use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
@@ -429,5 +430,180 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasErrors([
                 "vacationRequest" => __("The vacation request cannot be created at the turn of the year."),
             ]);
+    }
+
+    public function testEmployeeCanSeeOnlyHisVacationRequests(): void
+    {
+        $user = User::factory()->createQuietly();
+
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationRequest::factory()
+            ->count(10)
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->get("/vacation-requests")
+            ->assertRedirect("/vacation-requests/me");
+    }
+
+    public function testEmployeeCannotCreateVacationRequestForAnotherEmployee(): void
+    {
+        $user = User::factory()->createQuietly();
+        $anotherUser = User::factory()->createQuietly();
+
+        $currentYearPeriod = YearPeriod::current();
+
+        $this->actingAs($user)
+            ->post("/vacation-requests", [
+                "user" => $anotherUser->id,
+                "type" => VacationType::Vacation->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
+                "comment" => "Comment for the vacation request.",
+            ])
+            ->assertForbidden();
+    }
+
+    public function testEmployeeCanCancelVacationRequestWithWaitingForAdministrativeStatus(): void
+    {
+        $user = User::factory()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        /** @var VacationRequest $vacationRequest */
+        $vacationRequest = VacationRequest::factory([
+            "state" => WaitingForAdministrative::class,
+            "type" => VacationType::Vacation,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/vacation-requests/{$vacationRequest->id}/cancel")
+            ->assertSessionHasNoErrors();
+
+        $vacationRequest->refresh();
+
+        $this->assertTrue($vacationRequest->state->equals(Cancelled::class));
+    }
+
+    public function testEmployeeCannotCancelVacationRequestWithApprovedStatus(): void
+    {
+        $user = User::factory()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        /** @var VacationRequest $vacationRequest */
+        $vacationRequest = VacationRequest::factory([
+            "state" => Approved::class,
+            "type" => VacationType::Vacation,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/vacation-requests/{$vacationRequest->id}/cancel")
+            ->assertStatus(403);
+    }
+
+    public function testAdministrativeApproverCanCancelVacationRequestWithApprovedStatus(): void
+    {
+        $user = User::factory()->createQuietly();
+        $administrativeApprover = User::factory()->administrativeApprover()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        /** @var VacationRequest $vacationRequest */
+        $vacationRequest = VacationRequest::factory([
+            "state" => Approved::class,
+            "type" => VacationType::Vacation,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($administrativeApprover)
+            ->post("/vacation-requests/{$vacationRequest->id}/cancel")
+            ->assertSessionHasNoErrors();
+
+        $vacationRequest->refresh();
+
+        $this->assertTrue($vacationRequest->state->equals(Cancelled::class));
+    }
+
+    public function testEmployeeCanDownloadHisVacationRequestAsPdf(): void
+    {
+        $user = User::factory()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        /** @var VacationRequest $vacationRequest */
+        $vacationRequest = VacationRequest::factory([
+            "state" => WaitingForTechnical::class,
+            "type" => VacationType::Vacation,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->get("/vacation-requests/{$vacationRequest->id}/download")
+            ->assertSessionHasNoErrors();
+    }
+
+    public function testEmployeeCannotDownloadAnotherEmployeesVacationRequestAsPdf(): void
+    {
+        $user = User::factory()->createQuietly();
+        $anotherUser = User::factory()->createQuietly();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($anotherUser)
+            ->for($currentYearPeriod)
+            ->create();
+
+        /** @var VacationRequest $vacationRequest */
+        $vacationRequest = VacationRequest::factory([
+            "state" => WaitingForTechnical::class,
+            "type" => VacationType::Vacation,
+        ])
+            ->for($anotherUser)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->get("/vacation-requests/{$vacationRequest->id}/download")
+            ->assertForbidden();
     }
 }
