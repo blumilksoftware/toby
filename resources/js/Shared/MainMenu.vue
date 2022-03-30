@@ -204,7 +204,7 @@
               :preserve-state="false"
               class="font-semibold text-blumilk-600 hover:text-blumilk-500"
             >
-              Wróc do obecnego roku
+              Wróć do obecnego roku
             </inertialink>
           </div>
         </div>
