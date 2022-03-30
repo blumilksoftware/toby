@@ -5,9 +5,6 @@
       <h2 class="text-lg leading-6 font-medium text-gray-900">
         Dodaj użytkownika
       </h2>
-      <p class="mt-1 text-sm text-gray-500">
-        Tylko dodani użytkownicy będą mogli zalogować się do aplikacji.
-      </p>
     </div>
     <form
       class="border-t border-gray-200 px-6"
@@ -116,7 +113,7 @@
         <div class="mt-1 relative sm:mt-0 sm:col-span-2">
           <ListboxButton
             class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentForm }"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.role, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.role }"
           >
             <span class="block truncate">{{ form.role.label }}</span>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">

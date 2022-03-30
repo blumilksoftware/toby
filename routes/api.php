@@ -8,7 +8,7 @@ use Toby\Infrastructure\Http\Controllers\Api\CalculateUserVacationStatsControlle
 use Toby\Infrastructure\Http\Controllers\Api\CalculateVacationDaysController;
 
 Route::middleware("auth:sanctum")->group(function (): void {
-    Route::post("calculate-vacation-days", CalculateVacationDaysController::class);
-    Route::post("calculate-vacation-stats", CalculateUserVacationStatsController::class);
-    Route::post("calculate-unavailable-days", CalculateUserUnavailableDaysController::class);
+    Route::post("vacation/calculate-days", CalculateVacationDaysController::class);
+    Route::post("vacation/calculate-stats", CalculateUserVacationStatsController::class);
+    Route::post("vacation/calculate-unavailable-days", CalculateUserUnavailableDaysController::class);
 });

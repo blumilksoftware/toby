@@ -49,11 +49,13 @@
             </div>
           </TransitionChild>
           <div class="flex-shrink-0 flex items-center px-4">
-            <InertiaLink href="/">
+            <InertiaLink
+              href="/"
+              @click="sidebarOpen = false;"
+            >
               <img
                 class="h-8 w-auto"
-                src="/img/logo-white.png"
-                alt="Workflow"
+                src="/img/logo-white.svg"
               >
             </InertiaLink>
           </div>
@@ -61,7 +63,8 @@
             <div class="px-2 space-y-1">
               <InertiaLink
                 href="/"
-                :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+                :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md']"
+                @click="sidebarOpen = false;"
               >
                 <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
                 Strona główna
@@ -74,6 +77,7 @@
                   :key="item.name"
                   :href="item.href"
                   :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                  @click="sidebarOpen = false;"
                 >
                   <component
                     :is="item.icon"
@@ -95,9 +99,8 @@
       <div class="flex items-center flex-shrink-0 px-4">
         <InertiaLink href="/">
           <img
-            class="h-8 w-auto"
-            src="/img/logo-white.png"
-            alt="Workflow"
+            src="/img/logo-white.svg"
+            class="w-auto h-10 text-red-600 fil-red-600"
           >
         </InertiaLink>
       </div>

@@ -5,9 +5,6 @@
       <h2 class="text-lg leading-6 font-medium text-gray-900">
         Dodaj dzień wolny
       </h2>
-      <p class="mt-1 text-sm text-gray-500">
-        Użytkownik nie będzie miał możliwości wzięcia urlopu w dzień wolny.
-      </p>
     </div>
     <form
       class="border-t border-gray-200 px-6"

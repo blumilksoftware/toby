@@ -1,6 +1,6 @@
 <template>
-  <section class="grid grid-cols-2 gap-4">
-    <div class="bg-white shadow-md p-4">
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="hidden md:block bg-white shadow-md p-4">
       <VacationChart :stats="stats" />
     </div>
     <div class="h-full">

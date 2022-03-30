@@ -113,7 +113,7 @@ class VacationRequestController extends Controller
             "users" => UserResource::collection($users),
             "filters" => [
                 "status" => $status,
-                "user" => $user,
+                "user" => (int)$user,
             ],
         ]);
     }

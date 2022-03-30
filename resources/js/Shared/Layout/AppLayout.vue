@@ -5,7 +5,7 @@
       :years="years"
     />
     <main class="lg:ml-64 flex flex-col flex-1 py-8">
-      <div class="px-4">
+      <div class="lg:px-4">
         <slot />
       </div>
     </main>

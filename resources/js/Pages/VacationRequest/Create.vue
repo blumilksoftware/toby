@@ -1,7 +1,7 @@
 <template>
   <InertiaHead title="Złóż wniosek urlopowy" />
-  <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-    <div class="lg:col-span-2 h-full bg-white shadow-md flex flex-col">
+  <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
+    <div class="xl:col-span-2 h-full bg-white shadow-md flex flex-col">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg leading-6 font-medium text-gray-900">
           Złóż wniosek urlopowy
@@ -43,7 +43,7 @@
               <div class="mt-1 relative sm:mt-0 sm:col-span-2">
                 <ListboxButton
                   class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.user, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.user }"
                 >
                   <span class="flex items-center">
                     <img
@@ -129,44 +129,39 @@
               </div>
             </div>
             <Listbox
-              v-model="form.type"
+              v-model="form.vacationType"
               as="div"
               class="sm:grid sm:grid-cols-3 py-4 items-center"
             >
               <ListboxLabel class="block text-sm font-medium text-gray-700">
-                Rodzaj wniosku
+                Rodzaj urlopu
               </ListboxLabel>
               <div class="mt-1 relative sm:mt-0 sm:col-span-2">
                 <ListboxButton
                   class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
                 >
-                  <span class="block truncate">{{ form.type.label }}</span>
+                  <span class="block truncate">{{ form.vacationType.label }}</span>
                   <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <SelectorIcon class="h-5 w-5 text-gray-400" />
                   </span>
                 </ListboxButton>
-
                 <transition
                   leave-active-class="transition ease-in duration-100"
                   leave-from-class="opacity-100"
                   leave-to-class="opacity-0"
                 >
-                  <ListboxOptions
-                    class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-                  >
+                  <ListboxOptions class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                     <ListboxOption
-                      v-for="type in vacationTypes"
-                      :key="type.value"
+                      v-for="vacationType in vacationTypes"
+                      :key="vacationType.value"
                       v-slot="{ active, selected }"
                       as="template"
-                      :value="type"
+                      :value="vacationType"
                     >
-                      <li
-                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                      >
+                      <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                          {{ type.label }}
+                          {{ vacationType.label }}
                         </span>
 
                         <span
@@ -271,7 +266,7 @@
               >
                 Natychmiastowo zatwierdź wniosek
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-2 sm:mt-0 sm:col-span-2">
                 <Switch
                   id="flowSkipped"
                   v-model="form.flowSkipped"
@@ -346,7 +341,7 @@ const form = useForm({
     : props.auth.user,
   from: null,
   to: null,
-  type: props.vacationTypes[0],
+  vacationType: props.vacationTypes[0],
   comment: null,
   flowSkipped: false,
 })
@@ -385,7 +380,7 @@ function createForm() {
   form
     .transform(data => ({
       ...data,
-      type: data.type.value,
+      type: data.vacationType.value,
       user: data.user.id,
     }))
     .post('/vacation/requests')
@@ -418,20 +413,20 @@ function resetForm() {
 
 async function refreshEstimatedDays(from, to) {
   if (from && to) {
-    const res = await axios.post('/api/calculate-vacation/days', { from, to })
+    const res = await axios.post('/api/vacation/calculate-days', { from, to })
 
     estimatedDays.value = res.data
   }
 }
 
 async function refreshVacationStats(user) {
-  const res = await axios.post('/api/calculate-vacation/stats', { user: user.id })
+  const res = await axios.post('/api/vacation/calculate-stats', { user: user.id })
 
   stats.value = res.data
 }
 
 async function refreshUnavailableDays(user) {
-  const res = await axios.post('/api/calculate-unavailable-days', { user: user.id })
+  const res = await axios.post('/api/vacation/calculate-unavailable-days', { user: user.id })
   const unavailableDays = res.data
 
   fromInputConfig.disable = [

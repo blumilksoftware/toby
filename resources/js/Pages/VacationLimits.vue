@@ -6,44 +6,41 @@
         <h2 class="text-lg leading-6 font-medium text-gray-900">
           Dostępne dni urlopu dla użytkowników
         </h2>
-        <p class="mt-1 text-sm text-gray-500">
-          Zarządzaj dostępnymi dniami urlopów dla użytkowników.
-        </p>
       </div>
     </div>
     <div class="border-t border-gray-200">
-      <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
-        <form @submit.prevent="submitVacationDays">
+      <form @submit.prevent="submitVacationDays">
+        <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
           <table class="min-w-full divide-y divide-gray-200 border-b">
             <thead class="bg-gray-50">
               <tr>
                 <th
                   scope="col"
-                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
                 >
                   Imię i nazwisko
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
                 >
                   Forma zatrudnienia
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
                 >
                   Posiada urlop?
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
                 >
                   Pozostałe dni z poprzedniego roku
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
                 >
                   Dostępne dni w roku
                 </th>
@@ -120,16 +117,16 @@
               </tr>
             </tbody>
           </table>
-          <div class="flex justify-end py-3 px-4">
-            <button
-              type="submit"
-              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
-            >
-              Zapisz
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="flex justify-end py-3 px-4">
+          <button
+            type="submit"
+            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+          >
+            Zapisz
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </template>

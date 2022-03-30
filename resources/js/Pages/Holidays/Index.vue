@@ -6,16 +6,13 @@
         <h2 class="text-lg leading-6 font-medium text-gray-900">
           Dni wolne od pracy
         </h2>
-        <p class="mt-1 text-sm text-gray-500">
-          Lista dni wolnych od pracy w danym roku
-        </p>
       </div>
       <div v-if="can.manageHolidays">
         <InertiaLink
           href="holidays/create"
           class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
         >
-          Dodaj dzień wolny
+          Dodaj dzień
         </InertiaLink>
       </div>
     </div>
@@ -26,25 +23,25 @@
             <tr>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Nazwa
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Data
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Dzień tygodnia
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               />
             </tr>
           </thead>

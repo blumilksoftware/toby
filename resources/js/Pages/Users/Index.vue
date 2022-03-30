@@ -4,16 +4,13 @@
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg leading-6 font-medium text-gray-900">
-          Użytkownicy w organizacji
+          Użytkownicy
         </h2>
-        <p class="mt-1 text-sm text-gray-500">
-          Lista użytkowników w organizacji.
-        </p>
       </div>
       <div>
         <InertiaLink
           href="users/create"
-          class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+          class="inline-flex items-center text-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
         >
           Dodaj użytkownika
         </InertiaLink>
@@ -39,37 +36,37 @@
             <tr>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Imię i nazwisko
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Rola
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Stanowisko
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Forma zatrudnienia
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               >
                 Data rozpoczęcia
               </th>
               <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
               />
             </tr>
           </thead>

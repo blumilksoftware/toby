@@ -16,200 +16,194 @@
         </InertiaLink>
       </div>
     </div>
-    <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
-      <div class="border-t border-gray-200">
-        <div class="px-4 grid grid-cols-2 gap-4">
-          <div>
-            <Listbox
-              v-model="form.user"
-              as="div"
-              class="py-4 items-center"
+    <div class="border-t border-gray-200">
+      <div class="px-4 py-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+        <Listbox
+          v-model="form.user"
+          as="div"
+        >
+          <ListboxLabel class="block text-sm font-medium text-gray-700 mb-2">
+            Pracownik
+          </ListboxLabel>
+          <div class="mt-1 relative sm:mt-0">
+            <ListboxButton
+              class="bg-white relative w-full h-10 max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:outline-none focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
             >
-              <ListboxLabel class="block text-sm font-medium text-gray-700 mb-2">
-                Pracownik
-              </ListboxLabel>
-              <div class="mt-1 relative sm:mt-0">
-                <ListboxButton
-                  class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
+              <span v-if="form.user === null">
+                Wszyscy
+              </span>
+              <span
+                v-else
+                class="flex items-center"
+              >
+                <img
+                  :src="form.user.avatar"
+                  class="flex-shrink-0 h-6 w-6 rounded-full"
                 >
-                  <span v-if="form.user === null">
-                    Wszyscy
-                  </span>
-                  <span
-                    v-else
-                    class="flex items-center"
-                  >
-                    <img
-                      :src="form.user.avatar"
-                      class="flex-shrink-0 h-6 w-6 rounded-full"
-                    >
-                    <span class="ml-3 block truncate">{{ form.user.name }}</span>
-                  </span>
-                  <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                    <SelectorIcon class="h-5 w-5 text-gray-400" />
-                  </span>
-                </ListboxButton>
+                <span class="ml-3 block truncate">{{ form.user.name }}</span>
+              </span>
+              <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <SelectorIcon class="h-5 w-5 text-gray-400" />
+              </span>
+            </ListboxButton>
 
-                <transition
-                  leave-active-class="transition ease-in duration-100"
-                  leave-from-class="opacity-100"
-                  leave-to-class="opacity-0"
-                >
-                  <ListboxOptions
-                    class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-                  >
-                    <ListboxOption
-                      v-slot="{ active }"
-                      as="template"
-                      :value="null"
-                    >
-                      <li
-                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                      >
-                        <div class="flex items-center">
-                          Wszyscy pracownicy
-                        </div>
-
-                        <span
-                          v-if="form.user === null"
-                          :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
-                        >
-                          <CheckIcon class="h-5 w-5" />
-                        </span>
-                      </li>
-                    </ListboxOption>
-                    <ListboxOption
-                      v-for="user in users.data"
-                      :key="user.id"
-                      v-slot="{ active }"
-                      as="template"
-                      :value="user"
-                    >
-                      <li
-                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                      >
-                        <div class="flex items-center">
-                          <img
-                            :src="user.avatar"
-                            class="flex-shrink-0 h-6 w-6 rounded-full"
-                          >
-                          <span
-                            :class="[form.user?.id === user.id ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']"
-                          >
-                            {{ user.name }}
-                          </span>
-                        </div>
-                        <span
-                          v-if="form.user?.id === user.id"
-                          :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
-                        >
-                          <CheckIcon class="h-5 w-5" />
-                        </span>
-                      </li>
-                    </ListboxOption>
-                  </ListboxOptions>
-                </transition>
-              </div>
-            </Listbox>
-          </div>
-          <div>
-            <Listbox
-              v-model="form.status"
-              as="div"
-              class="py-4 items-center"
+            <transition
+              leave-active-class="transition ease-in duration-100"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
             >
-              <ListboxLabel class="block text-sm font-medium text-gray-700 mb-2">
-                Status
-              </ListboxLabel>
-              <div class="mt-1 relative sm:mt-0">
-                <ListboxButton
-                  class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
+              <ListboxOptions
+                class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active }"
+                  as="template"
+                  :value="null"
                 >
-                  <span class="flex items-center">
-                    {{ form.status.name }}
-                  </span>
-                  <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                    <SelectorIcon class="h-5 w-5 text-gray-400" />
-                  </span>
-                </ListboxButton>
-
-                <transition
-                  leave-active-class="transition ease-in duration-100"
-                  leave-from-class="opacity-100"
-                  leave-to-class="opacity-0"
-                >
-                  <ListboxOptions
-                    class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                  <li
+                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                   >
-                    <ListboxOption
-                      v-for="status in statuses"
-                      :key="status.value"
-                      v-slot="{ active, selected }"
-                      as="template"
-                      :value="status"
-                    >
-                      <li
-                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                      >
-                        {{ status.name }}
+                    <div class="flex items-center">
+                      Wszyscy
+                    </div>
 
-                        <span
-                          v-if="selected"
-                          :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
-                        >
-                          <CheckIcon class="h-5 w-5" />
-                        </span>
-                      </li>
-                    </ListboxOption>
-                  </ListboxOptions>
-                </transition>
-              </div>
-            </Listbox>
+                    <span
+                      v-if="form.user === null"
+                      :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="h-5 w-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+                <ListboxOption
+                  v-for="user in users.data"
+                  :key="user.id"
+                  v-slot="{ active }"
+                  as="template"
+                  :value="user"
+                >
+                  <li
+                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                  >
+                    <div class="flex items-center">
+                      <img
+                        :src="user.avatar"
+                        class="flex-shrink-0 h-6 w-6 rounded-full"
+                      >
+                      <span
+                        :class="[form.user?.id === user.id ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']"
+                      >
+                        {{ user.name }}
+                      </span>
+                    </div>
+                    <span
+                      v-if="form.user?.id === user.id"
+                      :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="h-5 w-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
           </div>
-        </div>
+        </Listbox>
+        <Listbox
+          v-model="form.status"
+          as="div"
+        >
+          <ListboxLabel class="block text-sm font-medium text-gray-700 mb-2">
+            Status
+          </ListboxLabel>
+          <div class="mt-1 relative sm:mt-0">
+            <ListboxButton
+              class="bg-white relative w-full h-10 max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:outline-none focus:ring-1 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
+            >
+              <span class="flex items-center">
+                {{ form.status.name }}
+              </span>
+              <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <SelectorIcon class="h-5 w-5 text-gray-400" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition ease-in duration-100"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+              >
+                <ListboxOption
+                  v-for="status in statuses"
+                  :key="status.value"
+                  v-slot="{ active, selected }"
+                  as="template"
+                  :value="status"
+                >
+                  <li
+                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
+                  >
+                    {{ status.name }}
+
+                    <span
+                      v-if="selected"
+                      :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="h-5 w-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
       </div>
+    </div>
+    <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
             >
               Numer
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
             >
               Pracownik
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
             >
               Rodzaj urlopu
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
             >
               Od
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
             >
               Do
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
             >
               Dni urlopu
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
             >
               Status
             </th>
@@ -232,10 +226,9 @@
             </td>
             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
               <div class="flex">
-                <img
-                  class="h-10 w-10 rounded-full"
-                  :src="request.user.avatar"
-                >
+                <div class="h-10 w-10 rounded-full">
+                  <img :src="request.user.avatar">
+                </div>
                 <div class="ml-3">
                   <p class="text-sm font-medium text-gray-900">
                     {{ request.user.name }}

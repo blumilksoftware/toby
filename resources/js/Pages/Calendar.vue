@@ -3,28 +3,28 @@
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div class="flex items-center">
-        <h2 class="text-lg leading-6 font-medium text-gray-900">
+        <h2 class="text-lg leading-6 text-center font-medium text-gray-900">
           Kalendarz urlopów
         </h2>
-        <div class="ml-5 flex items-center rounded-md shadow-sm md:items-stretch">
+        <div class="ml-3 flex items-center rounded-md shadow-sm md:items-stretch">
           <InertiaLink
             v-if="previousMonth"
             as="button"
             :href="`/vacation/calendar/${previousMonth.value}`"
-            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
+            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 px-2 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="h-5 w-5" />
           </InertiaLink>
           <span
             v-else
-            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
+            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 px-2 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="h-5 w-5" />
           </span>
           <InertiaLink
             as="button"
             :href="`/vacation/calendar/${currentMonth.value}`"
-            class="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
+            class="hidden border-t border-b border-gray-300 bg-white px-2 text-sm font-medium flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
           >
             Dzisiaj
           </InertiaLink>
@@ -32,13 +32,13 @@
             v-if="nextMonth"
             as="button"
             :href="`/vacation/calendar/${nextMonth.value}`"
-            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
+            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 px-2 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="h-5 w-5" />
           </InertiaLink>
           <span
             v-else
-            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
+            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 px-2 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="h-5 w-5" />
           </span>
@@ -47,7 +47,7 @@
       <div v-if="can.generateTimesheet">
         <a
           :href="`/vacation/timesheet/${selectedMonth.value}`"
-          class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+          class="block text-center ml-3 px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
         >
           Pobierz plik Excel
         </a>
