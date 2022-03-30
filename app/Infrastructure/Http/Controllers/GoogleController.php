@@ -36,6 +36,6 @@ class GoogleController extends Controller
 
         $auth->guard()->login($user, true);
 
-        return redirect()->intended();
+        return redirect()->route("dashboard");
     }
 }
