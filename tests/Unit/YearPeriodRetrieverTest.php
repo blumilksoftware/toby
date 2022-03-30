@@ -60,7 +60,14 @@ class YearPeriodRetrieverTest extends TestCase
     public function testLinks(): void
     {
         $expected = [
-            "current" => $this->current->year,
+            "current" => [
+                "year" => $this->currentYearPeriod->year,
+                "link" => route("year-periods.select", $this->currentYearPeriod),
+            ],
+            "selected" => [
+                "year" => $this->currentYearPeriod->year,
+                "link" => route("year-periods.select", $this->currentYearPeriod),
+            ],
             "navigation" => [
                 [
                     "year" => $this->previousYearPeriod->year,

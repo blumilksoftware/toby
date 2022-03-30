@@ -60,13 +60,14 @@
                 Data
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <template v-if="request.days.length > 1">
+                  {{ request.from }} - {{ request.to }}
+                </template>
+                <template v-else>
+                  {{ request.from }}
+                </template>
                 <span class="font-semibold">
-                  <template v-if="request.days.length > 1">
-                    {{ request.from }} - {{ request.to }} [Liczba dni: {{ request.days.length }}]
-                  </template>
-                  <template v-else>
-                    {{ request.from }} [Liczba dni: {{ request.days.length }}]
-                  </template>
+                  [Liczba dni: {{ request.days.length }}]
                 </span>
               </dd>
             </div>
@@ -100,7 +101,7 @@
                     </div>
                     <div class="ml-4 flex-shrink-0">
                       <a
-                        :href="`/vacation-requests/${request.id}/download`"
+                        :href="`/vacation/requests/${request.id}/download`"
                         target="_blank"
                         class="font-medium text-blumilk-600 hover:text-blumilk-500"
                       >
@@ -130,7 +131,7 @@
           </div>
           <div class="mt-5">
             <InertiaLink
-              :href="`/vacation-requests/${request.id}/accept-as-technical`"
+              :href="`/vacation/requests/${request.id}/accept-as-technical`"
               method="post"
               as="button"
               preserve-scroll
@@ -156,7 +157,7 @@
           </div>
           <div class="mt-5">
             <InertiaLink
-              :href="`/vacation-requests/${request.id}/accept-as-administrative`"
+              :href="`/vacation/requests/${request.id}/accept-as-administrative`"
               method="post"
               as="button"
               preserve-scroll
@@ -182,7 +183,7 @@
           </div>
           <div class="mt-5">
             <InertiaLink
-              :href="`/vacation-requests/${request.id}/reject`"
+              :href="`/vacation/requests/${request.id}/reject`"
               method="post"
               as="button"
               preserve-scroll
@@ -208,7 +209,7 @@
           </div>
           <div class="mt-5">
             <InertiaLink
-              :href="`/vacation-requests/${request.id}/cancel`"
+              :href="`/vacation/requests/${request.id}/cancel`"
               method="post"
               as="button"
               preserve-scroll

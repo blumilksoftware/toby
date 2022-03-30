@@ -17,10 +17,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::unsetEventDispatcher();
-        YearPeriod::unsetEventDispatcher();
-        VacationRequest::unsetEventDispatcher();
-
         User::factory(9)->create();
         User::factory([
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),

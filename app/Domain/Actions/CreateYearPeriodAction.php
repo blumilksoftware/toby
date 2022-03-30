@@ -2,22 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Toby\Eloquent\Observers;
+namespace Toby\Domain\Actions;
 
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
 
-class YearPeriodObserver
+class CreateYearPeriodAction
 {
     public function __construct(
         protected PolishHolidaysRetriever $polishHolidaysRetriever,
     ) {}
 
-    public function created(YearPeriod $yearPeriod): void
+    public function execute(int $year): YearPeriod
     {
+        $yearPeriod = new YearPeriod([
+            "year" => $year,
+        ]);
+
+        $yearPeriod->save();
+
         $this->createVacationLimitsFor($yearPeriod);
         $this->createHolidaysFor($yearPeriod);
+
+        return $yearPeriod;
     }
 
     protected function createVacationLimitsFor(YearPeriod $yearPeriod): void

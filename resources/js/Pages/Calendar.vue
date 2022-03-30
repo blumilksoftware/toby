@@ -10,7 +10,7 @@
           <InertiaLink
             v-if="previousMonth"
             as="button"
-            :href="`/vacation-calendar/${previousMonth.value}`"
+            :href="`/vacation/calendar/${previousMonth.value}`"
             class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="h-5 w-5" />
@@ -23,7 +23,7 @@
           </span>
           <InertiaLink
             as="button"
-            :href="`/vacation-calendar/${currentMonth.value}`"
+            :href="`/vacation/calendar/${currentMonth.value}`"
             class="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium flex items-center text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
           >
             Dzisiaj
@@ -31,7 +31,7 @@
           <InertiaLink
             v-if="nextMonth"
             as="button"
-            :href="`/vacation-calendar/${nextMonth.value}`"
+            :href="`/vacation/calendar/${nextMonth.value}`"
             class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="h-5 w-5" />
@@ -46,7 +46,7 @@
       </div>
       <div v-if="can.generateTimesheet">
         <a
-          :href="`/timesheet/${selectedMonth.value}`"
+          :href="`/vacation/timesheet/${selectedMonth.value}`"
           class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
         >
           Pobierz plik Excel
@@ -59,13 +59,13 @@
           <tr>
             <th class="w-64 py-2 border text-lg font-semibold text-gray-800 border-gray-300">
               <div class="flex justify-center items-center">
-                {{ selectedMonth.name }} {{ years.current }}
+                {{ selectedMonth.name }} {{ years.selected.year }}
               </div>
             </th>
             <th
               v-for="day in calendar"
               :key="day.dayOfMonth"
-              class="border border-gray-300 text-lg font-semibold text-gray-900 py-4 px-2"
+              class="border border-gray-300 text-lg font-semibold text-gray-900 py-2 px-2"
               style="min-width: 46px;"
               :class="{ 'bg-red-100 text-red-800': day.isWeekend || day.isHoliday, 'text-blumilk-600 bg-blumilk-25': day.isToday }"
             >
@@ -83,16 +83,13 @@
             v-for="user in users.data"
             :key="user.id"
           >
-            <th class="border border-gray-300 py-2 px-4">
+            <th class="border border-gray-300 py-2 px-2">
               <div class="flex justify-start items-center">
-                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
-                  <img
-                    class="h-10 w-10 rounded-full"
-                    :src="user.avatar"
-                  >
+                <span class="inline-flex items-center justify-center h-8 w-8 rounded-full">
+                  <img :src="user.avatar">
                 </span>
                 <div class="ml-3">
-                  <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900 truncate">
                     {{ user.name }}
                   </div>
                 </div>

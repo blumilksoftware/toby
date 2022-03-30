@@ -71,18 +71,6 @@ class User extends Authenticatable
         return $this->hasMany(Vacation::class);
     }
 
-    public function scopeSearch(Builder $query, ?string $text): Builder
-    {
-        if ($text === null) {
-            return $query;
-        }
-
-        return $query
-            ->where("first_name", "ILIKE", $text)
-            ->orWhere("last_name", "ILIKE", $text)
-            ->orWhere("email", "ILIKE", $text);
-    }
-
     public function getAvatar(): string
     {
         return $this->getAvatarGenerator()
@@ -106,6 +94,28 @@ class User extends Authenticatable
             ->where("year_period_id", $yearPeriod->id)
             ->whereNotNull("days")
             ->exists();
+    }
+
+    public function scopeSearch(Builder $query, ?string $text): Builder
+    {
+        if ($text === null) {
+            return $query;
+        }
+
+        return $query
+            ->where("first_name", "ILIKE", $text)
+            ->orWhere("last_name", "ILIKE", $text)
+            ->orWhere("email", "ILIKE", $text);
+    }
+
+    public function scopeWithVacationLimitIn(Builder $query, YearPeriod $yearPeriod): Builder
+    {
+        return $query->whereRelation(
+            "vacationlimits",
+            fn(Builder $query) => $query
+                ->where("year_period_id", $yearPeriod->id)
+                ->whereNotNull("days"),
+        );
     }
 
     protected function getAvatarName(): string

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Toby\Eloquent\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Toby\Domain\VacationRequestStatesRetriever;
 
 /**
  * @property int $id
@@ -39,5 +41,13 @@ class Vacation extends Model
     public function yearPeriod(): BelongsTo
     {
         return $this->belongsTo(YearPeriod::class);
+    }
+
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->whereRelation(
+            "vacationRequest",
+            fn(Builder $query) => $query->states(VacationRequestStatesRetriever::successStates()),
+        );
     }
 }

@@ -287,7 +287,7 @@
           <div class="flex justify-end py-3">
             <div class="space-x-3">
               <InertiaLink
-                href="/vacation-requests"
+                href="/vacation/requests"
                 class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
               >
                 Anuluj
@@ -388,7 +388,7 @@ function createForm() {
       type: data.type.value,
       user: data.user.id,
     }))
-    .post('/vacation-requests')
+    .post('/vacation/requests')
 }
 
 function onFromChange(selectedDates, dateStr) {
@@ -418,14 +418,14 @@ function resetForm() {
 
 async function refreshEstimatedDays(from, to) {
   if (from && to) {
-    const res = await axios.post('/api/calculate-vacation-days', { from, to })
+    const res = await axios.post('/api/calculate-vacation/days', { from, to })
 
     estimatedDays.value = res.data
   }
 }
 
 async function refreshVacationStats(user) {
-  const res = await axios.post('/api/calculate-vacation-stats', { user: user.id })
+  const res = await axios.post('/api/calculate-vacation/stats', { user: user.id })
 
   stats.value = res.data
 }

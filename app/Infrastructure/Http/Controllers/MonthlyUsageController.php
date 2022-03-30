@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Domain\Enums\Month;
@@ -26,10 +25,7 @@ class MonthlyUsageController extends Controller
         $currentUser = $request->user();
 
         $users = User::query()
-            ->whereRelation(
-                "vacationlimits",
-                fn(Builder $query) => $query->where("year_period_id", $currentYearPeriod->id)->whereNotNull("days"),
-            )
+            ->withVacationLimitIn($currentYearPeriod)
             ->where("id", "!=", $currentUser->id)
             ->orderBy("last_name")
             ->orderBy("first_name")

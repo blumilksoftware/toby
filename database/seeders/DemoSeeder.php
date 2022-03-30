@@ -29,10 +29,6 @@ class DemoSeeder extends Seeder
 {
     public function run(): void
     {
-        User::unsetEventDispatcher();
-        YearPeriod::unsetEventDispatcher();
-        VacationRequest::unsetEventDispatcher();
-
         $user = User::factory([
             "first_name" => "Jan",
             "last_name" => "Kowalski",

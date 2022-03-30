@@ -14,7 +14,7 @@
     <div class="border-t border-gray-200">
       <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
         <form @submit.prevent="submitVacationDays">
-          <table class="min-w-full divide-y divide-gray-200">
+          <table class="min-w-full divide-y divide-gray-200 border-b">
             <thead class="bg-gray-50">
               <tr>
                 <th
@@ -155,7 +155,7 @@ function submitVacationDays() {
         days: item.hasVacation ? item.days : null,
       })),
     }))
-    .put('/vacation-limits', {
+    .put('/vacation/limits', {
       preserveState: (page) => Object.keys(page.props.errors).length,
       preserveScroll: true,
     })

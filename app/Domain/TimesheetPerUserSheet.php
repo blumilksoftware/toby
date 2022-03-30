@@ -25,7 +25,6 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\Vacation;
@@ -189,7 +188,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
         return $user->vacations()
             ->with("vacationRequest")
             ->whereBetween("date", [$period->start, $period->end])
-            ->whereRelation("vacationRequest", "state", Approved::$name)
+            ->approved()
             ->get()
             ->groupBy(
                 [

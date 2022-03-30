@@ -103,10 +103,7 @@ class VacationRequestController extends Controller
             ->paginate();
 
         $users = User::query()
-            ->whereRelation(
-                "vacationlimits",
-                fn(Builder $query) => $query->where("year_period_id", $yearPeriod->id)->whereNotNull("days"),
-            )
+            ->withVacationLimitIn($yearPeriod)
             ->orderBy("last_name")
             ->orderBy("first_name")
             ->get();
@@ -164,10 +161,7 @@ class VacationRequestController extends Controller
         $yearPeriod = $yearPeriodRetriever->selected();
 
         $users = User::query()
-            ->whereRelation(
-                "vacationlimits",
-                fn(Builder $query) => $query->where("year_period_id", $yearPeriod->id)->whereNotNull("days"),
-            )
+            ->withVacationLimitIn($yearPeriod)
             ->orderBy("last_name")
             ->orderBy("first_name")
             ->get();

@@ -40,7 +40,7 @@ class VacationRequestStatesTest extends TestCase
 
     public function testAfterCreatingVacationRequestOfTypeVacationItTransitsToProperState(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -63,7 +63,7 @@ class VacationRequestStatesTest extends TestCase
 
     public function testAfterCreatingVacationRequestOfTypeSickVacationItTransitsToProperState(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -85,7 +85,7 @@ class VacationRequestStatesTest extends TestCase
 
     public function testAfterCreatingVacationRequestOfTypeTimeInLieuItTransitsToProperState(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
 
         $currentYearPeriod = YearPeriod::current();
 

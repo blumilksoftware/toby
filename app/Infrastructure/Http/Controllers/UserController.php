@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Toby\Domain\Actions\CreateUserAction;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
@@ -54,11 +55,11 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function store(UserRequest $request): RedirectResponse
+    public function store(UserRequest $request, CreateUserAction $createUserAction): RedirectResponse
     {
         $this->authorize("manageUsers");
 
-        User::query()->create($request->data());
+        $createUserAction->execute($request->data());
 
         return redirect()
             ->route("users.index")
