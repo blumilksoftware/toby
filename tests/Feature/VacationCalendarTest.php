@@ -14,7 +14,7 @@ class VacationCalendarTest extends FeatureTestCase
 
     public function testAdministrativeApproverCanDownloadTimesheet(): void
     {
-        $administrativeApprover = User::factory()->administrativeApprover()->createQuietly();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
 
         $this->actingAs($administrativeApprover)
             ->get("/vacation/timesheet/january")
@@ -23,7 +23,7 @@ class VacationCalendarTest extends FeatureTestCase
 
     public function testEmployeeCannotDownloadTimesheet(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->get("/vacation/timesheet/january")

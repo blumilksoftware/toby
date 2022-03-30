@@ -21,11 +21,11 @@
     </div>
     <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
       <div class="text-sm text-gray-700">
-        Wyświetlanie
+        Wyświetlanie od
         <span class="font-medium">{{ pagination.from }}</span>
-        od
-        <span class="font-medium">{{ pagination.to }}</span>
         do
+        <span class="font-medium">{{ pagination.to }}</span>
+        z
         <span class="font-medium">{{ pagination.total }}</span>
         wyników
       </div>

@@ -80,7 +80,7 @@ class VacationRequestTest extends FeatureTestCase
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
             ])
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
@@ -115,7 +115,7 @@ class VacationRequestTest extends FeatureTestCase
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
             ])
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
@@ -152,7 +152,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
                 "flowSkipped" => true,
             ])
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
@@ -182,7 +182,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($technicalApprover)
             ->post("/vacation/requests/{$vacationRequest->id}/accept-as-technical")
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $vacationRequest->refresh();
 
@@ -205,7 +205,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($administrativeApprover)
             ->post("/vacation/requests/{$vacationRequest->id}/accept-as-administrative")
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $vacationRequest->refresh();
 
@@ -236,7 +236,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($technicalApprover)
             ->post("/vacation/requests/{$vacationRequest->id}/reject")
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $vacationRequest->refresh();
 
@@ -434,7 +434,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testEmployeeCanSeeOnlyHisVacationRequests(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->get("/vacation/requests")
@@ -443,8 +443,8 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testEmployeeCannotCreateVacationRequestForAnotherEmployee(): void
     {
-        $user = User::factory()->createQuietly();
-        $anotherUser = User::factory()->createQuietly();
+        $user = User::factory()->create();
+        $anotherUser = User::factory()->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -461,7 +461,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testEmployeeCanCancelVacationRequestWithWaitingForAdministrativeStatus(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([
@@ -482,7 +482,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation/requests/{$vacationRequest->id}/cancel")
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $vacationRequest->refresh();
 
@@ -491,7 +491,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testEmployeeCannotCancelVacationRequestWithApprovedStatus(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([
@@ -517,8 +517,8 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testAdministrativeApproverCanCancelVacationRequestWithApprovedStatus(): void
     {
-        $user = User::factory()->createQuietly();
-        $administrativeApprover = User::factory()->administrativeApprover()->createQuietly();
+        $user = User::factory()->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([
@@ -539,7 +539,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($administrativeApprover)
             ->post("/vacation/requests/{$vacationRequest->id}/cancel")
-            ->assertSessionHasNoErrors();
+            ->assertRedirect();
 
         $vacationRequest->refresh();
 
@@ -548,7 +548,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testEmployeeCanDownloadHisVacationRequestAsPdf(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([
@@ -569,13 +569,13 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->get("/vacation/requests/{$vacationRequest->id}/download")
-            ->assertSessionHasNoErrors();
+            ->assertSuccessful();
     }
 
     public function testEmployeeCannotDownloadAnotherEmployeesVacationRequestAsPdf(): void
     {
-        $user = User::factory()->createQuietly();
-        $anotherUser = User::factory()->createQuietly();
+        $user = User::factory()->create();
+        $anotherUser = User::factory()->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([

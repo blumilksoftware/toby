@@ -14,7 +14,7 @@ class MonthlyUsageTest extends FeatureTestCase
 
     public function testAdministatorCanSeeVacationsMonthlyUsage(): void
     {
-        $admin = User::factory()->admin()->createQuietly();
+        $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->get("/vacation/monthly-usage")
@@ -23,7 +23,7 @@ class MonthlyUsageTest extends FeatureTestCase
 
     public function testEmployeeCannotSeeVacationsMonthlyUsage(): void
     {
-        $user = User::factory()->createQuietly();
+        $user = User::factory()->create();
 
         $this->actingAs($user)
             ->get("/vacation/monthly-usage")
