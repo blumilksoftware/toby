@@ -14,7 +14,6 @@ class VacationCalendarTest extends FeatureTestCase
 
     public function testAdministrativeApproverCanDownloadTimesheet(): void
     {
-        $user = User::factory()->createQuietly();
         $administrativeApprover = User::factory()->administrativeApprover()->createQuietly();
 
         $this->actingAs($administrativeApprover)

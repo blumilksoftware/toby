@@ -80,7 +80,7 @@ class VacationRequestTest extends FeatureTestCase
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
             ])
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
@@ -115,7 +115,7 @@ class VacationRequestTest extends FeatureTestCase
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
             ])
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
@@ -152,7 +152,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
                 "flowSkipped" => true,
             ])
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $this->assertDatabaseHas("vacation_requests", [
             "user_id" => $user->id,
@@ -182,7 +182,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($technicalApprover)
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-technical")
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $vacationRequest->refresh();
 
@@ -205,7 +205,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($administrativeApprover)
             ->post("/vacation-requests/{$vacationRequest->id}/accept-as-administrative")
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $vacationRequest->refresh();
 
@@ -236,7 +236,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($technicalApprover)
             ->post("/vacation-requests/{$vacationRequest->id}/reject")
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $vacationRequest->refresh();
 
@@ -482,7 +482,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->post("/vacation-requests/{$vacationRequest->id}/cancel")
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $vacationRequest->refresh();
 
@@ -539,7 +539,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($administrativeApprover)
             ->post("/vacation-requests/{$vacationRequest->id}/cancel")
-            ->assertSessionHasNoErrors();
+            ->assertOk();
 
         $vacationRequest->refresh();
 
@@ -569,7 +569,7 @@ class VacationRequestTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->get("/vacation-requests/{$vacationRequest->id}/download")
-            ->assertSessionHasNoErrors();
+            ->assertOk();
     }
 
     public function testEmployeeCannotDownloadAnotherEmployeesVacationRequestAsPdf(): void
