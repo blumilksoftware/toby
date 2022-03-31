@@ -24,7 +24,7 @@
           <InertiaLink
             as="button"
             :href="`/vacation/calendar/${currentMonth.value}`"
-            class="flex focus:relative items-center p-2 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border-y border-gray-300"
+            class="hidden focus:relative items-center p-2 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border-y border-gray-300 md:flex"
           >
             Dzisiaj
           </InertiaLink>
