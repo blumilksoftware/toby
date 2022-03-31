@@ -21,7 +21,7 @@
             {{ stats.used }}
           </dd>
           <dt class="font-medium text-gray-700 truncate text-md">
-            Dni wykorzystane
+            Wykorzystane
           </dt>
           <dt class="mt-2 text-sm font-medium text-gray-500">
             Dni, które zostały już wykorzystane na urlop wypoczynkowy.
@@ -31,7 +31,7 @@
           <dt class="mt-1 text-4xl font-semibold text-blumilk-200">
             {{ stats.pending }}
           </dt>
-          <dd class="font-medium text-gray-500 truncate text-md">
+          <dd class="font-medium text-gray-700 truncate text-md">
             Rozpatrywane
           </dd>
           <dt class="mt-2 text-sm font-medium text-gray-500">
@@ -42,7 +42,7 @@
           <dt class="mt-1 text-4xl font-semibold text-gray-900">
             {{ stats.limit }}
           </dt>
-          <dd class="font-medium text-gray-500 truncate text-md">
+          <dd class="font-medium text-gray-700 truncate text-md">
             Limit urlopu
           </dd>
           <dt class="mt-2 text-sm font-medium text-gray-500">
@@ -53,7 +53,7 @@
           <dt class="mt-1 text-4xl font-semibold text-gray-900">
             {{ stats.other }}
           </dt>
-          <dd class="font-medium text-gray-500 truncate text-md">
+          <dd class="font-medium text-gray-700 truncate text-md">
             Inne urlopy
           </dd>
           <dt class="mt-2 text-sm font-medium text-gray-500">
