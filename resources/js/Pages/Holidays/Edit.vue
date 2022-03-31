@@ -2,27 +2,27 @@
   <InertiaHead title="Edytuj dzień wolny" />
   <div class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
-      <h2 class="text-lg leading-6 font-medium text-gray-900">
+      <h2 class="text-lg font-medium leading-6 text-gray-900">
         Edytuj dzień wolny
       </h2>
     </div>
     <form
-      class="border-t border-gray-200 px-6"
+      class="px-6 border-t border-gray-200"
       @submit.prevent="editHoliday"
     >
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="name"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
           Nazwa
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
           <input
             id="name"
             v-model="form.name"
             type="text"
-            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
           >
           <p
@@ -33,19 +33,19 @@
           </p>
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="date"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
           Data
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
           <FlatPickr
             id="date"
             v-model="form.date"
             placeholder="Wybierz datę"
-            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.date, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.date }"
           />
           <p
@@ -60,14 +60,14 @@
         <div class="space-x-3">
           <InertiaLink
             href="/holidays"
-            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+            class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Anuluj
           </InertiaLink>
           <button
             type="submit"
             :disabled="form.processing"
-            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+            class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Zapisz
           </button>

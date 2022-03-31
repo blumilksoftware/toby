@@ -1,56 +1,56 @@
 <template>
   <Popper
     hover
-    class="h-full w-full"
+    class="w-full h-full"
   >
-    <div class="flex bg-white text-white">
+    <div class="flex text-white bg-white">
       <div
         v-show="stats.used > 0"
         :style="`background-color: ${colors.used}; flex-basis: ${calculatePercent(stats.used)}%;`"
-        class="flex items-center justify-center py-2 px-0.5"
+        class="flex justify-center items-center py-2 px-0.5"
       >
         <strong>{{ stats.used }}</strong>
       </div>
       <div
         v-show="stats.pending > 0"
         :style="`background-color: ${colors.pending}; flex-basis: ${calculatePercent(stats.pending)}%;`"
-        class="flex items-center justify-center py-2 px-0.5"
+        class="flex justify-center items-center py-2 px-0.5"
       >
         <strong>{{ stats.pending }}</strong>
       </div>
       <div
         v-show="stats.remaining > 0"
         :style="`background-color: ${colors.remaining}; flex-basis: ${calculatePercent(stats.remaining)}%;`"
-        class="flex items-center justify-center py-2 px-0.5"
+        class="flex justify-center items-center py-2 px-0.5"
       >
         <strong>{{ stats.remaining }}</strong>
       </div>
     </div>
     <template #content>
-      <div class="px-4 py-2 bg-white text-md text-gray-900 rounded-md shadow-md flext">
+      <div class="py-2 px-4 text-gray-900 bg-white rounded-md shadow-md text-md flext">
         <div class="flex items-center font-normal">
           <i
-            class="inline-block w-5 h-3 mr-3"
+            class="inline-block mr-3 w-5 h-3"
             :style="`background-color: ${colors.used}`"
           />
           Wykorzystane:
-          <span class="font-semibold ml-1">{{ stats.used }}</span>
+          <span class="ml-1 font-semibold">{{ stats.used }}</span>
         </div>
         <div class="flex items-center font-normal">
           <i
-            class="inline-block w-5 h-3 mr-3"
+            class="inline-block mr-3 w-5 h-3"
             :style="`background-color: ${colors.pending}`"
           />
           Rozpatrywane:
-          <span class="font-semibold ml-1">{{ stats.pending }}</span>
+          <span class="ml-1 font-semibold">{{ stats.pending }}</span>
         </div>
         <div class="flex items-center font-normal">
           <i
-            class="inline-block w-5 h-3 mr-3"
+            class="inline-block mr-3 w-5 h-3"
             :style="`background-color: ${colors.remaining}`"
           />
           Pozostałe:
-          <span class="font-semibold ml-1">{{ stats.remaining }}</span>
+          <span class="ml-1 font-semibold">{{ stats.remaining }}</span>
         </div>
       </div>
     </template>

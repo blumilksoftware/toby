@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-blumilk-25">
+  <div class="flex flex-col justify-center py-12 min-h-screen bg-blumilk-25 sm:px-6 lg:px-8">
     <slot />
   </div>
 </template>

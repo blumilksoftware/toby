@@ -1,31 +1,31 @@
 <template>
   <InertiaHead :title="`Wniosek ${request.name}`" />
-  <div class="grid grid-cols-1 gap-6 xl:grid-flow-col-dense xl:grid-cols-3">
-    <div class="space-y-6 xl:col-start-1 xl:col-span-2">
+  <div class="grid grid-cols-1 gap-6 xl:grid-cols-3 xl:grid-flow-col-dense">
+    <div class="space-y-6 xl:col-span-2 xl:col-start-1">
       <div class="bg-white shadow-md">
-        <div class="px-4 py-5 sm:px-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <div class="py-5 px-4 sm:px-6">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
             Informacje na temat wniosku
           </h3>
         </div>
-        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <div class="py-5 px-4 border-t border-gray-200 sm:p-0">
           <dl class="sm:divide-y sm:divide-gray-200">
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
                 Nr wniosku
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 {{ request.name }}
               </dd>
             </div>
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500 flex items-center">
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
+              <dt class="flex items-center text-sm font-medium text-gray-500">
                 Pracownik
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <div class="flex">
                   <img
-                    class="h-10 w-10 rounded-full"
+                    class="w-10 h-10 rounded-full"
                     :src="request.user.avatar"
                   >
                   <div class="ml-3">
@@ -39,27 +39,27 @@
                 </div>
               </dd>
             </div>
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
                 Rodzaj urlopu
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <VacationType :type="request.type" />
               </dd>
             </div>
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
                 Obecny status
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <Status :status="request.state" />
               </dd>
             </div>
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
                 Data
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <template v-if="request.days.length > 1">
                   {{ request.from }} - {{ request.to }}
                 </template>
@@ -71,35 +71,35 @@
                 </span>
               </dd>
             </div>
-            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">
                 Komentarz
               </dt>
               <dd
                 v-if="request.comment != null"
-                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
               >
                 {{ request.comment }}
               </dd>
               <dd
                 v-else
-                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
               >
                 -
               </dd>
             </div>
-            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500 flex items-center">
+            <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="flex items-center text-sm font-medium text-gray-500">
                 Załączniki
               </dt>
-              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
-                  <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                    <div class="w-0 flex-1 flex items-center">
-                      <PaperClipIcon class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                      <span class="ml-2 flex-1 w-0 truncate"> wniosek_urlopowy.pdf </span>
+              <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <ul class="rounded-md border border-gray-200 divide-y divide-gray-200">
+                  <li class="flex justify-between items-center py-3 pr-4 pl-3 text-sm">
+                    <div class="flex flex-1 items-center w-0">
+                      <PaperClipIcon class="shrink-0 w-5 h-5 text-gray-400" />
+                      <span class="flex-1 ml-2 w-0 truncate"> wniosek_urlopowy.pdf </span>
                     </div>
-                    <div class="ml-4 flex-shrink-0">
+                    <div class="shrink-0 ml-4">
                       <a
                         :href="`/vacation/requests/${request.id}/download`"
                         target="_blank"
@@ -119,8 +119,8 @@
         v-if="can.acceptAsTechnical"
         class="bg-white shadow"
       >
-        <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <div class="py-5 px-4 sm:p-6">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
             Zaakceptuj wniosek jako osoba techniczna
           </h3>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
@@ -135,7 +135,7 @@
               method="post"
               as="button"
               preserve-scroll
-              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+              class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             >
               Zaakceptuj wniosek
             </InertiaLink>
@@ -146,8 +146,8 @@
         v-if="can.acceptAsAdministrative"
         class="bg-white shadow"
       >
-        <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <div class="py-5 px-4 sm:p-6">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
             Zaakceptuj wniosek jako osoba administracyjna
           </h3>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
@@ -161,7 +161,7 @@
               method="post"
               as="button"
               preserve-scroll
-              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+              class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             >
               Zaakceptuj wniosek
             </InertiaLink>
@@ -172,8 +172,8 @@
         v-if="can.reject"
         class="bg-white shadow"
       >
-        <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <div class="py-5 px-4 sm:p-6">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
             Odrzuć wniosek
           </h3>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
@@ -187,7 +187,7 @@
               method="post"
               as="button"
               preserve-scroll
-              class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
+              class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
             >
               Odrzuć wniosek
             </InertiaLink>
@@ -196,10 +196,10 @@
       </div>
       <div
         v-if="can.cancel"
-        class="bg-white shadow border border-red-500"
+        class="bg-white border border-red-500 shadow"
       >
-        <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <div class="py-5 px-4 sm:p-6">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
             Anuluj wniosek
           </h3>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
@@ -213,7 +213,7 @@
               method="post"
               as="button"
               preserve-scroll
-              class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
+              class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
             >
               Anuluj wniosek
             </InertiaLink>
@@ -221,14 +221,14 @@
         </div>
       </div>
     </div>
-    <div class="xl:col-start-3 xl:col-span-1 space-y-6">
+    <div class="space-y-6 xl:col-span-1 xl:col-start-3">
       <div class="bg-white shadow-md">
-        <div class="px-4 py-5 sm:px-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <div class="py-5 px-4 sm:px-6">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
             Historia wniosku
           </h3>
         </div>
-        <div class="border-t border-gray-200 px-4 py-4">
+        <div class="p-4 border-t border-gray-200">
           <ul>
             <li
               v-for="(activity, index) in activities.data"

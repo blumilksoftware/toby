@@ -10,23 +10,23 @@
   >
     <div
       v-if="errors.oauth"
-      class="absolute inset-x-2 top-2 sm:mx-auto sm:w-full sm:max-w-md bg-red-500 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+      class="overflow-hidden absolute inset-x-2 top-2 bg-red-500 rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto sm:mx-auto sm:w-full sm:max-w-md"
     >
       <div class="p-4">
         <div class="flex items-center">
-          <div class="w-0 flex-1 flex justify-between">
-            <ExclamationIcon class="h-5 w-5 mr-1 text-white" />
-            <p class="w-0 flex-1 text-sm font-medium text-white">
+          <div class="flex flex-1 justify-between w-0">
+            <ExclamationIcon class="mr-1 w-5 h-5 text-white" />
+            <p class="flex-1 w-0 text-sm font-medium text-white">
               {{ errors.oauth }}
             </p>
           </div>
-          <div class="ml-4 flex-shrink-0 flex">
+          <div class="flex shrink-0 ml-4">
             <button
-              class="bg-red-500 rounded-md inline-flex text-red-100 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600"
+              class="inline-flex text-red-100 hover:text-red-400 bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
               @click="delete errors.oauth"
             >
               <span class="sr-only">Close</span>
-              <XIcon class="h-5 w-5" />
+              <XIcon class="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -34,20 +34,20 @@
     </div>
   </transition>
   <div
-    class="sm:mx-auto sm:w-full sm:max-w-md text-white space-y-4 flex flex-col items-center rounded-lg px-4 py-8"
+    class="flex flex-col items-center py-8 px-4 space-y-4 text-white rounded-lg sm:mx-auto sm:w-full sm:max-w-md"
     dusk="login-link"
   >
     <img
-      class="mx-auto h-50 w-auto"
+      class="mx-auto w-auto h-50"
       src="img/logo.png"
     >
     <a
       href="/login/google/start"
-      class="inline-flex justify-center items-center py-2 px-6 rounded-md shadow-sm bg-blumilk-500 text-md font-medium text-white hover:bg-blumilk-700"
+      class="inline-flex justify-center items-center py-2 px-6 font-medium text-white bg-blumilk-500 hover:bg-blumilk-700 rounded-md shadow-sm text-md"
     >
       Zaloguj się za pomocą Google
       <svg
-        class="w-5 h-5 ml-2"
+        class="ml-2 w-5 h-5"
         fill="currentColor"
         viewBox="0 0 24 24"
       >

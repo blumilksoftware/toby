@@ -1,19 +1,19 @@
 <template>
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
-      <h2 class="text-lg leading-6 font-medium text-gray-900">
+      <h2 class="text-lg font-medium leading-6 text-gray-900">
         Dzisiejsze nieobecności
       </h2>
     </div>
-    <div class="border-t border-gray-200 px-4 sm:px-6">
+    <div class="px-4 border-t border-gray-200 sm:px-6">
       <ul class="divide-y divide-gray-200">
         <li
           v-for="absence in absences"
           :key="absence.user.id"
-          class="py-4 flex"
+          class="flex py-4"
         >
           <img
-            class="h-10 w-10 rounded-full"
+            class="w-10 h-10 rounded-full"
             :src="absence.user.avatar"
           >
           <div class="ml-3">
