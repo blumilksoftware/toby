@@ -24,7 +24,7 @@
         "spatie/laravel-model-states": "^2.1"
     },
     "require-dev": {
-        "blumilksoftware/codestyle": "^0.10.0",
+        "blumilksoftware/codestyle": "^1.0.0",
         "fakerphp/faker": "^1.19",
         "laravel/dusk": "^6.21",
         "mockery/mockery": "^1.4.4",
@@ -45,8 +45,8 @@
         }
     },
     "scripts": {
-        "ecs": "./vendor/bin/ecs check --clear-cache",
-        "ecsf": "./vendor/bin/ecs check --clear-cache --fix",
+        "cs": "./vendor/bin/php-cs-fixer fix --dry-run --diff --config codestyle.php",
+        "csf": "./vendor/bin/php-cs-fixer fix --diff --config codestyle.php",
         "test": "@php artisan test",
         "fresh": "@php artisan migrate:fresh",
         "fresh:demo": [

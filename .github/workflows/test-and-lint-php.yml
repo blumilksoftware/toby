@@ -45,7 +45,7 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-suggest
 
       - name: Run PHP linter
-        run: composer ecs
+        run: composer cs
 
       - name: Execute tests
         run: php artisan test --env=ci
