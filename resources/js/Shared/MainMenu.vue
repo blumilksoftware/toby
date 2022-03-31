@@ -100,7 +100,7 @@
         <InertiaLink href="/">
           <img
             src="/img/logo-white.svg"
-            class="w-auto h-10 text-red-600 fil-red-600"
+            class="w-auto h-8"
           >
         </InertiaLink>
       </div>
