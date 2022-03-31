@@ -8,7 +8,7 @@
       </div>
     </div>
     <template #content>
-      <div class="px-2 py-1 bg-white text-xs text-gray-900 shadow-md ">
+      <div class="py-1 px-2 text-xs text-gray-900 bg-white shadow-md ">
         {{ typeInfo.text }}
       </div>
     </template>

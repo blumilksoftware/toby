@@ -1,16 +1,16 @@
 <template>
   <section>
-    <div class=" bg-white overflow-hidden shadow">
-      <div class="bg-white p-6">
-        <div class="sm:flex sm:items-center sm:justify-between">
+    <div class=" overflow-hidden bg-white shadow">
+      <div class="p-6 bg-white">
+        <div class="sm:flex sm:justify-between sm:items-center">
           <div class="sm:flex sm:space-x-5">
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <img
-                class="mx-auto h-20 w-20 rounded-full"
+                class="mx-auto w-20 h-20 rounded-full"
                 :src="user.avatar"
               >
             </div>
-            <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
+            <div class="mt-4 text-center sm:pt-1 sm:mt-0 sm:text-left">
               <p class="text-sm font-medium text-gray-600">
                 Cześć,
               </p>

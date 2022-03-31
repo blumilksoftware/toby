@@ -1,25 +1,25 @@
 <template>
   <div
     v-if="pagination.last_page !== 1"
-    class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-b-lg"
+    class="flex justify-between items-center py-3 px-4 bg-white rounded-b-lg border-t border-gray-200 sm:px-6"
   >
-    <div class="flex-1 flex justify-between sm:hidden">
+    <div class="flex flex-1 justify-between sm:hidden">
       <Component
         :is="prevLink ? 'InertiaLink': 'span'"
         :href="prevLink"
-        class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+        class="inline-flex relative items-center py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300"
       >
         Poprzednia
       </Component>
       <Component
         :is="nextLink ? 'InertiaLink': 'span'"
         :href="nextLink"
-        class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+        class="inline-flex relative items-center py-2 px-4 ml-3 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300"
       >
         Następna
       </Component>
     </div>
-    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+    <div class="hidden sm:flex sm:flex-1 sm:justify-between sm:items-center">
       <div class="text-sm text-gray-700">
         Wyświetlanie od
         <span class="font-medium">{{ pagination.from }}</span>
@@ -29,7 +29,7 @@
         <span class="font-medium">{{ pagination.total }}</span>
         wyników
       </div>
-      <nav class="relative z-0 inline-flex space-x-1">
+      <nav class="inline-flex relative z-0 space-x-1">
         <template
           v-for="(link, index) in pagination.links"
           :key="index"
@@ -38,7 +38,7 @@
             :is="link.url ? 'InertiaLink' : 'span'"
             :href="link.url"
             :preserve-scroll="true"
-            class="relative inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium"
+            class="inline-flex relative items-center py-2 px-4 text-sm font-medium rounded-md border"
             :class="{ 'z-10 bg-blumilk-25 border-blumilk-500 text-blumilk-600': link.active, 'bg-white border-gray-300 text-gray-500': !link.active, 'hover:bg-blumilk-25': link.url, 'border-none': !link.url}"
             v-text="link.label"
           />

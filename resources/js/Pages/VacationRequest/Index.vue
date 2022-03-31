@@ -2,27 +2,25 @@
   <InertiaHead title="Moje wnioski urlopowe" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
-      <div>
-        <h2 class="text-lg leading-6 font-medium text-gray-900">
-          Moje wnioski urlopowe
-        </h2>
-      </div>
+      <h2 class="text-lg font-medium leading-6 text-gray-900">
+        Moje wnioski urlopowe
+      </h2>
       <div>
         <InertiaLink
           href="/vacation/requests/create"
-          class="inline-flex items-center px-4 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
         >
           Dodaj wniosek
         </InertiaLink>
       </div>
     </div>
-    <div class="overflow-x-auto xl:overflow-x-visible overflow-y-auto xl:overflow-y-visible">
-      <nav class="relative shadow flex divide-x divide-gray-200 border-t border-gray-200">
-        <InertiaLink
+    <div class="border-t border-gray-200">
+      <div class="hidden relative divide-x divide-gray-200 shadow md:flex">
+        <button
           v-for="(status, index) in statuses"
           :key="index"
-          :data="{ status: status.value }"
           :class="[status.value === filters.status ? 'text-blumilk-600 font-semibold' : 'hover:bg-blumilk-25 text-gray-700 focus:z-10', 'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center']"
+          @click="form.status = status"
         >
           <span>{{ status.name }}</span>
           <span
@@ -31,45 +29,102 @@
           >
             {{ stats[status.value] }}
           </span>
-          <span :class="[status.value === filters.status ? 'bg-blumilk-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']" />
-        </InertiaLink>
-      </nav>
+          <span
+            :class="[status.value === filters.status ? 'bg-blumilk-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']"
+          />
+        </button>
+      </div>
+      <div class="grid grid-cols-1 gap-2 p-4 md:hidden md:grid-cols-2 md:gap-4">
+        <Listbox
+          v-model="form.status"
+          as="div"
+        >
+          <ListboxLabel class="block mb-2 text-sm font-medium text-gray-700">
+            Status
+          </ListboxLabel>
+          <div class="relative mt-1 sm:mt-0">
+            <ListboxButton
+              class="relative py-2 pr-10 pl-3 w-full max-w-lg h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+            >
+              <span class="flex items-center">
+                {{ form.status.name }}
+              </span>
+              <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+                <SelectorIcon class="w-5 h-5 text-gray-400" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition ease-in duration-100"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+              >
+                <ListboxOption
+                  v-for="status in statuses"
+                  :key="status.value"
+                  v-slot="{ active, selected }"
+                  as="template"
+                  :value="status"
+                >
+                  <li
+                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
+                  >
+                    {{ status.name }}
+
+                    <span
+                      v-if="selected"
+                      :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+      </div>
+    </div>
+    <div class="overflow-auto xl:overflow-visible">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
               Numer
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
               Rodzaj urlopu
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
               Od
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
               Do
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
               Dni urlopu
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
               Status
             </th>
@@ -80,9 +135,9 @@
           <tr
             v-for="request in requests.data"
             :key="request.id"
-            class="hover:bg-blumilk-25 relative"
+            class="relative hover:bg-blumilk-25"
           >
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
                 :href="`/vacation/requests/${request.id}`"
                 class="font-semibold text-blumilk-600 hover:text-blumilk-500 hover:underline"
@@ -90,22 +145,22 @@
                 {{ request.name }}
               </InertiaLink>
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
+            <td class="p-4 text-sm font-medium text-gray-500 whitespace-nowrap">
               <VacationType :type="request.type" />
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               {{ request.from }}
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               {{ request.to }}
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               {{ request.days.length }}
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <Status :status="request.state" />
             </td>
-            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
                 :href="`/vacation/requests/${request.id}`"
                 class="flex justify-around"
@@ -121,25 +176,29 @@
           <tr v-if="! requests.data.length">
             <td
               colspan="100%"
-              class="text-center py-4 text-xl leading-5 text-gray-700"
+              class="py-4 text-xl leading-5 text-center text-gray-700"
             >
               Brak danych
             </td>
           </tr>
         </tbody>
       </table>
-      <Pagination :pagination="requests.meta" />
     </div>
+    <Pagination :pagination="requests.meta" />
   </div>
 </template>
 
 <script setup>
-import { ChevronRightIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon, SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
 import Status from '@/Shared/Status'
 import VacationType from '@/Shared/VacationType'
 import Pagination from '@/Shared/Pagination'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { reactive, watch } from 'vue'
+import { debounce } from 'lodash'
+import { Inertia } from '@inertiajs/inertia'
 
-defineProps({
+const props = defineProps({
   requests: Object,
   stats: Object,
   filters: Object,
@@ -163,4 +222,16 @@ const statuses = [
     value: 'failed',
   },
 ]
+
+const form = reactive({
+  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+})
+
+watch(form, debounce(() => {
+  Inertia.get('/vacation/requests/me', { status: form.status.value }, {
+    preserveState: true,
+    replace: false,
+  })
+}, 300))
+
 </script>

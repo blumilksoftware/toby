@@ -103,9 +103,9 @@ class User extends Authenticatable
         }
 
         return $query
-            ->where("first_name", "ILIKE", $text)
-            ->orWhere("last_name", "ILIKE", $text)
-            ->orWhere("email", "ILIKE", $text);
+            ->where("first_name", "ILIKE", "%{$text}%")
+            ->orWhere("last_name", "ILIKE", "%{$text}%")
+            ->orWhere("email", "ILIKE", "%{$text}%");
     }
 
     public function scopeWithVacationLimitIn(Builder $query, YearPeriod $yearPeriod): Builder

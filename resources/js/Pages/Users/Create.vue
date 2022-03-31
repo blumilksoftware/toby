@@ -2,30 +2,27 @@
   <InertiaHead title="Dodawanie użytkownika" />
   <div class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
-      <h2 class="text-lg leading-6 font-medium text-gray-900">
+      <h2 class="text-lg font-medium leading-6 text-gray-900">
         Dodaj użytkownika
       </h2>
-      <p class="mt-1 text-sm text-gray-500">
-        Tylko dodani użytkownicy będą mogli zalogować się do aplikacji.
-      </p>
     </div>
     <form
-      class="border-t border-gray-200 px-6"
+      class="px-6 border-t border-gray-200"
       @submit.prevent="createUser"
     >
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="firstName"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
           Imię
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
           <input
             id="firstName"
             v-model="form.firstName"
             type="text"
-            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.firstName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.firstName }"
           >
           <p
@@ -36,19 +33,19 @@
           </p>
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="lastName"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
           Nazwisko
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
           <input
             id="lastName"
             v-model="form.lastName"
             type="text"
-            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.lastName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.lastName }"
           >
           <p
@@ -59,19 +56,19 @@
           </p>
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="email"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
           Adres e-mail
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
           <input
             id="email"
             v-model="form.email"
             type="email"
-            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.email, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.email }"
           >
           <p
@@ -82,19 +79,19 @@
           </p>
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="position"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
           Stanowisko
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
           <input
             id="position"
             v-model="form.position"
             type="text"
-            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.position, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.position }"
           >
           <p
@@ -108,19 +105,19 @@
       <Listbox
         v-model="form.role"
         as="div"
-        class="sm:grid sm:grid-cols-3 py-4 items-center"
+        class="items-center py-4 sm:grid sm:grid-cols-3"
       >
         <ListboxLabel class="block text-sm font-medium text-gray-700">
           Rola
         </ListboxLabel>
-        <div class="mt-1 relative sm:mt-0 sm:col-span-2">
+        <div class="relative mt-1 sm:col-span-2 sm:mt-0">
           <ListboxButton
-            class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentForm }"
+            class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.role, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.role }"
           >
             <span class="block truncate">{{ form.role.label }}</span>
-            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <SelectorIcon class="h-5 w-5 text-gray-400" />
+            <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+              <SelectorIcon class="w-5 h-5 text-gray-400" />
             </span>
           </ListboxButton>
           <transition
@@ -128,7 +125,7 @@
             leave-from-class="opacity-100"
             leave-to-class="opacity-0"
           >
-            <ListboxOptions class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+            <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm">
               <ListboxOption
                 v-for="role in roles"
                 :key="role.value"
@@ -145,7 +142,7 @@
                     v-if="selected"
                     :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                   >
-                    <CheckIcon class="h-5 w-5" />
+                    <CheckIcon class="w-5 h-5" />
                   </span>
                 </li>
               </ListboxOption>
@@ -162,19 +159,19 @@
       <Listbox
         v-model="form.employmentForm"
         as="div"
-        class="sm:grid sm:grid-cols-3 py-4 items-center"
+        class="items-center py-4 sm:grid sm:grid-cols-3"
       >
         <ListboxLabel class="block text-sm font-medium text-gray-700">
           Forma zatrudnienia
         </ListboxLabel>
-        <div class="mt-1 relative sm:mt-0 sm:col-span-2">
+        <div class="relative mt-1 sm:col-span-2 sm:mt-0">
           <ListboxButton
-            class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
+            class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentForm }"
           >
             <span class="block truncate">{{ form.employmentForm.label }}</span>
-            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <SelectorIcon class="h-5 w-5 text-gray-400" />
+            <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+              <SelectorIcon class="w-5 h-5 text-gray-400" />
             </span>
           </ListboxButton>
 
@@ -183,7 +180,7 @@
             leave-from-class="opacity-100"
             leave-to-class="opacity-0"
           >
-            <ListboxOptions class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+            <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm">
               <ListboxOption
                 v-for="employmentForm in employmentForms"
                 :key="employmentForm.value"
@@ -200,7 +197,7 @@
                     v-if="selected"
                     :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                   >
-                    <CheckIcon class="h-5 w-5" />
+                    <CheckIcon class="w-5 h-5" />
                   </span>
                 </li>
               </ListboxOption>
@@ -214,19 +211,19 @@
           </p>
         </div>
       </Listbox>
-      <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="employment_date"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
           Data zatrudnienia
         </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
           <FlatPickr
             id="employment_date"
             v-model="form.employmentDate"
             placeholder="Wybierz datę"
-            class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentDate }"
           />
           <p
@@ -241,14 +238,14 @@
         <div class="space-x-3">
           <InertiaLink
             href="/users"
-            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+            class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Anuluj
           </InertiaLink>
           <button
             type="submit"
             :disabled="form.processing"
-            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+            class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Zapisz
           </button>

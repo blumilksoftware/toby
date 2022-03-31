@@ -3,23 +3,23 @@
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div class="flex items-center">
-        <h2 class="text-lg leading-6 font-medium text-gray-900">
+        <h2 class="text-lg font-medium leading-6 text-gray-900">
           Wykorzystanie miesięczne urlopu wypoczynkowego
         </h2>
       </div>
     </div>
     <div class="border-t border-gray-200">
-      <div class="overflow-x-auto xl:overflow-x-visible overflow-y-hidden">
+      <div class="overflow-x-auto overflow-y-hidden xl:overflow-x-visible">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="w-64 px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider text-left">
+              <th class="py-3 px-6 w-64 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase">
                 Pracownik
               </th>
               <th
                 v-for="month in months"
                 :key="month"
-                class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider text-center"
+                class="py-3 px-6 text-xs font-semibold tracking-wider text-center text-gray-500 uppercase"
                 :class="{'bg-blumilk-50': isCurrentMonth(month)}"
                 style="min-width: 46px;"
               >
@@ -27,7 +27,7 @@
                   {{ month.shortcut }}
                 </span>
               </th>
-              <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">
+              <th class="py-3 px-6 text-xs font-semibold tracking-wider text-center text-gray-500 uppercase">
                 Wykorzystanie urlopu
               </th>
             </tr>
@@ -38,11 +38,11 @@
               :key="item.user.id"
               class="hover:bg-blumilk-25"
             >
-              <th class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 font-semibold capitalize">
+              <th class="p-4 text-sm font-semibold text-gray-500 capitalize whitespace-nowrap">
                 <div class="flex justify-start items-center">
-                  <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
+                  <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                     <img
-                      class="h-10 w-10 rounded-full"
+                      class="w-10 h-10 rounded-full"
                       :src="item.user.avatar"
                     >
                   </span>
@@ -58,12 +58,12 @@
               <td
                 v-for="month in months"
                 :key="month.value"
-                class="px-4 py-4 text-sm text-gray-500 font-semibold text-center"
+                class="p-4 text-sm font-semibold text-center text-gray-500"
                 :class="{'bg-blumilk-25': isCurrentMonth(month)}"
               >
                 {{ item.months[month.value] ?? '-' }}
               </td>
-              <td class="px-4 py-4 text-sm text-gray-500 font-semibold text-center">
+              <td class="p-4 text-sm font-semibold text-center text-gray-500">
                 <div style="min-width: 300px;">
                   <VacationBar :stats="{ used: item.stats.used, pending: item.stats.pending, remaining: item.stats.remaining }" />
                 </div>

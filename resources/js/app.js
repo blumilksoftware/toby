@@ -41,5 +41,6 @@ Flatpickr.setDefaults({
   enableTime: false,
   altFormat: 'd.m.Y',
   altInput: true,
+  disableMobile: true,
 })
 

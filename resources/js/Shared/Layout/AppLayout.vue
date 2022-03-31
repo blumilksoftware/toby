@@ -4,8 +4,8 @@
       :auth="auth"
       :years="years"
     />
-    <main class="lg:ml-64 flex flex-col flex-1 py-8">
-      <div class="px-4">
+    <main class="flex flex-col flex-1 py-8 lg:ml-64">
+      <div class="lg:px-4">
         <slot />
       </div>
     </main>

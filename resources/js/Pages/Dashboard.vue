@@ -1,7 +1,7 @@
 <template>
   <InertiaHead title="Strona główna" />
-  <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-    <div class="grid grid-cols-1 gap-4 lg:col-span-2">
+  <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
+    <div class="grid grid-cols-1 gap-4 xl:col-span-2">
       <Welcome :user="auth.user" />
       <VacationStats :stats="stats" />
     </div>

@@ -5,7 +5,7 @@
   >
     <Dialog
       as="div"
-      class="fixed inset-0 flex z-40 lg:hidden"
+      class="flex fixed inset-0 z-40 lg:hidden"
       @close="sidebarOpen = false"
     >
       <TransitionChild
@@ -28,7 +28,7 @@
         leave-from="translate-x-0"
         leave-to="-translate-x-full"
       >
-        <div class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-blumilk-700">
+        <div class="flex relative flex-col flex-1 pt-5 pb-4 w-full max-w-xs bg-blumilk-700">
           <TransitionChild
             as="template"
             enter="ease-in-out duration-300"
@@ -38,46 +38,50 @@
             leave-from="opacity-100"
             leave-to="opacity-0"
           >
-            <div class="absolute top-0 right-0 -mr-12 pt-2">
+            <div class="absolute top-0 right-0 pt-2 -mr-12">
               <button
                 type="button"
-                class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                class="flex justify-center items-center ml-1 w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 @click="sidebarOpen = false"
               >
-                <XIcon class="h-6 w-6 text-white" />
+                <XIcon class="w-6 h-6 text-white" />
               </button>
             </div>
           </TransitionChild>
-          <div class="flex-shrink-0 flex items-center px-4">
-            <InertiaLink href="/">
+          <div class="flex shrink-0 items-center px-4">
+            <InertiaLink
+              href="/"
+              @click="sidebarOpen = false;"
+            >
               <img
-                class="h-8 w-auto"
-                src="/img/logo-white.png"
-                alt="Workflow"
+                class="w-auto h-8"
+                src="/img/logo-white.svg"
               >
             </InertiaLink>
           </div>
-          <nav class="mt-5 flex-shrink-0 h-full divide-y divide-blumilk-800 overflow-y-auto">
+          <nav class="overflow-y-auto shrink-0 mt-5 h-full divide-y divide-blumilk-800">
             <div class="px-2 space-y-1">
               <InertiaLink
                 href="/"
-                :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+                :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md']"
+                @click="sidebarOpen = false;"
               >
-                <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
+                <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
                 Strona główna
               </InertiaLink>
             </div>
-            <div class="mt-3 pt-3">
+            <div class="pt-3 mt-3">
               <div class="px-2 space-y-1">
                 <InertiaLink
                   v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
                   :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                  @click="sidebarOpen = false;"
                 >
                   <component
                     :is="item.icon"
-                    class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
+                    class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
                   />
                   {{ item.name }}
                 </InertiaLink>
@@ -86,30 +90,29 @@
           </nav>
         </div>
       </TransitionChild>
-      <div class="flex-shrink-0 w-14" />
+      <div class="shrink-0 w-14" />
     </Dialog>
   </TransitionRoot>
 
-  <div class="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
-    <div class="flex flex-col flex-grow bg-blumilk-700 pt-5 pb-4 overflow-y-auto">
-      <div class="flex items-center flex-shrink-0 px-4">
+  <div class="hidden lg:flex lg:fixed lg:inset-y-0 lg:flex-col lg:w-64">
+    <div class="flex overflow-y-auto flex-col grow pt-5 pb-4 bg-blumilk-700">
+      <div class="flex shrink-0 items-center px-4">
         <InertiaLink href="/">
           <img
-            class="h-8 w-auto"
-            src="/img/logo-white.png"
-            alt="Workflow"
+            src="/img/logo-white.svg"
+            class="w-auto h-8"
           >
         </InertiaLink>
       </div>
-      <nav class="mt-5 px-2 flex-1 flex flex-col divide-y divide-blumilk-800 overflow-y-auto">
+      <nav class="flex overflow-y-auto flex-col flex-1 px-2 mt-5 divide-y divide-blumilk-800">
         <InertiaLink
           href="/"
           :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
         >
-          <HomeIcon class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200" />
+          <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
           Strona główna
         </InertiaLink>
-        <div class="mt-1 pt-1 space-y-1">
+        <div class="pt-1 mt-1 space-y-1">
           <InertiaLink
             v-for="item in navigation"
             :key="item.name"
@@ -118,7 +121,7 @@
           >
             <component
               :is="item.icon"
-              class="mr-4 flex-shrink-0 h-6 w-6 text-blumilk-200"
+              class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
             />
             {{ item.name }}
           </InertiaLink>
@@ -127,21 +130,21 @@
     </div>
   </div>
 
-  <div class="lg:pl-64 flex flex-col flex-1">
-    <div class="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200">
+  <div class="flex flex-col flex-1 lg:pl-64">
+    <div class="flex relative z-10 shrink-0 h-16 bg-white border-b border-gray-200">
       <button
         type="button"
-        class="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
+        class="px-4 text-gray-400 border-r border-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
         @click="sidebarOpen = true"
       >
-        <MenuAlt1Icon class="h-6 w-6" />
+        <MenuAlt1Icon class="w-6 h-6" />
       </button>
-      <div class="flex-1 px-4 flex justify-between sm:px-6 lg:px-8">
+      <div class="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
         <div class="flex items-center">
           <div>
             <Menu
               as="div"
-              class="relative inline-block text-left"
+              class="inline-block relative text-left"
             >
               <div class="flex justify-center items-center">
                 <div class="mr-4 text-sm">
@@ -149,10 +152,10 @@
                 </div>
                 <div>
                   <MenuButton
-                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                    class="inline-flex justify-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
                   >
                     {{ years.selected.year }}
-                    <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5" />
+                    <ChevronDownIcon class="-mr-1 ml-2 w-5 h-5" />
                   </MenuButton>
                 </div>
               </div>
@@ -166,7 +169,7 @@
                 leave-to-class="transform opacity-0 scale-95"
               >
                 <MenuItems
-                  class="origin-top-right absolute right-0 mt-2 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  class="absolute right-0 mt-2 w-24 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
                 >
                   <div class="py-1">
                     <MenuItem
@@ -184,7 +187,7 @@
                         {{ item.year }}
                         <CheckIcon
                           v-if="item.year === years.selected.year"
-                          class="h-5 w-5 text-blumilk-500 ml-2"
+                          class="ml-2 w-5 h-5 text-blumilk-500"
                         />
                       </InertiaLink>
                     </MenuItem>
@@ -195,7 +198,7 @@
           </div>
           <div
             v-if="years.current.year !== years.selected.year"
-            class="ml-3 text-sm hidden sm:block"
+            class="hidden ml-3 text-sm sm:block"
           >
             <InertiaLink
               :href="years.current.link"
@@ -208,22 +211,22 @@
             </inertialink>
           </div>
         </div>
-        <div class="ml-4 flex items-center md:ml-6">
+        <div class="flex items-center ml-4 md:ml-6">
           <Menu
             as="div"
-            class="ml-3 relative"
+            class="relative ml-3"
           >
             <MenuButton
-              class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50"
+              class="flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 lg:p-2 lg:hover:bg-gray-50 lg:rounded-md"
             >
               <img
-                class="h-8 w-8 rounded-full"
+                class="w-8 h-8 rounded-full"
                 :src="auth.user.avatar"
               >
-              <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
+              <span class="hidden ml-3 text-sm font-medium text-gray-700 lg:block">
                 {{ auth.user.name }}
               </span>
-              <ChevronDownIcon class="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block" />
+              <ChevronDownIcon class="hidden shrink-0 ml-1 w-5 h-5 text-gray-400 lg:block" />
             </MenuButton>
             <transition
               enter-active-class="transition ease-out duration-100"
@@ -234,7 +237,7 @@
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 py-1 mt-2 w-48 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
               >
                 <MenuItem v-slot="{ active }">
                   <InertiaLink

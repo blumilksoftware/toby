@@ -1,25 +1,25 @@
 <template>
   <InertiaHead title="Złóż wniosek urlopowy" />
-  <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-    <div class="lg:col-span-2 h-full bg-white shadow-md flex flex-col">
+  <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
+    <div class="flex flex-col h-full bg-white shadow-md xl:col-span-2">
       <div class="p-4 sm:px-6">
-        <h2 class="text-lg leading-6 font-medium text-gray-900">
+        <h2 class="text-lg font-medium leading-6 text-gray-900">
           Złóż wniosek urlopowy
         </h2>
       </div>
       <form
-        class="border-t border-gray-200 h-full px-6"
+        class="px-6 h-full border-t border-gray-200"
         @submit.prevent="createForm"
       >
-        <div class="h-full flex flex-col justify-around">
+        <div class="flex flex-col justify-around h-full">
           <div>
             <div
               v-if="form.errors.vacationRequest"
-              class="rounded-md bg-red-50 p-4 mt-2"
+              class="p-4 mt-2 bg-red-50 rounded-md"
             >
               <div class="flex">
-                <div class="flex-shrink-0">
-                  <XCircleIcon class="h-5 w-5 text-red-400" />
+                <div class="shrink-0">
+                  <XCircleIcon class="w-5 h-5 text-red-400" />
                 </div>
                 <div class="ml-3">
                   <h3 class="text-sm font-medium text-red-800">
@@ -35,25 +35,25 @@
               v-if="can.createOnBehalfOfEmployee"
               v-model="form.user"
               as="div"
-              class="sm:grid sm:grid-cols-3 py-4 items-center"
+              class="items-center py-4 sm:grid sm:grid-cols-3"
             >
               <ListboxLabel class="block text-sm font-medium text-gray-700">
                 Osoba składająca wniosek
               </ListboxLabel>
-              <div class="mt-1 relative sm:mt-0 sm:col-span-2">
+              <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                 <ListboxButton
-                  class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
+                  class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.user, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.user }"
                 >
                   <span class="flex items-center">
                     <img
                       :src="form.user.avatar"
-                      class="flex-shrink-0 h-6 w-6 rounded-full"
+                      class="shrink-0 w-6 h-6 rounded-full"
                     >
-                    <span class="ml-3 block truncate">{{ form.user.name }}</span>
+                    <span class="block ml-3 truncate">{{ form.user.name }}</span>
                   </span>
-                  <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                    <SelectorIcon class="h-5 w-5 text-gray-400" />
+                  <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+                    <SelectorIcon class="w-5 h-5 text-gray-400" />
                   </span>
                 </ListboxButton>
 
@@ -63,7 +63,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
-                    class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                    class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
                   >
                     <ListboxOption
                       v-for="user in users.data"
@@ -77,7 +77,7 @@
                           <img
                             :src="user.avatar"
                             alt=""
-                            class="flex-shrink-0 h-6 w-6 rounded-full"
+                            class="shrink-0 w-6 h-6 rounded-full"
                           >
                           <span :class="[selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']">
                             {{ user.name }}
@@ -88,7 +88,7 @@
                           v-if="selected"
                           :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
-                          <CheckIcon class="h-5 w-5" />
+                          <CheckIcon class="w-5 h-5" />
                         </span>
                       </li>
                     </ListboxOption>
@@ -104,7 +104,7 @@
             </Listbox>
             <div
               v-else
-              class="sm:grid sm:grid-cols-3 py-4 items-center"
+              class="items-center py-4 sm:grid sm:grid-cols-3"
             >
               <label
                 for="date_from"
@@ -112,11 +112,11 @@
               >
                 Osoba składająca wniosek
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-1 sm:col-span-2 sm:mt-0">
                 <div class="flex justify-start items-center">
-                  <span class="inline-flex items-center justify-center h-10 w-10 rounded-full">
+                  <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                     <img
-                      class="h-10 w-10 rounded-full"
+                      class="w-10 h-10 rounded-full"
                       :src="auth.user.avatar"
                     >
                   </span>
@@ -129,51 +129,46 @@
               </div>
             </div>
             <Listbox
-              v-model="form.type"
+              v-model="form.vacationType"
               as="div"
-              class="sm:grid sm:grid-cols-3 py-4 items-center"
+              class="items-center py-4 sm:grid sm:grid-cols-3"
             >
               <ListboxLabel class="block text-sm font-medium text-gray-700">
-                Rodzaj wniosku
+                Rodzaj urlopu
               </ListboxLabel>
-              <div class="mt-1 relative sm:mt-0 sm:col-span-2">
+              <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                 <ListboxButton
-                  class="bg-white relative w-full max-w-lg border rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm focus:ring-1"
+                  class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
                 >
-                  <span class="block truncate">{{ form.type.label }}</span>
-                  <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                    <SelectorIcon class="h-5 w-5 text-gray-400" />
+                  <span class="block truncate">{{ form.vacationType.label }}</span>
+                  <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+                    <SelectorIcon class="w-5 h-5 text-gray-400" />
                   </span>
                 </ListboxButton>
-
                 <transition
                   leave-active-class="transition ease-in duration-100"
                   leave-from-class="opacity-100"
                   leave-to-class="opacity-0"
                 >
-                  <ListboxOptions
-                    class="absolute z-10 mt-1 w-full max-w-lg bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-                  >
+                  <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm">
                     <ListboxOption
-                      v-for="type in vacationTypes"
-                      :key="type.value"
+                      v-for="vacationType in vacationTypes"
+                      :key="vacationType.value"
                       v-slot="{ active, selected }"
                       as="template"
-                      :value="type"
+                      :value="vacationType"
                     >
-                      <li
-                        :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                      >
+                      <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                          {{ type.label }}
+                          {{ vacationType.label }}
                         </span>
 
                         <span
                           v-if="selected"
                           :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
-                          <CheckIcon class="h-5 w-5" />
+                          <CheckIcon class="w-5 h-5" />
                         </span>
                       </li>
                     </ListboxOption>
@@ -187,20 +182,20 @@
                 </p>
               </div>
             </Listbox>
-            <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+            <div class="items-center py-4 sm:grid sm:grid-cols-3">
               <label
                 for="date_from"
                 class="block text-sm font-medium text-gray-700 sm:mt-px"
               >
                 Planowany urlop od
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-1 sm:col-span-2 sm:mt-0">
                 <FlatPickr
                   id="date_from"
                   v-model="form.from"
                   :config="fromInputConfig"
                   placeholder="Wybierz datę"
-                  class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+                  class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.from, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.from }"
                   @on-change="onFromChange"
                 />
@@ -212,20 +207,20 @@
                 </p>
               </div>
             </div>
-            <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+            <div class="items-center py-4 sm:grid sm:grid-cols-3">
               <label
                 for="date_from"
                 class="block text-sm font-medium text-gray-700 sm:mt-px"
               >
                 Planowany urlop do
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-1 sm:col-span-2 sm:mt-0">
                 <FlatPickr
                   id="date_to"
                   v-model="form.to"
                   :config="toInputConfig"
                   placeholder="Wybierz datę"
-                  class="block w-full max-w-lg shadow-sm rounded-md sm:text-sm"
+                  class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.to, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.to }"
                   @on-change="onToChange"
                 />
@@ -237,33 +232,33 @@
                 </p>
               </div>
             </div>
-            <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+            <div class="items-center py-4 sm:grid sm:grid-cols-3">
               <span class="block text-sm font-medium text-gray-700 sm:mt-px">Liczba dni urlopu</span>
               <div
-                class="mt-1 sm:mt-0 sm:col-span-2 w-full max-w-lg bg-gray-50 border border-gray-300 rounded-md px-4 py-2 inline-flex items-center text-gray-500 sm:text-sm"
+                class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm"
               >
                 {{ estimatedDays.length }}
               </div>
             </div>
-            <div class="sm:grid sm:grid-cols-3 py-4 items-center">
+            <div class="items-center py-4 sm:grid sm:grid-cols-3">
               <label
                 for="comment"
                 class="block text-sm font-medium text-gray-700"
               >
                 Komentarz
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-1 sm:col-span-2 sm:mt-0">
                 <textarea
                   id="comment"
                   v-model="form.comment"
                   rows="4"
-                  class="shadow-sm focus:ring-blumilk-500 focus:border-blumilk-500 block w-full max-w-lg sm:text-sm border-gray-300 rounded-md"
+                  class="block w-full max-w-lg rounded-md border-gray-300 focus:border-blumilk-500 focus:ring-blumilk-500 shadow-sm sm:text-sm"
                 />
               </div>
             </div>
             <div
               v-if="can.skipFlow"
-              class="sm:grid sm:grid-cols-3 py-4 items-center"
+              class="items-center py-4 sm:grid sm:grid-cols-3"
             >
               <label
                 for="flowSkipped"
@@ -271,7 +266,7 @@
               >
                 Natychmiastowo zatwierdź wniosek
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="mt-2 sm:col-span-2 sm:mt-0">
                 <Switch
                   id="flowSkipped"
                   v-model="form.flowSkipped"
@@ -288,14 +283,14 @@
             <div class="space-x-3">
               <InertiaLink
                 href="/vacation/requests"
-                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
               >
                 Anuluj
               </InertiaLink>
               <button
                 type="submit"
                 :disabled="form.processing"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blumilk-600 hover:bg-blumilk-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500"
+                class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
               >
                 Zapisz
               </button>
@@ -304,9 +299,9 @@
         </div>
       </form>
     </div>
-    <div class="bg-white shadow-md h-full">
+    <div class="h-full bg-white shadow-md">
       <div class="p-4 sm:px-6">
-        <h2 class="text-lg leading-6 font-medium text-gray-900">
+        <h2 class="text-lg font-medium leading-6 text-gray-900">
           <span v-if="auth.user.id !== form.user.id">
             Urlop wypoczynkowy, dane dla: {{ form.user.name }}
           </span>
@@ -315,7 +310,7 @@
           </span>
         </h2>
       </div>
-      <div class="border-t border-gray-200 px-6 pt-8">
+      <div class="px-6 pt-8 border-t border-gray-200">
         <VacationChart :stats="stats" />
       </div>
     </div>
@@ -346,7 +341,7 @@ const form = useForm({
     : props.auth.user,
   from: null,
   to: null,
-  type: props.vacationTypes[0],
+  vacationType: props.vacationTypes[0],
   comment: null,
   flowSkipped: false,
 })
@@ -385,7 +380,7 @@ function createForm() {
   form
     .transform(data => ({
       ...data,
-      type: data.type.value,
+      type: data.vacationType.value,
       user: data.user.id,
     }))
     .post('/vacation/requests')
@@ -418,20 +413,20 @@ function resetForm() {
 
 async function refreshEstimatedDays(from, to) {
   if (from && to) {
-    const res = await axios.post('/api/calculate-vacation/days', { from, to })
+    const res = await axios.post('/api/vacation/calculate-days', { from, to })
 
     estimatedDays.value = res.data
   }
 }
 
 async function refreshVacationStats(user) {
-  const res = await axios.post('/api/calculate-vacation/stats', { user: user.id })
+  const res = await axios.post('/api/vacation/calculate-stats', { user: user.id })
 
   stats.value = res.data
 }
 
 async function refreshUnavailableDays(user) {
-  const res = await axios.post('/api/calculate-unavailable-days', { user: user.id })
+  const res = await axios.post('/api/vacation/calculate-unavailable-days', { user: user.id })
   const unavailableDays = res.data
 
   fromInputConfig.disable = [
