@@ -64,6 +64,9 @@ Route::middleware("auth")->group(function (): void {
         Route::get("/monthly-usage", MonthlyUsageController::class)
             ->name("vacation.monthly-usage");
     });
+
+    Route::get("/test", fn() => inertia("Test"));
+
 });
 
 Route::middleware("guest")->group(function (): void {
