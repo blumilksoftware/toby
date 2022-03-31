@@ -277,8 +277,8 @@
           </tr>
         </tbody>
       </table>
-      <Pagination :pagination="requests.meta" />
     </div>
+    <Pagination :pagination="requests.meta" />
   </div>
 </template>
 

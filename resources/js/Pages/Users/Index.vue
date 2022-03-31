@@ -190,8 +190,8 @@
             </tr>
           </tbody>
         </table>
-        <Pagination :pagination="users.meta" />
       </div>
+      <Pagination :pagination="users.meta" />
     </div>
   </div>
 </template>
