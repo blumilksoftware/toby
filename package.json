@@ -40,7 +40,7 @@
         "vue3-popper": "^1.4.2"
     },
     "devDependencies": {
-        "eslint": "^8.11.0",
+        "eslint": "^8.12.0",
         "eslint-plugin-tailwindcss": "^3.5.0",
         "eslint-plugin-vue": "^8.5.0"
     }
