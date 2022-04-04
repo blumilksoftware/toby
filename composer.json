@@ -13,7 +13,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.5.1",
-        "laravel/framework": "9.5.*",
+        "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
