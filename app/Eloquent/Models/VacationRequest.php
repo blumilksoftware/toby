@@ -91,11 +91,6 @@ class VacationRequest extends Model
             ->where("to", ">=", $vacationRequest->from);
     }
 
-    public function getNameAttribute(): string
-    {
-        return "{$this->id}/{$this->yearPeriod->year}";
-    }
-
     public function hasFlowSkipped(): bool
     {
         return $this->flow_skipped;
