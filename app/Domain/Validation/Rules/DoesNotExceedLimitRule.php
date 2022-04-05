@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Validation\Rules;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStatesRetriever;
@@ -59,7 +59,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
 
     protected function getLimitableVacationTypes(): Collection
     {
-        $types = new Collection(VacationType::cases());
+        $types = VacationType::all();
 
         return $types->filter(fn(VacationType $type) => $this->configRetriever->hasLimit($type));
     }
