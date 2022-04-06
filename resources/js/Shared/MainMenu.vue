@@ -336,6 +336,14 @@ const navigation = computed(() =>
       can: props.auth.can.manageVacationLimits,
     },
     {
+
+      name: 'Podsumowanie roczne',
+      href: '/vacation/annual-summary',
+      component: 'AnnualSummary',
+      icon: SunIcon,
+      can: true,
+    },
+    {
       name: 'Użytkownicy',
       href: '/users',
       component: 'Users/Index',

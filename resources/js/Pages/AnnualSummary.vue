@@ -24,18 +24,35 @@
           <div>Nd</div>
         </div>
         <div class="grid isolate grid-cols-7 mt-2 text-sm ring-1 ring-gray-200 shadow">
-          <Component
-            :is="day.isCurrentMonth ? 'button' : 'div'"
+          <template
             v-for="(day, dayIdx) in month.days"
             :key="dayIdx"
-            :class="[day.isCurrentMonth ? 'bg-white hover:bg-gray-100' : 'bg-gray-50 text-gray-400', day.isVacation && `${getVacationBorder(day.date)}`, day.isPendingVacation && `border-dashed mx-0.5 ${getPendingVacationBorder(day.date)}`, 'border-b-4 border-transparent py-1.5 focus:z-10 font-medium']"
           >
-            <div :class="[day.isCurrentMonth && (day.isWeekend || day.isHoliday) && 'text-red-600 font-bold', day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']">
-              <time :datetime="day.date.toISODate()">
-                {{ day.date.day }}
-              </time>
+            <div
+              v-if="day.isCurrentMonth"
+              :class="[day.isVacation && `${getVacationBorder(day.date)}`, day.isPendingVacation && `border-dashed mx-0.5 ${getPendingVacationBorder(day.date)}`, !day.isVacation && !day.isPendingVacation && 'border-transparent', 'relative bg-white hover:bg-gray-100 border-b-4 py-1.5 focus:z-10 font-medium']"
+            >
+              <div :class="[day.isCurrentMonth && (day.isWeekend || day.isHoliday) && 'text-red-600 font-bold', day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']">
+                <time :datetime="day.date.toISODate()">
+                  {{ day.date.day }}
+                </time>
+              </div>
+              <InertiaLink
+                :href="`/vacation/requests/${dayIdx}`"
+                class="absolute inset-0"
+              />
             </div>
-          </Component>
+            <div
+              v-else
+              :class="['bg-gray-50 text-gray-400 border-b-4 border-transparent py-1.5 w-full focus:z-10 font-medium']"
+            >
+              <div class="flex justify-center items-center p-4 mx-auto w-7 h-7">
+                <time :datetime="day.date.toISODate()">
+                  {{ day.date.day }}
+                </time>
+              </div>
+            </div>
+          </template>
         </div>
       </section>
     </div>
