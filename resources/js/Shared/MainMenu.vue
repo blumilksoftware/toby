@@ -301,7 +301,7 @@ const navigation = computed(() =>
       can: true,
     },
     {
-      name: 'Wnioski urlopowe',
+      name: 'Lista wniosków',
       href: '/vacation/requests',
       component: 'VacationRequest/IndexForApprovers',
       icon: CollectionIcon,

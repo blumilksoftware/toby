@@ -1,9 +1,9 @@
 <template>
-  <InertiaHead title="Moje wnioski urlopowe" />
+  <InertiaHead title="Moje wnioski" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Moje wnioski urlopowe
+        Moje wnioski
       </h2>
       <div>
         <InertiaLink
@@ -102,7 +102,7 @@
               scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
-              Rodzaj urlopu
+              Rodzaj wniosku
             </th>
             <th
               scope="col"

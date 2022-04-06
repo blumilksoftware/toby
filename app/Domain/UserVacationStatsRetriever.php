@@ -95,14 +95,14 @@ class UserVacationStatsRetriever
 
     protected function getLimitableVacationTypes(): Collection
     {
-        $types = new Collection(VacationType::cases());
+        $types = VacationType::all();
 
         return $types->filter(fn(VacationType $type) => $this->configRetriever->hasLimit($type));
     }
 
     protected function getNotLimitableVacationTypes(): Collection
     {
-        $types = new Collection(VacationType::cases());
+        $types = VacationType::all();
 
         return $types->filter(fn(VacationType $type) => !$this->configRetriever->hasLimit($type));
     }

@@ -7,6 +7,7 @@ import CurrencyUsdOffIcon from 'vue-material-design-icons/CurrencyUsdOff.vue'
 import HandHeartOutlineIcon from 'vue-material-design-icons/HandHeartOutline.vue'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
+import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
 
 const types = [
   {
@@ -98,6 +99,12 @@ const types = [
       approved: 'border-rose-500',
       pending: 'border-rose-300',
     },
+  },
+  {
+    text: 'Nieobecność',
+    value: 'absence',
+    icon: CalendarRemoveIcon,
+    color: 'text-cyan-500',
   },
 ]
 

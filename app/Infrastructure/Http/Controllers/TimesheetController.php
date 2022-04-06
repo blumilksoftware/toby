@@ -7,30 +7,43 @@ namespace Toby\Infrastructure\Http\Controllers;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Month;
+use Toby\Domain\Enums\VacationType;
 use Toby\Domain\TimesheetExport;
+use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
 
 class TimesheetController extends Controller
 {
-    public function __invoke(Month $month, YearPeriodRetriever $yearPeriodRetriever): BinaryFileResponse
-    {
+    public function __invoke(
+        Month $month,
+        YearPeriodRetriever $yearPeriodRetriever,
+        VacationTypeConfigRetriever $configRetriever,
+    ): BinaryFileResponse {
         $this->authorize("generateTimesheet");
 
         $yearPeriod = $yearPeriodRetriever->selected();
         $carbonMonth = Carbon::create($yearPeriod->year, $month->toCarbonNumber());
 
         $users = User::query()
+            ->where("employment_form", EmploymentForm::EmploymentContract)
             ->orderBy("last_name")
             ->orderBy("first_name")
             ->get();
+
+        $types = VacationType::all()
+            ->filter(
+                fn(VacationType $type) => $configRetriever->isAvailableFor($type, EmploymentForm::EmploymentContract),
+            );
 
         $filename = "{$carbonMonth->translatedFormat("F Y")}.xlsx";
 
         $timesheet = (new TimesheetExport())
             ->forMonth($carbonMonth)
-            ->forUsers($users);
+            ->forUsers($users)
+            ->forVacationTypes($types);
 
         return Excel::download($timesheet, $filename);
     }

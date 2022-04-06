@@ -66,7 +66,6 @@ Route::middleware("auth")->group(function (): void {
             ->name("monthly-usage");
         Route::get("/annual-summary", AnnualSummaryController::class)
             ->name("annual-summmary");
-
     });
 });
 

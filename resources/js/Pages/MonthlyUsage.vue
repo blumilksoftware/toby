@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div class="flex items-center">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Wykorzystanie miesięczne urlopu wypoczynkowego
+          Wykorzystanie miesięczne urlopu
         </h2>
       </div>
     </div>
