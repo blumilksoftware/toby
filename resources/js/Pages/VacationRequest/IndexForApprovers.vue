@@ -1,10 +1,10 @@
 <template>
-  <InertiaHead title="Wnioski urlopowe" />
+  <InertiaHead title="Lista wniosków" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Wnioski urlopowe
+          Lista wniosków
         </h2>
       </div>
       <div>
@@ -181,7 +181,7 @@
               scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
-              Rodzaj urlopu
+              Rodzaj wniosku
             </th>
             <th
               scope="col"

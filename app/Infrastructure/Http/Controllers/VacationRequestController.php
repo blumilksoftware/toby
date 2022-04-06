@@ -158,10 +158,7 @@ class VacationRequestController extends Controller
 
     public function create(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
     {
-        $yearPeriod = $yearPeriodRetriever->selected();
-
         $users = User::query()
-            ->withVacationLimitIn($yearPeriod)
             ->orderBy("last_name")
             ->orderBy("first_name")
             ->get();

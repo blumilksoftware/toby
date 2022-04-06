@@ -1,10 +1,10 @@
 <template>
-  <InertiaHead title="Złóż wniosek urlopowy" />
+  <InertiaHead title="Złóż wniosek" />
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
     <div class="flex flex-col h-full bg-white shadow-md xl:col-span-2">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Złóż wniosek urlopowy
+          Złóż wniosek
         </h2>
       </div>
       <form
@@ -42,8 +42,8 @@
               </ListboxLabel>
               <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                 <ListboxButton
-                  class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.user, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.user }"
+                  class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
+                  :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.user, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.user }"
                 >
                   <span class="flex items-center">
                     <img
@@ -63,7 +63,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
-                    class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+                    class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 focus:ring-blumilk-500 ring-opacity-5 shadow-lg sm:text-sm"
                   >
                     <ListboxOption
                       v-for="user in users.data"
@@ -134,24 +134,29 @@
               class="items-center py-4 sm:grid sm:grid-cols-3"
             >
               <ListboxLabel class="block text-sm font-medium text-gray-700">
-                Rodzaj urlopu
+                Typ wniosku
               </ListboxLabel>
               <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                 <ListboxButton
-                  class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
+                  class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
+                  :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
                 >
-                  <span class="block truncate">{{ form.vacationType.label }}</span>
-                  <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                    <SelectorIcon class="w-5 h-5 text-gray-400" />
-                  </span>
+                  <template v-if="form.vacationType">
+                    <span class="block truncate">{{ form.vacationType.label }}</span>
+                    <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+                      <SelectorIcon class="w-5 h-5 text-gray-400" />
+                    </span>
+                  </template>
+                  <template v-else>
+                    Ładowanie...
+                  </template>
                 </ListboxButton>
                 <transition
                   leave-active-class="transition ease-in duration-100"
                   leave-from-class="opacity-100"
                   leave-to-class="opacity-0"
                 >
-                  <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm">
+                  <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 focus:ring-blumilk-500 ring-opacity-5 shadow-lg sm:text-sm">
                     <ListboxOption
                       v-for="vacationType in vacationTypes"
                       :key="vacationType.value"
@@ -187,7 +192,7 @@
                 for="date_from"
                 class="block text-sm font-medium text-gray-700 sm:mt-px"
               >
-                Planowany urlop od
+                Data od
               </label>
               <div class="mt-1 sm:col-span-2 sm:mt-0">
                 <FlatPickr
@@ -212,7 +217,7 @@
                 for="date_from"
                 class="block text-sm font-medium text-gray-700 sm:mt-px"
               >
-                Planowany urlop do
+                Data do
               </label>
               <div class="mt-1 sm:col-span-2 sm:mt-0">
                 <FlatPickr
@@ -233,7 +238,7 @@
               </div>
             </div>
             <div class="items-center py-4 sm:grid sm:grid-cols-3">
-              <span class="block text-sm font-medium text-gray-700 sm:mt-px">Liczba dni urlopu</span>
+              <span class="block text-sm font-medium text-gray-700 sm:mt-px">Liczba dni</span>
               <div
                 class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm"
               >
@@ -303,10 +308,10 @@
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
           <span v-if="auth.user.id !== form.user.id">
-            Urlop wypoczynkowy, dane dla: {{ form.user.name }}
+            Dane urlopowe dla: {{ form.user.name }}
           </span>
           <span v-else>
-            Twoje dane o urlopie wypoczynkowym
+            Twoje dane o urlopie
           </span>
         </h2>
       </div>
@@ -330,7 +335,6 @@ import VacationChart from '@/Shared/VacationChart'
 const props = defineProps({
   auth: Object,
   users: Object,
-  vacationTypes: Object,
   holidays: Object,
   can: Object,
 })
@@ -341,12 +345,13 @@ const form = useForm({
     : props.auth.user,
   from: null,
   to: null,
-  vacationType: props.vacationTypes[0],
+  vacationType: null,
   comment: null,
   flowSkipped: false,
 })
 
 const estimatedDays = ref([])
+const vacationTypes = ref([])
 
 const stats = ref({
   used: 0,
@@ -372,8 +377,9 @@ const toInputConfig = reactive({
 
 watch(() => form.user, user => {
   resetForm()
-  refreshVacationStats(user)
+  refreshAvailableTypes(user)
   refreshUnavailableDays(user)
+  refreshVacationStats(user)
 }, { immediate: true })
 
 function createForm() {
@@ -406,7 +412,7 @@ function onToChange(selectedDates, dateStr) {
 }
 
 function resetForm() {
-  form.reset('type', 'to', 'from', 'comment', 'flowSkipped')
+  form.reset('to', 'from', 'comment', 'flowSkipped')
   form.clearErrors()
   estimatedDays.value = []
 }
@@ -438,6 +444,13 @@ async function refreshUnavailableDays(user) {
     weekends,
     ...unavailableDays,
   ]
+}
+
+async function refreshAvailableTypes(user) {
+  const res = await axios.post('/api/vacation/get-available-vacation-types', { user: user.id })
+
+  vacationTypes.value = res.data
+  form.vacationType = vacationTypes.value[0]
 }
 
 </script>

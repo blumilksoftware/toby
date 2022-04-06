@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Enums;
 
+use Illuminate\Support\Collection;
+
 enum VacationType: string
 {
     case Vacation = "vacation";
@@ -15,6 +17,7 @@ enum VacationType: string
     case Volunteering = "volunteering_vacation";
     case TimeInLieu = "time_in_lieu";
     case Sick = "sick_vacation";
+    case Absence = "absence";
 
     public function label(): string
     {
@@ -23,7 +26,7 @@ enum VacationType: string
 
     public static function casesToSelect(): array
     {
-        $cases = collect(VacationType::cases());
+        $cases = VacationType::all();
 
         return $cases->map(
             fn(VacationType $enum) => [
@@ -31,5 +34,10 @@ enum VacationType: string
                 "value" => $enum->value,
             ],
         )->toArray();
+    }
+
+    public static function all(): Collection
+    {
+        return new Collection(VacationType::cases());
     }
 }

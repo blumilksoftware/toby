@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\FeatureTestCase;
+use Toby\Domain\Enums\EmploymentForm;
 use Toby\Eloquent\Models\User;
 
 class VacationCalendarTest extends FeatureTestCase
@@ -15,6 +16,10 @@ class VacationCalendarTest extends FeatureTestCase
     public function testAdministrativeApproverCanDownloadTimesheet(): void
     {
         $administrativeApprover = User::factory()->administrativeApprover()->create();
+
+        User::factory(["employment_form" => EmploymentForm::EmploymentContract])
+            ->count(10)
+            ->create();
 
         $this->actingAs($administrativeApprover)
             ->get("/vacation/timesheet/january")

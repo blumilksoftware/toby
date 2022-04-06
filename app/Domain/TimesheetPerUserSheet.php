@@ -7,6 +7,7 @@ namespace Toby\Domain;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Generator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromGenerator;
@@ -40,6 +41,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
     public function __construct(
         protected User $user,
         protected Carbon $month,
+        protected Collection $types,
     ) {}
 
     public function title(): string
@@ -49,8 +51,6 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
 
     public function headings(): array
     {
-        $types = VacationType::cases();
-
         $headings = [
             __("Date"),
             __("Day of week"),
@@ -59,7 +59,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
             __("Worked hours"),
         ];
 
-        foreach ($types as $type) {
+        foreach ($this->types as $type) {
             $headings[] = $type->label();
         }
 
@@ -187,6 +187,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
     {
         return $user->vacations()
             ->with("vacationRequest")
+            ->whereRelation("vacationRequest", fn(Builder $query) => $query->whereIn("type", $this->types))
             ->whereBetween("date", [$period->start, $period->end])
             ->approved()
             ->get()

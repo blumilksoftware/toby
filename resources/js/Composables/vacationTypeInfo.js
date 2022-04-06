@@ -7,6 +7,7 @@ import CurrencyUsdOffIcon from 'vue-material-design-icons/CurrencyUsdOff.vue'
 import HandHeartOutlineIcon from 'vue-material-design-icons/HandHeartOutline.vue'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
+import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
 
 const types = [
   {
@@ -62,6 +63,12 @@ const types = [
     value: 'sick_vacation',
     icon: MedicalBagIcon,
     color: 'text-rose-500',
+  },
+  {
+    text: 'Nieobecność',
+    value: 'absence',
+    icon: CalendarRemoveIcon,
+    color: 'text-cyan-500',
   },
 ]
 
