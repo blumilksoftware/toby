@@ -1,5 +1,5 @@
 <template>
-  <InertiaHead title="Złóż wniosek urlopowy" />
+  <InertiaHead title="Złóż wniosek" />
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
     <div class="flex flex-col h-full bg-white shadow-md xl:col-span-2">
       <div class="p-4 sm:px-6">
