@@ -2,7 +2,12 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\Holiday;
+use Toby\Eloquent\Models\Vacation;
 use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
@@ -65,8 +70,36 @@ Route::middleware("auth")->group(function (): void {
             ->name("vacation.monthly-usage");
     });
 
-    Route::get("/test", fn() => inertia("Test"));
+    Route::get("/test", function (Request $request, YearPeriodRetriever $yearPeriodRetriever) {
+        $yearPeriod = $yearPeriodRetriever->selected();
 
+        $startDate = Carbon::createFromDate($yearPeriod->year)->startOfYear()->startOfWeek();
+        $endDate = Carbon::createFromDate($yearPeriod->year)->endOfYear()->endOfWeek();
+
+        $holidays = $yearPeriod->holidays()
+            ->whereBetween("date", [$startDate, $endDate])
+            ->get();
+
+        $vacations = $request->user()
+            ->vacations()
+            ->with("vacationRequest")
+            ->whereBetween("date", [$startDate, $endDate])
+            ->approved()
+            ->get();
+        
+        $pendingVacations = $request->user()
+            ->vacations()
+            ->with("vacationRequest")
+            ->whereBetween("date", [$startDate, $endDate])
+            ->pending()
+            ->get();
+
+        return inertia("Test", [
+            "holidays" => $holidays->mapWithKeys(fn(Holiday $holiday) => [$holiday->date->toDateString() => $holiday->name]),
+            "vacations" => $vacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => $vacation->vacationRequest->type]),
+            "pendingVacations" => $pendingVacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => $vacation->vacationRequest->type]),
+        ]);
+    });
 });
 
 Route::middleware("guest")->group(function (): void {

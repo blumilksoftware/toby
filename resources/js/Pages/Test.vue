@@ -1,11 +1,9 @@
 <template>
   <div class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
-      <div>
-        <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Podsumowanie roczne
-        </h2>
-      </div>
+      <h2 class="text-lg font-medium leading-6 text-gray-900">
+        Podsumowanie roczne
+      </h2>
     </div>
     <div class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 xl:px-8 xl:max-w-none 2xl:grid-cols-4">
       <section
@@ -25,16 +23,16 @@
           <div>Sb</div>
           <div>Nd</div>
         </div>
-        <div class="grid isolate grid-cols-7 gap-px mt-2 text-sm bg-gray-200 ring-1 ring-gray-200 shadow">
+        <div class="grid isolate grid-cols-7 mt-2 text-sm ring-1 ring-gray-200 shadow">
           <Component
             :is="day.isCurrentMonth ? 'button' : 'div'"
             v-for="(day, dayIdx) in month.days"
             :key="dayIdx"
-            :class="[day.isCurrentMonth ? 'bg-white hover:brightness-90' : 'bg-gray-50 text-gray-400', day.isCurrentMonth && day.isToday && 'bg-blumilk-700', 'py-1.5 focus:z-10 font-medium']"
+            :class="[day.isCurrentMonth ? 'bg-white hover:bg-gray-100' : 'bg-gray-50 text-gray-400', day.isVacation && `${getVacationBorder(day.date)}`, day.isPendingVacation && `border-dashed mx-0.5 ${getPendingVacationBorder(day.date)}`, 'border-b-4 border-transparent py-1.5 focus:z-10 font-medium']"
           >
-            <div :class="[day.isCurrentMonth && (day.isWeekend || day.isHoliday) && 'text-red-600 font-bold', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']">
-              <time :datetime="day.date">
-                {{ day.date.split('-').pop().replace(/^0/, '') }}
+            <div :class="[day.isCurrentMonth && (day.isWeekend || day.isHoliday) && 'text-red-600 font-bold', day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']">
+              <time :datetime="day.date.toISODate()">
+                {{ day.date.day }}
               </time>
             </div>
           </Component>
@@ -46,60 +44,81 @@
 
 <script setup>
 import { DateTime } from 'luxon'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 
-const vacations = [
-  '2022-03-21',
-  '2022-03-22',
-  '2022-03-23',
-  '2022-03-24',
-  '2022-03-25',
-  '2022-03-28',
-  '2022-03-29',
-  '2022-03-30',
-  '2022-03-31',
-  '2022-04-01',
-]
+const props = defineProps({
+  holidays: Object,
+  vacations: Object,
+  pendingVacations: Object,
+})
 
-const holidays = [
-  '2022-04-17',
-  '2022-04-18',
-  '2022-05-01',
-  '2022-05-03',
-  '2022-01-01',
-  '2022-01-06',
-  '2022-06-16',
-  '2022-08-15',
-  '2022-11-01',
-  '2022-11-11',
-  '2022-12-25',
-  '2022-12-26',
-]
+const { findType } = useVacationTypeInfo()
+const { year } = useCurrentYearPeriodInfo()
 
 const months = []
 
 for (let i = 1; i < 13; i++) {
-  const currentMonth = DateTime.fromObject({ month: i }).startOf('month')
+  const currentMonth = DateTime.fromObject({ year: year.value, month: i }).startOf('month')
   
   const start = currentMonth.startOf('week')
   const end = currentMonth.endOf('month').endOf('week')
 
-  const temp = {
+  const month = {
     name: currentMonth.monthLong,
     days: [],
   }
 
   for (let day = start; day < end; day = day.plus({ day: 1 })) {
-    temp.days.push({
-      date: day.toFormat('yyyy-MM-dd'),
-      isCurrentMonth: currentMonth.hasSame(day, 'month'),
-      isToday: DateTime.now().hasSame(day, 'day'),
-      isWeekend: day.weekday === 6 || day.weekday === 7,
-      isVacation: vacations.includes(day.toFormat('yyyy-MM-dd')),
-      isHoliday: holidays.includes(day.toFormat('yyyy-MM-dd')),
+    const isCurrentMonth = isInCurrentMonth(day, currentMonth)
+
+    month.days.push({
+      date: day,
+      isCurrentMonth: isCurrentMonth,
+      isToday: isCurrentMonth && isToday(day),
+      isWeekend: isWeekend(day),
+      isVacation: isCurrentMonth && isVacation(day),
+      isPendingVacation: isCurrentMonth && isPendingVacation(day),
+      isHoliday: isHoliday(day),
     })
   }
 
-  months.push(temp)
+  months.push(month)
 }
 
+function isHoliday(date) {
+  return props.holidays[date.toISODate()] !== undefined
+}
+
+function isVacation(date) {
+  return props.vacations[date.toISODate()] !== undefined
+}
+
+function isPendingVacation(date) {
+  return props.pendingVacations[date.toISODate()] !== undefined
+}
+
+function isToday(date) {
+  return DateTime.now().hasSame(date, 'year') && DateTime.now().hasSame(date, 'day')
+}
+
+function isInCurrentMonth(date, currentMonth) {
+  return currentMonth.hasSame(date, 'month')
+}
+
+function isWeekend(date) {
+  return date.weekday === 6 || date.weekday === 7
+}
+
+function getVacationBorder(date) {
+  const type = findType(props.vacations[date.toISODate()])
+
+  return type.border.approved
+}
+
+function getPendingVacationBorder(date) {
+  const type = findType(props.pendingVacations[date.toISODate()])
+
+  return type.border.approved
+}
 </script>
