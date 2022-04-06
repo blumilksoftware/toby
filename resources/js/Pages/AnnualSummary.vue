@@ -28,7 +28,7 @@
             v-for="(day, dayIdx) in month.days"
             :key="dayIdx"
           >
-            <div
+            <button
               v-if="day.isCurrentMonth"
               :class="[day.isVacation && `${getVacationBorder(day.date)}`, day.isPendingVacation && `border-dashed mx-0.5 ${getPendingVacationBorder(day.date)}`, !day.isVacation && !day.isPendingVacation && 'border-transparent', 'relative bg-white hover:bg-gray-100 border-b-4 py-1.5 focus:z-10 font-medium']"
             >
@@ -37,11 +37,19 @@
                   {{ day.date.day }}
                 </time>
               </div>
-              <InertiaLink
-                :href="`/vacation/requests/${dayIdx}`"
-                class="absolute inset-0"
-              />
-            </div>
+              <Popper
+                v-if="day.isHoliday || day.isVacation || day.isPendingVacation"
+                hover
+              >
+                <button class="absolute inset-0" />
+
+                <template #content>
+                  <div class="py-2 px-4 text-gray-900 bg-white rounded-md shadow-md text-md">
+                    {{ dayIdx }}
+                  </div>
+                </template>
+              </Popper>
+            </button>
             <div
               v-else
               :class="['bg-gray-50 text-gray-400 border-b-4 border-transparent py-1.5 w-full focus:z-10 font-medium']"
@@ -63,7 +71,7 @@
 import { DateTime } from 'luxon'
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
-
+import Popper from 'vue3-popper'
 const props = defineProps({
   holidays: Object,
   vacations: Object,
