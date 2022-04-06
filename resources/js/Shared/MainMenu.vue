@@ -277,6 +277,7 @@ import {
   UserGroupIcon,
   XIcon,
   SunIcon,
+  ClipboardListIcon,
   StarIcon,
   CalendarIcon,
   DocumentTextIcon,
@@ -340,7 +341,7 @@ const navigation = computed(() =>
       name: 'Podsumowanie roczne',
       href: '/vacation/annual-summary',
       component: 'AnnualSummary',
-      icon: SunIcon,
+      icon: ClipboardListIcon,
       can: true,
     },
     {
