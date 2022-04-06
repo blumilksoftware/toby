@@ -7,7 +7,7 @@ use Blumilk\Codestyle\Configuration\Defaults\LaravelPaths;
 
 $paths = new LaravelPaths();
 $config = new Config(
-    paths: $paths->add("public", "bootstrap/app.php", "ecs.php", "server.php"),
+    paths: $paths->add("codestyle.php"),
 );
 
 return $config->config();
