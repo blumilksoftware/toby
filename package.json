@@ -27,6 +27,7 @@
         "echarts": "^5.3.2",
         "eslit": "^6.0.0",
         "flatpickr": "^4.6.11",
+        "floating-vue": "^2.0.0-beta.13",
         "laravel-mix": "^6.0.43",
         "lodash": "^4.17.21",
         "luxon": "^2.3.1",

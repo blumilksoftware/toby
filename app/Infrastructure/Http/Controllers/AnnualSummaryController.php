@@ -10,6 +10,7 @@ use Inertia\Response;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\Vacation;
+use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 
 class AnnualSummaryController extends Controller
 {
@@ -25,22 +26,22 @@ class AnnualSummaryController extends Controller
 
         $vacations = $request->user()
             ->vacations()
-            ->with("vacationRequest")
+            ->with("vacationRequest.vacations")
             ->whereBetween("date", [$startDate, $endDate])
             ->approved()
             ->get();
 
         $pendingVacations = $request->user()
             ->vacations()
-            ->with("vacationRequest")
+            ->with("vacationRequest.vacations")
             ->whereBetween("date", [$startDate, $endDate])
             ->pending()
             ->get();
 
         return inertia("AnnualSummary", [
             "holidays" => $holidays->mapWithKeys(fn(Holiday $holiday) => [$holiday->date->toDateString() => $holiday->name]),
-            "vacations" => $vacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => $vacation->vacationRequest->type]),
-            "pendingVacations" => $pendingVacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => $vacation->vacationRequest->type]),
+            "vacations" => $vacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest)]),
+            "pendingVacations" => $pendingVacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest)]),
         ]);
     }
 }
