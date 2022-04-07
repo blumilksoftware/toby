@@ -21,7 +21,7 @@ class UserVacationStatsRetriever
     {
         return $user
             ->vacations()
-            ->where("year_period_id", $yearPeriod->id)
+            ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query
@@ -37,7 +37,7 @@ class UserVacationStatsRetriever
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query
-                    ->where("year_period_id", $yearPeriod->id)
+                    ->whereBelongsTo($yearPeriod)
                     ->whereIn("type", $this->getLimitableVacationTypes())
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
@@ -50,7 +50,7 @@ class UserVacationStatsRetriever
     {
         return $user
             ->vacations()
-            ->where("year_period_id", $yearPeriod->id)
+            ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query
@@ -64,7 +64,7 @@ class UserVacationStatsRetriever
     {
         return $user
             ->vacations()
-            ->where("year_period_id", $yearPeriod->id)
+            ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query
@@ -86,7 +86,7 @@ class UserVacationStatsRetriever
     public function getVacationDaysLimit(User $user, YearPeriod $yearPeriod): int
     {
         $limit = $user->vacationLimits()
-            ->where("year_period_id", $yearPeriod->id)
+            ->whereBelongsTo($yearPeriod)
             ->first()
             ?->days;
 

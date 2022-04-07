@@ -91,7 +91,7 @@ class User extends Authenticatable
     public function hasVacationLimit(YearPeriod $yearPeriod): bool
     {
         return $this->vacationLimits()
-            ->where("year_period_id", $yearPeriod->id)
+            ->whereBelongsTo($yearPeriod)
             ->whereNotNull("days")
             ->exists();
     }
@@ -113,7 +113,7 @@ class User extends Authenticatable
         return $query->whereRelation(
             "vacationlimits",
             fn(Builder $query) => $query
-                ->where("year_period_id", $yearPeriod->id)
+                ->whereBelongsTo($yearPeriod)
                 ->whereNotNull("days"),
         );
     }

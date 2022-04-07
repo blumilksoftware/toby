@@ -27,7 +27,7 @@ class CalculateUserUnavailableDaysController extends Controller
 
         $holidays = $yearPeriod->holidays()->pluck("date");
         $vacationDays = $user->vacations()
-            ->where("year_period_id", $yearPeriod->id)
+            ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query) => $query->noStates(VacationRequestStatesRetriever::failedStates()),
