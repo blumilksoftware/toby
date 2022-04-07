@@ -187,7 +187,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
     {
         return $user->vacations()
             ->with("vacationRequest")
-            ->whereRelation("vacationRequest", fn(Builder $query) => $query->whereIn("type", $this->types))
+            ->whereRelation("vacationRequest", fn(Builder $query): Builder => $query->whereIn("type", $this->types))
             ->whereBetween("date", [$period->start, $period->end])
             ->approved()
             ->get()

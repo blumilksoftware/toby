@@ -40,26 +40,26 @@ class VacationRequestController extends Controller
         $vacationRequests = $request->user()
             ->vacationRequests()
             ->with("vacations")
-            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
+            ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->paginate();
 
         $pending = $request->user()
             ->vacationRequests()
-            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
+            ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::pendingStates())
             ->count();
 
         $success = $request->user()
             ->vacationRequests()
-            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
+            ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::successStates())
             ->count();
 
         $failed = $request->user()
             ->vacationRequests()
-            ->where("year_period_id", $yearPeriodRetriever->selected()->id)
+            ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::failedStates())
             ->count();
 
@@ -91,11 +91,11 @@ class VacationRequestController extends Controller
 
         $vacationRequests = VacationRequest::query()
             ->with(["user", "vacations"])
-            ->where("year_period_id", $yearPeriod->id)
-            ->when($user !== null, fn(Builder $query) => $query->where("user_id", $user))
+            ->whereBelongsTo($yearPeriod)
+            ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->when(
                 $status !== null,
-                fn(Builder $query) => $query->states(
+                fn(Builder $query): Builder => $query->states(
                     VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()),
                 ),
             )
@@ -156,7 +156,7 @@ class VacationRequestController extends Controller
         return $pdf->stream();
     }
 
-    public function create(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
+    public function create(Request $request): Response
     {
         $users = User::query()
             ->orderBy("last_name")

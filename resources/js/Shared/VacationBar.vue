@@ -1,7 +1,7 @@
 <template>
   <Popper
     hover
-    class="w-full h-full"
+    class="w-full"
   >
     <div class="flex text-white bg-white">
       <div
@@ -27,7 +27,7 @@
       </div>
     </div>
     <template #content>
-      <div class="py-2 px-4 text-gray-900 bg-white rounded-md shadow-md text-md flext">
+      <div class="py-2 px-4 text-gray-900 bg-white rounded-md shadow-md text-md">
         <div class="flex items-center font-normal">
           <i
             class="inline-block mr-3 w-5 h-3"

@@ -29,6 +29,7 @@
         "flatpickr": "^4.6.11",
         "laravel-mix": "^6.0.43",
         "lodash": "^4.17.21",
+        "luxon": "^2.3.1",
         "postcss": "^8.4.12",
         "tailwindcss": "^3.0.23",
         "vue": "^3.2.31",

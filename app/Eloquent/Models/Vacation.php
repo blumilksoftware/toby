@@ -47,7 +47,15 @@ class Vacation extends Model
     {
         return $query->whereRelation(
             "vacationRequest",
-            fn(Builder $query) => $query->states(VacationRequestStatesRetriever::successStates()),
+            fn(Builder $query): Builder => $query->states(VacationRequestStatesRetriever::successStates()),
+        );
+    }
+
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->whereRelation(
+            "vacationRequest",
+            fn(Builder $query): Builder => $query->states(VacationRequestStatesRetriever::pendingStates()),
         );
     }
 }

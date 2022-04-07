@@ -277,6 +277,7 @@ import {
   UserGroupIcon,
   XIcon,
   SunIcon,
+  ClipboardListIcon,
   StarIcon,
   CalendarIcon,
   DocumentTextIcon,
@@ -334,6 +335,14 @@ const navigation = computed(() =>
       component: 'VacationLimits',
       icon: SunIcon,
       can: props.auth.can.manageVacationLimits,
+    },
+    {
+
+      name: 'Podsumowanie roczne',
+      href: '/vacation/annual-summary',
+      component: 'AnnualSummary',
+      icon: ClipboardListIcon,
+      can: true,
     },
     {
       name: 'Użytkownicy',
