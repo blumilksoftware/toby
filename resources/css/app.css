@@ -76,7 +76,7 @@
 }
 
 .v-popper--theme-tooltip .v-popper__arrow-outer {
-    border-color: #527ABA;
+    border-color: #000;
 }
 
 .v-popper--theme-tooltip:focus-visible {

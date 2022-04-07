@@ -14,7 +14,8 @@ use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 
 class AnnualSummaryController extends Controller
 {
-    public function __invoke(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response {
+    public function __invoke(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
+    {
         $yearPeriod = $yearPeriodRetriever->selected();
 
         $startDate = Carbon::createFromDate($yearPeriod->year)->startOfYear()->startOfWeek();
