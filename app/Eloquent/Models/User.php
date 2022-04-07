@@ -23,6 +23,7 @@ use Toby\Eloquent\Helpers\ColorGenerator;
  * @property string $first_name
  * @property string $last_name
  * @property string $email
+ * @property string $password
  * @property string $avatar
  * @property string $position
  * @property Role $role
