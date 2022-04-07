@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Str;
 
 return [
-    "default" => env("DB_CONNECTION", "mysql"),
+    "default" => env("DB_CONNECTION", "pgsql"),
     "connections" => [
         "pgsql" => [
             "driver" => "pgsql",
