@@ -1,6 +1,5 @@
 @import 'flatpickr/dist/themes/light.css';
 @import 'vue-toastification/dist/index.css';
-@import 'floating-vue/dist/style.css';
 
 @tailwind base;
 @tailwind components;
@@ -68,17 +67,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: #dadce0;
-}
-
-.v-popper--theme-tooltip .v-popper__inner {
-    padding: 0;
-    background: transparent;
-}
-
-.v-popper--theme-tooltip .v-popper__arrow-outer {
-    border-color: #000;
-}
-
-.v-popper--theme-tooltip:focus-visible {
-    outline: none;
 }

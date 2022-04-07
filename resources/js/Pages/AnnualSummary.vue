@@ -6,8 +6,9 @@
         Podsumowanie roczne
       </h2>
     </div>
-    <div class="max-w-md" />
-    <div class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 xl:px-8 xl:max-w-none 2xl:grid-cols-4">
+    <div
+      class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 xl:px-8 xl:max-w-none 2xl:grid-cols-4"
+    >
       <section
         v-for="month in months"
         :key="month.name"
@@ -30,45 +31,64 @@
             v-for="(day, dayIdx) in month.days"
             :key="dayIdx"
           >
-            <button
-              v-if="day.isCurrentMonth"
-              :class="[day.isVacation && `${getVacationBorder(day.date)}`, day.isPendingVacation && `border-dashed mx-0.5 ${getPendingVacationBorder(day.date)}`, !day.isVacation && !day.isPendingVacation && 'border-transparent', 'relative bg-white hover:bg-blumilk-25 border-b-4 py-1.5 font-medium']"
-            >
-              <div :class="[day.isCurrentMonth && (day.isWeekend || day.isHoliday) && 'text-red-600 font-bold', day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']">
-                <time :datetime="day.date.toISODate()">
-                  {{ day.date.day }}
-                </time>
-              </div>
-              <Tooltip
+            <template v-if="day.isCurrentMonth">
+              <Popper
                 v-if="day.isVacation || day.isPendingVacation"
-                :triggers="['click']"
-                placement="bottom"
-                auto-hide
+                open-delay="200"
+                arrow
+                hover
+                offset-distance="0"
               >
-                <div class="absolute inset-0" />
-                <template #popper>
-                  <div class="mt-1">
-                    <VacationPopup :vacation="getVacationInfo(day)" />
-                  </div>
+                <div :class="[day.isPendingVacation && 'mx-0.5']">
+                  <button :class="[day.isPendingVacation && `border-dashed`, `${getVacationBorder(day)} isolate bg-white w-full hover:bg-blumilk-25 border-b-4 py-1.5 font-medium`]">
+                    <time
+                      :datetime="day.date.toISODate()"
+                      :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
+                    >
+                      {{ day.date.day }}
+                    </time>
+                  </button>
+                </div>
+                <template #content>
+                  <VacationPopup :vacation="getVacationInfo(day)" />
                 </template>
-              </Tooltip>
-              <Tooltip
+              </Popper>
+              <Popper
                 v-else-if="day.isHoliday"
-                :triggers="['click']"
-                placement="bottom"
-                auto-hide
+                open-delay="200"
+                arrow
+                hover
+                offset-distance="0"
               >
-                <div class="absolute inset-0" />
+                <button class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent">
+                  <time
+                    :datetime="day.date.toISODate()"
+                    :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'text-red-700 font-bold mx-auto flex h-7 w-7 p-4 items-center justify-center']"
+                  >
+                    {{ day.date.day }}
+                  </time>
+                </button>
                 <template #popper>
                   <div class="py-2 px-6 text-sm font-semibold text-left text-gray-700 bg-white rounded-lg border border-gray-400">
                     {{ holidays[day.date.toISODate()] }}
                   </div>
                 </template>
-              </Tooltip>
-            </button>
+              </Popper>
+              <button
+                v-else
+                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent"
+              >
+                <time
+                  :datetime="day.date.toISODate()"
+                  :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', day.isWeekend && 'text-red-700 font-bold', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
+                >
+                  {{ day.date.day }}
+                </time>
+              </button>
+            </template>
             <div
               v-else
-              :class="['bg-gray-50 text-gray-400 border-b-4 border-transparent py-1.5 w-full focus:z-10 font-medium']"
+              class="focus:z-10 py-1.5 w-full font-medium text-gray-400 bg-gray-50 border-b-4 border-transparent"
             >
               <div class="flex justify-center items-center p-4 mx-auto w-7 h-7">
                 <time :datetime="day.date.toISODate()">
@@ -87,7 +107,7 @@
 import { DateTime } from 'luxon'
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
-import { Tooltip } from 'floating-vue'
+import Popper from 'vue3-popper'
 import VacationPopup from '@/Shared/VacationPopup'
 
 const props = defineProps({
@@ -103,7 +123,7 @@ const months = []
 
 for (let i = 1; i < 13; i++) {
   const currentMonth = DateTime.fromObject({ year: year.value, month: i }).startOf('month')
-  
+
   const start = currentMonth.startOf('week')
   const end = currentMonth.endOf('month').endOf('week')
 
@@ -153,16 +173,10 @@ function isWeekend(date) {
   return date.weekday === 6 || date.weekday === 7
 }
 
-function getVacationBorder(date) {
-  const type = findType(props.vacations[date.toISODate()].type)
+function getVacationBorder(day) {
+  const type = findType(getVacationInfo(day).type)
 
-  return type.border.approved
-}
-
-function getPendingVacationBorder(date) {
-  const type = findType(props.pendingVacations[date.toISODate()].type)
-
-  return type.border.approved
+  return type.border
 }
 
 function getVacationInfo(day) {

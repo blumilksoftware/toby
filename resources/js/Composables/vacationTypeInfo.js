@@ -14,97 +14,71 @@ const types = [
     text: 'Urlop wypoczynkowy',
     value: 'vacation',
     icon: WhiteBalanceSunnyIcon,
-    color: 'text-amber-500',
-    border: {
-      approved: 'border-amber-500',
-      pending: 'border-amber-300',
-    },
+    color: 'text-amber-300',
+    border: 'border-amber-300',
   },
   {
     text: 'Urlop na żądanie',
     value: 'vacation_on_request',
     icon: CommentAlertIcon,
     color: 'text-slate-500',
-    border: {
-      approved: 'border-slate-500',
-      pending: 'border-slate-300',
-    },
+    border: 'border-slate-500',
   },
   {
     text: 'Urlop okolicznościowy',
     value: 'special_vacation',
     icon: StarShootingIcon,
     color: 'text-orange-500',
-    border: {
-      approved: 'border-orange-500',
-      pending: 'border-orange-300',
-    },
+    border: 'border-orange-500',
   },
   {
     text: 'Opieka nad dzieckiem art 188 kp',
     value: 'childcare_vacation',
     icon: BabyCarriageIcon,
     color: 'text-purple-500',
-    border: {
-      approved: 'border-purple-500',
-      pending: 'border-purple-300',
-    },
+    border: 'border-purple-500',
   },
   {
     text: 'Urlop szkoleniowy',
     value: 'training_vacation',
     icon: HumanMaleBoardIcon,
     color: 'text-blumilk-500',
-    border: {
-      approved: 'border-blumilk-500',
-      pending: 'border-blumilk-300',
-    },
+    border: 'border-blumilk-500',
   },
   {
     text: 'Urlop bezpłatny',
     value: 'unpaid_vacation',
     icon: CurrencyUsdOffIcon,
     color: 'text-emerald-500',
-    border: {
-      approved: 'border-emerald-500',
-      pending: 'border-emerald-300',
-    },
+    border: 'border-emerald-500',
   },
   {
     text: 'Wolontariat',
     value: 'volunteering_vacation',
     icon: HandHeartOutlineIcon,
     color: 'text-pink-500',
-    border: {
-      approved: 'border-pink-500',
-      pending: 'border-pink-300',
-    },
+    border: 'border-pink-500',
   },
   {
     text: 'Odbiór za święto',
     value: 'time_in_lieu',
     icon: CalendarCheckIcon,
     color: 'text-stone-500',
-    border: {
-      approved: 'border-stone-500',
-      pending: 'border-stone-300',
-    },
+    border: 'border-stone-500',
   },
   {
     text: 'Zwolnienie lekarskie',
     value: 'sick_vacation',
     icon: MedicalBagIcon,
     color: 'text-rose-500',
-    border: {
-      approved: 'border-rose-500',
-      pending: 'border-rose-300',
-    },
+    border: 'border-rose-500',
   },
   {
     text: 'Nieobecność',
     value: 'absence',
     icon: CalendarRemoveIcon,
     color: 'text-cyan-500',
+    border: 'border-cyan-500',
   },
 ]
 

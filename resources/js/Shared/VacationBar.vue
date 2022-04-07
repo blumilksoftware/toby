@@ -1,5 +1,8 @@
 <template>
-  <Popper hover>
+  <Popper
+    hover
+    class="w-full"
+  >
     <div class="flex text-white bg-white">
       <div
         v-show="stats.used > 0"
