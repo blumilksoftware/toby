@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Holiday;
@@ -18,24 +17,20 @@ class AnnualSummaryController extends Controller
     {
         $yearPeriod = $yearPeriodRetriever->selected();
 
-        $startDate = Carbon::createFromDate($yearPeriod->year)->startOfYear()->startOfWeek();
-        $endDate = Carbon::createFromDate($yearPeriod->year)->endOfYear()->endOfWeek();
-
         $holidays = $yearPeriod->holidays()
-            ->whereBetween("date", [$startDate, $endDate])
             ->get();
 
         $vacations = $request->user()
             ->vacations()
             ->with("vacationRequest.vacations")
-            ->whereBetween("date", [$startDate, $endDate])
+            ->whereBelongsTo($yearPeriod)
             ->approved()
             ->get();
 
         $pendingVacations = $request->user()
             ->vacations()
             ->with("vacationRequest.vacations")
-            ->whereBetween("date", [$startDate, $endDate])
+            ->whereBelongsTo($yearPeriod)
             ->pending()
             ->get();
 

@@ -35,7 +35,6 @@
               <Popper
                 v-if="day.isVacation || day.isPendingVacation"
                 open-delay="200"
-                arrow
                 hover
                 offset-distance="0"
               >
@@ -56,7 +55,6 @@
               <Popper
                 v-else-if="day.isHoliday"
                 open-delay="200"
-                arrow
                 hover
                 offset-distance="0"
               >
@@ -68,7 +66,7 @@
                     {{ day.date.day }}
                   </time>
                 </button>
-                <template #popper>
+                <template #content>
                   <div class="py-2 px-6 text-sm font-semibold text-left text-gray-700 bg-white rounded-lg border border-gray-400">
                     {{ holidays[day.date.toISODate()] }}
                   </div>
