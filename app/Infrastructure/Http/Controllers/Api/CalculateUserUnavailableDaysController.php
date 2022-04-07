@@ -30,13 +30,13 @@ class CalculateUserUnavailableDaysController extends Controller
             ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query->noStates(VacationRequestStatesRetriever::failedStates()),
+                fn(Builder $query): Builder => $query->noStates(VacationRequestStatesRetriever::failedStates()),
             )
             ->pluck("date");
 
         return new JsonResponse([
-            ...$holidays->map(fn(Carbon $date) => $date->toDateString()),
-            ...$vacationDays->map(fn(Carbon $date) => $date->toDateString()),
+            ...$holidays->map(fn(Carbon $date): string => $date->toDateString()),
+            ...$vacationDays->map(fn(Carbon $date): string => $date->toDateString()),
         ]);
     }
 }

@@ -112,7 +112,7 @@ class User extends Authenticatable
     {
         return $query->whereRelation(
             "vacationlimits",
-            fn(Builder $query) => $query
+            fn(Builder $query): Builder => $query
                 ->whereBelongsTo($yearPeriod)
                 ->whereNotNull("days"),
         );

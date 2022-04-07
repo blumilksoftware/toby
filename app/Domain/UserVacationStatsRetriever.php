@@ -24,7 +24,7 @@ class UserVacationStatsRetriever
             ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query
+                fn(Builder $query): Builder => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
@@ -36,7 +36,7 @@ class UserVacationStatsRetriever
         return $user->vacations()
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query
+                fn(Builder $query): Builder => $query
                     ->whereBelongsTo($yearPeriod)
                     ->whereIn("type", $this->getLimitableVacationTypes())
                     ->states(VacationRequestStatesRetriever::successStates()),
@@ -53,7 +53,7 @@ class UserVacationStatsRetriever
             ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query
+                fn(Builder $query): Builder => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
                     ->states(VacationRequestStatesRetriever::pendingStates()),
             )
@@ -67,7 +67,7 @@ class UserVacationStatsRetriever
             ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query
+                fn(Builder $query): Builder => $query
                     ->whereIn("type", $this->getNotLimitableVacationTypes())
                     ->states(VacationRequestStatesRetriever::successStates()),
             )

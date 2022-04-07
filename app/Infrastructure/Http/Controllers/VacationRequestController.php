@@ -92,10 +92,10 @@ class VacationRequestController extends Controller
         $vacationRequests = VacationRequest::query()
             ->with(["user", "vacations"])
             ->whereBelongsTo($yearPeriod)
-            ->when($user !== null, fn(Builder $query) => $query->where("user_id", $user))
+            ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->when(
                 $status !== null,
-                fn(Builder $query) => $query->states(
+                fn(Builder $query): Builder => $query->states(
                     VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()),
                 ),
             )

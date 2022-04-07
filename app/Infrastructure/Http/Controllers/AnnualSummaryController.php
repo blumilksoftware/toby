@@ -35,9 +35,19 @@ class AnnualSummaryController extends Controller
             ->get();
 
         return inertia("AnnualSummary", [
-            "holidays" => $holidays->mapWithKeys(fn(Holiday $holiday) => [$holiday->date->toDateString() => $holiday->name]),
-            "vacations" => $vacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest)]),
-            "pendingVacations" => $pendingVacations->mapWithKeys(fn(Vacation $vacation) => [$vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest)]),
+            "holidays" => $holidays->mapWithKeys(
+                fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
+            ),
+            "vacations" => $vacations->mapWithKeys(
+                fn(Vacation $vacation): array => [
+                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                ],
+            ),
+            "pendingVacations" => $pendingVacations->mapWithKeys(
+                fn(Vacation $vacation): array => [
+                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                ],
+            ),
         ]);
     }
 }

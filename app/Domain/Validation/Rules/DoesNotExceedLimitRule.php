@@ -44,7 +44,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
         return $user->vacationLimits()
             ->whereBelongsTo($yearPeriod)
             ->first()
-            ->days ?? 0;
+            ?->days ?? 0;
     }
 
     protected function getVacationDaysWithLimit(User $user, YearPeriod $yearPeriod): int
@@ -53,7 +53,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
             ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
-                fn(Builder $query) => $query
+                fn(Builder $query): Builder => $query
                     ->whereIn("type", $this->getLimitableVacationTypes())
                     ->noStates(VacationRequestStatesRetriever::failedStates()),
             )
