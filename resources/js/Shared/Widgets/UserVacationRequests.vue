@@ -53,6 +53,7 @@
 
 <script setup>
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
+import Status from '@/Shared/Status'
 
 defineProps({
   requests: Object,

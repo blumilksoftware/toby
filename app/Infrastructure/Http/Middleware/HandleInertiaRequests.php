@@ -6,6 +6,7 @@ namespace Toby\Infrastructure\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\UserResource;
@@ -14,7 +15,8 @@ class HandleInertiaRequests extends Middleware
 {
     public function __construct(
         protected YearPeriodRetriever $yearPeriodRetriever,
-    ) {}
+    ) {
+    }
 
     public function share(Request $request): array
     {
@@ -36,6 +38,14 @@ class HandleInertiaRequests extends Middleware
                 "info" => $request->session()->get("info"),
             ],
             "years" => fn() => $user ? $this->yearPeriodRetriever->links() : [],
+            "vacationRequestsCount" => fn() => $user->can("listAll", VacationRequest::class)
+                ? VacationRequest::query()
+                    ->whereBelongsTo($this->yearPeriodRetriever->selected())
+                    ->states(
+                        VacationRequestStatesRetriever::waitingForUserActionStates($user),
+                    )
+                    ->count()
+                : null
         ]);
     }
 }

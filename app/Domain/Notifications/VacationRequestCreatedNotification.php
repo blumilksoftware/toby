@@ -39,7 +39,7 @@ class VacationRequestCreatedNotification extends Notification
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $user = $this->vacationRequest->user->first_name;
+        $user = $this->vacationRequest->user->profile->first_name;
         $type = $this->vacationRequest->type->label();
         $from = $this->vacationRequest->from->toDisplayString();
         $to = $this->vacationRequest->to->toDisplayString();

@@ -3,6 +3,7 @@ import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 import AppLayout from '@/Shared/Layout/AppLayout'
 import Flatpickr from 'flatpickr'
+import { Settings } from 'luxon'
 import { Polish } from 'flatpickr/dist/l10n/pl.js'
 import Toast from 'vue-toastification'
 
@@ -44,3 +45,4 @@ Flatpickr.setDefaults({
   disableMobile: true,
 })
 
+Settings.defaultLocale = 'pl'

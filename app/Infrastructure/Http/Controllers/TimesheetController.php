@@ -28,9 +28,9 @@ class TimesheetController extends Controller
         $carbonMonth = Carbon::create($yearPeriod->year, $month->toCarbonNumber());
 
         $users = User::query()
-            ->where("employment_form", EmploymentForm::EmploymentContract)
-            ->orderBy("last_name")
-            ->orderBy("first_name")
+            ->whereRelation("profile", "employment_form", EmploymentForm::EmploymentContract)
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
             ->get();
 
         $types = VacationType::all()

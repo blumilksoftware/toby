@@ -43,7 +43,7 @@ class VacationRequestWaitsForApprovalNotification extends Notification
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $user = $this->user->first_name;
+        $user = $this->user->profile->first_name;
         $type = $this->vacationRequest->type->label();
         $from = $this->vacationRequest->from->toDisplayString();
         $to = $this->vacationRequest->to->toDisplayString();
@@ -84,7 +84,7 @@ class VacationRequestWaitsForApprovalNotification extends Notification
     protected function buildDescription(): string
     {
         $title = $this->vacationRequest->name;
-        $requester = $this->vacationRequest->user->fullName;
+        $requester = $this->vacationRequest->user->profile->fullName;
 
         if ($this->vacationRequest->state->equals(WaitingForTechnical::class)) {
             return __("The vacation request :title from user :requester is waiting for your technical approval.", [

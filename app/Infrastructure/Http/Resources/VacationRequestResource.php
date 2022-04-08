@@ -15,7 +15,7 @@ class VacationRequestResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "user" => new UserResource($this->user),
+            "user" => new SimpleUserResource($this->user),
             "type" => $this->type,
             "state" => $this->state,
             "from" => $this->from->toDisplayString(),

@@ -14,14 +14,15 @@ class UserResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "name" => $this->fullName,
+            "name" => $this->profile->fullName,
             "email" => $this->email,
             "role" => $this->role->label(),
-            "position" => $this->position,
-            "avatar" => $this->getAvatar(),
+            "position" => $this->profile->position,
+            "avatar" => $this->profile->getAvatar(),
             "deleted" => $this->trashed(),
-            "employmentForm" => $this->employment_form->label(),
-            "employmentDate" => $this->employment_date->toDisplayString(),
+            "lastActiveAt" => $this->last_active_at?->toDateTimeString(),
+            "employmentForm" => $this->profile->employment_form->label(),
+            "employmentDate" => $this->profile->employment_date->toDisplayString(),
         ];
     }
 }

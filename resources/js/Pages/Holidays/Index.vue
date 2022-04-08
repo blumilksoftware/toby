@@ -49,9 +49,9 @@
             <tr
               v-for="holiday in holidays.data"
               :key="holiday.id"
-              class="hover:bg-blumilk-25"
+              :class="[holiday.isPast ? 'bg-gray-100' : 'hover:bg-blumilk-25']"
             >
-              <td class="p-4 text-sm font-semibold text-gray-500 capitalize whitespace-nowrap">
+              <td class="p-4 text-sm font-semibold text-gray-700 capitalize whitespace-nowrap">
                 {{ holiday.name }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">

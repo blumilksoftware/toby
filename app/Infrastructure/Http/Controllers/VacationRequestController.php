@@ -27,14 +27,18 @@ use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
-use Toby\Infrastructure\Http\Resources\UserResource;
+use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class VacationRequestController extends Controller
 {
-    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
+    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response|RedirectResponse
     {
+        if ($request->user()->can("listAll", VacationRequest::class)) {
+            return redirect()->route("vacation.requests.indexForApprovers");
+        }
+
         $status = $request->get("status", "all");
 
         $vacationRequests = $request->user()
@@ -104,13 +108,13 @@ class VacationRequestController extends Controller
 
         $users = User::query()
             ->withVacationLimitIn($yearPeriod)
-            ->orderBy("last_name")
-            ->orderBy("first_name")
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
             ->get();
 
         return inertia("VacationRequest/IndexForApprovers", [
             "requests" => VacationRequestResource::collection($vacationRequests),
-            "users" => UserResource::collection($users),
+            "users" => SimpleUserResource::collection($users),
             "filters" => [
                 "status" => $status,
                 "user" => (int)$user,
@@ -159,13 +163,13 @@ class VacationRequestController extends Controller
     public function create(Request $request): Response
     {
         $users = User::query()
-            ->orderBy("last_name")
-            ->orderBy("first_name")
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
             ->get();
 
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
-            "users" => UserResource::collection($users),
+            "users" => SimpleUserResource::collection($users),
             "can" => [
                 "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
                 "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),

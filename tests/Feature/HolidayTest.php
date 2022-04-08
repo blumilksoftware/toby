@@ -25,6 +25,7 @@ class HolidayTest extends FeatureTestCase
 
         $this->actingAs($user)
             ->get("/holidays")
+            ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("Holidays/Index")

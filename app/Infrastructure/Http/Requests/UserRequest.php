@@ -25,14 +25,20 @@ class UserRequest extends FormRequest
         ];
     }
 
-    public function data(): array
+    public function userData(): array
+    {
+        return [
+            "email" => $this->get("email"),
+            "role" => $this->get("role"),
+        ];
+    }
+
+    public function profileData(): array
     {
         return [
             "first_name" => $this->get("firstName"),
             "last_name" => $this->get("lastName"),
-            "email" => $this->get("email"),
             "position" => $this->get("position"),
-            "role" => $this->get("role"),
             "employment_form" => $this->get("employmentForm"),
             "employment_date" => $this->get("employmentDate"),
         ];

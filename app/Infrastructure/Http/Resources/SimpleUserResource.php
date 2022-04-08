@@ -6,7 +6,7 @@ namespace Toby\Infrastructure\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AbsenceResource extends JsonResource
+class SimpleUserResource extends JsonResource
 {
     public static $wrap = null;
 
@@ -14,8 +14,9 @@ class AbsenceResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "user" => new SimpleUserResource($this->user),
-            "date" => $this->date->toDisplayString(),
+            "name" => $this->profile->fullName,
+            "email" => $this->email,
+            "avatar" => $this->profile->getAvatar(),
         ];
     }
 }

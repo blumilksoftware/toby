@@ -46,7 +46,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
 
     public function title(): string
     {
-        return $this->user->fullName;
+        return $this->user->profile->fullName;
     }
 
     public function headings(): array

@@ -11,7 +11,7 @@ use Toby\Domain\CalendarGenerator;
 use Toby\Domain\Enums\Month;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Http\Resources\UserResource;
+use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 
 class VacationCalendarController extends Controller
 {
@@ -29,8 +29,8 @@ class VacationCalendarController extends Controller
 
         $users = User::query()
             ->where("id", "!=", $currentUser->id)
-            ->orderBy("last_name")
-            ->orderBy("first_name")
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
             ->get();
 
         $users->prepend($currentUser);
@@ -41,7 +41,7 @@ class VacationCalendarController extends Controller
             "calendar" => $calendar,
             "current" => Month::current(),
             "selected" => $month->value,
-            "users" => UserResource::collection($users),
+            "users" => SimpleUserResource::collection($users),
             "can" => [
                 "generateTimesheet" => $request->user()->can("generateTimesheet"),
             ],

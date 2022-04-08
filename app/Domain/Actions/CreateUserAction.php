@@ -9,11 +9,13 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class CreateUserAction
 {
-    public function execute(array $data): User
+    public function execute(array $userData, array $profileData): User
     {
-        $user = new User($data);
+        $user = new User($userData);
 
         $user->save();
+
+        $user->profile()->create($profileData);
 
         $this->createVacationLimitsFor($user);
 

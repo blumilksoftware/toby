@@ -76,7 +76,7 @@
                   v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
-                  :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                  :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
                   @click="sidebarOpen = false;"
                 >
                   <component
@@ -84,6 +84,12 @@
                     class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
                   />
                   {{ item.name }}
+                  <span
+                    v-if="item.badge"
+                    class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
+                  >
+                    {{ item.badge }}
+                  </span>
                 </InertiaLink>
               </div>
             </div>
@@ -117,13 +123,19 @@
             v-for="item in navigation"
             :key="item.name"
             :href="item.href"
-            :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
           >
             <component
               :is="item.icon"
               class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
             />
             {{ item.name }}
+            <span
+              v-if="item.badge"
+              class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
+            >
+              {{ item.badge }}
+            </span>
           </InertiaLink>
         </div>
       </nav>
@@ -288,6 +300,7 @@ import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 const props = defineProps({
   auth: Object,
   years: Object,
+  vacationRequestsCount: Number,
 })
 
 const sidebarOpen = ref(false)
@@ -297,42 +310,43 @@ const navigation = computed(() =>
     {
       name: 'Moje wnioski',
       href: '/vacation/requests/me',
-      component: 'VacationRequest/Index',
+      section: 'VacationRequest',
       icon: DocumentTextIcon,
-      can: true,
+      can: !props.auth.can.listAllVacationRequests,
     },
     {
       name: 'Lista wniosków',
       href: '/vacation/requests',
-      component: 'VacationRequest/IndexForApprovers',
+      section: 'VacationRequest',
       icon: CollectionIcon,
       can: props.auth.can.listAllVacationRequests,
+      badge: props.vacationRequestsCount,
     },
     {
       name: 'Kalendarz urlopów',
       href: '/vacation/calendar',
-      component: 'Calendar',
+      section: 'Calendar',
       icon: CalendarIcon,
       can: true,
     },
     {
       name: 'Wykorzystanie urlopu',
       href: '/vacation/monthly-usage',
-      component: 'MonthlyUsage',
+      section: 'MonthlyUsage',
       icon: AdjustmentsIcon,
       can: props.auth.can.listMonthlyUsage,
     },
     {
       name: 'Dni wolne',
       href: '/holidays',
-      component: 'Holidays/Index',
+      section: 'Holidays/',
       icon: StarIcon,
       can: true,
     },
     {
       name: 'Limity urlopów',
       href: '/vacation/limits',
-      component: 'VacationLimits',
+      section: 'VacationLimits',
       icon: SunIcon,
       can: props.auth.can.manageVacationLimits,
     },
@@ -340,14 +354,14 @@ const navigation = computed(() =>
 
       name: 'Podsumowanie roczne',
       href: '/vacation/annual-summary',
-      component: 'AnnualSummary',
+      section: 'AnnualSummary',
       icon: ClipboardListIcon,
       can: true,
     },
     {
       name: 'Użytkownicy',
       href: '/users',
-      component: 'Users/Index',
+      section: 'Users/',
       icon: UserGroupIcon,
       can: props.auth.can.manageUsers,
     },
