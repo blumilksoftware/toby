@@ -63,7 +63,7 @@
                   leave-to-class="opacity-0"
                 >
                   <ListboxOptions
-                    class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 focus:ring-blumilk-500 ring-opacity-5 shadow-lg sm:text-sm"
+                    class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
                   >
                     <ListboxOption
                       v-for="user in users.data"
@@ -156,7 +156,7 @@
                   leave-from-class="opacity-100"
                   leave-to-class="opacity-0"
                 >
-                  <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 focus:ring-blumilk-500 ring-opacity-5 shadow-lg sm:text-sm">
+                  <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm">
                     <ListboxOption
                       v-for="vacationType in vacationTypes"
                       :key="vacationType.value"
