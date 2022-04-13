@@ -71,7 +71,7 @@
               </InertiaLink>
             </div>
             <div class="pt-3 mt-3">
-              <div class="px-2 space-y-1">
+              <div class="py-1 px-2 space-y-1">
                 <InertiaLink
                   v-for="item in navigation"
                   :key="item.name"
@@ -113,7 +113,7 @@
       <nav class="flex overflow-y-auto flex-col flex-1 px-2 mt-5 divide-y divide-blumilk-800">
         <InertiaLink
           href="/"
-          :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+          :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 mt-1 text-sm leading-6 font-medium rounded-md']"
         >
           <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
           Strona główna
@@ -164,7 +164,7 @@
                 </div>
                 <div>
                   <MenuButton
-                    class="inline-flex justify-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                    class="inline-flex justify-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500  shadow-sm"
                   >
                     {{ years.selected.year }}
                     <ChevronDownIcon class="-mr-1 ml-2 w-5 h-5" />

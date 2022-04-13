@@ -42,7 +42,7 @@ class VacationRequestStatusChangedNotification extends Notification
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $user = $this->user - profile->first_name;
+        $user = $this->user->profile->first_name;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
         $status = $this->vacationRequest->state->label();

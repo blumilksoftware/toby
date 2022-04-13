@@ -39,7 +39,7 @@
                 offset-distance="0"
               >
                 <div :class="[day.isPendingVacation && 'mx-0.5']">
-                  <button :class="[day.isPendingVacation && `border-dashed`, `${getVacationBorder(day)} isolate bg-white w-full hover:bg-blumilk-25 border-b-4 py-1.5 font-medium`]">
+                  <button :class="[day.isPendingVacation && `border-dashed`, `${getVacationBorder(day)} isolate bg-white w-full hover:bg-blumilk-25 border-b-4 py-1.5 font-medium focus:outline-blumilk-500`]">
                     <time
                       :datetime="day.date.toISODate()"
                       :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
@@ -58,7 +58,7 @@
                 hover
                 offset-distance="0"
               >
-                <button class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent">
+                <button class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500">
                   <time
                     :datetime="day.date.toISODate()"
                     :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'text-red-700 font-bold mx-auto flex h-7 w-7 p-4 items-center justify-center']"
@@ -74,7 +74,7 @@
               </Popper>
               <button
                 v-else
-                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent"
+                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500"
               >
                 <time
                   :datetime="day.date.toISODate()"

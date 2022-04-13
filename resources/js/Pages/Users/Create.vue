@@ -112,7 +112,7 @@
         </ListboxLabel>
         <div class="relative mt-1 sm:col-span-2 sm:mt-0">
           <ListboxButton
-            class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
+            class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.role, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.role }"
           >
             <span class="block truncate">{{ form.role.label }}</span>
@@ -166,7 +166,7 @@
         </ListboxLabel>
         <div class="relative mt-1 sm:col-span-2 sm:mt-0">
           <ListboxButton
-            class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:ring-1 shadow-sm cursor-default sm:text-sm"
+            class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentForm }"
           >
             <span class="block truncate">{{ form.employmentForm.label }}</span>
