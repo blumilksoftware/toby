@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\VacationDaysCalculator;
+use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -83,6 +84,13 @@ class DatabaseSeeder extends Seeder
                         ]);
                     }
                 })
+                ->create();
+        }
+
+        foreach ($users as $user) {
+            Key::factory()
+                ->for($user, "owner")
+                ->for($user, "previousOwner")
                 ->create();
         }
     }

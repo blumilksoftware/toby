@@ -7,6 +7,7 @@ use Toby\Infrastructure\Http\Controllers\AnnualSummaryController;
 use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
+use Toby\Infrastructure\Http\Controllers\KeysController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
@@ -28,6 +29,7 @@ Route::middleware("auth")->group(function (): void {
     Route::resource("holidays", HolidayController::class);
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->name("year-periods.select");
+    Route::resource("keys", KeysController::class);
 
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
         Route::get("/limits", [VacationLimitController::class, "edit"])
