@@ -208,15 +208,23 @@
             </p>
           </div>
           <div class="mt-5">
-            <InertiaLink
+            <ActionButton
               :href="`/vacation/requests/${request.id}/cancel`"
               method="post"
-              as="button"
               preserve-scroll
               class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
             >
               Anuluj wniosek
-            </InertiaLink>
+            </ActionButton>
+            <!--            <InertiaLink-->
+            <!--              :href="`/vacation/requests/${request.id}/cancel`"-->
+            <!--              method="post"-->
+            <!--              as="button"-->
+            <!--              preserve-scroll-->
+            <!--              class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"-->
+            <!--            >-->
+            <!--              Anuluj wniosek-->
+            <!--            </InertiaLink>-->
           </div>
         </div>
       </div>

@@ -80,7 +80,7 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         Route::get("/monthly-usage", MonthlyUsageController::class)
             ->name("monthly-usage");
         Route::get("/annual-summary", AnnualSummaryController::class)
-            ->name("annual-summmary");
+            ->name("annual-summary");
     });
 });
 

@@ -6,6 +6,7 @@ import Flatpickr from 'flatpickr'
 import { Settings } from 'luxon'
 import { Polish } from 'flatpickr/dist/l10n/pl.js'
 import Toast from 'vue-toastification'
+import ActionButton from '@/Shared/ActionButton'
 
 createInertiaApp({
   resolve: name => {
@@ -25,6 +26,7 @@ createInertiaApp({
         pauseOnFocusLoss: false,
       })
       .component('InertiaLink', Link)
+      .component('ActionButton', ActionButton)
       .component('InertiaHead', Head)
       .mount(el)
   },
