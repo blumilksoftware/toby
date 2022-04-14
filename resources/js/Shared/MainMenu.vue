@@ -368,7 +368,7 @@ const navigation = computed(() =>
     {
       name: 'Klucze',
       href: '/keys',
-      component: 'Keys/Index',
+      section: 'Keys',
       icon: KeyIcon,
       can: true,
     },
