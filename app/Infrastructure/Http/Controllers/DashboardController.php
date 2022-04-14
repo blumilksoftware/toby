@@ -21,7 +21,7 @@ class DashboardController extends Controller
     public function __invoke(
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
-        UserVacationStatsRetriever $vacationStatsRetriever
+        UserVacationStatsRetriever $vacationStatsRetriever,
     ): Response {
         $user = $request->user();
         $now = Carbon::now();

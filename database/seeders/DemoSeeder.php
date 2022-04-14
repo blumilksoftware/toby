@@ -30,87 +30,75 @@ class DemoSeeder extends Seeder
     public function run(): void
     {
         $user = User::factory([
+            "first_name" => "Jan",
+            "last_name" => "Kowalski",
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
+            "employment_form" => EmploymentForm::EmploymentContract,
+            "position" => "programista",
             "role" => Role::Administrator,
+            "employment_date" => Carbon::createFromDate(2021, 12, 31),
             "remember_token" => Str::random(10),
         ])
-            ->hasProfile([
-                "first_name" => "Jan",
-                "last_name" => "Kowalski",
-                "employment_form" => EmploymentForm::EmploymentContract,
-                "position" => "programista",
-                "employment_date" => Carbon::createFromDate(2021, 12, 31),
-            ])
             ->create();
 
         User::factory([
+            "first_name" => "Anna",
+            "last_name" => "Nowak",
             "email" => "anna.nowak@example.com",
+            "employment_form" => EmploymentForm::CommissionContract,
+            "position" => "tester",
             "role" => Role::Employee,
+            "employment_date" => Carbon::createFromDate(2021, 5, 10),
             "remember_token" => Str::random(10),
         ])
-            ->hasProfile([
-                "first_name" => "Anna",
-                "last_name" => "Nowak",
-                "employment_form" => EmploymentForm::CommissionContract,
-                "position" => "tester",
-                "employment_date" => Carbon::createFromDate(2021, 5, 10),
-            ])
             ->create();
 
         User::factory([
+            "first_name" => "Tola",
+            "last_name" => "Sawicka",
             "email" => "tola.sawicka@example.com",
+            "employment_form" => EmploymentForm::B2bContract,
+            "position" => "programista",
             "role" => Role::Employee,
+            "employment_date" => Carbon::createFromDate(2021, 1, 4),
             "remember_token" => Str::random(10),
         ])
-            ->hasProfile([
-                "first_name" => "Tola",
-                "last_name" => "Sawicka",
-                "employment_form" => EmploymentForm::B2bContract,
-                "position" => "programista",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
-            ])
             ->create();
 
         $technicalApprover = User::factory([
+            "first_name" => "Maciej",
+            "last_name" => "Ziółkowski",
             "email" => "maciej.ziolkowski@example.com",
+            "employment_form" => EmploymentForm::BoardMemberContract,
+            "position" => "programista",
             "role" => Role::TechnicalApprover,
+            "employment_date" => Carbon::createFromDate(2021, 1, 4),
             "remember_token" => Str::random(10),
         ])
-            ->hasProfile([
-                "first_name" => "Maciej",
-                "last_name" => "Ziółkowski",
-                "employment_form" => EmploymentForm::BoardMemberContract,
-                "position" => "programista",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
-            ])
             ->create();
 
         $administrativeApprover = User::factory([
+            "first_name" => "Katarzyna",
+            "last_name" => "Zając",
             "email" => "katarzyna.zajac@example.com",
+            "employment_form" => EmploymentForm::EmploymentContract,
+            "position" => "dyrektor",
             "role" => Role::AdministrativeApprover,
+            "employment_date" => Carbon::createFromDate(2021, 1, 4),
             "remember_token" => Str::random(10),
         ])
-            ->hasProfile([
-                "first_name" => "Katarzyna",
-                "last_name" => "Zając",
-                "employment_form" => EmploymentForm::EmploymentContract,
-                "position" => "dyrektor",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
-            ])
             ->create();
 
         User::factory([
+            "first_name" => "Miłosz",
+            "last_name" => "Borowski",
             "email" => "milosz.borowski@example.com",
+            "employment_form" => EmploymentForm::EmploymentContract,
+            "position" => "administrator",
             "role" => Role::Administrator,
+            "employment_date" => Carbon::createFromDate(2021, 1, 4),
             "remember_token" => Str::random(10),
         ])
-            ->hasProfile([
-                "first_name" => "Miłosz",
-                "last_name" => "Borowski",
-                "employment_form" => EmploymentForm::EmploymentContract,
-                "position" => "administrator",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
-            ])
             ->create();
 
         $users = User::all();
@@ -130,7 +118,7 @@ class DemoSeeder extends Seeder
             ->afterCreating(function (YearPeriod $yearPeriod) use ($users): void {
                 foreach ($users as $user) {
                     VacationLimit::factory([
-                        "days" => $user->profile->employment_form === EmploymentForm::EmploymentContract ? 26 : null,
+                        "days" => $user->employment_form === EmploymentForm::EmploymentContract ? 26 : null,
                     ])
                         ->for($yearPeriod)
                         ->for($user)

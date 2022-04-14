@@ -16,8 +16,7 @@ class HandleInertiaRequests extends Middleware
 {
     public function __construct(
         protected YearPeriodRetriever $yearPeriodRetriever,
-    ) {
-    }
+    ) {}
 
     public function share(Request $request): array
     {
