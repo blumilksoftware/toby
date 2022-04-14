@@ -22,6 +22,7 @@
             <ChevronLeftIcon class="w-5 h-5" />
           </span>
           <InertiaLink
+            v-if="years.current.year === years.selected.year"
             as="button"
             :href="`/vacation/calendar/${currentMonth.value}`"
             class="hidden focus:relative items-center p-2 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border-y border-gray-300 focus:outline-blumilk-500 md:flex"
