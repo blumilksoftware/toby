@@ -24,13 +24,11 @@ class VacationLimitController extends Controller
 
         $limits = $yearPeriod
             ->vacationLimits()
-            ->with("user")
+            ->with("user.profile")
             ->has("user")
             ->get()
-            ->sortBy([
-                "last_name" => "asc",
-                "first_name" => "asc",
-            ]);
+            ->sortBy(fn(VacationLimit $limit): string => "{$limit->user->profile->last_name} {$limit->user->profile->first_name}")
+            ->values();
 
         $limitsResource = $limits->map(fn(VacationLimit $limit) => [
             "id" => $limit->id,
