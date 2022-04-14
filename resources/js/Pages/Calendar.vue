@@ -17,7 +17,7 @@
           </InertiaLink>
           <span
             v-else
-            class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
+            class="flex justify-center items-center p-2 text-gray-400 bg-gray-100 rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9 cursor-not-allowed"
           >
             <ChevronLeftIcon class="w-5 h-5" />
           </span>
@@ -39,7 +39,7 @@
           </InertiaLink>
           <span
             v-else
-            class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
+            class="flex justify-center items-center p-2 text-gray-400 bg-gray-100 rounded-r-md border border-l-0 border-gray-300 md:px-2 md:w-9"
           >
             <ChevronRightIcon class="w-5 h-5" />
           </span>
