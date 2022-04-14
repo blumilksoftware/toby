@@ -1,12 +1,12 @@
 import { createApp, h } from 'vue'
-import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue3'
+import { createInertiaApp, Head } from '@inertiajs/inertia-vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 import AppLayout from '@/Shared/Layout/AppLayout'
 import Flatpickr from 'flatpickr'
 import { Settings } from 'luxon'
 import { Polish } from 'flatpickr/dist/l10n/pl.js'
 import Toast from 'vue-toastification'
-import ActionButton from '@/Shared/ActionButton'
+import InertiaLink from '@/Shared/InertiaLink'
 
 createInertiaApp({
   resolve: name => {
@@ -25,8 +25,7 @@ createInertiaApp({
         timeout: 3000,
         pauseOnFocusLoss: false,
       })
-      .component('InertiaLink', Link)
-      .component('ActionButton', ActionButton)
+      .component('InertiaLink', InertiaLink)
       .component('InertiaHead', Head)
       .mount(el)
   },
