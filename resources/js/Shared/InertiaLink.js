@@ -53,7 +53,7 @@ export default {
               replace: props.replace,
               preserveScroll: props.preserveScroll,
               preserveState: props.preserveState ?? (method !== 'get'),
-              onBefore: () => ! processing.value,
+              onBefore: () => !processing.value,
               onStart: () => processing.value = true,
               onFinish: () => processing.value = false,
             })
