@@ -23,7 +23,6 @@ class KeysController extends Controller
             ->get();
 
         $users = User::query()
-            ->where("id", "!=", $request->user()->id)
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

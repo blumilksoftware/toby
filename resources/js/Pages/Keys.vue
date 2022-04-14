@@ -242,7 +242,7 @@
                           class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
                         >
                           <ListboxOption
-                            v-for="user in users.data"
+                            v-for="user in filteredUsers"
                             :key="user.id"
                             v-slot="{ active, selected }"
                             as="template"
@@ -312,7 +312,7 @@ import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
 import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
 import { DateTime } from 'luxon'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { useForm } from '@inertiajs/inertia-vue3'
@@ -327,11 +327,14 @@ const keyToGive = ref(null)
 const giving = ref(false)
 
 const form = useForm({
-  user: props.users.data[0],
+  user: null,
 })
+
+const filteredUsers = computed(() => props.users.data.filter(user => user.id !== keyToGive.value.user.id ))
 
 function giveKey(key) {
   keyToGive.value = key
+  form.user = filteredUsers.value[0]
   giving.value = true
 }
 
