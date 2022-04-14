@@ -34,25 +34,30 @@ class UserTest extends FeatureTestCase
 
     public function testAdminCanSearchUsersList(): void
     {
-        User::factory([
-            "first_name" => "Test",
-            "last_name" => "User1",
-        ])->create();
+        User::factory()
+            ->hasprofile([
+                "first_name" => "Test",
+                "last_name" => "User1",
+            ])
+            ->create();
 
-        User::factory([
-            "first_name" => "Test",
-            "last_name" => "User2",
-        ])->create();
+        User::factory()
+            ->hasProfile([
+                "first_name" => "Test",
+                "last_name" => "User2",
+            ])->create();
 
-        User::factory([
-            "first_name" => "Test",
-            "last_name" => "User3",
-        ])->create();
+        User::factory()
+            ->hasProfile([
+                "first_name" => "Test",
+                "last_name" => "User3",
+            ])->create();
 
-        $admin = User::factory([
-            "first_name" => "John",
-            "last_name" => "Doe",
-        ])->admin()->create();
+        $admin = User::factory()
+            ->hasProfile([
+                "first_name" => "John",
+                "last_name" => "Doe",
+            ])->admin()->create();
 
         $this->assertDatabaseCount("users", 4);
 
@@ -99,11 +104,20 @@ class UserTest extends FeatureTestCase
             ])
             ->assertSessionHasNoErrors();
 
+        $user = User::query()
+            ->where("email", "john.doe@example.com")
+            ->first();
+
         $this->assertDatabaseHas("users", [
-            "first_name" => "John",
-            "last_name" => "Doe",
+            "id" => $user->id,
             "email" => "john.doe@example.com",
             "role" => Role::Employee->value,
+        ]);
+
+        $this->assertDatabaseHas("profiles", [
+            "user_id" => $user->id,
+            "first_name" => "John",
+            "last_name" => "Doe",
             "position" => "Test position",
             "employment_form" => EmploymentForm::B2bContract->value,
             "employment_date" => Carbon::now()->toDateString(),
@@ -118,12 +132,12 @@ class UserTest extends FeatureTestCase
 
         Carbon::setTestNow();
 
-        $this->assertDatabaseHas("users", [
-            "first_name" => $user->first_name,
-            "last_name" => $user->last_name,
-            "email" => $user->email,
-            "employment_form" => $user->employment_form->value,
-            "employment_date" => $user->employment_date->toDateString(),
+        $this->assertDatabaseHas("profiles", [
+            "user_id" => $user->id,
+            "first_name" => $user->profile->first_name,
+            "last_name" => $user->profile->last_name,
+            "employment_form" => $user->profile->employment_form->value,
+            "employment_date" => $user->profile->employment_date->toDateString(),
         ]);
 
         $this->actingAs($admin)
@@ -139,10 +153,15 @@ class UserTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas("users", [
-            "first_name" => "John",
-            "last_name" => "Doe",
+            "id" => $user->id,
             "email" => "john.doe@example.com",
             "role" => Role::Employee->value,
+        ]);
+
+        $this->assertDatabaseHas("profiles", [
+            "user_id" => $user->id,
+            "first_name" => "John",
+            "last_name" => "Doe",
             "position" => "Test position",
             "employment_form" => EmploymentForm::B2bContract->value,
             "employment_date" => Carbon::now()->toDateString(),

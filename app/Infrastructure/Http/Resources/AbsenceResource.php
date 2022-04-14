@@ -14,7 +14,7 @@ class AbsenceResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "user" => new UserResource($this->user),
+            "user" => new SimpleUserResource($this->user),
             "date" => $this->date->toDisplayString(),
         ];
     }

@@ -9,21 +9,23 @@ use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
-use Toby\Eloquent\Models\Holiday;
+use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Http\Resources\AbsenceResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class DashboardController extends Controller
 {
-    public function __invoke(Request $request, UserVacationStatsRetriever $vacationStatsRetriever): Response
-    {
+    public function __invoke(
+        Request $request,
+        YearPeriodRetriever $yearPeriodRetriever,
+        UserVacationStatsRetriever $vacationStatsRetriever,
+    ): Response {
         $user = $request->user();
         $now = Carbon::now();
-        $yearPeriod = YearPeriod::findByYear($now->year);
+        $yearPeriod = $yearPeriodRetriever->selected();
 
         $absences = Vacation::query()
             ->with(["user", "vacationRequest"])
@@ -32,19 +34,21 @@ class DashboardController extends Controller
             ->get();
 
         if ($user->can("listAll", VacationRequest::class)) {
-            $vacationRequests = VacationRequest::query()
+            $vacationRequests = $yearPeriod->vacationRequests()
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")
                 ->limit(3)
                 ->get();
         } else {
             $vacationRequests = $user->vacationRequests()
+                ->whereBelongsTo($yearPeriod)
                 ->latest("updated_at")
                 ->limit(3)
                 ->get();
         }
 
-        $holidays = Holiday::query()
+        $holidays = $yearPeriod
+            ->holidays()
             ->whereDate("date", ">=", $now)
             ->orderBy("date")
             ->limit(3)

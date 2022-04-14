@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Toby\Eloquent\Models;
 
 use Database\Factories\VacationLimitFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,13 +34,6 @@ class VacationLimit extends Model
     public function yearPeriod(): BelongsTo
     {
         return $this->belongsTo(YearPeriod::class);
-    }
-
-    public function scopeOrderByUserField(Builder $query, string $field): Builder
-    {
-        $userQuery = User::query()->select($field)->whereColumn("vacation_limits.user_id", "users.id");
-
-        return $query->orderBy($userQuery);
     }
 
     protected static function newFactory(): VacationLimitFactory

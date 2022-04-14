@@ -14,8 +14,8 @@ const types = [
     text: 'Urlop wypoczynkowy',
     value: 'vacation',
     icon: WhiteBalanceSunnyIcon,
-    color: 'text-amber-300',
-    border: 'border-amber-300',
+    color: 'text-yellow-500',
+    border: 'border-yellow-500',
   },
   {
     text: 'Urlop na żądanie',

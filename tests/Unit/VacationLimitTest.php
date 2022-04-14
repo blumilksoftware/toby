@@ -9,6 +9,7 @@ use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\Actions\CreateUserAction;
 use Toby\Domain\Actions\CreateYearPeriodAction;
+use Toby\Eloquent\Models\Profile;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
 
@@ -31,9 +32,10 @@ class VacationLimitTest extends TestCase
         $currentYearPeriod = YearPeriod::current();
         $createUserAction = $this->app->make(CreateUserAction::class);
 
-        $dumpData = User::factory()->raw();
+        $dumpUserData = User::factory()->raw();
+        $dumpProfileData = Profile::factory()->raw();
 
-        $user = $createUserAction->execute($dumpData);
+        $user = $createUserAction->execute($dumpUserData, $dumpProfileData);
 
         $this->assertDatabaseCount("vacation_limits", 1);
 

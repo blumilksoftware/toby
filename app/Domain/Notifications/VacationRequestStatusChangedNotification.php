@@ -42,14 +42,14 @@ class VacationRequestStatusChangedNotification extends Notification
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $user = $this->user->first_name;
+        $user = $this->user->profile->first_name;
         $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
         $status = $this->vacationRequest->state->label();
         $from = $this->vacationRequest->from->toDisplayString();
         $to = $this->vacationRequest->to->toDisplayString();
         $days = $this->vacationRequest->vacations()->count();
-        $requester = $this->vacationRequest->user->fullName;
+        $requester = $this->vacationRequest->user->profile->full_name;
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
@@ -59,7 +59,7 @@ class VacationRequestStatusChangedNotification extends Notification
                 "title" => $title,
                 "status" => $status,
             ]))
-            ->line(__("The vacation request :title for user :requester has been :status.", [
+            ->line(__("The vacation request :title from user :requester has been :status.", [
                 "title" => $title,
                 "requester" => $requester,
                 "status" => $status,

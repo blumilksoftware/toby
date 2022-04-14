@@ -10,7 +10,7 @@ use Toby\Domain\Enums\Month;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Http\Resources\UserResource;
+use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 
 class MonthlyUsageController extends Controller
 {
@@ -27,8 +27,8 @@ class MonthlyUsageController extends Controller
         $users = User::query()
             ->withVacationLimitIn($currentYearPeriod)
             ->where("id", "!=", $currentUser->id)
-            ->orderBy("last_name")
-            ->orderBy("first_name")
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
             ->get();
 
         if ($currentUser->hasVacationLimit($currentYearPeriod)) {
@@ -45,7 +45,7 @@ class MonthlyUsageController extends Controller
             $remaining = $limit - $used - $pending;
 
             $monthlyUsage[] = [
-                "user" => new UserResource($user),
+                "user" => new SimpleUserResource($user),
                 "months" => $vacationsByMonth,
                 "stats" => [
                     "used" => $used,

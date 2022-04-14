@@ -8,27 +8,20 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Rackbeat\UIAvatars\HasAvatar;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
-use Toby\Eloquent\Helpers\ColorGenerator;
 
 /**
  * @property int $id
- * @property string $first_name
- * @property string $last_name
  * @property string $email
  * @property string $password
- * @property string $avatar
- * @property string $position
  * @property Role $role
- * @property EmploymentForm $employment_form
- * @property Carbon $employment_date
+ * @property Profile $profile
  * @property Collection $vacationLimits
  * @property Collection $vacationRequests
  * @property Collection $vacations
@@ -38,12 +31,12 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
-    use HasAvatar;
 
     protected $guarded = [];
 
     protected $casts = [
         "role" => Role::class,
+        "last_active_at" => "datetime",
         "employment_form" => EmploymentForm::class,
         "employment_date" => "date",
     ];
@@ -51,6 +44,15 @@ class User extends Authenticatable
     protected $hidden = [
         "remember_token",
     ];
+
+    protected $with = [
+        "profile",
+    ];
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+    }
 
     public function vacationLimits(): HasMany
     {
@@ -70,18 +72,6 @@ class User extends Authenticatable
     public function vacations(): HasMany
     {
         return $this->hasMany(Vacation::class);
-    }
-
-    public function getAvatar(): string
-    {
-        return $this->getAvatarGenerator()
-            ->backgroundColor(ColorGenerator::generate($this->fullName))
-            ->image();
-    }
-
-    public function getFullNameAttribute(): string
-    {
-        return "{$this->first_name} {$this->last_name}";
     }
 
     public function hasRole(Role $role): bool
@@ -104,9 +94,20 @@ class User extends Authenticatable
         }
 
         return $query
-            ->where("first_name", "ILIKE", "%{$text}%")
-            ->orWhere("last_name", "ILIKE", "%{$text}%")
-            ->orWhere("email", "ILIKE", "%{$text}%");
+            ->where("email", "ILIKE", "%{$text}%")
+            ->orWhereRelation(
+                "profile",
+                fn(Builder $query) => $query
+                    ->where("first_name", "ILIKE", "%{$text}%")
+                    ->orWhere("last_name", "ILIKE", "%{$text}%"),
+            );
+    }
+
+    public function scopeOrderByProfileField(Builder $query, string $field): Builder
+    {
+        $profileQuery = Profile::query()->select($field)->whereColumn("users.id", "profiles.user_id");
+
+        return $query->orderBy($profileQuery);
     }
 
     public function scopeWithVacationLimitIn(Builder $query, YearPeriod $yearPeriod): Builder
@@ -117,11 +118,6 @@ class User extends Authenticatable
                 ->whereBelongsTo($yearPeriod)
                 ->whereNotNull("days"),
         );
-    }
-
-    protected function getAvatarName(): string
-    {
-        return mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1);
     }
 
     protected static function newFactory(): UserFactory

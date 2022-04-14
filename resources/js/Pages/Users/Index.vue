@@ -50,6 +50,12 @@
                 scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
+                Ostatnia aktywność
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
                 Stanowisko
               </th>
               <th
@@ -96,6 +102,9 @@
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.role }}
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ user.lastActiveAt ? DateTime.fromSQL(user.lastActiveAt).toRelative() : '-' }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.position }}
@@ -150,7 +159,7 @@
                             :href="`/users/${user.id}`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                           >
-                            <TrashIcon class="mr-2 w-5 h-5 text-red-500" /> Usuń
+                            <BanIcon class="mr-2 w-5 h-5 text-red-500" /> Zablokuj
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -201,8 +210,9 @@ import { ref, watch } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { debounce } from 'lodash'
 import { SearchIcon } from '@heroicons/vue/outline'
-import { DotsVerticalIcon, PencilIcon, TrashIcon, RefreshIcon } from '@heroicons/vue/solid'
+import { DotsVerticalIcon, PencilIcon, BanIcon, RefreshIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { DateTime } from 'luxon'
 import Pagination from '@/Shared/Pagination'
 
 const props = defineProps({

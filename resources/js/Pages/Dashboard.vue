@@ -14,8 +14,14 @@
         v-else
         :requests="vacationRequests.data"
       />
-      <AbsenceList :absences="absences.data" />
-      <UpcomingHolidays :holidays="holidays.data" />
+      <AbsenceList
+        v-if="years.current.year === years.selected.year"
+        :absences="absences.data"
+      />
+      <UpcomingHolidays
+        v-if="years.current.year === years.selected.year"
+        :holidays="holidays.data"
+      />
     </div>
   </div>
 </template>
@@ -35,5 +41,6 @@ defineProps({
   holidays: Object,
   can: Object,
   stats: Object,
+  years: Object,
 })
 </script>

@@ -71,12 +71,12 @@
               </InertiaLink>
             </div>
             <div class="pt-3 mt-3">
-              <div class="px-2 space-y-1">
+              <div class="py-1 px-2 space-y-1">
                 <InertiaLink
                   v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
-                  :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                  :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
                   @click="sidebarOpen = false;"
                 >
                   <component
@@ -84,6 +84,12 @@
                     class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
                   />
                   {{ item.name }}
+                  <span
+                    v-if="item.badge"
+                    class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
+                  >
+                    {{ item.badge }}
+                  </span>
                 </InertiaLink>
               </div>
             </div>
@@ -107,7 +113,7 @@
       <nav class="flex overflow-y-auto flex-col flex-1 px-2 mt-5 divide-y divide-blumilk-800">
         <InertiaLink
           href="/"
-          :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+          :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 mt-1 text-sm leading-6 font-medium rounded-md']"
         >
           <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
           Strona główna
@@ -117,13 +123,19 @@
             v-for="item in navigation"
             :key="item.name"
             :href="item.href"
-            :class="[$page.component === item.component ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
           >
             <component
               :is="item.icon"
               class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
             />
             {{ item.name }}
+            <span
+              v-if="item.badge"
+              class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
+            >
+              {{ item.badge }}
+            </span>
           </InertiaLink>
         </div>
       </nav>
@@ -152,7 +164,7 @@
                 </div>
                 <div>
                   <MenuButton
-                    class="inline-flex justify-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                    class="inline-flex justify-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500  shadow-sm"
                   >
                     {{ years.selected.year }}
                     <ChevronDownIcon class="-mr-1 ml-2 w-5 h-5" />
@@ -289,6 +301,7 @@ import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 const props = defineProps({
   auth: Object,
   years: Object,
+  vacationRequestsCount: Number,
 })
 
 const sidebarOpen = ref(false)
@@ -298,56 +311,57 @@ const navigation = computed(() =>
     {
       name: 'Moje wnioski',
       href: '/vacation/requests/me',
-      component: 'VacationRequest/Index',
+      section: 'VacationRequest',
       icon: DocumentTextIcon,
-      can: true,
+      can: !props.auth.can.listAllVacationRequests,
     },
     {
       name: 'Lista wniosków',
       href: '/vacation/requests',
-      component: 'VacationRequest/IndexForApprovers',
+      section: 'VacationRequest',
       icon: CollectionIcon,
       can: props.auth.can.listAllVacationRequests,
+      badge: props.vacationRequestsCount,
     },
     {
       name: 'Kalendarz urlopów',
       href: '/vacation/calendar',
-      component: 'Calendar',
+      section: 'Calendar',
       icon: CalendarIcon,
       can: true,
     },
     {
       name: 'Wykorzystanie urlopu',
       href: '/vacation/monthly-usage',
-      component: 'MonthlyUsage',
+      section: 'MonthlyUsage',
       icon: AdjustmentsIcon,
       can: props.auth.can.listMonthlyUsage,
     },
     {
       name: 'Dni wolne',
       href: '/holidays',
-      component: 'Holidays/Index',
+      section: 'Holidays/',
       icon: StarIcon,
       can: true,
     },
     {
       name: 'Limity urlopów',
       href: '/vacation/limits',
-      component: 'VacationLimits',
+      section: 'VacationLimits',
       icon: SunIcon,
       can: props.auth.can.manageVacationLimits,
     },
     {
       name: 'Podsumowanie roczne',
       href: '/vacation/annual-summary',
-      component: 'AnnualSummary',
+      section: 'AnnualSummary',
       icon: ClipboardListIcon,
       can: true,
     },
     {
       name: 'Użytkownicy',
       href: '/users',
-      component: 'Users/Index',
+      section: 'Users/',
       icon: UserGroupIcon,
       can: props.auth.can.manageUsers,
     },

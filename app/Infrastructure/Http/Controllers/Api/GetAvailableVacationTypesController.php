@@ -21,7 +21,7 @@ class GetAvailableVacationTypesController extends Controller
         $user = User::query()->find($request->get("user"));
 
         $types = VacationType::all()
-            ->filter(fn(VacationType $type) => $configRetriever->isAvailableFor($type, $user->employment_form))
+            ->filter(fn(VacationType $type) => $configRetriever->isAvailableFor($type, $user->profile->employment_form))
             ->map(fn(VacationType $type) => [
                 "label" => $type->label(),
                 "value" => $type->value,
