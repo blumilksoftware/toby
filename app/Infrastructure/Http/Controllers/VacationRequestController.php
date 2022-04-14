@@ -107,7 +107,6 @@ class VacationRequestController extends Controller
             ->paginate();
 
         $users = User::query()
-            ->withVacationLimitIn($yearPeriod)
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();
