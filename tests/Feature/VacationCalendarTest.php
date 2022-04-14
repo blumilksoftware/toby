@@ -17,7 +17,8 @@ class VacationCalendarTest extends FeatureTestCase
     {
         $administrativeApprover = User::factory()->administrativeApprover()->create();
 
-        User::factory(["employment_form" => EmploymentForm::EmploymentContract])
+        User::factory()
+            ->hasProfile(["employment_form" => EmploymentForm::EmploymentContract])
             ->count(10)
             ->create();
 

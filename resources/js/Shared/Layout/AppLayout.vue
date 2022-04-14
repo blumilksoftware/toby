@@ -3,6 +3,7 @@
     <MainMenu
       :auth="auth"
       :years="years"
+      :vacation-requests-count="vacationRequestsCount"
     />
     <main class="flex flex-col flex-1 py-8 lg:ml-64">
       <div class="lg:px-4">
@@ -21,6 +22,7 @@ const props = defineProps({
   flash: Object,
   auth: Object,
   years: Object,
+  vacationRequestsCount: Number,
 })
 
 const toast = useToast()

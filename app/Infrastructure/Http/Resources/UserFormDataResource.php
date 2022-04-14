@@ -14,13 +14,13 @@ class UserFormDataResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "firstName" => $this->first_name,
-            "lastName" => $this->last_name,
+            "firstName" => $this->profile->first_name,
+            "lastName" => $this->profile->last_name,
             "email" => $this->email,
             "role" => $this->role,
-            "position" => $this->position,
-            "employmentForm" => $this->employment_form,
-            "employmentDate" => $this->employment_date->toDateString(),
+            "position" => $this->profile->position,
+            "employmentForm" => $this->profile->employment_form,
+            "employmentDate" => $this->profile->employment_date->toDateString(),
         ];
     }
 }

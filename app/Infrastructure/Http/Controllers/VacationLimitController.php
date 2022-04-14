@@ -11,7 +11,7 @@ use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Http\Requests\VacationLimitRequest;
-use Toby\Infrastructure\Http\Resources\UserResource;
+use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 
 class VacationLimitController extends Controller
 {
@@ -24,15 +24,15 @@ class VacationLimitController extends Controller
 
         $limits = $yearPeriod
             ->vacationLimits()
-            ->with("user")
+            ->with("user.profile")
             ->has("user")
-            ->orderByUserField("last_name")
-            ->orderByUserField("first_name")
-            ->get();
+            ->get()
+            ->sortBy(fn(VacationLimit $limit): string => "{$limit->user->profile->last_name} {$limit->user->profile->first_name}")
+            ->values();
 
         $limitsResource = $limits->map(fn(VacationLimit $limit) => [
             "id" => $limit->id,
-            "user" => new UserResource($limit->user),
+            "user" => new SimpleUserResource($limit->user),
             "hasVacation" => $limit->hasVacation(),
             "days" => $limit->days,
             "remainingLastYear" => $previousYearPeriod

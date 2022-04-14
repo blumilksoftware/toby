@@ -33,7 +33,8 @@ class YearPeriodRetriever
         $selected = $this->selected();
         $current = $this->current();
 
-        $years = YearPeriod::query()->whereIn("year", $this->offset($selected->year))->get();
+        $years = YearPeriod::all();
+
         $navigation = $years->map(fn(YearPeriod $yearPeriod) => $this->toNavigation($yearPeriod));
 
         return [
@@ -41,11 +42,6 @@ class YearPeriodRetriever
             "selected" => $this->toNavigation($selected),
             "navigation" => $navigation->toArray(),
         ];
-    }
-
-    protected function offset(int $year): array
-    {
-        return range($year - 2, $year + 2);
     }
 
     protected function toNavigation(YearPeriod $yearPeriod): array

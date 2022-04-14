@@ -21,7 +21,7 @@ class ClearVacationRequestDaysInGoogleCalendar implements ShouldQueue
 
     public function handle(): void
     {
-        foreach ($this->vacationRequest->event_ids as $eventId) {
+        foreach ($this->vacationRequest->event_ids ?? [] as $eventId) {
             $calendarEvent = Event::find($eventId);
 
             if ($calendarEvent->googleEvent->getStatus() !== "cancelled") {

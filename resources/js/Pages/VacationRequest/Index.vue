@@ -19,7 +19,7 @@
         <button
           v-for="(status, index) in statuses"
           :key="index"
-          :class="[status.value === filters.status ? 'text-blumilk-600 font-semibold' : 'hover:bg-blumilk-25 text-gray-700 focus:z-10', 'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center']"
+          :class="[status.value === filters.status ? 'text-blumilk-600 font-semibold' : 'hover:bg-blumilk-25 text-gray-700 focus:z-10', 'group relative min-w-0 flex-1 overflow-hidden focus:outline-blumilk-500 bg-white py-4 px-4 text-sm font-medium text-center']"
           @click="form.status = status"
         >
           <span>{{ status.name }}</span>
@@ -140,7 +140,7 @@
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
                 :href="`/vacation/requests/${request.id}`"
-                class="font-semibold text-blumilk-600 hover:text-blumilk-500 hover:underline"
+                class="font-semibold text-blumilk-600 hover:text-blumilk-500 hover:underline focus:outline-blumilk-500"
               >
                 {{ request.name }}
               </InertiaLink>
@@ -163,13 +163,13 @@
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
                 :href="`/vacation/requests/${request.id}`"
-                class="flex justify-around"
+                class="flex justify-around focus:outline-blumilk-500"
               >
                 <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
               </InertiaLink>
               <InertiaLink
                 :href="`/vacation/requests/${request.id}`"
-                class="absolute inset-0"
+                class="absolute inset-0 focus:outline-blumilk-500"
               />
             </td>
           </tr>

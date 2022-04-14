@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Domain\Actions\CreateUserAction;
+use Toby\Domain\Actions\UpdateUserAction;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
@@ -28,8 +29,8 @@ class UserController extends Controller
         $users = User::query()
             ->withTrashed()
             ->search($request->query("search"))
-            ->orderBy("last_name")
-            ->orderBy("first_name")
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
             ->paginate()
             ->withQueryString();
 
@@ -59,7 +60,7 @@ class UserController extends Controller
     {
         $this->authorize("manageUsers");
 
-        $createUserAction->execute($request->data());
+        $createUserAction->execute($request->userData(), $request->profileData());
 
         return redirect()
             ->route("users.index")
@@ -83,11 +84,11 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function update(UserRequest $request, User $user): RedirectResponse
+    public function update(UserRequest $request, UpdateUserAction $updateUserAction, User $user): RedirectResponse
     {
         $this->authorize("manageUsers");
 
-        $user->update($request->data());
+        $updateUserAction->execute($user, $request->userData(), $request->profileData());
 
         return redirect()
             ->route("users.index")

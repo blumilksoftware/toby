@@ -15,18 +15,26 @@ use Toby\Infrastructure\Http\Controllers\UserController;
 use Toby\Infrastructure\Http\Controllers\VacationCalendarController;
 use Toby\Infrastructure\Http\Controllers\VacationLimitController;
 use Toby\Infrastructure\Http\Controllers\VacationRequestController;
+use Toby\Infrastructure\Http\Middleware\TrackUserLastActivity;
 
-Route::middleware("auth")->group(function (): void {
+Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): void {
     Route::get("/", DashboardController::class)
         ->name("dashboard");
     Route::post("/logout", LogoutController::class);
 
-    Route::resource("users", UserController::class);
+    Route::resource("users", UserController::class)
+        ->except("show")
+        ->whereNumber("user");
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
+        ->whereNumber("user")
         ->withTrashed();
 
-    Route::resource("holidays", HolidayController::class);
+    Route::resource("holidays", HolidayController::class)
+        ->except("show")
+        ->whereNumber("holiday");
+
     Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
+        ->whereNumber("yearPeriod")
         ->name("year-periods.select");
 
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
@@ -49,23 +57,30 @@ Route::middleware("auth")->group(function (): void {
             ->name("requests.create");
         Route::post("/requests", [VacationRequestController::class, "store"])
             ->name("requests.store");
+
         Route::get("/requests/{vacationRequest}", [VacationRequestController::class, "show"])
+            ->whereNumber("vacationRequest")
             ->name("requests.show");
         Route::get("/requests/{vacationRequest}/download", [VacationRequestController::class, "download"])
+            ->whereNumber("vacationRequest")
             ->name("requests.download");
         Route::post("/requests/{vacationRequest}/reject", [VacationRequestController::class, "reject"])
+            ->whereNumber("vacationRequest")
             ->name("requests.reject");
         Route::post("/requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
+            ->whereNumber("vacationRequest")
             ->name("requests.cancel");
         Route::post("/requests/{vacationRequest}/accept-as-technical", [VacationRequestController::class, "acceptAsTechnical"], )
+            ->whereNumber("vacationRequest")
             ->name("requests.accept-as-technical");
         Route::post("/requests/{vacationRequest}/accept-as-administrative", [VacationRequestController::class, "acceptAsAdministrative"], )
+            ->whereNumber("vacationRequest")
             ->name("requests.accept-as-administrative");
 
         Route::get("/monthly-usage", MonthlyUsageController::class)
             ->name("monthly-usage");
         Route::get("/annual-summary", AnnualSummaryController::class)
-            ->name("annual-summmary");
+            ->name("annual-summary");
     });
 });
 

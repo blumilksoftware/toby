@@ -54,14 +54,14 @@
         <table>
             <tbody>
             <tr>
-                <td>{{ $vacationRequest->user->fullName }}</td>
+                <td>{{ $vacationRequest->user->profile->fullName }}</td>
                 <td>Legnica, {{ $vacationRequest->created_at->format("d.m.Y") }}</td>
             </tr>
             <tr>
                 <td class="helper-text">imię i nazwisko</td>
             </tr>
             <tr>
-                <td>{{ $vacationRequest->user->position }}</td>
+                <td>{{ $vacationRequest->user->profile->position }}</td>
             </tr>
             <tr>
                 <td class="helper-text">stanowisko</td>
