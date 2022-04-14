@@ -54,14 +54,14 @@ class HandleInertiaRequests extends Middleware
 
     protected function getYearsData(Request $request): Closure
     {
-        return fn() => $request->user() ? $this->yearPeriodRetriever->links() : [];
+        return fn(): array => $request->user() ? $this->yearPeriodRetriever->links() : [];
     }
 
     protected function getVacationRequestsCount(Request $request): Closure
     {
         $user = $request->user();
 
-        return fn() => $user && $user->can("listAll", VacationRequest::class)
+        return fn(): ?int => $user && $user->can("listAll", VacationRequest::class)
         ? VacationRequest::query()
             ->whereBelongsTo($this->yearPeriodRetriever->selected())
             ->states(
