@@ -17,6 +17,16 @@ class ExceptionHandler extends Handler
         "password_confirmation",
     ];
 
+    protected array $handleByInertia = [
+        Response::HTTP_INTERNAL_SERVER_ERROR,
+        Response::HTTP_SERVICE_UNAVAILABLE,
+        Response::HTTP_TOO_MANY_REQUESTS,
+        419, // CSRF
+        Response::HTTP_NOT_FOUND,
+        Response::HTTP_FORBIDDEN,
+        Response::HTTP_UNAUTHORIZED,
+    ];
+
     public function render($request, Throwable $e): Response
     {
         $response = parent::render($request, $e);
@@ -25,11 +35,11 @@ class ExceptionHandler extends Handler
             return $response;
         }
 
-        if ($response->status() === 405) {
-            $response->setStatusCode(404);
+        if ($response->status() === Response::HTTP_METHOD_NOT_ALLOWED) {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
         }
 
-        if (in_array($response->status(), [500, 503, 429, 419, 404, 403, 401], true)) {
+        if (in_array($response->status(), $this->handleByInertia, true)) {
             return Inertia::render("Error", [
                 "status" => $response->status(),
             ])

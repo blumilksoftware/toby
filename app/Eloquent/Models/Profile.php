@@ -42,11 +42,11 @@ class Profile extends Model
     public function getAvatar(): string
     {
         return $this->getAvatarGenerator()
-            ->backgroundColor(ColorGenerator::generate($this->fullName))
+            ->backgroundColor(ColorGenerator::generate($this->full_name))
             ->image();
     }
 
-    public function getFullNameAttribute(): string
+    public function getfullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
     }

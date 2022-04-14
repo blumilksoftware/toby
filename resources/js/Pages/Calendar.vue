@@ -17,7 +17,7 @@
           </InertiaLink>
           <span
             v-else
-            class="flex justify-center items-center p-2 text-gray-400 bg-gray-100 rounded-l-md border border-r-0 border-gray-300 cursor-not-allowed md:px-2 md:w-9"
+            class="flex justify-center items-center p-2 text-gray-400 bg-gray-100 rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9"
           >
             <ChevronLeftIcon class="w-5 h-5" />
           </span>

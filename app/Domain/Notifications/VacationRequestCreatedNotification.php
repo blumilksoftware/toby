@@ -92,7 +92,7 @@ class VacationRequestCreatedNotification extends Notification
         return __("The vacation request :title has been created correctly by user :creator on your behalf in the :appName.", [
             "title" => $this->vacationRequest->name,
             "appName" => $appName,
-            "creator" => $this->vacationRequest->creator->profile->fullName,
+            "creator" => $this->vacationRequest->creator->profile->full_name,
         ]);
     }
 }

@@ -16,7 +16,6 @@ class MoveUserDataToProfile extends Command
     {
         $users = User::all();
 
-        /** @var User $user */
         foreach ($users as $user) {
             $user->profile()->updateOrCreate(["user_id" => $user->id], [
                 "first_name" => $user->first_name,

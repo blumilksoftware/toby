@@ -15,7 +15,7 @@ class VacationRequestActivityResource extends JsonResource
         return [
             "date" => $this->created_at->toDisplayString(),
             "time" => $this->created_at->format("H:i"),
-            "user" => $this->user ? $this->user->profile->fullName : __("System"),
+            "user" => $this->user ? $this->user->profile->full_name : __("System"),
             "state" => $this->to,
         ];
     }

@@ -84,7 +84,7 @@ class VacationRequestWaitsForApprovalNotification extends Notification
     protected function buildDescription(): string
     {
         $title = $this->vacationRequest->name;
-        $requester = $this->vacationRequest->user->profile->fullName;
+        $requester = $this->vacationRequest->user->profile->full_name;
 
         if ($this->vacationRequest->state->equals(WaitingForTechnical::class)) {
             return __("The vacation request :title from user :requester is waiting for your technical approval.", [

@@ -49,7 +49,7 @@ class VacationRequestStatusChangedNotification extends Notification
         $from = $this->vacationRequest->from->toDisplayString();
         $to = $this->vacationRequest->to->toDisplayString();
         $days = $this->vacationRequest->vacations()->count();
-        $requester = $this->vacationRequest->user->profile->fullName;
+        $requester = $this->vacationRequest->user->profile->full_name;
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
