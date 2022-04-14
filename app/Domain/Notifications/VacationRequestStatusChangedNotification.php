@@ -59,7 +59,7 @@ class VacationRequestStatusChangedNotification extends Notification
                 "title" => $title,
                 "status" => $status,
             ]))
-            ->line(__("The vacation request :title for user :requester has been :status.", [
+            ->line(__("The vacation request :title from user :requester has been :status.", [
                 "title" => $title,
                 "requester" => $requester,
                 "status" => $status,
