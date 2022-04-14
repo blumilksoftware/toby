@@ -15,8 +15,7 @@ class KeyFactory extends Factory
     public function definition(): array
     {
         return [
-            "owner_id" => User::factory(),
-            "previous_owner_id" => User::factory(),
+            "user_id" => User::factory(),
         ];
     }
 }

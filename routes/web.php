@@ -34,10 +34,15 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->except("show")
         ->whereNumber("holiday");
 
-    Route::post("year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
+    Route::get("/keys", [KeysController::class, "index"]);
+    Route::post("/keys", [KeysController::class, "store"]);
+    Route::delete("/keys/{key}", [KeysController::class, "destroy"]);
+    Route::post("/keys/{key}/take", [KeysController::class, "take"]);
+    Route::post("/keys/{key}/give", [KeysController::class, "give"]);
+
+    Route::post("/year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->whereNumber("yearPeriod")
         ->name("year-periods.select");
-    Route::resource("keys", KeysController::class);
 
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
         Route::get("/limits", [VacationLimitController::class, "edit"])

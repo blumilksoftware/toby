@@ -12,8 +12,9 @@ return new class() extends Migration {
     {
         Schema::create("keys", function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(User::class, "owner_id")->constrained("users")->cascadeOnDelete();
-            $table->foreignIdFor(User::class, "previous_owner_id")->constrained("users")->cascadeOnDelete();
+            $table->foreignIdFor(User::class)
+                ->constrained()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

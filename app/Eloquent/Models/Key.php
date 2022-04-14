@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property User $owner
- * @property User $previousOwner
+ * @property User $user
  */
 class Key extends Model
 {
@@ -20,14 +19,9 @@ class Key extends Model
 
     protected $guarded = [];
 
-    public function owner(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, "owner_id");
-    }
-
-    public function previousOwner(): BelongsTo
-    {
-        return $this->belongsTo(User::class, "previous_owner_id");
+        return $this->belongsTo(User::class);
     }
 
     protected static function newFactory(): KeyFactory

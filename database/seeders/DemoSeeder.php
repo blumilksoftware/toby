@@ -19,6 +19,7 @@ use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\VacationDaysCalculator;
+use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -328,5 +329,11 @@ class DemoSeeder extends Seeder
 
         $vacationRequestRejected->state = new Rejected($vacationRequestRejected);
         $vacationRequestRejected->save();
+
+        foreach ($users as $user) {
+            Key::factory()
+                ->for($user)
+                ->create();
+        }
     }
 }
