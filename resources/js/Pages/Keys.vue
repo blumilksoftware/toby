@@ -75,7 +75,7 @@
                 </div>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ DateTime.fromSQL(key.updatedAt).toRelative() }}
+                {{ key.updatedAt }}
               </td>
               <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
                 <Menu
@@ -310,7 +310,6 @@
 import { DotsVerticalIcon, TrashIcon, CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
 import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
 import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
-import { DateTime } from 'luxon'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { computed, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'

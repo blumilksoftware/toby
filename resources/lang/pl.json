@@ -66,5 +66,9 @@
   "Vacation request :title has been :status": "Wniosek urlopowy :title został :status",
   "The vacation request :title from user :requester has been :status.": "Wniosek urlopowy :title użytkownika :requester został :status.",
   "Vacation request :title has been created on your behalf": "Wniosek urlopowy :title został utworzony w Twoim imieniu",
-  "The vacation request :title has been created correctly by user :creator on your behalf in the :appName.": "W systemie :appName został poprawnie utworzony wniosek urlopowy :title w Twoim imieniu przez użytkownika :creator."
+  "The vacation request :title has been created correctly by user :creator on your behalf in the :appName.": "W systemie :appName został poprawnie utworzony wniosek urlopowy :title w Twoim imieniu przez użytkownika :creator.",
+  "Key has been created.": "Klucz został utworzony.",
+  "Key has been deleted.": "Klucz został usunięty.",
+  "Key has been taken.": "Klucz został zabrany.",
+  "Key has been given.": "Klucz został przekazany."
 }

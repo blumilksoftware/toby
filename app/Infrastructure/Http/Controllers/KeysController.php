@@ -58,7 +58,7 @@ class KeysController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Key has been taked."));
+            ->with("success", __("Key has been taken."));
     }
 
     public function give(Key $key, GiveKeyRequest $request): RedirectResponse

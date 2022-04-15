@@ -35,5 +35,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define("manageVacationLimits", fn(User $user) => $user->role === Role::AdministrativeApprover);
         Gate::define("generateTimesheet", fn(User $user) => $user->role === Role::AdministrativeApprover);
         Gate::define("listMonthlyUsage", fn(User $user) => $user->role === Role::AdministrativeApprover);
+        Gate::define("manageKeys", fn(User $user) => $user->role === Role::AdministrativeApprover);
     }
 }
