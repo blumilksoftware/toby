@@ -8,7 +8,7 @@ import HandHeartOutlineIcon from 'vue-material-design-icons/HandHeartOutline.vue
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
 import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
-import LaptopIcon from 'vue-material-design-icons/Laptop.vue';
+import LaptopIcon from 'vue-material-design-icons/Laptop.vue'
 
 const types = [
   {

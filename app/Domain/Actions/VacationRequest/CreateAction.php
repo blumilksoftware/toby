@@ -32,7 +32,10 @@ class CreateAction
     {
         $vacationRequest = $this->createVacationRequest($data, $creator);
         $this->handleCreatedVacationRequest($vacationRequest);
-        $this->notify($vacationRequest);
+
+        if ($this->configRetriever->isVacation($vacationRequest->type)) {
+            $this->notify($vacationRequest);
+        }
 
         return $vacationRequest;
     }

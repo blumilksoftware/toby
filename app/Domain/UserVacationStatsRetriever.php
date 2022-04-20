@@ -116,5 +116,4 @@ class UserVacationStatsRetriever
 
         return $types->filter(fn(VacationType $type) => !$this->configRetriever->hasLimit($type));
     }
-
 }

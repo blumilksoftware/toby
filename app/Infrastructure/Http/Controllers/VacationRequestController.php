@@ -152,7 +152,7 @@ class VacationRequestController extends Controller
      */
     public function download(
         VacationRequest $vacationRequest,
-        VacationTypeConfigRetriever $configRetriever
+        VacationTypeConfigRetriever $configRetriever,
     ): LaravelResponse {
         if (!$configRetriever->isVacation($vacationRequest->type)) {
             return abort(SymfonyResponse::HTTP_NOT_FOUND);

@@ -23,10 +23,12 @@ class WaitForAdminApprovalAction
     {
         $this->stateManager->waitForAdministrative($vacationRequest);
 
-        $this->waitForAdminApprovers($vacationRequest);
+        if ($this->configRetriever->isVacation($vacationRequest->type)) {
+            $this->notifyAdminApprovers($vacationRequest);
+        }
     }
 
-    protected function waitForAdminApprovers(VacationRequest $vacationRequest): void
+    protected function notifyAdminApprovers(VacationRequest $vacationRequest): void
     {
         $users = User::query()
             ->whereIn("role", [Role::AdministrativeApprover, Role::Administrator])
