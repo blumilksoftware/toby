@@ -41,7 +41,7 @@ class KeysController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->authorize("manageKeys");
+        $this->authorize("manage", Key::class);
 
         $key = $request->user()->keys()->create();
 
@@ -68,8 +68,13 @@ class KeysController extends Controller
             ]));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function give(Key $key, GiveKeyRequest $request): RedirectResponse
     {
+        $this->authorize("give", $key);
+
         $recipient = $request->recipient();
 
         $key->user()->associate($recipient);
@@ -86,7 +91,7 @@ class KeysController extends Controller
 
     public function destroy(Key $key): RedirectResponse
     {
-        $this->authorize("manageKeys");
+        $this->authorize("manage", Key::class);
 
         $key->delete();
 
