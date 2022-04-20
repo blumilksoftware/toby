@@ -61,7 +61,7 @@
                   :value="null"
                 >
                   <li
-                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                   >
                     <div class="flex items-center">
                       Wszyscy
@@ -83,7 +83,7 @@
                   :value="user"
                 >
                   <li
-                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                   >
                     <div class="flex items-center">
                       <img
@@ -143,7 +143,7 @@
                   :value="status"
                 >
                   <li
-                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
                   >
                     {{ status.name }}
 
