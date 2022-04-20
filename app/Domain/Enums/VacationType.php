@@ -18,6 +18,7 @@ enum VacationType: string
     case TimeInLieu = "time_in_lieu";
     case Sick = "sick_vacation";
     case Absence = "absence";
+    case HomeOffice = "home_office";
 
     public function label(): string
     {

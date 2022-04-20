@@ -15,6 +15,7 @@ class VacationTypeConfigRetriever
     public const KEY_BILLABLE = "billable";
     public const KEY_HAS_LIMIT = "has_limit";
     public const KEY_AVAILABLE_FOR = "available_for";
+    public const KEY_IS_VACATION = "is_vacation";
 
     public function __construct(
         protected Repository $config,
@@ -38,6 +39,11 @@ class VacationTypeConfigRetriever
     public function hasLimit(VacationType $type): bool
     {
         return $this->getConfigFor($type)[static::KEY_HAS_LIMIT];
+    }
+
+    public function isVacation(VacationType $type): bool
+    {
+        return $this->getConfigFor($type)[static::KEY_IS_VACATION];
     }
 
     public function isAvailableFor(VacationType $type, EmploymentForm $employmentForm): bool
