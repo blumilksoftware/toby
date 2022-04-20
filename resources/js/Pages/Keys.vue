@@ -27,7 +27,7 @@
                 scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
-                Nazwa
+                Klucz
               </th>
               <th
                 scope="col"
