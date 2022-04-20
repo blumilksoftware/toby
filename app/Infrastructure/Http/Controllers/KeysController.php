@@ -43,33 +43,45 @@ class KeysController extends Controller
     {
         $this->authorize("manageKeys");
 
-        $request->user()->keys()->create();
+        $key = $request->user()->keys()->create();
 
         return redirect()
             ->back()
-            ->with("success", __("Key has been created."));
+            ->with("success", __("Key no :number has been created.", [
+                "number" => $key->id,
+            ]));
     }
 
     public function take(Key $key, Request $request): RedirectResponse
     {
+        $previousUser = $key->user;
+
         $key->user()->associate($request->user());
 
         $key->save();
 
         return redirect()
             ->back()
-            ->with("success", __("Key has been taken."));
+            ->with("success", __("Key no :number has been taken from :user.", [
+                "number" => $key->id,
+                "user" => $previousUser->profile->full_name,
+            ]));
     }
 
     public function give(Key $key, GiveKeyRequest $request): RedirectResponse
     {
-        $key->user()->associate($request->recipient());
+        $recipient = $request->recipient();
+
+        $key->user()->associate($recipient);
 
         $key->save();
 
         return redirect()
             ->back()
-            ->with("success", __("Key has been given."));
+            ->with("success", __("Key no :number has been given to :user.", [
+                "number" => $key->id,
+                "user" => $recipient->profile->full_name,
+            ]));
     }
 
     public function destroy(Key $key): RedirectResponse
@@ -80,6 +92,8 @@ class KeysController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Key has been deleted."));
+            ->with("success", __("Key no :number has been deleted.", [
+                "number" => $key->id,
+            ]));
     }
 }
