@@ -49,7 +49,7 @@
             Twój roczny limit urlopu wypoczynkowego.
           </dt>
         </div>
-        <div class="col-span-2 py-5 px-4 bg-white shadow-md sm:p-6">
+        <div class="py-5 px-4 bg-white shadow-md sm:p-6">
           <dt class="mt-1 text-4xl font-semibold text-gray-900">
             {{ stats.other }}
           </dt>
@@ -58,6 +58,17 @@
           </dd>
           <dt class="mt-2 text-sm font-medium text-gray-500">
             Urlopy bezpłatne, okolicznościowe, zwolnienia lekarskie, itd., które zostały już zatwierdzone.
+          </dt>
+        </div>
+        <div class="py-5 px-4 bg-white shadow-md sm:p-6">
+          <dt class="mt-1 text-4xl font-semibold text-gray-900">
+            {{ stats.homeOffice }}
+          </dt>
+          <dd class="font-medium text-gray-700 truncate text-md">
+            Biuro w domu
+          </dd>
+          <dt class="mt-2 text-sm font-medium text-gray-500">
+            Biuro w domku
           </dt>
         </div>
       </div>

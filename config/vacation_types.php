@@ -25,6 +25,7 @@ return [
         VacationTypeConfigRetriever::KEY_AVAILABLE_FOR => [
             EmploymentForm::EmploymentContract,
         ],
+        VacationTypeConfigRetriever::KEY_IS_VACATION => true,
     ],
     VacationType::TimeInLieu->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => false,
@@ -34,6 +35,7 @@ return [
         VacationTypeConfigRetriever::KEY_AVAILABLE_FOR => [
             EmploymentForm::EmploymentContract,
         ],
+        VacationTypeConfigRetriever::KEY_IS_VACATION => true,
     ],
     VacationType::Sick->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => false,
@@ -83,6 +85,7 @@ return [
         VacationTypeConfigRetriever::KEY_AVAILABLE_FOR => [
             EmploymentForm::EmploymentContract,
         ],
+        VacationTypeConfigRetriever::KEY_IS_VACATION => true,
     ],
     VacationTypeConfigRetriever::KEY_IS_VACATION => true,
     VacationType::Volunteering->value => [
