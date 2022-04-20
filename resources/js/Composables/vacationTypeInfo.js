@@ -8,6 +8,7 @@ import HandHeartOutlineIcon from 'vue-material-design-icons/HandHeartOutline.vue
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
 import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
+import LaptopIcon from 'vue-material-design-icons/Laptop.vue';
 
 const types = [
   {
@@ -79,6 +80,13 @@ const types = [
     icon: CalendarRemoveIcon,
     color: 'text-cyan-500',
     border: 'border-cyan-500',
+  },
+  {
+    text: 'Praca zdalna',
+    value: 'home_office',
+    icon: LaptopIcon,
+    color: 'text-fuchsia-500',
+    border: 'border-fuchsia-500',
   },
 ]
 
