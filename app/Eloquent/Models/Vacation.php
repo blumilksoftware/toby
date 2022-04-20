@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Toby\Domain\VacationRequestStatesRetriever;
 
 /**
@@ -56,6 +57,14 @@ class Vacation extends Model
         return $query->whereRelation(
             "vacationRequest",
             fn(Builder $query): Builder => $query->states(VacationRequestStatesRetriever::pendingStates()),
+        );
+    }
+
+    public function scopeWhereTypes(Builder $query, Collection $types): Builder
+    {
+        return $query->whereRelation(
+            "vacationRequest",
+            fn(Builder $query): Builder => $query->whereIn("type", $types),
         );
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
+use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\States\VacationRequest\Approved;
@@ -17,6 +18,7 @@ use Toby\Domain\States\VacationRequest\Cancelled;
 use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
+use Toby\Eloquent\Models\Profile;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -61,7 +63,9 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testUserCanCreateVacationRequest(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -80,6 +84,7 @@ class VacationRequestTest extends FeatureTestCase
                 "to" => Carbon::create($currentYearPeriod->year, 2, 11)->toDateString(),
                 "comment" => "Comment for the vacation request.",
             ])
+            ->assertSessionHasNoErrors()
             ->assertRedirect();
 
         $this->assertDatabaseHas("vacation_requests", [
@@ -96,7 +101,9 @@ class VacationRequestTest extends FeatureTestCase
     public function testUserCanCreateVacationRequestOnEmployeeBehalf(): void
     {
         $creator = User::factory()->admin()->create();
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -132,7 +139,9 @@ class VacationRequestTest extends FeatureTestCase
     public function testUserCanCreateVacationRequestOnEmployeeBehalfAndSkipAcceptanceFlow(): void
     {
         $creator = User::factory()->admin()->create();
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -245,7 +254,9 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testUserCannotCreateVacationRequestIfHeExceedsHisVacationLimit(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([
@@ -327,7 +338,9 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testUserCannotCreateVacationRequestIfHeHasPendingVacationRequestInThisRange(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([
@@ -363,7 +376,9 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testUserCannotCreateVacationRequestIfHeHasApprovedVacationRequestInThisRange(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
         $currentYearPeriod = YearPeriod::current();
 
         VacationLimit::factory([

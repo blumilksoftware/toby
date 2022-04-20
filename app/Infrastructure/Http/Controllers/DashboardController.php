@@ -7,14 +7,16 @@ namespace Toby\Infrastructure\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
+use Toby\Domain\Enums\VacationType;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
+use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
-use Toby\Infrastructure\Http\Resources\AbsenceResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
+use Toby\Infrastructure\Http\Resources\VacationResource;
 
 class DashboardController extends Controller
 {
@@ -22,6 +24,7 @@ class DashboardController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
         UserVacationStatsRetriever $vacationStatsRetriever,
+        VacationTypeConfigRetriever $configRetriever,
     ): Response {
         $user = $request->user();
         $now = Carbon::now();
@@ -31,6 +34,14 @@ class DashboardController extends Controller
             ->with(["user", "vacationRequest"])
             ->whereDate("date", $now)
             ->approved()
+            ->whereTypes(VacationType::all()->filter(fn(VacationType $type) => $configRetriever->isVacation($type)))
+            ->get();
+
+        $remoteDays = Vacation::query()
+            ->with(["user", "vacationRequest"])
+            ->whereDate("date", $now)
+            ->approved()
+            ->whereTypes(VacationType::all()->filter(fn(VacationType $type) => !$configRetriever->isVacation($type)))
             ->get();
 
         if ($user->can("listAll", VacationRequest::class)) {
@@ -62,7 +73,8 @@ class DashboardController extends Controller
         $remaining = $limit - $used - $pending;
 
         return inertia("Dashboard", [
-            "absences" => AbsenceResource::collection($absences),
+            "absences" => VacationResource::collection($absences),
+            "remoteDays" => VacationResource::collection($remoteDays),
             "vacationRequests" => VacationRequestResource::collection($vacationRequests),
             "holidays" => HolidayResource::collection($holidays),
             "stats" => [
