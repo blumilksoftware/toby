@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($users as $user) {
             Key::factory()
-                ->for($user, "owner")
+                ->for($user)
                 ->create();
         }
     }
