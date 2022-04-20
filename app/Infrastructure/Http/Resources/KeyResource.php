@@ -15,7 +15,7 @@ class KeyResource extends JsonResource
         return [
             "id" => $this->id,
             "user" => new SimpleUserResource($this->user),
-            "updatedAt" => $this->updated_at->toDatetimeString(),
+            "updatedAt" => $this->updated_at->toDisplayString(),
             "can" => [
                 "give" => $request->user()->can("give", $this->resource),
                 "take" => !$this->user()->is($request->user()),
