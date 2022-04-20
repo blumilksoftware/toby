@@ -88,7 +88,10 @@
                 -
               </dd>
             </div>
-            <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div
+              v-if="VacationType.isVacation"
+              class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
               <dt class="flex items-center text-sm font-medium text-gray-500">
                 Załączniki
               </dt>
