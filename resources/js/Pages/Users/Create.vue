@@ -133,7 +133,7 @@
                 as="template"
                 :value="role"
               >
-                <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                   <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                     {{ role.label }}
                   </span>
@@ -188,7 +188,7 @@
                 as="template"
                 :value="employmentForm"
               >
-                <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                   <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                     {{ employmentForm.label }}
                   </span>
