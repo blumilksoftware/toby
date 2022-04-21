@@ -7,7 +7,9 @@ namespace Toby\Architecture\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Toby\Domain\Enums\Role;
+use Toby\Domain\Policies\KeyPolicy;
 use Toby\Domain\Policies\VacationRequestPolicy;
+use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
@@ -15,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
         VacationRequest::class => VacationRequestPolicy::class,
+        Key::class => KeyPolicy::class,
     ];
 
     public function boot(): void

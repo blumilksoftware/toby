@@ -294,6 +294,7 @@ import {
   CalendarIcon,
   DocumentTextIcon,
   AdjustmentsIcon,
+  KeyIcon,
 } from '@heroicons/vue/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
@@ -351,7 +352,6 @@ const navigation = computed(() =>
       can: props.auth.can.manageVacationLimits,
     },
     {
-
       name: 'Podsumowanie roczne',
       href: '/vacation/annual-summary',
       section: 'AnnualSummary',
@@ -365,5 +365,13 @@ const navigation = computed(() =>
       icon: UserGroupIcon,
       can: props.auth.can.manageUsers,
     },
+    {
+      name: 'Klucze',
+      href: '/keys',
+      section: 'Keys',
+      icon: KeyIcon,
+      can: true,
+    },
+
   ].filter(item => item.can))
 </script>

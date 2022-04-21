@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->hasMany(Vacation::class);
     }
 
+    public function keys(): HasMany
+    {
+        return $this->hasMany(Key::class);
+    }
+
     public function hasRole(Role $role): bool
     {
         return $this->role === $role;
