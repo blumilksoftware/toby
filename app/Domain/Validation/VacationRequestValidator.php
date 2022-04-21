@@ -12,6 +12,7 @@ use Toby\Domain\Validation\Rules\NoApprovedVacationRequestsInRange;
 use Toby\Domain\Validation\Rules\NoPendingVacationRequestInRange;
 use Toby\Domain\Validation\Rules\VacationRangeIsInTheSameYearRule;
 use Toby\Domain\Validation\Rules\VacationRequestRule;
+use Toby\Domain\Validation\Rules\VacationTypeCanBeSelected;
 use Toby\Eloquent\Models\VacationRequest;
 
 class VacationRequestValidator
@@ -19,6 +20,7 @@ class VacationRequestValidator
     protected array $rules = [
         VacationRangeIsInTheSameYearRule::class,
         MinimumOneVacationDayRule::class,
+        VacationTypeCanBeSelected::class,
         DoesNotExceedLimitRule::class,
         NoPendingVacationRequestInRange::class,
         NoApprovedVacationRequestsInRange::class,

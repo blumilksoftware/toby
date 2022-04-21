@@ -72,7 +72,7 @@
                       as="template"
                       :value="user"
                     >
-                      <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                         <div class="flex items-center">
                           <img
                             :src="user.avatar"
@@ -86,7 +86,7 @@
 
                         <span
                           v-if="selected"
-                          :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                          :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
                           <CheckIcon class="w-5 h-5" />
                         </span>
@@ -142,7 +142,9 @@
                   :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
                 >
                   <template v-if="form.vacationType">
-                    <span class="block truncate">{{ form.vacationType.label }}</span>
+                    <span class="block truncate">
+                      <VacationType :type="form.vacationType.value" />
+                    </span>
                     <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
                       <SelectorIcon class="w-5 h-5 text-gray-400" />
                     </span>
@@ -164,14 +166,14 @@
                       as="template"
                       :value="vacationType"
                     >
-                      <li :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                          {{ vacationType.label }}
+                          <VacationType :type="vacationType.value" />
                         </span>
 
                         <span
                           v-if="selected"
-                          :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                          :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                         >
                           <CheckIcon class="w-5 h-5" />
                         </span>
@@ -331,6 +333,7 @@ import { reactive, ref, watch } from 'vue'
 import axios from 'axios'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 import VacationChart from '@/Shared/VacationChart'
+import VacationType from '@/Shared/VacationType'
 
 const props = defineProps({
   auth: Object,

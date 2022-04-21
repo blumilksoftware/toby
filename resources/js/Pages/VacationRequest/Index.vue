@@ -70,13 +70,13 @@
                   :value="status"
                 >
                   <li
-                    :class="[active ? 'text-white bg-blumilk-600' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
                   >
                     {{ status.name }}
 
                     <span
                       v-if="selected"
-                      :class="[active ? 'text-white' : 'text-blumilk-600', 'absolute inset-y-0 right-0 flex items-center pr-4']"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                     >
                       <CheckIcon class="w-5 h-5" />
                     </span>

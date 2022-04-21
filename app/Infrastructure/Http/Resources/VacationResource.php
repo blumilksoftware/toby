@@ -14,6 +14,7 @@ class VacationResource extends JsonResource
     {
         return [
             "id" => $this->id,
+            "user" => new SimpleUserResource($this->user),
             "displayDate" => $this->date->toDisplayString(),
             "date" => $this->date->toDateString(),
         ];

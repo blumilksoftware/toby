@@ -34,10 +34,10 @@ class UserVacationStatsRetriever
     public function getUsedVacationDaysByMonth(User $user, YearPeriod $yearPeriod): Collection
     {
         return $user->vacations()
+            ->whereBelongsTo($yearPeriod)
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query): Builder => $query
-                    ->whereBelongsTo($yearPeriod)
                     ->whereIn("type", $this->getLimitableVacationTypes())
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
@@ -69,8 +69,18 @@ class UserVacationStatsRetriever
                 "vacationRequest",
                 fn(Builder $query): Builder => $query
                     ->whereIn("type", $this->getNotLimitableVacationTypes())
+                    ->whereNot("type", VacationType::HomeOffice)
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
+            ->count();
+    }
+
+    public function getHomeOfficeDays(User $user, YearPeriod $yearPeriod): int
+    {
+        return $user
+            ->vacations()
+            ->whereBelongsTo($yearPeriod)
+            ->whereRelation("vacationRequest", "type", VacationType::HomeOffice)
             ->count();
     }
 

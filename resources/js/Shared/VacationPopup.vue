@@ -16,7 +16,7 @@
       </div>
       <div class="py-2 space-y-1">
         <dt class="text-sm font-medium text-gray-500">
-          Rodzaj urlopu
+          Rodzaj wniosku
         </dt>
         <dd class="mt-1 text-sm text-gray-900">
           <VacationType :type="vacation.type" />

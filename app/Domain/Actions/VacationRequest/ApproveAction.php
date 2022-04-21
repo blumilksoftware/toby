@@ -7,6 +7,7 @@ namespace Toby\Domain\Actions\VacationRequest;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\VacationRequestStateManager;
+use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Jobs\SendVacationRequestDaysToGoogleCalendar;
@@ -15,15 +16,18 @@ class ApproveAction
 {
     public function __construct(
         protected VacationRequestStateManager $stateManager,
+        protected VacationTypeConfigRetriever $configRetriever,
     ) {}
 
     public function execute(VacationRequest $vacationRequest, ?User $user = null): void
     {
         $this->stateManager->approve($vacationRequest, $user);
 
-        SendVacationRequestDaysToGoogleCalendar::dispatch($vacationRequest);
+        if ($this->configRetriever->isVacation($vacationRequest->type)) {
+            SendVacationRequestDaysToGoogleCalendar::dispatch($vacationRequest);
 
-        $this->notify($vacationRequest);
+            $this->notify($vacationRequest);
+        }
     }
 
     protected function notify(VacationRequest $vacationRequest): void

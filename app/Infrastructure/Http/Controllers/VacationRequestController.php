@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Validation\ValidationException;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Toby\Domain\Actions\VacationRequest\AcceptAsAdministrativeAction;
 use Toby\Domain\Actions\VacationRequest\AcceptAsTechnicalAction;
 use Toby\Domain\Actions\VacationRequest\CancelAction;
@@ -23,6 +24,7 @@ use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
 use Toby\Domain\States\VacationRequest\Cancelled;
 use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\VacationRequestStatesRetriever;
+use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
@@ -148,8 +150,14 @@ class VacationRequestController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function download(VacationRequest $vacationRequest): LaravelResponse
-    {
+    public function download(
+        VacationRequest $vacationRequest,
+        VacationTypeConfigRetriever $configRetriever,
+    ): LaravelResponse {
+        if (!$configRetriever->isVacation($vacationRequest->type)) {
+            return abort(SymfonyResponse::HTTP_NOT_FOUND);
+        }
+
         $this->authorize("show", $vacationRequest);
 
         $pdf = PDF::loadView("pdf.vacation-request", [

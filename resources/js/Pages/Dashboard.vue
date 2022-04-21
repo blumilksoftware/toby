@@ -15,8 +15,12 @@
         :requests="vacationRequests.data"
       />
       <AbsenceList
-        v-if="years.current.year === years.selected.year"
+        v-if="years.current.year === years.selected.year && absences.data.length"
         :absences="absences.data"
+      />
+      <HomeOfficeList
+        v-if="years.current.year === years.selected.year && remoteDays.data.length"
+        :remote-days="remoteDays.data"
       />
       <UpcomingHolidays
         v-if="years.current.year === years.selected.year"
@@ -30,6 +34,7 @@
 import Welcome from '@/Shared/Widgets/Welcome'
 import VacationStats from '@/Shared/Widgets/VacationStats'
 import AbsenceList from '@/Shared/Widgets/AbsenceList'
+import HomeOfficeList from '@/Shared/Widgets/HomeOfficeList'
 import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays'
 import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests'
@@ -37,6 +42,7 @@ import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests'
 defineProps({
   auth: Object,
   absences: Object,
+  remoteDays: Object,
   vacationRequests: Object,
   holidays: Object,
   can: Object,

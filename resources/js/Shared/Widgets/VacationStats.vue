@@ -39,7 +39,7 @@
           </dt>
         </div>
         <div class="py-5 px-4 bg-white shadow-md sm:p-6">
-          <dt class="mt-1 text-4xl font-semibold text-gray-900">
+          <dt class="mt-1 text-4xl font-semibold text-blumilk-800">
             {{ stats.limit }}
           </dt>
           <dd class="font-medium text-gray-700 truncate text-md">
@@ -49,8 +49,8 @@
             Twój roczny limit urlopu wypoczynkowego.
           </dt>
         </div>
-        <div class="col-span-2 py-5 px-4 bg-white shadow-md sm:p-6">
-          <dt class="mt-1 text-4xl font-semibold text-gray-900">
+        <div class="py-5 px-4 bg-white shadow-md sm:p-6">
+          <dt class="mt-1 text-4xl font-semibold text-gray-500">
             {{ stats.other }}
           </dt>
           <dd class="font-medium text-gray-700 truncate text-md">
@@ -58,6 +58,17 @@
           </dd>
           <dt class="mt-2 text-sm font-medium text-gray-500">
             Urlopy bezpłatne, okolicznościowe, zwolnienia lekarskie, itd., które zostały już zatwierdzone.
+          </dt>
+        </div>
+        <div class="py-5 px-4 bg-white shadow-md sm:p-6">
+          <dt class="mt-1 text-4xl font-semibold text-fuchsia-700">
+            {{ stats.homeOffice }}
+          </dt>
+          <dd class="font-medium text-gray-700 truncate text-md">
+            Praca zdalna
+          </dd>
+          <dt class="mt-2 text-sm font-medium text-gray-500">
+            Dni przepracowane poza biurem.
           </dt>
         </div>
       </div>

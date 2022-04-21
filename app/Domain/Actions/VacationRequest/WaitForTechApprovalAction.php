@@ -23,7 +23,9 @@ class WaitForTechApprovalAction
     {
         $this->stateManager->waitForTechnical($vacationRequest);
 
-        $this->notifyTechApprovers($vacationRequest);
+        if ($this->configRetriever->isVacation($vacationRequest->type)) {
+            $this->notifyTechApprovers($vacationRequest);
+        }
     }
 
     protected function notifyTechApprovers(VacationRequest $vacationRequest): void
