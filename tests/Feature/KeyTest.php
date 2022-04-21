@@ -10,7 +10,7 @@ use Tests\FeatureTestCase;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 
-class KeysTest extends FeatureTestCase
+class KeyTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 
