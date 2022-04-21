@@ -69,6 +69,6 @@
   "The vacation request :title has been created correctly by user :creator on your behalf in the :appName.": "W systemie :appName został poprawnie utworzony wniosek urlopowy :title w Twoim imieniu przez użytkownika :creator.",
   "Key no :number has been created.": "Klucz nr :number został utworzony.",
   "Key no :number has been deleted.": "Klucz nr :number został usunięty.",
-  "Key no :number has been taken from :user.": "Klucz nr :number został zabrany od użytkownika :user.",
+  "Key no :number has been taken from :user.": "Klucz nr :number został zabrany użytkownikowi :user.",
   "Key no :number has been given to :user.": "Klucz nr :number został przekazany użytkownikowi :user."
 }
