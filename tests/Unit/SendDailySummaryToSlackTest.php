@@ -38,7 +38,7 @@ class SendDailySummaryToSlackTest extends TestCase
         Http::assertSentCount(1);
     }
 
-    public function testCommandDoesntSendIfIsWeekend(): void
+    public function testCommandDoesntSendIfWeekend(): void
     {
         $weekend = Carbon::create(2022, 4, 23);
         $this->assertTrue($weekend->isWeekend());
@@ -51,7 +51,7 @@ class SendDailySummaryToSlackTest extends TestCase
         Http::assertNothingSent();
     }
 
-    public function testCommandDoesntSendIfIsHoliday(): void
+    public function testCommandDoesntSendIfHoliday(): void
     {
         $holiday = Holiday::factory(["date" => Carbon::create(2022, 4, 22)])->create();
 
