@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack;
+namespace Toby\Domain\Slack\Handlers;
 
 use Illuminate\Support\Carbon;
 use Spatie\SlashCommand\Request;
@@ -15,12 +15,12 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class HomeOffice extends SignatureHandler
 {
-    protected $signature = "toby zdalnie {date=dzisiaj}";
-    protected $description = "Praca zdalna {kiedy}";
+    protected $signature = "toby zdalnie {kiedy?}";
+    protected $description = "Pracuj zdalnie wybranego dnia (domyślnie dzisiaj)";
 
     public function handle(Request $request): Response
     {
-        $date = $this->getDateFromArgument($this->getArgument('date'));
+        $date = $this->getDateFromArgument($this->getArgument('kiedy') ?? "dzisiaj");
         $user = $this->findUserBySlackId($request->userId);
 
         $yearPeriod = YearPeriod::findByYear($date->year);
@@ -34,7 +34,8 @@ class HomeOffice extends SignatureHandler
             "flow_skipped" => false,
         ], $user);
 
-        return $this->respondToSlack("Praca zdalna dnia {$date->toDisplayString()} została utworzona pomyślnie");
+        return $this->respondToSlack("Praca zdalna dnia {$date->toDisplayString()} została utworzona pomyślnie.")
+            ->displayResponseToEveryoneOnChannel();
     }
 
     protected function getDateFromArgument(string $argument): Carbon

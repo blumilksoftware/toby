@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack;
+namespace Toby\Domain\Slack\Handlers;
 
 use Illuminate\Support\Str;
 use Spatie\SlashCommand\Request;
@@ -11,29 +11,29 @@ use Spatie\SlashCommand\Handlers\SignatureHandler;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 
-class TakeKeysFrom extends SignatureHandler
+class GiveKeysTo extends SignatureHandler
 {
-    protected $signature = "toby klucze:od {from}";
+    protected $signature = "toby klucze:dla {użytkownik}";
 
-    protected $description = "Zabierz klucze użytkownikowi {from}";
+    protected $description = "Daj klucze wskazanemu użytkownikowi";
 
     public function handle(Request $request): Response
     {
-        $from = $this->getArgument('from');
+        $to = $this->getArgument('użytkownik');
 
-        $id = Str::between($from, "@", "|");
+        $id = Str::between($to, "@", "|");
 
         $authUser = $this->findUserBySlackId($request->userId);
         $user = $this->findUserBySlackId($id);
 
         /** @var Key $key */
-        $key = $user->keys()->first();
+        $key = $authUser->keys()->first();
 
-        $key->user()->associate($authUser);
+        $key->user()->associate($user);
 
         $key->save();
 
-        return $this->respondToSlack("<@{$authUser->profile->slack_id}> zabiera klucz nr {$key->id} użytkownikowi <@{$user->profile->slack_id}>")
+        return $this->respondToSlack("<@{$authUser->profile->slack_id}> daje klucz nr {$key->id} użytkownikowi <@{$user->profile->slack_id}>")
             ->displayResponseToEveryoneOnChannel();
     }
 

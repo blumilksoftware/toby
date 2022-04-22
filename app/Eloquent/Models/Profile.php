@@ -19,6 +19,7 @@ use Toby\Eloquent\Helpers\ColorGenerator;
  * @property string $position
  * @property EmploymentForm $employment_form
  * @property Carbon $employment_date
+ * @property Carbon $birthday
  */
 class Profile extends Model
 {
@@ -32,6 +33,7 @@ class Profile extends Model
     protected $casts = [
         "employment_form" => EmploymentForm::class,
         "employment_date" => "date",
+        "birthday" => "date",
     ];
 
     public function user(): BelongsTo

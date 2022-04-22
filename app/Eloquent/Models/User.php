@@ -125,6 +125,11 @@ class User extends Authenticatable
         );
     }
 
+    public function routeNotificationForSlack()
+    {
+        return $this->profile->slack_id;
+    }
+
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();

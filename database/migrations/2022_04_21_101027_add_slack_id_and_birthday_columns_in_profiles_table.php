@@ -11,13 +11,15 @@ return new class() extends Migration {
     {
         Schema::table("profiles", function (Blueprint $table): void {
             $table->string("slack_id")->nullable();
+            $table->date("birthday")->nullable();
         });
     }
 
     public function down(): void
     {
         Schema::table("profiles", function (Blueprint $table): void {
-            $table->string("slack_id");
+            $table->dropColumn("slack_id");
+            $table->dropColumn("birthday");
         });
     }
 };

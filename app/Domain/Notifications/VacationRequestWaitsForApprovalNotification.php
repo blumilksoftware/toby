@@ -23,7 +23,17 @@ class VacationRequestWaitsForApprovalNotification extends Notification
 
     public function via(): array
     {
-        return ["mail"];
+        return ["mail", "slack"];
+    }
+
+    public function toSlack(): string
+    {
+        $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
+
+        return implode("\n", [
+            $this->buildDescription(),
+            "<${url}|Zobacz szczegóły>",
+        ]);
     }
 
     /**

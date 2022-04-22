@@ -38,7 +38,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Spatie\SlashCommand\SlashCommandServiceProvider::class,
         Toby\Architecture\Providers\AppServiceProvider::class,
         Toby\Architecture\Providers\AuthServiceProvider::class,
         Toby\Architecture\Providers\EventServiceProvider::class,
