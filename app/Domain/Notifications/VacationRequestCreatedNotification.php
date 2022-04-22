@@ -92,7 +92,7 @@ class VacationRequestCreatedNotification extends Notification
         $name = $this->vacationRequest->name;
 
         if ($this->vacationRequest->creator()->is($this->vacationRequest->user)) {
-            return __("The vacation request :title for user :user has been created successfully.", [
+            return __("The vacation request :title from user :user has been created successfully.", [
                 "user" => $this->vacationRequest->user->profile->full_name,
                 "title" => $name,
             ]);
