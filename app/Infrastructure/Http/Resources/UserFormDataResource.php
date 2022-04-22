@@ -22,6 +22,7 @@ class UserFormDataResource extends JsonResource
             "employmentForm" => $this->profile->employment_form,
             "employmentDate" => $this->profile->employment_date->toDateString(),
             "birthday" => $this->profile->birthday->toDateString(),
+            "slackId" => $this->profile->slack_id,
         ];
     }
 }
