@@ -8,10 +8,9 @@ use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
 use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
-use Toby\Domain\Slack\SignatureHandler;
-use Toby\Domain\Slack\SlackUserExistsRule;
+use Toby\Domain\Slack\Exceptions\UserNotFoundException;
+use Toby\Domain\Slack\Rules\SlackUserExistsRule;
 use Toby\Domain\Slack\Traits\FindsUserBySlackId;
-use Toby\Domain\Slack\UserNotFoundException;
 use Toby\Eloquent\Models\Key;
 
 class GiveKeysTo extends SignatureHandler

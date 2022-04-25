@@ -7,7 +7,6 @@ namespace Toby\Domain\Slack\Handlers;
 use Spatie\SlashCommand\Attachment;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\Slack\SignatureHandler;
 use Toby\Eloquent\Models\Key;
 
 class KeyList extends SignatureHandler

@@ -9,7 +9,6 @@ use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
 use Toby\Domain\Actions\VacationRequest\CreateAction;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\Slack\SignatureHandler;
 use Toby\Domain\Slack\Traits\FindsUserBySlackId;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;

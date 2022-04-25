@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Slack\Traits;
 
 use Illuminate\Support\Str;
-use Toby\Domain\Slack\UserNotFoundException;
+use Toby\Domain\Slack\Exceptions\UserNotFoundException;
 use Toby\Eloquent\Models\User;
 
 trait FindsUserBySlackId

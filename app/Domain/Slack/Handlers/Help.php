@@ -7,7 +7,6 @@ namespace Toby\Domain\Slack\Handlers;
 use Spatie\SlashCommand\Attachment;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\Slack\SignatureHandler;
 use Toby\Domain\Slack\Traits\ListsHandlers;
 
 class Help extends SignatureHandler

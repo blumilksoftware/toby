@@ -9,7 +9,6 @@ use Spatie\SlashCommand\Attachment;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
 use Toby\Domain\DailySummaryRetriever;
-use Toby\Domain\Slack\SignatureHandler;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\Vacation;
 

@@ -9,7 +9,7 @@ use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
-use Toby\Domain\Slack\SlackApiChannel;
+use Toby\Domain\Slack\Channels\SlackApiChannel;
 
 class AppServiceProvider extends ServiceProvider
 {
