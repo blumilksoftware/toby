@@ -27,9 +27,7 @@ class Profile extends Model
     use HasAvatar;
 
     protected $primaryKey = "user_id";
-
     protected $guarded = [];
-
     protected $casts = [
         "employment_form" => EmploymentForm::class,
         "employment_date" => "date",

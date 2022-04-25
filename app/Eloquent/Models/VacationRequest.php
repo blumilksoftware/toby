@@ -41,7 +41,6 @@ class VacationRequest extends Model
     use HasStates;
 
     protected $guarded = [];
-
     protected $casts = [
         "type" => VacationType::class,
         "state" => VacationRequestState::class,

@@ -33,18 +33,15 @@ class User extends Authenticatable
     use SoftDeletes;
 
     protected $guarded = [];
-
     protected $casts = [
         "role" => Role::class,
         "last_active_at" => "datetime",
         "employment_form" => EmploymentForm::class,
         "employment_date" => "date",
     ];
-
     protected $hidden = [
         "remember_token",
     ];
-
     protected $with = [
         "profile",
     ];
