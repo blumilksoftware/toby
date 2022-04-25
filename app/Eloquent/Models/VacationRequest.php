@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\ModelStates\HasStates;
@@ -41,7 +42,6 @@ class VacationRequest extends Model
     use HasStates;
 
     protected $guarded = [];
-
     protected $casts = [
         "type" => VacationType::class,
         "state" => VacationRequestState::class,
@@ -83,6 +83,13 @@ class VacationRequest extends Model
     public function scopeNoStates(Builder $query, VacationRequestState|array $states): Builder
     {
         return $query->whereNotState("state", $states);
+    }
+
+    public function scopeType(Builder $query, VacationType|array $types): Builder
+    {
+        $types = Arr::wrap($types);
+
+        return $query->whereIn("type", $types);
     }
 
     public function scopeOverlapsWith(Builder $query, self $vacationRequest): Builder
