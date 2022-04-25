@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Validation\Rules;
 
-use Toby\Domain\VacationDaysCalculator;
+use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\VacationRequest;
 
 class MinimumOneVacationDayRule implements VacationRequestRule
 {
     public function __construct(
-        protected VacationDaysCalculator $vacationDaysCalculator,
+        protected WorkDaysCalculator $vacationDaysCalculator,
     ) {}
 
     public function check(VacationRequest $vacationRequest): bool
     {
         return $this->vacationDaysCalculator
-            ->calculateDays($vacationRequest->yearPeriod, $vacationRequest->from, $vacationRequest->to)
+            ->calculateDays($vacationRequest->from, $vacationRequest->to)
             ->isNotEmpty();
     }
 

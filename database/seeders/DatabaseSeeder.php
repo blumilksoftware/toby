@@ -7,7 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Toby\Domain\PolishHolidaysRetriever;
-use Toby\Domain\VacationDaysCalculator;
+use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
                     "year_period_id" => $yearPeriods->random()->id,
                 ])
                 ->afterCreating(function (VacationRequest $vacationRequest): void {
-                    $days = app(VacationDaysCalculator::class)->calculateDays(
+                    $days = app(WorkDaysCalculator::class)->calculateDays(
                         $vacationRequest->yearPeriod,
                         $vacationRequest->from,
                         $vacationRequest->to,

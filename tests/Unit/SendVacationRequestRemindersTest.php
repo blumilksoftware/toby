@@ -32,11 +32,10 @@ class SendVacationRequestRemindersTest extends TestCase
         Notification::fake();
     }
 
-    public function testReminderIsSentIfItsBeenThreeDaysSinceTheUpdate(): void
+    public function testReminderIsSentIfItsBeenThreeWorkDaysSinceTheUpdate(): void
     {
         $currentYearPeriod = YearPeriod::current();
-        $now = Carbon::today();
-        $this->travelTo($now);
+        $this->travelTo(Carbon::create(2022, 4, 20));
 
         $user = User::factory()->create();
         $technicalApprover = User::factory()
@@ -51,18 +50,17 @@ class SendVacationRequestRemindersTest extends TestCase
             ->for($currentYearPeriod)
             ->create();
 
-        $this->travelTo($now->addDays(3));
+        $this->travelTo(Carbon::create(2022, 4, 25));
 
         $this->artisan(SendVacationRequestRemindersToApprovers::class);
 
         Notification::assertSentTo([$technicalApprover], VacationRequestWaitsForApprovalNotification::class);
     }
 
-    public function testReminderIsSentIfItsBeenAnotherThreeDaysSinceTheUpdate(): void
+    public function testReminderIsSentIfItsBeenAnotherThreeWorkDaysSinceTheUpdate(): void
     {
         $currentYearPeriod = YearPeriod::current();
-        $now = Carbon::today();
-        $this->travelTo($now);
+        $this->travelTo(Carbon::create(2022, 4, 20));
 
         $user = User::factory()->create();
         $technicalApprover = User::factory()
@@ -77,18 +75,17 @@ class SendVacationRequestRemindersTest extends TestCase
             ->for($currentYearPeriod)
             ->create();
 
-        $this->travelTo($now->addDays(6));
+        $this->travelTo(Carbon::create(2022, 4, 28));
 
         $this->artisan(SendVacationRequestRemindersToApprovers::class);
 
         Notification::assertSentTo([$technicalApprover], VacationRequestWaitsForApprovalNotification::class);
     }
 
-    public function testReminderIsNotSentIfItHasntBeenThreeDays(): void
+    public function testReminderIsNotSentIfItHasntBeenThreeWorkDays(): void
     {
         $currentYearPeriod = YearPeriod::current();
-        $now = Carbon::today();
-        $this->travelTo($now);
+        $this->travelTo(Carbon::create(2022, 4, 20));
 
         $user = User::factory()->create();
         $technicalApprover = User::factory()
@@ -103,7 +100,7 @@ class SendVacationRequestRemindersTest extends TestCase
             ->for($currentYearPeriod)
             ->create();
 
-        $this->travelTo($now->addDays(2));
+        $this->travelTo(Carbon::create(2022, 4, 24));
 
         $this->artisan(SendVacationRequestRemindersToApprovers::class);
 
@@ -113,8 +110,7 @@ class SendVacationRequestRemindersTest extends TestCase
     public function testReminderIsSentToProperApprover(): void
     {
         $currentYearPeriod = YearPeriod::current();
-        $now = Carbon::today();
-        $this->travelTo($now);
+        $this->travelTo(Carbon::create(2022, 4, 20));
 
         $user = User::factory()->create();
         $adminApprover = User::factory()
@@ -132,7 +128,7 @@ class SendVacationRequestRemindersTest extends TestCase
             ->for($currentYearPeriod)
             ->create();
 
-        $this->travelTo($now->addDays(3));
+        $this->travelTo(Carbon::create(2022, 4, 25));
 
         $this->artisan(SendVacationRequestRemindersToApprovers::class);
 

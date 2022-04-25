@@ -12,6 +12,7 @@ use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
@@ -22,7 +23,7 @@ class SendVacationRequestRemindersToApprovers extends Command
     protected $signature = "toby:send-vacation-request-reminders";
     protected $description = "Sends vacation request reminders to approvers if they didn't approve";
 
-    public function handle(VacationTypeConfigRetriever $configRetriever): void
+    public function handle(VacationTypeConfigRetriever $configRetriever, WorkDaysCalculator $daysCalculator): void
     {
         $vacationRequests = VacationRequest::query()
             ->type(VacationType::all()->filter(fn(VacationType $type) => $configRetriever->isVacation($type))->all())
@@ -30,7 +31,7 @@ class SendVacationRequestRemindersToApprovers extends Command
 
         /** @var VacationRequest $vacationRequest */
         foreach ($vacationRequests as $vacationRequest) {
-            if (!$this->shouldNotify($vacationRequest)) {
+            if (!$this->shouldNotify($vacationRequest, $daysCalculator)) {
                 continue;
             }
 
@@ -44,12 +45,13 @@ class SendVacationRequestRemindersToApprovers extends Command
         }
     }
 
-    protected function shouldNotify(VacationRequest $vacationRequest): bool
+    protected function shouldNotify(VacationRequest $vacationRequest, WorkDaysCalculator $daysCalculator): bool
     {
-        $today = Carbon::today();
-        $diff = $vacationRequest->updated_at->diffInDays($today);
+        $days = $daysCalculator
+            ->calculateDays($vacationRequest->updated_at->addDay(), Carbon::today())
+            ->count();
 
-        return $diff >= static::REMINDER_INTERVAL && ($diff % static::REMINDER_INTERVAL === 0);
+        return $days >= static::REMINDER_INTERVAL && ($days % static::REMINDER_INTERVAL === 0);
     }
 
     protected function notifyAdminApprovers(VacationRequest $vacationRequest): void
