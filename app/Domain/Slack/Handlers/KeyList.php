@@ -24,7 +24,7 @@ class KeyList extends SignatureHandler
         return $this->respondToSlack("Lista kluczy :key:")
             ->withAttachment(
                 Attachment::create()
-                    ->setColor("#3C5F97")
+                    ->setColor("#3c5f97")
                     ->setText($keys->isNotEmpty() ? $keys->implode("\n") : "Nie ma żadnych kluczy w tobym"),
             );
     }

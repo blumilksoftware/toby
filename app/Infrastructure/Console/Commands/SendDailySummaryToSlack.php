@@ -48,7 +48,7 @@ class SendDailySummaryToSlack extends Command
 
         $birthdayAttachment = Attachment::create()
             ->setTitle("Urodziny :birthday:")
-            ->setColor("#3C5F97")
+            ->setColor("#3c5f97")
             ->setText($birthdays->isNotEmpty() ? $birthdays->implode("\n") : "Dzisiaj nikt nie ma urodzin :cry:");
 
         $baseUrl = config("services.slack.url");

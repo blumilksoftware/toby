@@ -56,7 +56,7 @@
   "All rights reserved.": "Wszelkie prawa zastrzeżone",
   "Show vacation request": "Pokaż wniosek",
   "Vacation request :title has been created" : "Wniosek :title został utworzony",
-  "The vacation request :title from user :requester has been created sucessfully.": "Wniosek :title użytkownika :requester został utworzony pomyślnie.",
+  "The vacation request :title from user :requester has been created successfully.": "Wniosek :title użytkownika :requester został utworzony pomyślnie.",
   "Vacation type: :type": "Rodzaj wniosku: :type",
   "From :from to :to (number of days: :days)": "Od :from do :to (liczba dni: :days)",
   "Click here for details": "Kliknij, aby zobaczyć szczegóły",
