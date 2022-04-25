@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack\Channels;
+namespace Toby\Domain\Slack;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Notifications\Notification;
@@ -14,12 +14,12 @@ class SlackApiChannel
     {
         $baseUrl = config("services.slack.url");
         $url = "{$baseUrl}/chat.postMessage";
-        $channel = $notifiable->routeNotificationFor('slack', $notification);
+        $channel = $notifiable->routeNotificationFor("slack", $notification);
 
         return Http::withToken(config("services.slack.client_token"))
             ->post($url, [
                 "channel" => $channel,
-                "text" => $notification->toSlack(),
+                "text" => $notification->toSlack($notifiable),
             ]);
     }
 }

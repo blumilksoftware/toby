@@ -4,48 +4,32 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Slack\Handlers;
 
-use Illuminate\Support\Collection;
 use Spatie\SlashCommand\Attachment;
-use Spatie\SlashCommand\AttachmentField;
-use Spatie\SlashCommand\Handlers\CatchAll as BaseCatchAllHandler;
-use Spatie\SlashCommand\Handlers\SignatureHandler;
+use Spatie\SlashCommand\Handlers\BaseHandler;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
+use Toby\Domain\Slack\Traits\ListsHandlers;
 
-class CatchAll extends BaseCatchAllHandler
+class CatchAll extends BaseHandler
 {
-    public function handle(Request $request): Response
+    use ListsHandlers;
+
+    public function canHandle(Request $request): bool
     {
-        $response = $this->respondToSlack("Nie rozpoznaję tej komendy: `/{$request->command} {$request->text}`");
-
-        [$command] = explode(' ', $this->request->text ?? "");
-
-        $alternativeHandlers = $this->findAlternativeHandlers($command);
-
-        if ($alternativeHandlers->count()) {
-            $response->withAttachment($this->getCommandListAttachment($alternativeHandlers));
-        }
-
-        if ($this->containsHelpHandler($alternativeHandlers)) {
-            $response->withAttachment(Attachment::create()
-                ->setText("Aby wyświetlić wszystkie komendy, napisz: `/toby pomoc`")
-            );
-        }
-
-        return $response;
+        return true;
     }
 
-    protected function getCommandListAttachment(Collection $handlers): Attachment
+    public function handle(Request $request): Response
     {
-        $attachmentFields = $handlers
-            ->map(function (SignatureHandler $handler) {
-                return AttachmentField::create($handler->getFullCommand(), $handler->getDescription());
-            })
-            ->all();
+        $handlers = $this->findAvailableHandlers();
+        $attachmentFields = $this->mapHandlersToAttachments($handlers);
 
-        return Attachment::create()
-            ->setColor('warning')
-            ->setTitle('Czy miałeś na myśli:')
-            ->setFields($attachmentFields);
+        return $this->respondToSlack(":x: Nie rozpoznaję tej komendy. Lista wszystkich komend:")
+            ->withAttachment(
+                Attachment::create()
+                    ->setColor("danger")
+                    ->useMarkdown()
+                    ->setFields($attachmentFields),
+            );
     }
 }

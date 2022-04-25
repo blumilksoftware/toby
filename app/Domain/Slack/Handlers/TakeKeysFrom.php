@@ -4,46 +4,68 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Slack\Handlers;
 
-use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Spatie\SlashCommand\Handlers\SignatureHandler;
+use Toby\Domain\Notifications\KeyHasBeenTakenNotification;
+use Toby\Domain\Slack\SignatureHandler;
+use Toby\Domain\Slack\SlackUserExistsRule;
+use Toby\Domain\Slack\Traits\FindsUserBySlackId;
+use Toby\Domain\Slack\UserNotFoundException;
 use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\User;
 
 class TakeKeysFrom extends SignatureHandler
 {
-    protected $signature = "toby klucze:od {użytkownik}";
+    use FindsUserBySlackId;
 
+    protected $signature = "toby klucze:od {user}";
     protected $description = "Zabierz klucze wskazanemu użytkownikowi";
 
+    /**
+     * @throws UserNotFoundException|ValidationException
+     */
     public function handle(Request $request): Response
     {
-        $from = $this->getArgument("użytkownik");
+        ["user" => $from] = $this->validate();
 
-        $id = Str::between($from, "@", "|");
-
-        $authUser = $this->findUserBySlackId($request->userId);
-        $user = $this->findUserBySlackId($id);
+        $authUser = $this->findUserBySlackIdOrFail($request->userId);
+        $user = $this->findUserBySlackId($from);
 
         /** @var Key $key */
         $key = $user->keys()->first();
+
+        if (!$key) {
+            throw ValidationException::withMessages([
+                "key" => "Użytkownik <@{$user->profile->slack_id}> nie ma żadnych kluczy",
+            ]);
+        }
+
+        if ($key->user()->is($authUser)) {
+            throw ValidationException::withMessages([
+                "key" => "Nie możesz zabrać sobie kluczy :dzban:",
+            ]);
+        }
 
         $key->user()->associate($authUser);
 
         $key->save();
 
-        return $this->respondToSlack("<@{$authUser->profile->slack_id}> zabiera klucz nr {$key->id} użytkownikowi <@{$user->profile->slack_id}>")
-            ->displayResponseToEveryoneOnChannel();
+        $key->notify(new KeyHasBeenTakenNotification($authUser, $user));
+
+        return $this->respondToSlack(":white_check_mark: Klucz nr {$key->id} został zabrany użytkownikowi <@{$user->profile->slack_id}>");
     }
 
-    protected function findUserBySlackId(string $slackId): User
+    protected function getRules(): array
     {
-        /** @var User $user */
-        $user = User::query()
-            ->whereRelation("profile", "slack_id", $slackId)
-            ->first();
+        return [
+            "user" => ["required", new SlackUserExistsRule()],
+        ];
+    }
 
-        return $user;
+    protected function getMessages(): array
+    {
+        return [
+            "user.required" => "Musisz podać użytkownika, któremu chcesz zabrać klucze",
+        ];
     }
 }

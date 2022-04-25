@@ -3,10 +3,13 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Toby\Domain\Slack\Controller as SlackController;
 use Toby\Infrastructure\Http\Controllers\Api\CalculateUserUnavailableDaysController;
 use Toby\Infrastructure\Http\Controllers\Api\CalculateUserVacationStatsController;
 use Toby\Infrastructure\Http\Controllers\Api\CalculateVacationDaysController;
 use Toby\Infrastructure\Http\Controllers\Api\GetAvailableVacationTypesController;
+
+Route::post("slack", [SlackController::class, "getResponse"]);
 
 Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("vacation/calculate-days", CalculateVacationDaysController::class);

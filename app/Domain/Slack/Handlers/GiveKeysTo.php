@@ -4,46 +4,69 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Slack\Handlers;
 
-use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Spatie\SlashCommand\Handlers\SignatureHandler;
+use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
+use Toby\Domain\Slack\SignatureHandler;
+use Toby\Domain\Slack\SlackUserExistsRule;
+use Toby\Domain\Slack\Traits\FindsUserBySlackId;
+use Toby\Domain\Slack\UserNotFoundException;
 use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\User;
 
 class GiveKeysTo extends SignatureHandler
 {
-    protected $signature = "toby klucze:dla {użytkownik}";
+    use FindsUserBySlackId;
 
-    protected $description = "Daj klucze wskazanemu użytkownikowi";
+    protected $signature = "toby klucze:dla {user}";
+    protected $description = "Przekaż klucze wskazanemu użytkownikowi";
 
+    /**
+     * @throws UserNotFoundException
+     * @throws ValidationException
+     */
     public function handle(Request $request): Response
     {
-        $to = $this->getArgument('użytkownik');
+        ["user" => $from] = $this->validate();
 
-        $id = Str::between($to, "@", "|");
-
-        $authUser = $this->findUserBySlackId($request->userId);
-        $user = $this->findUserBySlackId($id);
+        $authUser = $this->findUserBySlackIdOrFail($request->userId);
+        $user = $this->findUserBySlackId($from);
 
         /** @var Key $key */
         $key = $authUser->keys()->first();
+
+        if (!$key) {
+            throw ValidationException::withMessages(["key" => "Nie masz żadnego klucza do przekazania"]);
+        }
+
+        if ($user->is($authUser)) {
+            throw ValidationException::withMessages([
+                "key" => "Nie możesz przekazać sobie kluczy :dzban:",
+            ]);
+        }
 
         $key->user()->associate($user);
 
         $key->save();
 
-        return $this->respondToSlack("<@{$authUser->profile->slack_id}> daje klucz nr {$key->id} użytkownikowi <@{$user->profile->slack_id}>")
-            ->displayResponseToEveryoneOnChannel();
+        $key->notify(new KeyHasBeenGivenNotification($authUser, $user));
+
+        return $this->respondToSlack(
+            ":white_check_mark: Klucz nr {$key->id} został przekazany użytkownikowi <@{$user->profile->slack_id}>",
+        );
     }
 
-    protected function findUserBySlackId(string $slackId): User
+    protected function getRules(): array
     {
-        /** @var User $user */
-        $user = User::query()
-            ->whereRelation("profile", "slack_id", $slackId)
-            ->first();
+        return [
+            "user" => ["required", new SlackUserExistsRule()],
+        ];
+    }
 
-        return $user;
+    protected function getMessages(): array
+    {
+        return [
+            "user.required" => "Musisz podać użytkownika, któremu chcesz przekazać klucze",
+        ];
     }
 }
