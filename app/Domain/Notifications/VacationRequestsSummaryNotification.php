@@ -18,8 +18,7 @@ class VacationRequestsSummaryNotification extends Notification
     public function __construct(
         protected Carbon $day,
         protected Collection $vacationRequests,
-    ) {
-    }
+    ) {}
 
     public function via(): array
     {
@@ -46,14 +45,14 @@ class VacationRequestsSummaryNotification extends Notification
             ->greeting(
                 __("Hi :user!", [
                     "user" => $user,
-                ])
+                ]),
             )
             ->line("Lista wniosków oczekujących na Twoją akcję - stan na dzień {$this->day->toDisplayString()}:")
             ->subject("Wnioski oczekujące na akcje - stan na dzień {$this->day->toDisplayString()}");
 
         foreach ($this->vacationRequests as $request) {
             $message->line(
-                "Wniosek nr {$request->name} użytkownika {$request->user->profile->full_name} ({$request->from->toDisplayString()} - {$request->to->toDisplayString()})"
+                "Wniosek nr {$request->name} użytkownika {$request->user->profile->full_name} ({$request->from->toDisplayString()} - {$request->to->toDisplayString()})",
             );
         }
 
