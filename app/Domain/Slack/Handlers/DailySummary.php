@@ -33,13 +33,13 @@ class DailySummary extends SignatureHandler
             ->map(fn(User $user) => $user->profile->full_name);
 
         $absencesAttachment = Attachment::create()
-            ->setTitle("Nieobecności :palm_tree:")
+            ->setTitle("Nieobecności :sunny:")
             ->setColor("#eab308")
             ->setText($absences->isNotEmpty() ? $absences->implode("\n") : "Wszyscy dzisiaj pracują :muscle:");
 
         $remoteAttachment = Attachment::create()
             ->setTitle("Praca zdalna :house_with_garden:")
-            ->setColor("#d946ef")
+            ->setColor("#527aba")
             ->setText($remoteDays->isNotEmpty() ? $remoteDays->implode("\n") : "Wszyscy dzisiaj są w biurze :boom:");
 
         $birthdayAttachment = Attachment::create()

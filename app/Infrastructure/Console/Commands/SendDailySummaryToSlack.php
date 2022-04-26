@@ -43,7 +43,7 @@ class SendDailySummaryToSlack extends Command
 
         $remoteAttachment = Attachment::create()
             ->setTitle("Praca zdalna :house_with_garden:")
-            ->setColor("#d946ef")
+            ->setColor("#527aba")
             ->setText($remoteDays->isNotEmpty() ? $remoteDays->implode("\n") : "Wszyscy dzisiaj są w biurze :boom:");
 
         $birthdayAttachment = Attachment::create()

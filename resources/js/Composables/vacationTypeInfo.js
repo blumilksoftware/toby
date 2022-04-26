@@ -8,7 +8,7 @@ import HandHeartOutlineIcon from 'vue-material-design-icons/HandHeartOutline.vue
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
 import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
-import LaptopIcon from 'vue-material-design-icons/Laptop.vue'
+import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
 
 const types = [
   {
@@ -43,8 +43,8 @@ const types = [
     text: 'Urlop szkoleniowy',
     value: 'training_vacation',
     icon: HumanMaleBoardIcon,
-    color: 'text-blumilk-500',
-    border: 'border-blumilk-500',
+    color: 'text-indigo-500',
+    border: 'border-indigo-500',
   },
   {
     text: 'Urlop bezpłatny',
@@ -84,9 +84,9 @@ const types = [
   {
     text: 'Praca zdalna',
     value: 'home_office',
-    icon: LaptopIcon,
-    color: 'text-fuchsia-500',
-    border: 'border-fuchsia-500',
+    icon: HomeCityIcon,
+    color: 'text-blumilk-500',
+    border: 'border-blumilk-500',
   },
 ]
 
