@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack\Handlers;
+namespace Toby\Infrastructure\Slack\Handlers;
 
 use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
 use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
-use Toby\Domain\Slack\Exceptions\UserNotFoundException;
-use Toby\Domain\Slack\Rules\SlackUserExistsRule;
-use Toby\Domain\Slack\Traits\FindsUserBySlackId;
 use Toby\Eloquent\Models\Key;
+use Toby\Infrastructure\Slack\Exceptions\UserNotFoundException;
+use Toby\Infrastructure\Slack\Rules\SlackUserExistsRule;
+use Toby\Infrastructure\Slack\Traits\FindsUserBySlackId;
 
 class GiveKeysTo extends SignatureHandler
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack\Rules;
+namespace Toby\Infrastructure\Slack\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Str;

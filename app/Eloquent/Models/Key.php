@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
+use Toby\Domain\Notifications\Notifiable as NotifiableInterface;
 
 /**
  * @property int $id
  * @property User $user
  */
-class Key extends Model
+class Key extends Model implements NotifiableInterface
 {
     use HasFactory;
     use Notifiable;

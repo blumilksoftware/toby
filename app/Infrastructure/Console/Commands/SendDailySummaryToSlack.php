@@ -7,12 +7,13 @@ namespace Toby\Infrastructure\Console\Commands;
 use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Spatie\SlashCommand\Attachment;
 use Toby\Domain\DailySummaryRetriever;
 use Toby\Eloquent\Models\Holiday;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
+use Toby\Infrastructure\Slack\Elements\AbsencesAttachment;
+use Toby\Infrastructure\Slack\Elements\BirthdaysAttachment;
+use Toby\Infrastructure\Slack\Elements\RemotesAttachment;
 
 class SendDailySummaryToSlack extends Command
 {
@@ -27,40 +28,17 @@ class SendDailySummaryToSlack extends Command
             return;
         }
 
-        $absences = $dailySummaryRetriever->getAbsences($now)
-            ->map(fn(Vacation $vacation) => $vacation->user->profile->full_name);
+        $attachments = new Collection([
+            new AbsencesAttachment($dailySummaryRetriever->getAbsences($now)),
+            new RemotesAttachment($dailySummaryRetriever->getRemoteDays($now)),
+            new BirthdaysAttachment($dailySummaryRetriever->getBirthdays($now)),
+        ]);
 
-        $remoteDays = $dailySummaryRetriever->getRemoteDays($now)
-            ->map(fn(Vacation $vacation) => $vacation->user->profile->full_name);
-
-        $birthdays = $dailySummaryRetriever->getBirthdays($now)
-            ->map(fn(User $user) => $user->profile->full_name);
-
-        $absencesAttachment = Attachment::create()
-            ->setTitle("Nieobecności :palm_tree:")
-            ->setColor("#eab308")
-            ->setText($absences->isNotEmpty() ? $absences->implode("\n") : "Wszyscy dzisiaj pracują :muscle:");
-
-        $remoteAttachment = Attachment::create()
-            ->setTitle("Praca zdalna :house_with_garden:")
-            ->setColor("#527aba")
-            ->setText($remoteDays->isNotEmpty() ? $remoteDays->implode("\n") : "Wszyscy dzisiaj są w biurze :boom:");
-
-        $birthdayAttachment = Attachment::create()
-            ->setTitle("Urodziny :birthday:")
-            ->setColor("#3c5f97")
-            ->setText($birthdays->isNotEmpty() ? $birthdays->implode("\n") : "Dzisiaj nikt nie ma urodzin :cry:");
-
-        $baseUrl = config("services.slack.url");
-        $url = "{$baseUrl}/chat.postMessage";
-
-        Http::withToken(config("services.slack.client_token"))
-            ->post($url, [
-                "channel" => config("services.slack.default_channel"),
+        Http::withToken($this->getSlackClientToken())
+            ->post($this->getUrl(), [
+                "channel" => $this->getSlackChannel(),
                 "text" => "Podsumowanie dla dnia {$now->toDisplayString()}",
-                "attachments" => collect([$absencesAttachment, $remoteAttachment, $birthdayAttachment])->map(
-                    fn(Attachment $attachment) => $attachment->toArray(),
-                )->toArray(),
+                "attachments" => $attachments,
             ]);
     }
 
@@ -77,5 +55,25 @@ class SendDailySummaryToSlack extends Command
         }
 
         return true;
+    }
+
+    protected function getUrl(): string
+    {
+        return "{$this->getSlackBaseUrl()}/chat.postMessage";
+    }
+
+    protected function getSlackBaseUrl(): string
+    {
+        return config("services.slack.url");
+    }
+
+    protected function getSlackClientToken(): string
+    {
+        return config("services.slack.client_token");
+    }
+
+    protected function getSlackChannel(): string
+    {
+        return config("services.slack.default_channel");
     }
 }

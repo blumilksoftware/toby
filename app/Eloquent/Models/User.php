@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
+use Toby\Domain\Notifications\Notifiable as NotifiableInterface;
 
 /**
  * @property int $id
@@ -26,7 +27,7 @@ use Toby\Domain\Enums\Role;
  * @property Collection $vacationRequests
  * @property Collection $vacations
  */
-class User extends Authenticatable
+class User extends Authenticatable implements NotifiableInterface
 {
     use HasFactory;
     use Notifiable;
@@ -99,7 +100,7 @@ class User extends Authenticatable
             ->where("email", "ILIKE", "%{$text}%")
             ->orWhereRelation(
                 "profile",
-                fn(Builder $query) => $query
+                fn(Builder $query): Builder => $query
                     ->where("first_name", "ILIKE", "%{$text}%")
                     ->orWhere("last_name", "ILIKE", "%{$text}%"),
             );

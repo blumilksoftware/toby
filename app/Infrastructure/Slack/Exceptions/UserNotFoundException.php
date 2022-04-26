@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack\Exceptions;
+namespace Toby\Infrastructure\Slack\Exceptions;
 
 use Spatie\SlashCommand\Exceptions\SlackSlashCommandException;
 

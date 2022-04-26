@@ -64,6 +64,6 @@ class DoesNotExceedLimitRule implements VacationRequestRule
     {
         $types = VacationType::all();
 
-        return $types->filter(fn(VacationType $type) => $this->configRetriever->hasLimit($type));
+        return $types->filter(fn(VacationType $type): bool => $this->configRetriever->hasLimit($type));
     }
 }

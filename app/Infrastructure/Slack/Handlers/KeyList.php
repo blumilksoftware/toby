@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack\Handlers;
+namespace Toby\Infrastructure\Slack\Handlers;
 
-use Spatie\SlashCommand\Attachment;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
 use Toby\Eloquent\Models\Key;
+use Toby\Infrastructure\Slack\Elements\KeysAttachment;
 
 class KeyList extends SignatureHandler
 {
@@ -18,14 +18,9 @@ class KeyList extends SignatureHandler
     {
         $keys = Key::query()
             ->orderBy("id")
-            ->get()
-            ->map(fn(Key $key) => "Klucz nr {$key->id} - <@{$key->user->profile->slack_id}>");
+            ->get();
 
         return $this->respondToSlack("Lista kluczy :key:")
-            ->withAttachment(
-                Attachment::create()
-                    ->setColor("#3c5f97")
-                    ->setText($keys->isNotEmpty() ? $keys->implode("\n") : "Nie ma żadnych kluczy w tobym"),
-            );
+            ->withAttachment(new KeysAttachment($keys));
     }
 }

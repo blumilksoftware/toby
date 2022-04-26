@@ -30,7 +30,7 @@ class VacationLimitController extends Controller
             ->sortBy(fn(VacationLimit $limit): string => "{$limit->user->profile->last_name} {$limit->user->profile->first_name}")
             ->values();
 
-        $limitsResource = $limits->map(fn(VacationLimit $limit) => [
+        $limitsResource = $limits->map(fn(VacationLimit $limit): array => [
             "id" => $limit->id,
             "user" => new UserResource($limit->user),
             "hasVacation" => $limit->hasVacation(),

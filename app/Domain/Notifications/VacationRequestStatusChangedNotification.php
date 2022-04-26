@@ -22,7 +22,7 @@ class VacationRequestStatusChangedNotification extends Notification
 
     public function via(): array
     {
-        return ["mail", "slack"];
+        return [Channels::MAIL, Channels::SLACK];
     }
 
     public function toSlack(): string

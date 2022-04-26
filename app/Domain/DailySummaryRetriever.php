@@ -22,7 +22,9 @@ class DailySummaryRetriever
             ->with(["user", "vacationRequest"])
             ->whereDate("date", $date)
             ->approved()
-            ->whereTypes(VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)))
+            ->whereTypes(
+                VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
+            )
             ->get();
     }
 
@@ -32,7 +34,9 @@ class DailySummaryRetriever
             ->with(["user", "vacationRequest"])
             ->whereDate("date", $date)
             ->approved()
-            ->whereTypes(VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)))
+            ->whereTypes(
+                VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
+            )
             ->get();
     }
 

@@ -9,19 +9,19 @@ use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
-use Toby\Domain\Slack\Channels\SlackApiChannel;
+use Toby\Infrastructure\Slack\Channels\SlackApiChannel;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         Notification::resolved(function (ChannelManager $service): void {
-            $service->extend("slack", fn(Application $app) => $app->make(SlackApiChannel::class));
+            $service->extend("slack", fn(Application $app): SlackApiChannel => $app->make(SlackApiChannel::class));
         });
     }
 
     public function boot(): void
     {
-        Carbon::macro("toDisplayString", fn() => $this->translatedFormat("d.m.Y"));
+        Carbon::macro("toDisplayString", fn(): string => $this->translatedFormat("d.m.Y"));
     }
 }

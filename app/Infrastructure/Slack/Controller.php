@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack;
+namespace Toby\Infrastructure\Slack;
 
 use Exception;
 use Illuminate\Http\Request as IlluminateRequest;
@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Attachment;
 use Spatie\SlashCommand\Controller as SlackController;
+use Spatie\SlashCommand\Exceptions\InvalidRequest;
 use Spatie\SlashCommand\Exceptions\RequestCouldNotBeHandled;
 use Spatie\SlashCommand\Exceptions\SlackSlashCommandException;
 use Spatie\SlashCommand\Response;
@@ -18,11 +19,11 @@ use Spatie\SlashCommand\Response;
 class Controller extends SlackController
 {
     /**
-     * @throws RequestCouldNotBeHandled
+     * @throws InvalidRequest|RequestCouldNotBeHandled
      */
     public function getResponse(IlluminateRequest $request): IlluminateResponse
     {
-        $this->guardAgainstInvalidRequest($request);
+        $this->verifyWithSigning($request);
 
         $handler = $this->determineHandler();
 
@@ -43,13 +44,13 @@ class Controller extends SlackController
     {
         $errors = (new Collection($exception->errors()))
             ->map(
-                fn(array $message) => Attachment::create()
+                fn(array $message): Attachment => Attachment::create()
                     ->setColor("danger")
                     ->setText($message[0]),
             );
 
         return Response::create($this->request)
-            ->withText(":x: Komenda `/{$this->request->command} {$this->request->text}` jest niepoprawna:")
+            ->withText(":x: Polecenie `/{$this->request->command} {$this->request->text}` jest niepoprawna:")
             ->withAttachments($errors->all());
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack\Handlers;
+namespace Toby\Infrastructure\Slack\Handlers;
 
 use Illuminate\Support\Facades\Validator;
 use Spatie\SlashCommand\Handlers\SignatureHandler as BaseSignatureHandler;

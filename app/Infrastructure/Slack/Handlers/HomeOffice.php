@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Toby\Domain\Slack\Handlers;
+namespace Toby\Infrastructure\Slack\Handlers;
 
 use Illuminate\Support\Carbon;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
 use Toby\Domain\Actions\VacationRequest\CreateAction;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\Slack\Traits\FindsUserBySlackId;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
+use Toby\Infrastructure\Slack\Traits\FindsUserBySlackId;
 
 class HomeOffice extends SignatureHandler
 {

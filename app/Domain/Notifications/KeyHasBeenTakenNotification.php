@@ -19,10 +19,10 @@ class KeyHasBeenTakenNotification extends Notification
 
     public function via(): array
     {
-        return ["slack"];
+        return [Channels::SLACK];
     }
 
-    public function toSlack($notifiable): string
+    public function toSlack(Notifiable $notifiable): string
     {
         return __(":recipient takes key no :key from :sender", [
             "recipient" => $this->getName($this->recipient),

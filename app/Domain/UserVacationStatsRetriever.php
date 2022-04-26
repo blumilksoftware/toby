@@ -42,8 +42,8 @@ class UserVacationStatsRetriever
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
             ->get()
-            ->groupBy(fn(Vacation $vacation) => strtolower($vacation->date->englishMonth))
-            ->map(fn(Collection $items) => $items->count());
+            ->groupBy(fn(Vacation $vacation): string => strtolower($vacation->date->englishMonth))
+            ->map(fn(Collection $items): int => $items->count());
     }
 
     public function getPendingVacationDays(User $user, YearPeriod $yearPeriod): int
@@ -107,13 +107,13 @@ class UserVacationStatsRetriever
     {
         $types = VacationType::all();
 
-        return $types->filter(fn(VacationType $type) => $this->configRetriever->hasLimit($type));
+        return $types->filter(fn(VacationType $type): bool => $this->configRetriever->hasLimit($type));
     }
 
     protected function getNotLimitableVacationTypes(): Collection
     {
         $types = VacationType::all();
 
-        return $types->filter(fn(VacationType $type) => !$this->configRetriever->hasLimit($type));
+        return $types->filter(fn(VacationType $type): bool => !$this->configRetriever->hasLimit($type));
     }
 }
