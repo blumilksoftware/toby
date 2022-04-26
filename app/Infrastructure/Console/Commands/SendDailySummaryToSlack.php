@@ -62,17 +62,17 @@ class SendDailySummaryToSlack extends Command
         return "{$this->getSlackBaseUrl()}/chat.postMessage";
     }
 
-    protected function getSlackBaseUrl(): string
+    protected function getSlackBaseUrl(): ?string
     {
         return config("services.slack.url");
     }
 
-    protected function getSlackClientToken(): string
+    protected function getSlackClientToken(): ?string
     {
         return config("services.slack.client_token");
     }
 
-    protected function getSlackChannel(): string
+    protected function getSlackChannel(): ?string
     {
         return config("services.slack.default_channel");
     }
