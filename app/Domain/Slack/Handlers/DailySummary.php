@@ -24,13 +24,13 @@ class DailySummary extends SignatureHandler
         $now = Carbon::today();
 
         $absences = $dailySummaryRetriever->getAbsences($now)
-            ->map(fn(Vacation $vacation) => $vacation->user->profile->full_name);
+            ->map(fn(Vacation $vacation): string => $vacation->user->profile->full_name);
 
         $remoteDays = $dailySummaryRetriever->getRemoteDays($now)
-            ->map(fn(Vacation $vacation) => $vacation->user->profile->full_name);
+            ->map(fn(Vacation $vacation): string => $vacation->user->profile->full_name);
 
         $birthdays = $dailySummaryRetriever->getBirthdays($now)
-            ->map(fn(User $user) => $user->profile->full_name);
+            ->map(fn(User $user): string => $user->profile->full_name);
 
         $absencesAttachment = Attachment::create()
             ->setTitle("Nieobecności :sunny:")
