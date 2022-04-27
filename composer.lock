@@ -7529,21 +7529,21 @@
     "packages-dev": [
         {
             "name": "blumilksoftware/codestyle",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blumilksoftware/codestyle.git",
-                "reference": "e86ebcd5175bc435d9c8d4f83bf201a6f5a9fc60"
+                "reference": "3f2248859562afe7d7b2b16aa25e83dc73236fcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/e86ebcd5175bc435d9c8d4f83bf201a6f5a9fc60",
-                "reference": "e86ebcd5175bc435d9c8d4f83bf201a6f5a9fc60",
+                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/3f2248859562afe7d7b2b16aa25e83dc73236fcc",
+                "reference": "3f2248859562afe7d7b2b16aa25e83dc73236fcc",
                 "shasum": ""
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.8.0",
-                "kubawerlos/php-cs-fixer-custom-fixers": "^3.7",
+                "kubawerlos/php-cs-fixer-custom-fixers": "^3.10.1",
                 "php": "^8.0"
             },
             "require-dev": {
@@ -7551,6 +7551,9 @@
                 "phpunit/phpunit": "^9.5",
                 "symfony/console": "^6.0"
             },
+            "bin": [
+                "bin/codestyle"
+            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -7570,9 +7573,9 @@
             "description": "Blumilk codestyle configurator",
             "support": {
                 "issues": "https://github.com/blumilksoftware/codestyle/issues",
-                "source": "https://github.com/blumilksoftware/codestyle/tree/v1.0.1"
+                "source": "https://github.com/blumilksoftware/codestyle/tree/v1.1.0"
             },
-            "time": "2022-04-04T06:25:21+00:00"
+            "time": "2022-04-25T06:04:51+00:00"
         },
         {
             "name": "composer/pcre",
@@ -10931,5 +10934,5 @@
         "ext-redis": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
