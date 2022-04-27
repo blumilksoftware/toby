@@ -50,7 +50,7 @@ class Controller extends SlackController
             );
 
         return Response::create($this->request)
-            ->withText(":x: Polecenie `/{$this->request->command} {$this->request->text}` jest niepoprawna:")
+            ->withText(":x: Polecenie `/{$this->request->command} {$this->request->text}` jest niepoprawne:")
             ->withAttachments($errors->all());
     }
 }
