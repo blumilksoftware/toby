@@ -59,6 +59,7 @@ class SendVacationRequestSummariesTest extends TestCase
             ->execute();
 
         Notification::assertSentTo([$technicalApprover, $admin], VacationRequestsSummaryNotification::class);
+        Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestsSummaryNotification::class);
     }
 
     public function testSummariesAreSentOnlyIfVacationRequestWaitingForActionExists(): void
@@ -84,6 +85,7 @@ class SendVacationRequestSummariesTest extends TestCase
             ->execute();
 
         Notification::assertSentTo([$technicalApprover, $admin], VacationRequestsSummaryNotification::class);
+        Notification::assertNotSentTo([$user], VacationRequestsSummaryNotification::class);
     }
 
     public function testSummariesAreNotSentIfThereAreNoWaitingForActionVacationRequests(): void
@@ -123,6 +125,6 @@ class SendVacationRequestSummariesTest extends TestCase
         $this->artisan(SendVacationRequestSummariesToApprovers::class)
             ->execute();
 
-        Notification::assertNotSentTo([$technicalApprover, $admin], VacationRequestsSummaryNotification::class);
+        Notification::assertNotSentTo([$user, $technicalApprover, $admin], VacationRequestsSummaryNotification::class);
     }
 }
