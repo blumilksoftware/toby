@@ -32,7 +32,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
-        return fn() => [
+        return fn(): array => [
             "user" => $user ? new UserResource($user) : null,
             "can" => [
                 "manageVacationLimits" => $user ? $user->can("manageVacationLimits") : false,
@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
 
     protected function getFlashData(Request $request): Closure
     {
-        return fn() => [
+        return fn(): array => [
             "success" => $request->session()->get("success"),
             "error" => $request->session()->get("error"),
             "info" => $request->session()->get("info"),

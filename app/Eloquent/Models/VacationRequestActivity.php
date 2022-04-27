@@ -22,7 +22,6 @@ class VacationRequestActivity extends Model
     use HasFactory;
 
     protected $guarded = [];
-
     protected $casts = [
         "from" => VacationRequestState::class,
         "to" => VacationRequestState::class,

@@ -16,7 +16,6 @@ class ExceptionHandler extends Handler
         "password",
         "password_confirmation",
     ];
-
     protected array $handleByInertia = [
         Response::HTTP_INTERNAL_SERVER_ERROR,
         Response::HTTP_SERVICE_UNAVAILABLE,

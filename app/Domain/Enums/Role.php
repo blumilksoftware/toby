@@ -21,7 +21,7 @@ enum Role: string
         $cases = collect(Role::cases());
 
         return $cases->map(
-            fn(Role $enum) => [
+            fn(Role $enum): array => [
                 "label" => $enum->label(),
                 "value" => $enum->value,
             ],

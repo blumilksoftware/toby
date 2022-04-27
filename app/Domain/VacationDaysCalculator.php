@@ -11,9 +11,10 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class VacationDaysCalculator
 {
-    public function calculateDays(YearPeriod $yearPeriod, CarbonInterface $from, CarbonInterface $to): Collection
+    public function calculateDays(CarbonInterface $from, CarbonInterface $to): Collection
     {
         $period = CarbonPeriod::create($from, $to);
+        $yearPeriod = YearPeriod::findByYear($from->year);
         $holidays = $yearPeriod->holidays()->pluck("date");
 
         $validDays = new Collection();

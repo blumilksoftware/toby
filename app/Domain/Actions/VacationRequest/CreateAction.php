@@ -53,7 +53,6 @@ class CreateAction
         $vacationRequest->save();
 
         $days = $this->vacationDaysCalculator->calculateDays(
-            $vacationRequest->yearPeriod,
             $vacationRequest->from,
             $vacationRequest->to,
         );

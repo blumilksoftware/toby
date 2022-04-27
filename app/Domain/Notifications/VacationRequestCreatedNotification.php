@@ -20,7 +20,17 @@ class VacationRequestCreatedNotification extends Notification
 
     public function via(): array
     {
-        return ["mail"];
+        return [Channels::MAIL, Channels::SLACK];
+    }
+
+    public function toSlack(): string
+    {
+        $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
+
+        return implode("\n", [
+            $this->buildDescription(),
+            "<${url}|Zobacz szczegóły>",
+        ]);
     }
 
     /**
@@ -80,18 +90,16 @@ class VacationRequestCreatedNotification extends Notification
     protected function buildDescription(): string
     {
         $name = $this->vacationRequest->name;
-        $appName = config("app.name");
 
         if ($this->vacationRequest->creator()->is($this->vacationRequest->user)) {
-            return __("The vacation request :title has been created correctly in the :appName.", [
+            return __("The vacation request :title from user :user has been created successfully.", [
+                "user" => $this->vacationRequest->user->profile->full_name,
                 "title" => $name,
-                "appName" => $appName,
             ]);
         }
 
-        return __("The vacation request :title has been created correctly by user :creator on your behalf in the :appName.", [
+        return __("The vacation request :title has been created successfully by user :creator on your behalf.", [
             "title" => $this->vacationRequest->name,
-            "appName" => $appName,
             "creator" => $this->vacationRequest->creator->profile->full_name,
         ]);
     }

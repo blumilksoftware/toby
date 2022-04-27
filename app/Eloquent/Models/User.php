@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
+use Toby\Domain\Notifications\Notifiable as NotifiableInterface;
 
 /**
  * @property int $id
@@ -26,25 +27,22 @@ use Toby\Domain\Enums\Role;
  * @property Collection $vacationRequests
  * @property Collection $vacations
  */
-class User extends Authenticatable
+class User extends Authenticatable implements NotifiableInterface
 {
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
 
     protected $guarded = [];
-
     protected $casts = [
         "role" => Role::class,
         "last_active_at" => "datetime",
         "employment_form" => EmploymentForm::class,
         "employment_date" => "date",
     ];
-
     protected $hidden = [
         "remember_token",
     ];
-
     protected $with = [
         "profile",
     ];
@@ -102,7 +100,7 @@ class User extends Authenticatable
             ->where("email", "ILIKE", "%{$text}%")
             ->orWhereRelation(
                 "profile",
-                fn(Builder $query) => $query
+                fn(Builder $query): Builder => $query
                     ->where("first_name", "ILIKE", "%{$text}%")
                     ->orWhere("last_name", "ILIKE", "%{$text}%"),
             );
@@ -123,6 +121,11 @@ class User extends Authenticatable
                 ->whereBelongsTo($yearPeriod)
                 ->whereNotNull("days"),
         );
+    }
+
+    public function routeNotificationForSlack()
+    {
+        return $this->profile->slack_id;
     }
 
     protected static function newFactory(): UserFactory
