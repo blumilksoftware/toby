@@ -10,12 +10,12 @@ use Toby\Eloquent\Models\VacationRequest;
 class MinimumOneVacationDayRule implements VacationRequestRule
 {
     public function __construct(
-        protected WorkDaysCalculator $vacationDaysCalculator,
+        protected WorkDaysCalculator $workDaysCalculator,
     ) {}
 
     public function check(VacationRequest $vacationRequest): bool
     {
-        return $this->vacationDaysCalculator
+        return $this->workDaysCalculator
             ->calculateDays($vacationRequest->from, $vacationRequest->to)
             ->isNotEmpty();
     }

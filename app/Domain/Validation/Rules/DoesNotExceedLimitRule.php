@@ -18,7 +18,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
-        protected WorkDaysCalculator $vacationDaysCalculator,
+        protected WorkDaysCalculator $workDaysCalculator,
     ) {}
 
     public function check(VacationRequest $vacationRequest): bool
@@ -29,7 +29,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
 
         $limit = $this->getUserVacationLimit($vacationRequest->user, $vacationRequest->yearPeriod);
         $vacationDays = $this->getVacationDaysWithLimit($vacationRequest->user, $vacationRequest->yearPeriod);
-        $estimatedDays = $this->vacationDaysCalculator
+        $estimatedDays = $this->workDaysCalculator
             ->calculateDays($vacationRequest->from, $vacationRequest->to)
             ->count();
 

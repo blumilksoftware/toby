@@ -19,7 +19,7 @@ class CreateAction
         protected VacationRequestStateManager $stateManager,
         protected VacationRequestValidator $vacationRequestValidator,
         protected VacationTypeConfigRetriever $configRetriever,
-        protected WorkDaysCalculator $vacationDaysCalculator,
+        protected WorkDaysCalculator $workDaysCalculator,
         protected WaitForTechApprovalAction $waitForTechApprovalAction,
         protected WaitForAdminApprovalAction $waitForAdminApprovalAction,
         protected ApproveAction $approveAction,
@@ -52,7 +52,7 @@ class CreateAction
 
         $vacationRequest->save();
 
-        $days = $this->vacationDaysCalculator->calculateDays($vacationRequest->from, $vacationRequest->to);
+        $days = $this->workDaysCalculator->calculateDays($vacationRequest->from, $vacationRequest->to);
 
         foreach ($days as $day) {
             $vacationRequest->vacations()->create([
