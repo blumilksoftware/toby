@@ -17,11 +17,12 @@ class SlackApiChannel
         $url = "{$baseUrl}/chat.postMessage";
         $channel = $notifiable->routeNotificationFor("slack", $notification);
 
+        $message = $notification->toSlack($notifiable);
+
         return Http::withToken($this->getClientToken())
-            ->post($url, [
+            ->post($url, array_merge($message->getPayload(), [
                 "channel" => $channel,
-                "text" => $notification->toSlack($notifiable),
-            ]);
+            ]));
     }
 
     protected function getClientToken(): string

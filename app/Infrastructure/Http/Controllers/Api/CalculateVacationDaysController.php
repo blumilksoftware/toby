@@ -6,13 +6,13 @@ namespace Toby\Infrastructure\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
-use Toby\Domain\VacationDaysCalculator;
+use Toby\Domain\WorkDaysCalculator;
 use Toby\Infrastructure\Http\Controllers\Controller;
 use Toby\Infrastructure\Http\Requests\Api\CalculateVacationDaysRequest;
 
 class CalculateVacationDaysController extends Controller
 {
-    public function __invoke(CalculateVacationDaysRequest $request, VacationDaysCalculator $calculator): JsonResponse
+    public function __invoke(CalculateVacationDaysRequest $request, WorkDaysCalculator $calculator): JsonResponse
     {
         $days = $calculator->calculateDays($request->from(), $request->to());
 

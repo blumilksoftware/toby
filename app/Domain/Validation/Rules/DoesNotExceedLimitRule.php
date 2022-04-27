@@ -7,9 +7,9 @@ namespace Toby\Domain\Validation\Rules;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
@@ -18,7 +18,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
-        protected VacationDaysCalculator $vacationDaysCalculator,
+        protected WorkDaysCalculator $workDaysCalculator,
     ) {}
 
     public function check(VacationRequest $vacationRequest): bool
@@ -29,7 +29,9 @@ class DoesNotExceedLimitRule implements VacationRequestRule
 
         $limit = $this->getUserVacationLimit($vacationRequest->user, $vacationRequest->yearPeriod);
         $vacationDays = $this->getVacationDaysWithLimit($vacationRequest->user, $vacationRequest->yearPeriod);
-        $estimatedDays = $this->vacationDaysCalculator->calculateDays($vacationRequest->from, $vacationRequest->to)->count();
+        $estimatedDays = $this->workDaysCalculator
+            ->calculateDays($vacationRequest->from, $vacationRequest->to)
+            ->count();
 
         return $limit >= ($vacationDays + $estimatedDays);
     }

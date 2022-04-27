@@ -9,6 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
 class VacationRequestCreatedNotification extends Notification
 {
@@ -23,14 +24,12 @@ class VacationRequestCreatedNotification extends Notification
         return [Channels::MAIL, Channels::SLACK];
     }
 
-    public function toSlack(): string
+    public function toSlack(): SlackMessage
     {
         $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
 
-        return implode("\n", [
-            $this->buildDescription(),
-            "<${url}|Zobacz szczegóły>",
-        ]);
+        return (new SlackMessage())
+            ->text("{$this->buildDescription()}\n <${url}|Zobacz szczegóły>");
     }
 
     /**
@@ -56,19 +55,25 @@ class VacationRequestCreatedNotification extends Notification
         $days = $this->vacationRequest->vacations()->count();
 
         return (new MailMessage())
-            ->greeting(__("Hi :user!", [
-                "user" => $user,
-            ]))
+            ->greeting(
+                __("Hi :user!", [
+                    "user" => $user,
+                ]),
+            )
             ->subject($this->buildSubject())
             ->line($this->buildDescription())
-            ->line(__("Vacation type: :type", [
-                "type" => $type,
-            ]))
-            ->line(__("From :from to :to (number of days: :days)", [
-                "from" => $from,
-                "to" => $to,
-                "days" => $days,
-            ]))
+            ->line(
+                __("Vacation type: :type", [
+                    "type" => $type,
+                ]),
+            )
+            ->line(
+                __("From :from to :to (number of days: :days)", [
+                    "from" => $from,
+                    "to" => $to,
+                    "days" => $days,
+                ]),
+            )
             ->action(__("Click here for details"), $url);
     }
 

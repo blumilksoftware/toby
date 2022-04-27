@@ -7,6 +7,7 @@ namespace Toby\Domain\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Toby\Eloquent\Models\User;
+use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
 class KeyHasBeenTakenNotification extends Notification
 {
@@ -22,13 +23,14 @@ class KeyHasBeenTakenNotification extends Notification
         return [Channels::SLACK];
     }
 
-    public function toSlack(Notifiable $notifiable): string
+    public function toSlack(Notifiable $notifiable): SlackMessage
     {
-        return __(":recipient takes key no :key from :sender", [
-            "recipient" => $this->getName($this->recipient),
-            "sender" => $this->getName($this->sender),
-            "key" => $notifiable->id,
-        ]);
+        return (new SlackMessage())
+            ->text(__(":recipient takes key no :key from :sender", [
+                "recipient" => $this->getName($this->recipient),
+                "sender" => $this->getName($this->sender),
+                "key" => $notifiable->id,
+            ]));
     }
 
     protected function getName(User $user): string

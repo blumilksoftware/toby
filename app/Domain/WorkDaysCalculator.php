@@ -9,7 +9,7 @@ use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 use Toby\Eloquent\Models\YearPeriod;
 
-class VacationDaysCalculator
+class WorkDaysCalculator
 {
     public function calculateDays(CarbonInterface $from, CarbonInterface $to): Collection
     {
