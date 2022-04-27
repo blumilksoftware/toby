@@ -86,7 +86,7 @@ class SendVacationRequestSummariesTest extends TestCase
         Notification::assertSentTo([$technicalApprover, $admin], VacationRequestsSummaryNotification::class);
     }
 
-    public function testSummariesAreNotSendIfTherAreNoWaitingForActionVacationRequests(): void
+    public function testSummariesAreNotSentIfThereAreNoWaitingForActionVacationRequests(): void
     {
         $currentYearPeriod = YearPeriod::current();
 
