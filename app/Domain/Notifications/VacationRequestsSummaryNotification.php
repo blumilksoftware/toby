@@ -10,6 +10,8 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Eloquent\Models\User;
+use Toby\Infrastructure\Slack\Elements\SlackMessage;
+use Toby\Infrastructure\Slack\Elements\VacationRequestsAttachment;
 
 class VacationRequestsSummaryNotification extends Notification
 {
@@ -22,7 +24,14 @@ class VacationRequestsSummaryNotification extends Notification
 
     public function via(): array
     {
-        return ["mail"];
+        return [Channels::MAIL, Channels::SLACK];
+    }
+
+    public function toSlack(): SlackMessage
+    {
+        return (new SlackMessage())
+            ->text("Lista wniosków oczekujących na Twoją akcję - stan na dzień {$this->day->toDisplayString()}:")
+            ->withAttachment(new VacationRequestsAttachment($this->vacationRequests));
     }
 
     public function toMail($notifiable): MailMessage

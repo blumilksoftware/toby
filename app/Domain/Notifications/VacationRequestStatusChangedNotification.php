@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
 class VacationRequestStatusChangedNotification extends Notification
 {
@@ -25,14 +26,12 @@ class VacationRequestStatusChangedNotification extends Notification
         return [Channels::MAIL, Channels::SLACK];
     }
 
-    public function toSlack(): string
+    public function toSlack(): SlackMessage
     {
         $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
 
-        return implode("\n", [
-            $this->buildDescription(),
-            "<${url}|Zobacz szczegóły>",
-        ]);
+        return (new SlackMessage())
+            ->text("{$this->buildDescription()}\n <${url}|Zobacz szczegóły>");
     }
 
     /**
