@@ -30,7 +30,7 @@ class VacationRequestsSummaryNotification extends Notification
     public function toSlack(): SlackMessage
     {
         return (new SlackMessage())
-            ->text("Lista wniosków oczekujących na Twoją akcję - stan na dzień {$this->day->toDisplayString()}:")
+            ->text("Wnioski oczekujące na Twoją akcję - stan na dzień {$this->day->toDisplayString()}:")
             ->withAttachment(new VacationRequestsAttachment($this->vacationRequests));
     }
 
