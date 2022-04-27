@@ -77,7 +77,7 @@
               </dt>
               <dd
                 v-if="request.comment != null"
-                class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
+                class="mt-1 text-sm text-gray-900 break-all sm:col-span-2 sm:mt-0"
               >
                 {{ request.comment }}
               </dd>
