@@ -9,7 +9,6 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 use Toby\Infrastructure\Slack\Elements\VacationRequestsAttachment;
 
@@ -34,7 +33,7 @@ class VacationRequestsSummaryNotification extends Notification
             ->withAttachment(new VacationRequestsAttachment($this->vacationRequests));
     }
 
-    public function toMail($notifiable): MailMessage
+    public function toMail(Notifiable $notifiable): MailMessage
     {
         $url = route(
             "vacation.requests.indexForApprovers",
@@ -46,9 +45,9 @@ class VacationRequestsSummaryNotification extends Notification
         return $this->buildMailMessage($notifiable, $url);
     }
 
-    protected function buildMailMessage(User $user, string $url): MailMessage
+    protected function buildMailMessage(Notifiable $notifiable, string $url): MailMessage
     {
-        $user = $user->profile->first_name;
+        $user = $notifiable->profile->first_name;
 
         $message = (new MailMessage())
             ->greeting(
