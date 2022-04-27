@@ -8,6 +8,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
+use Toby\Domain\Notifications\KeyHasBeenTakenNotification;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Http\Requests\GiveKeyRequest;
@@ -60,6 +62,8 @@ class KeysController extends Controller
 
         $key->save();
 
+        $key->notify(new KeyHasBeenTakenNotification($request->user(), $previousUser));
+
         return redirect()
             ->back()
             ->with("success", __("Key no :number has been taken from :user.", [
@@ -80,6 +84,8 @@ class KeysController extends Controller
         $key->user()->associate($recipient);
 
         $key->save();
+
+        $key->notify(new KeyHasBeenGivenNotification($request->user(), $recipient));
 
         return redirect()
             ->back()

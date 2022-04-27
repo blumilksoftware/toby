@@ -193,8 +193,8 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
             ->get()
             ->groupBy(
                 [
-                    fn(Vacation $vacation) => $vacation->date->toDateString(),
-                    fn(Vacation $vacation) => $vacation->vacationRequest->type->value,
+                    fn(Vacation $vacation): string => $vacation->date->toDateString(),
+                    fn(Vacation $vacation): string => $vacation->vacationRequest->type->value,
                 ],
             );
     }

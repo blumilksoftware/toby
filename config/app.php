@@ -37,12 +37,12 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         Toby\Architecture\Providers\AppServiceProvider::class,
         Toby\Architecture\Providers\AuthServiceProvider::class,
         Toby\Architecture\Providers\EventServiceProvider::class,
         Toby\Architecture\Providers\RouteServiceProvider::class,
         Toby\Architecture\Providers\TelescopeServiceProvider::class,
         Toby\Architecture\Providers\ObserverServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 ];

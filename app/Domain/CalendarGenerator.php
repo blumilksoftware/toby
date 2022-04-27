@@ -57,6 +57,6 @@ class CalendarGenerator
             ->approved()
             ->with("vacationRequest")
             ->get()
-            ->groupBy(fn(Vacation $vacation) => $vacation->date->toDateString());
+            ->groupBy(fn(Vacation $vacation): string => $vacation->date->toDateString());
     }
 }

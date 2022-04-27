@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Eloquent\Models\Key;
@@ -13,6 +14,13 @@ use Toby\Eloquent\Models\User;
 class KeyTest extends FeatureTestCase
 {
     use DatabaseMigrations;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Notification::fake();
+    }
 
     public function testUserCanSeeKeyList(): void
     {

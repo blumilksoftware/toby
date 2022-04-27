@@ -30,7 +30,7 @@ enum VacationType: string
         $cases = VacationType::all();
 
         return $cases->map(
-            fn(VacationType $enum) => [
+            fn(VacationType $enum): array => [
                 "label" => $enum->label(),
                 "value" => $enum->value,
             ],

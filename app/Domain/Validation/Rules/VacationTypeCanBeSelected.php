@@ -19,7 +19,7 @@ class VacationTypeCanBeSelected implements VacationRequestRule
         $employmentForm = $vacationRequest->user->profile->employment_form;
 
         $availableTypes = VacationType::all()
-            ->filter(fn(VacationType $type) => $this->configRetriever->isAvailableFor($type, $employmentForm));
+            ->filter(fn(VacationType $type): bool => $this->configRetriever->isAvailableFor($type, $employmentForm));
 
         return $availableTypes->contains($vacationRequest->type);
     }

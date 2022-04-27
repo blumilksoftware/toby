@@ -16,6 +16,6 @@ class CalculateVacationDaysController extends Controller
     {
         $days = $calculator->calculateDays($request->from(), $request->to());
 
-        return new JsonResponse($days->map(fn(Carbon $day) => $day->toDateString())->all());
+        return new JsonResponse($days->map(fn(Carbon $day): string => $day->toDateString())->all());
     }
 }

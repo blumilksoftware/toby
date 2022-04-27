@@ -26,7 +26,7 @@ class PolishHolidaysRetriever
 
     protected function prepareHolidays(array $holidays): Collection
     {
-        return collect($holidays)->map(fn(Holiday $holiday) => [
+        return collect($holidays)->map(fn(Holiday $holiday): array => [
             "name" => $holiday->getName([static::LANG_KEY]),
             "date" => Carbon::createFromTimestamp($holiday->getTimestamp()),
         ])->values();
