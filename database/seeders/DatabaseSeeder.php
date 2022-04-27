@@ -71,7 +71,6 @@ class DatabaseSeeder extends Seeder
                 ])
                 ->afterCreating(function (VacationRequest $vacationRequest): void {
                     $days = app(WorkDaysCalculator::class)->calculateDays(
-                        $vacationRequest->yearPeriod,
                         $vacationRequest->from,
                         $vacationRequest->to,
                     );

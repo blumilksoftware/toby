@@ -165,7 +165,6 @@ class DemoSeeder extends Seeder
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(WorkDaysCalculator::class)->calculateDays(
-                    $vacationRequest->yearPeriod,
                     $vacationRequest->from,
                     $vacationRequest->to,
                 );
@@ -235,7 +234,6 @@ class DemoSeeder extends Seeder
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(WorkDaysCalculator::class)->calculateDays(
-                    $vacationRequest->yearPeriod,
                     $vacationRequest->from,
                     $vacationRequest->to,
                 );
@@ -292,7 +290,6 @@ class DemoSeeder extends Seeder
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(WorkDaysCalculator::class)->calculateDays(
-                    $vacationRequest->yearPeriod,
                     $vacationRequest->from,
                     $vacationRequest->to,
                 );
