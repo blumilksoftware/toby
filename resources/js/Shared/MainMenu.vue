@@ -295,6 +295,7 @@ import {
   DocumentTextIcon,
   AdjustmentsIcon,
   KeyIcon,
+  TemplateIcon,
 } from '@heroicons/vue/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
@@ -372,6 +373,13 @@ const navigation = computed(() =>
       icon: KeyIcon,
       can: true,
     },
+    {
+      name: 'CV',
+      href: '/resumes',
+      section: 'Resumes',
+      icon: TemplateIcon,
+      can: true,
+    }
 
   ].filter(item => item.can))
 </script>

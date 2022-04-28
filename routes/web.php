@@ -10,6 +10,7 @@ use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\KeysController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
+use Toby\Infrastructure\Http\Controllers\ResumeController;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
 use Toby\Infrastructure\Http\Controllers\TimesheetController;
 use Toby\Infrastructure\Http\Controllers\UserController;
@@ -33,6 +34,9 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::resource("holidays", HolidayController::class)
         ->except("show")
         ->whereNumber("holiday");
+
+    Route::resource("resumes", ResumeController::class)
+        ->whereNumber("resume");
 
     Route::get("/keys", [KeysController::class, "index"]);
     Route::post("/keys", [KeysController::class, "store"]);
