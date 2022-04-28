@@ -664,13 +664,6 @@ const levels = [
     backgroundColor: 'bg-blumilk-100',
     textColor: 'text-blumilk-400',
   },
-  {
-    index: 5,
-    name: 'xD',
-    activeColor: 'bg-black',
-    backgroundColor: 'bg-gray-400',
-    textColor: 'text-black',
-  },
 ]
 
 const form = useForm({
