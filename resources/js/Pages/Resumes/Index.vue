@@ -20,46 +20,46 @@
       <div class="overflow-auto xl:overflow-visible">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
-          <tr>
-            <th
-              scope="col"
-              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-            >
-              Pracownik
-            </th>
-            <th
-              scope="col"
-              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-            >
-              Data
-            </th>
-            <th
-              scope="col"
-              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-            >
-              Dzień tygodnia
-            </th>
-            <th
-              scope="col"
-              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-            />
-          </tr>
+            <tr>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Pracownik
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Data
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Dzień tygodnia
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              />
+            </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-100">
-          <tr>
-            <!--              v-for="holiday in holidays.data"-->
-            <!--              :key="holiday.id"-->
-            <!--              :class="[holiday.isPast ? 'bg-gray-100' : 'hover:bg-blumilk-25']"-->
-            <td class="p-4 text-sm font-semibold text-gray-700 capitalize whitespace-nowrap">
-              Jan Kowalski
-            </td>
-            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-              xd
-            </td>
-            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-              xd
-            </td>
-            <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
+            <tr>
+              <!--              v-for="holiday in holidays.data"-->
+              <!--              :key="holiday.id"-->
+              <!--              :class="[holiday.isPast ? 'bg-gray-100' : 'hover:bg-blumilk-25']"-->
+              <td class="p-4 text-sm font-semibold text-gray-700 capitalize whitespace-nowrap">
+                Jan Kowalski
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                xd
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                xd
+              </td>
+              <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
               <!--                <Menu-->
               <!--                  v-if="true"-->
               <!--                  as="div"-->
@@ -111,16 +111,16 @@
               <!--                    </MenuItems>-->
               <!--                  </transition>-->
               <!--                </Menu>-->
-            </td>
-          </tr>
-          <tr v-if="!true">
-            <td
-              colspan="100%"
-              class="py-4 text-xl leading-5 text-center text-gray-700"
-            >
-              Brak danych
-            </td>
-          </tr>
+              </td>
+            </tr>
+            <tr v-if="!true">
+              <td
+                colspan="100%"
+                class="py-4 text-xl leading-5 text-center text-gray-700"
+              >
+                Brak danych
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

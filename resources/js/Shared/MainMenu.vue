@@ -379,7 +379,7 @@ const navigation = computed(() =>
       section: 'Resumes',
       icon: TemplateIcon,
       can: true,
-    }
+    },
 
   ].filter(item => item.can))
 </script>
