@@ -1,5 +1,4 @@
 module.exports = {
-  plugins: ['tailwindcss'],
   env: {
     node: true,
     'vue/setup-compiler-macros': true,
@@ -16,10 +15,5 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'object-curly-spacing': ['error', 'always'],
     'vue/require-default-prop': 0,
-    'tailwindcss/classnames-order': 'error',
-    'tailwindcss/enforces-negative-arbitrary-values': 'error',
-    'tailwindcss/enforces-shorthand': 'error',
-    'tailwindcss/no-arbitrary-value': 'error',
-    'tailwindcss/no-contradicting-classname': 'error',
   },
 }
