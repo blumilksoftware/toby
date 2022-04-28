@@ -25,7 +25,7 @@
         "spatie/laravel-slack-slash-command": "^1.11"
     },
     "require-dev": {
-        "blumilksoftware/codestyle": "^1.0.0",
+        "blumilksoftware/codestyle": "^1.2.0",
         "fakerphp/faker": "^1.19",
         "laravel/dusk": "^6.21",
         "mockery/mockery": "^1.4.4",
