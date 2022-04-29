@@ -14,18 +14,24 @@
             class="py-5"
           >
             <div class="relative focus-within:ring-2 focus-within:ring-blumilk-500">
+              <div class="flex flex-row">
               <h3 class="text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
                 <InertiaLink
                   :href="`/vacation/requests/${request.id}`"
                   class="hover:underline focus:outline-none"
                 >
                   <span class="absolute inset-0" />
-                  Wniosek o {{ findType(request.type).text.toLowerCase() }}
-                  [{{ request.name }}]
+                  Wniosek [{{ request.name }}]
                 </InertiaLink>
               </h3>
-              <p class="mt-1 text-sm text-gray-600">
-                {{ request.from }} - {{ request.to }}
+                <div>
+                  <div class="text-sm text-gray-600 ml-2">
+                    {{ request.from }} - {{ request.to }}
+                  </div>
+                </div>
+              </div>
+              <p class="mt-2 text-sm text-gray-600">
+                <VacationType :type="request.type" />
               </p>
               <div class="mt-3 text-sm text-gray-600">
                 <div class="flex">
@@ -67,6 +73,7 @@
 
 <script setup>
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
+import VacationType from '@/Shared/VacationType'
 
 defineProps({
   requests: Object,
