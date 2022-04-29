@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24a1b3a5dd7c4d4f50d521dda4b6654e",
+    "content-hash": "572998c0dff042cc8ddf65cb1b7348c9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7652,16 +7652,16 @@
     "packages-dev": [
         {
             "name": "blumilksoftware/codestyle",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blumilksoftware/codestyle.git",
-                "reference": "3f2248859562afe7d7b2b16aa25e83dc73236fcc"
+                "reference": "124c55f0374d8f6952675011e359cb54f40f4090"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/3f2248859562afe7d7b2b16aa25e83dc73236fcc",
-                "reference": "3f2248859562afe7d7b2b16aa25e83dc73236fcc",
+                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/124c55f0374d8f6952675011e359cb54f40f4090",
+                "reference": "124c55f0374d8f6952675011e359cb54f40f4090",
                 "shasum": ""
             },
             "require": {
@@ -7696,9 +7696,9 @@
             "description": "Blumilk codestyle configurator",
             "support": {
                 "issues": "https://github.com/blumilksoftware/codestyle/issues",
-                "source": "https://github.com/blumilksoftware/codestyle/tree/v1.1.0"
+                "source": "https://github.com/blumilksoftware/codestyle/tree/v1.2.0"
             },
-            "time": "2022-04-25T06:04:51+00:00"
+            "time": "2022-04-27T10:13:34+00:00"
         },
         {
             "name": "composer/pcre",
