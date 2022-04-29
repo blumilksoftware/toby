@@ -132,9 +132,11 @@
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-100">
-          <tr
+          <InertiaLink
             v-for="request in requests.data"
             :key="request.id"
+            :href="`/vacation/requests/${request.id}`"
+            as="tr"
             class="relative hover:bg-blumilk-25"
           >
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
@@ -167,12 +169,8 @@
               >
                 <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
               </InertiaLink>
-              <InertiaLink
-                :href="`/vacation/requests/${request.id}`"
-                class="absolute inset-0 focus:outline-blumilk-500"
-              />
             </td>
-          </tr>
+          </InertiaLink>
           <tr v-if="! requests.data.length">
             <td
               colspan="100%"
