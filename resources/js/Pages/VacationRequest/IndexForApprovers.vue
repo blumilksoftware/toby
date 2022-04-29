@@ -211,10 +211,12 @@
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-100">
-          <tr
+          <InertiaLink
             v-for="request in requests.data"
             :key="request.id"
-            class="relative hover:bg-blumilk-25"
+            as="tr"
+            :href="`/vacation/requests/${request.id}`"
+            class="relative hover:bg-blumilk-25 hover:cursor-pointer"
           >
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
@@ -261,12 +263,8 @@
               >
                 <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
               </InertiaLink>
-              <InertiaLink
-                :href="`/vacation/requests/${request.id}`"
-                class="absolute inset-0 focus:outline-blumilk-500"
-              />
             </td>
-          </tr>
+          </InertiaLink>
           <tr v-if="! requests.data.length">
             <td
               colspan="100%"
