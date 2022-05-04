@@ -35,7 +35,7 @@ services:
     restart: unless-stopped
 
   database:
-    image: postgres:13
+    image: postgres:14
     container_name: toby-db-dev
     environment:
       - PGPASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
 
   database-test:
-    image: postgres:13
+    image: postgres:14
     container_name: toby-db-test
     environment:
       - PGPASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
@@ -65,7 +65,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:6
+    image: redis:7
     container_name: toby-redis
     ports:
       - ${FORWARD_REDIS_PORT:-6379}:6379
@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
 
   node:
-    image: node:17.2.0-alpine3.14
+    image: node:18.1.0-alpine3.14
     container_name: toby-node
     working_dir: /application
     volumes:
