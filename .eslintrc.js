@@ -21,5 +21,6 @@ module.exports = {
     'tailwindcss/enforces-shorthand': 'error',
     'tailwindcss/no-arbitrary-value': 'error',
     'tailwindcss/no-contradicting-classname': 'error',
+    'vue/multi-word-component-names': 0,
   },
 }
