@@ -16,7 +16,7 @@ use Toby\Infrastructure\Slack\Elements\RemotesAttachment;
 class DailySummary extends SignatureHandler
 {
     protected $signature = "toby dzisiaj";
-    protected $description = "Codzienne podsumowanie";
+    protected $description = "Daily summary";
 
     public function handle(Request $request): Response
     {
@@ -30,7 +30,7 @@ class DailySummary extends SignatureHandler
             new BirthdaysAttachment($dailySummaryRetriever->getBirthdays($now)),
         ]);
 
-        return $this->respondToSlack("Podsumowanie dla dnia {$now->toDisplayString()}")
+        return $this->respondToSlack(__("Summary for the day :day", ["day" => $now->toDisplayString()]))
             ->withAttachments($attachments->all());
     }
 }

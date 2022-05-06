@@ -16,6 +16,6 @@ class KeysAttachment extends ListAttachment
         $this
             ->setColor("#3c5f97")
             ->setItems($keys->map(fn(Key $key): string => "Klucz nr {$key->id} - <@{$key->user->profile->slack_id}>"))
-            ->setEmptyText("Nie ma żadnych kluczy w tobym");
+            ->setEmptyText(__("There are no keys in toby"));
     }
 }

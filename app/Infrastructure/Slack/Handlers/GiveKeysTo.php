@@ -18,7 +18,7 @@ class GiveKeysTo extends SignatureHandler
     use FindsUserBySlackId;
 
     protected $signature = "toby klucze:dla {user}";
-    protected $description = "Przekaż klucze wskazanemu użytkownikowi";
+    protected $description = "Give the keys to the specified user";
 
     /**
      * @throws UserNotFoundException
@@ -35,12 +35,12 @@ class GiveKeysTo extends SignatureHandler
         $key = $authUser->keys()->first();
 
         if (!$key) {
-            throw ValidationException::withMessages(["key" => "Nie masz żadnego klucza do przekazania"]);
+            throw ValidationException::withMessages(["key" => __("You don't have any key to give")]);
         }
 
         if ($user->is($authUser)) {
             throw ValidationException::withMessages([
-                "key" => "Nie możesz przekazać sobie kluczy :dzban:",
+                "key" => __("You can't give the keys to yourself :dzban:"),
             ]);
         }
 
@@ -51,7 +51,7 @@ class GiveKeysTo extends SignatureHandler
         $key->notify(new KeyHasBeenGivenNotification($authUser, $user));
 
         return $this->respondToSlack(
-            ":white_check_mark: Klucz nr {$key->id} został przekazany użytkownikowi <@{$user->profile->slack_id}>",
+            __(":white_check_mark: Key no. :key has been given to <@:user>", ["key"=>$key->id, "user" => $user->profile->slack_id])
         );
     }
 
@@ -65,7 +65,7 @@ class GiveKeysTo extends SignatureHandler
     protected function getMessages(): array
     {
         return [
-            "user.required" => "Musisz podać użytkownika, któremu chcesz przekazać klucze",
+            "user.required" => "You must specified the user to whom you want to give the keys",
         ];
     }
 }
