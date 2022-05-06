@@ -6,7 +6,7 @@
         Dodaj CV
       </h2>
     </div>
-    <form class="flex flex-col justify-center py-8 px-6 space-y-8 border-t border-gray-200 divide-y divide-gray-200">
+    <form class="flex flex-col justify-center py-8 px-6 space-y-8 border-t border-gray-200">
       <div class="space-y-8 sm:space-y-5">
         <div>
           <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -683,19 +683,18 @@
       </div>
 
       <div class="pt-5">
-        <Multiple />
         <div class="flex justify-end">
           <button
             type="button"
-            class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm"
+            class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
-            Cancel
+            Anuluj
           </button>
           <button
             type="submit"
-            class="inline-flex justify-center py-2 px-4 ml-3 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex justify-center py-2 px-4 ml-3 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
-            Save
+            Zapisz
           </button>
         </div>
       </div>
