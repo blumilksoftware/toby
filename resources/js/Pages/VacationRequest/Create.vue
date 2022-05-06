@@ -1,6 +1,6 @@
 <template>
   <InertiaHead title="Złóż wniosek" />
-  <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
+  <div :class="[stats.limit > 0 ? ' grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8' : 'mx-auto w-full max-w-7xl']">
     <div class="flex flex-col h-full bg-white shadow-md xl:col-span-2">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
@@ -306,7 +306,7 @@
         </div>
       </form>
     </div>
-    <div class="h-full bg-white shadow-md">
+    <div class="h-full bg-white shadow-md" v-if="stats.limit > 0 ">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
           <span v-if="auth.user.id !== form.user.id">
