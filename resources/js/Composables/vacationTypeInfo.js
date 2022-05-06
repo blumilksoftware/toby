@@ -85,8 +85,8 @@ const types = [
     text: 'Praca zdalna',
     value: 'home_office',
     icon: HomeCityIcon,
-    color: 'text-blumilk-500',
-    border: 'border-blumilk-500',
+    color: 'text-lime-500',
+    border: 'border-lime-500',
   },
 ]
 

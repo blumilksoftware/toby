@@ -89,7 +89,7 @@
               </dd>
             </div>
             <div
-              v-if="VacationType.isVacation"
+              v-if="request.isVacation"
               class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
             >
               <dt class="flex items-center text-sm font-medium text-gray-500">
@@ -100,7 +100,7 @@
                   <li class="flex justify-between items-center py-3 pr-4 pl-3 text-sm">
                     <div class="flex flex-1 items-center w-0">
                       <PaperClipIcon class="shrink-0 w-5 h-5 text-gray-400" />
-                      <span class="flex-1 ml-2 w-0 truncate"> wniosek_urlopowy.pdf </span>
+                      <span class="flex-1 ml-2 w-0 truncate">wniosek.pdf</span>
                     </div>
                     <div class="shrink-0 ml-4">
                       <a
