@@ -629,24 +629,23 @@
                       </div>
                       <div class="items-center py-4 sm:grid sm:grid-cols-2">
                         <label
-                          :for="`project-tags-${index}`"
+                          :for="`project-tasks-${index}`"
                           class="block text-sm font-medium text-gray-700 sm:mt-px"
                         >
-                          Dodatkowe informacje
+                          Zadania
                         </label>
-                        <div class="mt-1 sm:mt-0">
-                          <input
-                            :id="`project-tags-${index}`"
-                            v-model="element.tags"
-                            type="text"
+                        <div class="mt-1 sm:mt-0 space-y-3">
+                          <textarea
+                            :id="`project-tasks-${index}`"
+                            v-model="element.tasks"
                             class="block w-full rounded-md shadow-sm sm:text-sm"
-                            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.tags`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.tags`] }"
-                          >
+                            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.tasks`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.tasks`] }"
+                          />
                           <p
-                            v-if="form.errors[`projects.${index}.tags`]"
+                            v-if="form.errors[`projects.${index}.tasks`]"
                             class="mt-2 text-sm text-red-600"
                           >
-                            {{ form.errors[`projects.${index}.tags`] }}
+                            {{ form.errors[`projects.${index}.tasks`] }}
                           </p>
                         </div>
                       </div>
@@ -671,7 +670,7 @@
                 index: form.projects.length,
                 description: null,
                 technologies: null,
-                tags: null,
+                tasks: null,
                 startDate: null,
                 endDate: null,
               })"
@@ -710,89 +709,9 @@ import FlatPickr from 'vue-flatpickr-component'
 import Draggable from 'vuedraggable'
 import Combobox from '@/Shared/Forms/Combobox'
 import LevelPicker from '@/Shared/Forms/LevelPicker'
+import useLevels from '@/Composables/useLevels'
 
-const technologyLevels = [
-  {
-    level: 0,
-    name: 'Poczatkujący',
-    activeColor: 'bg-rose-400',
-    backgroundColor: 'bg-rose-100',
-    textColor: 'text-rose-400',
-  },
-  {
-    level: 1,
-    name: 'Zaawansowany',
-    activeColor: 'bg-orange-400',
-    backgroundColor: 'bg-orange-100',
-    textColor: 'text-orange-400',
-  },
-  {
-    level: 2,
-    name: 'Doświadczony',
-    activeColor: 'bg-amber-400',
-    backgroundColor: 'bg-amber-100',
-    textColor: 'text-yellow-500',
-  },
-  {
-    level: 3,
-    name: 'Ekspert',
-    activeColor: 'bg-emerald-400',
-    backgroundColor: 'bg-emerald-100',
-    textColor: 'text-emerald-400',
-  },
-  {
-    level: 4,
-    name: 'Chad',
-    activeColor: 'bg-blumilk-400',
-    backgroundColor: 'bg-blumilk-100',
-    textColor: 'text-blumilk-400',
-  },
-]
-
-const languageLevels = [
-  {
-    level: 0,
-    name: 'A1',
-    activeColor: 'bg-rose-400',
-    backgroundColor: 'bg-rose-100',
-    textColor: 'text-rose-400',
-  },
-  {
-    level: 1,
-    name: 'A2',
-    activeColor: 'bg-orange-400',
-    backgroundColor: 'bg-orange-100',
-    textColor: 'text-orange-400',
-  },
-  {
-    level: 2,
-    name: 'B1',
-    activeColor: 'bg-amber-400',
-    backgroundColor: 'bg-amber-100',
-    textColor: 'text-yellow-500',
-  },
-  {
-    level: 3,
-    name: 'B2',
-    activeColor: 'bg-emerald-400',
-    backgroundColor: 'bg-emerald-100',
-    textColor: 'text-emerald-400',
-  },
-  {
-    level: 4,
-    name: 'C1',
-    activeColor: 'bg-blumilk-400',
-    backgroundColor: 'bg-blumilk-100',
-    textColor: 'text-blumilk-400',
-  },
-  {
-    level: 5,
-    name: 'C2',
-    activeColor: 'bg-blumilk-600',
-    backgroundColor: 'bg-blumilk-200',
-    textColor: 'text-blumilk-600',
-  },
-]
+const { technologyLevels, languageLevels } = useLevels()
 
 const technologies = [
   { id: 1, name: 'Laravel' },
