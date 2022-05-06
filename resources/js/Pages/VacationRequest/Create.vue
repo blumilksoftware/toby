@@ -306,7 +306,10 @@
         </div>
       </form>
     </div>
-    <div class="h-full bg-white shadow-md" v-if="stats.limit > 0 ">
+    <div
+      v-if="stats.limit > 0 "
+      class="h-full bg-white shadow-md"
+    >
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
           <span v-if="auth.user.id !== form.user.id">

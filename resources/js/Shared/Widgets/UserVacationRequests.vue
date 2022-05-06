@@ -24,7 +24,7 @@
                     Wniosek [{{ request.name }}]
                   </InertiaLink>
                 </h3>
-                <div class="text-sm text-gray-600 ml-2">
+                <div class="ml-2 text-sm text-gray-600">
                   {{ request.from }} - {{ request.to }}
                 </div>
               </div>
@@ -56,7 +56,6 @@
 </template>
 
 <script setup>
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
 import Status from '@/Shared/Status'
 import VacationType from '@/Shared/VacationType'
 
@@ -64,5 +63,4 @@ defineProps({
   requests: Object,
 })
 
-const { findType } = useVacationTypeInfo()
 </script>
