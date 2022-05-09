@@ -9,7 +9,6 @@
     <div class="relative mt-2">
       <ComboboxInput
         class="w-full h-12 rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
-        :display-value="(item) => item?.name"
         @change="query = $event.target.value"
       />
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -29,7 +28,7 @@
         >
           <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-blumilk-600 text-white' : 'text-gray-900']">
             <span :class="['block truncate', selected && 'font-semibold']">
-              {{ item.name }}
+              {{ item }}
             </span>
 
             <span
@@ -67,6 +66,6 @@ const query = ref('')
 const filteredItems = computed(() =>
   query.value === ''
     ? props.items
-    : props.items.filter((item) => item.name.toLowerCase().includes(query.value.toLowerCase())),
+    : props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase())),
 )
 </script>

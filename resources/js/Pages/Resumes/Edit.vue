@@ -3,7 +3,7 @@
   <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Dodaj CV
+        Edytuj CV
       </h2>
     </div>
     <form
@@ -232,6 +232,12 @@
                   label="Język"
                   :items="languages"
                 />
+                <p
+                  v-if="form.errors[`languages.${index}.name`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`languages.${index}.name`] }}
+                </p>
               </div>
               <div class="py-4">
                 <label
@@ -279,6 +285,12 @@
                   label="Technologia"
                   :items="technologies"
                 />
+                <p
+                  v-if="form.errors[`technologies.${index}.name`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`technologies.${index}.name`] }}
+                </p>
               </div>
               <div class="py-4">
                 <label
@@ -463,6 +475,7 @@ import LevelPicker from '@/Shared/Forms/LevelPicker'
 const props = defineProps({
   users: Object,
   technologies: Array,
+  resume: Object,
 })
 
 const technologyLevels = [
@@ -502,6 +515,7 @@ const technologyLevels = [
     textColor: 'text-blumilk-400',
   },
 ]
+
 const languageLevels = [
   {
     level: 1,
@@ -554,12 +568,18 @@ const languages = [
 ]
 
 const form = useForm({
-  user: props.users.data[0],
-  name: null,
-  educations: [],
-  projects: [],
-  technologies: [],
-  languages: [],
+  user: props.users.data.find((user) => user.id === props.resume.user),
+  name: props.resume.name,
+  educations: props.resume.educations ?? [],
+  projects: props.resume.projects ?? [],
+  technologies: props.resume.technologies.map((technology) => ({
+    name: props.technologies.find((tech) => tech === technology.name),
+    level: technologyLevels.find((level) => level.level === technology.level),
+  })) ?? [],
+  languages: props.resume.languages.map((language) => ({
+    name: languages.find((lang) => lang.name === language.name),
+    level: languageLevels.find((level) => level.level === language.level),
+  })) ?? [],
 })
 
 function addProject() {
@@ -612,6 +632,6 @@ function submitResume() {
       })),
       projects: data.projects,
     }))
-    .post('/resumes')
+    .put(`/resumes/${props.resume.id}`)
 }
 </script>
