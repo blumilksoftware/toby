@@ -14,7 +14,6 @@ return new class() extends Migration {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string("name")->nullable();
-            $table->string("description")->nullable();
             $table->json("education");
             $table->json("languages");
             $table->json("technologies");

@@ -1,21 +1,27 @@
 <template>
   <Combobox
+    v-model="selectedItems"
     as="div"
     nullable
     multiple
   >
-    <ComboboxLabel class="block text-sm font-medium text-gray-700">
-      {{ label }}
-    </ComboboxLabel>
+    <div class="flex flex-wrap gap-3">
+      <button
+        v-for="(item, index) in selectedItems"
+        :key="index"
+        type="button"
+        class="py-1 px-2 bg-gray-200 rounded-md"
+        @click="selectedItems.splice(index, 1)"
+      >
+        {{ item }}
+      </button>
+    </div>
     <div class="relative mt-2">
       <ComboboxInput
-        as="template"
-        class="w-full h-12 rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
-        :display-value="(item) => item"
+        :id="id"
+        class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
         @change="query = $event.target.value"
-      >
-        <span>aee</span>
-      </ComboboxInput>
+      />
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
         <SelectorIcon class="h-5 w-5 text-gray-400" />
       </ComboboxButton>
@@ -33,7 +39,7 @@
         >
           <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-blumilk-600 text-white' : 'text-gray-900']">
             <span :class="['block truncate', selected && 'font-semibold']">
-              {{ item.name }}
+              {{ item }}
             </span>
 
             <span
@@ -56,21 +62,31 @@ import {
   Combobox,
   ComboboxButton,
   ComboboxInput,
-  ComboboxLabel,
   ComboboxOption,
   ComboboxOptions,
 } from '@headlessui/vue'
 
 const props = defineProps({
-  label: null,
   items: Array,
+  modelValue: Array,
+  id: String,
 })
 
+const emit = defineEmits(['update:modelValue'])
+
 const query = ref('')
+
+const selectedItems = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    query.value = ''
+    emit('update:modelValue', value)
+  },
+})
 
 const filteredItems = computed(() =>
   query.value === ''
     ? props.items
-    : props.items.filter((item) => item.name.toLowerCase().includes(query.value.toLowerCase())),
+    : props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase())),
 )
 </script>

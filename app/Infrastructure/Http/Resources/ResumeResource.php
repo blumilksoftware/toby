@@ -17,6 +17,10 @@ class ResumeResource extends JsonResource
             "user" => new SimpleUserResource($this->user),
             "name" => $this->name,
             "description" => $this->description,
+            "educationCount" => $this->education->count(),
+            "languageCount" => $this->languages->count(),
+            "technologyCount" => $this->technologies->count(),
+            "projectCount" => $this->projects->count(),
             "createdAt" => $this->created_at->toDisplayString(),
             "updatedAt" => $this->updated_at->toDisplayString(),
         ];

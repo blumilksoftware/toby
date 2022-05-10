@@ -29,12 +29,6 @@
                 scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
-                Opis
-              </th>
-              <th
-                scope="col"
-                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-              >
                 Data utworzenia
               </th>
               <th
@@ -42,6 +36,30 @@
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
                 Data aktualizacji
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Szkoły
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Języki
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Technologie
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Projekty
               </th>
               <th
                 scope="col"
@@ -76,17 +94,26 @@
                   </div>
                 </div>
                 <template v-else>
-                  {{ resume.name }}
+                  <span class="text-sm font-medium text-gray-900 break-all">{{ resume.name }}</span>
                 </template>
-              </td>
-              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ resume.description ?? '-' }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ resume.createdAt }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ resume.updatedAt }}
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ resume.educationCount }}
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ resume.languageCount }}
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ resume.technologyCount }}
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ resume.projectCount }}
               </td>
               <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
                 <Menu

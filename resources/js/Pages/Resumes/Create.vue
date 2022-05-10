@@ -263,11 +263,25 @@
           <template #form="{ element, index }">
             <div class="gap-4 md:grid md:grid-cols-2 ">
               <div class="py-4">
-                <Combobox
-                  v-model="element.name"
-                  label="Język"
-                  :items="languages"
-                />
+                <label
+                  :for="`language-${index}-level`"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Język
+                </label>
+                <div class="mt-2">
+                  <Combobox
+                    :id="`language-${index}-level`"
+                    v-model="element.name"
+                    :items="languages"
+                  />
+                  <p
+                    v-if="form.errors[`languages.${index}.name`]"
+                    class="mt-2 text-sm text-red-600"
+                  >
+                    {{ form.errors[`languages.${index}.name`] }}
+                  </p>
+                </div>
               </div>
               <div class="py-4">
                 <label
@@ -313,11 +327,25 @@
           <template #form="{ element, index }">
             <div class="gap-4 md:grid md:grid-cols-2 ">
               <div class="py-4">
-                <Combobox
-                  v-model="element.name"
-                  label="Technologia"
-                  :items="technologies"
-                />
+                <label
+                  :for="`technology-${index}-level`"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Technologia
+                </label>
+                <div class="mt-2">
+                  <Combobox
+                    :id="`technology-${index}-level`"
+                    v-model="element.name"
+                    :items="technologies"
+                  />
+                  <p
+                    v-if="form.errors[`technologies.${index}.name`]"
+                    class="mt-2 text-sm text-red-600"
+                  >
+                    {{ form.errors[`technologies.${index}.name`] }}
+                  </p>
+                </div>
               </div>
               <div class="py-4">
                 <label
@@ -367,6 +395,7 @@
                 <textarea
                   :id="`project-description-${index}`"
                   v-model="element.description"
+                  rows="5"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.description`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.description`] }"
                 />
@@ -386,13 +415,11 @@
                 Technologie
               </label>
               <div class="mt-1 sm:mt-0">
-                <input
+                <MultipleCombobox
                   :id="`project-technologies-${index}`"
                   v-model="element.technologies"
-                  type="text"
-                  class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.technologies`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.technologies`] }"
-                >
+                  :items="technologies"
+                />
                 <p
                   v-if="form.errors[`projects.${index}.technologies`]"
                   class="mt-2 text-sm text-red-600"
@@ -458,6 +485,7 @@
                 <textarea
                   :id="`project-tasks-${index}`"
                   v-model="element.tasks"
+                  rows="5"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.tasks`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.tasks`] }"
                 />
@@ -495,10 +523,12 @@
 <script setup>
 import { Listbox, ListboxOption, ListboxOptions, ListboxLabel, ListboxButton } from '@headlessui/vue'
 import { SelectorIcon, CheckIcon } from '@heroicons/vue/outline'
+import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import DynamicSection from '@/Shared/Forms/DynamicSection'
 import Combobox from '@/Shared/Forms/Combobox'
+import MultipleCombobox from '@/Shared/Forms/MultipleCombobox'
 import LevelPicker from '@/Shared/Forms/LevelPicker'
 import useLevels from '@/Composables/useLevels'
 
@@ -527,7 +557,7 @@ const form = useForm({
 function addProject() {
   form.projects.push({
     description: null,
-    technologies: null,
+    technologies: [],
     tasks: null,
     startDate: null,
     endDate: null,

@@ -30,7 +30,7 @@ class ResumeRequest extends FormRequest
             "technologies.*.level" => ["required", Rule::in(1, 2, 3, 4, 5)],
 
             "projects.*.description" => ["required"],
-            "projects.*.technologies" => ["required"],
+            "projects.*.technologies" => ["exists:technologies,name", "distinct"],
             "projects.*.startDate" => ["required", "date_format:Y-m-d"],
             "projects.*.endDate" => ["required", "date_format:Y-m-d", "after:startDate"],
             "projects.*.tasks" => ["required"],

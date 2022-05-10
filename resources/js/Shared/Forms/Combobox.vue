@@ -3,11 +3,9 @@
     as="div"
     nullable
   >
-    <ComboboxLabel class="block text-sm font-medium text-gray-700">
-      {{ label }}
-    </ComboboxLabel>
-    <div class="relative mt-2">
+    <div class="relative">
       <ComboboxInput
+        :id="id"
         class="w-full h-12 rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
         @change="query = $event.target.value"
       />
@@ -51,14 +49,13 @@ import {
   Combobox,
   ComboboxButton,
   ComboboxInput,
-  ComboboxLabel,
   ComboboxOption,
   ComboboxOptions,
 } from '@headlessui/vue'
 
 const props = defineProps({
-  label: null,
   items: Array,
+  id: String,
 })
 
 const query = ref('')

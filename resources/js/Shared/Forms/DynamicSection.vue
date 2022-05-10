@@ -23,7 +23,6 @@
           </button>
           <Disclosure
             v-slot="{ open }"
-            :default-open="false"
             as="div"
             class="flex-1 border border-gray-200"
           >

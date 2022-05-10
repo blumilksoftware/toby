@@ -17,7 +17,6 @@ class ResumeFactory extends Factory
     {
         return [
             "name" => fn(array $attr) => empty($attr["user_id"]) ? $this->faker->name : null,
-            "description" => $this->faker->boolean(30) ? $this->faker->sentence : null,
             "education" => $this->generateEducation(),
             "languages" => $this->generateLanguages(),
             "technologies" => $this->generateTechnologies(),
