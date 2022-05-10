@@ -17,7 +17,7 @@
               {{ holiday.name }}
             </p>
             <p class="text-sm text-gray-500">
-              {{ holiday.displayDate }}
+              {{ holiday.displayDate }} ({{ holiday.dayOfWeek }})
             </p>
           </div>
         </li>
