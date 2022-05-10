@@ -6,6 +6,8 @@ namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse as BinaryFileResponseAlias;
+use Toby\Domain\ResumeGenerator;
 use Toby\Eloquent\Models\Resume;
 use Toby\Eloquent\Models\Technology;
 use Toby\Eloquent\Models\User;
@@ -37,6 +39,15 @@ class ResumeController extends Controller
             "users" => SimpleUserResource::collection($users),
             "technologies" => Technology::all()->pluck("name"),
         ]);
+    }
+
+    public function show(Resume $resume, ResumeGenerator $generator): BinaryFileResponseAlias
+    {
+        $path = $generator->generate($resume);
+
+        return response()
+            ->download($path, "resume-{$resume->id}.docx")
+            ->deleteFileAfterSend();
     }
 
     public function store(ResumeRequest $request): RedirectResponse
