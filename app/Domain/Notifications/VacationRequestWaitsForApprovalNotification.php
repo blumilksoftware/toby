@@ -99,4 +99,3 @@ class VacationRequestWaitsForApprovalNotification extends Notification
         ]);
     }
 }
-

@@ -3,7 +3,7 @@
   <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Dodaj CV
+        Edytuj CV
       </h2>
     </div>
     <form
@@ -232,6 +232,12 @@
                   label="Język"
                   :items="languages"
                 />
+                <p
+                  v-if="form.errors[`languages.${index}.name`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`languages.${index}.name`] }}
+                </p>
               </div>
               <div class="py-4">
                 <label
@@ -279,6 +285,12 @@
                   label="Technologia"
                   :items="technologies"
                 />
+                <p
+                  v-if="form.errors[`technologies.${index}.name`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`technologies.${index}.name`] }}
+                </p>
               </div>
               <div class="py-4">
                 <label
@@ -459,14 +471,95 @@ import FlatPickr from 'vue-flatpickr-component'
 import DynamicSection from '@/Shared/Forms/DynamicSection'
 import Combobox from '@/Shared/Forms/Combobox'
 import LevelPicker from '@/Shared/Forms/LevelPicker'
-import useLevels from '@/Composables/useLevels'
 
 const props = defineProps({
   users: Object,
   technologies: Array,
+  resume: Object,
 })
 
-const { technologyLevels, languageLevels } = useLevels()
+const technologyLevels = [
+  {
+    level: 1,
+    name: 'Poczatkujący',
+    activeColor: 'bg-rose-400',
+    backgroundColor: 'bg-rose-100',
+    textColor: 'text-rose-400',
+  },
+  {
+    level: 2,
+    name: 'Zaawansowany',
+    activeColor: 'bg-orange-400',
+    backgroundColor: 'bg-orange-100',
+    textColor: 'text-orange-400',
+  },
+  {
+    level: 3,
+    name: 'Doświadczony',
+    activeColor: 'bg-amber-400',
+    backgroundColor: 'bg-amber-100',
+    textColor: 'text-yellow-500',
+  },
+  {
+    level: 4,
+    name: 'Ekspert',
+    activeColor: 'bg-emerald-400',
+    backgroundColor: 'bg-emerald-100',
+    textColor: 'text-emerald-400',
+  },
+  {
+    level: 5,
+    name: 'Chad',
+    activeColor: 'bg-blumilk-400',
+    backgroundColor: 'bg-blumilk-100',
+    textColor: 'text-blumilk-400',
+  },
+]
+
+const languageLevels = [
+  {
+    level: 1,
+    name: 'A1',
+    activeColor: 'bg-rose-400',
+    backgroundColor: 'bg-rose-100',
+    textColor: 'text-rose-400',
+  },
+  {
+    level: 2,
+    name: 'A2',
+    activeColor: 'bg-orange-400',
+    backgroundColor: 'bg-orange-100',
+    textColor: 'text-orange-400',
+  },
+  {
+    level: 3,
+    name: 'B1',
+    activeColor: 'bg-amber-400',
+    backgroundColor: 'bg-amber-100',
+    textColor: 'text-yellow-500',
+  },
+  {
+    level: 4,
+    name: 'B2',
+    activeColor: 'bg-emerald-400',
+    backgroundColor: 'bg-emerald-100',
+    textColor: 'text-emerald-400',
+  },
+  {
+    level: 5,
+    name: 'C1',
+    activeColor: 'bg-blumilk-400',
+    backgroundColor: 'bg-blumilk-100',
+    textColor: 'text-blumilk-400',
+  },
+  {
+    level: 6,
+    name: 'C2',
+    activeColor: 'bg-blumilk-600',
+    backgroundColor: 'bg-blumilk-200',
+    textColor: 'text-blumilk-600',
+  },
+]
 
 const languages = [
   'Język polski',
@@ -475,12 +568,18 @@ const languages = [
 ]
 
 const form = useForm({
-  user: props.users.data[0],
-  name: null,
-  educations: [],
-  projects: [],
-  technologies: [],
-  languages: [],
+  user: props.users.data.find((user) => user.id === props.resume.user),
+  name: props.resume.name,
+  educations: props.resume.educations ?? [],
+  projects: props.resume.projects ?? [],
+  technologies: props.resume.technologies.map((technology) => ({
+    name: props.technologies.find((tech) => tech === technology.name),
+    level: technologyLevels.find((level) => level.level === technology.level),
+  })) ?? [],
+  languages: props.resume.languages.map((language) => ({
+    name: languages.find((lang) => lang.name === language.name),
+    level: languageLevels.find((level) => level.level === language.level),
+  })) ?? [],
 })
 
 function addProject() {
@@ -533,6 +632,6 @@ function submitResume() {
       })),
       projects: data.projects,
     }))
-    .post('/resumes')
+    .put(`/resumes/${props.resume.id}`)
 }
 </script>
