@@ -44,12 +44,12 @@ class ResumeFactory extends Factory
 
     protected function generateLanguages(): array
     {
-        $languages = new Collection(["english", "polish", "germany"]);
+        $languages = new Collection(["English", "Polish", "German"]);
         $number = $this->faker->numberBetween(1, $languages->count());
 
         return $languages->random($number)
             ->map(fn(string $language): array => [
-                "language" => $language,
+                "name" => $language,
                 "level" => $this->faker->numberBetween(1, 6),
             ])
             ->all();
@@ -57,12 +57,12 @@ class ResumeFactory extends Factory
 
     protected function generateTechnologies(): array
     {
-        $technologies = Technology::all();
+        $technologies = Technology::all()->pluck("name");
         $number = $this->faker->numberBetween(2, $technologies->count());
 
         return $technologies->random($number)
             ->map(fn(string $technology): array => [
-                "technology" => $technology,
+                "name" => $technology,
                 "level" => $this->faker->numberBetween(1, 5),
             ])
             ->all();
@@ -71,7 +71,7 @@ class ResumeFactory extends Factory
     protected function generateProjects(): array
     {
         $items = [];
-        $technologies = Technology::all();
+        $technologies = Technology::all()->pluck("name");
 
         for ($i = 0; $i < $this->faker->numberBetween(1, 3); $i++) {
             $number = $this->faker->numberBetween(2, $technologies->count());

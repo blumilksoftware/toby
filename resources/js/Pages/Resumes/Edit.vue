@@ -138,10 +138,13 @@
           @add-item="addEducation"
           @remove-item="(index) => form.educations.splice(index, 1)"
         >
-          <template #itemHeader="{ element }">
+          <template #itemHeader="{ element, index }">
+            <template v-if="hasAnyErrorInSection('education', index)">
+              <ExclamationCircleIcon class="h-6 w-6 mr-2 text-red-600 inline-block" />
+            </template>
             {{ element.school ? element.school : '(Nieokreślony)' }}
           </template>
-          <template #form="{ element }">
+          <template #form="{ element, index }">
             <div class="items-center py-4 sm:grid sm:grid-cols-2">
               <label class="block text-sm font-medium text-gray-700 sm:mt-px">
                 Szkoła
@@ -151,8 +154,14 @@
                   v-model="element.school"
                   type="text"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': false, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': true }"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.school`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.school`] }"
                 >
+                <p
+                  v-if="form.errors[`education.${index}.school`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`education.${index}.school`] }}
+                </p>
               </div>
             </div>
             <div class="items-center py-4 sm:grid sm:grid-cols-2">
@@ -164,8 +173,14 @@
                   v-model="element.degree"
                   type="text"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': false, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': true }"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.degree`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.degree`] }"
                 >
+                <p
+                  v-if="form.errors[`education.${index}.degree`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`education.${index}.degree`] }}
+                </p>
               </div>
             </div>
             <div class="items-center py-4 sm:grid sm:grid-cols-2">
@@ -177,8 +192,14 @@
                   v-model="element.fieldOfStudy"
                   type="text"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': false, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': true }"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.fieldOfStudy`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.fieldOfStudy`] }"
                 >
+                <p
+                  v-if="form.errors[`education.${index}.fieldOfStudy`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`education.${index}.fieldOfStudy`] }}
+                </p>
               </div>
             </div>
             <div class="items-center py-4 sm:grid sm:grid-cols-2">
@@ -190,8 +211,14 @@
                   v-model="element.startDate"
                   placeholder="Wybierz datę"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': false, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': true }"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.startDate`] }"
                 />
+                <p
+                  v-if="form.errors[`education.${index}.startDate`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`education.${index}.startDate`] }}
+                </p>
               </div>
             </div>
             <div class="items-center py-4 sm:grid sm:grid-cols-2">
@@ -203,8 +230,14 @@
                   v-model="element.endDate"
                   placeholder="Wybierz datę"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': false, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': true }"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.endDate`] }"
                 />
+                <p
+                  v-if="form.errors[`education.${index}.endDate`]"
+                  class="mt-2 text-sm text-red-600"
+                >
+                  {{ form.errors[`education.${index}.endDate`] }}
+                </p>
               </div>
             </div>
           </template>
@@ -216,7 +249,10 @@
           @add-item="addLanguage"
           @remove-item="(index) => form.languages.splice(index, 1)"
         >
-          <template #itemHeader="{ element }">
+          <template #itemHeader="{ element, index }">
+            <template v-if="hasAnyErrorInSection('languages', index)">
+              <ExclamationCircleIcon class="h-6 w-6 mr-2 text-red-600 inline-block" />
+            </template>
             <template v-if="element.name">
               {{ element.name }} - <span :class="element.level.textColor">{{ element.level.name }}</span>
             </template>
@@ -269,7 +305,10 @@
           @add-item="addTechnology"
           @remove-item="(index) => form.technologies.splice(index, 1)"
         >
-          <template #itemHeader="{ element }">
+          <template #itemHeader="{ element, index }">
+            <template v-if="hasAnyErrorInSection('technologies', index)">
+              <ExclamationCircleIcon class="h-6 w-6 mr-2 text-red-600 inline-block" />
+            </template>
             <template v-if="element.name">
               {{ element.name }} - <span :class="element.level.textColor">{{ element.level.name }}</span>
             </template>
@@ -322,7 +361,10 @@
           @add-item="addProject"
           @remove-item="(index) => form.projects.splice(index, 1)"
         >
-          <template #itemHeader="{ element }">
+          <template #itemHeader="{ element, index }">
+            <template v-if="hasAnyErrorInSection('projects', index)">
+              <ExclamationCircleIcon class="h-6 w-6 mr-2 text-red-600 inline-block" />
+            </template>
             {{ element.description ? element.description : '(Nieokreślony)' }}
           </template>
           <template #form="{ element, index }">
@@ -425,13 +467,13 @@
                 Zadania
               </label>
               <div class="mt-1 sm:mt-0">
-                <input
+                <textarea
                   :id="`project-tasks-${index}`"
                   v-model="element.tasks"
-                  type="text"
+                  rows="3"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.tasks`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.tasks`] }"
-                >
+                />
                 <p
                   v-if="form.errors[`projects.${index}.tasks`]"
                   class="mt-2 text-sm text-red-600"
@@ -466,11 +508,13 @@
 <script setup>
 import { Listbox, ListboxOption, ListboxOptions, ListboxLabel, ListboxButton } from '@headlessui/vue'
 import { SelectorIcon, CheckIcon } from '@heroicons/vue/outline'
+import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import DynamicSection from '@/Shared/Forms/DynamicSection'
 import Combobox from '@/Shared/Forms/Combobox'
 import LevelPicker from '@/Shared/Forms/LevelPicker'
+import useLevels from '@/Composables/useLevels'
 
 const props = defineProps({
   users: Object,
@@ -478,106 +522,25 @@ const props = defineProps({
   resume: Object,
 })
 
-const technologyLevels = [
-  {
-    level: 1,
-    name: 'Poczatkujący',
-    activeColor: 'bg-rose-400',
-    backgroundColor: 'bg-rose-100',
-    textColor: 'text-rose-400',
-  },
-  {
-    level: 2,
-    name: 'Zaawansowany',
-    activeColor: 'bg-orange-400',
-    backgroundColor: 'bg-orange-100',
-    textColor: 'text-orange-400',
-  },
-  {
-    level: 3,
-    name: 'Doświadczony',
-    activeColor: 'bg-amber-400',
-    backgroundColor: 'bg-amber-100',
-    textColor: 'text-yellow-500',
-  },
-  {
-    level: 4,
-    name: 'Ekspert',
-    activeColor: 'bg-emerald-400',
-    backgroundColor: 'bg-emerald-100',
-    textColor: 'text-emerald-400',
-  },
-  {
-    level: 5,
-    name: 'Chad',
-    activeColor: 'bg-blumilk-400',
-    backgroundColor: 'bg-blumilk-100',
-    textColor: 'text-blumilk-400',
-  },
-]
-
-const languageLevels = [
-  {
-    level: 1,
-    name: 'A1',
-    activeColor: 'bg-rose-400',
-    backgroundColor: 'bg-rose-100',
-    textColor: 'text-rose-400',
-  },
-  {
-    level: 2,
-    name: 'A2',
-    activeColor: 'bg-orange-400',
-    backgroundColor: 'bg-orange-100',
-    textColor: 'text-orange-400',
-  },
-  {
-    level: 3,
-    name: 'B1',
-    activeColor: 'bg-amber-400',
-    backgroundColor: 'bg-amber-100',
-    textColor: 'text-yellow-500',
-  },
-  {
-    level: 4,
-    name: 'B2',
-    activeColor: 'bg-emerald-400',
-    backgroundColor: 'bg-emerald-100',
-    textColor: 'text-emerald-400',
-  },
-  {
-    level: 5,
-    name: 'C1',
-    activeColor: 'bg-blumilk-400',
-    backgroundColor: 'bg-blumilk-100',
-    textColor: 'text-blumilk-400',
-  },
-  {
-    level: 6,
-    name: 'C2',
-    activeColor: 'bg-blumilk-600',
-    backgroundColor: 'bg-blumilk-200',
-    textColor: 'text-blumilk-600',
-  },
-]
+const { technologyLevels, languageLevels } = useLevels()
 
 const languages = [
-  'Język polski',
-  'Język angielski',
-  'Język niemiecki',
+  'Polish',
+  'English',
+  'German',
 ]
 
 const form = useForm({
-  user: props.users.data.find((user) => user.id === props.resume.user),
-  name: props.resume.name,
-  educations: props.resume.educations ?? [],
+  user: props.users.data.find((user) => user.id === props.resume.user) ?? null,
+  name: props.resume.name ?? null ,
+  educations: props.resume.education ?? [],
   projects: props.resume.projects ?? [],
   technologies: props.resume.technologies.map((technology) => ({
     name: props.technologies.find((tech) => tech === technology.name),
     level: technologyLevels.find((level) => level.level === technology.level),
   })) ?? [],
   languages: props.resume.languages.map((language) => ({
-    name: languages.find((lang) => lang.name === language.name),
+    name: languages.find((lang) => lang === language.name),
     level: languageLevels.find((level) => level.level === language.level),
   })) ?? [],
 })
@@ -614,6 +577,12 @@ function addLanguage() {
     name: null,
     level: languageLevels[0],
   })
+}
+
+function hasAnyErrorInSection(section, index) {
+  return Object
+    .keys(form.errors)
+    .some((error) => error.startsWith(`${section}.${index}.`))
 }
 
 function submitResume() {
