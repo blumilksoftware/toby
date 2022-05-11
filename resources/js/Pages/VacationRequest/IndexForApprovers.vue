@@ -164,7 +164,7 @@
           as="div"
         >
           <ListboxLabel class="block mb-2 text-sm font-medium text-gray-700">
-            Typ
+            Rodzaj wniosku
           </ListboxLabel>
           <div class="relative mt-1 sm:mt-0">
             <ListboxButton
