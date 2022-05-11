@@ -29,7 +29,7 @@ const technologyLevels = [
   },
   {
     level: 5,
-    name: 'Master',
+    name: 'Expert',
     activeColor: 'bg-blumilk-400',
     backgroundColor: 'bg-blumilk-100',
     textColor: 'text-blumilk-400',

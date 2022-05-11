@@ -118,7 +118,7 @@ class ResumeGenerator
     {
         return $resume->technologies->map(fn(array $technology): array => [
             "technology_name" => $technology["name"],
-            "technology_level" => $technology["level"],
+            "technology_level" => __("resume.technology_levels.{$technology["level"]}"),
         ])->all();
     }
 
@@ -126,7 +126,7 @@ class ResumeGenerator
     {
         return $resume->languages->map(fn(array $language): array => [
             "language_name" => $language["name"],
-            "language_level" => $language["level"],
+            "language_level" => __("resume.language_levels.{$language["level"]}"),
         ])->all();
     }
 
