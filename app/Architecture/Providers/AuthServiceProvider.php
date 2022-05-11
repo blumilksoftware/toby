@@ -30,10 +30,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        Gate::define("manageUsers", fn(User $user) => $user->role === Role::AdministrativeApprover);
-        Gate::define("manageHolidays", fn(User $user) => $user->role === Role::AdministrativeApprover);
-        Gate::define("manageVacationLimits", fn(User $user) => $user->role === Role::AdministrativeApprover);
-        Gate::define("generateTimesheet", fn(User $user) => $user->role === Role::AdministrativeApprover);
-        Gate::define("listMonthlyUsage", fn(User $user) => $user->role === Role::AdministrativeApprover);
+        Gate::define("manageUsers", fn(User $user): bool => $user->role === Role::AdministrativeApprover);
+        Gate::define("manageHolidays", fn(User $user): bool => $user->role === Role::AdministrativeApprover);
+        Gate::define("manageVacationLimits", fn(User $user): bool => $user->role === Role::AdministrativeApprover);
+        Gate::define("generateTimesheet", fn(User $user): bool => $user->role === Role::AdministrativeApprover);
+        Gate::define("listMonthlyUsage", fn(User $user): bool => $user->role === Role::AdministrativeApprover);
     }
 }

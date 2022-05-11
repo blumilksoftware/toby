@@ -22,6 +22,8 @@ class UserRequest extends FormRequest
             "position" => ["required"],
             "employmentForm" => ["required", new Enum(EmploymentForm::class)],
             "employmentDate" => ["required", "date_format:Y-m-d"],
+            "birthday" => ["nullable", "date_format:Y-m-d"],
+            "slackId" => [],
         ];
     }
 
@@ -41,6 +43,8 @@ class UserRequest extends FormRequest
             "position" => $this->get("position"),
             "employment_form" => $this->get("employmentForm"),
             "employment_date" => $this->get("employmentDate"),
+            "birthday" => $this->get("birthday"),
+            "slack_id" => $this->get("slackId"),
         ];
     }
 }

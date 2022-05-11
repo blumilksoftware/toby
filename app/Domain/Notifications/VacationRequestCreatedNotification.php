@@ -9,6 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
 class VacationRequestCreatedNotification extends Notification
 {
@@ -20,7 +21,15 @@ class VacationRequestCreatedNotification extends Notification
 
     public function via(): array
     {
-        return ["mail"];
+        return [Channels::MAIL, Channels::SLACK];
+    }
+
+    public function toSlack(): SlackMessage
+    {
+        $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
+
+        return (new SlackMessage())
+            ->text("{$this->buildDescription()}\n <${url}|Zobacz szczegóły>");
     }
 
     /**
@@ -46,19 +55,25 @@ class VacationRequestCreatedNotification extends Notification
         $days = $this->vacationRequest->vacations()->count();
 
         return (new MailMessage())
-            ->greeting(__("Hi :user!", [
-                "user" => $user,
-            ]))
+            ->greeting(
+                __("Hi :user!", [
+                    "user" => $user,
+                ]),
+            )
             ->subject($this->buildSubject())
             ->line($this->buildDescription())
-            ->line(__("Vacation type: :type", [
-                "type" => $type,
-            ]))
-            ->line(__("From :from to :to (number of days: :days)", [
-                "from" => $from,
-                "to" => $to,
-                "days" => $days,
-            ]))
+            ->line(
+                __("Vacation type: :type", [
+                    "type" => $type,
+                ]),
+            )
+            ->line(
+                __("From :from to :to (number of days: :days)", [
+                    "from" => $from,
+                    "to" => $to,
+                    "days" => $days,
+                ]),
+            )
             ->action(__("Click here for details"), $url);
     }
 
@@ -80,18 +95,16 @@ class VacationRequestCreatedNotification extends Notification
     protected function buildDescription(): string
     {
         $name = $this->vacationRequest->name;
-        $appName = config("app.name");
 
         if ($this->vacationRequest->creator()->is($this->vacationRequest->user)) {
-            return __("The vacation request :title has been created correctly in the :appName.", [
+            return __("The vacation request :title from user :user has been created successfully.", [
+                "user" => $this->vacationRequest->user->profile->full_name,
                 "title" => $name,
-                "appName" => $appName,
             ]);
         }
 
-        return __("The vacation request :title has been created correctly by user :creator on your behalf in the :appName.", [
+        return __("The vacation request :title has been created successfully by user :creator on your behalf.", [
             "title" => $this->vacationRequest->name,
-            "appName" => $appName,
             "creator" => $this->vacationRequest->creator->profile->full_name,
         ]);
     }

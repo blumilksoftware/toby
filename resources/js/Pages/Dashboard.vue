@@ -23,7 +23,7 @@
         :remote-days="remoteDays.data"
       />
       <UpcomingHolidays
-        v-if="years.current.year === years.selected.year"
+        v-if="years.current.year === years.selected.year && holidays.data.length"
         :holidays="holidays.data"
       />
     </div>

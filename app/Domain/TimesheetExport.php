@@ -18,7 +18,7 @@ class TimesheetExport implements WithMultipleSheets
     public function sheets(): array
     {
         return $this->users
-            ->map(fn(User $user) => new TimesheetPerUserSheet($user, $this->month, $this->types))
+            ->map(fn(User $user): TimesheetPerUserSheet => new TimesheetPerUserSheet($user, $this->month, $this->types))
             ->toArray();
     }
 

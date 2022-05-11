@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
 class VacationRequestStatusChangedNotification extends Notification
 {
@@ -22,7 +23,15 @@ class VacationRequestStatusChangedNotification extends Notification
 
     public function via(): array
     {
-        return ["mail"];
+        return [Channels::MAIL, Channels::SLACK];
+    }
+
+    public function toSlack(): SlackMessage
+    {
+        $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
+
+        return (new SlackMessage())
+            ->text("{$this->buildDescription()}\n <${url}|Zobacz szczegóły>");
     }
 
     /**
@@ -43,27 +52,17 @@ class VacationRequestStatusChangedNotification extends Notification
     protected function buildMailMessage(string $url): MailMessage
     {
         $user = $this->user->profile->first_name;
-        $title = $this->vacationRequest->name;
         $type = $this->vacationRequest->type->label();
-        $status = $this->vacationRequest->state->label();
         $from = $this->vacationRequest->from->toDisplayString();
         $to = $this->vacationRequest->to->toDisplayString();
         $days = $this->vacationRequest->vacations()->count();
-        $requester = $this->vacationRequest->user->profile->full_name;
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
                 "user" => $user,
             ]))
-            ->subject(__("Vacation request :title has been :status", [
-                "title" => $title,
-                "status" => $status,
-            ]))
-            ->line(__("The vacation request :title from user :requester has been :status.", [
-                "title" => $title,
-                "requester" => $requester,
-                "status" => $status,
-            ]))
+            ->subject($this->buildSubject())
+            ->line($this->buildDescription())
             ->line(__("Vacation type: :type", [
                 "type" => $type,
             ]))
@@ -73,5 +72,22 @@ class VacationRequestStatusChangedNotification extends Notification
                 "days" => $days,
             ]))
             ->action(__("Click here for details"), $url);
+    }
+
+    protected function buildSubject(): string
+    {
+        return __("Vacation request :title has been :status", [
+            "title" => $this->vacationRequest->name,
+            "status" => $this->vacationRequest->state->label(),
+        ]);
+    }
+
+    protected function buildDescription(): string
+    {
+        return __("The vacation request :title from user :requester has been :status.", [
+            "title" => $this->vacationRequest->name,
+            "requester" => $this->vacationRequest->user->profile->full_name,
+            "status" => $this->vacationRequest->state->label(),
+        ]);
     }
 }

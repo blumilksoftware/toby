@@ -21,7 +21,7 @@ enum EmploymentForm: string
         $cases = collect(EmploymentForm::cases());
 
         return $cases->map(
-            fn(EmploymentForm $enum) => [
+            fn(EmploymentForm $enum): array => [
                 "label" => $enum->label(),
                 "value" => $enum->value,
             ],

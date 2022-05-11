@@ -241,6 +241,52 @@
           </p>
         </div>
       </div>
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
+        <label
+          for="birthday"
+          class="block text-sm font-medium text-gray-700 sm:mt-px"
+        >
+          Data urodzenia
+        </label>
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
+          <FlatPickr
+            id="birthday"
+            v-model="form.birthday"
+            placeholder="Wybierz datę"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.birthday, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.birthday }"
+          />
+          <p
+            v-if="form.errors.birthday"
+            class="mt-2 text-sm text-red-600"
+          >
+            {{ form.errors.birthday }}
+          </p>
+        </div>
+      </div>
+      <div class="items-center py-4 sm:grid sm:grid-cols-3">
+        <label
+          for="slackId"
+          class="block text-sm font-medium text-gray-700 sm:mt-px"
+        >
+          Slack ID
+        </label>
+        <div class="mt-1 sm:col-span-2 sm:mt-0">
+          <input
+            id="position"
+            v-model="form.slackId"
+            type="text"
+            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.slackId, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.slackId }"
+          >
+          <p
+            v-if="form.errors.slackId"
+            class="mt-2 text-sm text-red-600"
+          >
+            {{ form.errors.slackId }}
+          </p>
+        </div>
+      </div>
       <div class="flex justify-end py-3">
         <div class="space-x-3">
           <InertiaLink
@@ -282,6 +328,8 @@ const form = useForm({
   position: props.user.position,
   employmentForm: props.employmentForms.find(form => form.value === props.user.employmentForm),
   employmentDate: props.user.employmentDate,
+  birthday: props.user.birthday,
+  slackId: props.user.slackId,
 })
 
 function editUser() {

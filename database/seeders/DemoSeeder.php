@@ -18,7 +18,7 @@ use Toby\Domain\States\VacationRequest\Created;
 use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Domain\VacationDaysCalculator;
+use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\Resume;
 use Toby\Eloquent\Models\Technology;
@@ -166,8 +166,7 @@ class DemoSeeder extends Seeder
             ->for($user, "creator")
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
-                $days = app(VacationDaysCalculator::class)->calculateDays(
-                    $vacationRequest->yearPeriod,
+                $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
                     $vacationRequest->to,
                 );
@@ -236,8 +235,7 @@ class DemoSeeder extends Seeder
             ->for($user, "creator")
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
-                $days = app(VacationDaysCalculator::class)->calculateDays(
-                    $vacationRequest->yearPeriod,
+                $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
                     $vacationRequest->to,
                 );
@@ -293,8 +291,7 @@ class DemoSeeder extends Seeder
             ->for($user, "creator")
             ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
-                $days = app(VacationDaysCalculator::class)->calculateDays(
-                    $vacationRequest->yearPeriod,
+                $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
                     $vacationRequest->to,
                 );

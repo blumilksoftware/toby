@@ -6,10 +6,10 @@ namespace Toby\Domain\Actions\VacationRequest;
 
 use Illuminate\Validation\ValidationException;
 use Toby\Domain\Notifications\VacationRequestCreatedNotification;
-use Toby\Domain\VacationDaysCalculator;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Domain\Validation\VacationRequestValidator;
+use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 
@@ -19,7 +19,7 @@ class CreateAction
         protected VacationRequestStateManager $stateManager,
         protected VacationRequestValidator $vacationRequestValidator,
         protected VacationTypeConfigRetriever $configRetriever,
-        protected VacationDaysCalculator $vacationDaysCalculator,
+        protected WorkDaysCalculator $workDaysCalculator,
         protected WaitForTechApprovalAction $waitForTechApprovalAction,
         protected WaitForAdminApprovalAction $waitForAdminApprovalAction,
         protected ApproveAction $approveAction,
@@ -52,11 +52,7 @@ class CreateAction
 
         $vacationRequest->save();
 
-        $days = $this->vacationDaysCalculator->calculateDays(
-            $vacationRequest->yearPeriod,
-            $vacationRequest->from,
-            $vacationRequest->to,
-        );
+        $days = $this->workDaysCalculator->calculateDays($vacationRequest->from, $vacationRequest->to);
 
         foreach ($days as $day) {
             $vacationRequest->vacations()->create([

@@ -13,28 +13,28 @@
         "postinstall": "npm run prod"
     },
     "dependencies": {
-        "@headlessui/vue": "^1.6.0",
+        "@headlessui/vue": "^1.6.1",
         "@heroicons/vue": "^1.0.6",
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/progress": "^0.2.7",
-        "@tailwindcss/forms": "^0.5.0",
-        "@tailwindcss/line-clamp": "^0.3.1",
+        "@tailwindcss/forms": "^0.5.1",
+        "@tailwindcss/line-clamp": "^0.4.0",
         "@tailwindcss/typography": "^0.5.2",
-        "@vue/compiler-sfc": "^3.2.31",
-        "autoprefixer": "^10.4.4",
-        "axios": "^0.26.1",
+        "@vue/compiler-sfc": "^3.2.33",
+        "autoprefixer": "^10.4.7",
+        "axios": "^0.27.2",
         "echarts": "^5.3.2",
         "eslit": "^6.0.0",
-        "flatpickr": "^4.6.11",
+        "flatpickr": "^4.6.13",
         "laravel-mix": "^6.0.43",
         "lodash": "^4.17.21",
-        "luxon": "^2.3.1",
-        "postcss": "^8.4.12",
-        "tailwindcss": "^3.0.23",
-        "vue": "^3.2.31",
+        "luxon": "^2.3.2",
+        "postcss": "^8.4.13",
+        "tailwindcss": "^3.0.24",
+        "vue": "^3.2.33",
         "vue-echarts": "^6.0.2",
-        "vue-flatpickr-component": "^9.0.5",
+        "vue-flatpickr-component": "^9.0.6",
         "vue-loader": "^17.0.0",
         "vue-material-design-icons": "^5.0.0",
         "vue-toastification": "^2.0.0-rc.5",
@@ -42,8 +42,7 @@
         "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
-        "eslint": "^8.12.0",
-        "eslint-plugin-tailwindcss": "^3.5.0",
-        "eslint-plugin-vue": "^8.5.0"
+        "eslint": "^8.14.0",
+        "eslint-plugin-vue": "^8.7.1"
     }
 }

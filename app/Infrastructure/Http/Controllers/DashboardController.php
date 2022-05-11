@@ -7,12 +7,11 @@ namespace Toby\Infrastructure\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
-use Toby\Domain\Enums\VacationType;
+use Toby\Domain\DailySummaryRetriever;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
-use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
@@ -25,24 +24,14 @@ class DashboardController extends Controller
         YearPeriodRetriever $yearPeriodRetriever,
         UserVacationStatsRetriever $vacationStatsRetriever,
         VacationTypeConfigRetriever $configRetriever,
+        DailySummaryRetriever $dailySummaryRetriever,
     ): Response {
         $user = $request->user();
         $now = Carbon::now();
         $yearPeriod = $yearPeriodRetriever->selected();
 
-        $absences = Vacation::query()
-            ->with(["user", "vacationRequest"])
-            ->whereDate("date", $now)
-            ->approved()
-            ->whereTypes(VacationType::all()->filter(fn(VacationType $type) => $configRetriever->isVacation($type)))
-            ->get();
-
-        $remoteDays = Vacation::query()
-            ->with(["user", "vacationRequest"])
-            ->whereDate("date", $now)
-            ->approved()
-            ->whereTypes(VacationType::all()->filter(fn(VacationType $type) => !$configRetriever->isVacation($type)))
-            ->get();
+        $absences = $dailySummaryRetriever->getAbsences($now);
+        $remoteDays = $dailySummaryRetriever->getRemoteDays($now);
 
         if ($user->can("listAll", VacationRequest::class)) {
             $vacationRequests = $yearPeriod->vacationRequests()

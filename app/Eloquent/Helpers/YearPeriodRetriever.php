@@ -35,7 +35,7 @@ class YearPeriodRetriever
 
         $years = YearPeriod::all();
 
-        $navigation = $years->map(fn(YearPeriod $yearPeriod) => $this->toNavigation($yearPeriod));
+        $navigation = $years->map(fn(YearPeriod $yearPeriod): array => $this->toNavigation($yearPeriod));
 
         return [
             "current" => $this->toNavigation($current),

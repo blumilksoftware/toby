@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
 class VacationRequestWaitsForApprovalNotification extends Notification
 {
@@ -23,7 +24,15 @@ class VacationRequestWaitsForApprovalNotification extends Notification
 
     public function via(): array
     {
-        return ["mail"];
+        return [Channels::MAIL, Channels::SLACK];
+    }
+
+    public function toSlack(): SlackMessage
+    {
+        $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
+
+        return (new SlackMessage())
+            ->text("{$this->buildDescription()}\n <${url}|Zobacz szczegóły>");
     }
 
     /**
