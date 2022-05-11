@@ -215,7 +215,7 @@
                 <ListboxOption
                   v-for="type in types"
                   :key="type.value"
-                  v-slot="{ active, selected }"
+                  v-slot="{ active }"
                   as="template"
                   :value="type"
                 >
@@ -223,9 +223,8 @@
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
                   >
                     <VacationType :type="type.value" />
-
                     <span
-                      v-if="selected"
+                      v-if="form.type?.value === type.value"
                       :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                     >
                       <CheckIcon class="w-5 h-5" />
