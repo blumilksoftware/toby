@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="border-t border-gray-200">
-      <div class="grid grid-cols-1 gap-2 p-4 md:grid-cols-2 md:gap-4">
+      <div class="grid grid-cols-1 gap-2 p-4 md:grid-cols-3 md:gap-4">
         <Listbox
           v-model="form.user"
           as="div"
@@ -146,6 +146,83 @@
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
                   >
                     {{ status.name }}
+
+                    <span
+                      v-if="selected"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+        <Listbox
+          v-model="form.type"
+          as="div"
+        >
+          <ListboxLabel class="block mb-2 text-sm font-medium text-gray-700">
+            Typ
+          </ListboxLabel>
+          <div class="relative mt-1 sm:mt-0">
+            <ListboxButton
+              class="relative py-2 pr-10 pl-3 w-full max-w-lg h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+            >
+              <VacationType
+                v-if="form.type"
+                :type="form.type.value"
+              />
+
+              <span
+                v-else
+                class="flex items-center"
+              >
+                Wszystkie
+              </span>
+              <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+                <SelectorIcon class="w-5 h-5 text-gray-400" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition ease-in duration-100"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+              >
+                <ListboxOption
+                  v-slot="{ active, selected }"
+                  as="template"
+                  :value="null"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
+                  >
+                    Wszystkie
+
+                    <span
+                      v-if="selected"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+                <ListboxOption
+                  v-for="type in types"
+                  :key="type.value"
+                  v-slot="{ active, selected }"
+                  as="template"
+                  :value="type"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
+                  >
+                    <VacationType :type="type.value" />
 
                     <span
                       v-if="selected"
@@ -294,6 +371,7 @@ const props = defineProps({
   requests: Object,
   users: Object,
   filters: Object,
+  types: Object,
 })
 
 const statuses = [
@@ -322,12 +400,17 @@ const statuses = [
 const form = reactive({
   user: props.users.data.find(user => user.id === props.filters.user) ?? null,
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+  type: props.types.find(type => type.value === props.filters.type) ?? null,
 })
 
 watch(form, debounce(() => {
-  Inertia.get('/vacation/requests', { user: form.user?.id, status: form.status.value }, {
+  Inertia.get('/vacation/requests', {
+    user: form.user?.id,
+    status: form.status.value,
+    type: form.type?.value,
+  }, {
     preserveState: true,
     replace: true,
   })
-}, 300))
+}, 150))
 </script>

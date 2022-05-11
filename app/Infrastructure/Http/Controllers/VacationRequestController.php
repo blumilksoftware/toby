@@ -92,19 +92,16 @@ class VacationRequestController extends Controller
         }
 
         $yearPeriod = $yearPeriodRetriever->selected();
-        $status = $request->get("status");
+        $status = $request->get("status", "all");
         $user = $request->get("user");
+        $type = $request->get("type");
 
         $vacationRequests = VacationRequest::query()
             ->with(["user", "vacations"])
             ->whereBelongsTo($yearPeriod)
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
-            ->when(
-                $status !== null,
-                fn(Builder $query): Builder => $query->states(
-                    VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()),
-                ),
-            )
+            ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))
+            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->latest()
             ->paginate();
 
@@ -116,9 +113,11 @@ class VacationRequestController extends Controller
         return inertia("VacationRequest/IndexForApprovers", [
             "requests" => VacationRequestResource::collection($vacationRequests),
             "users" => SimpleUserResource::collection($users),
+            "types" => VacationType::casesToSelect(),
             "filters" => [
                 "status" => $status,
                 "user" => (int)$user,
+                "type" => $type,
             ],
         ]);
     }
