@@ -39,7 +39,7 @@ class ResumeRequest extends FormRequest
 
     public function hasEmployee(): bool
     {
-       return $this->has("user");
+        return $this->has("user");
     }
 
     public function getEmployee(): User

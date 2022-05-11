@@ -6,7 +6,6 @@
       <RadioGroupOption
         v-for="(level, index) in levels"
         :key="index"
-        v-slot="{ active, checked }"
         as="template"
         :value="level"
       >

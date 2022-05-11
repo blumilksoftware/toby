@@ -49,7 +49,6 @@ class ResumeGenerator
         $processor->cloneBlock("technologies", 0, true, false, $this->getTechnologies($resume));
     }
 
-
     protected function fillLanguages(TemplateProcessor $processor, Resume $resume): void
     {
         if ($resume->education->count() <= 0) {
@@ -83,11 +82,10 @@ class ResumeGenerator
         $processor->cloneBlock("projects", $resume->projects->count(), true, true);
 
         foreach ($resume->projects as $index => $project) {
-            $index += 1;
+            ++$index;
             $processor->setValues($this->getProject($project, $index));
 
             $processor->cloneBlock("project_technologies#{$index}", 0, true, false, $this->getProjectTechnologies($project, $index));
-
         }
     }
 
@@ -112,7 +110,7 @@ class ResumeGenerator
         $technologies = new Collection($project["technologies"] ?? []);
 
         return $technologies->map(fn(string $name) => [
-           "technology#{$index}" => $name,
+            "technology#{$index}" => $name,
         ])->all();
     }
 
