@@ -98,8 +98,13 @@ class ResumeGenerator
             "start_date#{$index}" => Carbon::create($project["startDate"])->toDisplayString(),
             "end_date#{$index}" => Carbon::create($project["endDate"])->toDisplayString(),
             "description#{$index}" => $project["description"],
-            "tasks#{$index}" => $project["tasks"],
+            "tasks#{$index}" => $this->withNewLines($project["tasks"]),
         ];
+    }
+
+    protected function withNewLines(string $text): string
+    {
+        return Str::replace("\n", "</w:t><w:br/><w:t>", $text);
     }
 
     protected function getProjectTechnologies(array $project, int $index): array
