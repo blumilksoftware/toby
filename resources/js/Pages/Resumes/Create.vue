@@ -444,10 +444,10 @@
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`educations.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`educations.${index}.startDate`] }"
                 />
                 <p
-                  v-if="form.errors[`educations.${index}.startDate`]"
+                  v-if="form.errors[`projects.${index}.startDate`]"
                   class="mt-2 text-sm text-red-600"
                 >
-                  {{ form.errors[`educations.${index}.startDate`] }}
+                  {{ form.errors[`projects.${index}.startDate`] }}
                 </p>
               </div>
             </div>
@@ -467,10 +467,10 @@
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`educations.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`educations.${index}.endDate`] }"
                 />
                 <p
-                  v-if="form.errors[`educations.${index}.endDate`]"
+                  v-if="form.errors[`projects.${index}.endDate`]"
                   class="mt-2 text-sm text-red-600"
                 >
-                  {{ form.errors[`educations.${index}.endDate`] }}
+                  {{ form.errors[`projects.${index}.endDate`] }}
                 </p>
               </div>
             </div>

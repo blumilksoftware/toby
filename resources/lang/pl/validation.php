@@ -129,6 +129,7 @@ return [
         ],
         "education.*.endDate" => [
             "required" => "Data zakończenia jest wymagana.",
+            "after" => "Data zakończenia musi być datą późniejszą od daty rozpoczęcia.",
         ],
         "languages.*.name" => [
             "distinct" => "Języki nie mogą się powtarzać.",
@@ -141,11 +142,16 @@ return [
         "projects.*.description" => [
             "required" => "Opis projektu jest wymagany.",
         ],
+        "projects.*.technologies" => [
+            "required" => "Opis projektu jest wymagany.",
+            "min" => "Musi być wybrana co najmniej jedna technologia."
+        ],
         "projects.*.startDate" => [
             "required" => "Data rozpoczęcia jest wymagana.",
         ],
         "projects.*.endDate" => [
             "required" => "Data zakończenia jest wymagana.",
+            "after" => "Data zakończenia musi być datą późniejszą od daty rozpoczęcia.",
         ],
         "projects.*.tasks" => [
             "required" => "Zadania w projekcie są wymagane.",
