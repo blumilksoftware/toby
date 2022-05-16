@@ -23,6 +23,7 @@ class ResumeController extends Controller
         $this->authorize("manageResumes");
 
         $resumes = Resume::query()
+            ->latest("updated_at")
             ->paginate();
 
         return inertia("Resumes/Index", [
