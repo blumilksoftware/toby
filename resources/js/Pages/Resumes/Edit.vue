@@ -309,7 +309,7 @@
         <DynamicSection
           v-model="form.technologies"
           header="Technologie"
-          add-label="Dodaj technologie"
+          add-label="Dodaj technologię"
           @add-item="addTechnology"
           @remove-item="(index) => form.technologies.splice(index, 1)"
         >
@@ -444,10 +444,10 @@
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`educations.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`educations.${index}.startDate`] }"
                 />
                 <p
-                  v-if="form.errors[`educations.${index}.startDate`]"
+                  v-if="form.errors[`projects.${index}.startDate`]"
                   class="mt-2 text-sm text-red-600"
                 >
-                  {{ form.errors[`educations.${index}.startDate`] }}
+                  {{ form.errors[`projects.${index}.startDate`] }}
                 </p>
               </div>
             </div>
@@ -467,10 +467,10 @@
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`educations.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`educations.${index}.endDate`] }"
                 />
                 <p
-                  v-if="form.errors[`educations.${index}.endDate`]"
+                  v-if="form.errors[`projects.${index}.endDate`]"
                   class="mt-2 text-sm text-red-600"
                 >
-                  {{ form.errors[`educations.${index}.endDate`] }}
+                  {{ form.errors[`projects.${index}.endDate`] }}
                 </p>
               </div>
             </div>
@@ -546,7 +546,7 @@ const languages = [
   'German',
 ]
 
-const form = useForm({
+const form = useForm(`EditResume:${props.resume.id}`,{
   user: props.users.data.find((user) => user.id === props.resume.user) ?? null,
   name: props.resume.name ?? null ,
   educations: props.resume.education ?? [],
@@ -604,7 +604,7 @@ function hasAnyErrorInSection(section, index) {
 function submitResume() {
   form
     .transform((data) => ({
-      user: data.user.id,
+      user: data.user?.id,
       name: data.name,
       education: data.educations,
       languages: data.languages.map(language => ({

@@ -35,6 +35,7 @@ const technologyLevels = [
     textColor: 'text-blumilk-400',
   },
 ]
+
 const languageLevels = [
   {
     level: 1,
@@ -74,9 +75,9 @@ const languageLevels = [
   {
     level: 6,
     name: 'C2',
-    activeColor: 'bg-gray-600',
+    activeColor: 'bg-gray-700',
     backgroundColor: 'bg-gray-200',
-    textColor: 'text-gray-600',
+    textColor: 'text-gray-700',
   },
 ]
 

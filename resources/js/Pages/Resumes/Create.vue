@@ -309,7 +309,7 @@
         <DynamicSection
           v-model="form.technologies"
           header="Technologie"
-          add-label="Dodaj technologie"
+          add-label="Dodaj technologię"
           @add-item="addTechnology"
           @remove-item="(index) => form.technologies.splice(index, 1)"
         >
@@ -545,7 +545,7 @@ const languages = [
   'German',
 ]
 
-const form = useForm({
+const form = useForm('createResume',{
   user: props.users.data[0],
   name: null,
   educations: [],
@@ -597,7 +597,7 @@ function hasAnyErrorInSection(section, index) {
 function submitResume() {
   form
     .transform((data) => ({
-      user: data.user.id,
+      user: data.user?.id,
       name: data.name,
       education: data.educations,
       languages: data.languages.map(language => ({

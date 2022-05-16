@@ -20,6 +20,8 @@ class ResumeController extends Controller
 {
     public function index(): Response
     {
+        $this->authorize("manageResumes");
+
         $resumes = Resume::query()
             ->paginate();
 
@@ -30,6 +32,8 @@ class ResumeController extends Controller
 
     public function create(): Response
     {
+        $this->authorize("manageResumes");
+
         $users = User::query()
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
@@ -43,6 +47,8 @@ class ResumeController extends Controller
 
     public function show(Resume $resume, ResumeGenerator $generator): BinaryFileResponseAlias
     {
+        $this->authorize("manageResumes");
+
         $path = $generator->generate($resume);
 
         return response()
@@ -52,6 +58,8 @@ class ResumeController extends Controller
 
     public function store(ResumeRequest $request): RedirectResponse
     {
+        $this->authorize("manageResumes");
+
         $resume = new Resume();
 
         if ($request->hasEmployee()) {
@@ -76,6 +84,8 @@ class ResumeController extends Controller
 
     public function edit(Resume $resume): Response
     {
+        $this->authorize("manageResumes");
+
         $users = User::query()
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
@@ -90,6 +100,8 @@ class ResumeController extends Controller
 
     public function update(Resume $resume, ResumeRequest $request): RedirectResponse
     {
+        $this->authorize("manageResumes");
+
         if ($request->hasEmployee()) {
             $resume->user()->associate($request->getEmployee());
         } else {
@@ -113,6 +125,8 @@ class ResumeController extends Controller
 
     public function destroy(Resume $resume): RedirectResponse
     {
+        $this->authorize("manageResumes");
+
         $resume->delete();
 
         return redirect()

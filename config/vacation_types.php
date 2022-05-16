@@ -109,7 +109,7 @@ return [
         VacationTypeConfigRetriever::KEY_IS_VACATION => true,
     ],
     VacationType::Absence->value => [
-        VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
+        VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_BILLABLE => false,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,

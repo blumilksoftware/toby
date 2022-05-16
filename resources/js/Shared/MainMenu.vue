@@ -378,7 +378,7 @@ const navigation = computed(() =>
       href: '/resumes',
       section: 'Resumes',
       icon: TemplateIcon,
-      can: true,
+      can: props.auth.can.manageResumes,
     },
 
   ].filter(item => item.can))
