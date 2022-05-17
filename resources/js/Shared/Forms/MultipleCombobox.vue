@@ -6,15 +6,31 @@
     multiple
   >
     <div class="flex flex-wrap gap-3">
-      <button
+      <span
         v-for="(item, index) in selectedItems"
         :key="index"
-        type="button"
-        class="py-1 px-2 bg-gray-200 rounded-md"
-        @click="selectedItems.splice(index, 1)"
+        class="inline-flex items-center py-1.5 pl-3 pr-1.5 rounded-lg text-sm font-medium bg-blumilk-500 text-white"
       >
         {{ item }}
-      </button>
+        <button
+          type="button"
+          class="flex-shrink-0 ml-0.5 h-5 w-5 rounded-full inline-flex items-center justify-center text-white hover:bg-blumilk-600 focus:outline-none"
+          @click="selectedItems.splice(index, 1)"
+        >
+          <svg
+            class="h-2 w-2"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 8 8"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-width="1.5"
+              d="M1 1l6 6m0-6L1 7"
+            />
+          </svg>
+        </button>
+      </span>
     </div>
     <div class="relative mt-2">
       <ComboboxInput

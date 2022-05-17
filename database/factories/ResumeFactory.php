@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Eloquent\Models\Resume;
 use Toby\Eloquent\Models\Technology;
@@ -33,8 +34,9 @@ class ResumeFactory extends Factory
                 "school" => $this->faker->sentence,
                 "degree" => $this->faker->sentence,
                 "fieldOfStudy" => $this->faker->sentence,
-                "startDate" => $this->faker->date,
-                "endDate" => $this->faker->date,
+                "current" => false,
+                "startDate" => Carbon::create($this->faker->date)->format("m/Y"),
+                "endDate" => Carbon::create($this->faker->date)->format("m/Y"),
             ];
         }
 
@@ -78,8 +80,9 @@ class ResumeFactory extends Factory
             $items[] = [
                 "description" => $this->faker->text,
                 "technologies" => $technologies->random($number)->all(),
-                "startDate" => $this->faker->date,
-                "endDate" => $this->faker->date,
+                "current" => false,
+                "startDate" => Carbon::create($this->faker->date)->format("m/Y"),
+                "endDate" => Carbon::create($this->faker->date)->format("m/Y"),
                 "tasks" => $this->faker->text,
             ];
         }

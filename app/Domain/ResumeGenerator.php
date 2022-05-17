@@ -40,7 +40,7 @@ class ResumeGenerator
 
     protected function fillTechnologies(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->technologies->count() <= 0) {
+        if ($resume->technologies->isEmpty()) {
             $processor->deleteBlock("technologies");
 
             return;
@@ -51,7 +51,7 @@ class ResumeGenerator
 
     protected function fillLanguages(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->education->count() <= 0) {
+        if ($resume->education->isEmpty()) {
             $processor->deleteBlock("languages");
 
             return;
@@ -62,7 +62,7 @@ class ResumeGenerator
 
     protected function fillEducation(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->education->count() <= 0) {
+        if ($resume->education->isEmpty()) {
             $processor->deleteBlock("education");
 
             return;
@@ -73,7 +73,7 @@ class ResumeGenerator
 
     protected function fillProjects(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->projects->count() <= 0) {
+        if ($resume->projects->isEmpty()) {
             $processor->deleteBlock("projects");
 
             return;
@@ -94,7 +94,7 @@ class ResumeGenerator
         return [
             "index#{$index}" => $index,
             "start_date#{$index}" => Carbon::create($project["startDate"])->toDisplayString(),
-            "end_date#{$index}" => Carbon::create($project["endDate"])->toDisplayString(),
+            "end_date#{$index}" => $project["current"] ? "present" : Carbon::create($project["endDate"])->format("m.Y"),
             "description#{$index}" => $project["description"],
             "tasks#{$index}" => $this->withNewLines($project["tasks"]),
         ];
@@ -134,7 +134,7 @@ class ResumeGenerator
     {
         return $resume->education->map(fn(array $project, int $index): array => [
             "start_date" => Carbon::create($project["startDate"])->toDisplayString(),
-            "end_date" => Carbon::create($project["endDate"])->toDisplayString(),
+            "end_date" => $project["current"] ? "present" : Carbon::create($project["endDate"])->format("m.Y"),
             "school" => $project["school"],
             "field_of_study" => $project["fieldOfStudy"],
             "degree" => $project["degree"],

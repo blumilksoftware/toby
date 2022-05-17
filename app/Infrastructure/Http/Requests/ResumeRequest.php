@@ -20,19 +20,21 @@ class ResumeRequest extends FormRequest
             "education.*.school" => ["required"],
             "education.*.degree" => ["required"],
             "education.*.fieldOfStudy" => ["required"],
-            "education.*.startDate" => ["required", "date_format:Y-m-d"],
-            "education.*.endDate" => ["required", "date_format:Y-m-d", "after:education.*.startDate"],
+            "education.*.startDate" => ["required", "date_format:m/Y"],
+            "education.*.current" => ["required", "boolean"],
+            "education.*.endDate" => ["required_if:education.*.current,false", "nullable", "date_format:m/Y", "after:education.*.startDate"],
 
             "languages.*.name" => ["required", "distinct"],
             "languages.*.level" => ["required", Rule::in(1, 2, 3, 4, 5, 6)],
 
-            "technologies.*.name" => ["required", "exists:technologies,name", "distinct"],
+            "technologies.*.name" => ["required", "distinct"],
             "technologies.*.level" => ["required", Rule::in(1, 2, 3, 4, 5)],
 
             "projects.*.description" => ["required"],
-            "projects.*.technologies" => ["array", "min:1", "exists:technologies,name", "distinct"],
-            "projects.*.startDate" => ["required", "date_format:Y-m-d"],
-            "projects.*.endDate" => ["required", "date_format:Y-m-d", "after:projects.*.startDate"],
+            "projects.*.technologies" => ["array", "min:1", "distinct"],
+            "projects.*.startDate" => ["required", "date_format:m/Y"],
+            "projects.*.current" => ["required", "boolean"],
+            "projects.*.endDate" => ["required_if:projects.*.current,false", "nullable", "date_format:m/Y", "after:projects.*.startDate"],
             "projects.*.tasks" => ["required"],
         ];
     }

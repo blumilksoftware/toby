@@ -76,5 +76,7 @@
   ":recipient takes key no :key from :sender": ":recipient zabiera klucz nr :key :sender",
   "Resume has been updated.": "CV zostało zaktualizowane.",
   "Resume has been deleted.": "CV zostało usunięte.",
-  "Resume has been created.": "CV zostało utworzone."
+  "Resume has been created.": "CV zostało utworzone.",
+  "Technology :name has been created.": "Technologia :name została utworzona.",
+  "Technology :name has been deleted.": "Technologia :name została usunięta."
 }

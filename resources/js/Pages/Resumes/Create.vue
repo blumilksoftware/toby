@@ -207,7 +207,7 @@
                 Data rozpoczęcia
               </label>
               <div class="mt-1 sm:mt-0">
-                <FlatPickr
+                <MonthPicker
                   v-model="element.startDate"
                   placeholder="Wybierz datę"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
@@ -226,12 +226,23 @@
                 Data zakończenia
               </label>
               <div class="mt-1 sm:mt-0">
-                <FlatPickr
-                  v-model="element.endDate"
-                  placeholder="Wybierz datę"
-                  class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.endDate`] }"
-                />
+                <div class="space-y-2">
+                  <label class="block text-sm font-medium text-gray-700 sm:mt-px">
+                    <input
+                      v-model="element.current"
+                      type="checkbox"
+                      class="focus:ring-blumilk-500 h-4 w-4 text-blumilk-600 border-gray-300 rounded mr-1"
+                    >
+                    W trakcie
+                  </label>
+                  <MonthPicker
+                    v-model="element.endDate"
+                    placeholder="Wybierz datę"
+                    :disabled="element.current"
+                    class="block w-full rounded-md shadow-sm sm:text-sm disabled:bg-gray-100"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.endDate`] }"
+                  />
+                </div>
                 <p
                   v-if="form.errors[`education.${index}.endDate`]"
                   class="mt-2 text-sm text-red-600"
@@ -436,12 +447,12 @@
                 Data rozpoczęcia
               </label>
               <div class="mt-1 sm:mt-0">
-                <FlatPickr
+                <MonthPicker
                   :id="`project-startDate-${index}`"
                   v-model="element.startDate"
                   placeholder="Wybierz datę"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`educations.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`educations.${index}.startDate`] }"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.startDate`] }"
                 />
                 <p
                   v-if="form.errors[`projects.${index}.startDate`]"
@@ -459,13 +470,24 @@
                 Data zakończenia
               </label>
               <div class="mt-1 sm:mt-0">
-                <FlatPickr
-                  :id="`project-endDate-${index}`"
-                  v-model="element.endDate"
-                  placeholder="Wybierz datę"
-                  class="block w-full rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`educations.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`educations.${index}.endDate`] }"
-                />
+                <div class="space-y-2">
+                  <label class="block text-sm font-medium text-gray-700 sm:mt-px">
+                    <input
+                      v-model="element.current"
+                      type="checkbox"
+                      class="focus:ring-blumilk-500 h-4 w-4 text-blumilk-600 border-gray-300 rounded mr-1"
+                    >
+                    W trakcie
+                  </label>
+                  <MonthPicker
+                    :id="`project-endDate-${index}`"
+                    v-model="element.endDate"
+                    placeholder="Wybierz datę"
+                    :disabled="element.current"
+                    class="block w-full rounded-md shadow-sm sm:text-sm disabled:bg-gray-100"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.endDate`] }"
+                  />
+                </div>
                 <p
                   v-if="form.errors[`projects.${index}.endDate`]"
                   class="mt-2 text-sm text-red-600"
@@ -525,7 +547,7 @@ import { Listbox, ListboxOption, ListboxOptions, ListboxLabel, ListboxButton } f
 import { SelectorIcon, CheckIcon } from '@heroicons/vue/outline'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
-import FlatPickr from 'vue-flatpickr-component'
+import MonthPicker from '@/Shared/Forms/MonthPicker'
 import DynamicSection from '@/Shared/Forms/DynamicSection'
 import Combobox from '@/Shared/Forms/Combobox'
 import MultipleCombobox from '@/Shared/Forms/MultipleCombobox'
