@@ -69,8 +69,8 @@ class ResumeGenerator
     {
         return [
             "index#{$index}" => $index,
-            "start_date#{$index}" => Carbon::create($project["startDate"])->toDisplayString(),
-            "end_date#{$index}" => $project["current"] ? "present" : Carbon::create($project["endDate"])->format("m.Y"),
+            "start_date#{$index}" => Carbon::createFromFormat("m/Y", $project["startDate"])->format("n.Y"),
+            "end_date#{$index}" => $project["current"] ? "present" : Carbon::createFromFormat("m/Y", $project["endDate"])->format("n.Y"),
             "description#{$index}" => $project["description"],
             "tasks#{$index}" => $this->withNewLines($project["tasks"]),
         ];
@@ -109,8 +109,8 @@ class ResumeGenerator
     protected function getEducation(Resume $resume): array
     {
         return $resume->education->map(fn(array $project, int $index): array => [
-            "start_date" => Carbon::create($project["startDate"])->toDisplayString(),
-            "end_date" => $project["current"] ? "present" : Carbon::create($project["endDate"])->format("m.Y"),
+            "start_date" => Carbon::createFromFormat("m/Y", $project["startDate"])->format("n.Y"),
+            "end_date" => $project["current"] ? "present" : Carbon::createFromFormat("m/Y", $project["endDate"])->format("n.Y"),
             "school" => $project["school"],
             "field_of_study" => $project["fieldOfStudy"],
             "degree" => $project["degree"],

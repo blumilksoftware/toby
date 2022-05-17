@@ -9,17 +9,15 @@ use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\EmploymentForm;
-use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\Resume;
 use Toby\Eloquent\Models\Technology;
 use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\YearPeriod;
 
 class ResumeTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -123,6 +121,18 @@ class ResumeTest extends FeatureTestCase
         $this->assertDatabaseHas("resumes", [
             "name" => "Natalia Kowalska",
         ]);
+    }
+
+    public function testAdminCanGenerateResume(): void
+    {
+        $resume = Resume::factory()->create();
+        $admin = User::factory()->admin()->create();
+
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($admin)
+            ->get("/resumes/{$resume->id}")
+            ->assertDownload("resume-{$resume->id}.docx");
     }
 
     public function testAdminCanDeleteResume(): void
