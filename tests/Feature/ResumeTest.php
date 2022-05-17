@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\EmploymentForm;
@@ -20,6 +21,8 @@ class ResumeTest extends FeatureTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Storage::fake();
 
         Technology::factory()->createMany([
             ["name" => "Laravel"],
