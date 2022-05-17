@@ -30,7 +30,7 @@ class VacationRequestCreatedNotification extends Notification
         $seeDetails = __("See details");
 
         return (new SlackMessage())
-            ->text("{$this->buildDescription()}\n <${url}|$seeDetails>");
+            ->text("{$this->buildDescription()}\n <${url}|${seeDetails}>");
     }
 
     /**
