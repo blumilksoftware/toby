@@ -59,8 +59,10 @@ class VacationRequestsSummaryNotification extends Notification
             ->subject("Wnioski oczekujące na akcje - stan na dzień {$this->day->toDisplayString()}");
 
         foreach ($this->vacationRequests as $request) {
+            $url = route("vacation.requests.show", ["vacationRequest" => $request->id]);
+
             $message->line(
-                "Wniosek nr {$request->name} użytkownika {$request->user->profile->full_name} ({$request->from->toDisplayString()} - {$request->to->toDisplayString()})",
+                "- [wniosek nr {$request->name}]({$url}) użytkownika {$request->user->profile->full_name} ({$request->from->toDisplayString()} - {$request->to->toDisplayString()})",
             );
         }
 
