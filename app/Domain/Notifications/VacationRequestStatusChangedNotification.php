@@ -29,9 +29,10 @@ class VacationRequestStatusChangedNotification extends Notification
     public function toSlack(): SlackMessage
     {
         $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
+        $seeDetails = __("See details");
 
         return (new SlackMessage())
-            ->text("{$this->buildDescription()}\n <${url}|Zobacz szczegóły>");
+            ->text("{$this->buildDescription()}\n <${url}|$seeDetails>");
     }
 
     /**

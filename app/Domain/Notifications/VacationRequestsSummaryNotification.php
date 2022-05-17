@@ -29,7 +29,7 @@ class VacationRequestsSummaryNotification extends Notification
     public function toSlack(): SlackMessage
     {
         return (new SlackMessage())
-            ->text("Wnioski oczekujące na Twoją akcję - stan na dzień {$this->day->toDisplayString()}:")
+            ->text(__("Requests wait for your approval - status for day :date:", ["date" => $this->day->toDisplayString()]))
             ->withAttachment(new VacationRequestsAttachment($this->vacationRequests));
     }
 
@@ -55,18 +55,19 @@ class VacationRequestsSummaryNotification extends Notification
                     "user" => $user,
                 ]),
             )
-            ->line("Lista wniosków oczekujących na Twoją akcję - stan na dzień {$this->day->toDisplayString()}:")
-            ->subject("Wnioski oczekujące na akcje - stan na dzień {$this->day->toDisplayString()}");
+            ->line  (__("Requests list waits for your approval - status for day :date:", ["date" => $this->day->toDisplayString()]))
+            ->subject(__("Requests wait for your approval - status for day :date:", ["date" => $this->day->toDisplayString()]));
 
         foreach ($this->vacationRequests as $request) {
             $url = route("vacation.requests.show", ["vacationRequest" => $request->id]);
 
             $message->line(
-                "- [wniosek nr {$request->name}]({$url}) użytkownika {$request->user->profile->full_name} ({$request->from->toDisplayString()} - {$request->to->toDisplayString()})",
+                __("- [request no. :request](:url) of user :user (:startDate - :endDate)",["request" => $request->name, "url" => $url, "user" => $request->user->profile->full_name, "startDate" => $request->from->toDisplayString(), "endDate"=>$request->to->toDisplayString()]),
             );
         }
 
+
         return $message
-            ->action("Przejdź do wniosków", $url);
+            ->action(__("Go to requests"), $url);
     }
 }
