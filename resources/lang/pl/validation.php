@@ -130,6 +130,7 @@ return [
         "education.*.endDate" => [
             "required" => "Data zakończenia jest wymagana.",
             "after" => "Data zakończenia musi być datą późniejszą od daty rozpoczęcia.",
+            "required_if" => "Data zakończenia jest wymagana.",
         ],
         "languages.*.name" => [
             "distinct" => "Języki nie mogą się powtarzać.",
@@ -152,6 +153,7 @@ return [
         "projects.*.endDate" => [
             "required" => "Data zakończenia jest wymagana.",
             "after" => "Data zakończenia musi być datą późniejszą od daty rozpoczęcia.",
+            "required_if" => "Data zakończenia jest wymagana.",
         ],
         "projects.*.tasks" => [
             "required" => "Zadania w projekcie są wymagane.",
