@@ -40,45 +40,21 @@ class ResumeGenerator
 
     protected function fillTechnologies(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->technologies->isEmpty()) {
-            $processor->deleteBlock("technologies");
-
-            return;
-        }
-
         $processor->cloneBlock("technologies", 0, true, false, $this->getTechnologies($resume));
     }
 
     protected function fillLanguages(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->education->isEmpty()) {
-            $processor->deleteBlock("languages");
-
-            return;
-        }
-
         $processor->cloneBlock("languages", 0, true, false, $this->getLanguages($resume));
     }
 
     protected function fillEducation(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->education->isEmpty()) {
-            $processor->deleteBlock("education");
-
-            return;
-        }
-
         $processor->cloneBlock("education", 0, true, false, $this->getEducation($resume));
     }
 
     protected function fillProjects(TemplateProcessor $processor, Resume $resume): void
     {
-        if ($resume->projects->isEmpty()) {
-            $processor->deleteBlock("projects");
-
-            return;
-        }
-
         $processor->cloneBlock("projects", $resume->projects->count(), true, true);
 
         foreach ($resume->projects as $index => $project) {
