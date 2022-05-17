@@ -24,7 +24,7 @@ class CatchAll extends BaseHandler
         $handlers = $this->findAvailableHandlers();
         $attachmentFields = $this->mapHandlersToAttachments($handlers);
 
-        return $this->respondToSlack(":x: Nie rozpoznaję polecenia. Lista wszystkich poleceń:")
+        return $this->respondToSlack(__(":x: I don't recognize the command. List of all commands:"))
             ->withAttachment(
                 Attachment::create()
                     ->setColor("danger")

@@ -37,7 +37,7 @@ trait ListsHandlers
             )
             ->map(
                 fn(SignatureHandler $handler): AttachmentField => AttachmentField::create(
-                    $handler->getDescription(),
+                    __($handler->getDescription()),
                     "`/{$handler->getSignature()}`",
                 ),
             )

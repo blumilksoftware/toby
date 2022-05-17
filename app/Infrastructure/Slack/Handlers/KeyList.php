@@ -12,7 +12,7 @@ use Toby\Infrastructure\Slack\Elements\KeysAttachment;
 class KeyList extends SignatureHandler
 {
     protected $signature = "toby klucze";
-    protected $description = "Lista wszystkich kluczy";
+    protected $description = "List of all keys";
 
     public function handle(Request $request): Response
     {
@@ -20,7 +20,7 @@ class KeyList extends SignatureHandler
             ->orderBy("id")
             ->get();
 
-        return $this->respondToSlack("Lista kluczy :key:")
+        return $this->respondToSlack(__("Keys list :key:"))
             ->withAttachment(new KeysAttachment($keys));
     }
 }

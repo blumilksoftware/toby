@@ -18,7 +18,7 @@ class TakeKeysFrom extends SignatureHandler
     use FindsUserBySlackId;
 
     protected $signature = "toby klucze:od {user}";
-    protected $description = "Zabierz klucze wskazanemu użytkownikowi";
+    protected $description = "Take keys from specified user";
 
     /**
      * @throws UserNotFoundException|ValidationException
@@ -35,13 +35,13 @@ class TakeKeysFrom extends SignatureHandler
 
         if (!$key) {
             throw ValidationException::withMessages([
-                "key" => "Użytkownik <@{$user->profile->slack_id}> nie ma żadnych kluczy",
+                "key" => __("User <@:user> does not have any keys", ["user" => $user->profile->slack_id]),
             ]);
         }
 
         if ($key->user()->is($authUser)) {
             throw ValidationException::withMessages([
-                "key" => "Nie możesz zabrać sobie kluczy :dzban:",
+                "key" => __("You can't take the keys from yourself :dzban:"),
             ]);
         }
 
@@ -51,7 +51,7 @@ class TakeKeysFrom extends SignatureHandler
 
         $key->notify(new KeyHasBeenTakenNotification($authUser, $user));
 
-        return $this->respondToSlack(":white_check_mark: Klucz nr {$key->id} został zabrany użytkownikowi <@{$user->profile->slack_id}>");
+        return $this->respondToSlack(__(":white_check_mark: Key no. :key has been taken from user <@:user>", ["key" => $key->id, "user" => $user->profile->slack_id]));
     }
 
     protected function getRules(): array
@@ -64,7 +64,7 @@ class TakeKeysFrom extends SignatureHandler
     protected function getMessages(): array
     {
         return [
-            "user.required" => "Musisz podać użytkownika, któremu chcesz zabrać klucze",
+            "user.required" => __("You must specified the user you want to take the keys from"),
         ];
     }
 }
