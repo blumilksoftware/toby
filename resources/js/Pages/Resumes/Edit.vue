@@ -590,6 +590,7 @@ function addProject() {
     tasks: null,
     startDate: null,
     endDate: null,
+    current: false,
   })
 }
 
@@ -607,6 +608,7 @@ function addEducation() {
     fieldOfStudy: null,
     startDate: null,
     endDate: null,
+    current: false,
   })
 }
 
@@ -630,6 +632,7 @@ function submitResume() {
       name: data.name,
       education: data.educations.map(education => ({
         ...education,
+        current: !!education.current,
         endDate: education.current ? null: education.endDate,
       })),
       languages: data.languages.map(language => ({
@@ -642,6 +645,7 @@ function submitResume() {
       })),
       projects: data.projects.map(project => ({
         ...project,
+        current: !!project.current,
         endDate: project.current ? null : project.endDate,
       })),
     }))
