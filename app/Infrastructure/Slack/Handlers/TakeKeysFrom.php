@@ -35,7 +35,7 @@ class TakeKeysFrom extends SignatureHandler
 
         if (!$key) {
             throw ValidationException::withMessages([
-                "key" => __("User <@:user> does not have any keys", ["user" => $user->profile->slack_id])
+                "key" => __("User <@:user> does not have any keys", ["user" => $user->profile->slack_id]),
             ]);
         }
 
@@ -51,7 +51,7 @@ class TakeKeysFrom extends SignatureHandler
 
         $key->notify(new KeyHasBeenTakenNotification($authUser, $user));
 
-        return $this->respondToSlack(__(":white_check_mark: Key no. :key has been taken from user <@:user>", ["key"=>$key->id, "user"=> $user->profile->slack_id]));
+        return $this->respondToSlack(__(":white_check_mark: Key no. :key has been taken from user <@:user>", ["key" => $key->id, "user" => $user->profile->slack_id]));
     }
 
     protected function getRules(): array
@@ -64,7 +64,7 @@ class TakeKeysFrom extends SignatureHandler
     protected function getMessages(): array
     {
         return [
-            "user.required" => __("You must specified the user you want to take the keys from")
+            "user.required" => __("You must specified the user you want to take the keys from"),
         ];
     }
 }

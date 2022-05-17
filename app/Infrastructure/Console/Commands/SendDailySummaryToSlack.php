@@ -37,7 +37,7 @@ class SendDailySummaryToSlack extends Command
         Http::withToken($this->getSlackClientToken())
             ->post($this->getUrl(), [
                 "channel" => $this->getSlackChannel(),
-                "text" => __("Daily summary for day :day",["day"=>$now->toDisplayString()]),
+                "text" => __("Daily summary for day :day", ["day" => $now->toDisplayString()]),
                 "attachments" => $attachments,
             ]);
     }

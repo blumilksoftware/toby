@@ -51,7 +51,7 @@ class GiveKeysTo extends SignatureHandler
         $key->notify(new KeyHasBeenGivenNotification($authUser, $user));
 
         return $this->respondToSlack(
-            __(":white_check_mark: Key no. :key has been given to <@:user>", ["key"=>$key->id, "user" => $user->profile->slack_id])
+            __(":white_check_mark: Key no. :key has been given to <@:user>", ["key" => $key->id, "user" => $user->profile->slack_id]),
         );
     }
 

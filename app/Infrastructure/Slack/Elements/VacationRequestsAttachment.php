@@ -31,7 +31,7 @@ class VacationRequestsAttachment extends ListAttachment
                 "url" => $url,
                 "request" => $request->name,
                 "user" => $request->user->profile->full_name,
-                "date" => $date
+                "date" => $date,
             ]);
         });
     }

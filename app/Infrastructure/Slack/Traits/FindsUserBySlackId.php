@@ -30,7 +30,7 @@ trait FindsUserBySlackId
         $user = $this->findUserBySlackId($slackId);
 
         if (!$user) {
-            throw new UserNotFoundException(__("User :input does not exist in toby", ["input"=> $slackId]));
+            throw new UserNotFoundException(__("User :input does not exist in toby", ["input" => $slackId]));
         }
 
         return $user;
