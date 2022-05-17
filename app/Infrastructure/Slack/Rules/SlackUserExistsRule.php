@@ -19,6 +19,6 @@ class SlackUserExistsRule implements Rule
 
     public function message(): string
     {
-        return "Użytkownik :input nie istnieje w tobym";
+        return __("User :input does not exist in toby");
     }
 }

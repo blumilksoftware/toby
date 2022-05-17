@@ -18,18 +18,18 @@ class HomeOffice extends SignatureHandler
     use FindsUserBySlackId;
 
     protected $signature = "toby zdalnie";
-    protected $description = "Pracuj dzisiaj zdalnie";
+    protected $description = "Work remotely today";
 
     public function handle(Request $request): Response
     {
         $user = $this->findUserBySlackId($request->userId);
 
-        $this->createRemoteday($user, Carbon::today());
+        $this->createRemoteDay($user, Carbon::today());
 
-        return $this->respondToSlack(":white_check_mark: Pracujesz dzisiaj zdalnie");
+        return $this->respondToSlack(__(":white_check_mark: You work remotely today"));
     }
 
-    protected function createRemoteday(User $user, Carbon $date): void
+    protected function createRemoteDay(User $user, Carbon $date): void
     {
         $yearPeriod = YearPeriod::findByYear($date->year);
 

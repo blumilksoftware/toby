@@ -14,9 +14,9 @@ class BirthdaysAttachment extends ListAttachment
         parent::__construct();
 
         $this
-            ->setTitle("Urodziny :birthday:")
+            ->setTitle(__("Birthdays :birthday:"))
             ->setColor("#3c5f97")
             ->setItems($birthdays->map(fn(User $user): string => $user->profile->full_name))
-            ->setEmptyText("Dzisiaj nikt nie ma urodzin :cry:");
+            ->setEmptyText(__("Nobody has a birthday today :cry:"));
     }
 }

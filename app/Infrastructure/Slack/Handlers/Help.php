@@ -14,7 +14,7 @@ class Help extends SignatureHandler
     use ListsHandlers;
 
     protected $signature = "toby pomoc";
-    protected $description = "Wyświetl wszystkie dostępne polecenia";
+    protected $description = "Show all available commands";
 
     public function handle(Request $request): Response
     {
@@ -22,7 +22,7 @@ class Help extends SignatureHandler
 
         $attachmentFields = $this->mapHandlersToAttachments($handlers);
 
-        return $this->respondToSlack("Dostępne polecenia:")
+        return $this->respondToSlack(__("Available commands:"))
             ->withAttachment(
                 Attachment::create()
                     ->setColor("good")

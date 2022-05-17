@@ -14,9 +14,9 @@ class AbsencesAttachment extends ListAttachment
         parent::__construct();
 
         $this
-            ->setTitle("Nieobecności :palm_tree:")
+            ->setTitle(__("Absences :palm_tree:"))
             ->setColor("#eab308")
             ->setItems($absences->map(fn(Vacation $vacation): string => $vacation->user->profile->full_name))
-            ->setEmptyText("Wszyscy dzisiaj pracują :muscle:");
+            ->setEmptyText(__("Everybody works today :muscle:"));
     }
 }

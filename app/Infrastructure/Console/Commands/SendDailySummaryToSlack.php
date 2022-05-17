@@ -18,7 +18,7 @@ use Toby\Infrastructure\Slack\Elements\RemotesAttachment;
 class SendDailySummaryToSlack extends Command
 {
     protected $signature = "toby:slack:daily-summary {--f|force}";
-    protected $description = "Sent daily summary to slack";
+    protected $description = "Sent daily summary to Slack";
 
     public function handle(DailySummaryRetriever $dailySummaryRetriever): void
     {
@@ -37,7 +37,7 @@ class SendDailySummaryToSlack extends Command
         Http::withToken($this->getSlackClientToken())
             ->post($this->getUrl(), [
                 "channel" => $this->getSlackChannel(),
-                "text" => "Podsumowanie dla dnia {$now->toDisplayString()}",
+                "text" => __("Daily summary for day :day", ["day" => $now->toDisplayString()]),
                 "attachments" => $attachments,
             ]);
     }
