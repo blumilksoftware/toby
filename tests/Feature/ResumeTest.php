@@ -131,8 +131,6 @@ class ResumeTest extends FeatureTestCase
         $resume = Resume::factory()->create();
         $admin = User::factory()->admin()->create();
 
-        $this->withoutExceptionHandling();
-
         $this->actingAs($admin)
             ->get("/resumes/{$resume->id}")
             ->assertDownload("resume-{$resume->id}.docx");

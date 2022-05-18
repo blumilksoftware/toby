@@ -14,10 +14,6 @@ class ResumeGenerator
 {
     public function generate(Resume $resume): string
     {
-        $uid = Str::uuid();
-
-        $path = storage_path("${uid}.docx");
-
         $processor = new TemplateProcessor($this->getTemplate());
 
         $processor->setValue("id", $resume->id);
@@ -28,9 +24,7 @@ class ResumeGenerator
         $this->fillEducation($processor, $resume);
         $this->fillProjects($processor, $resume);
 
-        $processor->saveAs($path);
-
-        return $path;
+        return $processor->save();
     }
 
     public function getTemplate(): string
