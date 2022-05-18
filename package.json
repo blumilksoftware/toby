@@ -9,8 +9,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "lint": "./node_modules/.bin/eslint resources/js --ext .js,.vue",
-        "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix",
-        "postinstall": "npm run prod"
+        "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
     },
     "dependencies": {
         "@headlessui/vue": "^1.6.1",
@@ -21,7 +20,7 @@
         "@tailwindcss/forms": "^0.5.1",
         "@tailwindcss/line-clamp": "^0.4.0",
         "@tailwindcss/typography": "^0.5.2",
-        "@vue/compiler-sfc": "^3.2.33",
+        "@vue/compiler-sfc": "^3.2.31",
         "autoprefixer": "^10.4.7",
         "axios": "^0.27.2",
         "echarts": "^5.3.2",
@@ -32,17 +31,17 @@
         "luxon": "^2.3.2",
         "postcss": "^8.4.13",
         "tailwindcss": "^3.0.24",
-        "vue": "^3.2.33",
+        "vue": "^3.2.21",
         "vue-echarts": "^6.0.2",
         "vue-flatpickr-component": "^9.0.6",
         "vue-loader": "^17.0.0",
         "vue-material-design-icons": "^5.0.0",
         "vue-toastification": "^2.0.0-rc.5",
-        "vue3-popper": "^1.4.2"
+        "vue3-popper": "^1.4.2",
+        "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
         "eslint": "^8.14.0",
-        "eslint-plugin-tailwindcss": "^3.5.0",
         "eslint-plugin-vue": "^8.7.1"
     }
 }

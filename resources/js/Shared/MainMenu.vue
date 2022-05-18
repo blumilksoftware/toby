@@ -59,7 +59,7 @@
               >
             </InertiaLink>
           </div>
-          <nav class="overflow-y-auto shrink-0 mt-5 h-full divide-y divide-blumilk-800">
+          <nav class="overflow-y-auto shrink-0 mt-5 h-full space-y-5">
             <div class="px-2 space-y-1">
               <InertiaLink
                 href="/"
@@ -70,28 +70,53 @@
                 Strona główna
               </InertiaLink>
             </div>
-            <div class="pt-3 mt-3">
-              <div class="py-1 px-2 space-y-1">
-                <InertiaLink
-                  v-for="item in navigation"
-                  :key="item.name"
-                  :href="item.href"
-                  :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
-                  @click="sidebarOpen = false;"
+            <div
+              v-if="vacationNavigation.length"
+              class="py-1 px-2 space-y-1"
+            >
+              <InertiaLink
+                v-for="item in vacationNavigation"
+                :key="item.name"
+                :href="item.href"
+                :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                @click="sidebarOpen = false;"
+              >
+                <component
+                  :is="item.icon"
+                  class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
+                />
+                {{ item.name }}
+                <span
+                  v-if="item.badge"
+                  class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
                 >
-                  <component
-                    :is="item.icon"
-                    class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
-                  />
-                  {{ item.name }}
-                  <span
-                    v-if="item.badge"
-                    class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
-                  >
-                    {{ item.badge }}
-                  </span>
-                </InertiaLink>
-              </div>
+                  {{ item.badge }}
+                </span>
+              </InertiaLink>
+            </div>
+            <div
+              v-if="miscNavigaction.length"
+              class="py-1 px-2 space-y-1"
+            >
+              <InertiaLink
+                v-for="item in miscNavigaction"
+                :key="item.name"
+                :href="item.href"
+                :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                @click="sidebarOpen = false;"
+              >
+                <component
+                  :is="item.icon"
+                  class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
+                />
+                {{ item.name }}
+                <span
+                  v-if="item.badge"
+                  class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
+                >
+                  {{ item.badge }}
+                </span>
+              </InertiaLink>
             </div>
           </nav>
         </div>
@@ -110,7 +135,7 @@
           >
         </InertiaLink>
       </div>
-      <nav class="flex overflow-y-auto flex-col flex-1 px-2 mt-5 divide-y divide-blumilk-800">
+      <nav class="flex overflow-y-auto flex-col flex-1 px-2 mt-5 space-y-4">
         <InertiaLink
           href="/"
           :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 mt-1 text-sm leading-6 font-medium rounded-md']"
@@ -118,9 +143,35 @@
           <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
           Strona główna
         </InertiaLink>
-        <div class="pt-1 mt-1 space-y-1">
+        <div
+          v-if="vacationNavigation.length"
+          class="pt-1 mt-1 space-y-1"
+        >
           <InertiaLink
-            v-for="item in navigation"
+            v-for="item in vacationNavigation"
+            :key="item.name"
+            :href="item.href"
+            :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+          >
+            <component
+              :is="item.icon"
+              class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
+            />
+            {{ item.name }}
+            <span
+              v-if="item.badge"
+              class="py-0.5 px-2.5 ml-3 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full 2xl:inline-block"
+            >
+              {{ item.badge }}
+            </span>
+          </InertiaLink>
+        </div>
+        <div
+          v-if="miscNavigaction.length"
+          class="pt-1 mt-1 space-y-1"
+        >
+          <InertiaLink
+            v-for="item in miscNavigaction"
             :key="item.name"
             :href="item.href"
             :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
@@ -295,6 +346,7 @@ import {
   DocumentTextIcon,
   AdjustmentsIcon,
   KeyIcon,
+  TemplateIcon, BeakerIcon,
 } from '@heroicons/vue/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
@@ -306,7 +358,7 @@ const props = defineProps({
 
 const sidebarOpen = ref(false)
 
-const navigation = computed(() =>
+const vacationNavigation = computed(() =>
   [
     {
       name: 'Moje wnioski',
@@ -358,20 +410,36 @@ const navigation = computed(() =>
       icon: ClipboardListIcon,
       can: true,
     },
-    {
-      name: 'Użytkownicy',
-      href: '/users',
-      section: 'Users/',
-      icon: UserGroupIcon,
-      can: props.auth.can.manageUsers,
-    },
-    {
-      name: 'Klucze',
-      href: '/keys',
-      section: 'Keys',
-      icon: KeyIcon,
-      can: true,
-    },
-
   ].filter(item => item.can))
+
+const miscNavigaction = computed(() => [
+  {
+    name: 'Użytkownicy',
+    href: '/users',
+    section: 'Users/',
+    icon: UserGroupIcon,
+    can: props.auth.can.manageUsers,
+  },
+  {
+    name: 'Klucze',
+    href: '/keys',
+    section: 'Keys',
+    icon: KeyIcon,
+    can: true,
+  },
+  {
+    name: 'Technologie',
+    href: '/technologies',
+    section: 'Technologies',
+    icon: BeakerIcon,
+    can: props.auth.can.manageResumes,
+  },
+  {
+    name: 'CV',
+    href: '/resumes',
+    section: 'Resumes',
+    icon: TemplateIcon,
+    can: props.auth.can.manageResumes,
+  },
+].filter(item => item.can))
 </script>

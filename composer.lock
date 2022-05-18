@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c23bb050dbab6338570f0f73adb83cf8",
+    "content-hash": "4eda92fdbff36c6073984536a46dde77",
     "packages": [
         {
             "name": "azuyalabs/yasumi",
@@ -1039,16 +1039,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.247.0",
+            "version": "v0.248.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "1fc6eab7512b4e2dd4b6c96b2697f9b6bfbaddc2"
+                "reference": "5967583706b1b09c49d04e3c1c3c05e459b0767e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/1fc6eab7512b4e2dd4b6c96b2697f9b6bfbaddc2",
-                "reference": "1fc6eab7512b4e2dd4b6c96b2697f9b6bfbaddc2",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/5967583706b1b09c49d04e3c1c3c05e459b0767e",
+                "reference": "5967583706b1b09c49d04e3c1c3c05e459b0767e",
                 "shasum": ""
             },
             "require": {
@@ -1077,9 +1077,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.247.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.248.0"
             },
-            "time": "2022-05-02T01:12:12+00:00"
+            "time": "2022-05-09T01:06:12+00:00"
         },
         {
             "name": "google/auth",
@@ -1678,17 +1678,79 @@
             "time": "2021-12-16T16:49:26+00:00"
         },
         {
-            "name": "laravel/framework",
-            "version": "v9.11.0",
+            "name": "laminas/laminas-escaper",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "598a8c84d452a66b90a3213b1d67189cc726c728"
+                "url": "https://github.com/laminas/laminas-escaper.git",
+                "reference": "58af67282db37d24e584a837a94ee55b9c7552be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/598a8c84d452a66b90a3213b1d67189cc726c728",
-                "reference": "598a8c84d452a66b90a3213b1d67189cc726c728",
+                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/58af67282db37d24e584a837a94ee55b9c7552be",
+                "reference": "58af67282db37d24e584a837a94ee55b9c7552be",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-mbstring": "*",
+                "php": "^7.4 || ~8.0.0 || ~8.1.0"
+            },
+            "conflict": {
+                "zendframework/zend-escaper": "*"
+            },
+            "require-dev": {
+                "infection/infection": "^0.26.6",
+                "laminas/laminas-coding-standard": "~2.3.0",
+                "maglnet/composer-require-checker": "^3.8.0",
+                "phpunit/phpunit": "^9.5.18",
+                "psalm/plugin-phpunit": "^0.16.1",
+                "vimeo/psalm": "^4.22.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Escaper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Securely and safely escape HTML, HTML attributes, JavaScript, CSS, and URLs",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "escaper",
+                "laminas"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-escaper/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-escaper/issues",
+                "rss": "https://github.com/laminas/laminas-escaper/releases.atom",
+                "source": "https://github.com/laminas/laminas-escaper"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2022-03-08T20:15:36+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v9.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "7c8bf052ef4919b8ffa7f25ec6f8648c4a36fc57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7c8bf052ef4919b8ffa7f25ec6f8648c4a36fc57",
+                "reference": "7c8bf052ef4919b8ffa7f25ec6f8648c4a36fc57",
                 "shasum": ""
             },
             "require": {
@@ -1854,7 +1916,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-05-03T14:47:20+00:00"
+            "time": "2022-05-10T19:32:47+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -3122,16 +3184,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "4192345e260f1d51b365536199744b987e160edc"
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4192345e260f1d51b365536199744b987e160edc",
-                "reference": "4192345e260f1d51b365536199744b987e160edc",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/247918972acd74356b0a91dfaa5adcaec069b6c0",
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0",
                 "shasum": ""
             },
             "require": {
@@ -3144,18 +3206,23 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
                 "doctrine/couchdb": "~1.0@dev",
-                "elasticsearch/elasticsearch": "^7",
+                "elasticsearch/elasticsearch": "^7 || ^8",
+                "ext-json": "*",
                 "graylog2/gelf-php": "^1.4.2",
+                "guzzlehttp/guzzle": "^7.4",
+                "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
                 "php-console/php-console": "^3.1.3",
-                "phpspec/prophecy": "^1.6.1",
+                "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
-                "phpunit/phpunit": "^8.5",
+                "phpunit/phpunit": "^8.5.14",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3 || ^2 || ^3",
-                "ruflin/elastica": ">=0.90@dev",
-                "swiftmailer/swiftmailer": "^5.3|^6.0"
+                "ruflin/elastica": "^7",
+                "swiftmailer/swiftmailer": "^5.3|^6.0",
+                "symfony/mailer": "^5.4 || ^6",
+                "symfony/mime": "^5.4 || ^6"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -3205,7 +3272,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.5.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.6.0"
             },
             "funding": [
                 {
@@ -3217,7 +3284,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-08T15:43:54+00:00"
+            "time": "2022-05-10T09:36:00+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -3964,6 +4031,118 @@
             "time": "2022-04-24T13:53:10+00:00"
         },
         {
+            "name": "phpoffice/phpword",
+            "version": "0.18.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPWord.git",
+                "reference": "be0190cd5d8f95b4be08d5853b107aa4e352759a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/be0190cd5d8f95b4be08d5853b107aa4e352759a",
+                "reference": "be0190cd5d8f95b4be08d5853b107aa4e352759a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "laminas/laminas-escaper": "^2.2",
+                "php": "^5.3.3 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "dompdf/dompdf": "0.8.* || 1.0.*",
+                "ext-gd": "*",
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^2.2",
+                "mpdf/mpdf": "5.7.4 || 6.* || 7.* || 8.*",
+                "php-coveralls/php-coveralls": "1.1.0 || ^2.0",
+                "phploc/phploc": "2.* || 3.* || 4.* || 5.* || 6.* || 7.*",
+                "phpmd/phpmd": "2.*",
+                "phpunit/phpunit": "^4.8.36 || ^7.0",
+                "squizlabs/php_codesniffer": "^2.9 || ^3.5",
+                "tecnickcom/tcpdf": "6.*"
+            },
+            "suggest": {
+                "dompdf/dompdf": "Allows writing PDF",
+                "ext-gd2": "Allows adding images",
+                "ext-xmlwriter": "Allows writing OOXML and ODF",
+                "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
+                "ext-zip": "Allows writing OOXML and ODF"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.19-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpOffice\\PhpWord\\": "src/PhpWord"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com",
+                    "homepage": "http://gabrielbull.com/"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "https://rootslabs.net/blog/"
+                },
+                {
+                    "name": "Ivan Lanin",
+                    "homepage": "http://ivan.lanin.org"
+                },
+                {
+                    "name": "Roman Syroeshko",
+                    "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
+                },
+                {
+                    "name": "Antoine de Troostembergh"
+                }
+            ],
+            "description": "PHPWord - A pure PHP library for reading and writing word processing documents (OOXML, ODF, RTF, HTML, PDF)",
+            "homepage": "http://phpoffice.github.io",
+            "keywords": [
+                "ISO IEC 29500",
+                "OOXML",
+                "Office Open XML",
+                "OpenDocument",
+                "OpenXML",
+                "PhpOffice",
+                "PhpWord",
+                "Rich Text Format",
+                "WordprocessingML",
+                "doc",
+                "docx",
+                "html",
+                "odf",
+                "odt",
+                "office",
+                "pdf",
+                "php",
+                "reader",
+                "rtf",
+                "template",
+                "template processor",
+                "word",
+                "writer"
+            ],
+            "support": {
+                "issues": "https://github.com/PHPOffice/PHPWord/issues",
+                "source": "https://github.com/PHPOffice/PHPWord/tree/0.18.3"
+            },
+            "time": "2022-02-17T15:40:03+00:00"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.8.1",
             "source": {
@@ -4558,16 +4737,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.11.2",
+            "version": "v0.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "7f7da640d68b9c9fec819caae7c744a213df6514"
+                "reference": "05c544b339b112226ad14803e1e5b09a61957454"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/7f7da640d68b9c9fec819caae7c744a213df6514",
-                "reference": "7f7da640d68b9c9fec819caae7c744a213df6514",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/05c544b339b112226ad14803e1e5b09a61957454",
+                "reference": "05c544b339b112226ad14803e1e5b09a61957454",
                 "shasum": ""
             },
             "require": {
@@ -4582,15 +4761,13 @@
                 "symfony/console": "4.4.37 || 5.3.14 || 5.3.15 || 5.4.3 || 5.4.4 || 6.0.3 || 6.0.4"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.2",
-                "hoa/console": "3.17.05.02"
+                "bamarni/composer-bin-plugin": "^1.2"
             },
             "suggest": {
                 "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
                 "ext-pdo-sqlite": "The doc command requires SQLite to work.",
                 "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
-                "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history.",
-                "hoa/console": "A pure PHP readline implementation. You'll want this if your PHP install doesn't already support readline or libedit."
+                "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history."
             },
             "bin": [
                 "bin/psysh"
@@ -4630,9 +4807,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.11.2"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.11.4"
             },
-            "time": "2022-02-28T15:28:54+00:00"
+            "time": "2022-05-06T12:49:14+00:00"
         },
         {
             "name": "rackbeat/laravel-ui-avatars",
@@ -7599,16 +7776,16 @@
     "packages-dev": [
         {
             "name": "blumilksoftware/codestyle",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blumilksoftware/codestyle.git",
-                "reference": "124c55f0374d8f6952675011e359cb54f40f4090"
+                "reference": "bf694da19f2cd5d0575b8fad585d3570d6785c23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/124c55f0374d8f6952675011e359cb54f40f4090",
-                "reference": "124c55f0374d8f6952675011e359cb54f40f4090",
+                "url": "https://api.github.com/repos/blumilksoftware/codestyle/zipball/bf694da19f2cd5d0575b8fad585d3570d6785c23",
+                "reference": "bf694da19f2cd5d0575b8fad585d3570d6785c23",
                 "shasum": ""
             },
             "require": {
@@ -7643,9 +7820,9 @@
             "description": "Blumilk codestyle configurator",
             "support": {
                 "issues": "https://github.com/blumilksoftware/codestyle/issues",
-                "source": "https://github.com/blumilksoftware/codestyle/tree/v1.2.0"
+                "source": "https://github.com/blumilksoftware/codestyle/tree/v1.3.0"
             },
-            "time": "2022-04-27T10:13:34+00:00"
+            "time": "2022-05-10T09:41:53+00:00"
         },
         {
             "name": "composer/pcre",
@@ -8335,16 +8512,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v6.23.1",
+            "version": "v6.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "41f6deb42ae42b9b7dae1c32c03cb35d365d3118"
+                "reference": "7fed3695741787d9998c5f04c94adfd62d70e766"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/41f6deb42ae42b9b7dae1c32c03cb35d365d3118",
-                "reference": "41f6deb42ae42b9b7dae1c32c03cb35d365d3118",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/7fed3695741787d9998c5f04c94adfd62d70e766",
+                "reference": "7fed3695741787d9998c5f04c94adfd62d70e766",
                 "shasum": ""
             },
             "require": {
@@ -8402,9 +8579,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v6.23.1"
+                "source": "https://github.com/laravel/dusk/tree/v6.24.0"
             },
-            "time": "2022-05-02T14:01:47+00:00"
+            "time": "2022-05-09T13:43:52+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -10592,16 +10769,16 @@
         },
         {
             "name": "spatie/ignition",
-            "version": "1.2.9",
+            "version": "1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ignition.git",
-                "reference": "db25202fab2d5c14613b8914a1bb374998bbf870"
+                "reference": "dd8c3a21170b1d0f4d15048b2f4fa4a1a3a92a64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ignition/zipball/db25202fab2d5c14613b8914a1bb374998bbf870",
-                "reference": "db25202fab2d5c14613b8914a1bb374998bbf870",
+                "url": "https://api.github.com/repos/spatie/ignition/zipball/dd8c3a21170b1d0f4d15048b2f4fa4a1a3a92a64",
+                "reference": "dd8c3a21170b1d0f4d15048b2f4fa4a1a3a92a64",
                 "shasum": ""
             },
             "require": {
@@ -10658,20 +10835,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-23T20:37:21+00:00"
+            "time": "2022-05-10T12:21:27+00:00"
         },
         {
             "name": "spatie/laravel-ignition",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-ignition.git",
-                "reference": "924d1ae878874ad0bb49f63b69a9af759a34ee78"
+                "reference": "51e5daaa7e43c154fe57f1ddfbba862f9fe57646"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/924d1ae878874ad0bb49f63b69a9af759a34ee78",
-                "reference": "924d1ae878874ad0bb49f63b69a9af759a34ee78",
+                "url": "https://api.github.com/repos/spatie/laravel-ignition/zipball/51e5daaa7e43c154fe57f1ddfbba862f9fe57646",
+                "reference": "51e5daaa7e43c154fe57f1ddfbba862f9fe57646",
                 "shasum": ""
             },
             "require": {
@@ -10748,7 +10925,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-14T18:04:51+00:00"
+            "time": "2022-05-05T15:53:24+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -11004,5 +11181,5 @@
         "ext-redis": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.1.0"
 }

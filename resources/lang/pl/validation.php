@@ -114,6 +114,51 @@ return [
     "uploaded" => "Nie udało się wgrać pliku :attribute.",
     "url" => "Format pola :attribute jest nieprawidłowy.",
     "uuid" => "Pole :attribute musi być poprawnym identyfikatorem UUID.",
+    "custom" => [
+        "education.*.school" => [
+            "required" => "Nazwa szkoły jest wymagana.",
+        ],
+        "education.*.degree" => [
+            "required" => "Stopień jest wymagany.",
+        ],
+        "education.*.fieldOfStudy" => [
+            "required" => "Kierunek jest wymagany.",
+        ],
+        "education.*.startDate" => [
+            "required" => "Data rozpoczęcia jest wymagana.",
+        ],
+        "education.*.endDate" => [
+            "required" => "Data zakończenia jest wymagana.",
+            "after" => "Data zakończenia musi być datą późniejszą od daty rozpoczęcia.",
+            "required_if" => "Data zakończenia jest wymagana.",
+        ],
+        "languages.*.name" => [
+            "distinct" => "Języki nie mogą się powtarzać.",
+            "required" => "Język jest wymagany.",
+        ],
+        "technologies.*.name" => [
+            "distinct" => "Technologie nie mogą się powtarzać.",
+            "required" => "Technologia jest wymagana.",
+        ],
+        "projects.*.description" => [
+            "required" => "Opis projektu jest wymagany.",
+        ],
+        "projects.*.technologies" => [
+            "required" => "Opis projektu jest wymagany.",
+            "min" => "Musi być wybrana co najmniej jedna technologia."
+        ],
+        "projects.*.startDate" => [
+            "required" => "Data rozpoczęcia jest wymagana.",
+        ],
+        "projects.*.endDate" => [
+            "required" => "Data zakończenia jest wymagana.",
+            "after" => "Data zakończenia musi być datą późniejszą od daty rozpoczęcia.",
+            "required_if" => "Data zakończenia jest wymagana.",
+        ],
+        "projects.*.tasks" => [
+            "required" => "Zadania w projekcie są wymagane.",
+        ],
+    ],
     "attributes" => [
         "to" => "do",
         "from" => "od",

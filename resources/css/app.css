@@ -1,4 +1,5 @@
 @import 'flatpickr/dist/themes/light.css';
+@import 'flatpickr/dist/plugins/monthSelect/style.css';
 @import 'vue-toastification/dist/index.css';
 
 @tailwind base;
@@ -28,7 +29,8 @@
 .flatpickr-day.endRange.prevMonthDay,
 .flatpickr-day.selected.nextMonthDay,
 .flatpickr-day.startRange.nextMonthDay,
-.flatpickr-day.endRange.nextMonthDay {
+.flatpickr-day.endRange.nextMonthDay,
+.flatpickr-monthSelect-month.selected {
     background: #527ABA;
     -webkit-box-shadow: none;
     box-shadow: none;

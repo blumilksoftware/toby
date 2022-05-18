@@ -20,6 +20,8 @@ use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Key;
+use Toby\Eloquent\Models\Resume;
+use Toby\Eloquent\Models\Technology;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -332,5 +334,35 @@ class DemoSeeder extends Seeder
                 ->for($user)
                 ->create();
         }
+
+        Technology::factory()->createMany([
+            ["name" => "Laravel"],
+            ["name" => "Symfony"],
+            ["name" => "CakePHP"],
+            ["name" => "PHP"],
+            ["name" => "Livewire"],
+            ["name" => "Inertia"],
+            ["name" => "Vue"],
+            ["name" => "Javascript"],
+            ["name" => "Redis"],
+            ["name" => "AWS"],
+            ["name" => "Tailwind"],
+            ["name" => "CSS"],
+            ["name" => "PHPUnit"],
+            ["name" => "Cypress"],
+            ["name" => "Behat"],
+            ["name" => "Pest"],
+            ["name" => "Golang"],
+        ]);
+
+        foreach ($users as $user) {
+            Resume::factory()
+                ->for($user)
+                ->create();
+        }
+
+        Resume::factory()
+            ->count(3)
+            ->create();
     }
 }
