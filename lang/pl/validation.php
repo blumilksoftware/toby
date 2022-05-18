@@ -145,7 +145,7 @@ return [
         ],
         "projects.*.technologies" => [
             "required" => "Opis projektu jest wymagany.",
-            "min" => "Musi być wybrana co najmniej jedna technologia."
+            "min" => "Musi być wybrana co najmniej jedna technologia.",
         ],
         "projects.*.startDate" => [
             "required" => "Data rozpoczęcia jest wymagana.",
