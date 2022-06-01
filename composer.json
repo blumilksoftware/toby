@@ -12,7 +12,7 @@
         "barryvdh/laravel-dompdf": "^1.0",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "inertiajs/inertia-laravel": "^0.5.1",
+        "inertiajs/inertia-laravel": "^0.6.2",
         "laravel/framework": "^9.7",
         "laravel/sanctum": "^2.14",
         "laravel/socialite": "^5.2",
