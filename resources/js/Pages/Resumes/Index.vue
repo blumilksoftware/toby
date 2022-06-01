@@ -175,7 +175,14 @@
                 colspan="100%"
                 class="py-4 text-xl leading-5 text-center text-gray-700"
               >
-                Brak danych
+                <EmptyState>
+                  <template #title>
+                    Brak CV
+                  </template>
+                  <template #text>
+                    Brak wpisów dotyczących CV
+                  </template>
+                </EmptyState>
               </td>
             </tr>
           </tbody>
@@ -191,6 +198,7 @@ import { DotsVerticalIcon } from '@heroicons/vue/outline'
 import { DownloadIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import Pagination from '@/Shared/Pagination'
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
 
 defineProps({
   resumes: Object,
