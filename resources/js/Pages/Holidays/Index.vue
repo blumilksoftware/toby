@@ -124,7 +124,7 @@
                     Brak dni wolnych od pracy
                   </template>
                   <template #text>
-                    Brak wpisów dotyczących dni wolnych 😔
+                    Brak wpisów dotyczących dni wolnych
                   </template>
                 </EmptyState>
               </td>
