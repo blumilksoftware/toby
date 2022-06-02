@@ -346,7 +346,14 @@
               colspan="100%"
               class="py-4 text-xl leading-5 text-center text-gray-700"
             >
-              Brak danych
+              <EmptyState>
+                <template #title>
+                  Brak wniosków o urlop
+                </template>
+                <template #text>
+                  Spróbuj sformułować zapytanie inaczej
+                </template>
+              </EmptyState>
             </td>
           </tr>
         </tbody>
@@ -365,6 +372,7 @@ import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import Pagination from '@/Shared/Pagination'
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
 
 const props = defineProps({
   requests: Object,

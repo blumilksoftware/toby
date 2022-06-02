@@ -1,5 +1,5 @@
 <template>
-  <InertiaHead title="Klucze" />
+  <InertiaHead title="Technologie" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
@@ -92,7 +92,14 @@
                 colspan="100%"
                 class="py-4 text-xl leading-5 text-center text-gray-700"
               >
-                Brak danych
+                <EmptyState>
+                  <template #title>
+                    Brak technologii
+                  </template>
+                  <template #text>
+                    Brak wpisów dotyczących technologii
+                  </template>
+                </EmptyState>
               </td>
             </tr>
           </tbody>
@@ -200,6 +207,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useForm } from '@inertiajs/inertia-vue3'
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
 
 defineProps({
   technologies: Object,

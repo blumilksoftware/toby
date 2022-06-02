@@ -119,7 +119,14 @@
                 colspan="100%"
                 class="py-4 text-xl leading-5 text-center text-gray-700"
               >
-                Brak danych
+                <EmptyState>
+                  <template #title>
+                    Brak dni wolnych od pracy
+                  </template>
+                  <template #text>
+                    Brak wpisów dotyczących dni wolnych
+                  </template>
+                </EmptyState>
               </td>
             </tr>
           </tbody>
@@ -132,6 +139,7 @@
 <script setup>
 import { DotsVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
 
 defineProps({
   holidays: Object,
