@@ -1,5 +1,5 @@
 <template>
-  <InertiaHead title="Klucze" />
+  <InertiaHead title="Technologie" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
