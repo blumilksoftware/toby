@@ -343,13 +343,14 @@ const props = defineProps({
   users: Object,
   holidays: Object,
   can: Object,
+  vacationStartDate: [String, null],
 })
 
 const form = useForm({
   user: props.can.createOnBehalfOfEmployee
     ? props.users.data.find(user => user.id === props.auth.user.id) ?? props.users.data[0]
     : props.auth.user,
-  from: null,
+  from: props.vacationStartDate,
   to: null,
   vacationType: null,
   comment: null,
@@ -399,6 +400,7 @@ function createForm() {
 }
 
 function onFromChange(selectedDates, dateStr) {
+  console.log(form.from)
   if (form.to === null) {
     form.to = dateStr
 
