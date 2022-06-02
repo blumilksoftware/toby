@@ -156,7 +156,17 @@
                 colspan="100%"
                 class="py-4 text-xl leading-5 text-center text-gray-700"
               >
-                Brak danych
+                <EmptyState class="text-gray-700">
+                  <template #head>
+                    <KeyIcon class="mx-auto w-12 h-12" />
+                  </template>
+                  <template #title>
+                    Brak kluczy
+                  </template>
+                  <template #text>
+                    Nie dodano ani jednego klucza
+                  </template>
+                </EmptyState>
               </td>
             </tr>
           </tbody>
@@ -307,7 +317,7 @@
 </template>
 
 <script setup>
-import { DotsVerticalIcon, TrashIcon, CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
+import { DotsVerticalIcon, TrashIcon, CheckIcon, SelectorIcon, KeyIcon } from '@heroicons/vue/solid'
 import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
 import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
@@ -315,6 +325,7 @@ import { computed, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { useForm } from '@inertiajs/inertia-vue3'
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
 
 const props = defineProps({
   keys: Object,
