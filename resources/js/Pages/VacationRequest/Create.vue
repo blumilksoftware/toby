@@ -352,11 +352,13 @@ const form = useForm({
     ? props.users.data.find(user => user.id === (props.userId ?? props.auth.user.id)) ?? props.users.data[0]
     : props.auth.user,
   from: props.vacationStartDate,
-  to: null,
+  to: props.vacationStartDate,
   vacationType: null,
   comment: null,
   flowSkipped: false,
 })
+
+refreshEstimatedDays(form.from, form.to)
 
 const estimatedDays = ref([])
 const vacationTypes = ref([])
