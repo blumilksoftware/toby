@@ -40,8 +40,9 @@
             :preserve-scroll="true"
             class="inline-flex relative items-center py-2 px-4 text-sm font-medium rounded-md border"
             :class="{ 'z-10 bg-blumilk-25 border-blumilk-500 text-blumilk-600': link.active, 'bg-white border-gray-300 text-gray-500': !link.active, 'hover:bg-blumilk-25': link.url, 'border-none': !link.url}"
-            v-text="link.label"
-          />
+          >
+            {{ link.label }}
+          </Component>
         </template>
       </nav>
     </div>
