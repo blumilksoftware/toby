@@ -100,7 +100,9 @@
               v-for="day in calendar"
               :key="day.dayOfMonth"
               class="border border-gray-300"
-              :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday}"
+              :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday }"
+              @mouseover="setActiveBtn(user.id.toString() + '' + day.date)"
+              @mouseleave="unsetActiveBtn"
             >
               <div
                 v-if="day.vacations.includes(user.id)"
@@ -108,6 +110,18 @@
               >
                 <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
+              <InertiaLink
+                v-else-if="isActiveBtn(user.id.toString() + '' + day.date) && !day.isWeekend && !day.isHoliday && day.isFuture"
+                href="/vacation/requests/create"
+                :data="{ 'start_date': day.date }"
+              >
+                <div class="flex justify-center items-center">
+                  <VacationTypeCalendarIcon
+                    type="create"
+                    class="text-blumilk-700"
+                  />
+                </div>
+              </InertiaLink>
             </td>
           </tr>
         </tbody>
@@ -118,7 +132,7 @@
 
 <script setup>
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/solid'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useMonthInfo } from '@/Composables/monthInfo'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon'
 
@@ -132,6 +146,8 @@ const props = defineProps({
   can: Object,
 })
 
+let activeElement = ref(undefined)
+
 const { getMonths, findMonth } = useMonthInfo()
 
 const months = getMonths()
@@ -140,4 +156,17 @@ const currentMonth = computed(() => findMonth(props.current))
 const selectedMonth = computed(() => findMonth(props.selected))
 const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
 const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
+
+function isActiveBtn(key) {
+  return activeElement.value === key
+}
+
+function setActiveBtn(key) {
+  if(activeElement.value === undefined)
+    activeElement.value = key
+}
+
+function unsetActiveBtn() {
+  activeElement.value = undefined
+}
 </script>
