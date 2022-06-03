@@ -400,7 +400,6 @@ function createForm() {
 }
 
 function onFromChange(selectedDates, dateStr) {
-  console.log(form.from)
   if (form.to === null) {
     form.to = dateStr
 
