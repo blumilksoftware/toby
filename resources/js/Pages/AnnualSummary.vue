@@ -129,15 +129,6 @@
   </div>
 </template>
 
-<style lang="css">
-.cursor-default {
-  cursor: auto;
-}
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
-</style>
-
 <script setup>
 import { DateTime } from 'luxon'
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
@@ -224,3 +215,12 @@ function getVacationInfo(day) {
   return day.isVacation ? props.vacations[day.date.toISODate()] : props.pendingVacations[day.date.toISODate()]
 }
 </script>
+
+<style lang="css">
+.cursor-default {
+  cursor: auto;
+}
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+</style>
