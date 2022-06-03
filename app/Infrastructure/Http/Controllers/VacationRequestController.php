@@ -173,6 +173,11 @@ class VacationRequestController extends Controller
             ->orderByProfileField("first_name")
             ->get();
 
+        if(($selectedUserId = $request->get("user")) && is_numeric($selectedUserId)) {
+            $userId = User::query()
+                ->find($selectedUserId)?->id;
+        }
+
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
             "users" => SimpleUserResource::collection($users),
@@ -180,6 +185,7 @@ class VacationRequestController extends Controller
                 "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
                 "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),
             ],
+            "userId" => $userId ?? null,
             "vacationStartDate" => $request->get("start_date"),
         ]);
     }

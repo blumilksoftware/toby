@@ -343,12 +343,13 @@ const props = defineProps({
   users: Object,
   holidays: Object,
   can: Object,
+  userId: [Number, null],
   vacationStartDate: [String, null],
 })
 
 const form = useForm({
   user: props.can.createOnBehalfOfEmployee
-    ? props.users.data.find(user => user.id === props.auth.user.id) ?? props.users.data[0]
+    ? props.users.data.find(user => user.id === (props.userId ?? props.auth.user.id)) ?? props.users.data[0]
     : props.auth.user,
   from: props.vacationStartDate,
   to: null,

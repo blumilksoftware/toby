@@ -110,18 +110,32 @@
               >
                 <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
-              <InertiaLink
+              <template
                 v-else-if="isActiveBtn(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && day.isFuture && (auth.user.id === user.id || can.createOnBehalfOfEmployee)"
-                href="/vacation/requests/create"
-                :data="{ 'start_date': day.date }"
               >
-                <div class="flex justify-center items-center">
-                  <VacationTypeCalendarIcon
-                    type="create"
-                    class="text-blumilk-700"
-                  />
-                </div>
-              </InertiaLink>
+                <InertiaLink
+                  v-if="can.createOnBehalfOfEmployee"
+                  href="/vacation/requests/create"
+                  :data="{ 'user': user.id, 'start_date': day.date }"
+                >
+                  <div class="flex justify-center items-center">
+                    <VacationTypeCalendarIcon
+                      type="create"
+                    />
+                  </div>
+                </InertiaLink>
+                <InertiaLink
+                  v-else
+                  href="/vacation/requests/create"
+                  :data="{ 'start_date': day.date }"
+                >
+                  <div class="flex justify-center items-center">
+                    <VacationTypeCalendarIcon
+                      type="create"
+                    />
+                  </div>
+                </InertiaLink>
+              </template>
             </td>
           </tr>
         </tbody>
