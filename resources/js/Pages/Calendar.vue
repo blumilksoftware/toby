@@ -101,7 +101,7 @@
               :key="day.dayOfMonth"
               class="border border-gray-300"
               :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday }"
-              @mouseover="setActiveBtn(user.id.toString() + '' + day.date)"
+              @mouseover="setActiveBtn(user.id + '+' + day.date)"
               @mouseleave="unsetActiveBtn"
             >
               <div
@@ -111,7 +111,7 @@
                 <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
               <InertiaLink
-                v-else-if="isActiveBtn(user.id.toString() + '' + day.date) && !day.isWeekend && !day.isHoliday && day.isFuture"
+                v-else-if="isActiveBtn(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && day.isFuture && (auth.user.id === user.id || can.createOnBehalfOfEmployee)"
                 href="/vacation/requests/create"
                 :data="{ 'start_date': day.date }"
               >
@@ -145,6 +145,8 @@ const props = defineProps({
   years: Object,
   can: Object,
 })
+
+console.log(props.auth.user)
 
 let activeElement = ref(undefined)
 
