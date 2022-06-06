@@ -89,7 +89,7 @@
                 <InertiaLink
                   v-if="day.isFuture"
                   href="/vacation/requests/create"
-                  :data="{ 'start_date': day.date.toISODate() }"
+                  :data="{ 'from_date': day.date.toISODate() }"
                   class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500"
                 >
                   <time

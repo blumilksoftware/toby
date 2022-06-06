@@ -173,6 +173,6 @@ function unsetActiveDay() {
 }
 
 function linkParameters(user, day) {
-  return props.can.createOnBehalfOfEmployee ? { user: user.id, start_date: day.date } : { start_date: day.date }
+  return props.can.createOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
 }
 </script>
