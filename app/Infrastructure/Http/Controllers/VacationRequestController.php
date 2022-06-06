@@ -183,8 +183,8 @@ class VacationRequestController extends Controller
                 "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
                 "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),
             ],
-            "vacationUserId" => $requestData['user'],
-            "vacationFromDate" => $requestData['from_date'],
+            "vacationUserId" => $requestData["user"],
+            "vacationFromDate" => $requestData["from_date"],
         ]);
     }
 
