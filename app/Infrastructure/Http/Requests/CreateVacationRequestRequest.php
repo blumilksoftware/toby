@@ -13,8 +13,8 @@ class CreateVacationRequestRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return null === $this->get("user") ||
-            (int)$this->get("user") === $this->user()->id ||
+        return ($this->get("user") === null) ||
+            ((int)$this->get("user") === $this->user()->id) ||
             $this->user()->can("createOnBehalfOfEmployee", VacationRequest::class);
     }
 
