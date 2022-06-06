@@ -101,8 +101,8 @@
               :key="day.dayOfMonth"
               class="border border-gray-300"
               :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday }"
-              @mouseover="setActiveBtn(user.id + '+' + day.date)"
-              @mouseleave="unsetActiveBtn"
+              @mouseover="setActiveDay(user.id + '+' + day.date)"
+              @mouseleave="unsetActiveDay"
             >
               <div
                 v-if="day.vacations.includes(user.id)"
@@ -111,23 +111,11 @@
                 <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
               <template
-                v-else-if="isActiveBtn(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && day.isFuture && (auth.user.id === user.id || can.createOnBehalfOfEmployee)"
+                v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && day.isFuture && (auth.user.id === user.id || can.createOnBehalfOfEmployee)"
               >
                 <InertiaLink
-                  v-if="can.createOnBehalfOfEmployee"
                   href="/vacation/requests/create"
-                  :data="{ 'user': user.id, 'start_date': day.date }"
-                >
-                  <div class="flex justify-center items-center">
-                    <VacationTypeCalendarIcon
-                      type="create"
-                    />
-                  </div>
-                </InertiaLink>
-                <InertiaLink
-                  v-else
-                  href="/vacation/requests/create"
-                  :data="{ 'start_date': day.date }"
+                  :data="linkParameters(user, day)"
                 >
                   <div class="flex justify-center items-center">
                     <VacationTypeCalendarIcon
@@ -160,8 +148,6 @@ const props = defineProps({
   can: Object,
 })
 
-console.log(props.auth.user)
-
 let activeElement = ref(undefined)
 
 const { getMonths, findMonth } = useMonthInfo()
@@ -173,16 +159,20 @@ const selectedMonth = computed(() => findMonth(props.selected))
 const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
 const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
 
-function isActiveBtn(key) {
+function isActiveDay(key) {
   return activeElement.value === key
 }
 
-function setActiveBtn(key) {
+function setActiveDay(key) {
   if(activeElement.value === undefined)
     activeElement.value = key
 }
 
-function unsetActiveBtn() {
+function unsetActiveDay() {
   activeElement.value = undefined
+}
+
+function linkParameters(user, day) {
+  return props.can.createOnBehalfOfEmployee ? { user: user.id, start_date: day.date } : { start_date: day.date }
 }
 </script>
