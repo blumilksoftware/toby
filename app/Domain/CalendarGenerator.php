@@ -42,7 +42,6 @@ class CalendarGenerator
                 "isToday" => $day->isToday(),
                 "isWeekend" => $day->isWeekend(),
                 "isHoliday" => $holidays->contains($day),
-                "isFuture" => $day->isFuture(),
                 "vacations" => $vacationsForDay->pluck("user_id"),
                 "vacationTypes" => $vacationsForDay->pluck("vacationRequest.type", "user_id"),
             ];

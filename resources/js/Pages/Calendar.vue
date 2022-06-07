@@ -111,7 +111,7 @@
                 <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
               <template
-                v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && day.isFuture && (auth.user.id === user.id || can.createOnBehalfOfEmployee)"
+                v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && (auth.user.id === user.id || can.createOnBehalfOfEmployee)"
               >
                 <InertiaLink
                   href="/vacation/requests/create"

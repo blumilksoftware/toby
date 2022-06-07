@@ -74,7 +74,7 @@
               </Popper>
               <button
                 v-else-if="day.isWeekend"
-                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500 hover:bg-transparent cursor-not-allowed"
+                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500 hover:bg-transparent"
               >
                 <time
                   :datetime="day.date.toISODate()"
@@ -83,34 +83,19 @@
                   {{ day.date.day }}
                 </time>
               </button>
-              <template
+              <InertiaLink
                 v-else
+                href="/vacation/requests/create"
+                :data="{ 'from_date': day.date.toISODate() }"
+                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500"
               >
-                <InertiaLink
-                  v-if="day.isFuture"
-                  href="/vacation/requests/create"
-                  :data="{ 'from_date': day.date.toISODate() }"
-                  class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500"
+                <time
+                  :datetime="day.date.toISODate()"
+                  :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
                 >
-                  <time
-                    :datetime="day.date.toISODate()"
-                    :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
-                  >
-                    {{ day.date.day }}
-                  </time>
-                </InertiaLink>
-                <button
-                  v-else
-                  class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500 hover:bg-transparent cursor-not-allowed"
-                >
-                  <time
-                    :datetime="day.date.toISODate()"
-                    class="mx-auto flex h-7 w-7 p-4 items-center justify-center"
-                  >
-                    {{ day.date.day }}
-                  </time>
-                </button>
-              </template>
+                  {{ day.date.day }}
+                </time>
+              </InertiaLink>
             </template>
             <div
               v-else
@@ -170,7 +155,6 @@ for (let i = 1; i < 13; i++) {
       isVacation: isCurrentMonth && isVacation(day),
       isPendingVacation: isCurrentMonth && isPendingVacation(day),
       isHoliday: isHoliday(day),
-      isFuture: isFuture(day),
     })
   }
 
@@ -193,10 +177,6 @@ function isToday(date) {
   return DateTime.now().hasSame(date, 'year') && DateTime.now().hasSame(date, 'day')
 }
 
-function isFuture(date) {
-  return date.toISODate().toString() >= DateTime.now().toISODate().toString()
-}
-
 function isInCurrentMonth(date, currentMonth) {
   return currentMonth.hasSame(date, 'month')
 }
@@ -215,12 +195,3 @@ function getVacationInfo(day) {
   return day.isVacation ? props.vacations[day.date.toISODate()] : props.pendingVacations[day.date.toISODate()]
 }
 </script>
-
-<style lang="css">
-.cursor-default {
-  cursor: auto;
-}
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
-</style>
