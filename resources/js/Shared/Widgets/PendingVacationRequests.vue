@@ -52,7 +52,7 @@
             </div>
           </li>
           <li v-if="! requests.length">
-            <EmptyState class="text-gray-700">
+            <EmptyState>
               <template #head>
                 <CollectionIcon class="mx-auto w-12 h-12" />
               </template>
