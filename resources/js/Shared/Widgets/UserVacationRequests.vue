@@ -46,7 +46,7 @@
                   Brak wniosków
                 </template>
                 <template #text>
-                  Nie ma oczekujących wniosków
+                  Nie utworzono jeszcze wniosku
                 </template>
               </EmptyState>
             </p>
