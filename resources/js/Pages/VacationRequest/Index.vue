@@ -176,7 +176,14 @@
               colspan="100%"
               class="py-4 text-xl leading-5 text-center text-gray-700"
             >
-              Brak danych
+              <EmptyState>
+                <template #title>
+                  Brak wniosków
+                </template>
+                <template #text>
+                  Nie znaleziono wniosków o danym statusie
+                </template>
+              </EmptyState>
             </td>
           </tr>
         </tbody>
@@ -195,6 +202,7 @@ import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } f
 import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
 
 const props = defineProps({
   requests: Object,
