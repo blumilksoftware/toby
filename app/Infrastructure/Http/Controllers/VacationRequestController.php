@@ -28,7 +28,6 @@ use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
-use Toby\Infrastructure\Http\Requests\CreateVacationRequestRequest;
 use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
 use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
@@ -167,14 +166,12 @@ class VacationRequestController extends Controller
         return $pdf->stream();
     }
 
-    public function create(CreateVacationRequestRequest $request): Response
+    public function create(Request $request): Response
     {
         $users = User::query()
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();
-
-        $requestData = $request->data();
 
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
@@ -183,8 +180,8 @@ class VacationRequestController extends Controller
                 "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
                 "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),
             ],
-            "vacationUserId" => $requestData["user"],
-            "vacationFromDate" => $requestData["from_date"],
+            "vacationUserId" => (int)$request->get("user"),
+            "vacationFromDate" => $request->get("from_date"),
         ]);
     }
 
