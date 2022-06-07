@@ -74,7 +74,7 @@
               </Popper>
               <button
                 v-else-if="day.isWeekend"
-                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500 hover:bg-transparent"
+                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500 hover:bg-transparent cursor-default"
               >
                 <time
                   :datetime="day.date.toISODate()"
