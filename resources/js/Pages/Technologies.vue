@@ -187,8 +187,9 @@
                 </button>
                 <button
                   type="submit"
-                  :disabled="form.processing"
                   class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
+                  :class="{ 'disabled:opacity-60': form.processing || !form.isDirty }"
+                  :disabled="form.processing || !form.isDirty"
                 >
                   Dodaj
                 </button>
