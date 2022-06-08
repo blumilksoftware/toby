@@ -344,18 +344,22 @@ const props = defineProps({
   users: Object,
   holidays: Object,
   can: Object,
+  vacationUserId: [Number, null],
+  vacationFromDate: [String, null],
 })
 
 const form = useForm({
   user: props.can.createOnBehalfOfEmployee
-    ? props.users.data.find(user => user.id === props.auth.user.id) ?? props.users.data[0]
+    ? props.users.data.find(user => user.id === (checkUserId(props.vacationUserId) ?? props.auth.user.id)) ?? props.users.data[0]
     : props.auth.user,
-  from: null,
-  to: null,
+  from: props.vacationFromDate,
+  to: props.vacationFromDate,
   vacationType: null,
   comment: null,
   flowSkipped: false,
 })
+
+refreshEstimatedDays(form.from, form.to)
 
 const estimatedDays = ref([])
 const vacationTypes = ref([])
@@ -422,6 +426,10 @@ function resetForm() {
   form.reset('to', 'from', 'comment', 'flowSkipped')
   form.clearErrors()
   estimatedDays.value = []
+}
+
+function checkUserId(userId) {
+  return userId > 0 ? userId: null
 }
 
 async function refreshEstimatedDays(from, to) {

@@ -38,7 +38,7 @@
           </li>
           <li v-if="! requests.length">
             <p class="py-2">
-              <EmptyState class="text-gray-700">
+              <EmptyState>
                 <template #head>
                   <CollectionIcon class="mx-auto w-12 h-12" />
                 </template>
@@ -46,7 +46,7 @@
                   Brak wniosków
                 </template>
                 <template #text>
-                  Nie ma oczekujących wniosków
+                  Nie utworzono jeszcze wniosku
                 </template>
               </EmptyState>
             </p>

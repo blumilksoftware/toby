@@ -9,6 +9,7 @@ import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
 import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
 import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 const types = [
   {
@@ -86,6 +87,13 @@ const types = [
     value: 'home_office',
     icon: HomeCityIcon,
     color: 'text-lime-500',
+    border: 'border-lime-500',
+  },
+  {
+    text: 'Złóż wniosek',
+    value: 'create',
+    icon: PlusIcon,
+    color: 'text-blumilk-700',
     border: 'border-lime-500',
   },
 ]
