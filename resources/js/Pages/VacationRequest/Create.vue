@@ -466,6 +466,7 @@ async function refreshAvailableTypes(user) {
 
   vacationTypes.value = res.data
   form.vacationType = vacationTypes.value[0]
+  form.defaults('vacationType', vacationTypes.value[0])
 }
 
 </script>
