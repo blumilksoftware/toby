@@ -39,7 +39,7 @@
                 offset-distance="0"
               >
                 <div :class="[day.isPendingVacation && 'mx-0.5']">
-                  <button :class="[day.isPendingVacation && `border-dashed`, `${getVacationBorder(day)} isolate bg-white w-full hover:bg-blumilk-25 border-b-4 py-1.5 font-medium focus:outline-blumilk-500`]">
+                  <button :class="[day.isPendingVacation && `border-dashed`, `${getVacationBorder(day)} isolate bg-white w-full hover:bg-blumilk-25 border-b-4 py-1.5 font-medium focus:outline-blumilk-500 cursor-default`]">
                     <time
                       :datetime="day.date.toISODate()"
                       :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
@@ -58,7 +58,7 @@
                 hover
                 offset-distance="0"
               >
-                <button class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500">
+                <button class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500 cursor-default">
                   <time
                     :datetime="day.date.toISODate()"
                     :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'text-red-700 font-bold mx-auto flex h-7 w-7 p-4 items-center justify-center']"
@@ -73,16 +73,29 @@
                 </template>
               </Popper>
               <button
-                v-else
-                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500"
+                v-else-if="day.isWeekend"
+                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500 hover:bg-transparent cursor-default"
               >
                 <time
                   :datetime="day.date.toISODate()"
-                  :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', day.isWeekend && 'text-red-700 font-bold', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
+                  class="text-red-700 font-bold mx-auto flex h-7 w-7 p-4 items-center justify-center"
                 >
                   {{ day.date.day }}
                 </time>
               </button>
+              <InertiaLink
+                v-else
+                href="/vacation/requests/create"
+                :data="{ 'from_date': day.date.toISODate() }"
+                class="py-1.5 w-full font-medium bg-white hover:bg-blumilk-25 border-b-4 border-transparent focus:outline-blumilk-500"
+              >
+                <time
+                  :datetime="day.date.toISODate()"
+                  :class="[ day.isToday && 'bg-blumilk-500 font-semibold text-white rounded-full', 'mx-auto flex h-7 w-7 p-4 items-center justify-center']"
+                >
+                  {{ day.date.day }}
+                </time>
+              </InertiaLink>
             </template>
             <div
               v-else
@@ -112,6 +125,7 @@ const props = defineProps({
   holidays: Object,
   vacations: Object,
   pendingVacations: Object,
+  overButtonDay: String,
 })
 
 const { findType } = useVacationTypeInfo()

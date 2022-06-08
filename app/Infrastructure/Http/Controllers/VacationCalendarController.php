@@ -44,6 +44,7 @@ class VacationCalendarController extends Controller
             "users" => SimpleUserResource::collection($users),
             "can" => [
                 "generateTimesheet" => $request->user()->can("generateTimesheet"),
+                "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee"),
             ],
         ]);
     }
