@@ -23,6 +23,10 @@ class SendVacationRequestDaysToGoogleCalendar implements ShouldQueue
 
     public function handle(): void
     {
+        if (!config("services.google.calendar_enabled")) {
+            return;
+        }
+
         $days = $this->vacationRequest
             ->vacations()
             ->orderBy("date")
