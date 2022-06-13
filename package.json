@@ -8,6 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
+        "build": "npm run production",
         "lint": "./node_modules/.bin/eslint resources/js --ext .js,.vue",
         "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
     },
