@@ -17,10 +17,15 @@ class ClearVacationRequestDaysInGoogleCalendar implements ShouldQueue
 
     public function __construct(
         protected VacationRequest $vacationRequest,
-    ) {}
+    ) {
+    }
 
     public function handle(): void
     {
+        if (!config("services.google.calendar_enabled")) {
+            return;
+        }
+
         foreach ($this->vacationRequest->event_ids ?? [] as $eventId) {
             $calendarEvent = Event::find($eventId);
 
