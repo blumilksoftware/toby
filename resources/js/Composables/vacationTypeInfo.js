@@ -34,7 +34,7 @@ const types = [
     border: 'border-orange-500',
   },
   {
-    text: 'Opieka nad dzieckiem art 188 kp',
+    text: 'Opieka nad dzieckiem (art. 188 kp)',
     value: 'childcare_vacation',
     icon: BabyCarriageIcon,
     color: 'text-purple-500',
