@@ -45,7 +45,7 @@ services:
     ports:
       - ${DOCKER_DEV_DB_EXTERNAL_PORT:-5432}:5432
     volumes:
-      - toby-pgsql-data:/var/lib/pgsql
+      - toby-pgsql-data:/var/lib/postgresql/data
     networks:
       - toby-dev
     restart: unless-stopped
@@ -70,7 +70,7 @@ services:
     ports:
       - ${FORWARD_REDIS_PORT:-6379}:6379
     volumes:
-      - toby-redis-data:/var/lib/redis
+      - toby-redis-data:/data
     networks:
       - toby-dev
     restart: unless-stopped
