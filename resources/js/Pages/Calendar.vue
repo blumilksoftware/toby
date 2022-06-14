@@ -1,10 +1,10 @@
 <template>
-  <InertiaHead title="Kalendarz urlopów" />
+  <InertiaHead title="Kalendarz" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div class="flex items-center">
         <h2 class="text-lg font-medium leading-6 text-center text-gray-900">
-          Kalendarz urlopów
+          Kalendarz
         </h2>
         <div class="flex items-center ml-3 rounded-md shadow-sm md:items-stretch">
           <InertiaLink

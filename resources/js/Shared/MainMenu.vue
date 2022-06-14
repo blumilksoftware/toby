@@ -376,7 +376,7 @@ const vacationNavigation = computed(() =>
       badge: props.vacationRequestsCount,
     },
     {
-      name: 'Kalendarz urlopów',
+      name: 'Kalendarz',
       href: '/vacation/calendar',
       section: 'Calendar',
       icon: CalendarIcon,
