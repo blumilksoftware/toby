@@ -35,6 +35,8 @@ use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class VacationRequestController extends Controller
 {
+    const LIMIT_PER_PAGE = 50;
+
     public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response|RedirectResponse
     {
         if ($request->user()->can("listAll", VacationRequest::class)) {
@@ -49,7 +51,7 @@ class VacationRequestController extends Controller
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
-            ->paginate();
+            ->paginate(self::LIMIT_PER_PAGE);
 
         $pending = $request->user()
             ->vacationRequests()
@@ -103,7 +105,7 @@ class VacationRequestController extends Controller
             ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->latest()
-            ->paginate();
+            ->paginate(self::LIMIT_PER_PAGE);
 
         $users = User::query()
             ->orderByProfileField("last_name")

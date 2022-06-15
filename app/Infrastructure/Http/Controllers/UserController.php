@@ -19,6 +19,8 @@ use Toby\Infrastructure\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    const LIMIT_PER_PAGE = 50;
+
     /**
      * @throws AuthorizationException
      */
@@ -31,7 +33,7 @@ class UserController extends Controller
             ->search($request->query("search"))
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
-            ->paginate()
+            ->paginate(self::LIMIT_PER_PAGE)
             ->withQueryString();
 
         return inertia("Users/Index", [
