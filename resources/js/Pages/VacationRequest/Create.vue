@@ -297,8 +297,8 @@
               <button
                 type="submit"
                 class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
-                :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
-                :disabled="form.processing || !form.isDirty"
+                :class="[form.processing || !isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
+                :disabled="form.processing || !isDirty"
               >
                 Zapisz
               </button>
@@ -358,6 +358,13 @@ const form = useForm({
   comment: null,
   flowSkipped: false,
 })
+
+let isDirty = ref(false)
+
+watch(form, formData => {
+  const { from, to } = formData.data()
+  isDirty.value = formData.isDirty || from !== null || to !== null
+}, { immediate: true, deep: true })
 
 refreshEstimatedDays(form.from, form.to)
 
