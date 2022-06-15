@@ -49,6 +49,7 @@ class VacationRequest extends Model
         "to" => "date",
         "event_ids" => AsCollection::class,
     ];
+    protected $perPage = 50;
 
     public function user(): BelongsTo
     {

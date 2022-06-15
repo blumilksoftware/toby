@@ -73,10 +73,10 @@ class UserTest extends FeatureTestCase
 
     public function testUserListIsPaginated(): void
     {
-        User::factory()->count(15)->create();
+        User::factory()->count(50)->create();
         $admin = User::factory()->admin()->create();
 
-        $this->assertDatabaseCount("users", 16);
+        $this->assertDatabaseCount("users", 51);
 
         $this->actingAs($admin)
             ->get("/users?page=2")

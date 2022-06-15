@@ -31,6 +31,7 @@ class Resume extends Model
         "technologies" => AsCollection::class,
         "projects" => AsCollection::class,
     ];
+    protected $perPage = 50;
 
     public function user(): BelongsTo
     {

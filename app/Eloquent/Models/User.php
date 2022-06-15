@@ -46,6 +46,7 @@ class User extends Authenticatable implements NotifiableInterface
     protected $with = [
         "profile",
     ];
+    protected $perPage = 50;
 
     public function profile(): HasOne
     {
