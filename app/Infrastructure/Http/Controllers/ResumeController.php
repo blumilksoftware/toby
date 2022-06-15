@@ -18,15 +18,13 @@ use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 
 class ResumeController extends Controller
 {
-    const LIMIT_PER_PAGE = 50;
-
     public function index(): Response
     {
         $this->authorize("manageResumes");
 
         $resumes = Resume::query()
             ->latest("updated_at")
-            ->paginate(self::LIMIT_PER_PAGE);
+            ->paginate();
 
         return inertia("Resumes/Index", [
             "resumes" => ResumeResource::collection($resumes),
