@@ -2,7 +2,7 @@
   <section class="bg-white shadow-md">
     <div class="grid grid-cols-3 grid-rows-1 items-center justify-center p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        {{ calendarState.monthName }} {{ calendarState.isActualYear ? undefined : calendar.currents.year }}
+        {{ calendarState.monthName }} {{ !calendarState.isActualYear ? calendar.currents.year : undefined }}
       </h2>
       <div class="flex justify-center">
         <div class="flex items-center rounded-md shadow-sm md:items-stretch">
@@ -22,7 +22,7 @@
             type="button"
             class="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
             :class="{ 'rounded-l-md border border-r-0': !calendarState.isPrevious, 'rounded-r-md border border-l-0': !calendarState.isNext }"
-            @click="resetCalendar"
+            @click="goToToday"
           >
             Dziś
           </button>
@@ -116,7 +116,10 @@
         </div>
       </div>
       <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
-        <div :class="[calendarState.viewMode.isWeek ? 'grid-rows-1' : 'grid-rows-5', 'w-full grid grid-cols-7 gap-px']">
+        <div
+          class="w-full grid grid-cols-7 gap-px"
+          :class="{ 'grid-rows-1': calendarState.viewMode.isWeek }"
+        >
           <div
             v-for="(day, index) in days"
             :key="index"
@@ -149,7 +152,7 @@ let days = ref([])
 const months = useMonthInfo().getMonths()
 function getCurrentDate() {
   const { year, month, weekNumber } = DateTime.now()
-  return { year, month, weekNumber }
+  return { year, month, week: weekNumber }
 }
 const selectedYear = useCurrentYearPeriodInfo().year.value
 const currentDate = getCurrentDate()
@@ -159,7 +162,7 @@ const calendar = {
   currents: reactive({
     year: selectedYear,
     month: selectedYear === currentDate.year ? currentDate.month : 1,
-    weekPosition: 0,
+    week: selectedYear === currentDate.year ? currentDate.week : 0,
   }),
 }
 
@@ -170,16 +173,17 @@ const calendarState = reactive({
     details: computed(() => findViewMode(calendar.viewMode.value)),
   },
   monthName: computed(() => months[calendar.currents.month - 1]?.name),
-  isActualYear: computed(() => calendar.currents.year !== selectedYear),
-  isPrevious: computed(() => calendar.currents.month !== 1),
-  isNext: computed(() => calendar.currents.month !== 12),
+  isActualYear: computed(() => calendar.currents.year === DateTime.now().year),
+  isPrevious: computed(() => calendarState.viewMode.isMonth ? calendar.currents.month !== 1 : calendar.currents.week > 0),
+  isNext: computed(() => calendarState.viewMode.isMonth ? calendar.currents.month !== 12 : calendar.currents.week < DateTime.fromObject({ year: selectedYear, month: 12, day: 31 }).weekNumber),
 })
 
 const customCalendar = {
   loadCalendar() {
     const date = DateTime.fromObject({
       year: calendar.currents.year,
-      month: calendar.currents.month,
+      month: calendarState.viewMode.isMonth ? calendar.currents.month : 1,
+      day: 1,
     })
     days.value = this.generateCalendarData(date)
   },
@@ -195,8 +199,13 @@ const customCalendar = {
     return []
   },
   generateWeekData(start) {
-    let days = []
-    const startWeek = start.plus({ week: calendar.currents.weekPosition })
+    let days = [], startWeek
+    if (calendar.currents.month === 1 && calendar.currents.week === 0)
+      startWeek = DateTime.fromObject({ year: calendar.currents.year, month: 1, day: 1 }).startOf('week')
+    else if (calendarState.isActualYear)
+      startWeek = DateTime.fromObject({ weekNumber: calendar.currents.week })
+    else
+      startWeek = start.plus({ week: calendar.currents.week })
     const endWeek = startWeek.endOf('week')
     for (let day = startWeek; day < endWeek; day = day.plus({ day: 1 })) {
       days.push(this.prepareDay(day))
@@ -229,44 +238,78 @@ customCalendar.loadCalendar()
 
 function toLast() {
   if (calendar.viewMode.value === 'week')
-    addWeeks(-1)
+    minusWeek()
   else
-    addMonths(-1)
+    minusMonth()
 }
 
 function toNext() {
-  if (calendar.viewMode.value === 'week') {
-    addWeeks()
-  } else
-    addMonths()
+  if (calendar.viewMode.value === 'week')
+    addWeek()
+  else
+    addMonth()
 }
 
-function resetCalendar() {
-  calendar.currents.year = selectedYear
-  calendar.currents.month = selectedYear === currentDate.year ? currentDate.month : 1
-  calendar.currents.weekPosition = 1
+function resetCalendar(config = {}) {
+  const currentMonth = isUndefined(config.month) ? currentDate.month : config.month
+  const currentWeek = isUndefined(config.week) ? currentDate.week : config.week
+
+  calendar.currents.year = isUndefined(config.year) ? selectedYear : config.month
+  calendar.currents.month = calendarState.isActualYear || !isUndefined(config.year) ? currentMonth : 1
+  calendar.currents.week = calendarState.isActualYear || !isUndefined(config.year) ? currentWeek : 1
 }
 
-function addWeeks(howMany = 1) {
-  const date = DateTime.fromObject({
+function isUndefined(value) {
+  return value === undefined
+}
+
+function addWeek(minus = false) {
+  const howMany = minus ? -1: 1
+  let nextMonth, date = DateTime.fromObject({
     year: calendar.currents.year,
-    month: calendar.currents.month,
+    month: 1,
+    day: 1,
   })
-  const nextMonth = date.plus({ week: calendar.currents.weekPosition }).month
-  if (calendarState.viewMode.isWeek && nextMonth !== calendar.currents.month) {
-    calendar.currents.month = nextMonth
-    calendar.currents.weekPosition = 0
+
+  date = date.plus({ week: calendar.currents.week + howMany })
+
+  const startWeekDay = date.startOf('week'), endWeekDay = date.endOf('week')
+  nextMonth = howMany > 0 ? startWeekDay.month : endWeekDay.month
+  if (howMany < 0 && endWeekDay.day === endWeekDay.daysInMonth)
+    calendar.currents.week--
+  else if (howMany > 0 && startWeekDay.day === 1)
+    calendar.currents.week++
+
+  if (nextMonth !== calendar.currents.month) {
+    calendar.currents.month = calendar.currents.week > 1 ? nextMonth : 1
+    if (calendar.currents.week === 1)
+      calendar.currents.week = 0
     return
   }
-  calendar.currents.weekPosition += howMany
+  calendar.currents.week += howMany
 }
 
-function addMonths(howMany = 1) {
-  calendar.currents.month += howMany
+function minusWeek() {
+  addWeek(true)
+}
+
+function addMonth(minus = false) {
+  calendar.currents.month += minus ? -1 : 1
+}
+
+function minusMonth() {
+  addMonth(true)
+}
+
+function goToToday() {
+  resetCalendar({ year: currentDate.year, months: currentDate.month, week: currentDate.week })
 }
 
 function updateViewMode(type) {
-  resetCalendar()
+  if (type === 'month')
+    resetCalendar({ week: 1 })
+  else
+    resetCalendar()
   calendar.viewMode.value = type
 }
 
