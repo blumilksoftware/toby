@@ -123,12 +123,12 @@
           <div
             v-for="(day, index) in days"
             :key="index"
-            class="flex flex-col"
-            :class="[day.isCurrentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500', calendarState.viewMode.isWeek && index !== 0 && (index % 5 === 0 || index % 6 === 0) ? 'bg-red-100' : undefined, calendarState.viewMode.isWeek ? 'day' : 'month-day', 'relative py-2 px-3']"
+            class="flex flex-col relative py-2 px-3"
+            :class="[day.isCurrentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500', { 'hover:bg-blumilk-25': day.isCurrentMonth && !day.isWeekend }, { 'day': calendarState.viewMode.isWeek }, { 'bg-red-100': day.isCurrentMonth && day.isWeekend }, { 'bg-red-50': !day.isCurrentMonth && day.isWeekend }, { 'text-red-800': day.isWeekend }]"
           >
             <time
               :datetime="day.date"
-              :class="day.isToday ? 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white' : undefined"
+              :class="{ 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
             >
               {{ day.date.split('-').pop().replace(/^0/, '') }}
             </time>
@@ -226,6 +226,7 @@ const customCalendar = {
       dayNumber: day.day,
       isCurrentMonth: isInCurrentMonth(day),
       isToday: isToday(day),
+      isWeekend: isWeekend(day),
     }
   },
 }
@@ -317,6 +318,10 @@ function isInCurrentMonth(date) {
   return calendar.currents.month === date.month
 }
 
+function isWeekend(date) {
+  return date.weekday === 6 || date.weekday === 7
+}
+
 function isToday(date) {
   return date.toISODate() === DateTime.local().toISODate()
 }
@@ -343,20 +348,11 @@ function isToday(date) {
   content: "Pt";
 }
 
-.day:nth-of-type(7n - 1):before,
-.day:nth-of-type(7n):before {
-  color: #991b1b;
-}
-
 .day:nth-of-type(7n - 1):before {
   content: "Sb";
 }
 
 .day:nth-of-type(7n):before {
   content: "Nd";
-}
-
-.month-day:nth-of-type(7n - 1), .month-day:nth-of-type(7n) {
-  background-color: #fee2e2;
 }
 </style>
