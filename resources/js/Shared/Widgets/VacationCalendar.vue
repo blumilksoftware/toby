@@ -130,7 +130,7 @@
               :datetime="day.date"
               :class="{ 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
             >
-              {{ day.date.split('-').pop().replace(/^0/, '') }}
+              {{ day.dayNumber }}
             </time>
           </div>
         </div>
@@ -257,7 +257,7 @@ function resetCalendar(config = {}) {
 
   calendar.currents.year = isUndefined(config.year) ? selectedYear : config.month
   calendar.currents.month = calendarState.isActualYear || !isUndefined(config.year) ? currentMonth : 1
-  calendar.currents.week = calendarState.isActualYear || !isUndefined(config.year) ? currentWeek : 1
+  calendar.currents.week = calendarState.isActualYear || !isUndefined(config.week) ? currentWeek : 0
 }
 
 function isUndefined(value) {
@@ -308,7 +308,7 @@ function goToToday() {
 
 function updateViewMode(type) {
   if (type === 'month')
-    resetCalendar({ week: 1 })
+    resetCalendar({ week: 0 })
   else
     resetCalendar()
   calendar.viewMode.value = type
