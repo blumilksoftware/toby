@@ -3,7 +3,9 @@
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
     <div class="grid grid-cols-1 gap-4 xl:col-span-2">
       <Welcome :user="auth.user" />
-      <VacationCalendar />
+      <VacationCalendar
+        :holidays="allHolidays"
+      />
       <VacationStats :stats="stats" />
     </div>
     <div class="grid grid-cols-1 gap-4">
@@ -50,5 +52,6 @@ defineProps({
   can: Object,
   stats: Object,
   years: Object,
+  allHolidays: Object,
 })
 </script>

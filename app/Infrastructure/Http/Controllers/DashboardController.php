@@ -12,6 +12,7 @@ use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
@@ -54,6 +55,8 @@ class DashboardController extends Controller
             ->limit(3)
             ->get();
 
+        $allHolidays = $yearPeriod->holidays;
+
         $limit = $vacationStatsRetriever->getVacationDaysLimit($user, $yearPeriod);
         $used = $vacationStatsRetriever->getUsedVacationDays($user, $yearPeriod);
         $pending = $vacationStatsRetriever->getPendingVacationDays($user, $yearPeriod);
@@ -66,6 +69,9 @@ class DashboardController extends Controller
             "remoteDays" => VacationResource::collection($remoteDays),
             "vacationRequests" => VacationRequestResource::collection($vacationRequests),
             "holidays" => HolidayResource::collection($holidays),
+            "allHolidays" => $allHolidays->mapWithKeys(
+                fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
+            ),
             "stats" => [
                 "limit" => $limit,
                 "remaining" => $remaining,

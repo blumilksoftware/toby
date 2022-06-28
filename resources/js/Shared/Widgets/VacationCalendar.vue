@@ -120,19 +120,14 @@
           class="w-full grid grid-cols-7 gap-px"
           :class="{ 'grid-rows-1': calendarState.viewMode.isWeek }"
         >
-          <div
+          <DateComponent
             v-for="(day, index) in days"
             :key="index"
+            :day="day"
             class="flex flex-col relative py-2 px-3"
             :class="[day.isCurrentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500', { 'hover:bg-blumilk-25': day.isCurrentMonth && !day.isWeekend }, { 'day': calendarState.viewMode.isWeek }, { 'bg-red-100': day.isCurrentMonth && day.isWeekend }, { 'bg-red-50': !day.isCurrentMonth && day.isWeekend }, { 'text-red-800': day.isWeekend }]"
-          >
-            <time
-              :datetime="day.date"
-              :class="{ 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
-            >
-              {{ day.dayNumber }}
-            </time>
-          </div>
+            :holidaydescription="getHolidayDescription"
+          />
         </div>
       </div>
     </div>
@@ -147,15 +142,22 @@ import { DateTime } from 'luxon'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 import { useMonthInfo } from '@/Composables/monthInfo'
 import { viewModes, find as findViewMode } from '@/Shared/Widgets/Calendar/ViewModeOptions'
+import DateComponent from '@/Shared/Widgets/Calendar/DateComponent'
+
+const props = defineProps({
+  holidays: Object,
+})
 
 let days = ref([])
-const months = useMonthInfo().getMonths()
+
 function getCurrentDate() {
   const { year, month, weekNumber } = DateTime.now()
   return { year, month, week: weekNumber }
 }
-const selectedYear = useCurrentYearPeriodInfo().year.value
 const currentDate = getCurrentDate()
+
+const months = useMonthInfo().getMonths()
+const selectedYear = useCurrentYearPeriodInfo().year.value
 
 const calendar = {
   viewMode: ref('week'),
@@ -227,6 +229,7 @@ const customCalendar = {
       isCurrentMonth: isInCurrentMonth(day),
       isToday: isToday(day),
       isWeekend: isWeekend(day),
+      isHoliday: isHoliday(day),
     }
   },
 }
@@ -324,6 +327,14 @@ function isWeekend(date) {
 
 function isToday(date) {
   return date.toISODate() === DateTime.local().toISODate()
+}
+
+function isHoliday(date) {
+  return props.holidays[date.toISODate()] !== undefined
+}
+
+function getHolidayDescription(day) {
+  return props.holidays[day.date]
 }
 </script>
 
