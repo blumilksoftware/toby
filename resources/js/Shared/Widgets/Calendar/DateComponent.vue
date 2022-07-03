@@ -1,5 +1,7 @@
 <template>
-  <template>
+  <div
+    :class="[ (day.isVacation || day.isPendingVacation) && 'border-b-2 border-dashed', day.isPendingVacation && 'border-lime-500', day.isVacation && 'border-blumilk-500' ]"
+  >
     <Popper
       v-if="day.isHoliday"
       as="div"
@@ -21,9 +23,29 @@
         </div>
       </template>
     </Popper>
+    <Popper
+      v-else-if="day.isPendingVacation"
+      as="div"
+      open-delay="200"
+      hover
+      offset-distance="0"
+      @mouseover.passive="onMouseover"
+      @mouseleave="onMouseleave"
+    >
+      <time
+        :datetime="day.date"
+        :class="[ day.isToday && 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
+      >
+        {{ day.dayNumber }}
+      </time>
+      <template #content>
+        <div class="py-2 px-6 text-sm font-semibold text-left text-gray-700 bg-white rounded-lg border border-gray-400">
+          {{ getHolidayDescription(day) }}
+        </div>
+      </template>
+    </Popper>
     <div
       v-else
-      :class="{ 'hello': isActive && !day.isWeekend }"
       @mouseover.passive="onMouseover"
       @mouseleave="onMouseleave"
     >
@@ -34,7 +56,7 @@
         {{ day.dayNumber }}
       </time>
     </div>
-  </template>
+  </div>
 </template>
 
 <script setup>
@@ -46,7 +68,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  holidaydescription: {
+  holidayDescription: {
     type: Function,
   },
 })
@@ -64,7 +86,7 @@ function onMouseleave() {
 }
 
 function getHolidayDescription(day) {
-  return props.holidaydescription(day)
+  return props.holidayDescription(day)
 }
 
 </script>

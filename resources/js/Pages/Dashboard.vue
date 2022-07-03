@@ -5,6 +5,8 @@
       <Welcome :user="auth.user" />
       <VacationCalendar
         :holidays="allHolidays"
+        :approved-vacations="approvedVacations"
+        :pending-vacations="pendingVacations"
       />
       <VacationStats :stats="stats" />
     </div>
@@ -53,5 +55,7 @@ defineProps({
   stats: Object,
   years: Object,
   allHolidays: Object,
+  approvedVacations: Object,
+  pendingVacations: Object,
 })
 </script>

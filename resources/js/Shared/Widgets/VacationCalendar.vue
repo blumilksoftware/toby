@@ -126,7 +126,7 @@
             :day="day"
             class="flex flex-col relative py-2 px-3"
             :class="[day.isCurrentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500', { 'hover:bg-blumilk-25': day.isCurrentMonth && !day.isWeekend }, { 'day': calendarState.viewMode.isWeek }, { 'bg-red-100': day.isCurrentMonth && day.isWeekend }, { 'bg-red-50': !day.isCurrentMonth && day.isWeekend }, { 'text-red-800': day.isWeekend }]"
-            :holidaydescription="getHolidayDescription"
+            :holiday-description="getHolidayDescription"
           />
         </div>
       </div>
@@ -146,6 +146,8 @@ import DateComponent from '@/Shared/Widgets/Calendar/DateComponent'
 
 const props = defineProps({
   holidays: Object,
+  approvedVacations: Object,
+  pendingVacations: Object,
 })
 
 let days = ref([])
@@ -223,13 +225,16 @@ const customCalendar = {
     return days
   },
   prepareDay(day) {
+    const isCurrentMonth = isInCurrentMonth(day)
     return {
       date: day.toISODate(),
       dayNumber: day.day,
-      isCurrentMonth: isInCurrentMonth(day),
+      isCurrentMonth: isCurrentMonth,
       isToday: isToday(day),
       isWeekend: isWeekend(day),
       isHoliday: isHoliday(day),
+      isVacation: isCurrentMonth && isVacation(day),
+      isPendingVacation: isCurrentMonth && isPendingVacation(day),
     }
   },
 }
@@ -335,6 +340,14 @@ function isHoliday(date) {
 
 function getHolidayDescription(day) {
   return props.holidays[day.date]
+}
+
+function isVacation(date) {
+  return props.approvedVacations[date.toISODate()] !== undefined
+}
+
+function isPendingVacation(date) {
+  return props.pendingVacations[date.toISODate()] !== undefined
 }
 </script>
 

@@ -13,8 +13,10 @@ use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Holiday;
+use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
+use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 use Toby\Infrastructure\Http\Resources\VacationResource;
 
@@ -57,6 +59,20 @@ class DashboardController extends Controller
 
         $allHolidays = $yearPeriod->holidays;
 
+        $approvedVacations = $request->user()
+            ->vacations()
+            ->with("vacationRequest.vacations")
+            ->whereBelongsTo($yearPeriod)
+            ->approved()
+            ->get();
+
+        $pendingVacations = $request->user()
+            ->vacations()
+            ->with("vacationRequest.vacations")
+            ->whereBelongsTo($yearPeriod)
+            ->pending()
+            ->get();
+
         $limit = $vacationStatsRetriever->getVacationDaysLimit($user, $yearPeriod);
         $used = $vacationStatsRetriever->getUsedVacationDays($user, $yearPeriod);
         $pending = $vacationStatsRetriever->getPendingVacationDays($user, $yearPeriod);
@@ -71,6 +87,16 @@ class DashboardController extends Controller
             "holidays" => HolidayResource::collection($holidays),
             "allHolidays" => $allHolidays->mapWithKeys(
                 fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
+            ),
+            "approvedVacations" => $approvedVacations->mapWithKeys(
+                fn(Vacation $vacation): array => [
+                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                ],
+            ),
+            "pendingVacations" => $pendingVacations->mapWithKeys(
+                fn(Vacation $vacation): array => [
+                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                ],
             ),
             "stats" => [
                 "limit" => $limit,
