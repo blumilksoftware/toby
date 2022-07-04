@@ -3,8 +3,7 @@
     <slot />
     <div class="absolute left-0 bottom-0 min-w-full p-4 text-xs text-gray-500 flex flex-col gap-x-1">
       <p>
-        Wydanie:
-        <a
+        <strong>Wydanie:</strong> <a
           v-if="deployInformation.github_url"
           :href="`${deployInformation.github_url}/commit/${deployInformation.slug_commit}`"
           target="_blank"
@@ -21,7 +20,7 @@
         </span>
       </p>
       <p v-if="deployInformation.release_created_at">
-        Data wydania: {{ deployInformation.release_created_at }}
+        <strong>Data wydania:</strong> {{ deployInformation.release_created_at }}
       </p>
     </div>
   </div>

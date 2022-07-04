@@ -11,8 +11,7 @@
       </div>
       <div class="p-4 text-xs text-gray-500 flex align-baseline gap-x-1">
         <p>
-          Wydanie:
-          <a
+          <strong>Wydanie:</strong> <a
             v-if="deployInformation.github_url"
             :href="`${deployInformation.github_url}/commit/${deployInformation.slug_commit}`"
             target="_blank"
@@ -20,17 +19,18 @@
             :title="`Commit: ${deployInformation.slug_commit}`"
           >
             {{ deployInformation.slug_description }} ({{ deployInformation.release_version }})
-          </a>
-          <span
+          </a><span
             v-else
             :title="`Commit: ${deployInformation.slug_commit}`"
           >
             {{ deployInformation.slug_description }}
           </span>
-          ;
         </p>
-        <p v-if="deployInformation.release_created_at">
-          Data wydania: {{ deployInformation.release_created_at }};
+        <p
+          v-if="deployInformation.release_created_at"
+          class="border-l-2 border-gray-300 pl-1"
+        >
+          <strong>Data wydania:</strong> {{ deployInformation.release_created_at }}
         </p>
       </div>
     </main>
