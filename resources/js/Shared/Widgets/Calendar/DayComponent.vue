@@ -43,7 +43,19 @@
       </template>
     </Popper>
     <div
+      v-else-if="day.isWeekend"
+    >
+      <time
+        :datetime="day.date"
+        :class="{ 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
+      >
+        {{ day.dayNumber }}
+      </time>
+    </div>
+    <InertiaLink
       v-else
+      href="/vacation/requests/create"
+      :data="{ 'from_date': day.date }"
       @mouseover.passive="onMouseover"
       @mouseleave="onMouseleave"
     >
@@ -53,7 +65,7 @@
       >
         {{ day.dayNumber }}
       </time>
-    </div>
+    </InertiaLink>
   </div>
 </template>
 
