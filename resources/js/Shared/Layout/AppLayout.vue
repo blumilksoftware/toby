@@ -9,6 +9,30 @@
       <div class="lg:px-4">
         <slot />
       </div>
+      <div class="p-4 text-xs text-gray-500 flex align-baseline gap-x-1">
+        <p>
+          Wydanie:
+          <a
+            v-if="deployInformation.github_url"
+            :href="`${deployInformation.github_url}/commit/${deployInformation.slug_commit}`"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+            :title="`Commit: ${deployInformation.slug_commit}`"
+          >
+            {{ deployInformation.slug_description }} ({{ deployInformation.release_version }})
+          </a>
+          <span
+            v-else
+            :title="`Commit: ${deployInformation.slug_commit}`"
+          >
+            {{ deployInformation.slug_description }}
+          </span>
+          ;
+        </p>
+        <p v-if="deployInformation.release_created_at">
+          Data wydania: {{ deployInformation.release_created_at }};
+        </p>
+      </div>
     </main>
   </div>
 </template>
@@ -23,6 +47,7 @@ const props = defineProps({
   auth: Object,
   years: Object,
   vacationRequestsCount: Number,
+  deployInformation: Object,
 })
 
 const toast = useToast()
