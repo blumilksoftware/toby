@@ -120,7 +120,7 @@
           class="w-full grid grid-cols-7 gap-px"
           :class="{ 'grid-rows-1': calendarState.viewMode.isWeek }"
         >
-          <DateComponent
+          <DayComponent
             v-for="(day, index) in days"
             :key="index"
             :day="day"
@@ -142,7 +142,7 @@ import { DateTime } from 'luxon'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 import { useMonthInfo } from '@/Composables/monthInfo'
 import { viewModes, find as findViewMode } from '@/Shared/Widgets/Calendar/ViewModeOptions'
-import DateComponent from '@/Shared/Widgets/Calendar/DateComponent'
+import DayComponent from '@/Shared/Widgets/Calendar/DayComponent'
 
 const props = defineProps({
   holidays: Object,
