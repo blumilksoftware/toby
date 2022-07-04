@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: nginx:1.21-alpine
+    image: nginx:1.23-alpine
     container_name: toby-web
     working_dir: /application
     volumes:
@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
 
   node:
-    image: node:18.1.0-alpine3.14
+    image: node:18.4.0-alpine3.16
     container_name: toby-node
     working_dir: /application
     volumes:
