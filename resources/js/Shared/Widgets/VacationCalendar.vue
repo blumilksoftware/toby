@@ -126,7 +126,9 @@
             :day="day"
             class="flex flex-col relative py-2 px-3"
             :class="[day.isCurrentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500', { 'hover:bg-blumilk-25': day.isCurrentMonth && !day.isWeekend }, { 'day': calendarState.viewMode.isWeek }, { 'bg-red-100': day.isCurrentMonth && day.isWeekend }, { 'bg-red-50': !day.isCurrentMonth && day.isWeekend }, { 'text-red-800': day.isWeekend }]"
-            :holiday-description="getHolidayDescription"
+            :get-holiday-description="getHolidayDescription"
+            :get-vacation-border="getVacationBorder"
+            :get-vacation-info="getVacationInfo"
           />
         </div>
       </div>
@@ -139,6 +141,7 @@ import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref, watch, computed, reactive } from 'vue'
 import { DateTime } from 'luxon'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 import { useMonthInfo } from '@/Composables/monthInfo'
 import { viewModes, find as findViewMode } from '@/Shared/Widgets/Calendar/ViewModeOptions'
@@ -159,6 +162,7 @@ function getCurrentDate() {
 const currentDate = getCurrentDate()
 
 const months = useMonthInfo().getMonths()
+const { findType } = useVacationTypeInfo()
 const selectedYear = useCurrentYearPeriodInfo().year.value
 
 const calendar = {
@@ -348,6 +352,14 @@ function isVacation(date) {
 
 function isPendingVacation(date) {
   return props.pendingVacations[date.toISODate()] !== undefined
+}
+
+function getVacationBorder(day) {
+  return findType(getVacationInfo(day).type)?.border
+}
+
+function getVacationInfo(day) {
+  return day.isVacation ? props.approvedVacations[day.date] : props.pendingVacations[day.date]
 }
 </script>
 

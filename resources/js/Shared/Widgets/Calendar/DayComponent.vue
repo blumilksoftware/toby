@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[ (day.isVacation || day.isPendingVacation) && 'border-b-2 border-dashed', day.isPendingVacation && 'border-lime-500', day.isVacation && 'border-blumilk-500' ]"
+    :class="[ (day.isVacation || day.isPendingVacation) && `border-b-2 border-dashed ${getVacationBorder(day)}` ]"
   >
     <Popper
       v-if="day.isHoliday"
@@ -39,9 +39,7 @@
         {{ day.dayNumber }}
       </time>
       <template #content>
-        <div class="py-2 px-6 text-sm font-semibold text-left text-gray-700 bg-white rounded-lg border border-gray-400">
-          {{ getHolidayDescription(day) }}
-        </div>
+        <VacationPopup :vacation="getVacationInfo(day)" />
       </template>
     </Popper>
     <div
@@ -62,13 +60,20 @@
 <script setup>
 import Popper from 'vue3-popper'
 import { defineProps, ref } from 'vue'
+import VacationPopup from '@/Shared/VacationPopup'
 
-const props = defineProps({
+defineProps({
   day: {
     type: Object,
     required: true,
   },
-  holidayDescription: {
+  getHolidayDescription: {
+    type: Function,
+  },
+  getVacationBorder: {
+    type: Function,
+  },
+  getVacationInfo: {
     type: Function,
   },
 })
@@ -84,9 +89,4 @@ function onMouseleave() {
   if (isActive.value)
     isActive.value = false
 }
-
-function getHolidayDescription(day) {
-  return props.holidayDescription(day)
-}
-
 </script>
