@@ -75,7 +75,7 @@ class HandleInertiaRequests extends Middleware
 
     protected function getDeployInformation(): Closure
     {
-        return fn() => [
+        return fn(): array => [
             "release_version" => config("heroku.release_version"),
             "slug_description" => config("heroku.slug_description"),
             "release_created_at" => config("heroku.release_created_at"),

@@ -11,6 +11,7 @@
       </div>
       <DeployInfo
         :deploy-information="deployInformation"
+        class="justify-end"
       />
     </main>
   </div>
