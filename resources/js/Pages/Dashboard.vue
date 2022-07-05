@@ -8,9 +8,6 @@
         :approved-vacations="approvedVacations"
         :pending-vacations="pendingVacations"
       />
-      <VacationStats :stats="stats" />
-    </div>
-    <div class="grid grid-cols-1 gap-4">
       <PendingVacationRequests
         v-if="can.listAllVacationRequests"
         :requests="vacationRequests.data"
@@ -19,6 +16,9 @@
         v-else
         :requests="vacationRequests.data"
       />
+    </div>
+    <div class="grid grid-cols-1 gap-4">
+      <VacationStats :stats="stats" />
       <AbsenceList
         v-if="years.current.year === years.selected.year && absences.data.length"
         :absences="absences.data"

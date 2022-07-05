@@ -1,8 +1,5 @@
 <template>
-  <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
-    <div class="hidden p-4 bg-white shadow-md md:block">
-      <VacationChart :stats="stats" />
-    </div>
+  <section class="grid grid-cols-1 gap-4 md:grid-cols-1">
     <div class="h-full">
       <div class="grid grid-cols-2 gap-4 h-full">
         <div class="py-5 px-4 bg-white shadow-md sm:p-6">
@@ -77,8 +74,6 @@
 </template>
 
 <script setup>
-import VacationChart from '@/Shared/VacationChart'
-
 defineProps({
   stats: Object,
 })
