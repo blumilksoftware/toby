@@ -6,7 +6,6 @@ namespace Toby\Infrastructure\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Inertia\Middleware;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
@@ -74,14 +73,12 @@ class HandleInertiaRequests extends Middleware
         : null;
     }
 
-    protected function getDeployInformation(): array
+    protected function getDeployInformation(): Closure
     {
-        $releaseDate = config("heroku.release_created_at");
-
-        return [
+        return fn() => [
             "release_version" => config("heroku.release_version"),
             "slug_description" => config("heroku.slug_description"),
-            "release_created_at" => $releaseDate ? Carbon::parse($releaseDate)->format('Y-m-d H:i:s') : null,
+            "release_created_at" => config("heroku.release_created_at"),
             "slug_commit" => config("heroku.slug_commit"),
             "github_url" => preg_replace("/\/$/i", "", config("heroku.github_url", "")),
         ];
