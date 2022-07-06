@@ -10,6 +10,7 @@
             v-if="calendarState.isPrevious"
             type="button"
             class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
+            :class="{ 'rounded-r-md border-r md:rounded-r-none md:border-r-0': !calendarState.isNext }"
             @click="toLast"
           >
             <span class="sr-only">Poprzedni {{ calendarState.viewMode.details.shortcut }}</span>
@@ -24,13 +25,17 @@
             :class="{ 'rounded-l-md border border-r-0': !calendarState.isPrevious, 'rounded-r-md border border-l-0': !calendarState.isNext }"
             @click="goToToday"
           >
-            Dziś
+            Dzisiaj
           </button>
-          <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+          <span
+            class="relative -mx-px h-5 w-px bg-gray-300 md:hidden z-10"
+            :class="{ 'hidden': !calendarState.isPrevious || !calendarState.isNext }"
+          />
           <button
             v-if="calendarState.isNext"
             type="button"
             class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
+            :class="{ 'rounded-l-md border-l md:rounded-l-none md:border-l-0': !calendarState.isPrevious }"
             @click="toNext"
           >
             <span class="sr-only">Następny {{ calendarState.viewMode.details.shortcut }}</span>
@@ -49,7 +54,8 @@
           type="button"
           class="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
         >
-          {{ calendarState.viewMode.details.name }}
+          <span class="md:hidden">{{ calendarState.viewMode.details.shortcut }}</span>
+          <span class="hidden md:inline-block">{{ calendarState.viewMode.details.name }}</span>
           <ChevronDownIcon
             class="ml-2 h-5 w-5 text-gray-400"
             aria-hidden="true"
@@ -164,6 +170,7 @@ const currentDate = getCurrentDate()
 const months = useMonthInfo().getMonths()
 const { findType } = useVacationTypeInfo()
 const selectedYear = useCurrentYearPeriodInfo().year.value
+const weeksInYear = DateTime.fromObject({ year: selectedYear, month: 12, day: 31 }).weekNumber
 
 const calendar = {
   viewMode: ref('week'),
@@ -183,7 +190,7 @@ const calendarState = reactive({
   monthName: computed(() => months[calendar.currents.month - 1]?.name),
   isActualYear: computed(() => calendar.currents.year === DateTime.now().year),
   isPrevious: computed(() => calendarState.viewMode.isMonth ? calendar.currents.month !== 1 : calendar.currents.week > 0),
-  isNext: computed(() => calendarState.viewMode.isMonth ? calendar.currents.month !== 12 : calendar.currents.week < DateTime.fromObject({ year: selectedYear, month: 12, day: 31 }).weekNumber),
+  isNext: computed(() => calendarState.viewMode.isMonth ? calendar.currents.month !== 12 : calendar.currents.week < weeksInYear),
 })
 
 const customCalendar = {
