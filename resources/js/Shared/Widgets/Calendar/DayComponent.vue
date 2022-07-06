@@ -13,7 +13,7 @@
         }
       ],
       day.isHoliday && 'font-bold cursor-default',
-      (day.isVacation || day.isPendingVacation) && `border-b-4 border-dashed ${getVacationBorder(day)}`
+      (day.isPendingVacation) && `border-b-4 border-dashed ${day.getVacationType.border} md:border-blumilk-600`
     ]"
   >
     <Popper
@@ -38,7 +38,7 @@
       </template>
     </Popper>
     <Popper
-      v-else-if="day.isPendingVacation"
+      v-else-if="day.isVacation || day.isPendingVacation"
       as="div"
       open-delay="200"
       hover
@@ -46,14 +46,21 @@
       @mouseover.passive="onMouseover"
       @mouseleave="onMouseleave"
     >
-      <time
-        :datetime="day.date"
-        :class="[ day.isToday && 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
-      >
-        {{ day.dayNumber }}
-      </time>
+      <div class="flex justify-between">
+        <time
+          :datetime="day.date"
+          :class="[ day.isToday && 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
+        >
+          {{ day.dayNumber }}
+        </time>
+        <div class="hidden md:inline-block">
+          <VacationIcon
+            :type="day.getVacationType.value"
+          />
+        </div>
+      </div>
       <template #content>
-        <VacationPopup :vacation="getVacationInfo(day)" />
+        <VacationPopup :vacation="day.getVacationInfo" />
       </template>
     </Popper>
     <div
@@ -89,6 +96,7 @@
 import Popper from 'vue3-popper'
 import { defineProps, ref } from 'vue'
 import VacationPopup from '@/Shared/VacationPopup'
+import VacationIcon from '@/Shared/VacationTypeCalendarIcon'
 
 defineProps({
   day: {
@@ -96,12 +104,6 @@ defineProps({
     required: true,
   },
   getHolidayDescription: {
-    type: Function,
-  },
-  getVacationBorder: {
-    type: Function,
-  },
-  getVacationInfo: {
     type: Function,
   },
 })

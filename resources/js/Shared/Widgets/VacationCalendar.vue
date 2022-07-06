@@ -133,8 +133,6 @@
             class="flex flex-col relative py-2 px-3"
             :class="{ 'day': calendarState.viewMode.isWeek }"
             :get-holiday-description="getHolidayDescription"
-            :get-vacation-border="getVacationBorder"
-            :get-vacation-info="getVacationInfo"
           />
         </div>
       </div>
@@ -237,15 +235,21 @@ const customCalendar = {
   },
   prepareDay(day) {
     const isCurrentMonth = isInCurrentMonth(day)
-    return {
+    const startDay = {
       date: day.toISODate(),
+      isVacation: isCurrentMonth && isVacation(day),
+      isPendingVacation: isCurrentMonth && isPendingVacation(day),
+    }
+
+    return {
+      ...startDay,
       dayNumber: day.day,
-      isCurrentMonth: isCurrentMonth,
+      isCurrentMonth,
       isToday: isToday(day),
       isWeekend: isWeekend(day),
       isHoliday: isHoliday(day),
-      isVacation: isCurrentMonth && isVacation(day),
-      isPendingVacation: isCurrentMonth && isPendingVacation(day),
+      getVacationType: startDay.isVacation || startDay.isPendingVacation ? getVacationType(startDay) : undefined,
+      getVacationInfo: startDay.isVacation || startDay.isPendingVacation ? getVacationInfo(startDay) : undefined,
     }
   },
 }
@@ -363,6 +367,10 @@ function isPendingVacation(date) {
 
 function getVacationBorder(day) {
   return findType(getVacationInfo(day).type)?.border
+}
+
+function getVacationType(day) {
+  return findType(getVacationInfo(day).type)
 }
 
 function getVacationInfo(day) {
