@@ -1,6 +1,20 @@
 <template>
   <div
-    :class="[ (day.isVacation || day.isPendingVacation) && `border-b-2 border-dashed ${getVacationBorder(day)}` ]"
+    class="box-border"
+    :class="[
+      day.isCurrentMonth ? {
+        'bg-red-100': day.isWeekend,
+        'bg-white hover:bg-blumilk-25': !day.isWeekend && !day.isHoliday,
+        'bg-red-100 text-red-800': day.isHoliday || day.isWeekend
+      } : [
+        'bg-gray-50 text-gray-500',
+        {
+          'bg-red-50': day.isWeekend
+        }
+      ],
+      day.isHoliday && 'font-bold cursor-default',
+      (day.isVacation || day.isPendingVacation) && `border-b-4 border-dashed ${getVacationBorder(day)}`
+    ]"
   >
     <Popper
       v-if="day.isHoliday"
@@ -13,7 +27,7 @@
     >
       <time
         :datetime="day.date"
-        :class="[ day.isToday && 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white', 'text-red-600' ]"
+        :class="[ day.isToday && 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
       >
         {{ day.dayNumber }}
       </time>
@@ -44,9 +58,11 @@
     </Popper>
     <div
       v-else-if="day.isWeekend"
+      class="text-red-800"
     >
       <time
         :datetime="day.date"
+        class="cursor-default"
         :class="{ 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
       >
         {{ day.dayNumber }}

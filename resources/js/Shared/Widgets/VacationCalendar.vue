@@ -131,7 +131,7 @@
             :key="index"
             :day="day"
             class="flex flex-col relative py-2 px-3"
-            :class="[day.isCurrentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500', { 'hover:bg-blumilk-25': day.isCurrentMonth && !day.isWeekend }, { 'day': calendarState.viewMode.isWeek }, { 'bg-red-100': day.isCurrentMonth && day.isWeekend }, { 'bg-red-50': !day.isCurrentMonth && day.isWeekend }, { 'text-red-800': day.isWeekend }]"
+            :class="{ 'day': calendarState.viewMode.isWeek }"
             :get-holiday-description="getHolidayDescription"
             :get-vacation-border="getVacationBorder"
             :get-vacation-info="getVacationInfo"
