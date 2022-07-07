@@ -353,7 +353,7 @@ function copyEmails(){
   const emails = selectedUsers.value.map((user) => `"${user.name}" <${user.email}>`).join(', ')
   navigator.clipboard.writeText(emails)
   selectedUsers.value = []
-  toast.info('Skopiowano adresy e-mail do schowka')
+  toast.info('Skopiowano adresy e-mail do schowka.')
 }
 
 watch(form, debounce(() => {
