@@ -167,7 +167,7 @@ const selectedYear = useCurrentYearPeriodInfo().year.value
 const weeksInYear = DateTime.fromObject({ year: selectedYear, month: 12, day: 31 }).weekNumber
 
 const calendar = {
-  viewMode: ref('week'),
+  viewMode: ref(localStorage.getItem('calendarViewMode') ?? 'week'),
   currents: reactive({
     year: selectedYear,
     month: selectedYear === currentDate.year ? currentDate.month : 1,
@@ -336,6 +336,7 @@ function updateViewMode(type) {
   else
     resetCalendar()
   calendar.viewMode.value = type
+  localStorage.setItem('calendarViewMode', type)
 }
 
 function isInCurrentMonth(date) {
