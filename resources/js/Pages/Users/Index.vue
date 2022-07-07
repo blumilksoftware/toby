@@ -55,7 +55,12 @@
                   class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
                   :checked="indeterminate || selectedUsers.length === users.data.length"
                   :indeterminate="indeterminate"
-                  @change="selectedUsers = $event.target.checked ? users.data.map((user) => user.email) : []"
+                  @change="selectedUsers = $event.target.checked ? users.data.map((user) => {
+                    return {
+                      email: user.email,
+                      name: user.name
+                    }
+                  }) : []"
                 >
               </th>
               <th
@@ -106,18 +111,18 @@
             <tr
               v-for="user in users.data"
               :key="user.id"
-              :class="[ selectedUsers.includes(user.email) && 'bg-blumilk-25', { 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
+              :class="[ selectedUsers.includes((selectedUser) => selectedUser.email === user.email) && 'bg-blumilk-25', { 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
             >
               <td class="relative w-12 px-6 sm:w-16 sm:px-8">
                 <div
-                  v-if="selectedUsers.includes(user.email)"
+                  v-if="selectedUsers.includes((selectedUser) => selectedUser.email === user.email)"
                   class="absolute inset-y-0 left-0 w-0.5 bg-blumilk-600"
                 />
                 <input
                   v-model="selectedUsers"
                   type="checkbox"
                   class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-                  :value="user.email"
+                  :value="{email: user.email, name:user.name}"
                 >
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
@@ -277,7 +282,7 @@ const selectedUsers = ref([])
 const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < props.users.data.length)
 
 function copyEmails(){
-  const emails = selectedUsers.value.join(', ')
+  const emails = selectedUsers.value.map((user) => `"${user.name}" <${user.email}>`).join(', ')
   navigator.clipboard.writeText(emails)
   selectedUsers.value = []
   toast.info('Skopiowano adresy e-mail do schowka')
