@@ -13,7 +13,8 @@
         }
       ],
       day.isHoliday && 'font-bold cursor-default',
-      (day.isPendingVacation) && `border-b-4 border-dashed ${day.getVacationType.border} md:border-blumilk-600`
+      (day.isPendingVacation) && `border-b-4 border-dashed ${day.getVacationType.border}`,
+      (day.isVacation) && `border-b-4 ${day.getVacationType.border}`
     ]"
   >
     <Popper
@@ -33,7 +34,7 @@
       </time>
       <template #content>
         <div class="py-2 px-6 text-sm font-semibold text-left text-gray-700 bg-white rounded-lg border border-gray-400">
-          {{ getHolidayDescription(day) }}
+          {{ day.getHolidayInfo }}
         </div>
       </template>
     </Popper>
@@ -102,9 +103,6 @@ defineProps({
   day: {
     type: Object,
     required: true,
-  },
-  getHolidayDescription: {
-    type: Function,
   },
 })
 

@@ -7,11 +7,10 @@
       <div class="flex justify-center">
         <div class="flex items-center rounded-md shadow-sm md:items-stretch">
           <button
-            v-if="calendarState.isPrevious"
             type="button"
-            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-white py-2 pl-3 pr-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
-            :class="{ 'rounded-r-md border-r md:rounded-r-none md:border-r-0': !calendarState.isNext }"
-            @click="toLast"
+            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 py-2 pl-3 pr-4 text-gray-400 focus:relative md:w-9 md:px-2"
+            :class="[ calendarState.isPrevious ? 'bg-white hover:text-gray-500 md:hover:bg-gray-50' : 'bg-gray-100' ]"
+            @click="toPrevious"
           >
             <span class="sr-only">Poprzedni {{ calendarState.viewMode.details.shortcut }}</span>
             <ChevronLeftIcon
@@ -22,20 +21,18 @@
           <button
             type="button"
             class="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
-            :class="{ 'rounded-l-md border border-r-0': !calendarState.isPrevious, 'rounded-r-md border border-l-0': !calendarState.isNext }"
             @click="goToToday"
           >
             Dzisiaj
           </button>
           <span
             class="relative -mx-px h-5 w-px bg-gray-300 md:hidden z-10"
-            :class="{ 'hidden': !calendarState.isPrevious || !calendarState.isNext }"
           />
           <button
-            v-if="calendarState.isNext"
             type="button"
-            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 bg-white py-2 pl-4 pr-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 md:hover:bg-gray-50"
-            :class="{ 'rounded-l-md border-l md:rounded-l-none md:border-l-0': !calendarState.isPrevious }"
+            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 py-2 pl-4 pr-3 text-gray-400 focus:relative md:w-9 md:px-2"
+            :class="[ calendarState.isNext ? 'bg-white hover:text-gray-500 md:hover:bg-gray-50' : 'bg-gray-100' ]"
+            :disabled="!calendarState.isNext"
             @click="toNext"
           >
             <span class="sr-only">Następny {{ calendarState.viewMode.details.shortcut }}</span>
@@ -99,25 +96,25 @@
         v-if="calendarState.viewMode.isMonth"
         class="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none"
       >
-        <div class="bg-white py-2">
+        <div class="py-2 bg-white">
           Pn
         </div>
-        <div class="bg-white py-2">
+        <div class="py-2 bg-white">
           Wt
         </div>
-        <div class="bg-white py-2">
+        <div class="py-2 bg-white">
           Śr
         </div>
-        <div class="bg-white py-2">
+        <div class="py-2 bg-white">
           Cz
         </div>
-        <div class="bg-white py-2">
+        <div class="py-2 bg-white">
           Pt
         </div>
-        <div class="bg-red-100 py-2">
+        <div class="py-2 bg-red-100 text-red-800">
           Sb
         </div>
-        <div class="bg-red-100 py-2">
+        <div class="py-2 bg-red-100 text-red-800">
           Nd
         </div>
       </div>
@@ -132,7 +129,6 @@
             :day="day"
             class="flex flex-col relative py-2 px-3"
             :class="{ 'day': calendarState.viewMode.isWeek }"
-            :get-holiday-description="getHolidayDescription"
           />
         </div>
       </div>
@@ -239,6 +235,7 @@ const customCalendar = {
       date: day.toISODate(),
       isVacation: isCurrentMonth && isVacation(day),
       isPendingVacation: isCurrentMonth && isPendingVacation(day),
+      isHoliday: isHoliday(day),
     }
 
     return {
@@ -247,7 +244,7 @@ const customCalendar = {
       isCurrentMonth,
       isToday: isToday(day),
       isWeekend: isWeekend(day),
-      isHoliday: isHoliday(day),
+      getHolidayInfo: startDay.isHoliday ? getHolidayInfo(startDay) : undefined,
       getVacationType: startDay.isVacation || startDay.isPendingVacation ? getVacationType(startDay) : undefined,
       getVacationInfo: startDay.isVacation || startDay.isPendingVacation ? getVacationInfo(startDay) : undefined,
     }
@@ -260,18 +257,22 @@ watch([calendar.viewMode, calendar.currents], () => {
 
 customCalendar.loadCalendar()
 
-function toLast() {
-  if (calendar.viewMode.value === 'week')
-    minusWeek()
-  else
-    minusMonth()
+function toPrevious() {
+  if (calendarState.isPrevious) {
+    if (calendar.viewMode.value === 'week')
+      minusWeek()
+    else
+      minusMonth()
+  }
 }
 
 function toNext() {
-  if (calendar.viewMode.value === 'week')
-    addWeek()
-  else
-    addMonth()
+  if (calendarState.isNext) {
+    if (calendar.viewMode.value === 'week')
+      addWeek()
+    else
+      addMonth()
+  }
 }
 
 function resetCalendar(config = {}) {
@@ -353,7 +354,7 @@ function isHoliday(date) {
   return props.holidays[date.toISODate()] !== undefined
 }
 
-function getHolidayDescription(day) {
+function getHolidayInfo(day) {
   return props.holidays[day.date]
 }
 
@@ -363,10 +364,6 @@ function isVacation(date) {
 
 function isPendingVacation(date) {
   return props.pendingVacations[date.toISODate()] !== undefined
-}
-
-function getVacationBorder(day) {
-  return findType(getVacationInfo(day).type)?.border
 }
 
 function getVacationType(day) {
