@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="border-t border-gray-200">
-      <div class="flex-1 grid grid-cols-6 gap-4 p-4">
+      <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4">
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
             <SearchIcon class="w-5 h-5 text-gray-400" />
@@ -25,7 +25,7 @@
           <input
             v-model.trim="form.search"
             type="search"
-            class="block py-2 pr-3 pl-10 w-full text-sm placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+            class="block py-2 pr-3 pl-10 w-full max-w-lg sm:text-sm placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
             placeholder="Szukaj"
           >
         </div>
@@ -37,7 +37,7 @@
             <ListboxButton
               class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
             >
-              <span class="flex items-center">
+              <span class="block truncate">
                 {{ form.status.name }}
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
