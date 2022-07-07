@@ -30,15 +30,41 @@
           >
         </div>
       </div>
-      <div class="overflow-auto xl:overflow-visible">
+      <div class="overflow-auto xl:overflow-visible relative">
+        <div
+          v-if="selectedUsers.length > 0"
+          class="flex absolute top-0 left-20 h-10 items-center bg-gray-50"
+        >
+          <button
+            type="button"
+            class="items-center rounded border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+            @click="copyEmails()"
+          >
+            Skopiuj adresy e-mail
+          </button>
+        </div>
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
               <th
                 scope="col"
+                class="relative w-16 px-8"
+              >
+                <input
+                  type="checkbox"
+                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                  :checked="indeterminate || selectedUsers.length === users.data.length"
+                  :indeterminate="indeterminate"
+                  @change="selectedUsers = $event.target.checked ? users.data.map((user) => user.email) : []"
+                >
+              </th>
+              <th
+                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
-                Imię i nazwisko
+                <span v-if="selectedUsers.length === 0">
+                  Imię i nazwisko
+                </span>
               </th>
               <th
                 scope="col"
@@ -80,8 +106,20 @@
             <tr
               v-for="user in users.data"
               :key="user.id"
-              :class="{ 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }"
+              :class="[ selectedUsers.includes(user.email) && 'bg-blumilk-25', { 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
             >
+              <td class="relative w-12 px-6 sm:w-16 sm:px-8">
+                <div
+                  v-if="selectedUsers.includes(user.email)"
+                  class="absolute inset-y-0 left-0 w-0.5 bg-blumilk-600"
+                />
+                <input
+                  v-model="selectedUsers"
+                  type="checkbox"
+                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                  :value="user.email"
+                >
+              </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 <div class="flex">
                   <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
@@ -120,7 +158,9 @@
                   as="div"
                   class="inline-block relative text-left"
                 >
-                  <MenuButton class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                  <MenuButton
+                    class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                  >
                     <DotsVerticalIcon class="w-5 h-5" />
                   </MenuButton>
 
@@ -132,7 +172,9 @@
                     leave-from-class="transform opacity-100 scale-100"
                     leave-to-class="transform opacity-0 scale-95"
                   >
-                    <MenuItems class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right">
+                    <MenuItems
+                      class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
+                    >
                       <div
                         v-if="!user.deleted"
                         class="py-1"
@@ -213,13 +255,14 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { debounce } from 'lodash'
 import { SearchIcon } from '@heroicons/vue/outline'
 import { DotsVerticalIcon, PencilIcon, BanIcon, RefreshIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { DateTime } from 'luxon'
+import { useToast } from 'vue-toastification'
 import Pagination from '@/Shared/Pagination'
 import EmptyState from '@/Shared/Feedbacks/EmptyState'
 
@@ -228,7 +271,17 @@ const props = defineProps({
   filters: Object,
 })
 
+const toast = useToast()
 const search = ref(props.filters.search)
+const selectedUsers = ref([])
+const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < props.users.data.length)
+
+function copyEmails(){
+  const emails = selectedUsers.value.join(', ')
+  navigator.clipboard.writeText(emails)
+  selectedUsers.value = []
+  toast.info('Skopiowano adresy e-mail do schowka')
+}
 
 watch(search, debounce(value => {
   Inertia.get('/users', value ? { search: value } : {}, {
