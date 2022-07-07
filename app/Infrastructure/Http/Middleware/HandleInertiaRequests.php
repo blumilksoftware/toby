@@ -6,7 +6,6 @@ namespace Toby\Infrastructure\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
@@ -77,11 +76,11 @@ class HandleInertiaRequests extends Middleware
     protected function getDeployInformation(): Closure
     {
         return fn(): array => [
-            "release_version" => Config::get("heroku.release_version"),
-            "slug_description" => Config::get("heroku.slug_description"),
-            "release_created_at" => Config::get("heroku.release_created_at"),
-            "slug_commit" => Config::get("heroku.slug_commit"),
-            "github_url" => preg_replace("/\/$/i", "", Config::get("heroku.github_url", "")),
+            "release_version" => config("heroku.release_version"),
+            "slug_description" => config("heroku.slug_description"),
+            "release_created_at" => config("heroku.release_created_at"),
+            "slug_commit" => config("heroku.slug_commit"),
+            "github_url" => config("heroku.github_url", ""),
         ];
     }
 }
