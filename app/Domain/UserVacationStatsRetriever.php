@@ -103,6 +103,15 @@ class UserVacationStatsRetriever
         return $limit ?? 0;
     }
 
+    public function hasVacationDaysLimit(User $user, YearPeriod $yearPeriod): bool
+    {
+        $limit = $user->vacationLimits()
+            ->whereBelongsTo($yearPeriod)
+            ->first()?->days;
+
+        return $limit !== null;
+    }
+
     protected function getLimitableVacationTypes(): Collection
     {
         $types = VacationType::all();
