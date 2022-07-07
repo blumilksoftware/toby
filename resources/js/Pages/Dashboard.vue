@@ -3,6 +3,11 @@
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
     <div class="grid grid-cols-1 gap-4 xl:col-span-2">
       <Welcome :user="auth.user" />
+      <VacationCalendar
+        :holidays="allHolidays"
+        :approved-vacations="approvedVacations"
+        :pending-vacations="pendingVacations"
+      />
       <VacationStats :stats="stats" />
     </div>
     <div class="grid grid-cols-1 gap-4">
@@ -38,6 +43,7 @@ import HomeOfficeList from '@/Shared/Widgets/HomeOfficeList'
 import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays'
 import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests'
+import VacationCalendar from '@/Shared/Widgets/VacationCalendar'
 
 defineProps({
   auth: Object,
@@ -48,5 +54,8 @@ defineProps({
   can: Object,
   stats: Object,
   years: Object,
+  allHolidays: Object,
+  approvedVacations: Object,
+  pendingVacations: Object,
 })
 </script>
