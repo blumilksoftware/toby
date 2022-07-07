@@ -124,6 +124,16 @@ class User extends Authenticatable implements NotifiableInterface
         );
     }
 
+    public function scopeStatus(Builder $query, ?string $status): Builder
+    {
+        return match ($status) {
+            "active" => $query,
+            "inactive" => $query->onlyTrashed(),
+            "all" => $query->withTrashed(),
+            default => $query
+        };
+    }
+
     public function routeNotificationForSlack()
     {
         return $this->profile->slack_id;
