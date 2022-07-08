@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full">
+  <div class="relative min-h-screen">
     <MainMenu
       :auth="auth"
       :years="years"
@@ -9,11 +9,12 @@
       <div class="lg:px-4">
         <slot />
       </div>
-      <DeployInfo
-        :deploy-information="deployInformation"
-        class="justify-end"
-      />
+      <div class="h-8 md:h-4"></div>
     </main>
+    <DeployInfo
+      :deploy-information="deployInformation"
+      class="absolute bottom-0 justify-end"
+    />
   </div>
 </template>
 

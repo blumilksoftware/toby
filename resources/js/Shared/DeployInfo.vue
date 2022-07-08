@@ -3,9 +3,10 @@
     :class="{ 'flex-col': isVertical(), 'flex-row': isHorizontal() }"
     class="min-w-full p-4 text-xs text-gray-500 flex gap-x-1"
   >
-    <p class="flex flex-row gap-x-1">
-      <strong>Wersja:</strong>
+    <p class="flex flex-col sm:flex-row gap-x-1">
+      <span class="font-bold whitespace-nowrap">Wersja:</span>
       <span
+        class="whitespace-nowrap"
         :title="`Commit: ${deployInformation.slug_commit ?? 'unset'}`"
       >
         {{ deployInformation.slug_description ?? 'unset' }} ({{ deployInformation.release_version ?? 'unset' }})
@@ -13,20 +14,25 @@
     </p>
     <p
       v-if="deployInformation.release_created_at"
-      class="flex flex-row gap-x-1"
+      class="flex flex-col sm:flex-row gap-x-1"
       :class="{ 'border-l-2 border-gray-300 pl-1': isHorizontal() }"
     >
-      <strong>Ostatnio zbudowano:</strong>
+      <span class="font-bold whitespace-nowrap">Ostatnio zbudowano:</span>
       <span>{{ getDate() }}</span>
     </p>
     <p
       v-if="deployInformation.github_url"
-      :class="{ 'border-l-2 border-gray-300 pl-1': isHorizontal(), 'flex flex-row gap-x-1': isVertical() }"
+      :class="{ 'border-l-2 border-gray-300 pl-1': isHorizontal(), 'flex flex-col sm:flex-row gap-x-1': isVertical() }"
     >
-      <strong v-if="isVertical()">Repozytorium:</strong>
+      <span
+        v-if="isVertical()"
+        class="font-bold whitespace-nowrap"
+      >
+        Repozytorium:
+      </span>
       <a
         v-if="deployInformation.github_url"
-        class="text-gray-800 underline hover:no-underline hover:text-blumilk-600"
+        class="text-gray-800 whitespace-nowrap underline hover:no-underline hover:text-blumilk-600"
         :href="deployInformation.github_url"
         target="_blank"
         rel="noopener nofollow noreferrer"
