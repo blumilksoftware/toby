@@ -1,7 +1,6 @@
 <template>
   <div
-    :class="{ 'flex-col': isVertical(), 'flex-row': isHorizontal() }"
-    class="min-w-full p-4 text-xs text-gray-500 flex gap-x-1"
+    class="min-w-full p-4 text-xs text-gray-500 flex flex-row gap-x-1"
   >
     <p class="flex flex-col sm:flex-row gap-x-1">
       <span class="font-bold whitespace-nowrap">Wersja:</span>
@@ -14,22 +13,17 @@
     </p>
     <p
       v-if="deployInformation.release_created_at"
-      class="flex flex-col sm:flex-row gap-x-1"
-      :class="{ 'border-l-2 border-gray-300 pl-1': isHorizontal() }"
+      class="flex flex-col sm:flex-row gap-x-1 border-l-2 border-gray-300 pl-1"
     >
       <span class="font-bold whitespace-nowrap">Ostatnio zbudowano:</span>
       <span>{{ getDate() }}</span>
     </p>
     <p
       v-if="deployInformation.github_url"
-      :class="{ 'border-l-2 border-gray-300 pl-1': isHorizontal(), 'flex flex-col sm:flex-row gap-x-1': isVertical() }"
+      class="flex flex-col sm:flex-row gap-x-1 border-l-2 border-gray-300 pl-1"
     >
-      <span
-        v-if="isVertical()"
-        class="font-bold whitespace-nowrap"
-      >
-        Repozytorium:
-      </span>
+      <span class="hidden sm:block font-bold whitespace-nowrap">Repozytorium:</span>
+      <span class="block sm:hidden font-bold whitespace-nowrap">Repo:</span>
       <a
         v-if="deployInformation.github_url"
         class="text-gray-800 whitespace-nowrap underline hover:no-underline hover:text-blumilk-600"
@@ -46,19 +40,7 @@ import { DateTime } from 'luxon'
 
 let props = defineProps({
   deployInformation: Object,
-  layout: {
-    type: String,
-    default: 'horizontal',
-  },
 })
-
-function isVertical() {
-  return props.layout === 'vertical'
-}
-
-function isHorizontal() {
-  return props.layout === 'horizontal'
-}
 
 function getDate() {
   return DateTime.fromISO(props.deployInformation.release_created_at)

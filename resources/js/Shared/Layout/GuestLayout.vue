@@ -3,8 +3,7 @@
     <slot />
     <DeployInfo
       :deploy-information="deployInformation"
-      layout="vertical"
-      class="absolute right-0 bottom-0"
+      class="absolute left-0 bottom-0 justify-end"
     />
   </div>
 </template>
