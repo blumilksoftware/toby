@@ -20,11 +20,9 @@
     <div class="grid grid-cols-1 gap-4">
       <VacationStats :stats="stats" />
       <AbsenceList
-        v-if="years.current.year === years.selected.year && absences.data.length"
         :absences="absences.data"
       />
       <HomeOfficeList
-        v-if="years.current.year === years.selected.year && remoteDays.data.length"
         :remote-days="remoteDays.data"
       />
       <UpcomingHolidays

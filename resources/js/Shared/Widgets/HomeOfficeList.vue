@@ -6,7 +6,10 @@
       </h2>
     </div>
     <div class="px-4 border-t border-gray-200 sm:px-6">
-      <ul class="divide-y divide-gray-200">
+      <ul
+        v-if="remoteDays.length"
+        class="divide-y divide-gray-200"
+      >
         <li
           v-for="day in remoteDays"
           :key="day.user.id"
@@ -26,11 +29,28 @@
           </div>
         </li>
       </ul>
+      <EmptyState
+        v-else
+        :show-description="false"
+      >
+        <template #head>
+          <HomeCityIcon
+            class="flex justify-center"
+            size="48"
+          />
+        </template>
+        <template #title>
+          Nikt nie pracuje z domu
+        </template>
+      </EmptyState>
     </div>
   </section>
 </template>
 
 <script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import HomeCityIcon from 'vue-material-design-icons/HomeCity'
+
 defineProps({
   remoteDays: Object,
 })
