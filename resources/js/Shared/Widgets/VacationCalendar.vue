@@ -97,7 +97,7 @@
         class="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-300 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none"
       >
         <div class="py-2 bg-white">
-          Pn
+          Pon
         </div>
         <div class="py-2 bg-white">
           Wt
@@ -106,16 +106,16 @@
           Śr
         </div>
         <div class="py-2 bg-white">
-          Cz
+          Czw
         </div>
         <div class="py-2 bg-white">
           Pt
         </div>
         <div class="py-2 bg-red-100 text-red-800">
-          Sb
+          Sob
         </div>
         <div class="py-2 bg-red-100 text-red-800">
-          Nd
+          Ndz
         </div>
       </div>
       <div class="flex bg-gray-300 text-xs leading-6 text-gray-700 lg:flex-auto">
@@ -127,7 +127,7 @@
             v-for="(day, index) in days"
             :key="index"
             :day="day"
-            class="flex flex-col relative py-2 px-3"
+            class="flex flex-col relative py-3 px-3"
             :class="{ 'day': calendarState.viewMode.isWeek }"
           />
         </div>
@@ -378,7 +378,7 @@ function getVacationInfo(day) {
 
 <style lang="css">
 .day:nth-of-type(7n - 6):before {
-  content: "Pn";
+  content: "Pon";
 }
 
 .day:nth-of-type(7n - 5):before {
@@ -390,7 +390,7 @@ function getVacationInfo(day) {
 }
 
 .day:nth-of-type(7n - 3):before {
-  content: "Cz";
+  content: "Czw";
 }
 
 .day:nth-of-type(7n - 2):before {
@@ -398,10 +398,10 @@ function getVacationInfo(day) {
 }
 
 .day:nth-of-type(7n - 1):before {
-  content: "Sb";
+  content: "Sob";
 }
 
 .day:nth-of-type(7n):before {
-  content: "Nd";
+  content: "Ndz";
 }
 </style>

@@ -13,8 +13,8 @@
         }
       ],
       day.isHoliday && 'font-bold cursor-default',
-      (day.isPendingVacation) && `border-b-4 border-dashed ${day.getVacationType.border}`,
-      (day.isVacation) && `border-b-4 ${day.getVacationType.border}`
+      (day.isPendingVacation) && `pb-0 border-b-[3px] border-dashed ${day.getVacationType.border}`,
+      (day.isVacation) && `pb-0 border-b-[3px] ${day.getVacationType.border}`
     ]"
   >
     <Popper
