@@ -8,7 +8,10 @@
         No search result
       </slot>
     </h3>
-    <p class="text-sm">
+    <p
+      v-if="showDescription"
+      class="text-sm"
+    >
       <slot name="text">
         Try a different search query
       </slot>
@@ -18,4 +21,11 @@
 
 <script setup>
 import { SearchIcon } from '@heroicons/vue/solid'
+
+defineProps({
+  showDescription: {
+    type: Boolean,
+    default: true,
+  },
+})
 </script>
