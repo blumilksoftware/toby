@@ -110,8 +110,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()
-            ->route("users.index")
+        return back()
             ->with("success", __("User has been deleted."));
     }
 
@@ -124,8 +123,7 @@ class UserController extends Controller
 
         $user->restore();
 
-        return redirect()
-            ->route("users.index")
+        return back()
             ->with("success", __("User has been restored."));
     }
 }

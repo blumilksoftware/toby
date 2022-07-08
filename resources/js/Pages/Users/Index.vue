@@ -253,6 +253,7 @@
                             :preserve-scroll="true"
                             :href="`/users/${user.id}`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            @click="form.status.value !== 'all' ? removeUser(user): null"
                           >
                             <BanIcon class="mr-2 w-5 h-5 text-red-500" /> Zablokuj
                           </InertiaLink>
@@ -272,6 +273,7 @@
                             :preserve-scroll="true"
                             :href="`/users/${user.id}/restore`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            @click="form.status.value !== 'all' ? removeUser(user): null"
                           >
                             <RefreshIcon class="mr-2 w-5 h-5 text-green-500" /> Przywróć
                           </InertiaLink>
@@ -354,6 +356,10 @@ function copyEmails(){
   navigator.clipboard.writeText(emails)
   selectedUsers.value = []
   toast.info('Skopiowano adresy e-mail do schowka.')
+}
+
+function removeUser(user){
+  selectedUsers.value = selectedUsers.value.filter((selectedUser) => selectedUser.email !== user.email)
 }
 
 watch(form, debounce(() => {
