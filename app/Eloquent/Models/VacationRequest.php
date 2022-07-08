@@ -51,6 +51,13 @@ class VacationRequest extends Model
     ];
     protected $perPage = 50;
 
+    protected static function booted()
+    {
+        static::addGlobalScope('userExists', function (Builder $query): void {
+            $query->whereHas('user');
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
