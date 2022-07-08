@@ -11,6 +11,9 @@
         <dt class="font-medium text-gray-700 truncate text-md">
           Pozostało
         </dt>
+        <dt class="mt-2 text-sm font-medium text-gray-500">
+          Dni do wykorzystania teraz.
+        </dt>
       </div>
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
         <dd class="mt-1 text-4xl font-semibold text-blumilk-700">
@@ -18,6 +21,9 @@
         </dd>
         <dt class="font-medium text-gray-700 truncate text-md">
           Wykorzystane
+        </dt>
+        <dt class="mt-2 text-sm font-medium text-gray-500">
+          Dni, które zostały już wykorzystane na urlop wypoczynkowy.
         </dt>
       </div>
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
@@ -27,6 +33,9 @@
         <dd class="font-medium text-gray-700 truncate text-md">
           Rozpatrywane
         </dd>
+        <dt class="mt-2 text-sm font-medium text-gray-500">
+          Dni czekające na akceptację przełożonych.
+        </dt>
       </div>
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
         <dt class="mt-1 text-4xl font-semibold text-blumilk-800">
@@ -35,22 +44,9 @@
         <dd class="font-medium text-gray-700 truncate text-md">
           Limit urlopu
         </dd>
-      </div>
-      <div class="py-5 px-4 bg-white shadow-md sm:p-6">
-        <dt class="mt-1 text-4xl font-semibold text-gray-500">
-          {{ stats.other }}
+        <dt class="mt-2 text-sm font-medium text-gray-500">
+          Twój roczny limit urlopu wypoczynkowego.
         </dt>
-        <dd class="font-medium text-gray-700 truncate text-md">
-          Inne urlopy
-        </dd>
-      </div>
-      <div class="py-5 px-4 bg-white shadow-md sm:p-6">
-        <dt class="mt-1 text-4xl font-semibold text-lime-500">
-          {{ stats.homeOffice }}
-        </dt>
-        <dd class="font-medium text-gray-700 truncate text-md">
-          Praca zdalna
-        </dd>
       </div>
     </div>
     <div
@@ -64,6 +60,9 @@
         <dd class="font-medium text-gray-700 truncate text-md">
           Inne urlopy
         </dd>
+        <dt class="mt-2 text-sm font-medium text-gray-500">
+          Urlopy bezpłatne, okolicznościowe, zwolnienia lekarskie, itd., które zostały już zatwierdzone.
+        </dt>
       </div>
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
         <dt class="mt-1 text-4xl font-semibold text-lime-500">
@@ -72,6 +71,9 @@
         <dd class="font-medium text-gray-700 truncate text-md">
           Praca zdalna
         </dd>
+        <dt class="mt-2 text-sm font-medium text-gray-500">
+          Dni przepracowane poza biurem.
+        </dt>
       </div>
     </div>
   </section>
