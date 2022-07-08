@@ -51,13 +51,6 @@ class VacationRequest extends Model
     ];
     protected $perPage = 50;
 
-    protected static function booted()
-    {
-        static::addGlobalScope('userExists', function (Builder $query): void {
-            $query->whereHas('user');
-        });
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -109,6 +102,13 @@ class VacationRequest extends Model
     public function hasFlowSkipped(): bool
     {
         return $this->flow_skipped;
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope("userExists", function (Builder $query): void {
+            $query->whereHas("user");
+        });
     }
 
     protected static function newFactory(): VacationRequestFactory
