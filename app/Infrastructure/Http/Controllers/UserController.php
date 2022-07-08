@@ -26,9 +26,12 @@ class UserController extends Controller
     {
         $this->authorize("manageUsers");
 
+        $searchTest = $request->query("search");
+        $status = $request->query("status", "active");
+
         $users = User::query()
-            ->withTrashed()
-            ->search($request->query("search"))
+            ->search($searchTest)
+            ->status($status)
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->paginate()
@@ -36,7 +39,10 @@ class UserController extends Controller
 
         return inertia("Users/Index", [
             "users" => UserResource::collection($users),
-            "filters" => $request->only("search"),
+            "filters" => [
+                "search" => $searchTest,
+                "status" => $status,
+            ],
         ]);
     }
 
@@ -104,8 +110,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()
-            ->route("users.index")
+        return back()
             ->with("success", __("User has been deleted."));
     }
 
@@ -118,8 +123,7 @@ class UserController extends Controller
 
         $user->restore();
 
-        return redirect()
-            ->route("users.index")
+        return back()
             ->with("success", __("User has been restored."));
     }
 }
