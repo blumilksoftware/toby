@@ -91,10 +91,10 @@
         </transition>
       </Menu>
     </div>
-    <div class="ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
+    <div class="border border-gray-300 lg:flex lg:flex-auto lg:flex-col">
       <div
         v-if="calendarState.viewMode.isMonth"
-        class="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none"
+        class="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-300 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none"
       >
         <div class="py-2 bg-white">
           Pn
@@ -118,7 +118,7 @@
           Nd
         </div>
       </div>
-      <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
+      <div class="flex bg-gray-300 text-xs leading-6 text-gray-700 lg:flex-auto">
         <div
           class="w-full grid grid-cols-7 gap-px"
           :class="{ 'grid-rows-1': calendarState.viewMode.isWeek }"
