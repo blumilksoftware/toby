@@ -25,6 +25,7 @@ class HandleInertiaRequests extends Middleware
             "flash" => $this->getFlashData($request),
             "years" => $this->getYearsData($request),
             "vacationRequestsCount" => $this->getVacationRequestsCount($request),
+            "deployInformation" => $this->getDeployInformation(),
         ]);
     }
 
@@ -70,5 +71,16 @@ class HandleInertiaRequests extends Middleware
             )
             ->count()
         : null;
+    }
+
+    protected function getDeployInformation(): Closure
+    {
+        return fn(): array => [
+            "release_version" => config("heroku.release_version"),
+            "slug_description" => config("heroku.slug_description"),
+            "release_created_at" => config("heroku.release_created_at"),
+            "slug_commit" => config("heroku.slug_commit"),
+            "github_url" => config("heroku.github_url", ""),
+        ];
     }
 }
