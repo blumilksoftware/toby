@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class HolidayResource extends JsonResource
@@ -20,7 +19,10 @@ class HolidayResource extends JsonResource
             "isPast" => $this->date->endOfDay()->isPast(),
             "displayDate" => $this->date->toDisplayString(),
             "dayOfWeek" => $this->date->dayName,
-            "daysToHoliday" => $this->date->diffInDays(Carbon::now()),
+            "daysToHoliday" => $this->date->diffForHumans([
+                "parts" => 2,
+                "join" => " i ",
+            ]),
         ];
     }
 }
