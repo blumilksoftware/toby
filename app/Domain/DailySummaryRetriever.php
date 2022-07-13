@@ -40,6 +40,32 @@ class DailySummaryRetriever
             ->get();
     }
 
+    public function getUpcomingAbsences(Carbon $date): Collection
+    {
+        return Vacation::query()
+            ->with(["user", "vacationRequest"])
+            ->whereDate("date", ">", $date)
+            ->approved()
+            ->whereTypes(
+                VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
+            )
+            ->limit(3)
+            ->get();
+    }
+
+    public function getUpcomingRemoteDays(Carbon $date): Collection
+    {
+        return Vacation::query()
+            ->with(["user", "vacationRequest"])
+            ->whereDate("date", ">", $date)
+            ->approved()
+            ->whereTypes(
+                VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
+            )
+            ->limit(3)
+            ->get();
+    }
+
     public function getBirthdays(Carbon $date): Collection
     {
         return User::query()

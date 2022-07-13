@@ -17,10 +17,26 @@
       <AbsenceList
         v-if="years.current.year === years.selected.year && absences.data.length"
         :absences="absences.data"
+        :title="'Dzisiejsze nieobecności'"
+        :show-date="false"
       />
       <HomeOfficeList
         v-if="years.current.year === years.selected.year && remoteDays.data.length"
         :remote-days="remoteDays.data"
+        :title="'Dzisiejsza praca zdalna'"
+        :show-date="false"
+      />
+      <AbsenceList
+        v-if="years.current.year === years.selected.year && upcomingAbsences.data.length"
+        :absences="upcomingAbsences.data"
+        :title="'Nadchodzące nieobecności'"
+        :show-date="true"
+      />
+      <HomeOfficeList
+        v-if="years.current.year === years.selected.year && upcomingRemoteDays.data.length"
+        :remote-days="upcomingRemoteDays.data"
+        :title="'Nadchodząca praca zdalna'"
+        :show-date="true"
       />
       <UpcomingHolidays
         v-if="years.current.year === years.selected.year && holidays.data.length"
@@ -43,6 +59,8 @@ defineProps({
   auth: Object,
   absences: Object,
   remoteDays: Object,
+  upcomingAbsences: Object,
+  upcomingRemoteDays: Object,
   vacationRequests: Object,
   holidays: Object,
   can: Object,

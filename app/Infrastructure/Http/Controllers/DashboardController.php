@@ -32,6 +32,8 @@ class DashboardController extends Controller
 
         $absences = $dailySummaryRetriever->getAbsences($now);
         $remoteDays = $dailySummaryRetriever->getRemoteDays($now);
+        $upcomingAbsences = $dailySummaryRetriever->getUpcomingAbsences($now);
+        $upcomingRemoteDays = $dailySummaryRetriever->getUpcomingRemoteDays($now);
 
         if ($user->can("listAll", VacationRequest::class)) {
             $vacationRequests = $yearPeriod->vacationRequests()
@@ -64,6 +66,8 @@ class DashboardController extends Controller
         return inertia("Dashboard", [
             "absences" => VacationResource::collection($absences),
             "remoteDays" => VacationResource::collection($remoteDays),
+            "upcomingAbsences" => VacationResource::collection($upcomingAbsences),
+            "upcomingRemoteDays" => VacationResource::collection($upcomingRemoteDays),
             "vacationRequests" => VacationRequestResource::collection($vacationRequests),
             "holidays" => HolidayResource::collection($holidays),
             "stats" => [

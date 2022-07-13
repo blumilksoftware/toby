@@ -2,7 +2,7 @@
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Dzisiejsze nieobecności
+        {{ title }}
       </h2>
     </div>
     <div class="px-4 border-t border-gray-200 sm:px-6">
@@ -23,6 +23,12 @@
             <p class="text-sm text-gray-500">
               {{ absence.user.email }}
             </p>
+            <p
+              v-if="showDate"
+              class="text-sm text-gray-500"
+            >
+              {{ absence.displayDate }}
+            </p>
           </div>
         </li>
       </ul>
@@ -33,5 +39,7 @@
 <script setup>
 defineProps({
   absences: Object,
+  title: String,
+  showDate: Boolean,
 })
 </script>
