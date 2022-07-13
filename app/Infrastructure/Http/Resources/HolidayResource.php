@@ -20,7 +20,7 @@ class HolidayResource extends JsonResource
             "isPast" => $this->date->endOfDay()->isPast(),
             "displayDate" => $this->date->toDisplayString(),
             "dayOfWeek" => $this->date->dayName,
-            "daysToHoliday" => $this->date->diffInDays(Carbon::now())
+            "daysToHoliday" => $this->date->diffInDays(Carbon::now()),
         ];
     }
 }
