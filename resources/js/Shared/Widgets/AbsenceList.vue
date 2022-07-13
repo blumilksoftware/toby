@@ -2,19 +2,41 @@
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        {{ title }}
+        Dzisiejsze nieobecności
       </h2>
     </div>
     <div class="px-4 border-t border-gray-200 sm:px-6">
       <ul class="divide-y divide-gray-200">
         <li
-          v-for="absence in absences"
-          :key="absence.user.id"
-          class="flex py-4"
+            v-for="absence in absences"
+            :key="absence.user.id"
+            class="flex py-4"
         >
           <img
-            class="w-10 h-10 rounded-full"
-            :src="absence.user.avatar"
+              class="w-10 h-10 rounded-full"
+              :src="absence.user.avatar"
+          >
+          <div class="ml-3">
+            <p class="text-sm font-medium text-gray-900">
+              {{ absence.user.name }}
+            </p>
+            <p class="text-sm text-gray-500">
+              {{ absence.user.email }}
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="px-4 border-t border-gray-200 sm:px-6">
+      <ul class="divide-y divide-gray-200">
+        <li
+            v-for="absence in upcomingAbsences"
+            :key="absence.user.id"
+            class="flex py-4"
+        >
+          <img
+              class="w-10 h-10 rounded-full"
+              :src="absence.user.avatar"
           >
           <div class="ml-3">
             <p class="text-sm font-medium text-gray-900">
@@ -24,8 +46,8 @@
               {{ absence.user.email }}
             </p>
             <p
-              v-if="showDate"
-              class="text-sm text-gray-500"
+                v-if="showDate"
+                class="text-sm text-gray-500"
             >
               {{ absence.displayDate }}
             </p>
@@ -39,7 +61,6 @@
 <script setup>
 defineProps({
   absences: Object,
-  title: String,
-  showDate: Boolean,
+  upcomingAbsences: Object,
 })
 </script>
