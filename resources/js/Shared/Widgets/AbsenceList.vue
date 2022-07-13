@@ -6,7 +6,10 @@
       </h2>
     </div>
     <div class="px-4 border-t border-gray-200 sm:px-6">
-      <ul class="divide-y divide-gray-200">
+      <ul
+        v-if="absences.length"
+        class="divide-y divide-gray-200"
+      >
         <li
           v-for="absence in absences"
           :key="absence.user.id"
@@ -26,11 +29,25 @@
           </div>
         </li>
       </ul>
+      <EmptyState
+        v-else
+        :show-description="false"
+      >
+        <template #head>
+          <SunIcon class="mx-auto w-12 h-12" />
+        </template>
+        <template #title>
+          Brak nieobecności
+        </template>
+      </EmptyState>
     </div>
   </section>
 </template>
 
 <script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import { SunIcon } from '@heroicons/vue/solid'
+
 defineProps({
   absences: Object,
 })

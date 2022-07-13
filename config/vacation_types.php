@@ -120,7 +120,7 @@ return [
         ],
         VacationTypeConfigRetriever::KEY_IS_VACATION => true,
     ],
-    VacationType::HomeOffice->value => [
+    VacationType::RemoteWork->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
