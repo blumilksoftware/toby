@@ -22,7 +22,7 @@
       <AbsenceList
         :absences="absences.data"
       />
-      <HomeOfficeList
+      <RemoteWorkList
         :remote-days="remoteDays.data"
       />
       <UpcomingHolidays
@@ -37,7 +37,7 @@
 import Welcome from '@/Shared/Widgets/Welcome'
 import VacationStats from '@/Shared/Widgets/VacationStats'
 import AbsenceList from '@/Shared/Widgets/AbsenceList'
-import HomeOfficeList from '@/Shared/Widgets/HomeOfficeList'
+import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList'
 import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays'
 import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests'

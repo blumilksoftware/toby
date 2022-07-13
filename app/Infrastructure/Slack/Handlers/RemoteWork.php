@@ -13,7 +13,7 @@ use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Slack\Traits\FindsUserBySlackId;
 
-class HomeOffice extends SignatureHandler
+class RemoteWork extends SignatureHandler
 {
     use FindsUserBySlackId;
 
@@ -35,7 +35,7 @@ class HomeOffice extends SignatureHandler
 
         app(CreateAction::class)->execute([
             "user_id" => $user->id,
-            "type" => VacationType::HomeOffice,
+            "type" => VacationType::RemoteWork,
             "from" => $date,
             "to" => $date,
             "year_period_id" => $yearPeriod->id,

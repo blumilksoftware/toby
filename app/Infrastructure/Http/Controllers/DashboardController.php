@@ -77,7 +77,7 @@ class DashboardController extends Controller
         $hasLimit = $vacationStatsRetriever->hasVacationDaysLimit($user, $yearPeriod);
         $used = $vacationStatsRetriever->getUsedVacationDays($user, $yearPeriod);
         $pending = $vacationStatsRetriever->getPendingVacationDays($user, $yearPeriod);
-        $homeOffice = $vacationStatsRetriever->getHomeOfficeDays($user, $yearPeriod);
+        $remoteWork = $vacationStatsRetriever->getRemoteWorkDays($user, $yearPeriod);
         $other = $vacationStatsRetriever->getOtherApprovedVacationDays($user, $yearPeriod);
         $remaining = $limit - $used - $pending;
 
@@ -105,7 +105,7 @@ class DashboardController extends Controller
                 "remaining" => $remaining,
                 "used" => $used,
                 "pending" => $pending,
-                "homeOffice" => $homeOffice,
+                "remoteWork" => $remoteWork,
                 "other" => $other,
             ],
             "can" => [

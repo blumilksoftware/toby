@@ -84,7 +84,7 @@ const types = [
   },
   {
     text: 'Praca zdalna',
-    value: 'home_office',
+    value: 'remote_work',
     icon: HomeCityIcon,
     color: 'text-lime-500',
     border: 'border-lime-500',

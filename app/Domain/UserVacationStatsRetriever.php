@@ -69,18 +69,18 @@ class UserVacationStatsRetriever
                 "vacationRequest",
                 fn(Builder $query): Builder => $query
                     ->whereIn("type", $this->getNotLimitableVacationTypes())
-                    ->whereNot("type", VacationType::HomeOffice)
+                    ->whereNot("type", VacationType::RemoteWork)
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
             ->count();
     }
 
-    public function getHomeOfficeDays(User $user, YearPeriod $yearPeriod): int
+    public function getRemoteWorkDays(User $user, YearPeriod $yearPeriod): int
     {
         return $user
             ->vacations()
             ->whereBelongsTo($yearPeriod)
-            ->whereRelation("vacationRequest", "type", VacationType::HomeOffice)
+            ->whereRelation("vacationRequest", "type", VacationType::RemoteWork)
             ->count();
     }
 

@@ -66,7 +66,7 @@
       </div>
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
         <dt class="mt-1 text-4xl font-semibold text-lime-500">
-          {{ stats.homeOffice }}
+          {{ stats.remoteWork }}
         </dt>
         <dd class="font-medium text-gray-700 truncate text-md">
           Praca zdalna
