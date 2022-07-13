@@ -19,7 +19,7 @@
             <p class="text-sm text-gray-500">
               {{ holiday.displayDate }} ({{ holiday.dayOfWeek }})
               <span v-if="holiday.daysToHoliday !== 0">
-                - <strong>{{ holiday.daysToHoliday }}</strong>
+                - {{ holiday.daysToHoliday }}
               </span>
             </p>
           </div>
