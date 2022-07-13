@@ -9,7 +9,7 @@
       <div class="lg:px-4">
         <slot />
       </div>
-      <div class="h-8 sm:h-4"></div>
+      <div class="h-8 sm:h-4" />
     </main>
     <DeployInfo
       :deploy-information="deployInformation"
