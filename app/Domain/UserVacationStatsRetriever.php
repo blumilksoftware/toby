@@ -107,8 +107,7 @@ class UserVacationStatsRetriever
     {
         return $user->vacationLimits()
             ->whereBelongsTo($yearPeriod)
-            ->first()
-            ?->hasVacation() ?? false;
+            ->first()?->hasVacation() ?? false;
     }
 
     protected function getLimitableVacationTypes(): Collection

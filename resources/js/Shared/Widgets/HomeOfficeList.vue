@@ -40,7 +40,7 @@
           />
         </template>
         <template #title>
-          Nikt nie pracuje z domu
+          Nikt nie pracuje zdalnie
         </template>
       </EmptyState>
     </div>
