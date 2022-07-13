@@ -53,7 +53,8 @@ class VacationRequest extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->withTrashed();
     }
 
     public function creator(): BelongsTo
@@ -102,13 +103,6 @@ class VacationRequest extends Model
     public function hasFlowSkipped(): bool
     {
         return $this->flow_skipped;
-    }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope("userExists", function (Builder $query): void {
-            $query->whereHas("user");
-        });
     }
 
     protected static function newFactory(): VacationRequestFactory

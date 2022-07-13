@@ -24,7 +24,8 @@ class Key extends Model implements NotifiableInterface
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->withTrashed();
     }
 
     public function routeNotificationForSlack(): string
