@@ -13,11 +13,11 @@
           as="template"
         >
           <div
-            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center"
+            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-500"
             :class="[selected ? 'border-b-blue-500' : 'border-b-white-500']"
           >
             <h3 class="text-md text-center font-medium leading-6 text-gray-900 w-full">
-              Dzisiejsza
+              Aktualna
             </h3>
           </div>
         </Tab>
@@ -27,7 +27,7 @@
           as="template"
         >
           <div
-            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center"
+            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-500"
             :class="[selected ? 'border-b-blue-500' : 'border-b-white-500']"
           >
             <h3 class="text-md text-center font-medium leading-6 text-gray-900 w-full">
@@ -57,6 +57,9 @@
                 </p>
                 <p class="text-sm text-gray-500">
                   {{ day.user.email }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  {{ day.displayDate }}
                 </p>
               </div>
             </li>

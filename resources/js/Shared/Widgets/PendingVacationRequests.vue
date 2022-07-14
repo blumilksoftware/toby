@@ -24,9 +24,18 @@
                     Wniosek [{{ request.name }}]
                   </InertiaLink>
                 </h3>
-                <div>
-                  <div class="ml-2 text-sm text-gray-600">
+                <div class="flex">
+                  <div
+                    v-if="request.days.length > 1"
+                    class="ml-2 text-sm text-gray-600"
+                  >
                     {{ request.from }} - {{ request.to }}
+                  </div>
+                  <div
+                    v-else
+                    class="ml-2 text-sm text-gray-600"
+                  >
+                    {{ request.from }}
                   </div>
                 </div>
               </div>

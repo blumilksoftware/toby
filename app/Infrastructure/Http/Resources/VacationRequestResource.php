@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Carbon;
 use Toby\Domain\VacationTypeConfigRetriever;
 
 class VacationRequestResource extends JsonResource
@@ -31,16 +30,16 @@ class VacationRequestResource extends JsonResource
             "state" => $this->state,
             "from" => $this->from->toDisplayString(),
             "to" => $this->to->toDisplayString(),
-            "displayDate" => $this->getDate($this->from, $this->to),
+            "displayDate" => $this->getDate($this->from->toDisplayString(), $this->to->toDisplayString()),
             "comment" => $this->comment,
             "days" => VacationResource::collection($this->vacations),
         ];
     }
 
-    private function getDate(Carbon $from, Carbon $to): string
+    private function getDate(string $from, string $to): string
     {
-        return ($from->toDateString() !== $to->toDateString())
-            ? "{$from->toDateString()} - {$to->toDateString()}"
-            : $from->toDateString();
+        return ($from !== $to)
+            ? "{$from} - {$to}"
+            : $from;
     }
 }
