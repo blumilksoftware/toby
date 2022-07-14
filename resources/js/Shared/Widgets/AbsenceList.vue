@@ -26,7 +26,7 @@
             :class="[selected ? 'border-b-blue-500' : 'border-b-white-500']"
           >
             <h2 class="text-lg text-center font-medium leading-6 text-gray-900 w-full">
-              Nadchodząca nieobecności
+              Nadchodzące nieobecności
             </h2>
           </div>
         </Tab>
