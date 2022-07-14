@@ -14,7 +14,7 @@
         >
           <div
             class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
-            :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white-600']"
+            :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white']"
           >
             <h3 class="text-md font-medium leading-6 w-full">
               Aktualna
@@ -28,7 +28,7 @@
         >
           <div
             class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
-            :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white-600']"
+            :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white']"
           >
             <h3 class="text-md font-medium leading-6 w-full">
               Nadchodząca
