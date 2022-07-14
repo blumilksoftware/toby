@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
 use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
+use Toby\Eloquent\Models\VacationRequest;
 
 class DailySummaryRetriever
 {
@@ -18,11 +18,13 @@ class DailySummaryRetriever
 
     public function getAbsences(Carbon $date): Collection
     {
-        return Vacation::query()
-            ->with(["user", "vacationRequest"])
-            ->whereDate("date", $date)
-            ->approved()
-            ->whereTypes(
+        return VacationRequest::query()
+            ->with(["user"])
+            ->whereDate("from", "<=", $date)
+            ->whereDate("to", ">=", $date)
+            ->states(VacationRequestStatesRetriever::successStates())
+            ->whereIn(
+                "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
             )
             ->get()
@@ -31,11 +33,13 @@ class DailySummaryRetriever
 
     public function getRemoteDays(Carbon $date): Collection
     {
-        return Vacation::query()
-            ->with(["user", "vacationRequest"])
-            ->whereDate("date", $date)
-            ->approved()
-            ->whereTypes(
+        return VacationRequest::query()
+            ->with(["user"])
+            ->whereDate("from", "<=", $date)
+            ->whereDate("to", ">=", $date)
+            ->states(VacationRequestStatesRetriever::successStates())
+            ->whereIn(
+                "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
             )
             ->get()
@@ -44,11 +48,12 @@ class DailySummaryRetriever
 
     public function getUpcomingAbsences(Carbon $date): Collection
     {
-        return Vacation::query()
-            ->with(["user", "vacationRequest"])
-            ->whereDate("date", ">", $date)
-            ->approved()
-            ->whereTypes(
+        return VacationRequest::query()
+            ->with(["user"])
+            ->whereDate("from", ">", $date)
+            ->states(VacationRequestStatesRetriever::successStates())
+            ->whereIn(
+                "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
             )
             ->limit(3)
@@ -57,11 +62,12 @@ class DailySummaryRetriever
 
     public function getUpcomingRemoteDays(Carbon $date): Collection
     {
-        return Vacation::query()
-            ->with(["user", "vacationRequest"])
-            ->whereDate("date", ">", $date)
-            ->approved()
-            ->whereTypes(
+        return VacationRequest::query()
+            ->with(["user"])
+            ->whereDate("from", ">", $date)
+            ->states(VacationRequestStatesRetriever::successStates())
+            ->whereIn(
+                "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
             )
             ->limit(3)
