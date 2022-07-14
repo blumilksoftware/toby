@@ -17,7 +17,7 @@
       <AbsenceList
         v-if="years.current.year === years.selected.year && absences.data.length"
         :absences="absences.data"
-        :upcoming-absences="absences.data"
+        :upcoming-absences="upcomingAbsences.data"
       />
       <HomeOfficeList
         v-if="years.current.year === years.selected.year && remoteDays.data.length"
