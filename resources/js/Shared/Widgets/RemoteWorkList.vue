@@ -33,7 +33,8 @@
       </TabList>
       <TabPanels>
         <TabPanel class="px-4 border-t border-gray-200 sm:px-6">
-          <ul class="divide-y divide-gray-200">
+          <ul class="divide-y divide-gray-200"
+              v-if="remoteDays.length">
             <li
               v-for="day in remoteDays"
               :key="day.user.id"
@@ -53,9 +54,24 @@
               </div>
             </li>
           </ul>
+          <EmptyState
+              v-else
+              :show-description="false"
+          >
+            <template #head>
+              <HomeCityIcon
+                  class="flex justify-center"
+                  size="48"
+              />
+            </template>
+            <template #title>
+              Nikt nie pracuje zdalnie
+            </template>
+          </EmptyState>
         </TabPanel>
         <TabPanel class="px-4 border-t border-gray-200 sm:px-6">
-          <ul class="divide-y divide-gray-200">
+          <ul class="divide-y divide-gray-200"
+              v-if="remoteDays.length">
             <li
               v-for="day in upcomingRemoteDays"
               :key="day.user.id"
@@ -78,6 +94,20 @@
               </div>
             </li>
           </ul>
+          <EmptyState
+              v-else
+              :show-description="false"
+          >
+            <template #head>
+              <HomeCityIcon
+                  class="flex justify-center"
+                  size="48"
+              />
+            </template>
+            <template #title>
+              Nikt nie pracuje zdalnie
+            </template>
+          </EmptyState>
         </TabPanel>
       </TabPanels>
     </TabGroup>
@@ -85,6 +115,8 @@
 </template>
 
 <script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import HomeCityIcon from 'vue-material-design-icons/HomeCity'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 defineProps({

@@ -25,6 +25,7 @@ class MonthlyUsageController extends Controller
         $currentUser = $request->user();
 
         $users = User::query()
+            ->withTrashed()
             ->withVacationLimitIn($currentYearPeriod)
             ->where("id", "!=", $currentUser->id)
             ->orderByProfileField("last_name")

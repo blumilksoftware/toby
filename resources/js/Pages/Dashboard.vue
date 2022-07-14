@@ -3,9 +3,11 @@
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
     <div class="grid grid-cols-1 gap-4 xl:col-span-2">
       <Welcome :user="auth.user" />
-      <VacationStats :stats="stats" />
-    </div>
-    <div class="grid grid-cols-1 gap-4">
+      <VacationCalendar
+        :holidays="allHolidays"
+        :approved-vacations="approvedVacations"
+        :pending-vacations="pendingVacations"
+      />
       <PendingVacationRequests
         v-if="can.listAllVacationRequests"
         :requests="vacationRequests.data"
@@ -14,13 +16,14 @@
         v-else
         :requests="vacationRequests.data"
       />
+    </div>
+    <div class="grid grid-cols-1 gap-4">
+      <VacationStats :stats="stats" />
       <AbsenceList
-        v-if="years.current.year === years.selected.year && absences.data.length"
         :absences="absences.data"
         :upcoming-absences="upcomingAbsences.data"
       />
-      <HomeOfficeList
-        v-if="years.current.year === years.selected.year && remoteDays.data.length"
+      <RemoteWorkList
         :remote-days="remoteDays.data"
         :upcoming-remote-days="upcomingRemoteDays.data"
       />
@@ -36,10 +39,11 @@
 import Welcome from '@/Shared/Widgets/Welcome'
 import VacationStats from '@/Shared/Widgets/VacationStats'
 import AbsenceList from '@/Shared/Widgets/AbsenceList'
-import HomeOfficeList from '@/Shared/Widgets/HomeOfficeList'
+import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList'
 import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays'
 import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests'
+import VacationCalendar from '@/Shared/Widgets/VacationCalendar'
 
 defineProps({
   auth: Object,
@@ -52,5 +56,8 @@ defineProps({
   can: Object,
   stats: Object,
   years: Object,
+  allHolidays: Object,
+  approvedVacations: Object,
+  pendingVacations: Object,
 })
 </script>

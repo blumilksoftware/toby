@@ -33,7 +33,8 @@
       </TabList>
       <TabPanels>
         <TabPanel class="px-4 border-t border-gray-200 sm:px-6">
-          <ul class="divide-y divide-gray-200">
+          <ul class="divide-y divide-gray-200"
+              v-if="absences.length">
             <li
               v-for="day in absences"
               :key="day.user.id"
@@ -53,9 +54,21 @@
               </div>
             </li>
           </ul>
+          <EmptyState
+              v-else
+              :show-description="false"
+          >
+            <template #head>
+              <SunIcon class="mx-auto w-12 h-12" />
+            </template>
+            <template #title>
+              Brak nieobecności
+            </template>
+          </EmptyState>
         </TabPanel>
         <TabPanel class="px-4 border-t border-gray-200 sm:px-6">
-          <ul class="divide-y divide-gray-200">
+          <ul class="divide-y divide-gray-200"
+              v-if="absences.length">
             <li
               v-for="day in upcomingAbsences"
               :key="day.user.id"
@@ -78,6 +91,17 @@
               </div>
             </li>
           </ul>
+          <EmptyState
+              v-else
+              :show-description="false"
+          >
+            <template #head>
+              <SunIcon class="mx-auto w-12 h-12" />
+            </template>
+            <template #title>
+              Brak nieobecności
+            </template>
+          </EmptyState>
         </TabPanel>
       </TabPanels>
     </TabGroup>
@@ -85,6 +109,8 @@
 </template>
 
 <script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import { SunIcon } from '@heroicons/vue/solid'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 defineProps({
