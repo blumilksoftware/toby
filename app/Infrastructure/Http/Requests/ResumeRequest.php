@@ -47,7 +47,9 @@ class ResumeRequest extends FormRequest
     public function getEmployee(): User
     {
         /** @var User $user */
-        $user = User::query()->find($this->get("user"));
+        $user = User::query()
+            ->withTrashed()
+            ->find($this->get("user"));
 
         return $user;
     }

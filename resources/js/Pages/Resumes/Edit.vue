@@ -571,7 +571,7 @@ const languages = [
 ]
 
 const form = useForm(`EditResume:${props.resume.id}`,{
-  user: props.users.data.find((user) => user.id === props.resume.user) ?? null,
+  user: props.resume.user ?? null,
   name: props.resume.name ?? null ,
   educations: props.resume.education ?? [],
   projects: props.resume.projects ?? [],
