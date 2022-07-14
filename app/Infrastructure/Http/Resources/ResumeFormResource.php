@@ -14,7 +14,7 @@ class ResumeFormResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "user" => $this->user_id,
+            "user" => new SimpleUserResource($this->user),
             "name" => $this->name,
             "description" => $this->description,
             "education" => $this->education,
