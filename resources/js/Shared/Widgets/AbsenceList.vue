@@ -1,64 +1,92 @@
 <template>
   <section class="bg-white shadow-md">
-    <div class="p-4 sm:px-6">
-      <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Dzisiejsze nieobecności
-      </h2>
-    </div>
-    <div class="px-4 border-t border-gray-200 sm:px-6">
-      <ul class="divide-y divide-gray-200">
-        <li
-            v-for="absence in absences"
-            :key="absence.user.id"
-            class="flex py-4"
+    <TabGroup>
+      <TabList class="w-100 flex">
+        <Tab
+          v-slot="{ selected }"
+          class="w-1/2 h-auto"
+          as="template"
         >
-          <img
-              class="w-10 h-10 rounded-full"
-              :src="absence.user.avatar"
+          <div
+            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center"
+            :class="[selected ? 'border-b-blue-500' : 'border-b-white-500']"
           >
-          <div class="ml-3">
-            <p class="text-sm font-medium text-gray-900">
-              {{ absence.user.name }}
-            </p>
-            <p class="text-sm text-gray-500">
-              {{ absence.user.email }}
-            </p>
+            <h2 class="text-lg text-center font-medium leading-6 text-gray-900 w-full">
+              Dzisiejsza nieobecności
+            </h2>
           </div>
-        </li>
-      </ul>
-    </div>
-    <div class="px-4 border-t border-gray-200 sm:px-6">
-      <ul class="divide-y divide-gray-200">
-        <li
-            v-for="absence in upcomingAbsences"
-            :key="absence.user.id"
-            class="flex py-4"
+        </Tab>
+        <Tab
+          v-slot="{ selected }"
+          class="w-1/2 h-auto"
+          as="template"
         >
-          <img
-              class="w-10 h-10 rounded-full"
-              :src="absence.user.avatar"
+          <div
+            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center"
+            :class="[selected ? 'border-b-blue-500' : 'border-b-white-500']"
           >
-          <div class="ml-3">
-            <p class="text-sm font-medium text-gray-900">
-              {{ absence.user.name }}
-            </p>
-            <p class="text-sm text-gray-500">
-              {{ absence.user.email }}
-            </p>
-            <p
-                v-if="showDate"
-                class="text-sm text-gray-500"
+            <h2 class="text-lg text-center font-medium leading-6 text-gray-900 w-full">
+              Nadchodząca nieobecności
+            </h2>
+          </div>
+        </Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel class="px-4 border-t border-gray-200 sm:px-6">
+          <ul class="divide-y divide-gray-200">
+            <li
+              v-for="day in absences"
+              :key="day.user.id"
+              class="flex py-4"
             >
-              {{ absence.displayDate }}
-            </p>
-          </div>
-        </li>
-      </ul>
-    </div>
+              <img
+                class="w-10 h-10 rounded-full"
+                :src="day.user.avatar"
+              >
+              <div class="ml-3">
+                <p class="text-sm font-medium text-gray-900">
+                  {{ day.user.name }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  {{ day.user.email }}
+                </p>
+              </div>
+            </li>
+          </ul>
+        </TabPanel>
+        <TabPanel class="px-4 border-t border-gray-200 sm:px-6">
+          <ul class="divide-y divide-gray-200">
+            <li
+              v-for="day in upcomingAbsences"
+              :key="day.user.id"
+              class="flex py-4"
+            >
+              <img
+                class="w-10 h-10 rounded-full"
+                :src="day.user.avatar"
+              >
+              <div class="ml-3">
+                <p class="text-sm font-medium text-gray-900">
+                  {{ day.user.name }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  {{ day.user.email }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  {{ day.displayDate }}
+                </p>
+              </div>
+            </li>
+          </ul>
+        </TabPanel>
+      </TabPanels>
+    </TabGroup>
   </section>
 </template>
 
 <script setup>
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+
 defineProps({
   absences: Object,
   upcomingAbsences: Object,

@@ -25,7 +25,8 @@ class DailySummaryRetriever
             ->whereTypes(
                 VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
             )
-            ->get();
+            ->get()
+            ->sortBy("user.last_name");
     }
 
     public function getRemoteDays(Carbon $date): Collection
@@ -37,7 +38,8 @@ class DailySummaryRetriever
             ->whereTypes(
                 VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
             )
-            ->get();
+            ->get()
+            ->sortBy("user.last_name");
     }
 
     public function getUpcomingAbsences(Carbon $date): Collection
