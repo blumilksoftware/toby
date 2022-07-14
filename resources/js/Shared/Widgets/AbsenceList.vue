@@ -13,8 +13,8 @@
           as="template"
         >
           <div
-            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-500"
-            :class="[selected ? 'border-b-blue-500' : 'border-b-white-500']"
+            class="w-100 border-b-2 p-2 sm:px-2 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-600"
+            :class="[selected ? 'border-b-blumilk-600' : 'border-b-white-600']"
           >
             <h3 class="text-md text-center font-medium leading-6 text-gray-900 w-full">
               Aktualne
@@ -27,8 +27,8 @@
           as="template"
         >
           <div
-            class="w-100 border-b-2 p-4 sm:px-6 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-500"
-            :class="[selected ? 'border-b-blue-500' : 'border-b-white-500']"
+            class="w-100 border-b-2 p-2 sm:px-2 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-600"
+            :class="[selected ? 'border-b-blumilk-600' : 'border-b-white-600']"
           >
             <h3 class="text-md text-center font-medium leading-6 text-gray-900 w-full">
               Nadchodzące
