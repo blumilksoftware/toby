@@ -1,8 +1,8 @@
 <template>
   <section class="bg-white shadow-md">
     <TabGroup>
-      <div class="w-100 border-b-2 p-4 sm:px-6 flex items-center">
-        <h2 class="text-lg text-center font-medium leading-6 text-gray-900 w-full">
+      <div class="w-100 p-4 sm:px-6 border-b border-gray-200 flex items-center">
+        <h2 class="text-lg font-medium leading-6 text-gray-900 w-full">
           Praca zdalna
         </h2>
       </div>
@@ -13,10 +13,10 @@
           as="template"
         >
           <div
-            class="w-100 border-b-2 p-2 sm:px-2 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-600"
-            :class="[selected ? 'border-b-blumilk-600' : 'border-b-white-600']"
+            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
+            :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white-600']"
           >
-            <h3 class="text-md text-center font-medium leading-6 text-gray-900 w-full">
+            <h3 class="text-md font-medium leading-6 w-full">
               Aktualna
             </h3>
           </div>
@@ -27,10 +27,10 @@
           as="template"
         >
           <div
-            class="w-100 border-b-2 p-2 sm:px-2 cursor-pointer flex items-center focus:outline-none focus:ring-2 focus:ring-blumilk-600"
-            :class="[selected ? 'border-b-blumilk-600' : 'border-b-white-600']"
+            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
+            :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white-600']"
           >
-            <h3 class="text-md text-center font-medium leading-6 text-gray-900 w-full">
+            <h3 class="text-md font-medium leading-6 w-full">
               Nadchodząca
             </h3>
           </div>

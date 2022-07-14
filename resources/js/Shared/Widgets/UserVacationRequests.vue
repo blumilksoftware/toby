@@ -2,7 +2,7 @@
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Twoje wnioski
+        Moje wnioski
       </h2>
     </div>
     <div class="px-4 pb-5 border-t border-gray-200 sm:px-6">
@@ -24,8 +24,19 @@
                     Wniosek [{{ request.name }}]
                   </InertiaLink>
                 </h3>
-                <div class="ml-2 text-sm text-gray-600">
-                  {{ request.from }} - {{ request.to }}
+                <div class="flex">
+                  <div
+                    v-if="request.days.length > 1"
+                    class="ml-2 text-sm text-gray-600"
+                  >
+                    {{ request.from }} - {{ request.to }}
+                  </div>
+                  <div
+                    v-else
+                    class="ml-2 text-sm text-gray-600"
+                  >
+                    {{ request.from }}
+                  </div>
                 </div>
               </div>
               <p class="mt-2 text-sm text-gray-600">
