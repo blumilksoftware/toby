@@ -14,8 +14,7 @@ class DailySummaryRetriever
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
-    ) {
-    }
+    ) {}
 
     public function getAbsences(Carbon $date): Collection
     {
