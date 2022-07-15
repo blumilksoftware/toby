@@ -14,7 +14,8 @@ class DailySummaryRetriever
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
-    ) {}
+    ) {
+    }
 
     public function getAbsences(Carbon $date): Collection
     {
@@ -56,6 +57,7 @@ class DailySummaryRetriever
                 "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
             )
+            ->orderBy("from")
             ->limit(3)
             ->get();
     }
@@ -70,6 +72,7 @@ class DailySummaryRetriever
                 "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
             )
+            ->orderBy("from")
             ->limit(3)
             ->get();
     }
