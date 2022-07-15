@@ -30,8 +30,16 @@ class VacationRequestResource extends JsonResource
             "state" => $this->state,
             "from" => $this->from->toDisplayString(),
             "to" => $this->to->toDisplayString(),
+            "displayDate" => $this->getDate($this->from->toDisplayString(), $this->to->toDisplayString()),
             "comment" => $this->comment,
             "days" => VacationResource::collection($this->vacations),
         ];
+    }
+
+    private function getDate(string $from, string $to): string
+    {
+        return ($from !== $to)
+            ? "{$from} - {$to}"
+            : $from;
     }
 }

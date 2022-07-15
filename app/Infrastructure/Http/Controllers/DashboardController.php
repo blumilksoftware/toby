@@ -18,7 +18,6 @@ use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
-use Toby\Infrastructure\Http\Resources\VacationResource;
 
 class DashboardController extends Controller
 {
@@ -35,6 +34,8 @@ class DashboardController extends Controller
 
         $absences = $dailySummaryRetriever->getAbsences($now);
         $remoteDays = $dailySummaryRetriever->getRemoteDays($now);
+        $upcomingAbsences = $dailySummaryRetriever->getUpcomingAbsences($now);
+        $upcomingRemoteDays = $dailySummaryRetriever->getUpcomingRemoteDays($now);
 
         if ($user->can("listAll", VacationRequest::class)) {
             $vacationRequests = $yearPeriod->vacationRequests()
@@ -82,8 +83,10 @@ class DashboardController extends Controller
         $remaining = $limit - $used - $pending;
 
         return inertia("Dashboard", [
-            "absences" => VacationResource::collection($absences),
-            "remoteDays" => VacationResource::collection($remoteDays),
+            "absences" => VacationRequestResource::collection($absences),
+            "remoteDays" => VacationRequestResource::collection($remoteDays),
+            "upcomingAbsences" => VacationRequestResource::collection($upcomingAbsences),
+            "upcomingRemoteDays" => VacationRequestResource::collection($upcomingRemoteDays),
             "vacationRequests" => VacationRequestResource::collection($vacationRequests),
             "holidays" => HolidayResource::collection($holidays),
             "allHolidays" => $allHolidays->mapWithKeys(

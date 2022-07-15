@@ -21,9 +21,11 @@
       <VacationStats :stats="stats" />
       <AbsenceList
         :absences="absences.data"
+        :upcoming-absences="upcomingAbsences.data"
       />
       <RemoteWorkList
         :remote-days="remoteDays.data"
+        :upcoming-remote-days="upcomingRemoteDays.data"
       />
       <UpcomingHolidays
         v-if="years.current.year === years.selected.year && holidays.data.length"
@@ -47,6 +49,8 @@ defineProps({
   auth: Object,
   absences: Object,
   remoteDays: Object,
+  upcomingAbsences: Object,
+  upcomingRemoteDays: Object,
   vacationRequests: Object,
   holidays: Object,
   can: Object,
