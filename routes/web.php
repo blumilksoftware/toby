@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Toby\Infrastructure\Http\Controllers\AnnualSummaryController;
+use Toby\Infrastructure\Http\Controllers\AssignedBenefitController;
+use Toby\Infrastructure\Http\Controllers\BenefitController;
 use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\KeysController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
+use Toby\Infrastructure\Http\Controllers\ReportController;
 use Toby\Infrastructure\Http\Controllers\ResumeController;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
 use Toby\Infrastructure\Http\Controllers\TechnologyController;
@@ -31,6 +34,27 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
+
+    Route::resource("benefits", BenefitController::class)
+        ->only(["index", "store", "destroy"])
+        ->whereNumber("benefit");
+
+    Route::get("/assigned-benefits", [AssignedBenefitController::class, "index"])
+        ->name("assigned-benefits.index");
+
+    Route::put("/assigned-benefits", [AssignedBenefitController::class, "update"])
+        ->name("assigned-benefits.update");
+
+    Route::post("/benefits-report", [ReportController::class, "store"])
+        ->name("benefits-report.store");
+
+    Route::get("/benefits-report/{report}", [ReportController::class, "show"])
+        ->name("benefits-report.show")
+        ->whereNumber("report");
+
+    Route::get("/benefits-report/{report}/download", [ReportController::class, "download"])
+        ->name("benefits-report.download")
+        ->whereNumber("report");
 
     Route::resource("holidays", HolidayController::class)
         ->except("show")
@@ -85,10 +109,16 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         Route::post("/requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
             ->whereNumber("vacationRequest")
             ->name("requests.cancel");
-        Route::post("/requests/{vacationRequest}/accept-as-technical", [VacationRequestController::class, "acceptAsTechnical"], )
+        Route::post(
+            "/requests/{vacationRequest}/accept-as-technical",
+            [VacationRequestController::class, "acceptAsTechnical"],
+        )
             ->whereNumber("vacationRequest")
             ->name("requests.accept-as-technical");
-        Route::post("/requests/{vacationRequest}/accept-as-administrative", [VacationRequestController::class, "acceptAsAdministrative"], )
+        Route::post(
+            "/requests/{vacationRequest}/accept-as-administrative",
+            [VacationRequestController::class, "acceptAsAdministrative"],
+        )
             ->whereNumber("vacationRequest")
             ->name("requests.accept-as-administrative");
 

@@ -6,9 +6,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Toby\Domain\Enums\Role;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
+use Toby\Eloquent\Models\Benefit;
 use Toby\Eloquent\Models\Key;
+use Toby\Eloquent\Models\Report;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -21,6 +24,7 @@ class DatabaseSeeder extends Seeder
         User::factory(9)->create();
         User::factory([
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
+            "role" => Role::Administrator,
         ])
             ->create();
 
@@ -91,5 +95,14 @@ class DatabaseSeeder extends Seeder
                 ->for($user)
                 ->create();
         }
+
+        Benefit::factory(10)->create();
+
+        Report::factory()->create([
+            "name" => "current",
+            "committed_at" => null,
+        ]);
+
+        Report::factory(3)->create();
     }
 }
