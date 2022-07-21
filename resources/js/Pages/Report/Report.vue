@@ -4,10 +4,10 @@
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Raport benefitów
+          Benefity - {{ report.name }}
         </h2>
       </div>
-      <div v-if="auth.can.manegeBenefits">
+      <div v-if="auth.can.manageBenefits">
         <a
           v-if="selectedUsers.length !== 0"
           :href="`/benefits-report/${props.report.id}/download?${generateUrl()}`"
@@ -30,7 +30,10 @@
       </div>
     </div>
     <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4 border-t border-gray-200">
-      <Listbox as="div">
+      <Listbox
+        v-model="selectedReport"
+        as="div"
+      >
         <div class="relative">
           <ListboxButton
             class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
@@ -50,31 +53,36 @@
             <ListboxOptions
               class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
             >
-              <ListboxOption as="template">
+              <ListboxOption
+                as="template"
+                value="Aktualne benefity"
+              >
                 <InertiaLink
                   as="button"
                   method="get"
                   href="/assigned-benefits"
                   class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
                 >
-                  Aktualne
+                  Aktualne benefity
                 </InertiaLink>
               </ListboxOption>
               <ListboxOption
                 v-for="currentReport in reports"
                 :key="currentReport.name"
+                v-slot="{ active, selected }"
                 as="template"
-                :value="currentReport.id"
+                :value="currentReport.name"
               >
                 <InertiaLink
                   as="button"
                   method="get"
                   :href="`/benefits-report/${currentReport.id}`"
                   class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
+                  :class="[active ? 'bg-gray-100' : 'text-gray-900']"
                 >
                   {{ currentReport.name }}
                   <span
-                    v-if="currentReport.id === report.id"
+                    v-if="selected"
                     :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                   >
                     <CheckIcon class="w-5 h-5" />
@@ -127,7 +135,7 @@
               rowspan="2"
               class="p-2 text-base font-semibold text-gray-900 even:bg-gray-100"
             >
-              Wykorzystane dofinansowania
+              Wykorzystane dofinansowanie
             </th>
           </tr>
           <tr class="divide-x divide-gray-300">
@@ -143,7 +151,7 @@
                 Pracodawca
               </th>
               <th
-                class="text-sm p-1 font-normal text-gray-900 bg-green-50 text-green-800"
+                class="text-sm p-1 font-normal text-gray-900 bg-green-50 text-green-800 border border-gray-300"
                 style="min-width: 90px;"
               >
                 Pracownik
@@ -190,10 +198,10 @@
                 v-if="!isBenefitHasCompanion(benefit.id)"
                 class="text-right px-3"
               >
-                <span v-if="benefit.employer">{{ benefit.employer/100 }}</span>
+                <span v-if="benefit.employer">{{ new Intl.NumberFormat('pl-PL').format(benefit.employer/100) }}</span>
               </td>
               <td class="text-right px-3">
-                <span v-if="benefit.employee">{{ benefit.employee/100 }}</span>
+                <span v-if="benefit.employee">{{ new Intl.NumberFormat('pl-PL').format(benefit.employee/100) }}</span>
               </td>
             </template>
             <td>
@@ -228,6 +236,7 @@ const raportData = props.report.data.map((item) => {
   }
 })
 
+const selectedReport = ref(props.report.name)
 const selectedUsers = ref([])
 const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < raportData.length)
 

@@ -1,16 +1,18 @@
 <template>
-  <InertiaHead title="Przypisane benefity" />
+  <InertiaHead title="Aktualne benefity" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Przypisane benefity
+          Aktualne benefity
         </h2>
       </div>
-      <div v-if="auth.can.manegeBenefits">
+      <div v-if="auth.can.manageBenefits">
         <button
           type="button"
-          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          :class="[form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
+          :disabled="form.isDirty"
           @click="startCreatingReport"
         >
           Utwórz raport
@@ -18,13 +20,16 @@
       </div>
     </div>
     <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4 border-t border-gray-200">
-      <Listbox as="div">
+      <Listbox
+        v-model="selectedItem"
+        as="div"
+      >
         <div class="relative">
           <ListboxButton
             class="relative py-2 pr-10 pl-3 w-full max-w-lg sm:text-sm text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default"
           >
             <span class="block truncate">
-              Aktualne
+              {{ selectedItem }}
             </span>
             <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
               <SelectorIcon class="w-5 h-5 text-gray-400" />
@@ -38,15 +43,23 @@
             <ListboxOptions
               class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
             >
-              <ListboxOption as="template">
+              <ListboxOption
+                v-slot="{ active, selected }"
+                as="template"
+                value="Aktualne benefity"
+              >
                 <InertiaLink
                   as="button"
                   method="get"
                   href="/assigned-benefits"
                   class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
+                  :class="[active ? 'bg-gray-100' : 'text-gray-900']"
                 >
-                  Aktualne
-                  <span class="text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4">
+                  {{ selectedItem }}
+                  <span
+                    v-if="selected"
+                    class="text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4"
+                  >
                     <CheckIcon class="w-5 h-5" />
                   </span>
                 </InertiaLink>
@@ -55,7 +68,7 @@
                 v-for="report in reports"
                 :key="report.name"
                 as="template"
-                :value="report.id"
+                :value="report.name"
               >
                 <InertiaLink
                   as="button"
@@ -116,7 +129,7 @@
                 rowspan="2"
                 class="p-2 text-base font-semibold text-gray-900 even:bg-gray-100"
               >
-                Wykorzystane dofinansowania
+                Wykorzystane dofinansowanie
               </th>
               <th
                 rowspan="2"
@@ -139,7 +152,7 @@
                   Pracodawca
                 </th>
                 <th
-                  class="text-sm p-1 font-normal text-gray-900 bg-green-50 text-green-800"
+                  class="text-sm p-1 font-normal text-gray-900 bg-green-50 text-green-800 border border-gray-300"
                   style="min-width:90px;"
                 >
                   Pracownik
@@ -169,27 +182,28 @@
                 v-for="(benefit, i) in item.benefits"
                 :key="benefit.id"
               >
-                <td v-if="!isBenefitHasCompanion(benefit.id)">
+                <td
+                  v-if="!isBenefitHasCompanion(benefit.id)"
+                  style="height: 40px"
+                >
                   <input
                     v-model.number="benefit.employer"
                     :name="`${benefit.id}-employer-${index}`"
                     type="number"
                     step="0.01"
-                    class="w-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
-                    style="height: 50px !important;"
+                    class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     min="0"
                   >
                 </td>
-                <td>
+                <td style="height: 40px">
                   <input
                     v-model.number="benefit.employee"
                     :name="`${benefit.id}-employee-${index}`"
                     type="number"
                     step="0.01"
-                    class="w-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
+                    class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     :class="{'ring-red-200 text-red-900 focus:ring-red-300 bg-red-50 hover:bg-red-50 group-hover:bg-red-50 focus:bg-red-50': `data.${index}.benefits.${i}.employee` in form.errors }"
-                    style="min-height: 50px !important;"
-                    :title="`data.${index}.benefits.${i}.employee` in form.errors ? 'Wprowadź cenę większe niż 0.' : 'Wprowadź cenę.'"
+                    :title="`data.${index}.benefits.${i}.employee` in form.errors ? 'Wprowadź kwotę większe niż 0.' : 'Wprowadź kwotę.'"
                     min="0"
                   >
                 </td>
@@ -339,13 +353,14 @@ const props = defineProps({
   auth: Object,
 })
 
+const selectedItem = ref('Aktualne benefity')
 const creatingReport = ref(false)
 const { findMonth } = useMonthInfo()
 const currentMonth = computed(() => findMonth(props.current))
 
 const form = useForm({
   items: props.users.data.map((user) => {
-    const item = props.assignedBenefits.data ? props.assignedBenefits.data.find((dupa) => dupa.user === user.id) : { benefits: [], comment: null }
+    const item = props.assignedBenefits.data ? props.assignedBenefits.data.find((assignedBenefit) => assignedBenefit.user === user.id) : { benefits: [], comment: null }
 
     return {
       user: user,

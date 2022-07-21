@@ -11,7 +11,7 @@ class CreateReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "unique:reports,name"],
+            "name" => ["required", "unique:reports,name", "max:255"],
         ];
     }
 }

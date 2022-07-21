@@ -37,10 +37,16 @@ class BenefitController extends Controller
     {
         $this->authorize("manageBenefits");
 
-        Benefit::query()->create($request->only("name", "companion"));
+        /** @var Benefit $benefit */
+        $benefit = Benefit::query()->create($request->only("name", "companion"));
 
         return back()
-            ->with("success", __("Benefit has been created."));
+            ->with(
+                "success",
+                __("Benefit :name has been created.", [
+                    "name" => $benefit->name,
+                ]),
+            );
     }
 
     /**
@@ -53,6 +59,11 @@ class BenefitController extends Controller
         $benefit->delete();
 
         return back()
-            ->with("success", __("Benefit has been deleted."));
+            ->with(
+                "success",
+                __("Benefit :name has been deleted.", [
+                    "name" => $benefit->name,
+                ]),
+            );
     }
 }

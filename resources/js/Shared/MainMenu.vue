@@ -449,14 +449,14 @@ const miscNavigation = computed(() => [
     href: '/benefits',
     section: 'Benefits',
     icon: GiftIcon,
-    can: props.auth.can.manegeBenefits,
+    can: props.auth.can.manageBenefits,
   },
   {
     name: 'Przypisane benefity',
     href: '/assigned-benefits',
-    section: 'AssignedBenefits',
+    section: 'AssignedBenefit',
     icon: CashIcon,
-    can: props.auth.can.manegeBenefits,
+    can: props.auth.can.manageBenefits,
   },
 ].filter(item => item.can))
 </script>

@@ -32,10 +32,11 @@ class ReportController extends Controller
         $this->authorize("manageBenefits");
 
         $reports = Report::query()
+            ->orderBy("committed_at", "desc")
             ->whereKeyNot(1)
             ->get();
 
-        return inertia("Report", [
+        return inertia("Report/Report", [
             "report" => new ReportResource($report),
             "reports" => $reports->map(fn(Report $report): array => [
                 "id" => $report->id,
@@ -67,19 +68,39 @@ class ReportController extends Controller
             ->whereKey(1)
             ->first();
 
+        $data = Arr::where(
+            Arr::map($assignedBenefits->data, fn($iem): array => Arr::except($iem, "comment")),
+            fn(array $item): bool => $users->contains(fn(User $user): bool => $user->id === $item["user"]),
+        );
+
+        $data = Arr::map($data, fn(array $item): array => [
+            "user" => $item["user"],
+            "benefits" => Arr::where(
+                $item["benefits"],
+                fn(array $assignedBenefit): bool => $benefits->contains(
+                    fn(Benefit $benefit): bool => $benefit->id === $assignedBenefit["id"],
+                ),
+            ),
+        ]);
+
         /** @var Report $report */
         $report = Report::query()
             ->create([
                 "name" => $nameReport,
                 "users" => SimpleUserResource::collection($users),
                 "benefits" => BenefitResource::collection($benefits),
-                "data" => Arr::map($assignedBenefits->data, fn($iem): array => Arr::except($iem, "comment")),
+                "data" => $data,
                 "committed_at" => Carbon::now()->toDateTimeString(),
             ]);
 
         return redirect()
             ->route("benefits-report.show", $report->id)
-            ->with("success", __("Report has been created."));
+            ->with(
+                "success",
+                __("Report :name has been created.", [
+                    "name" => $report->name,
+                ]),
+            );
     }
 
     /**

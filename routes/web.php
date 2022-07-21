@@ -109,16 +109,10 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         Route::post("/requests/{vacationRequest}/cancel", [VacationRequestController::class, "cancel"])
             ->whereNumber("vacationRequest")
             ->name("requests.cancel");
-        Route::post(
-            "/requests/{vacationRequest}/accept-as-technical",
-            [VacationRequestController::class, "acceptAsTechnical"],
-        )
+        Route::post("/requests/{vacationRequest}/accept-as-technical", [VacationRequestController::class, "acceptAsTechnical"])
             ->whereNumber("vacationRequest")
             ->name("requests.accept-as-technical");
-        Route::post(
-            "/requests/{vacationRequest}/accept-as-administrative",
-            [VacationRequestController::class, "acceptAsAdministrative"],
-        )
+        Route::post("/requests/{vacationRequest}/accept-as-administrative", [VacationRequestController::class, "acceptAsAdministrative"])
             ->whereNumber("vacationRequest")
             ->name("requests.accept-as-administrative");
 

@@ -46,13 +46,13 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
             return [
                 "user" => $user["name"],
                 "benefits" => Arr::map($item["benefits"], function ($benefit): array {
-                    $foundedBenefit = Arr::first($this->report->benefits, fn($find): bool => $find["id"] === $benefit["id"]);
+                    $foundBenefit = Arr::first($this->report->benefits, fn($find): bool => $find["id"] === $benefit["id"]);
 
                     return [
-                        "name" => $foundedBenefit["name"],
+                        "name" => $foundBenefit["name"],
                         "employer" => $benefit["employer"],
                         "employee" => $benefit["employee"],
-                        "companion" => $foundedBenefit["companion"],
+                        "companion" => $foundBenefit["companion"],
                     ];
                 }),
             ];
@@ -76,11 +76,11 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
     {
         $headings = [];
 
-        $headings[] = __("Users");
+        $headings[] = __("First name and last name");
 
         foreach ($this->report->benefits as $benefit) {
             if (!$benefit["companion"]) {
-                $headings[] = $benefit["name"] . " - " . __("Employer's expense");
+                $headings[] = $benefit["name"] . " - " . __("employer's expense");
             }
             $headings[] = $benefit["name"] . " - " . __("payroll");
         }

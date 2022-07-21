@@ -11,7 +11,7 @@ class BenefitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "unique:benefits,name"],
+            "name" => ["required", "unique:benefits,name", "max:255"],
             "companion" => ["required", "boolean"],
         ];
     }
