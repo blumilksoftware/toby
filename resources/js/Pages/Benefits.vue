@@ -108,7 +108,7 @@
               >
                 <EmptyState>
                   <template #title>
-                    Brak benefit
+                    Brak benefitów
                   </template>
                   <template #text>
                     Brak wpisów dotyczących benefitów
