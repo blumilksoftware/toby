@@ -69,7 +69,7 @@ class ReportController extends Controller
             ->first();
 
         $data = Arr::where(
-            Arr::map($assignedBenefits->data, fn($iem): array => Arr::except($iem, "comment")),
+            Arr::map($assignedBenefits->data, fn($item): array => Arr::except($item, "comment")),
             fn(array $item): bool => $users->contains(fn(User $user): bool => $user->id === $item["user"]),
         );
 
