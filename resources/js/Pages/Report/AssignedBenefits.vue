@@ -203,7 +203,7 @@
                     step="0.01"
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     :class="{'ring-red-200 text-red-900 focus:ring-red-300 bg-red-50 hover:bg-red-50 group-hover:bg-red-50 focus:bg-red-50': `data.${index}.benefits.${i}.employee` in form.errors }"
-                    :title="`data.${index}.benefits.${i}.employee` in form.errors ? 'Wprowadź kwotę większe niż 0.' : 'Wprowadź kwotę.'"
+                    :title="`data.${index}.benefits.${i}.employee` in form.errors ? 'Wprowadź kwotę większą niż 0.' : 'Wprowadź kwotę.'"
                     min="0"
                   >
                 </td>

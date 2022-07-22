@@ -68,20 +68,26 @@ class ReportController extends Controller
             ->whereKey(1)
             ->first();
 
-        $data = Arr::where(
-            Arr::map($assignedBenefits->data, fn($item): array => Arr::except($item, "comment")),
-            fn(array $item): bool => $users->contains(fn(User $user): bool => $user->id === $item["user"]),
-        );
+        $data = $users->map(fn(User $user): array => [
+            "user" => $user->id,
+            "benefits" => $benefits->map(function (Benefit $benefit) use ($assignedBenefits, $user): array {
+                $userBenefits = Arr::first(
+                    $assignedBenefits->data ?? [],
+                    fn($item): bool => $item["user"] === $user->id,
+                );
 
-        $data = Arr::map($data, fn(array $item): array => [
-            "user" => $item["user"],
-            "benefits" => Arr::where(
-                $item["benefits"],
-                fn(array $assignedBenefit): bool => $benefits->contains(
-                    fn(Benefit $benefit): bool => $benefit->id === $assignedBenefit["id"],
-                ),
-            ),
-        ]);
+                $assignedBenefit = Arr::first(
+                    $userBenefits["benefits"] ?? [],
+                    fn($item): bool => $item["id"] === $benefit->id,
+                );
+
+                return [
+                    "id" => $benefit->id,
+                    "employee" => $assignedBenefit["employee"] ?? null,
+                    "employer" => $assignedBenefit["employer"] ?? null,
+                ];
+            })->toArray(),
+        ])->toArray();
 
         /** @var Report $report */
         $report = Report::query()
