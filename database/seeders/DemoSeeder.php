@@ -19,7 +19,9 @@ use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\WorkDaysCalculator;
+use Toby\Eloquent\Models\Benefit;
 use Toby\Eloquent\Models\Key;
+use Toby\Eloquent\Models\Report;
 use Toby\Eloquent\Models\Resume;
 use Toby\Eloquent\Models\Technology;
 use Toby\Eloquent\Models\User;
@@ -276,7 +278,9 @@ class DemoSeeder extends Seeder
         ])->for($vacationRequestWaitsForAdminApproval)
             ->create();
 
-        $vacationRequestWaitsForAdminApproval->state = new WaitingForAdministrative($vacationRequestWaitsForAdminApproval);
+        $vacationRequestWaitsForAdminApproval->state = new WaitingForAdministrative(
+            $vacationRequestWaitsForAdminApproval,
+        );
         $vacationRequestWaitsForAdminApproval->save();
 
         /** @var VacationRequest $vacationRequestRejected */
@@ -364,5 +368,23 @@ class DemoSeeder extends Seeder
         Resume::factory()
             ->count(3)
             ->create();
+
+        Benefit::factory()->createMany([
+            ["name" => "Parking", "companion" => false],
+            ["name" => "Allianz opieka medyczna", "companion" => false],
+            ["name" => "Allianz opieka medyczna, partner", "companion" => true],
+            ["name" => "Ubezpieczenie grupowe Allianz", "companion" => false],
+            ["name" => "Ubezpieczenie grupowe Allianz, partner", "companion" => true],
+            ["name" => "Ubezpieczenie grupowe Nationale-Nederlanden", "companion" => false],
+            ["name" => "Karta MultiSport", "companion" => false],
+        ]);
+
+        Report::factory()->create([
+            "name" => "current",
+            "users" => null,
+            "benefits" => null,
+            "data" => null,
+            "committed_at" => null,
+        ]);
     }
 }

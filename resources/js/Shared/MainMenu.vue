@@ -95,11 +95,11 @@
               </InertiaLink>
             </div>
             <div
-              v-if="miscNavigaction.length"
+              v-if="miscNavigation.length"
               class="py-1 px-2 space-y-1"
             >
               <InertiaLink
-                v-for="item in miscNavigaction"
+                v-for="item in miscNavigation"
                 :key="item.name"
                 :href="item.href"
                 :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
@@ -167,11 +167,11 @@
           </InertiaLink>
         </div>
         <div
-          v-if="miscNavigaction.length"
+          v-if="miscNavigation.length"
           class="pt-1 mt-1 space-y-1"
         >
           <InertiaLink
-            v-for="item in miscNavigaction"
+            v-for="item in miscNavigation"
             :key="item.name"
             :href="item.href"
             :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
@@ -346,7 +346,10 @@ import {
   DocumentTextIcon,
   AdjustmentsIcon,
   KeyIcon,
-  TemplateIcon, BeakerIcon,
+  TemplateIcon,
+  BeakerIcon,
+  GiftIcon,
+  CashIcon,
 } from '@heroicons/vue/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
 
@@ -368,7 +371,7 @@ const vacationNavigation = computed(() =>
       can: !props.auth.can.listAllVacationRequests,
     },
     {
-      name: 'Lista wniosków',
+      name: 'Wnioski',
       href: '/vacation/requests',
       section: 'VacationRequest',
       icon: CollectionIcon,
@@ -412,11 +415,11 @@ const vacationNavigation = computed(() =>
     },
   ].filter(item => item.can))
 
-const miscNavigaction = computed(() => [
+const miscNavigation = computed(() => [
   {
     name: 'Użytkownicy',
     href: '/users',
-    section: 'Users/',
+    section: 'Users',
     icon: UserGroupIcon,
     can: props.auth.can.manageUsers,
   },
@@ -440,6 +443,20 @@ const miscNavigaction = computed(() => [
     section: 'Resumes',
     icon: TemplateIcon,
     can: props.auth.can.manageResumes,
+  },
+  {
+    name: 'Benefity',
+    href: '/benefits',
+    section: 'Benefits',
+    icon: GiftIcon,
+    can: props.auth.can.manageBenefits,
+  },
+  {
+    name: 'Przypisane benefity',
+    href: '/assigned-benefits',
+    section: 'Report',
+    icon: CashIcon,
+    can: props.auth.can.manageBenefits,
   },
 ].filter(item => item.can))
 </script>

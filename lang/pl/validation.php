@@ -158,6 +158,9 @@ return [
         "projects.*.tasks" => [
             "required" => "Zadania w projekcie są wymagane.",
         ],
+        "name" => [
+            "unique" => "Taka nazwa już występuje.",
+        ],
     ],
     "attributes" => [
         "to" => "do",

@@ -114,5 +114,12 @@
   "Requests list waits for your approval - status for day :date:": "Lista wniosków oczekujących na Twoją akcję - stan na dzień :date:",
   "- [request no. :request](:url) of user :user (:startDate - :endDate)": "- [wniosek nr :request](:url) użytkownika :user (:startDate - :endDate)",
   "Go to requests": "Przejdź do wniosków",
-  "See details": "Zobacz szczegóły"
+  "See details": "Zobacz szczegóły",
+  "Assigned benefits has been updated.": "Zaktualizowano przypisane benefity.",
+  "First name and last name": "Imię i nazwisko",
+  "employer's expense": "koszt pracodawcy",
+  "payroll": "lista płac",
+  "Benefit :name has been created.": "Benefit :name został utworzony.",
+  "Benefit :name has been deleted.": "Benefit :name został usunięty.",
+  "Report :name has been created.": "Raport :name został utworzony."
 }
