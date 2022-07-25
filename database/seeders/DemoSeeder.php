@@ -20,8 +20,8 @@ use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Benefit;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\Report;
 use Toby\Eloquent\Models\Resume;
 use Toby\Eloquent\Models\Technology;
 use Toby\Eloquent\Models\User;
@@ -379,7 +379,7 @@ class DemoSeeder extends Seeder
             ["name" => "Karta MultiSport", "companion" => false],
         ]);
 
-        Report::factory()->create([
+        BenefitsReport::factory()->create([
             "name" => "current",
             "users" => null,
             "benefits" => null,

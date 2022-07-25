@@ -1,16 +1,16 @@
 <template>
-  <InertiaHead title="Raport" />
+  <InertiaHead title="Raport benefitów" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Benefity - {{ report.name }}
+          Benefity - {{ benefitsReport.name }}
         </h2>
       </div>
       <div v-if="auth.can.manageBenefits">
         <a
           v-if="selectedUsers.length !== 0"
-          :href="`/benefits-report/${props.report.id}/download?${generateUrl()}`"
+          :href="`/benefits-report/${props.benefitsReport.id}/download?${generateUrl()}`"
         >
           <button
             class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
@@ -31,7 +31,7 @@
     </div>
     <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4 border-t border-gray-200">
       <Listbox
-        v-model="selectedReport"
+        v-model="selectedBenefitsReport"
         as="div"
       >
         <div class="relative">
@@ -39,7 +39,7 @@
             class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
           >
             <span class="block truncate w-48">
-              {{ report.name }}
+              {{ benefitsReport.name }}
             </span>
             <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
               <SelectorIcon class="w-5 h-5 text-gray-400" />
@@ -67,20 +67,20 @@
                 </InertiaLink>
               </ListboxOption>
               <ListboxOption
-                v-for="currentReport in reports"
-                :key="currentReport.name"
+                v-for="currentBenefitsReport in benefitsReports"
+                :key="currentBenefitsReport.name"
                 v-slot="{ active, selected }"
                 as="template"
-                :value="currentReport.name"
+                :value="currentBenefitsReport.name"
               >
                 <InertiaLink
                   as="button"
                   method="get"
-                  :href="`/benefits-report/${currentReport.id}`"
+                  :href="`/benefits-report/${currentBenefitsReport.id}`"
                   class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
                   :class="[active ? 'bg-gray-100' : 'text-gray-900']"
                 >
-                  {{ currentReport.name }}
+                  {{ currentBenefitsReport.name }}
                   <span
                     v-if="selected"
                     :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
@@ -106,10 +106,10 @@
               <input
                 type="checkbox"
                 class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-                :disabled="raportData.length === 0"
-                :checked="indeterminate || selectedUsers.length === raportData.length && raportData.length > 0"
+                :disabled="benefitsReportData.length === 0"
+                :checked="indeterminate || selectedUsers.length === benefitsReportData.length && benefitsReportData.length > 0"
                 :indeterminate="indeterminate"
-                @change="selectedUsers = $event.target.checked ? raportData.map((item) => ( item.user.id )) : []"
+                @change="selectedUsers = $event.target.checked ? benefitsReportData.map((item) => ( item.user.id )) : []"
               >
             </th>
             <th
@@ -117,11 +117,11 @@
               class="py-2 w-64 text-lg font-semibold text-gray-800"
             >
               <div class="flex justify-center items-center">
-                {{ report.name }}
+                {{ benefitsReport.name }}
               </div>
             </th>
             <th
-              v-for="benefit in report.benefits"
+              v-for="benefit in benefitsReport.benefits"
               :key="benefit.id"
               :colspan="[!benefit.companion ? 2 : 0]"
               class="p-2 text-base font-semibold text-gray-900 even:bg-gray-100"
@@ -140,7 +140,7 @@
           </tr>
           <tr class="divide-x divide-gray-300">
             <template
-              v-for="benefit in report.benefits"
+              v-for="benefit in benefitsReport.benefits"
               :key="benefit.id"
             >
               <th
@@ -161,7 +161,7 @@
         </thead>
         <tbody class="divide-y divide-gray-300">
           <tr
-            v-for="item in raportData"
+            v-for="item in benefitsReportData"
             :key="item.user.id"
             :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25']"
             class="group hover:bg-blumilk-25 divide-x divide-gray-300"
@@ -222,13 +222,13 @@ import { SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
 import { computed, ref } from 'vue'
 
 const props = defineProps({
-  report: Object,
-  reports: Object,
+  benefitsReport: Object,
+  benefitsReports: Object,
   auth: Object,
 })
 
-const raportData = props.report.data.map((item) => {
-  const user = props.report.users.find((user) => item.user === user.id)
+const benefitsReportData = props.benefitsReport.data.map((item) => {
+  const user = props.benefitsReport.users.find((user) => item.user === user.id)
 
   return {
     user: user,
@@ -236,9 +236,9 @@ const raportData = props.report.data.map((item) => {
   }
 })
 
-const selectedReport = ref(props.report.name)
+const selectedBenefitsReport = ref(props.benefitsReport.name)
 const selectedUsers = ref([])
-const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < raportData.length)
+const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < benefitsReportData.length)
 
 function calculateSumOfBenefits(benefits) {
   let sum = 0
@@ -252,7 +252,7 @@ function calculateSumOfBenefits(benefits) {
   return (new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })).format(sum / 100)
 }
 function isBenefitHasCompanion(benefitId) {
-  return props.report.benefits.find((benefit) => benefit.id === benefitId && benefit.companion === true)
+  return props.benefitsReport.benefits.find((benefit) => benefit.id === benefitId && benefit.companion === true)
 }
 function generateUrl(){
   const params = new URLSearchParams()

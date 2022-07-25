@@ -20,14 +20,14 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Toby\Eloquent\Models\Report;
+use Toby\Eloquent\Models\BenefitsReport;
 
 class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, WithStyles, WithStrictNullComparison, ShouldAutoSize, FromGenerator
 {
     use RegistersEventListeners;
 
     public function __construct(
-        protected Report $report,
+        protected BenefitsReport $report,
         protected array $userIds,
     ) {}
 

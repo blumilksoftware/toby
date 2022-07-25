@@ -6,7 +6,7 @@ namespace Toby\Infrastructure\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateReportRequest extends FormRequest
+class BenefitsReportRequest extends FormRequest
 {
     public function rules(): array
     {

@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Toby\Infrastructure\Http\Controllers\AnnualSummaryController;
 use Toby\Infrastructure\Http\Controllers\AssignedBenefitController;
 use Toby\Infrastructure\Http\Controllers\BenefitController;
+use Toby\Infrastructure\Http\Controllers\BenefitsReportController;
 use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\KeysController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
-use Toby\Infrastructure\Http\Controllers\ReportController;
 use Toby\Infrastructure\Http\Controllers\ResumeController;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
 use Toby\Infrastructure\Http\Controllers\TechnologyController;
@@ -45,14 +45,14 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::put("/assigned-benefits", [AssignedBenefitController::class, "update"])
         ->name("assigned-benefits.update");
 
-    Route::post("/benefits-report", [ReportController::class, "store"])
+    Route::post("/benefits-report", [BenefitsReportController::class, "store"])
         ->name("benefits-report.store");
 
-    Route::get("/benefits-report/{report}", [ReportController::class, "show"])
+    Route::get("/benefits-report/{benefitsReport}", [BenefitsReportController::class, "show"])
         ->name("benefits-report.show")
         ->whereNumber("report");
 
-    Route::get("/benefits-report/{report}/download", [ReportController::class, "download"])
+    Route::get("/benefits-report/{benefitsReport}/download", [BenefitsReportController::class, "download"])
         ->name("benefits-report.download")
         ->whereNumber("report");
 

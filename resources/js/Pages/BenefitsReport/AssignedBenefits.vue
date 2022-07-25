@@ -7,13 +7,13 @@
           Aktualne benefity
         </h2>
       </div>
-      <div v-if="auth.can.manageBenefits">
+      <div v-if="auth.can.manageBenefits && benefits.data.length > 0">
         <button
           type="button"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           :class="[form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
           :disabled="form.isDirty"
-          @click="startCreatingReport"
+          @click="startCreatingBenefitsReport"
         >
           Utwórz raport
         </button>
@@ -65,18 +65,18 @@
                 </InertiaLink>
               </ListboxOption>
               <ListboxOption
-                v-for="report in reports"
-                :key="report.name"
+                v-for="benefitsReport in benefitsReports"
+                :key="benefitsReport.name"
                 as="template"
-                :value="report.name"
+                :value="benefitsReport.name"
               >
                 <InertiaLink
                   as="button"
                   method="get"
-                  :href="`/benefits-report/${report.id}`"
+                  :href="`/benefits-report/${benefitsReport.id}`"
                   class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
                 >
-                  {{ report.name }}
+                  {{ benefitsReport.name }}
                 </InertiaLink>
               </ListboxOption>
             </ListboxOptions>
@@ -203,7 +203,7 @@
                     step="0.01"
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     :class="{'ring-red-200 text-red-900 focus:ring-red-300 bg-red-50 hover:bg-red-50 group-hover:bg-red-50 focus:bg-red-50': `data.${index}.benefits.${i}.employee` in form.errors }"
-                    :title="`data.${index}.benefits.${i}.employee` in form.errors ? 'Wprowadź kwotę większe niż 0.' : 'Wprowadź kwotę.'"
+                    :title="`data.${index}.benefits.${i}.employee` in form.errors ? 'Wprowadź kwotę większą niż 0.' : 'Wprowadź kwotę.'"
                     min="0"
                   >
                 </td>
@@ -241,12 +241,12 @@
   </div>
   <TransitionRoot
     as="template"
-    :show="creatingReport"
+    :show="creatingBenefitsReport"
   >
     <Dialog
       is="div"
       class="overflow-y-auto fixed inset-0 z-10"
-      @close="creatingReport = false"
+      @close="creatingBenefitsReport = false"
     >
       <div class="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
         <TransitionChild
@@ -273,7 +273,7 @@
         >
           <form
             class="inline-block relative px-4 pt-5 pb-4 text-left align-bottom bg-white rounded-lg shadow-xl transition-all transform sm:p-6 sm:my-8 sm:w-full sm:max-w-sm sm:align-middle"
-            @submit.prevent="submitCreateReport"
+            @submit.prevent="submitCreateBenefitsReport"
           >
             <div>
               <div>
@@ -293,16 +293,16 @@
                   <div class="mt-2">
                     <input
                       id="name"
-                      v-model="formReport.name"
+                      v-model="formBenefitsReport.name"
                       type="text"
                       class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-                      :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': formReport.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !formReport.errors.name }"
+                      :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': formBenefitsReport.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !formBenefitsReport.errors.name }"
                     >
                     <p
-                      v-if="formReport.errors.name"
+                      v-if="formBenefitsReport.errors.name"
                       class="mt-2 text-sm text-red-600"
                     >
-                      {{ formReport.errors.name }}
+                      {{ formBenefitsReport.errors.name }}
                     </p>
                   </div>
                 </div>
@@ -313,15 +313,15 @@
                 <button
                   type="button"
                   class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
-                  @click="creatingReport = false"
+                  @click="creatingBenefitsReport = false"
                 >
                   Anuluj
                 </button>
                 <button
                   type="submit"
                   class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
-                  :class="[formReport.processing ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
-                  :disabled="formReport.processing"
+                  :class="[formBenefitsReport.processing ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
+                  :disabled="formBenefitsReport.processing"
                 >
                   Utwórz
                 </button>
@@ -347,14 +347,14 @@ const props = defineProps({
   current: String,
   users: Object,
   benefits: Object,
-  reports: Object,
+  benefitsReports: Object,
   assignedBenefits: Object,
   years: Object,
   auth: Object,
 })
 
 const selectedItem = ref('Aktualne benefity')
-const creatingReport = ref(false)
+const creatingBenefitsReport = ref(false)
 const { findMonth } = useMonthInfo()
 const currentMonth = computed(() => findMonth(props.current))
 
@@ -377,7 +377,7 @@ const form = useForm({
     }
   }),
 })
-const formReport = useForm({
+const formBenefitsReport = useForm({
   name: '',
 })
 function submitAssignedBenefits() {
@@ -397,12 +397,12 @@ function submitAssignedBenefits() {
     }))
     .put('/assigned-benefits')
 }
-function startCreatingReport() {
-  formReport.name = `${currentMonth.value.name} ${props.years.selected.year}`
-  creatingReport.value = true
+function startCreatingBenefitsReport() {
+  formBenefitsReport.name = `${currentMonth.value.name} ${props.years.selected.year}`
+  creatingBenefitsReport.value = true
 }
-function submitCreateReport() {
-  formReport.post('/benefits-report')
+function submitCreateBenefitsReport() {
+  formBenefitsReport.post('/benefits-report')
 }
 function calculateSumOfBenefits(benefits) {
   let sum = 0

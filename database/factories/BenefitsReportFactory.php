@@ -7,12 +7,12 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\Report;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\User;
 
-class ReportFactory extends Factory
+class BenefitsReportFactory extends Factory
 {
-    protected $model = Report::class;
+    protected $model = BenefitsReport::class;
 
     public function definition(): array
     {
