@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\Report;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\User;
 
 class AssignedBenefitsTest extends FeatureTestCase
@@ -22,8 +22,8 @@ class AssignedBenefitsTest extends FeatureTestCase
         User::factory(4)->create();
         Benefit::factory(4)->create();
 
-        /** @var Report $assignedBenefits */
-        $assignedBenefits = Report::factory()->create([
+        /** @var BenefitsReport $assignedBenefits */
+        $assignedBenefits = BenefitsReport::factory()->create([
             "name" => "current",
             "users" => null,
             "benefits" => null,
@@ -37,7 +37,7 @@ class AssignedBenefitsTest extends FeatureTestCase
             ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page
-                    ->component("Report/AssignedBenefits")
+                    ->component("BenefitsReport/AssignedBenefits")
                     ->where("assignedBenefits.name", $assignedBenefits->name)
                     ->where("assignedBenefits.data", $assignedBenefits->data),
             );
@@ -55,8 +55,8 @@ class AssignedBenefitsTest extends FeatureTestCase
         [$firstBenefit, $secondBenefit] = Benefit::factory(2)->create();
         [$firstUser, $secondUser] = User::factory(2)->create();
 
-        /** @var Report $assignedBenefits */
-        $assignedBenefits = Report::factory()->create([
+        /** @var BenefitsReport $assignedBenefits */
+        $assignedBenefits = BenefitsReport::factory()->create([
             "name" => "current",
             "users" => null,
             "benefits" => null,

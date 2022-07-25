@@ -25,7 +25,7 @@ class BenefitController extends Controller
             ->paginate()
             ->withQueryString();
 
-        return inertia("Benefits", [
+        return inertia("Benefits/Benefits", [
             "benefits" => BenefitResource::collection($benefits),
         ]);
     }

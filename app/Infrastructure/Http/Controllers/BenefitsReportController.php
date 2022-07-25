@@ -15,32 +15,32 @@ use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Toby\Domain\BenefitsReportTimesheet;
 use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\Report;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Http\Requests\CreateReportRequest;
+use Toby\Infrastructure\Http\Requests\BenefitsReportRequest;
 use Toby\Infrastructure\Http\Resources\BenefitResource;
-use Toby\Infrastructure\Http\Resources\ReportResource;
+use Toby\Infrastructure\Http\Resources\BenefitsReportResource;
 use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 
-class ReportController extends Controller
+class BenefitsReportController extends Controller
 {
     /**
      * @throws AuthorizationException
      */
-    public function show(Report $report): Response
+    public function show(BenefitsReport $benefitsReport): Response
     {
         $this->authorize("manageBenefits");
 
-        $reports = Report::query()
+        $reports = BenefitsReport::query()
             ->orderBy("committed_at", "desc")
             ->whereKeyNot(1)
             ->get();
 
-        return inertia("Report/Report", [
-            "report" => new ReportResource($report),
-            "reports" => $reports->map(fn(Report $report): array => [
-                "id" => $report->id,
-                "name" => $report->name,
+        return inertia("BenefitsReport/BenefitsReport", [
+            "benefitsReport" => new BenefitsReportResource($benefitsReport),
+            "benefitsReports" => $reports->map(fn(BenefitsReport $benefitsReport): array => [
+                "id" => $benefitsReport->id,
+                "name" => $benefitsReport->name,
             ]),
         ]);
     }
@@ -48,7 +48,7 @@ class ReportController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function store(CreateReportRequest $request): RedirectResponse
+    public function store(BenefitsReportRequest $request): RedirectResponse
     {
         $this->authorize("manageBenefits");
 
@@ -63,8 +63,8 @@ class ReportController extends Controller
             ->orderBy("name")
             ->get();
 
-        /** @var Report $assignedBenefits */
-        $assignedBenefits = Report::query()
+        /** @var BenefitsReport $assignedBenefits */
+        $assignedBenefits = BenefitsReport::query()
             ->whereKey(1)
             ->first();
 
@@ -89,8 +89,8 @@ class ReportController extends Controller
             })->toArray(),
         ])->toArray();
 
-        /** @var Report $report */
-        $report = Report::query()
+        /** @var BenefitsReport $benefitsReport */
+        $benefitsReport = BenefitsReport::query()
             ->create([
                 "name" => $nameReport,
                 "users" => SimpleUserResource::collection($users),
@@ -100,11 +100,11 @@ class ReportController extends Controller
             ]);
 
         return redirect()
-            ->route("benefits-report.show", $report->id)
+            ->route("benefits-report.show", $benefitsReport->id)
             ->with(
                 "success",
-                __("Report :name has been created.", [
-                    "name" => $report->name,
+                __("Benefits report :name has been created.", [
+                    "name" => $benefitsReport->name,
                 ]),
             );
     }
@@ -112,15 +112,15 @@ class ReportController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function download(Request $request, Report $report): BinaryFileResponse
+    public function download(Request $request, BenefitsReport $benefitsReport): BinaryFileResponse
     {
         $this->authorize("manageBenefits");
 
-        $filename = Str::slug($report->name) . ".xlsx";
+        $filename = Str::slug($benefitsReport->name) . ".xlsx";
 
         $userIds = $request->query("users", []);
 
-        $timesheet = new BenefitsReportTimesheet($report, $userIds);
+        $timesheet = new BenefitsReportTimesheet($benefitsReport, $userIds);
 
         return Excel::download($timesheet, $filename);
     }

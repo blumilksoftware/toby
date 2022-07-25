@@ -6,7 +6,7 @@ namespace Toby\Infrastructure\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReportResource extends JsonResource
+class BenefitsReportResource extends JsonResource
 {
     public function toArray($request): array
     {

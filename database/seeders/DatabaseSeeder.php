@@ -10,8 +10,8 @@ use Toby\Domain\Enums\Role;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Benefit;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\Report;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -98,11 +98,11 @@ class DatabaseSeeder extends Seeder
 
         Benefit::factory(10)->create();
 
-        Report::factory()->create([
+        BenefitsReport::factory()->create([
             "name" => "current",
             "committed_at" => null,
         ]);
 
-        Report::factory(3)->create();
+        BenefitsReport::factory(3)->create();
     }
 }

@@ -10,11 +10,11 @@ use Illuminate\Support\Arr;
 use Inertia\Response;
 use Toby\Domain\Enums\Month;
 use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\Report;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Http\Requests\AssignedBenefitsRequest;
 use Toby\Infrastructure\Http\Resources\BenefitResource;
-use Toby\Infrastructure\Http\Resources\ReportResource;
+use Toby\Infrastructure\Http\Resources\BenefitsReportResource;
 use Toby\Infrastructure\Http\Resources\SimpleUserResource;
 
 class AssignedBenefitController extends Controller
@@ -35,24 +35,24 @@ class AssignedBenefitController extends Controller
             ->orderBy("name")
             ->get();
 
-        $reports = Report::query()
+        $benefitsReports = BenefitsReport::query()
             ->orderBy("committed_at", "desc")
             ->whereKeyNot(1)
             ->get();
 
-        $assignedBenefits = Report::query()
+        $assignedBenefits = BenefitsReport::query()
             ->whereKey(1)
             ->first();
 
-        return inertia("Report/AssignedBenefits", [
+        return inertia("BenefitsReport/AssignedBenefits", [
             "current" => Month::current(),
             "users" => SimpleUserResource::collection($users),
             "benefits" => BenefitResource::collection($benefits),
-            "reports" => $reports->map(fn(Report $report): array => [
-                "id" => $report->id,
-                "name" => $report->name,
+            "benefitsReports" => $benefitsReports->map(fn(BenefitsReport $benefitsReport): array => [
+                "id" => $benefitsReport->id,
+                "name" => $benefitsReport->name,
             ]),
-            "assignedBenefits" => new ReportResource($assignedBenefits),
+            "assignedBenefits" => new BenefitsReportResource($assignedBenefits),
         ]);
     }
 
@@ -72,8 +72,8 @@ class AssignedBenefitController extends Controller
             ->orderBy("name")
             ->get();
 
-        /** @var Report $assignedBenefits */
-        $assignedBenefits = Report::query()
+        /** @var BenefitsReport $assignedBenefits */
+        $assignedBenefits = BenefitsReport::query()
             ->whereKey(1)
             ->first();
 
