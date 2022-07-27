@@ -108,7 +108,7 @@
             <tr class="divide-x divide-gray-300">
               <th
                 rowspan="2"
-                class="py-2 w-64 text-lg font-semibold text-gray-800"
+                class="py-2 w-64 text-lg font-semibold text-gray-800 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
               >
                 <div class="flex justify-center items-center">
                   {{ currentMonth.name }} {{ years.selected.year }}
@@ -166,7 +166,7 @@
               :key="item.user.id"
               class="group hover:bg-blumilk-25 divide-x divide-gray-300"
             >
-              <th class="p-2">
+              <th class="group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 bg-white hover:bg-blumilk-25 group-hover:bg-blumilk-25">
                 <div class="flex justify-start items-center">
                   <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
                     <img :src="item.user.avatar">
@@ -179,7 +179,7 @@
                 </div>
               </th>
               <template
-                v-for="(benefit, i) in item.benefits"
+                v-for="(benefit) in item.benefits"
                 :key="benefit.id"
               >
                 <td
@@ -192,6 +192,7 @@
                     type="number"
                     step="0.01"
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
+                    title="Wprowadź kwotę."
                     min="0"
                   >
                 </td>
@@ -202,8 +203,7 @@
                     type="number"
                     step="0.01"
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
-                    :class="{'ring-red-200 text-red-900 focus:ring-red-300 bg-red-50 hover:bg-red-50 group-hover:bg-red-50 focus:bg-red-50': `data.${index}.benefits.${i}.employee` in form.errors }"
-                    :title="`data.${index}.benefits.${i}.employee` in form.errors ? 'Wprowadź kwotę większą niż 0.' : 'Wprowadź kwotę.'"
+                    title="Wprowadź kwotę."
                     min="0"
                   >
                 </td>
@@ -390,7 +390,7 @@ function submitAssignedBenefits() {
             id: benefit.id,
             employee: benefit.employee ? benefit.employee*100 : null,
             employer: benefit.employer ? benefit.employer*100 : null,
-          })) ,
+          })),
           comment: item.comment,
         }
       }),

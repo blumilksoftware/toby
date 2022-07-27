@@ -16,8 +16,8 @@ class AssignedBenefitsRequest extends FormRequest
             "data.*.comment" => ["nullable"],
             "data.*.benefits" => ["nullable", "array"],
             "data.*.benefits.*.id" => ["nullable", "numeric"],
-            "data.*.benefits.*.employee" => ["required_with:data.*.benefits.*.employer", "nullable", "numeric", "gt:0"],
-            "data.*.benefits.*.employer" => ["nullable", "numeric", "gt:0"],
+            "data.*.benefits.*.employee" => ["nullable", "numeric", "gte:0"],
+            "data.*.benefits.*.employer" => ["nullable", "numeric", "gte:0"],
         ];
     }
 }
