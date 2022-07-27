@@ -3,10 +3,17 @@ name: Test & lint JS stuff
 on:
   pull_request:
     branches: [ "main" ]
+    paths:
+      - '**.js'
+      - '**.vue'
+      - 'package.json'
+      - 'package.lock'
 
 jobs:
   test-and-lint-js:
     name: Test & lint JS stuff
+    timeout-minutes: 10
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-20.04
 
     steps:

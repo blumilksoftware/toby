@@ -101,7 +101,7 @@
             <th
               scope="col"
               rowspan="2"
-              class="relative w-16 px-8"
+              class="relative w-16 px-8 space-x-4 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
             >
               <input
                 type="checkbox"
@@ -111,12 +111,7 @@
                 :indeterminate="indeterminate"
                 @change="selectedUsers = $event.target.checked ? benefitsReportData.map((item) => ( item.user.id )) : []"
               >
-            </th>
-            <th
-              rowspan="2"
-              class="py-2 w-64 text-lg font-semibold text-gray-800"
-            >
-              <div class="flex justify-center items-center">
+              <div class="flex justify-start items-center pl-4">
                 {{ benefitsReport.name }}
               </div>
             </th>
@@ -164,22 +159,25 @@
             v-for="item in benefitsReportData"
             :key="item.user.id"
             :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25']"
-            class="group hover:bg-blumilk-25 divide-x divide-gray-300"
+            class="group bg-white hover:bg-blumilk-25 group-hover:bg-blumilk-25 divide-x divide-gray-300"
           >
-            <td class="relative w-12 px-6 sm:w-16 sm:px-8">
-              <div
-                v-if="selectedUsers.find((selectedUser) => selectedUser === item.user.id)"
-                class="absolute inset-y-0 left-0 w-0.5 bg-blumilk-600"
-              />
-              <input
-                v-model="selectedUsers"
-                type="checkbox"
-                class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-                :value="item.user.id"
-              >
-            </td>
-            <td class="p-2">
-              <div class="flex justify-start items-center">
+            <td
+              :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25']"
+              class="relative w-12 px-6 sm:w-16 sm:px-8 space-x-4 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 group bg-white hover:bg-blumilk-25 group-hover:bg-blumilk-25"
+            >
+              <div>
+                <div
+                  v-if="selectedUsers.find((selectedUser) => selectedUser === item.user.id)"
+                  class="absolute inset-y-0 left-0 w-0.5 bg-blumilk-600"
+                />
+                <input
+                  v-model="selectedUsers"
+                  type="checkbox"
+                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                  :value="item.user.id"
+                >
+              </div>
+              <div class="flex justify-start items-center pl-4">
                 <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
                   <img :src="item.user.avatar">
                 </span>
