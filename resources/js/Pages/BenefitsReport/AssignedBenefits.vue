@@ -340,8 +340,9 @@ import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } f
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { XCircleIcon, SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
 import TextArea from '@/Shared/Forms/TextArea'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
+import { debounce } from 'lodash'
 
 const props = defineProps({
   current: String,
@@ -380,6 +381,11 @@ const form = useForm({
 const formBenefitsReport = useForm({
   name: '',
 })
+
+watch(() => form.items, debounce(() => {
+  submitAssignedBenefits()
+}, 1000), { deep: true })
+
 function submitAssignedBenefits() {
   form
     .transform(data => ({
