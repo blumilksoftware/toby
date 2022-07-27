@@ -1,14 +1,20 @@
 name: Test & lint PHP stuff
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    paths:
+      - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml'
+      - 'env.ci'
 
 jobs:
   test-and-lint-php:
     name: Test & lint PHP stuff
+    timeout-minutes: 10
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-20.04
     services:
       pgsql:
