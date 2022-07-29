@@ -26,6 +26,9 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
 {
     use RegistersEventListeners;
 
+    protected const ROW_HEIGHT = 70;
+    protected const COLUMN_WIDTH = 22;
+
     public function __construct(
         protected BenefitsReport $report,
         protected array $userIds,
@@ -38,17 +41,20 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
 
     public function generator(): Generator
     {
-        $data = Arr::where($this->report->data, fn($item): bool => in_array($item["user"], $this->userIds, false));
+        $data = Arr::where(
+            $this->report->data,
+            fn(array $item): bool => in_array($item["user"], $this->userIds, false),
+        );
 
-        $data = Arr::map($data, function ($item): array {
-            $user = Arr::first($this->report->users, fn($user): bool => $user["id"] === $item["user"]);
+        $data = Arr::map($data, function (array $item): array {
+            $user = Arr::first($this->report->users, fn(array $user): bool => $user["id"] === $item["user"]);
 
             return [
                 "user" => $user["name"],
-                "benefits" => Arr::map($item["benefits"], function ($benefit): array {
+                "benefits" => Arr::map($item["benefits"], function (array $benefit): array {
                     $foundBenefit = Arr::first(
                         $this->report->benefits,
-                        fn($find): bool => $find["id"] === $benefit["id"],
+                        fn(array $find): bool => $find["id"] === $benefit["id"],
                     );
 
                     return [
@@ -126,12 +132,12 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_NUMBER_00);
 
-        for ($col = 1; $col <= Coordinate::columnIndexFromString($lastColumn); $col++) {
-            $sheet->getColumnDimensionByColumn($col)->setWidth(22);
+        for ($column = 1; $column <= Coordinate::columnIndexFromString($lastColumn); $column++) {
+            $sheet->getColumnDimensionByColumn($column)->setWidth(static::COLUMN_WIDTH);
         }
 
         $sheet->getRowDimension(1)
-            ->setRowHeight(70);
+            ->setRowHeight(static::ROW_HEIGHT);
 
         $sheet->getStyle("A1:{$lastColumn}{$lastRow}")
             ->getAlignment()
