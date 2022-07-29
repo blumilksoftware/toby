@@ -9,12 +9,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromGenerator;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
@@ -22,9 +22,12 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Toby\Eloquent\Models\BenefitsReport;
 
-class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, WithStyles, WithStrictNullComparison, ShouldAutoSize, FromGenerator
+class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, WithStyles, WithStrictNullComparison, FromGenerator
 {
     use RegistersEventListeners;
+
+    protected const ROW_HEIGHT = 70;
+    protected const COLUMN_WIDTH = 22;
 
     public function __construct(
         protected BenefitsReport $report,
@@ -38,15 +41,21 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
 
     public function generator(): Generator
     {
-        $data = Arr::where($this->report->data, fn($item): bool => in_array($item["user"], $this->userIds, false));
+        $data = Arr::where(
+            $this->report->data,
+            fn(array $item): bool => in_array($item["user"], $this->userIds, false),
+        );
 
-        $data = Arr::map($data, function ($item): array {
-            $user = Arr::first($this->report->users, fn($user): bool => $user["id"] === $item["user"]);
+        $data = Arr::map($data, function (array $item): array {
+            $user = Arr::first($this->report->users, fn(array $user): bool => $user["id"] === $item["user"]);
 
             return [
                 "user" => $user["name"],
-                "benefits" => Arr::map($item["benefits"], function ($benefit): array {
-                    $foundBenefit = Arr::first($this->report->benefits, fn($find): bool => $find["id"] === $benefit["id"]);
+                "benefits" => Arr::map($item["benefits"], function (array $benefit): array {
+                    $foundBenefit = Arr::first(
+                        $this->report->benefits,
+                        fn(array $find): bool => $find["id"] === $benefit["id"],
+                    );
 
                     return [
                         "name" => $foundBenefit["name"],
@@ -122,5 +131,16 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
         $sheet->getStyle("B2:{$lastColumn}{$lastRow}")
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_NUMBER_00);
+
+        for ($column = 1; $column <= Coordinate::columnIndexFromString($lastColumn); $column++) {
+            $sheet->getColumnDimensionByColumn($column)->setWidth(static::COLUMN_WIDTH);
+        }
+
+        $sheet->getRowDimension(1)
+            ->setRowHeight(static::ROW_HEIGHT);
+
+        $sheet->getStyle("A1:{$lastColumn}{$lastRow}")
+            ->getAlignment()
+            ->setWrapText(true);
     }
 }

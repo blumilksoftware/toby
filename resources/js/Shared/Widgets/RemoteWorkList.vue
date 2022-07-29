@@ -71,7 +71,7 @@
             <template #head>
               <HomeCityIcon
                 class="flex justify-center"
-                size="48"
+                :size="48"
               />
             </template>
             <template #title>
@@ -113,7 +113,7 @@
             <template #head>
               <HomeCityIcon
                 class="flex justify-center"
-                size="48"
+                :size="48"
               />
             </template>
             <template #title>
