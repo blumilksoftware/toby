@@ -7,7 +7,7 @@ updates:
       interval: monthly
       time: "06:30"
     commit-message:
-      prefix: "#5 - (php) "
+      prefix: "- "
     target-branch: main
     open-pull-requests-limit: 1
 
@@ -17,6 +17,6 @@ updates:
       interval: monthly
       time: "06:30"
     commit-message:
-      prefix: "#5 - (js) "
+      prefix: "- "
     target-branch: main
     open-pull-requests-limit: 1
