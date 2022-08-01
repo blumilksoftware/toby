@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
 
   node:
-    image: node:18.4.0-alpine3.16
+    image: node:18.7.0-alpine3.16
     container_name: toby-node
     working_dir: /application
     tty: true
