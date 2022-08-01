@@ -130,7 +130,7 @@ class User extends Authenticatable implements NotifiableInterface
             "active" => $query,
             "inactive" => $query->onlyTrashed(),
             "all" => $query->withTrashed(),
-            default => $query
+            default => $query,
         };
     }
 
