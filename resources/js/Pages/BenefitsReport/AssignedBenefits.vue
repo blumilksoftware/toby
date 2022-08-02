@@ -365,9 +365,9 @@ const form = useForm({
 
     return {
       user: user,
-      comment: item.comment,
+      comment: item?.comment,
       benefits: props.benefits.data.map((benefit) => {
-        const assignedBenefit = item.benefits.find((assignedBenefit) => assignedBenefit.id === benefit.id)
+        const assignedBenefit = item?.benefits.find((assignedBenefit) => assignedBenefit.id === benefit.id)
 
         return {
           id: benefit.id,
