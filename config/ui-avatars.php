@@ -6,7 +6,7 @@ return [
     "provider" => "api",
     "default_region" => "eu",
     "length" => 2,
-    "image_size" => 48,
+    "image_size" => 128,
     "font_size" => 0.33,
     "rounded" => true,
     "smooth_rounding" => true,
