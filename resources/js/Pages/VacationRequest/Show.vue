@@ -251,9 +251,9 @@
 
 <script setup>
 import { PaperClipIcon } from '@heroicons/vue/outline'
-import Activity from '@/Shared/Activity'
-import Status from '@/Shared/Status'
-import VacationType from '@/Shared/VacationType'
+import Activity from '@/Shared/Activity.vue'
+import Status from '@/Shared/Status.vue'
+import VacationType from '@/Shared/VacationType.vue'
 
 defineProps({
   request: Object,

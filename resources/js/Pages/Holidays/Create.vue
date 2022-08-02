@@ -82,7 +82,7 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
 
 const form = useForm({
   name: null,

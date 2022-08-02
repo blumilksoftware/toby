@@ -549,12 +549,12 @@ import { Listbox, ListboxOption, ListboxOptions, ListboxLabel, ListboxButton } f
 import { SelectorIcon, CheckIcon } from '@heroicons/vue/outline'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
-import MonthPicker from '@/Shared/Forms/MonthPicker'
-import DynamicSection from '@/Shared/Forms/DynamicSection'
-import Combobox from '@/Shared/Forms/Combobox'
-import MultipleCombobox from '@/Shared/Forms/MultipleCombobox'
-import LevelPicker from '@/Shared/Forms/LevelPicker'
-import useLevels from '@/Composables/useLevels'
+import MonthPicker from '@/Shared/Forms/MonthPicker.vue'
+import DynamicSection from '@/Shared/Forms/DynamicSection.vue'
+import Combobox from '@/Shared/Forms/Combobox.vue'
+import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
+import LevelPicker from '@/Shared/Forms/LevelPicker.vue'
+import useLevels from '@/Composables/useLevels.js'
 
 const props = defineProps({
   users: Object,
@@ -569,7 +569,7 @@ const languages = [
   'German',
 ]
 
-const form = useForm('createResume',{
+const form = useForm('createResume', {
   user: props.users.data[0],
   name: null,
   educations: [],

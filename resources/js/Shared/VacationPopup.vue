@@ -52,8 +52,8 @@
 
 
 <script setup>
-import VacationType from '@/Shared/VacationType'
-import Status from '@/Shared/Status'
+import VacationType from '@/Shared/VacationType.vue'
+import Status from '@/Shared/Status.vue'
 
 defineProps({
   vacation: Object,

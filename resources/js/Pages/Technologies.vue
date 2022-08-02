@@ -208,7 +208,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useForm } from '@inertiajs/inertia-vue3'
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 defineProps({
   technologies: Object,

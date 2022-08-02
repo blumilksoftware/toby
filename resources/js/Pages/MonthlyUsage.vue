@@ -77,8 +77,8 @@
 </template>
 
 <script setup>
-import { useMonthInfo } from '@/Composables/monthInfo'
-import VacationBar from '@/Shared/VacationBar'
+import { useMonthInfo } from '@/Composables/monthInfo.js'
+import VacationBar from '@/Shared/VacationBar.vue'
 
 const props = defineProps({
   years: Object,

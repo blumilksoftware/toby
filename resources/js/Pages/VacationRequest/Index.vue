@@ -195,14 +195,14 @@
 
 <script setup>
 import { ChevronRightIcon, SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
-import Status from '@/Shared/Status'
-import VacationType from '@/Shared/VacationType'
-import Pagination from '@/Shared/Pagination'
+import Status from '@/Shared/Status.vue'
+import VacationType from '@/Shared/VacationType.vue'
+import Pagination from '@/Shared/Pagination.vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 const props = defineProps({
   requests: Object,

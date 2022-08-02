@@ -36,14 +36,14 @@
 </template>
 
 <script setup>
-import Welcome from '@/Shared/Widgets/Welcome'
-import VacationStats from '@/Shared/Widgets/VacationStats'
-import AbsenceList from '@/Shared/Widgets/AbsenceList'
-import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList'
-import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays'
-import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests'
-import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests'
-import VacationCalendar from '@/Shared/Widgets/VacationCalendar'
+import Welcome from '@/Shared/Widgets/Welcome.vue'
+import VacationStats from '@/Shared/Widgets/VacationStats.vue'
+import AbsenceList from '@/Shared/Widgets/AbsenceList.vue'
+import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList.vue'
+import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays.vue'
+import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests.vue'
+import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests.vue'
+import VacationCalendar from '@/Shared/Widgets/VacationCalendar.vue'
 
 defineProps({
   auth: Object,

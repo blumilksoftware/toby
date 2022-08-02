@@ -325,7 +325,7 @@ import { computed, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { useForm } from '@inertiajs/inertia-vue3'
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 const props = defineProps({
   keys: Object,

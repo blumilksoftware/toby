@@ -335,11 +335,11 @@
 </template>
 
 <script setup>
-import { useMonthInfo } from '@/Composables/monthInfo'
+import { useMonthInfo } from '@/Composables/monthInfo.js'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { XCircleIcon, SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
-import TextArea from '@/Shared/Forms/TextArea'
+import TextArea from '@/Shared/Forms/TextArea.vue'
 import { computed, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { debounce } from 'lodash'
@@ -425,6 +425,7 @@ function isBenefitHasCompanion(benefitId) {
   return props.benefits.data.find((benefit) => benefit.id === benefitId && benefit.companion === true)
 }
 </script>
+
 <style>
 input.appearance-none::-webkit-outer-spin-button,
 input.appearance-none::-webkit-inner-spin-button {

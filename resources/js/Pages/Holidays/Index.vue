@@ -139,7 +139,7 @@
 <script setup>
 import { DotsVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 defineProps({
   holidays: Object,

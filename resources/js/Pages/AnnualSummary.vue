@@ -116,10 +116,10 @@
 
 <script setup>
 import { DateTime } from 'luxon'
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
 import Popper from 'vue3-popper'
-import VacationPopup from '@/Shared/VacationPopup'
+import VacationPopup from '@/Shared/VacationPopup.vue'
 
 const props = defineProps({
   holidays: Object,

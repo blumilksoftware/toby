@@ -84,6 +84,8 @@ services:
       - .:/application
     networks:
       - toby-dev
+    ports:
+      - ${EXTERNAL_NODE_PORT:-5173}:5173
     restart: unless-stopped
 
   mailhog:

@@ -127,8 +127,8 @@
 </template>
 
 <script setup>
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
-import HomeCityIcon from 'vue-material-design-icons/HomeCity'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 defineProps({

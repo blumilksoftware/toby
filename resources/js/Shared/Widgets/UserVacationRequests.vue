@@ -80,9 +80,9 @@
 </template>
 
 <script setup>
-import Status from '@/Shared/Status'
-import VacationType from '@/Shared/VacationType'
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import Status from '@/Shared/Status.vue'
+import VacationType from '@/Shared/VacationType.vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { CollectionIcon } from '@heroicons/vue/solid'
 
 defineProps({

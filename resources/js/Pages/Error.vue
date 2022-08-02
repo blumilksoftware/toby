@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import GuestLayout from '@/Shared/Layout/GuestLayout'
+import GuestLayout from '@/Shared/Layout/GuestLayout.vue'
 
 export default {
   name: 'ErrorPage',

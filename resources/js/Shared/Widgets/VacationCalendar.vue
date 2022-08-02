@@ -141,11 +141,11 @@ import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref, watch, computed, reactive } from 'vue'
 import { DateTime } from 'luxon'
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
-import { useMonthInfo } from '@/Composables/monthInfo'
-import { viewModes, find as findViewMode } from '@/Shared/Widgets/Calendar/ViewModeOptions'
-import DayComponent from '@/Shared/Widgets/Calendar/DayComponent'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
+import { useMonthInfo } from '@/Composables/monthInfo.js'
+import { viewModes, find as findViewMode } from '@/Shared/Widgets/Calendar/ViewModeOptions.js'
+import DayComponent from '@/Shared/Widgets/Calendar/DayComponent.vue'
 
 const props = defineProps({
   holidays: Object,

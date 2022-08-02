@@ -335,9 +335,9 @@ import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Sw
 import { CheckIcon, SelectorIcon, XCircleIcon } from '@heroicons/vue/solid'
 import { reactive, ref, watch } from 'vue'
 import axios from 'axios'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
-import VacationChart from '@/Shared/VacationChart'
-import VacationType from '@/Shared/VacationType'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
+import VacationChart from '@/Shared/VacationChart.vue'
+import VacationType from '@/Shared/VacationType.vue'
 
 const props = defineProps({
   auth: Object,

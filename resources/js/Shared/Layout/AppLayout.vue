@@ -19,10 +19,10 @@
 </template>
 
 <script setup>
-import MainMenu from '@/Shared/MainMenu'
+import MainMenu from '@/Shared/MainMenu.vue'
 import { useToast } from 'vue-toastification'
 import { watch } from 'vue'
-import DeployInfo from '@/Shared/DeployInfo'
+import DeployInfo from '@/Shared/DeployInfo.vue'
 
 const props = defineProps({
   flash: Object,
@@ -46,5 +46,5 @@ watch(() => props.flash, flash => {
   if (flash.error) {
     toast.error(flash.error)
   }
-}, { immediate:true })
+}, { immediate: true })
 </script>
