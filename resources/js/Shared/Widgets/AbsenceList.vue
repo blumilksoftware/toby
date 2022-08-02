@@ -121,7 +121,7 @@
 </template>
 
 <script setup>
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { SunIcon } from '@heroicons/vue/solid'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 

@@ -319,8 +319,8 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { DateTime } from 'luxon'
 import { useToast } from 'vue-toastification'
-import Pagination from '@/Shared/Pagination'
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import Pagination from '@/Shared/Pagination.vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 const props = defineProps({
   users: Object,

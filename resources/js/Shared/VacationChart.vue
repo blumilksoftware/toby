@@ -60,7 +60,7 @@ const option = computed(() => ({
       label: {
         show: true,
         position: 'inner',
-        formatter: param => param.value !== 0 ? param.value : '' ,
+        formatter: param => param.value !== 0 ? param.value : '',
         fontWeight: 'bold',
         fontSize: 16,
         color: '#FFFFFF',

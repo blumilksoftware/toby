@@ -11,7 +11,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
 
 const props = defineProps({
   type: String,

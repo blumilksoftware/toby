@@ -69,7 +69,7 @@ defineProps({
 </script>
 
 <script>
-import GuestLayout from '@/Shared/Layout/GuestLayout'
+import GuestLayout from '@/Shared/Layout/GuestLayout.vue'
 
 export default { name: 'LoginPage', layout: GuestLayout }
 </script>

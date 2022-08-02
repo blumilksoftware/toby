@@ -10,7 +10,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useStatusInfo } from '@/Composables/statusInfo'
+import { useStatusInfo } from '@/Composables/statusInfo.js'
 
 const props = defineProps({
   status: String,

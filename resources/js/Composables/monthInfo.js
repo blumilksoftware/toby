@@ -22,7 +22,7 @@ const months = [
   {
     'name': 'Maj',
     'value': 'may',
-    'shortcut':'Maj',
+    'shortcut': 'Maj',
   },
   {
     'name': 'Czerwiec',

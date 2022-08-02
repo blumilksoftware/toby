@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import DeployInfo from '@/Shared/DeployInfo'
+import DeployInfo from '@/Shared/DeployInfo.vue'
 
 defineProps({
   deployInformation: Object,

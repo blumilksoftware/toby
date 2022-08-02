@@ -92,8 +92,8 @@
 </template>
 
 <script setup>
-import VacationType from '@/Shared/VacationType'
-import EmptyState from '@/Shared/Feedbacks/EmptyState'
+import VacationType from '@/Shared/VacationType.vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { CollectionIcon } from '@heroicons/vue/solid'
 
 defineProps({

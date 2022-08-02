@@ -95,9 +95,9 @@
 
 <script setup>
 import Popper from 'vue3-popper'
-import { defineProps, ref } from 'vue'
-import VacationPopup from '@/Shared/VacationPopup'
-import VacationIcon from '@/Shared/VacationTypeCalendarIcon'
+import { ref } from 'vue'
+import VacationPopup from '@/Shared/VacationPopup.vue'
+import VacationIcon from '@/Shared/VacationTypeCalendarIcon.vue'
 
 defineProps({
   day: {
