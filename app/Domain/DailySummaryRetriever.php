@@ -15,8 +15,7 @@ class DailySummaryRetriever
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
-    ) {
-    }
+    ) {}
 
     public function getAbsences(Carbon $date): Collection
     {
@@ -81,9 +80,11 @@ class DailySummaryRetriever
     public function getBirthdays(Carbon $date): Collection
     {
         return User::query()
-            ->whereRelation("profile", fn(Builder $query): Builder => $query
-                ->whereMonth("birthday", $date->month)
-                ->whereDay("birthday", $date->day)
+            ->whereRelation(
+                "profile",
+                fn(Builder $query): Builder => $query
+            ->whereMonth("birthday", $date->month)
+            ->whereDay("birthday", $date->day),
             )
             ->get();
     }
