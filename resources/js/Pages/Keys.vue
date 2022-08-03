@@ -57,7 +57,7 @@
                 Klucz nr {{ key.id }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                <div class="flex">
+                <div v-if="key.user" class="flex">
                   <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                     <img
                       class="w-10 h-10 rounded-full"
@@ -70,6 +70,13 @@
                     </p>
                     <p class="text-sm text-gray-500 break-all">
                       {{ key.user.email }}
+                    </p>
+                  </div>
+                </div>
+                <div v-else class="flex">
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900 break-all">
+                      Nikt
                     </p>
                   </div>
                 </div>

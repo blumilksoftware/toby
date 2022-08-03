@@ -26,6 +26,7 @@ use Toby\Domain\Notifications\Notifiable as NotifiableInterface;
  * @property Collection $vacationLimits
  * @property Collection $vacationRequests
  * @property Collection $vacations
+ * @property Collection $keys
  */
 class User extends Authenticatable implements NotifiableInterface
 {

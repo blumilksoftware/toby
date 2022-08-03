@@ -45,7 +45,7 @@ class KeysController extends Controller
     {
         $this->authorize("manage", Key::class);
 
-        $key = $request->user()->keys()->create();
+        $key = Key::query()->create();
 
         return redirect()
             ->back()
@@ -62,13 +62,15 @@ class KeysController extends Controller
 
         $key->save();
 
-        $key->notify(new KeyHasBeenTakenNotification($request->user(), $previousUser));
+        if ($previousUser) {
+            $key->notify(new KeyHasBeenTakenNotification($request->user(), $previousUser));
+        }
 
         return redirect()
             ->back()
             ->with("success", __("Key no :number has been taken from :user.", [
                 "number" => $key->id,
-                "user" => $previousUser->profile->full_name,
+                "user" => $previousUser?->profile->full_name,
             ]));
     }
 
