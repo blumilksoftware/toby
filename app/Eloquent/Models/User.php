@@ -6,12 +6,14 @@ namespace Toby\Eloquent\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
@@ -132,6 +134,19 @@ class User extends Authenticatable implements NotifiableInterface
             "all" => $query->withTrashed(),
             default => $query,
         };
+    }
+
+    public function nextBirthday(): Carbon
+    {
+        $today = Carbon::today();
+
+        $birthday = $this->profile->birthday->setYear($today->year);
+
+        if ($birthday->isPast()) {
+            $birthday->setYear($today->year + 1);
+        }
+
+        return $birthday;
     }
 
     public function routeNotificationForSlack()

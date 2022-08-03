@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
@@ -14,7 +15,8 @@ class DailySummaryRetriever
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
-    ) {}
+    ) {
+    }
 
     public function getAbsences(Carbon $date): Collection
     {
@@ -79,7 +81,19 @@ class DailySummaryRetriever
     public function getBirthdays(Carbon $date): Collection
     {
         return User::query()
-            ->whereRelation("profile", "birthday", $date)
+            ->whereRelation("profile", fn(Builder $query): Builder => $query
+                ->whereMonth("birthday", $date->month)
+                ->whereDay("birthday", $date->day)
+            )
             ->get();
+    }
+
+    public function getUpcomingBirthdays(): Collection
+    {
+        return User::query()
+            ->whereRelation("profile", fn(Builder $query): Builder => $query->whereNotNull("birthday"))
+            ->get()
+            ->sortBy(fn(User $user): int => $user->nextBirthday()->diffInDays())
+            ->take(3);
     }
 }

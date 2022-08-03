@@ -15,6 +15,7 @@ use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
+use Toby\Infrastructure\Http\Resources\BirthdayResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
@@ -34,8 +35,10 @@ class DashboardController extends Controller
 
         $absences = $dailySummaryRetriever->getAbsences($now);
         $remoteDays = $dailySummaryRetriever->getRemoteDays($now);
+        $birthdays = $dailySummaryRetriever->getBirthdays($now);
         $upcomingAbsences = $dailySummaryRetriever->getUpcomingAbsences($now);
         $upcomingRemoteDays = $dailySummaryRetriever->getUpcomingRemoteDays($now);
+        $upcomingBirthdays = $dailySummaryRetriever->getUpcomingBirthdays();
 
         if ($user->can("listAll", VacationRequest::class)) {
             $vacationRequests = $yearPeriod->vacationRequests()
@@ -85,9 +88,11 @@ class DashboardController extends Controller
         return inertia("Dashboard", [
             "absences" => VacationRequestResource::collection($absences),
             "remoteDays" => VacationRequestResource::collection($remoteDays),
+            "birthdays" => BirthdayResource::collection($birthdays),
             "upcomingAbsences" => VacationRequestResource::collection($upcomingAbsences),
             "upcomingRemoteDays" => VacationRequestResource::collection($upcomingRemoteDays),
             "vacationRequests" => VacationRequestResource::collection($vacationRequests),
+            "upcomingBirthdays" => BirthdayResource::collection($upcomingBirthdays),
             "holidays" => HolidayResource::collection($holidays),
             "allHolidays" => $allHolidays->mapWithKeys(
                 fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],

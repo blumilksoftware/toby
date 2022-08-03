@@ -3,6 +3,7 @@
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
     <div class="grid grid-cols-1 gap-4 xl:col-span-2">
       <Welcome :user="auth.user" />
+      <VacationStats :stats="stats" />
       <VacationCalendar
         :holidays="allHolidays"
         :approved-vacations="approvedVacations"
@@ -18,10 +19,13 @@
       />
     </div>
     <div class="grid grid-cols-1 gap-4">
-      <VacationStats :stats="stats" />
       <AbsenceList
         :absences="absences.data"
         :upcoming-absences="upcomingAbsences.data"
+      />
+      <BirthdaysList
+        :birthdays="birthdays.data"
+        :upcoming-birthdays="upcomingBirthdays.data"
       />
       <RemoteWorkList
         :remote-days="remoteDays.data"
@@ -40,6 +44,7 @@ import Welcome from '@/Shared/Widgets/Welcome.vue'
 import VacationStats from '@/Shared/Widgets/VacationStats.vue'
 import AbsenceList from '@/Shared/Widgets/AbsenceList.vue'
 import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList.vue'
+import BirthdaysList from '@/Shared/Widgets/BirthdaysList.vue'
 import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays.vue'
 import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests.vue'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests.vue'
@@ -49,8 +54,10 @@ defineProps({
   auth: Object,
   absences: Object,
   remoteDays: Object,
+  birthdays: Object,
   upcomingAbsences: Object,
   upcomingRemoteDays: Object,
+  upcomingBirthdays: Object,
   vacationRequests: Object,
   holidays: Object,
   can: Object,
