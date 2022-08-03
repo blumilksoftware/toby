@@ -18,9 +18,7 @@ class UserBenetiftsRetriever
             ->whereKey(1)
             ->first();
 
-        $allBenefits = Benefit::query()
-            ->groupBy("id")
-            ->get();
+        $allBenefits = Benefit::query()->get();
 
         $userAssignedBenefits = $this->findUserData($assignedBenefits, $user);
 
@@ -35,7 +33,7 @@ class UserBenetiftsRetriever
                 continue;
             }
 
-            $benefit = $allBenefits[$assignedBenefit["id"]];
+            $benefit = $allBenefits->first(fn($benefit): bool => $benefit->id === $assignedBenefit["id"]);
 
             $benefits[] = [
                 "id" => $benefit["id"],
