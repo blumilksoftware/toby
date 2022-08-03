@@ -54,13 +54,6 @@ class BenefitsReportTest extends FeatureTestCase
         Benefit::factory(4)->create();
         User::factory(4)->create();
 
-        BenefitsReport::factory()->create([
-            "name" => "current",
-            "users" => null,
-            "benefits" => null,
-            "committed_at" => null,
-        ]);
-
         $this->actingAs($admin)
             ->post("/benefits-report", [
                 "name" => "Test Benefits Report",

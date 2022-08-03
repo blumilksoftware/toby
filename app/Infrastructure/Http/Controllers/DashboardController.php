@@ -12,11 +12,14 @@ use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\Benefit;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
+use Toby\Infrastructure\Http\Resources\UserBenefitsResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class DashboardController extends Controller
@@ -50,6 +53,30 @@ class DashboardController extends Controller
                 ->limit(3)
                 ->get();
         }
+
+        /* @var BenefitsReport $assignedBenefits */
+        $assignedBenefits = BenefitsReport::query()
+            ->whereKey(1)
+            ->first();
+
+        $allBenefits = Benefit::query()
+            ->orderBy("name")
+            ->get();
+
+        $userAssignedBenefits = array_first($assignedBenefits->data ?? [], fn($item): bool => $item["user"] === $user->id);
+
+        $userAssignedBenefits = array_filter($userAssignedBenefits["benefits"] ?? [], fn($item): bool => $item["employee"] || $item["employer"]);
+
+        $benefits = array_map(function ($item) use ($allBenefits) {
+            $benefit = $allBenefits->first(fn($benefit): bool => $benefit->id === $item["id"]);
+
+            return [
+                "id" => $benefit["id"],
+                "name" => $benefit["name"],
+                "employee" => $item["employee"],
+                "employer" => $item["employer"],
+            ];
+        }, $userAssignedBenefits);
 
         $holidays = $yearPeriod
             ->holidays()
@@ -89,6 +116,7 @@ class DashboardController extends Controller
             "upcomingRemoteDays" => VacationRequestResource::collection($upcomingRemoteDays),
             "vacationRequests" => VacationRequestResource::collection($vacationRequests),
             "holidays" => HolidayResource::collection($holidays),
+            "benefits" => UserBenefitsResource::collection($benefits),
             "allHolidays" => $allHolidays->mapWithKeys(
                 fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
             ),
