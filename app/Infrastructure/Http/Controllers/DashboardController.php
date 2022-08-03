@@ -8,12 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\DailySummaryRetriever;
+use Toby\Domain\UserBenetiftsRetriever;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
-use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
@@ -30,6 +29,7 @@ class DashboardController extends Controller
         UserVacationStatsRetriever $vacationStatsRetriever,
         VacationTypeConfigRetriever $configRetriever,
         DailySummaryRetriever $dailySummaryRetriever,
+        UserBenetiftsRetriever $userBenetiftsRetriever,
     ): Response {
         $user = $request->user();
         $now = Carbon::now();
@@ -54,29 +54,7 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        /* @var BenefitsReport $assignedBenefits */
-        $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
-            ->first();
-
-        $allBenefits = Benefit::query()
-            ->orderBy("name")
-            ->get();
-
-        $userAssignedBenefits = array_first($assignedBenefits->data ?? [], fn($item): bool => $item["user"] === $user->id);
-
-        $userAssignedBenefits = array_filter($userAssignedBenefits["benefits"] ?? [], fn($item): bool => $item["employee"] || $item["employer"]);
-
-        $benefits = array_map(function ($item) use ($allBenefits) {
-            $benefit = $allBenefits->first(fn($benefit): bool => $benefit->id === $item["id"]);
-
-            return [
-                "id" => $benefit["id"],
-                "name" => $benefit["name"],
-                "employee" => $item["employee"],
-                "employer" => $item["employer"],
-            ];
-        }, $userAssignedBenefits);
+        $benefits = $userBenetiftsRetriever->getAssignedbenetfits($user);
 
         $holidays = $yearPeriod
             ->holidays()
