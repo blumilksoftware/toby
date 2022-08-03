@@ -83,8 +83,8 @@ class DailySummaryRetriever
             ->whereRelation(
                 "profile",
                 fn(Builder $query): Builder => $query
-            ->whereMonth("birthday", $date->month)
-            ->whereDay("birthday", $date->day),
+                    ->whereMonth("birthday", $date->month)
+                    ->whereDay("birthday", $date->day),
             )
             ->get();
     }
