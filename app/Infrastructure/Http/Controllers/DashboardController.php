@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\DailySummaryRetriever;
-use Toby\Domain\UserBenetiftsRetriever;
+use Toby\Domain\UserBenefitsRetriever;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -29,7 +29,7 @@ class DashboardController extends Controller
         UserVacationStatsRetriever $vacationStatsRetriever,
         VacationTypeConfigRetriever $configRetriever,
         DailySummaryRetriever $dailySummaryRetriever,
-        UserBenetiftsRetriever $userBenetiftsRetriever,
+        UserBenefitsRetriever $userBenetiftsRetriever,
     ): Response {
         $user = $request->user();
         $now = Carbon::now();
@@ -54,7 +54,7 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        $benefits = $userBenetiftsRetriever->getAssignedbenetfits($user);
+        $benefits = $userBenetiftsRetriever->getAssignedBenefits($user);
 
         $holidays = $yearPeriod
             ->holidays()

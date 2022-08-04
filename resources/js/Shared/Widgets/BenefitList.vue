@@ -20,11 +20,11 @@
               {{ benefit.name }}
             </p>
             <div class="flex text-gray-600 text-sm">
-                Mój koszt: {{ new Intl.NumberFormat('pl-PL').format(benefit.employee/100) }} zł
+              Mój koszt: {{ new Intl.NumberFormat('pl-PL').format(benefit.employee/100) }} zł
             </div>
             <div class="flex text-gray-500 text-sm">
-                Koszt pracodawcy: {{ new Intl.NumberFormat('pl-PL').format(benefit.employer/100) }} zł
-          </div>
+              Koszt pracodawcy: {{ new Intl.NumberFormat('pl-PL').format(benefit.employer/100) }} zł
+            </div>
           </div>
         </li>
       </ul>
