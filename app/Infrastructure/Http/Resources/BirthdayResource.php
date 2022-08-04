@@ -12,9 +12,12 @@ class BirthdayResource extends JsonResource
 
     public function toArray($request): array
     {
+        $upcomingBirthday = $this->upcomingBirthday();
+
         return [
             "id" => $this->id,
-            "displayDate" => $this->nextBirthday()->toDisplayString(),
+            "displayDate" => $upcomingBirthday->toDisplayString(),
+            "relativeDate" => $upcomingBirthday->diffForHumans(),
             "user" => new SimpleUserResource($this->resource),
         ];
     }

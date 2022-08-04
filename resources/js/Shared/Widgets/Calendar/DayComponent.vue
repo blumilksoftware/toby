@@ -66,7 +66,7 @@
     </Popper>
     <div
       v-else-if="day.isWeekend"
-      class="text-red-800"
+      class="text-red-800 p-3"
     >
       <time
         :datetime="day.date"
@@ -80,6 +80,7 @@
       v-else
       href="/vacation/requests/create"
       :data="{ 'from_date': day.date }"
+      class="p-3"
       @mouseover.passive="onMouseover"
       @mouseleave="onMouseleave"
     >

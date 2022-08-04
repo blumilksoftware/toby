@@ -95,7 +95,7 @@
                   {{ day.user.email }}
                 </p>
                 <p class="text-sm text-gray-500">
-                  {{ day.displayDate }}
+                  {{ day.displayDate }} - {{ day.relativeDate }}
                 </p>
               </div>
             </li>

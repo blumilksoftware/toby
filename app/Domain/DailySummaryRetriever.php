@@ -17,6 +17,9 @@ class DailySummaryRetriever
         protected VacationTypeConfigRetriever $configRetriever,
     ) {}
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getAbsences(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -32,6 +35,9 @@ class DailySummaryRetriever
             ->sortBy("user.last_name");
     }
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getRemoteDays(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -47,6 +53,9 @@ class DailySummaryRetriever
             ->sortBy("user.last_name");
     }
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getUpcomingAbsences(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -62,6 +71,9 @@ class DailySummaryRetriever
             ->get();
     }
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getUpcomingRemoteDays(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -77,6 +89,9 @@ class DailySummaryRetriever
             ->get();
     }
 
+    /**
+     * @return Collection<User>
+     */
     public function getBirthdays(Carbon $date): Collection
     {
         return User::query()
@@ -89,12 +104,15 @@ class DailySummaryRetriever
             ->get();
     }
 
+    /**
+     * @return Collection<User>
+     */
     public function getUpcomingBirthdays(): Collection
     {
         return User::query()
             ->whereRelation("profile", fn(Builder $query): Builder => $query->whereNotNull("birthday"))
             ->get()
-            ->sortBy(fn(User $user): int => $user->nextBirthday()->diffInDays())
+            ->sortBy(fn(User $user): int => $user->upcomingBirthday()->diffInDays())
             ->take(3);
     }
 }

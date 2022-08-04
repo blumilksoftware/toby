@@ -135,7 +135,7 @@ class User extends Authenticatable implements NotifiableInterface
         };
     }
 
-    public function nextBirthday(): Carbon
+    public function upcomingBirthday(): Carbon
     {
         $today = Carbon::today();
 

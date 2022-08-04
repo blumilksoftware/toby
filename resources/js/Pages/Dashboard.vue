@@ -5,9 +5,9 @@
       <Welcome :user="auth.user" />
       <VacationStats :stats="stats" />
       <VacationCalendar
-        :holidays="allHolidays"
-        :approved-vacations="approvedVacations"
-        :pending-vacations="pendingVacations"
+        :holidays="calendar.holidays"
+        :approved-vacations="calendar.approvedVacations"
+        :pending-vacations="calendar.pendingVacations"
       />
       <PendingVacationRequests
         v-if="can.listAllVacationRequests"
@@ -20,20 +20,20 @@
     </div>
     <div class="grid grid-cols-1 gap-4">
       <AbsenceList
-        :absences="absences.data"
-        :upcoming-absences="upcomingAbsences.data"
+        :absences="current.absences.data"
+        :upcoming-absences="upcoming.absences.data"
       />
       <BirthdaysList
-        :birthdays="birthdays.data"
-        :upcoming-birthdays="upcomingBirthdays.data"
+        :birthdays="current.birthdays.data"
+        :upcoming-birthdays="upcoming.birthdays.data"
       />
       <RemoteWorkList
-        :remote-days="remoteDays.data"
-        :upcoming-remote-days="upcomingRemoteDays.data"
+        :remote-days="current.remoteDays.data"
+        :upcoming-remote-days="upcoming.remoteDays.data"
       />
       <UpcomingHolidays
-        v-if="years.current.year === years.selected.year && holidays.data.length"
-        :holidays="holidays.data"
+        v-if="years.current.year === years.selected.year && upcoming.holidays.data.length"
+        :holidays="upcoming.holidays.data"
       />
     </div>
   </div>
@@ -52,19 +52,12 @@ import VacationCalendar from '@/Shared/Widgets/VacationCalendar.vue'
 
 defineProps({
   auth: Object,
-  absences: Object,
-  remoteDays: Object,
-  birthdays: Object,
-  upcomingAbsences: Object,
-  upcomingRemoteDays: Object,
-  upcomingBirthdays: Object,
+  current: Object,
+  upcoming: Object,
   vacationRequests: Object,
-  holidays: Object,
   can: Object,
   stats: Object,
+  calendar: Object,
   years: Object,
-  allHolidays: Object,
-  approvedVacations: Object,
-  pendingVacations: Object,
 })
 </script>
