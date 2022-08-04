@@ -110,7 +110,7 @@ class KeysController extends Controller
 
     public function leaveInTheOffice(Key $key, Request $request): RedirectResponse
     {
-        $this->authorize("manage", $key);
+        $this->authorize("give", $key);
 
         $key->user()->dissociate();
 
