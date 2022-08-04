@@ -449,7 +449,7 @@ const miscNavigation = computed(() => [
     href: '/benefits',
     section: 'Benefits/',
     icon: GiftIcon,
-    can: props.auth.can.manageBenefits,
+    can: true,
   },
   {
     name: 'Przypisane benefity',

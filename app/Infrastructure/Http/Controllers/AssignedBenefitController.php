@@ -84,7 +84,7 @@ class AssignedBenefitController extends Controller
 
         $data = Arr::map($data, fn(array $item): array => [
             "user" => $item["user"],
-            "comment" => $item["comment"],
+            "comment" => $item["comment"] ?? "",
             "benefits" => Arr::where(
                 $item["benefits"],
                 fn(array $assignedBenefit): bool => $benefits->contains(

@@ -7,6 +7,7 @@ namespace Tests;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
 use Tests\Traits\InteractsWithYearPeriods;
+use Toby\Eloquent\Models\BenefitsReport;
 
 abstract class FeatureTestCase extends BaseTestCase
 {
@@ -21,5 +22,13 @@ abstract class FeatureTestCase extends BaseTestCase
 
         Carbon::setTestNow(Carbon::createFromDate(2022, 1, 1));
         $this->createCurrentYearPeriod();
+
+        BenefitsReport::factory()->create([
+            "name" => "current",
+            "users" => null,
+            "benefits" => null,
+            "data" => null,
+            "committed_at" => null,
+        ]);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\DailySummaryRetriever;
+use Toby\Domain\UserBenefitsRetriever;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -17,6 +18,7 @@ use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
+use Toby\Infrastructure\Http\Resources\UserBenefitsResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class DashboardController extends Controller
@@ -27,6 +29,7 @@ class DashboardController extends Controller
         UserVacationStatsRetriever $vacationStatsRetriever,
         VacationTypeConfigRetriever $configRetriever,
         DailySummaryRetriever $dailySummaryRetriever,
+        UserBenefitsRetriever $userBenetiftsRetriever,
     ): Response {
         $user = $request->user();
         $now = Carbon::now();
@@ -50,6 +53,8 @@ class DashboardController extends Controller
                 ->limit(3)
                 ->get();
         }
+
+        $benefits = $userBenetiftsRetriever->getAssignedBenefits($user);
 
         $holidays = $yearPeriod
             ->holidays()
@@ -89,6 +94,7 @@ class DashboardController extends Controller
             "upcomingRemoteDays" => VacationRequestResource::collection($upcomingRemoteDays),
             "vacationRequests" => VacationRequestResource::collection($vacationRequests),
             "holidays" => HolidayResource::collection($holidays),
+            "benefits" => UserBenefitsResource::collection($benefits),
             "allHolidays" => $allHolidays->mapWithKeys(
                 fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
             ),
