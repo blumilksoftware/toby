@@ -13,11 +13,4 @@ return new class() extends Migration {
             $table->bigInteger("user_id")->nullable()->unsigned()->change();
         });
     }
-
-    public function down(): void
-    {
-        Schema::table("keys", function (Blueprint $table): void {
-            $table->bigInteger("user_id")->nullable(false)->change();
-        });
-    }
 };

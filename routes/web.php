@@ -71,6 +71,7 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::delete("/keys/{key}", [KeysController::class, "destroy"]);
     Route::post("/keys/{key}/take", [KeysController::class, "take"]);
     Route::post("/keys/{key}/give", [KeysController::class, "give"]);
+    Route::post("/keys/{key}/leave-in-the-office", [KeysController::class, "leaveInTheOffice"]);
 
     Route::post("/year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->whereNumber("yearPeriod")
