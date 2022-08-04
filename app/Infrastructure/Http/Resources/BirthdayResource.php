@@ -23,7 +23,7 @@ class BirthdayResource extends JsonResource
                 ? __("today")
                 : $upcomingBirthday->diffForHumans(
                     Carbon::today(),
-                    ["options" => CarbonInterface::ONE_DAY_WORDS, "syntax" => CarbonInterface::DIFF_RELATIVE_TO_NOW]
+                    ["options" => CarbonInterface::ONE_DAY_WORDS, "syntax" => CarbonInterface::DIFF_RELATIVE_TO_NOW],
                 ),
             "user" => new SimpleUserResource($this->resource),
         ];
