@@ -6,6 +6,7 @@ namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Eloquent\Models\Benefit;
 use Toby\Infrastructure\Http\Requests\BenefitRequest;
@@ -16,10 +17,8 @@ class BenefitController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $this->authorize("manageBenefits");
-
         $benefits = Benefit::query()
             ->orderBy("name")
             ->paginate()
@@ -27,6 +26,9 @@ class BenefitController extends Controller
 
         return inertia("Benefits/Benefits", [
             "benefits" => BenefitResource::collection($benefits),
+            "can" => [
+                "manageBenefits" => $request->user()->can("manageBenefits"),
+            ],
         ]);
     }
 

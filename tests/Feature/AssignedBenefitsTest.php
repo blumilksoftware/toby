@@ -23,12 +23,9 @@ class AssignedBenefitsTest extends FeatureTestCase
         Benefit::factory(4)->create();
 
         /** @var BenefitsReport $assignedBenefits */
-        $assignedBenefits = BenefitsReport::factory()->create([
-            "name" => "current",
-            "users" => null,
-            "benefits" => null,
-            "committed_at" => null,
-        ]);
+        $assignedBenefits = BenefitsReport::query()
+            ->whereKey(1)
+            ->first();
 
         $assignedBenefits->refresh();
 
@@ -56,13 +53,9 @@ class AssignedBenefitsTest extends FeatureTestCase
         [$firstUser, $secondUser] = User::factory(2)->create();
 
         /** @var BenefitsReport $assignedBenefits */
-        $assignedBenefits = BenefitsReport::factory()->create([
-            "name" => "current",
-            "users" => null,
-            "benefits" => null,
-            "data" => null,
-            "committed_at" => null,
-        ]);
+        $assignedBenefits = BenefitsReport::query()
+            ->whereKey(1)
+            ->first();
 
         $assignedBenefits->refresh();
 

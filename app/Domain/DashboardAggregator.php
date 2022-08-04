@@ -14,6 +14,7 @@ use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Http\Resources\BirthdayResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
 use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
+use Toby\Infrastructure\Http\Resources\UserBenefitsResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
 class DashboardAggregator
@@ -21,6 +22,7 @@ class DashboardAggregator
     public function __construct(
         protected DailySummaryRetriever $dailySummaryRetriever,
         protected UserVacationStatsRetriever $vacationStatsRetriever,
+        protected UserBenefitsRetriever $benefitsRetriever,
     ) {}
 
     public function aggregateStats(User $user, YearPeriod $yearPeriod): array
@@ -133,5 +135,12 @@ class DashboardAggregator
             "birthdays" => BirthdayResource::collection($upcomingBirthdays),
             "holidays" => HolidayResource::collection($upcomingHolidays),
         ];
+    }
+
+    public function aggregateUserBenefits(User $user): JsonResource
+    {
+        $benefits = $this->benefitsRetriever->getAssignedBenefits($user);
+
+        return UserBenefitsResource::collection($benefits);
     }
 }

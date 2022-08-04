@@ -30,6 +30,7 @@ class DashboardController extends Controller
             "current" => $dashboardAggregator->aggregateCurrentData(),
             "upcoming" => $dashboardAggregator->aggregateUpcomingData(),
             "vacationRequests" => $dashboardAggregator->aggregateVacationRequests($user, $yearPeriod),
+            "benefits" => $dashboardAggregator->aggregateUserBenefits($user),
             "calendar" => $dashboardAggregator->aggregateCalendarData($user, $yearPeriod),
             "stats" => $dashboardAggregator->aggregateStats($user, $yearPeriod),
             "can" => [

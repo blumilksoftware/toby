@@ -34,6 +34,9 @@
         v-if="years.current.year === years.selected.year && upcoming.holidays.data.length"
         :holidays="upcoming.holidays.data"
       />
+      <BenefitList
+        :benefits="benefits.data"
+      />
     </div>
   </div>
 </template>
@@ -48,6 +51,7 @@ import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays.vue'
 import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests.vue'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests.vue'
 import VacationCalendar from '@/Shared/Widgets/VacationCalendar.vue'
+import BenefitList from '@/Shared/Widgets/BenefitList.vue'
 
 defineProps({
   auth: Object,
@@ -58,5 +62,6 @@ defineProps({
   stats: Object,
   calendar: Object,
   years: Object,
+  benefits: Object,
 })
 </script>
