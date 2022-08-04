@@ -43,18 +43,14 @@ class KeyTest extends FeatureTestCase
     {
         $admin = User::factory()->admin()->create();
 
-        $this->assertDatabaseMissing("keys", [
-            "user_id" => $admin->id,
-        ]);
+        $this->assertDatabaseCount("keys", 0);
 
         $this->actingAs($admin)
             ->post("/keys")
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
-        $this->assertDatabaseHas("keys", [
-            "user_id" => $admin->id,
-        ]);
+        $this->assertDatabaseCount("keys", 1);
     }
 
     public function testUserCannotCreateKey(): void

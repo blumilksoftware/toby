@@ -57,7 +57,10 @@
                 Klucz nr {{ key.id }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                <div class="flex">
+                <div
+                  v-if="key.user"
+                  class="flex"
+                >
                   <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                     <img
                       class="w-10 h-10 rounded-full"
@@ -71,6 +74,15 @@
                     <p class="text-sm text-gray-500 break-all">
                       {{ key.user.email }}
                     </p>
+                  </div>
+                </div>
+                <div
+                  v-else
+                  class="flex"
+                >
+                  <div class="text-sm font-medium text-gray-900 flex items-center break-all">
+                    <HomeIcon class="h-8 w-8 text-blumilk-600" />
+                    <span class="ml-3 ">W biurze</span>
                   </div>
                 </div>
               </td>
@@ -128,6 +140,22 @@
                             <HandshakeIcon class="mr-2 w-5 h-5 text-emerald-500" />
                             Przekaż klucze
                           </button>
+                        </MenuItem>
+                        <MenuItem
+                          v-if="key.can.give && key.user !== null"
+                          v-slot="{ active }"
+                          class="flex"
+                        >
+                          <InertiaLink
+                            as="button"
+                            method="post"
+                            preserve-scroll
+                            :href="`/keys/${key.id}/leave-in-the-office`"
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                          >
+                            <HomeIcon class="mr-2 w-5 h-5 text-indigo-500" />
+                            Zostaw klucze w biurze
+                          </InertiaLink>
                         </MenuItem>
                         <MenuItem
                           v-if="can.manageKeys"
@@ -317,7 +345,7 @@
 </template>
 
 <script setup>
-import { DotsVerticalIcon, TrashIcon, CheckIcon, SelectorIcon, KeyIcon } from '@heroicons/vue/solid'
+import { DotsVerticalIcon, TrashIcon, CheckIcon, SelectorIcon, KeyIcon, HomeIcon } from '@heroicons/vue/solid'
 import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
 import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
@@ -340,7 +368,7 @@ const form = useForm({
   user: null,
 })
 
-const filteredUsers = computed(() => props.users.data.filter(user => user.id !== keyToGive.value.user.id ))
+const filteredUsers = computed(() => props.users.data.filter(user => user.id !== keyToGive.value.user?.id ))
 
 function giveKey(key) {
   keyToGive.value = key

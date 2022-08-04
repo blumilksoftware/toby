@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
+use Toby\Domain\Notifications\KeyHasBeenLeftInTheOffice;
+use Toby\Domain\Notifications\KeyHasBeenTakenFromTheOfficeNotification;
 use Toby\Domain\Notifications\KeyHasBeenTakenNotification;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
@@ -21,8 +23,8 @@ class KeysController extends Controller
     public function index(Request $request): Response
     {
         $keys = Key::query()
-            ->oldest()
-            ->get();
+            ->get()
+            ->sortBy("id");
 
         $users = User::query()
             ->orderByProfileField("last_name")
@@ -45,7 +47,7 @@ class KeysController extends Controller
     {
         $this->authorize("manage", Key::class);
 
-        $key = $request->user()->keys()->create();
+        $key = Key::query()->create();
 
         return redirect()
             ->back()
@@ -62,14 +64,25 @@ class KeysController extends Controller
 
         $key->save();
 
-        $key->notify(new KeyHasBeenTakenNotification($request->user(), $previousUser));
+        $redirect = redirect()
+            ->back();
 
-        return redirect()
-            ->back()
-            ->with("success", __("Key no :number has been taken from :user.", [
+        if ($previousUser) {
+            $key->notify(new KeyHasBeenTakenNotification($request->user(), $previousUser));
+
+            $redirect->with("success", __("Key no :number has been taken from :user.", [
                 "number" => $key->id,
-                "user" => $previousUser->profile->full_name,
+                "user" => $previousUser?->profile->full_name,
             ]));
+        } else {
+            $key->notify(new KeyHasBeenTakenFromTheOfficeNotification($request->user()));
+
+            $redirect->with("success", __("Key no :number has been taken from the office.", [
+                "number" => $key->id,
+            ]));
+        }
+
+        return $redirect;
     }
 
     /**
@@ -92,6 +105,23 @@ class KeysController extends Controller
             ->with("success", __("Key no :number has been given to :user.", [
                 "number" => $key->id,
                 "user" => $recipient->profile->full_name,
+            ]));
+    }
+
+    public function leaveInTheOffice(Key $key, Request $request): RedirectResponse
+    {
+        $this->authorize("give", $key);
+
+        $key->user()->dissociate();
+
+        $key->save();
+
+        $key->notify(new KeyHasBeenLeftInTheOffice($request->user()));
+
+        return redirect()
+            ->back()
+            ->with("success", __("Key no :number has been leaved in the office.", [
+                "number" => $key->id,
             ]));
     }
 
