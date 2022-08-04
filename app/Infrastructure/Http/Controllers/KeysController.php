@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
-use Toby\Domain\Notifications\KeyHasBeenleavedInTheOffice;
+use Toby\Domain\Notifications\KeyHasBeenLeftInTheOffice;
 use Toby\Domain\Notifications\KeyHasBeenTakenFromTheOfficeNotification;
 use Toby\Domain\Notifications\KeyHasBeenTakenNotification;
 use Toby\Eloquent\Models\Key;
@@ -23,8 +23,8 @@ class KeysController extends Controller
     public function index(Request $request): Response
     {
         $keys = Key::query()
-            ->oldest()
-            ->get();
+            ->get()
+            ->sortBy("id");
 
         $users = User::query()
             ->orderByProfileField("last_name")
@@ -116,7 +116,7 @@ class KeysController extends Controller
 
         $key->save();
 
-        $key->notify(new KeyHasBeenleavedInTheOffice($request->user()));
+        $key->notify(new KeyHasBeenLeftInTheOffice($request->user()));
 
         return redirect()
             ->back()

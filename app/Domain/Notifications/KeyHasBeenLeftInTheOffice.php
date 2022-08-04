@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
-class KeyHasBeenleavedInTheOffice extends Notification
+class KeyHasBeenLeftInTheOffice extends Notification
 {
     use Queueable;
 

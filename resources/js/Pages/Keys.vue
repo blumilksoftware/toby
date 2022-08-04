@@ -142,7 +142,7 @@
                           </button>
                         </MenuItem>
                         <MenuItem
-                          v-if="can.manageKeys"
+                          v-if="can.manageKeys && key.user !== null"
                           v-slot="{ active }"
                           class="flex"
                         >
