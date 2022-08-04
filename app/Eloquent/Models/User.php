@@ -141,7 +141,7 @@ class User extends Authenticatable implements NotifiableInterface
 
         $birthday = $this->profile->birthday->setYear($today->year);
 
-        if ($birthday->diffInDays() > 0) {
+        if ($birthday->diffInDays(absolute: false) > 0) {
             $birthday->setYear($today->year + 1);
         }
 
