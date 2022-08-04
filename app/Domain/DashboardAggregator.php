@@ -106,12 +106,10 @@ class DashboardAggregator
 
         $absences = $this->dailySummaryRetriever->getAbsences($today);
         $remoteDays = $this->dailySummaryRetriever->getRemoteDays($today);
-        $birthdays = $this->dailySummaryRetriever->getBirthdays($today);
 
         return [
             "absences" => VacationRequestResource::collection($absences),
             "remoteDays" => VacationRequestResource::collection($remoteDays),
-            "birthdays" => BirthdayResource::collection($birthdays),
         ];
     }
 

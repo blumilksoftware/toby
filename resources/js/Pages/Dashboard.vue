@@ -24,8 +24,7 @@
         :upcoming-absences="upcoming.absences.data"
       />
       <BirthdaysList
-        :birthdays="current.birthdays.data"
-        :upcoming-birthdays="upcoming.birthdays.data"
+        :birthdays="upcoming.birthdays.data"
       />
       <RemoteWorkList
         :remote-days="current.remoteDays.data"

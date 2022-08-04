@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Resources;
 
+use Carbon\CarbonInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class BirthdayResource extends JsonResource
 {
@@ -17,7 +19,12 @@ class BirthdayResource extends JsonResource
         return [
             "id" => $this->id,
             "displayDate" => $upcomingBirthday->toDisplayString(),
-            "relativeDate" => $upcomingBirthday->diffForHumans(),
+            "relativeDate" => $upcomingBirthday->isToday()
+                ? __("today")
+                : $upcomingBirthday->diffForHumans(
+                    Carbon::today(),
+                    ["options" => CarbonInterface::ONE_DAY_WORDS, "syntax" => CarbonInterface::DIFF_RELATIVE_TO_NOW]
+                ),
             "user" => new SimpleUserResource($this->resource),
         ];
     }
