@@ -2,7 +2,13 @@ name: Test & lint JS stuff
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+    types: 
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
     paths:
       - '**.js'
       - '**.vue'
