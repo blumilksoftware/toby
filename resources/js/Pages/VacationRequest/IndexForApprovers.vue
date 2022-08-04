@@ -348,7 +348,7 @@
             >
               <EmptyState>
                 <template #title>
-                  Brak wniosków o urlop
+                  Brak wniosków
                 </template>
                 <template #text>
                   Spróbuj sformułować zapytanie inaczej

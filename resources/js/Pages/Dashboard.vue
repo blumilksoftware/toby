@@ -3,10 +3,11 @@
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
     <div class="grid grid-cols-1 gap-4 xl:col-span-2">
       <Welcome :user="auth.user" />
+      <VacationStats :stats="stats" />
       <VacationCalendar
-        :holidays="allHolidays"
-        :approved-vacations="approvedVacations"
-        :pending-vacations="pendingVacations"
+        :holidays="calendar.holidays"
+        :approved-vacations="calendar.approvedVacations"
+        :pending-vacations="calendar.pendingVacations"
       />
       <PendingVacationRequests
         v-if="can.listAllVacationRequests"
@@ -18,18 +19,20 @@
       />
     </div>
     <div class="grid grid-cols-1 gap-4">
-      <VacationStats :stats="stats" />
       <AbsenceList
-        :absences="absences.data"
-        :upcoming-absences="upcomingAbsences.data"
+        :absences="current.absences.data"
+        :upcoming-absences="upcoming.absences.data"
+      />
+      <BirthdaysList
+        :birthdays="upcoming.birthdays.data"
       />
       <RemoteWorkList
-        :remote-days="remoteDays.data"
-        :upcoming-remote-days="upcomingRemoteDays.data"
+        :remote-days="current.remoteDays.data"
+        :upcoming-remote-days="upcoming.remoteDays.data"
       />
       <UpcomingHolidays
-        v-if="years.current.year === years.selected.year && holidays.data.length"
-        :holidays="holidays.data"
+        v-if="years.current.year === years.selected.year && upcoming.holidays.data.length"
+        :holidays="upcoming.holidays.data"
       />
       <BenefitList
         :benefits="benefits.data"
@@ -43,6 +46,7 @@ import Welcome from '@/Shared/Widgets/Welcome.vue'
 import VacationStats from '@/Shared/Widgets/VacationStats.vue'
 import AbsenceList from '@/Shared/Widgets/AbsenceList.vue'
 import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList.vue'
+import BirthdaysList from '@/Shared/Widgets/BirthdaysList.vue'
 import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays.vue'
 import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests.vue'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests.vue'
@@ -51,18 +55,13 @@ import BenefitList from '@/Shared/Widgets/BenefitList.vue'
 
 defineProps({
   auth: Object,
-  absences: Object,
-  remoteDays: Object,
-  upcomingAbsences: Object,
-  upcomingRemoteDays: Object,
+  current: Object,
+  upcoming: Object,
   vacationRequests: Object,
-  holidays: Object,
   can: Object,
   stats: Object,
+  calendar: Object,
   years: Object,
-  allHolidays: Object,
-  approvedVacations: Object,
-  pendingVacations: Object,
   benefits: Object,
 })
 </script>

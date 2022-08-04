@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
@@ -16,6 +17,9 @@ class DailySummaryRetriever
         protected VacationTypeConfigRetriever $configRetriever,
     ) {}
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getAbsences(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -31,6 +35,9 @@ class DailySummaryRetriever
             ->sortBy("user.last_name");
     }
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getRemoteDays(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -46,6 +53,9 @@ class DailySummaryRetriever
             ->sortBy("user.last_name");
     }
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getUpcomingAbsences(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -61,6 +71,9 @@ class DailySummaryRetriever
             ->get();
     }
 
+    /**
+     * @return Collection<VacationRequest>
+     */
     public function getUpcomingRemoteDays(Carbon $date): Collection
     {
         return VacationRequest::query()
@@ -76,10 +89,30 @@ class DailySummaryRetriever
             ->get();
     }
 
+    /**
+     * @return Collection<User>
+     */
     public function getBirthdays(Carbon $date): Collection
     {
         return User::query()
-            ->whereRelation("profile", "birthday", $date)
+            ->whereRelation(
+                "profile",
+                fn(Builder $query): Builder => $query
+                    ->whereMonth("birthday", $date->month)
+                    ->whereDay("birthday", $date->day),
+            )
             ->get();
+    }
+
+    /**
+     * @return Collection<User>
+     */
+    public function getUpcomingBirthdays(): Collection
+    {
+        return User::query()
+            ->whereRelation("profile", fn(Builder $query): Builder => $query->whereNotNull("birthday"))
+            ->get()
+            ->sortBy(fn(User $user): int => $user->upcomingBirthday()->diffInDays(Carbon::today()))
+            ->take(3);
     }
 }
