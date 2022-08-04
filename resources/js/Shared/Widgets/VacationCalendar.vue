@@ -127,7 +127,7 @@
             v-for="(day, index) in days"
             :key="index"
             :day="day"
-            class="flex flex-col relative"
+            class="flex flex-col relative p-3"
             :class="{ 'day': calendarState.viewMode.isWeek }"
           />
         </div>
