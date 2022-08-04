@@ -82,7 +82,7 @@
                 >
                   <div class="text-sm font-medium text-gray-900 flex items-center break-all">
                     <HomeIcon class="h-8 w-8 text-blumilk-600" />
-                    <span class="ml-3 "> W biurze</span>
+                    <span class="ml-3 ">W biurze</span>
                   </div>
                 </div>
               </td>
