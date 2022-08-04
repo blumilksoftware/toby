@@ -2,7 +2,7 @@
   <section>
     <div
       v-if="stats.hasLimit"
-      class="grid grid-cols-2 gap-2 h-full"
+      class="grid grid-cols-2 2xl:grid-cols-4 gap-2 h-full"
     >
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
         <dd class="mt-1 text-4xl font-semibold text-blumilk-500">

@@ -5,8 +5,8 @@ on:
       - opened
       - edited
       - synchronize
-      - labeled
-      - unlabeled
+      - ready_for_review
+      - reopened
 
 jobs:
   check-pr-title:
