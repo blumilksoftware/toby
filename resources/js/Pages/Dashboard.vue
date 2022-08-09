@@ -23,12 +23,12 @@
         :absences="current.absences.data"
         :upcoming-absences="upcoming.absences.data"
       />
-      <BirthdaysList
-        :birthdays="upcoming.birthdays.data"
-      />
       <RemoteWorkList
         :remote-days="current.remoteDays.data"
         :upcoming-remote-days="upcoming.remoteDays.data"
+      />
+      <BirthdaysList
+        :birthdays="upcoming.birthdays.data"
       />
       <UpcomingHolidays
         v-if="years.current.year === years.selected.year && upcoming.holidays.data.length"
