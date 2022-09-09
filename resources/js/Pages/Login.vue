@@ -9,7 +9,7 @@
     leave-to-class="opacity-0"
   >
     <div
-      v-if="errors.oauth"
+      v-if="errors.oauth && showError"
       class="overflow-hidden absolute inset-x-2 top-2 bg-red-500 rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto sm:mx-auto sm:w-full sm:max-w-md"
     >
       <div class="p-4">
@@ -23,7 +23,7 @@
           <div class="flex shrink-0 ml-4">
             <button
               class="inline-flex text-red-100 hover:text-red-400 bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
-              @click="delete errors.oauth"
+              @click="showError = false"
             >
               <span class="sr-only">Close</span>
               <XMarkIcon class="w-5 h-5" />
@@ -62,10 +62,13 @@
 
 <script setup>
 import { XMarkIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
+import { ref } from 'vue'
 
 defineProps({
   errors: Object,
 })
+
+const showError = ref(true)
 </script>
 
 <script>
