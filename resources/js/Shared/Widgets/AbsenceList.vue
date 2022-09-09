@@ -122,7 +122,7 @@
 
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { SunIcon } from '@heroicons/vue/solid'
+import { SunIcon } from '@heroicons/vue/24/solid'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 defineProps({

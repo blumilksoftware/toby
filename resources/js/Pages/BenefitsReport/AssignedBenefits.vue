@@ -32,7 +32,7 @@
               {{ selectedItem }}
             </span>
             <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-              <SelectorIcon class="w-5 h-5 text-gray-400" />
+              <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
             </span>
           </ListboxButton>
           <transition
@@ -338,7 +338,7 @@
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { XCircleIcon, SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
+import { XCircleIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
 import TextArea from '@/Shared/Forms/TextArea.vue'
 import { computed, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'

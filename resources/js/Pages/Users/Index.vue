@@ -20,7 +20,7 @@
       <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4">
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-            <SearchIcon class="w-5 h-5 text-gray-400" />
+            <MagnifyingGlassIcon class="w-5 h-5 text-gray-400" />
           </div>
           <input
             v-model.trim="form.search"
@@ -41,7 +41,7 @@
                 {{ form.status.name }}
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                <SelectorIcon class="w-5 h-5 text-gray-400" />
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
               </span>
             </ListboxButton>
 
@@ -214,7 +214,7 @@
                   <MenuButton
                     class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                   >
-                    <DotsVerticalIcon class="w-5 h-5" />
+                    <EllipsisVerticalIcon class="w-5 h-5" />
                   </MenuButton>
 
                   <transition
@@ -255,7 +255,7 @@
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                             @click="form.status.value !== 'all' ? removeUser(user): null"
                           >
-                            <BanIcon class="mr-2 w-5 h-5 text-red-500" /> Zablokuj
+                            <NoSymbolIcon class="mr-2 w-5 h-5 text-red-500" /> Zablokuj
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -275,7 +275,7 @@
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                             @click="form.status.value !== 'all' ? removeUser(user): null"
                           >
-                            <RefreshIcon class="mr-2 w-5 h-5 text-green-500" /> Przywróć
+                            <ArrowPathIcon class="mr-2 w-5 h-5 text-green-500" /> Przywróć
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -313,8 +313,8 @@
 import { ref, watch, computed, reactive } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { debounce } from 'lodash'
-import { SearchIcon } from '@heroicons/vue/outline'
-import { DotsVerticalIcon, PencilIcon, BanIcon, RefreshIcon, SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { EllipsisVerticalIcon, PencilIcon, NoSymbolIcon, ArrowPathIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { DateTime } from 'luxon'

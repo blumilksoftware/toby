@@ -63,7 +63,7 @@
           <li v-if="! requests.length">
             <EmptyState>
               <template #head>
-                <CollectionIcon class="mx-auto w-12 h-12" />
+                <RectangleStackIcon class="mx-auto w-12 h-12" />
               </template>
               <template #title>
                 Brak wniosków
@@ -94,7 +94,7 @@
 <script setup>
 import VacationType from '@/Shared/VacationType.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { CollectionIcon } from '@heroicons/vue/solid'
+import { RectangleStackIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
   requests: Object,

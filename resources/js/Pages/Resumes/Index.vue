@@ -121,7 +121,7 @@
                   class="inline-block relative text-left"
                 >
                   <MenuButton class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                    <DotsVerticalIcon class="w-5 h-5" />
+                    <EllipsisVerticalIcon class="w-5 h-5" />
                   </MenuButton>
 
                   <transition
@@ -147,7 +147,7 @@
                             :href="`/resumes/${resume.id}`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 flex text-sm']"
                           >
-                            <DownloadIcon class="mr-2 w-5 h-5 text-blumilk-500" /> Pobierz
+                            <ArrowDownTrayIcon class="mr-2 w-5 h-5 text-blumilk-500" /> Pobierz
                           </a>
                         </MenuItem>
                         <MenuItem
@@ -194,8 +194,8 @@
 </template>
 
 <script setup>
-import { DotsVerticalIcon } from '@heroicons/vue/outline'
-import { DownloadIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
+import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
+import { ArrowDownTrayIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'

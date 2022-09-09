@@ -10,7 +10,7 @@
         @change="query = $event.target.value"
       />
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-        <SelectorIcon class="h-5 w-5 text-gray-400" />
+        <ChevronUpDownIcon class="h-5 w-5 text-gray-400" />
       </ComboboxButton>
 
       <ComboboxOptions
@@ -44,7 +44,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 import {
   Combobox,
   ComboboxButton,

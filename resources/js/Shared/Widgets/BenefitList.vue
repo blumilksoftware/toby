@@ -45,7 +45,7 @@
 
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { GiftIcon } from '@heroicons/vue/solid'
+import { GiftIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
   benefits: Object,
