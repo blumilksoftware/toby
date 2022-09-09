@@ -41,7 +41,7 @@
                     <span class="block ml-3 truncate">{{ form.user.name }}</span>
                   </span>
                   <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                    <SelectorIcon class="w-5 h-5 text-gray-400" />
+                    <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
                   </span>
                 </ListboxButton>
 
@@ -546,8 +546,8 @@
 
 <script setup>
 import { Listbox, ListboxOption, ListboxOptions, ListboxLabel, ListboxButton } from '@headlessui/vue'
-import { SelectorIcon, CheckIcon } from '@heroicons/vue/outline'
-import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/outline'
+import { ExclamationCircleIcon } from '@heroicons/vue/24/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
 import MonthPicker from '@/Shared/Forms/MonthPicker.vue'
 import DynamicSection from '@/Shared/Forms/DynamicSection.vue'

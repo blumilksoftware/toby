@@ -49,7 +49,7 @@
 
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { CakeIcon } from '@heroicons/vue/outline'
+import { CakeIcon } from '@heroicons/vue/24/outline'
 
 defineProps({
   birthdays: Object,

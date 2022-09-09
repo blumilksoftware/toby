@@ -43,7 +43,7 @@
                 <span class="block ml-3 truncate">{{ form.user.name }}</span>
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                <SelectorIcon class="w-5 h-5 text-gray-400" />
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
               </span>
             </ListboxButton>
 
@@ -123,7 +123,7 @@
                 {{ form.status.name }}
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                <SelectorIcon class="w-5 h-5 text-gray-400" />
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
               </span>
             </ListboxButton>
 
@@ -182,7 +182,7 @@
                 Wszystkie
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                <SelectorIcon class="w-5 h-5 text-gray-400" />
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
               </span>
             </ListboxButton>
 
@@ -364,7 +364,7 @@
 </template>
 
 <script setup>
-import { CheckIcon, ChevronRightIcon, SelectorIcon } from '@heroicons/vue/solid'
+import { CheckIcon, ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
 import { watch, reactive } from 'vue'

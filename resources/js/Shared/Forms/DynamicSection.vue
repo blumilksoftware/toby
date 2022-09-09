@@ -6,7 +6,6 @@
     <Draggable
       v-model="items"
       class="pt-4 space-y-4"
-      tag="transition-group"
       ghost-class="opacity-50"
       handle=".handle"
       :animation="200"
@@ -19,7 +18,7 @@
             class="py-4 text-red-500 hover:text-gray-600 opacity-100 group-hover:opacity-100 transition-opacity hover:scale-110 lg:opacity-0 handle"
             type="button"
           >
-            <ViewGridIcon class="w-5 h-5 text-gray-500" />
+            <Squares2X2Icon class="w-5 h-5 text-gray-500" />
           </button>
           <Disclosure
             v-slot="{ open }"
@@ -83,7 +82,7 @@
 
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-import { TrashIcon, ViewGridIcon } from '@heroicons/vue/outline'
+import { TrashIcon, Squares2X2Icon } from '@heroicons/vue/24/outline'
 import Draggable from 'vuedraggable'
 import { computed } from 'vue'
 

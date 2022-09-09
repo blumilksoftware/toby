@@ -15,7 +15,7 @@
       <div class="p-4">
         <div class="flex items-center">
           <div class="flex flex-1 justify-between w-0">
-            <ExclamationIcon class="mr-1 w-5 h-5 text-white" />
+            <ExclamationTriangleIcon class="mr-1 w-5 h-5 text-white" />
             <p class="flex-1 w-0 text-sm font-medium text-white">
               {{ errors.oauth }}
             </p>
@@ -26,7 +26,7 @@
               @click="delete errors.oauth"
             >
               <span class="sr-only">Close</span>
-              <XIcon class="w-5 h-5" />
+              <XMarkIcon class="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { XIcon, ExclamationIcon } from '@heroicons/vue/solid'
+import { XMarkIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
   errors: Object,

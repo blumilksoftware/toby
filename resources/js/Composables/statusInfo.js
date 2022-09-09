@@ -2,19 +2,19 @@ import {
   CheckIcon as OutlineCheckIcon,
   ClockIcon as OutlineClockIcon,
   DocumentTextIcon as OutlineDocumentTextIcon,
-  ThumbDownIcon as OutlineThumbDownIcon,
-  ThumbUpIcon as OutlineThumbUpIcon,
-  XIcon as OutlineXIcon,
-} from '@heroicons/vue/outline'
+  HandThumbDownIcon as OutlineHandThumbDownIcon,
+  HandThumbUpIcon as OutlineHandThumbUpIcon,
+  XMarkIcon as OutlineXMarkIcon,
+} from '@heroicons/vue/24/outline'
 
 import {
   CheckIcon as SolidCheckIcon,
   ClockIcon as SolidClockIcon,
   DocumentTextIcon as SolidDocumentTextIcon,
-  ThumbDownIcon as SolidThumbDownIcon,
-  ThumbUpIcon as SolidThumbUpIcon,
-  XIcon as SolidXIcon,
-} from '@heroicons/vue/solid'
+  HandThumbDownIcon as SolidHandThumbDownIcon,
+  HandThumbUpIcon as SolidHandThumbUpIcon,
+  XMarkIcon as SolidXMarkIcon,
+} from '@heroicons/vue/24/solid'
 
 const statuses = [
   {
@@ -60,12 +60,12 @@ const statuses = [
     text: 'Odrzucony',
     value: 'rejected',
     outline: {
-      icon: OutlineThumbDownIcon,
+      icon: OutlineHandThumbDownIcon,
       foreground: 'text-white',
       background: 'bg-rose-600',
     },
     solid: {
-      icon: SolidThumbDownIcon,
+      icon: SolidHandThumbDownIcon,
       color: 'text-rose-600',
     },
   },
@@ -73,12 +73,12 @@ const statuses = [
     text: 'Zaakceptowany przez przełożonego technicznego',
     value: 'accepted_by_technical',
     outline: {
-      icon: OutlineThumbUpIcon,
+      icon: OutlineHandThumbUpIcon,
       foreground: 'text-white',
       background: 'bg-green-500',
     },
     solid: {
-      icon: SolidThumbUpIcon,
+      icon: SolidHandThumbUpIcon,
       color: 'text-green-500',
     },
   },
@@ -86,12 +86,12 @@ const statuses = [
     text: 'Zaakceptowany przez przełożonego administracyjnego',
     value: 'accepted_by_administrative',
     outline: {
-      icon: OutlineThumbUpIcon,
+      icon: OutlineHandThumbUpIcon,
       foreground: 'text-white',
       background: 'bg-green-500',
     },
     solid: {
-      icon: SolidThumbUpIcon,
+      icon: SolidHandThumbUpIcon,
       color: 'text-green-500',
     },
   },
@@ -112,12 +112,12 @@ const statuses = [
     text: 'Anulowany',
     value: 'cancelled',
     outline: {
-      icon: OutlineXIcon,
+      icon: OutlineXMarkIcon,
       foreground: 'text-white',
       background: 'bg-gray-900',
     },
     solid: {
-      icon: SolidXIcon,
+      icon: SolidXMarkIcon,
       color: 'text-gray-900',
     },
   },

@@ -250,7 +250,7 @@
 </template>
 
 <script setup>
-import { PaperClipIcon } from '@heroicons/vue/outline'
+import { PaperClipIcon } from '@heroicons/vue/24/outline'
 import Activity from '@/Shared/Activity.vue'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'

@@ -137,7 +137,7 @@
 </template>
 
 <script setup>
-import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/solid'
+import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref, watch, computed, reactive } from 'vue'
 import { DateTime } from 'luxon'

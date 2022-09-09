@@ -51,7 +51,7 @@
             <p class="py-2">
               <EmptyState>
                 <template #head>
-                  <CollectionIcon class="mx-auto w-12 h-12" />
+                  <RectangleStackIcon class="mx-auto w-12 h-12" />
                 </template>
                 <template #title>
                   Brak wniosków
@@ -83,7 +83,7 @@
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { CollectionIcon } from '@heroicons/vue/solid'
+import { RectangleStackIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
   requests: Object,

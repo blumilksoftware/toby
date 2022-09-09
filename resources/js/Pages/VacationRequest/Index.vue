@@ -50,7 +50,7 @@
                 {{ form.status.name }}
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                <SelectorIcon class="w-5 h-5 text-gray-400" />
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
               </span>
             </ListboxButton>
 
@@ -194,7 +194,7 @@
 </template>
 
 <script setup>
-import { ChevronRightIcon, SelectorIcon, CheckIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
 import Pagination from '@/Shared/Pagination.vue'
