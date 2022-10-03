@@ -44,7 +44,7 @@
                 class="flex justify-center items-center ml-1 w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 @click="sidebarOpen = false"
               >
-                <XIcon class="w-6 h-6 text-white" />
+                <XMarkIcon class="w-6 h-6 text-white" />
               </button>
             </div>
           </TransitionChild>
@@ -200,7 +200,7 @@
         class="px-4 text-gray-400 border-r border-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
         @click="sidebarOpen = true"
       >
-        <MenuAlt1Icon class="w-6 h-6" />
+        <Bars3CenterLeftIcon class="w-6 h-6" />
       </button>
       <div class="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
         <div class="flex items-center">
@@ -335,23 +335,23 @@ import {
 } from '@headlessui/vue'
 import {
   HomeIcon,
-  CollectionIcon,
-  MenuAlt1Icon,
+  RectangleStackIcon,
+  Bars3CenterLeftIcon,
   UserGroupIcon,
-  XIcon,
+  XMarkIcon,
   SunIcon,
-  ClipboardListIcon,
+  ClipboardDocumentListIcon,
   StarIcon,
   CalendarIcon,
   DocumentTextIcon,
-  AdjustmentsIcon,
+  AdjustmentsVerticalIcon,
   KeyIcon,
-  TemplateIcon,
+  RectangleGroupIcon,
   BeakerIcon,
   GiftIcon,
-  CashIcon,
-} from '@heroicons/vue/outline'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/solid'
+  BanknotesIcon,
+} from '@heroicons/vue/24/outline'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
   auth: Object,
@@ -374,7 +374,7 @@ const vacationNavigation = computed(() =>
       name: 'Wnioski',
       href: '/vacation/requests',
       section: 'VacationRequest',
-      icon: CollectionIcon,
+      icon: RectangleStackIcon,
       can: props.auth.can.listAllVacationRequests,
       badge: props.vacationRequestsCount,
     },
@@ -389,7 +389,7 @@ const vacationNavigation = computed(() =>
       name: 'Wykorzystanie urlopu',
       href: '/vacation/monthly-usage',
       section: 'MonthlyUsage',
-      icon: AdjustmentsIcon,
+      icon: AdjustmentsVerticalIcon,
       can: props.auth.can.listMonthlyUsage,
     },
     {
@@ -410,7 +410,7 @@ const vacationNavigation = computed(() =>
       name: 'Podsumowanie roczne',
       href: '/vacation/annual-summary',
       section: 'AnnualSummary',
-      icon: ClipboardListIcon,
+      icon: ClipboardDocumentListIcon,
       can: true,
     },
   ].filter(item => item.can))
@@ -441,7 +441,7 @@ const miscNavigation = computed(() => [
     name: 'CV',
     href: '/resumes',
     section: 'Resumes',
-    icon: TemplateIcon,
+    icon: RectangleGroupIcon,
     can: props.auth.can.manageResumes,
   },
   {
@@ -455,7 +455,7 @@ const miscNavigation = computed(() => [
     name: 'Przypisane benefity',
     href: '/assigned-benefits',
     section: 'BenefitsReport',
-    icon: CashIcon,
+    icon: BanknotesIcon,
     can: props.auth.can.manageBenefits,
   },
 ].filter(item => item.can))

@@ -139,7 +139,7 @@
 </template>
 
 <script setup>
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/solid'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 import { computed, ref } from 'vue'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'

@@ -67,7 +67,7 @@
                   class="inline-block relative text-left"
                 >
                   <MenuButton class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                    <DotsVerticalIcon
+                    <EllipsisVerticalIcon
                       class="w-5 h-5"
                       aria-hidden="true"
                     />
@@ -137,7 +137,7 @@
 </template>
 
 <script setup>
-import { DotsVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/solid'
+import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 

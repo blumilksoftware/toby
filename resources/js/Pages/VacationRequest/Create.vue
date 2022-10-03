@@ -53,7 +53,7 @@
                     <span class="block ml-3 truncate">{{ form.user.name }}</span>
                   </span>
                   <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                    <SelectorIcon class="w-5 h-5 text-gray-400" />
+                    <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
                   </span>
                 </ListboxButton>
 
@@ -146,7 +146,7 @@
                       <VacationType :type="form.vacationType.value" />
                     </span>
                     <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                      <SelectorIcon class="w-5 h-5 text-gray-400" />
+                      <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
                     </span>
                   </template>
                   <template v-else>
@@ -332,7 +332,7 @@
 import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch } from '@headlessui/vue'
-import { CheckIcon, SelectorIcon, XCircleIcon } from '@heroicons/vue/solid'
+import { CheckIcon, ChevronUpDownIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 import { reactive, ref, watch } from 'vue'
 import axios from 'axios'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'

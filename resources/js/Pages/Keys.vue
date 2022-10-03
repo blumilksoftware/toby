@@ -97,7 +97,7 @@
                   <MenuButton
                     class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                   >
-                    <DotsVerticalIcon class="w-5 h-5" />
+                    <EllipsisVerticalIcon class="w-5 h-5" />
                   </MenuButton>
 
                   <transition
@@ -267,7 +267,7 @@
                           <span class="block ml-3 truncate">{{ form.user.name }}</span>
                         </span>
                         <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                          <SelectorIcon class="w-5 h-5 text-gray-400" />
+                          <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
                         </span>
                       </ListboxButton>
 
@@ -345,7 +345,7 @@
 </template>
 
 <script setup>
-import { DotsVerticalIcon, TrashIcon, CheckIcon, SelectorIcon, KeyIcon, HomeIcon } from '@heroicons/vue/solid'
+import { EllipsisVerticalIcon, TrashIcon, CheckIcon, ChevronUpDownIcon, KeyIcon, HomeIcon } from '@heroicons/vue/24/solid'
 import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
 import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'

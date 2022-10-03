@@ -66,7 +66,7 @@
                   <MenuButton
                     class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                   >
-                    <DotsVerticalIcon class="w-5 h-5" />
+                    <EllipsisVerticalIcon class="w-5 h-5" />
                   </MenuButton>
 
                   <transition
@@ -239,7 +239,7 @@
 </template>
 
 <script setup>
-import { DotsVerticalIcon, TrashIcon } from '@heroicons/vue/solid'
+import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
