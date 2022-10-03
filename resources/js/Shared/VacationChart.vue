@@ -1,11 +1,3 @@
-<template>
-  <v-chart
-    style="height: 600px;"
-    :autoresize="true"
-    :option="option"
-  />
-</template>
-
 <script setup>
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
@@ -78,3 +70,11 @@ const option = computed(() => ({
   ],
 }))
 </script>
+
+<template>
+  <v-chart
+    style="height: 600px;"
+    :autoresize="true"
+    :option="option"
+  />
+</template>

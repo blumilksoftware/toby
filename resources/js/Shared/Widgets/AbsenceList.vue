@@ -1,3 +1,14 @@
+<script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import { SunIcon } from '@heroicons/vue/24/solid'
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+
+defineProps({
+  absences: Object,
+  upcomingAbsences: Object,
+})
+</script>
+
 <template>
   <section class="bg-white shadow-md">
     <TabGroup>
@@ -119,14 +130,3 @@
     </TabGroup>
   </section>
 </template>
-
-<script setup>
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { SunIcon } from '@heroicons/vue/24/solid'
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-
-defineProps({
-  absences: Object,
-  upcomingAbsences: Object,
-})
-</script>

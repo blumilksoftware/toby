@@ -20,5 +20,8 @@ module.exports = {
     'vue/require-default-prop': 0,
     'vue/multi-word-component-names': 0,
     'vue/padding-line-between-blocks': ['error', 'always'],
+    'vue/component-tags-order': ['error', {
+      'order': ['script', 'template', 'style']
+    }]
   },
 }

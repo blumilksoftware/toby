@@ -1,3 +1,14 @@
+<script setup>
+import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+
+defineProps({
+  holidays: Object,
+  can: Object,
+})
+</script>
+
 <template>
   <InertiaHead title="Dni wolne od pracy" />
   <div class="bg-white shadow-md">
@@ -135,14 +146,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
-defineProps({
-  holidays: Object,
-  can: Object,
-})
-</script>

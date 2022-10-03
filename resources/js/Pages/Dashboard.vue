@@ -1,3 +1,28 @@
+<script setup>
+import Welcome from '@/Shared/Widgets/Welcome.vue'
+import VacationStats from '@/Shared/Widgets/VacationStats.vue'
+import AbsenceList from '@/Shared/Widgets/AbsenceList.vue'
+import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList.vue'
+import BirthdaysList from '@/Shared/Widgets/BirthdaysList.vue'
+import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays.vue'
+import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests.vue'
+import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests.vue'
+import VacationCalendar from '@/Shared/Widgets/VacationCalendar.vue'
+import BenefitList from '@/Shared/Widgets/BenefitList.vue'
+
+defineProps({
+  auth: Object,
+  current: Object,
+  upcoming: Object,
+  vacationRequests: Object,
+  can: Object,
+  stats: Object,
+  calendar: Object,
+  years: Object,
+  benefits: Object,
+})
+</script>
+
 <template>
   <InertiaHead title="Strona główna" />
   <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
@@ -40,28 +65,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import Welcome from '@/Shared/Widgets/Welcome.vue'
-import VacationStats from '@/Shared/Widgets/VacationStats.vue'
-import AbsenceList from '@/Shared/Widgets/AbsenceList.vue'
-import RemoteWorkList from '@/Shared/Widgets/RemoteWorkList.vue'
-import BirthdaysList from '@/Shared/Widgets/BirthdaysList.vue'
-import UpcomingHolidays from '@/Shared/Widgets/UpcomingHolidays.vue'
-import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests.vue'
-import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests.vue'
-import VacationCalendar from '@/Shared/Widgets/VacationCalendar.vue'
-import BenefitList from '@/Shared/Widgets/BenefitList.vue'
-
-defineProps({
-  auth: Object,
-  current: Object,
-  upcoming: Object,
-  vacationRequests: Object,
-  can: Object,
-  stats: Object,
-  calendar: Object,
-  years: Object,
-  benefits: Object,
-})
-</script>

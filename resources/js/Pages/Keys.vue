@@ -1,3 +1,48 @@
+<script setup>
+import { EllipsisVerticalIcon, TrashIcon, CheckIcon, ChevronUpDownIcon, KeyIcon, HomeIcon } from '@heroicons/vue/24/solid'
+import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
+import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { computed, ref } from 'vue'
+import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { useForm } from '@inertiajs/inertia-vue3'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+
+const props = defineProps({
+  keys: Object,
+  users: Object,
+  can: Object,
+})
+
+const keyToGive = ref(null)
+const giving = ref(false)
+
+const form = useForm({
+  user: null,
+})
+
+const filteredUsers = computed(() => props.users.data.filter(user => user.id !== keyToGive.value.user?.id ))
+
+function giveKey(key) {
+  keyToGive.value = key
+  form.user = filteredUsers.value[0]
+  giving.value = true
+}
+
+function submitGiveKey() {
+  form
+    .transform(data => ({
+      user: data.user.id,
+    }))
+    .post(`/keys/${keyToGive.value.id}/give`, {
+      preserveState: (page) => Object.keys(page.props.errors).length,
+      preserveScroll: true,
+    })
+}
+
+</script>
+
 <template>
   <InertiaHead title="Klucze" />
   <div class="bg-white shadow-md">
@@ -343,48 +388,3 @@
     </Dialog>
   </TransitionRoot>
 </template>
-
-<script setup>
-import { EllipsisVerticalIcon, TrashIcon, CheckIcon, ChevronUpDownIcon, KeyIcon, HomeIcon } from '@heroicons/vue/24/solid'
-import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
-import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { computed, ref } from 'vue'
-import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { useForm } from '@inertiajs/inertia-vue3'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
-const props = defineProps({
-  keys: Object,
-  users: Object,
-  can: Object,
-})
-
-const keyToGive = ref(null)
-const giving = ref(false)
-
-const form = useForm({
-  user: null,
-})
-
-const filteredUsers = computed(() => props.users.data.filter(user => user.id !== keyToGive.value.user?.id ))
-
-function giveKey(key) {
-  keyToGive.value = key
-  form.user = filteredUsers.value[0]
-  giving.value = true
-}
-
-function submitGiveKey() {
-  form
-    .transform(data => ({
-      user: data.user.id,
-    }))
-    .post(`/keys/${keyToGive.value.id}/give`, {
-      preserveState: (page) => Object.keys(page.props.errors).length,
-      preserveScroll: true,
-    })
-}
-
-</script>

@@ -1,3 +1,22 @@
+<script setup>
+import { DateTime } from 'luxon'
+
+let props = defineProps({
+  deployInformation: Object,
+})
+
+function getDate() {
+  return DateTime.fromISO(props.deployInformation.release_created_at)
+    .toLocaleString({
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+}
+</script>
+
 <template>
   <div
     class="min-w-full p-4 text-xs text-gray-500 flex flex-row gap-x-1"
@@ -34,22 +53,3 @@
     </p>
   </div>
 </template>
-
-<script setup>
-import { DateTime } from 'luxon'
-
-let props = defineProps({
-  deployInformation: Object,
-})
-
-function getDate() {
-  return DateTime.fromISO(props.deployInformation.release_created_at)
-    .toLocaleString({
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-}
-</script>

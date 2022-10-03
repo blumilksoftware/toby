@@ -1,3 +1,9 @@
+<script setup>
+defineProps({
+  user: Object,
+})
+</script>
+
 <template>
   <section>
     <div class=" overflow-hidden bg-white shadow">
@@ -27,9 +33,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-defineProps({
-  user: Object,
-})
-</script>

@@ -1,3 +1,28 @@
+<script setup>
+import { computed, ref } from 'vue'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import {
+  Combobox,
+  ComboboxButton,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from '@headlessui/vue'
+
+const props = defineProps({
+  items: Array,
+  id: String,
+})
+
+const query = ref('')
+
+const filteredItems = computed(() =>
+  query.value === ''
+    ? props.items
+    : props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase())),
+)
+</script>
+
 <template>
   <Combobox
     as="div"
@@ -41,28 +66,3 @@
     </div>
   </Combobox>
 </template>
-
-<script setup>
-import { computed, ref } from 'vue'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
-import {
-  Combobox,
-  ComboboxButton,
-  ComboboxInput,
-  ComboboxOption,
-  ComboboxOptions,
-} from '@headlessui/vue'
-
-const props = defineProps({
-  items: Array,
-  id: String,
-})
-
-const query = ref('')
-
-const filteredItems = computed(() =>
-  query.value === ''
-    ? props.items
-    : props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase())),
-)
-</script>

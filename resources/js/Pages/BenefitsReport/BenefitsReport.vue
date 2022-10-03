@@ -1,3 +1,50 @@
+<script setup>
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
+import { computed, ref } from 'vue'
+
+const props = defineProps({
+  benefitsReport: Object,
+  benefitsReports: Object,
+  auth: Object,
+})
+
+const benefitsReportData = props.benefitsReport.data.map((item) => {
+  const user = props.benefitsReport.users.find((user) => item.user === user.id)
+
+  return {
+    user: user,
+    benefits: item.benefits,
+  }
+})
+
+const selectedBenefitsReport = ref(props.benefitsReport.name)
+const selectedUsers = ref([])
+const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < benefitsReportData.length)
+
+function calculateSumOfBenefits(benefits) {
+  let sum = 0
+
+  for(const benefit of benefits){
+    if(benefit.employer){
+      sum += benefit.employer
+    }
+  }
+
+  return (new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })).format(sum / 100)
+}
+function isBenefitHasCompanion(benefitId) {
+  return props.benefitsReport.benefits.find((benefit) => benefit.id === benefitId && benefit.companion === true)
+}
+function generateUrl(){
+  const params = new URLSearchParams()
+
+  selectedUsers.value.forEach((id) =>  params.append('users[]', id))
+
+  return params
+}
+</script>
+
 <template>
   <InertiaHead title="Raport benefitów" />
   <div class="bg-white shadow-md">
@@ -213,50 +260,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
-import { computed, ref } from 'vue'
-
-const props = defineProps({
-  benefitsReport: Object,
-  benefitsReports: Object,
-  auth: Object,
-})
-
-const benefitsReportData = props.benefitsReport.data.map((item) => {
-  const user = props.benefitsReport.users.find((user) => item.user === user.id)
-
-  return {
-    user: user,
-    benefits: item.benefits,
-  }
-})
-
-const selectedBenefitsReport = ref(props.benefitsReport.name)
-const selectedUsers = ref([])
-const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < benefitsReportData.length)
-
-function calculateSumOfBenefits(benefits) {
-  let sum = 0
-
-  for(const benefit of benefits){
-    if(benefit.employer){
-      sum += benefit.employer
-    }
-  }
-
-  return (new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })).format(sum / 100)
-}
-function isBenefitHasCompanion(benefitId) {
-  return props.benefitsReport.benefits.find((benefit) => benefit.id === benefitId && benefit.companion === true)
-}
-function generateUrl(){
-  const params = new URLSearchParams()
-
-  selectedUsers.value.forEach((id) =>  params.append('users[]', id))
-
-  return params
-}
-</script>

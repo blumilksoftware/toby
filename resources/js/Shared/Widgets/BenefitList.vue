@@ -1,3 +1,12 @@
+<script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import { GiftIcon } from '@heroicons/vue/24/solid'
+
+defineProps({
+  benefits: Object,
+})
+</script>
+
 <template>
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
@@ -42,12 +51,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { GiftIcon } from '@heroicons/vue/24/solid'
-
-defineProps({
-  benefits: Object,
-})
-</script>

@@ -1,3 +1,16 @@
+<script setup>
+import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
+import { ArrowDownTrayIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import Pagination from '@/Shared/Pagination.vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+
+defineProps({
+  resumes: Object,
+  can: Object,
+})
+</script>
+
 <template>
   <InertiaHead title="CV" />
   <div class="bg-white shadow-md">
@@ -192,16 +205,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { EllipsisVerticalIcon } from '@heroicons/vue/24/outline'
-import { ArrowDownTrayIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import Pagination from '@/Shared/Pagination.vue'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
-defineProps({
-  resumes: Object,
-  can: Object,
-})
-</script>

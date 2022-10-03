@@ -1,34 +1,3 @@
-<template>
-  <InertiaHead :title="error.title" />
-  <div class="py-16 px-4 min-h-full sm:py-24 sm:px-6 md:grid md:place-items-center lg:px-8">
-    <div class="mx-auto max-w-max">
-      <main class="sm:flex">
-        <p class="text-4xl font-extrabold text-blumilk-600 sm:text-5xl">
-          {{ error.code }}
-        </p>
-        <div class="sm:ml-6">
-          <div class="sm:pl-6 sm:border-l sm:border-gray-200">
-            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-              {{ error.title }}
-            </h1>
-            <p class="mt-1 text-base text-gray-500">
-              {{ error.message }}
-            </p>
-          </div>
-          <div class="flex mt-10 space-x-3 sm:pl-6 sm:border-l sm:border-transparent">
-            <InertiaLink
-              href="/"
-              class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
-            >
-              Wróć do strony głównej
-            </InertiaLink>
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
-</template>
-
 <script>
 import GuestLayout from '@/Shared/Layout/GuestLayout.vue'
 
@@ -82,3 +51,34 @@ export default {
   },
 }
 </script>
+
+<template>
+  <InertiaHead :title="error.title" />
+  <div class="py-16 px-4 min-h-full sm:py-24 sm:px-6 md:grid md:place-items-center lg:px-8">
+    <div class="mx-auto max-w-max">
+      <main class="sm:flex">
+        <p class="text-4xl font-extrabold text-blumilk-600 sm:text-5xl">
+          {{ error.code }}
+        </p>
+        <div class="sm:ml-6">
+          <div class="sm:pl-6 sm:border-l sm:border-gray-200">
+            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+              {{ error.title }}
+            </h1>
+            <p class="mt-1 text-base text-gray-500">
+              {{ error.message }}
+            </p>
+          </div>
+          <div class="flex mt-10 space-x-3 sm:pl-6 sm:border-l sm:border-transparent">
+            <InertiaLink
+              href="/"
+              class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            >
+              Wróć do strony głównej
+            </InertiaLink>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</template>

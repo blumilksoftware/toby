@@ -1,3 +1,153 @@
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3'
+import FlatPickr from 'vue-flatpickr-component'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch } from '@headlessui/vue'
+import { CheckIcon, ChevronUpDownIcon, XCircleIcon } from '@heroicons/vue/24/solid'
+import { reactive, ref, watch } from 'vue'
+import axios from 'axios'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
+import VacationChart from '@/Shared/VacationChart.vue'
+import VacationType from '@/Shared/VacationType.vue'
+
+const props = defineProps({
+  auth: Object,
+  users: Object,
+  holidays: Object,
+  can: Object,
+  vacationUserId: [Number, null],
+  vacationFromDate: [String, null],
+})
+
+const form = useForm({
+  user: props.can.createOnBehalfOfEmployee
+    ? props.users.data.find(user => user.id === (checkUserId(props.vacationUserId) ?? props.auth.user.id)) ?? props.users.data[0]
+    : props.auth.user,
+  from: props.vacationFromDate,
+  to: props.vacationFromDate,
+  vacationType: null,
+  comment: null,
+  flowSkipped: false,
+})
+
+let isDirty = ref(false)
+
+watch(form, formData => {
+  const { from, to } = formData.data()
+  isDirty.value = formData.isDirty || from !== null || to !== null
+}, { immediate: true, deep: true })
+
+refreshEstimatedDays(form.from, form.to)
+
+const estimatedDays = ref([])
+const vacationTypes = ref([])
+
+const stats = ref({
+  used: 0,
+  pending: 0,
+  remaining: 0,
+})
+
+const { minDate, maxDate } = useCurrentYearPeriodInfo()
+
+const weekends = date => (date.getDay() === 0 || date.getDay() === 6)
+
+const fromInputConfig = reactive({
+  minDate,
+  maxDate,
+  disable: [weekends],
+})
+
+const toInputConfig = reactive({
+  minDate,
+  maxDate,
+  disable: [weekends],
+})
+
+watch(() => form.user, user => {
+  resetForm()
+  refreshAvailableTypes(user)
+  refreshUnavailableDays(user)
+  refreshVacationStats(user)
+}, { immediate: true })
+
+function createForm() {
+  form
+    .transform(data => ({
+      ...data,
+      type: data.vacationType.value,
+      user: data.user.id,
+    }))
+    .post('/vacation/requests')
+}
+
+function onFromChange(selectedDates, dateStr) {
+  if (form.to === null) {
+    form.to = dateStr
+
+    return
+  }
+
+  refreshEstimatedDays(form.from, form.to)
+}
+
+function onToChange(selectedDates, dateStr) {
+  if (form.from === null) {
+    form.from = dateStr
+
+    return
+  }
+  refreshEstimatedDays(form.from, form.to)
+}
+
+function resetForm() {
+  form.reset('to', 'from', 'comment', 'flowSkipped')
+  form.clearErrors()
+  estimatedDays.value = []
+}
+
+function checkUserId(userId) {
+  return userId > 0 ? userId: null
+}
+
+async function refreshEstimatedDays(from, to) {
+  if (from && to) {
+    const res = await axios.post('/api/vacation/calculate-days', { from, to })
+
+    estimatedDays.value = res.data
+  }
+}
+
+async function refreshVacationStats(user) {
+  const res = await axios.post('/api/vacation/calculate-stats', { user: user.id })
+
+  stats.value = res.data
+}
+
+async function refreshUnavailableDays(user) {
+  const res = await axios.post('/api/vacation/calculate-unavailable-days', { user: user.id })
+  const unavailableDays = res.data
+
+  fromInputConfig.disable = [
+    weekends,
+    ...unavailableDays,
+  ]
+
+  toInputConfig.disable = [
+    weekends,
+    ...unavailableDays,
+  ]
+}
+
+async function refreshAvailableTypes(user) {
+  const res = await axios.post('/api/vacation/get-available-vacation-types', { user: user.id })
+
+  vacationTypes.value = res.data
+  form.vacationType = vacationTypes.value[0]
+  form.defaults('vacationType', vacationTypes.value[0])
+}
+
+</script>
+
 <template>
   <InertiaHead title="Złóż wniosek" />
   <div :class="[stats.limit > 0 ? ' grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8' : 'mx-auto w-full max-w-7xl']">
@@ -327,153 +477,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
-import FlatPickr from 'vue-flatpickr-component'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch } from '@headlessui/vue'
-import { CheckIcon, ChevronUpDownIcon, XCircleIcon } from '@heroicons/vue/24/solid'
-import { reactive, ref, watch } from 'vue'
-import axios from 'axios'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
-import VacationChart from '@/Shared/VacationChart.vue'
-import VacationType from '@/Shared/VacationType.vue'
-
-const props = defineProps({
-  auth: Object,
-  users: Object,
-  holidays: Object,
-  can: Object,
-  vacationUserId: [Number, null],
-  vacationFromDate: [String, null],
-})
-
-const form = useForm({
-  user: props.can.createOnBehalfOfEmployee
-    ? props.users.data.find(user => user.id === (checkUserId(props.vacationUserId) ?? props.auth.user.id)) ?? props.users.data[0]
-    : props.auth.user,
-  from: props.vacationFromDate,
-  to: props.vacationFromDate,
-  vacationType: null,
-  comment: null,
-  flowSkipped: false,
-})
-
-let isDirty = ref(false)
-
-watch(form, formData => {
-  const { from, to } = formData.data()
-  isDirty.value = formData.isDirty || from !== null || to !== null
-}, { immediate: true, deep: true })
-
-refreshEstimatedDays(form.from, form.to)
-
-const estimatedDays = ref([])
-const vacationTypes = ref([])
-
-const stats = ref({
-  used: 0,
-  pending: 0,
-  remaining: 0,
-})
-
-const { minDate, maxDate } = useCurrentYearPeriodInfo()
-
-const weekends = date => (date.getDay() === 0 || date.getDay() === 6)
-
-const fromInputConfig = reactive({
-  minDate,
-  maxDate,
-  disable: [weekends],
-})
-
-const toInputConfig = reactive({
-  minDate,
-  maxDate,
-  disable: [weekends],
-})
-
-watch(() => form.user, user => {
-  resetForm()
-  refreshAvailableTypes(user)
-  refreshUnavailableDays(user)
-  refreshVacationStats(user)
-}, { immediate: true })
-
-function createForm() {
-  form
-    .transform(data => ({
-      ...data,
-      type: data.vacationType.value,
-      user: data.user.id,
-    }))
-    .post('/vacation/requests')
-}
-
-function onFromChange(selectedDates, dateStr) {
-  if (form.to === null) {
-    form.to = dateStr
-
-    return
-  }
-
-  refreshEstimatedDays(form.from, form.to)
-}
-
-function onToChange(selectedDates, dateStr) {
-  if (form.from === null) {
-    form.from = dateStr
-
-    return
-  }
-  refreshEstimatedDays(form.from, form.to)
-}
-
-function resetForm() {
-  form.reset('to', 'from', 'comment', 'flowSkipped')
-  form.clearErrors()
-  estimatedDays.value = []
-}
-
-function checkUserId(userId) {
-  return userId > 0 ? userId: null
-}
-
-async function refreshEstimatedDays(from, to) {
-  if (from && to) {
-    const res = await axios.post('/api/vacation/calculate-days', { from, to })
-
-    estimatedDays.value = res.data
-  }
-}
-
-async function refreshVacationStats(user) {
-  const res = await axios.post('/api/vacation/calculate-stats', { user: user.id })
-
-  stats.value = res.data
-}
-
-async function refreshUnavailableDays(user) {
-  const res = await axios.post('/api/vacation/calculate-unavailable-days', { user: user.id })
-  const unavailableDays = res.data
-
-  fromInputConfig.disable = [
-    weekends,
-    ...unavailableDays,
-  ]
-
-  toInputConfig.disable = [
-    weekends,
-    ...unavailableDays,
-  ]
-}
-
-async function refreshAvailableTypes(user) {
-  const res = await axios.post('/api/vacation/get-available-vacation-types', { user: user.id })
-
-  vacationTypes.value = res.data
-  form.vacationType = vacationTypes.value[0]
-  form.defaults('vacationType', vacationTypes.value[0])
-}
-
-</script>

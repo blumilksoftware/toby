@@ -1,3 +1,9 @@
+<script setup>
+defineProps({
+  stats: Object,
+})
+</script>
+
 <template>
   <section>
     <div
@@ -78,9 +84,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-defineProps({
-  stats: Object,
-})
-</script>

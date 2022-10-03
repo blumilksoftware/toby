@@ -1,3 +1,17 @@
+<script setup>
+import { computed } from 'vue'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
+import Popper from 'vue3-popper'
+
+const props = defineProps({
+  type: String,
+})
+
+const { findType } = useVacationTypeInfo()
+
+const typeInfo = computed(() => findType(props.type))
+</script>
+
 <template>
   <Popper hover>
     <div class="flex items-center">
@@ -14,17 +28,3 @@
     </template>
   </Popper>
 </template>
-
-<script setup>
-import { computed } from 'vue'
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
-import Popper from 'vue3-popper'
-
-const props = defineProps({
-  type: String,
-})
-
-const { findType } = useVacationTypeInfo()
-
-const typeInfo = computed(() => findType(props.type))
-</script>

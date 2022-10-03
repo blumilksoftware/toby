@@ -1,3 +1,95 @@
+<script setup>
+import { useMonthInfo } from '@/Composables/monthInfo.js'
+import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { XCircleIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
+import TextArea from '@/Shared/Forms/TextArea.vue'
+import { computed, ref, watch } from 'vue'
+import { useForm } from '@inertiajs/inertia-vue3'
+import { debounce } from 'lodash'
+
+const props = defineProps({
+  current: String,
+  users: Object,
+  benefits: Object,
+  benefitsReports: Object,
+  assignedBenefits: Object,
+  years: Object,
+  auth: Object,
+})
+
+const selectedItem = ref('Aktualne benefity')
+const creatingBenefitsReport = ref(false)
+const { findMonth } = useMonthInfo()
+const currentMonth = computed(() => findMonth(props.current))
+
+const form = useForm({
+  items: props.users.data.map((user) => {
+    const item = props.assignedBenefits.data ? props.assignedBenefits.data.find((assignedBenefit) => assignedBenefit.user === user.id) : { benefits: [], comment: null }
+
+    return {
+      user: user,
+      comment: item?.comment,
+      benefits: props.benefits.data.map((benefit) => {
+        const assignedBenefit = item?.benefits.find((assignedBenefit) => assignedBenefit.id === benefit.id)
+
+        return {
+          id: benefit.id,
+          employee: typeof assignedBenefit !== 'undefined' && assignedBenefit.employee ?  assignedBenefit.employee/100 : null,
+          employer: typeof assignedBenefit !== 'undefined' && assignedBenefit.employer ?  assignedBenefit.employer/100 : null,
+        }
+      }),
+    }
+  }),
+})
+const formBenefitsReport = useForm({
+  name: '',
+})
+
+watch(() => form.items, debounce(() => {
+  submitAssignedBenefits()
+}, 1000), { deep: true })
+
+function submitAssignedBenefits() {
+  form
+    .transform(data => ({
+      data: data.items.map((item) => {
+        return {
+          user: item.user.id,
+          benefits: item.benefits.map((benefit) => ({
+            id: benefit.id,
+            employee: benefit.employee ? benefit.employee*100 : null,
+            employer: benefit.employer ? benefit.employer*100 : null,
+          })),
+          comment: item.comment,
+        }
+      }),
+    }))
+    .put('/assigned-benefits')
+}
+function startCreatingBenefitsReport() {
+  formBenefitsReport.name = `${currentMonth.value.name} ${props.years.selected.year}`
+  creatingBenefitsReport.value = true
+}
+function submitCreateBenefitsReport() {
+  formBenefitsReport.post('/benefits-report')
+}
+function calculateSumOfBenefits(benefits) {
+  let sum = 0
+
+  for(const benefit of benefits){
+    if(benefit.employer){
+      sum += benefit.employer*100
+    }
+  }
+
+  return (new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })).format(sum / 100)
+}
+function isBenefitHasCompanion(benefitId) {
+  return props.benefits.data.find((benefit) => benefit.id === benefitId && benefit.companion === true)
+}
+</script>
+
 <template>
   <InertiaHead title="Aktualne benefity" />
   <div class="bg-white shadow-md">
@@ -333,98 +425,6 @@
     </Dialog>
   </TransitionRoot>
 </template>
-
-<script setup>
-import { useMonthInfo } from '@/Composables/monthInfo.js'
-import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { XCircleIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
-import TextArea from '@/Shared/Forms/TextArea.vue'
-import { computed, ref, watch } from 'vue'
-import { useForm } from '@inertiajs/inertia-vue3'
-import { debounce } from 'lodash'
-
-const props = defineProps({
-  current: String,
-  users: Object,
-  benefits: Object,
-  benefitsReports: Object,
-  assignedBenefits: Object,
-  years: Object,
-  auth: Object,
-})
-
-const selectedItem = ref('Aktualne benefity')
-const creatingBenefitsReport = ref(false)
-const { findMonth } = useMonthInfo()
-const currentMonth = computed(() => findMonth(props.current))
-
-const form = useForm({
-  items: props.users.data.map((user) => {
-    const item = props.assignedBenefits.data ? props.assignedBenefits.data.find((assignedBenefit) => assignedBenefit.user === user.id) : { benefits: [], comment: null }
-
-    return {
-      user: user,
-      comment: item?.comment,
-      benefits: props.benefits.data.map((benefit) => {
-        const assignedBenefit = item?.benefits.find((assignedBenefit) => assignedBenefit.id === benefit.id)
-
-        return {
-          id: benefit.id,
-          employee: typeof assignedBenefit !== 'undefined' && assignedBenefit.employee ?  assignedBenefit.employee/100 : null,
-          employer: typeof assignedBenefit !== 'undefined' && assignedBenefit.employer ?  assignedBenefit.employer/100 : null,
-        }
-      }),
-    }
-  }),
-})
-const formBenefitsReport = useForm({
-  name: '',
-})
-
-watch(() => form.items, debounce(() => {
-  submitAssignedBenefits()
-}, 1000), { deep: true })
-
-function submitAssignedBenefits() {
-  form
-    .transform(data => ({
-      data: data.items.map((item) => {
-        return {
-          user: item.user.id,
-          benefits: item.benefits.map((benefit) => ({
-            id: benefit.id,
-            employee: benefit.employee ? benefit.employee*100 : null,
-            employer: benefit.employer ? benefit.employer*100 : null,
-          })),
-          comment: item.comment,
-        }
-      }),
-    }))
-    .put('/assigned-benefits')
-}
-function startCreatingBenefitsReport() {
-  formBenefitsReport.name = `${currentMonth.value.name} ${props.years.selected.year}`
-  creatingBenefitsReport.value = true
-}
-function submitCreateBenefitsReport() {
-  formBenefitsReport.post('/benefits-report')
-}
-function calculateSumOfBenefits(benefits) {
-  let sum = 0
-
-  for(const benefit of benefits){
-    if(benefit.employer){
-      sum += benefit.employer*100
-    }
-  }
-
-  return (new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })).format(sum / 100)
-}
-function isBenefitHasCompanion(benefitId) {
-  return props.benefits.data.find((benefit) => benefit.id === benefitId && benefit.companion === true)
-}
-</script>
 
 <style>
 input.appearance-none::-webkit-outer-spin-button,

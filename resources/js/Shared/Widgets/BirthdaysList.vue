@@ -1,3 +1,12 @@
+<script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import { CakeIcon } from '@heroicons/vue/24/outline'
+
+defineProps({
+  birthdays: Object,
+})
+</script>
+
 <template>
   <section class="bg-white shadow-md">
     <div class="w-100 p-4 sm:px-6 border-b border-gray-200 flex items-center">
@@ -46,12 +55,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { CakeIcon } from '@heroicons/vue/24/outline'
-
-defineProps({
-  birthdays: Object,
-})
-</script>

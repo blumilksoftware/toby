@@ -1,3 +1,32 @@
+<script setup>
+import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { ref } from 'vue'
+import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { useForm } from '@inertiajs/inertia-vue3'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+
+defineProps({
+  benefits: Object,
+  can: Object,
+})
+
+const creating = ref(false)
+
+const form = useForm({
+  name: null,
+  companion: false,
+})
+
+function submitCreateBenefit() {
+  form.post('benefits', {
+    preserveState: (page) => Object.keys(page.props.errors).length,
+    preserveScroll: true,
+    onSuccess: () => form.reset(),
+  })
+}
+</script>
+
 <template>
   <InertiaHead title="Benefity" />
   <div class="bg-white shadow-md">
@@ -237,32 +266,3 @@
     </Dialog>
   </TransitionRoot>
 </template>
-
-<script setup>
-import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/vue/24/solid'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { ref } from 'vue'
-import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { useForm } from '@inertiajs/inertia-vue3'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
-defineProps({
-  benefits: Object,
-  can: Object,
-})
-
-const creating = ref(false)
-
-const form = useForm({
-  name: null,
-  companion: false,
-})
-
-function submitCreateBenefit() {
-  form.post('benefits', {
-    preserveState: (page) => Object.keys(page.props.errors).length,
-    preserveScroll: true,
-    onSuccess: () => form.reset(),
-  })
-}
-</script>

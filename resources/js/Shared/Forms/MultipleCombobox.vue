@@ -1,3 +1,39 @@
+<script setup>
+import { computed, ref } from 'vue'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import {
+  Combobox,
+  ComboboxButton,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from '@headlessui/vue'
+
+const props = defineProps({
+  items: Array,
+  modelValue: Array,
+  id: String,
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const query = ref('')
+
+const selectedItems = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    query.value = ''
+    emit('update:modelValue', value)
+  },
+})
+
+const filteredItems = computed(() =>
+  query.value === ''
+    ? props.items
+    : props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase())),
+)
+</script>
+
 <template>
   <Combobox
     v-model="selectedItems"
@@ -70,39 +106,3 @@
     </div>
   </Combobox>
 </template>
-
-<script setup>
-import { computed, ref } from 'vue'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
-import {
-  Combobox,
-  ComboboxButton,
-  ComboboxInput,
-  ComboboxOption,
-  ComboboxOptions,
-} from '@headlessui/vue'
-
-const props = defineProps({
-  items: Array,
-  modelValue: Array,
-  id: String,
-})
-
-const emit = defineEmits(['update:modelValue'])
-
-const query = ref('')
-
-const selectedItems = computed({
-  get: () => props.modelValue,
-  set: (value) => {
-    query.value = ''
-    emit('update:modelValue', value)
-  },
-})
-
-const filteredItems = computed(() =>
-  query.value === ''
-    ? props.items
-    : props.items.filter((item) => item.toLowerCase().includes(query.value.toLowerCase())),
-)
-</script>

@@ -1,3 +1,85 @@
+<script setup>
+import { DateTime } from 'luxon'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
+import Popper from 'vue3-popper'
+import VacationPopup from '@/Shared/VacationPopup.vue'
+
+const props = defineProps({
+  holidays: Object,
+  vacations: Object,
+  pendingVacations: Object,
+  overButtonDay: String,
+})
+
+const { findType } = useVacationTypeInfo()
+const { year } = useCurrentYearPeriodInfo()
+
+const months = []
+
+for (let i = 1; i < 13; i++) {
+  const currentMonth = DateTime.fromObject({ year: year.value, month: i }).startOf('month')
+
+  const start = currentMonth.startOf('week')
+  const end = currentMonth.endOf('month').endOf('week')
+
+  const month = {
+    name: currentMonth.monthLong,
+    days: [],
+  }
+
+  for (let day = start; day < end; day = day.plus({ day: 1 })) {
+    const isCurrentMonth = isInCurrentMonth(day, currentMonth)
+
+    month.days.push({
+      date: day,
+      isCurrentMonth: isCurrentMonth,
+      isToday: isCurrentMonth && isToday(day),
+      isWeekend: isWeekend(day),
+      isVacation: isCurrentMonth && isVacation(day),
+      isPendingVacation: isCurrentMonth && isPendingVacation(day),
+      isHoliday: isHoliday(day),
+    })
+  }
+
+  months.push(month)
+}
+
+function isHoliday(date) {
+  return props.holidays[date.toISODate()] !== undefined
+}
+
+function isVacation(date) {
+  return props.vacations[date.toISODate()] !== undefined
+}
+
+function isPendingVacation(date) {
+  return props.pendingVacations[date.toISODate()] !== undefined
+}
+
+function isToday(date) {
+  return DateTime.now().hasSame(date, 'year') && DateTime.now().hasSame(date, 'day')
+}
+
+function isInCurrentMonth(date, currentMonth) {
+  return currentMonth.hasSame(date, 'month')
+}
+
+function isWeekend(date) {
+  return date.weekday === 6 || date.weekday === 7
+}
+
+function getVacationBorder(day) {
+  const type = findType(getVacationInfo(day).type)
+
+  return type.border
+}
+
+function getVacationInfo(day) {
+  return day.isVacation ? props.vacations[day.date.toISODate()] : props.pendingVacations[day.date.toISODate()]
+}
+</script>
+
 <template>
   <InertiaHead title="Podsumowanie roczne" />
   <div class="bg-white shadow-md">
@@ -113,85 +195,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { DateTime } from 'luxon'
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
-import Popper from 'vue3-popper'
-import VacationPopup from '@/Shared/VacationPopup.vue'
-
-const props = defineProps({
-  holidays: Object,
-  vacations: Object,
-  pendingVacations: Object,
-  overButtonDay: String,
-})
-
-const { findType } = useVacationTypeInfo()
-const { year } = useCurrentYearPeriodInfo()
-
-const months = []
-
-for (let i = 1; i < 13; i++) {
-  const currentMonth = DateTime.fromObject({ year: year.value, month: i }).startOf('month')
-
-  const start = currentMonth.startOf('week')
-  const end = currentMonth.endOf('month').endOf('week')
-
-  const month = {
-    name: currentMonth.monthLong,
-    days: [],
-  }
-
-  for (let day = start; day < end; day = day.plus({ day: 1 })) {
-    const isCurrentMonth = isInCurrentMonth(day, currentMonth)
-
-    month.days.push({
-      date: day,
-      isCurrentMonth: isCurrentMonth,
-      isToday: isCurrentMonth && isToday(day),
-      isWeekend: isWeekend(day),
-      isVacation: isCurrentMonth && isVacation(day),
-      isPendingVacation: isCurrentMonth && isPendingVacation(day),
-      isHoliday: isHoliday(day),
-    })
-  }
-
-  months.push(month)
-}
-
-function isHoliday(date) {
-  return props.holidays[date.toISODate()] !== undefined
-}
-
-function isVacation(date) {
-  return props.vacations[date.toISODate()] !== undefined
-}
-
-function isPendingVacation(date) {
-  return props.pendingVacations[date.toISODate()] !== undefined
-}
-
-function isToday(date) {
-  return DateTime.now().hasSame(date, 'year') && DateTime.now().hasSame(date, 'day')
-}
-
-function isInCurrentMonth(date, currentMonth) {
-  return currentMonth.hasSame(date, 'month')
-}
-
-function isWeekend(date) {
-  return date.weekday === 6 || date.weekday === 7
-}
-
-function getVacationBorder(day) {
-  const type = findType(getVacationInfo(day).type)
-
-  return type.border
-}
-
-function getVacationInfo(day) {
-  return day.isVacation ? props.vacations[day.date.toISODate()] : props.pendingVacations[day.date.toISODate()]
-}
-</script>

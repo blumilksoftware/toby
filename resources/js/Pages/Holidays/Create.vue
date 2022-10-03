@@ -1,3 +1,20 @@
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3'
+import FlatPickr from 'vue-flatpickr-component'
+import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
+
+const form = useForm({
+  name: null,
+  date: null,
+})
+
+const { minDate, maxDate } = useCurrentYearPeriodInfo()
+
+function createHoliday() {
+  form.post('/holidays')
+}
+</script>
+
 <template>
   <InertiaHead title="Dodaj dzień wolny" />
   <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
@@ -78,20 +95,3 @@
     </form>
   </div>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
-import FlatPickr from 'vue-flatpickr-component'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
-
-const form = useForm({
-  name: null,
-  date: null,
-})
-
-const { minDate, maxDate } = useCurrentYearPeriodInfo()
-
-function createHoliday() {
-  form.post('/holidays')
-}
-</script>

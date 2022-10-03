@@ -1,3 +1,34 @@
+<script setup>
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import { TrashIcon, Squares2X2Icon } from '@heroicons/vue/24/outline'
+import Draggable from 'vuedraggable'
+import { computed } from 'vue'
+
+const props = defineProps({
+  header: String,
+  addLabel: String,
+  modelValue: Object,
+  itemHeader: [Function, String],
+})
+
+const emit = defineEmits(['update:modelValue', 'addItem', 'removeItem'])
+
+const items = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value)
+  },
+})
+
+function addItem() {
+  emit('addItem')
+}
+
+function removeItem(index) {
+  emit('removeItem', index)
+}
+</script>
+
 <template>
   <div>
     <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -79,34 +110,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-import { TrashIcon, Squares2X2Icon } from '@heroicons/vue/24/outline'
-import Draggable from 'vuedraggable'
-import { computed } from 'vue'
-
-const props = defineProps({
-  header: String,
-  addLabel: String,
-  modelValue: Object,
-  itemHeader: [Function, String],
-})
-
-const emit = defineEmits(['update:modelValue', 'addItem', 'removeItem'])
-
-const items = computed({
-  get: () => props.modelValue,
-  set: (value) => {
-    emit('update:modelValue', value)
-  },
-})
-
-function addItem() {
-  emit('addItem')
-}
-
-function removeItem(index) {
-  emit('removeItem', index)
-}
-</script>

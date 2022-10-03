@@ -1,3 +1,48 @@
+<script setup>
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
+import { computed, ref } from 'vue'
+import { useMonthInfo } from '@/Composables/monthInfo.js'
+import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
+
+const props = defineProps({
+  users: Object,
+  auth: Object,
+  calendar: Object,
+  current: String,
+  selected: String,
+  years: Object,
+  can: Object,
+})
+
+let activeElement = ref(undefined)
+
+const { getMonths, findMonth } = useMonthInfo()
+
+const months = getMonths()
+
+const currentMonth = computed(() => findMonth(props.current))
+const selectedMonth = computed(() => findMonth(props.selected))
+const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
+const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
+
+function isActiveDay(key) {
+  return activeElement.value === key
+}
+
+function setActiveDay(key) {
+  if(activeElement.value === undefined)
+    activeElement.value = key
+}
+
+function unsetActiveDay() {
+  activeElement.value = undefined
+}
+
+function linkParameters(user, day) {
+  return props.can.createOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
+}
+</script>
+
 <template>
   <InertiaHead title="Kalendarz" />
   <div class="bg-white shadow-md">
@@ -131,48 +176,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
-import { computed, ref } from 'vue'
-import { useMonthInfo } from '@/Composables/monthInfo.js'
-import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
-
-const props = defineProps({
-  users: Object,
-  auth: Object,
-  calendar: Object,
-  current: String,
-  selected: String,
-  years: Object,
-  can: Object,
-})
-
-let activeElement = ref(undefined)
-
-const { getMonths, findMonth } = useMonthInfo()
-
-const months = getMonths()
-
-const currentMonth = computed(() => findMonth(props.current))
-const selectedMonth = computed(() => findMonth(props.selected))
-const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
-const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
-
-function isActiveDay(key) {
-  return activeElement.value === key
-}
-
-function setActiveDay(key) {
-  if(activeElement.value === undefined)
-    activeElement.value = key
-}
-
-function unsetActiveDay() {
-  activeElement.value = undefined
-}
-
-function linkParameters(user, day) {
-  return props.can.createOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
-}
-</script>

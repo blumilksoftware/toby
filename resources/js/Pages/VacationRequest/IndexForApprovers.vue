@@ -1,3 +1,62 @@
+<script setup>
+import { CheckIcon, ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import Status from '@/Shared/Status.vue'
+import VacationType from '@/Shared/VacationType.vue'
+import { watch, reactive } from 'vue'
+import { debounce } from 'lodash'
+import { Inertia } from '@inertiajs/inertia'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import Pagination from '@/Shared/Pagination.vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+
+const props = defineProps({
+  requests: Object,
+  users: Object,
+  filters: Object,
+  types: Object,
+})
+
+const statuses = [
+  {
+    name: 'Wszystkie',
+    value: 'all',
+  },
+  {
+    name: 'Oczekujące na akcje',
+    value: 'waiting_for_action',
+  },
+  {
+    name: 'W trakcie',
+    value: 'pending',
+  },
+  {
+    name: 'Zatwierdzone',
+    value: 'success',
+  },
+  {
+    name: 'Odrzucone/anulowane',
+    value: 'failed',
+  },
+]
+
+const form = reactive({
+  user: props.users.data.find(user => user.id === props.filters.user) ?? null,
+  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+  type: props.types.find(type => type.value === props.filters.type) ?? null,
+})
+
+watch(form, debounce(() => {
+  Inertia.get('/vacation/requests', {
+    user: form.user?.id,
+    status: form.status.value,
+    type: form.type?.value,
+  }, {
+    preserveState: true,
+    replace: true,
+  })
+}, 150))
+</script>
+
 <template>
   <InertiaHead title="Wnioski" />
   <div class="bg-white shadow-md">
@@ -362,62 +421,3 @@
     <Pagination :pagination="requests.meta" />
   </div>
 </template>
-
-<script setup>
-import { CheckIcon, ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
-import Status from '@/Shared/Status.vue'
-import VacationType from '@/Shared/VacationType.vue'
-import { watch, reactive } from 'vue'
-import { debounce } from 'lodash'
-import { Inertia } from '@inertiajs/inertia'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import Pagination from '@/Shared/Pagination.vue'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
-const props = defineProps({
-  requests: Object,
-  users: Object,
-  filters: Object,
-  types: Object,
-})
-
-const statuses = [
-  {
-    name: 'Wszystkie',
-    value: 'all',
-  },
-  {
-    name: 'Oczekujące na akcje',
-    value: 'waiting_for_action',
-  },
-  {
-    name: 'W trakcie',
-    value: 'pending',
-  },
-  {
-    name: 'Zatwierdzone',
-    value: 'success',
-  },
-  {
-    name: 'Odrzucone/anulowane',
-    value: 'failed',
-  },
-]
-
-const form = reactive({
-  user: props.users.data.find(user => user.id === props.filters.user) ?? null,
-  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
-  type: props.types.find(type => type.value === props.filters.type) ?? null,
-})
-
-watch(form, debounce(() => {
-  Inertia.get('/vacation/requests', {
-    user: form.user?.id,
-    status: form.status.value,
-    type: form.type?.value,
-  }, {
-    preserveState: true,
-    replace: true,
-  })
-}, 150))
-</script>

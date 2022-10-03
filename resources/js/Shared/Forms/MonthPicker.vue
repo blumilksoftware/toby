@@ -1,7 +1,3 @@
-<template>
-  <FlatPickr :config="config" />
-</template>
-
 <script setup>
 import FlatPickr from 'vue-flatpickr-component'
 import monthSelectPlugin from 'flatpickr/dist/plugins/monthSelect'
@@ -15,4 +11,8 @@ const config = {
   ],
 }
 </script>
+
+<template>
+  <FlatPickr :config="config" />
+</template>
 

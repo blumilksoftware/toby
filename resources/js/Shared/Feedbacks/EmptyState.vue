@@ -1,3 +1,14 @@
+<script setup>
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid'
+
+defineProps({
+  showDescription: {
+    type: Boolean,
+    default: true,
+  },
+})
+</script>
+
 <template>
   <div class="text-center my-5 text-gray-500">
     <slot name="head">
@@ -18,14 +29,3 @@
     </p>
   </div>
 </template>
-
-<script setup>
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid'
-
-defineProps({
-  showDescription: {
-    type: Boolean,
-    default: true,
-  },
-})
-</script>

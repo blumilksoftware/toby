@@ -1,3 +1,17 @@
+<script setup>
+import { computed } from 'vue'
+import { useStatusInfo } from '@/Composables/statusInfo.js'
+
+const props = defineProps({
+  activity: Object,
+  last: Boolean,
+})
+
+const { findStatus } = useStatusInfo()
+
+const statusInfo = computed(() => findStatus(props.activity.state))
+</script>
+
 <template>
   <div :class="{'relative pb-8': last}">
     <span
@@ -30,17 +44,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed } from 'vue'
-import { useStatusInfo } from '@/Composables/statusInfo.js'
-
-const props = defineProps({
-  activity: Object,
-  last: Boolean,
-})
-
-const { findStatus } = useStatusInfo()
-
-const statusInfo = computed(() => findStatus(props.activity.state))
-</script>
