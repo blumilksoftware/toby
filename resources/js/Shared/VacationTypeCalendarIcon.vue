@@ -1,22 +1,8 @@
-<script setup>
-import { computed } from 'vue'
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
-import Popper from 'vue3-popper'
-
-const props = defineProps({
-  type: String,
-})
-
-const { findType } = useVacationTypeInfo()
-
-const typeInfo = computed(() => findType(props.type))
-</script>
-
 <template>
   <Popper hover>
     <div class="flex items-center">
       <div>
-        <span :class="[typeInfo.color, 'flex items-center justify-center']">
+        <span :class="[ opacity ? 'opacity-30': '' ,typeInfo.color, 'flex items-center justify-center']">
           <component :is="typeInfo.icon" />
         </span>
       </div>
@@ -28,3 +14,21 @@ const typeInfo = computed(() => findType(props.type))
     </template>
   </Popper>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
+import Popper from 'vue3-popper'
+
+const props = defineProps({
+  type: String,
+  opacity: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const { findType } = useVacationTypeInfo()
+
+const typeInfo = computed(() => findType(props.type))
+</script>

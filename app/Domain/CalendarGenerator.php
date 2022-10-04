@@ -31,9 +31,11 @@ class CalendarGenerator
     {
         $calendar = [];
         $vacations = $this->getVacationsForPeriod($period);
+        $pendingVacations = $this->getPendingVacationsForPeriod($period);
 
         foreach ($period as $day) {
             $vacationsForDay = $vacations[$day->toDateString()] ?? new Collection();
+            $pendingVacationsForDay = $pendingVacations[$day->toDateString()] ?? new Collection();
 
             $calendar[] = [
                 "date" => $day->toDateString(),
@@ -43,7 +45,9 @@ class CalendarGenerator
                 "isWeekend" => $day->isWeekend(),
                 "isHoliday" => $holidays->contains($day),
                 "vacations" => $vacationsForDay->pluck("user_id"),
+                "pendingVacations" => $pendingVacationsForDay->pluck("user_id"),
                 "vacationTypes" => $vacationsForDay->pluck("vacationRequest.type", "user_id"),
+                "vacationPendingTypes" => $pendingVacationsForDay->pluck("vacationRequest.type", "user_id"),
             ];
         }
 
@@ -55,6 +59,16 @@ class CalendarGenerator
         return Vacation::query()
             ->whereBetween("date", [$period->start, $period->end])
             ->approved()
+            ->with("vacationRequest")
+            ->get()
+            ->groupBy(fn(Vacation $vacation): string => $vacation->date->toDateString());
+    }
+
+    protected function getPendingVacationsForPeriod(CarbonPeriod $period): Collection
+    {
+        return Vacation::query()
+            ->whereBetween("date", [$period->start, $period->end])
+            ->pending()
             ->with("vacationRequest")
             ->get()
             ->groupBy(fn(Vacation $vacation): string => $vacation->date->toDateString());

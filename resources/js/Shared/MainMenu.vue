@@ -1,143 +1,3 @@
-<script setup>
-import { computed, ref } from 'vue'
-import {
-  Dialog,
-  DialogOverlay,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-import {
-  HomeIcon,
-  RectangleStackIcon,
-  Bars3CenterLeftIcon,
-  UserGroupIcon,
-  XMarkIcon,
-  SunIcon,
-  ClipboardDocumentListIcon,
-  StarIcon,
-  CalendarIcon,
-  DocumentTextIcon,
-  AdjustmentsVerticalIcon,
-  KeyIcon,
-  RectangleGroupIcon,
-  BeakerIcon,
-  GiftIcon,
-  BanknotesIcon,
-} from '@heroicons/vue/24/outline'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
-
-const props = defineProps({
-  auth: Object,
-  years: Object,
-  vacationRequestsCount: Number,
-})
-
-const sidebarOpen = ref(false)
-
-const vacationNavigation = computed(() =>
-  [
-    {
-      name: 'Moje wnioski',
-      href: '/vacation/requests/me',
-      section: 'VacationRequest',
-      icon: DocumentTextIcon,
-      can: !props.auth.can.listAllVacationRequests,
-    },
-    {
-      name: 'Wnioski',
-      href: '/vacation/requests',
-      section: 'VacationRequest',
-      icon: RectangleStackIcon,
-      can: props.auth.can.listAllVacationRequests,
-      badge: props.vacationRequestsCount,
-    },
-    {
-      name: 'Kalendarz',
-      href: '/vacation/calendar',
-      section: 'Calendar',
-      icon: CalendarIcon,
-      can: true,
-    },
-    {
-      name: 'Wykorzystanie urlopu',
-      href: '/vacation/monthly-usage',
-      section: 'MonthlyUsage',
-      icon: AdjustmentsVerticalIcon,
-      can: props.auth.can.listMonthlyUsage,
-    },
-    {
-      name: 'Dni wolne',
-      href: '/holidays',
-      section: 'Holidays/',
-      icon: StarIcon,
-      can: true,
-    },
-    {
-      name: 'Limity urlopów',
-      href: '/vacation/limits',
-      section: 'VacationLimits',
-      icon: SunIcon,
-      can: props.auth.can.manageVacationLimits,
-    },
-    {
-      name: 'Podsumowanie roczne',
-      href: '/vacation/annual-summary',
-      section: 'AnnualSummary',
-      icon: ClipboardDocumentListIcon,
-      can: true,
-    },
-  ].filter(item => item.can))
-
-const miscNavigation = computed(() => [
-  {
-    name: 'Użytkownicy',
-    href: '/users',
-    section: 'Users',
-    icon: UserGroupIcon,
-    can: props.auth.can.manageUsers,
-  },
-  {
-    name: 'Klucze',
-    href: '/keys',
-    section: 'Keys',
-    icon: KeyIcon,
-    can: true,
-  },
-  {
-    name: 'Technologie',
-    href: '/technologies',
-    section: 'Technologies',
-    icon: BeakerIcon,
-    can: props.auth.can.manageResumes,
-  },
-  {
-    name: 'CV',
-    href: '/resumes',
-    section: 'Resumes',
-    icon: RectangleGroupIcon,
-    can: props.auth.can.manageResumes,
-  },
-  {
-    name: 'Benefity',
-    href: '/benefits',
-    section: 'Benefits/',
-    icon: GiftIcon,
-    can: true,
-  },
-  {
-    name: 'Przypisane benefity',
-    href: '/assigned-benefits',
-    section: 'BenefitsReport',
-    icon: BanknotesIcon,
-    can: props.auth.can.manageBenefits,
-  },
-].filter(item => item.can))
-</script>
-
 <template>
   <TransitionRoot
     as="template"
@@ -460,3 +320,143 @@ const miscNavigation = computed(() => [
     </div>
   </div>
 </template>
+
+<script setup>
+import { computed, ref } from 'vue'
+import {
+  Dialog,
+  DialogOverlay,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  TransitionChild,
+  TransitionRoot,
+} from '@headlessui/vue'
+import {
+  HomeIcon,
+  RectangleStackIcon,
+  Bars3CenterLeftIcon,
+  UserGroupIcon,
+  XMarkIcon,
+  SunIcon,
+  ClipboardDocumentListIcon,
+  StarIcon,
+  CalendarIcon,
+  DocumentTextIcon,
+  AdjustmentsVerticalIcon,
+  KeyIcon,
+  RectangleGroupIcon,
+  BeakerIcon,
+  GiftIcon,
+  BanknotesIcon,
+} from '@heroicons/vue/24/outline'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
+
+const props = defineProps({
+  auth: Object,
+  years: Object,
+  vacationRequestsCount: Number,
+})
+
+const sidebarOpen = ref(false)
+
+const vacationNavigation = computed(() =>
+  [
+    {
+      name: 'Moje wnioski',
+      href: '/vacation/requests/me',
+      section: 'VacationRequest',
+      icon: DocumentTextIcon,
+      can: !props.auth.can.listAllVacationRequests,
+    },
+    {
+      name: 'Wnioski',
+      href: '/vacation/requests',
+      section: 'VacationRequest',
+      icon: RectangleStackIcon,
+      can: props.auth.can.listAllVacationRequests,
+      badge: props.vacationRequestsCount,
+    },
+    {
+      name: 'Kalendarz',
+      href: '/calendar',
+      section: 'Calendar',
+      icon: CalendarIcon,
+      can: true,
+    },
+    {
+      name: 'Wykorzystanie urlopu',
+      href: '/vacation/monthly-usage',
+      section: 'MonthlyUsage',
+      icon: AdjustmentsVerticalIcon,
+      can: props.auth.can.listMonthlyUsage,
+    },
+    {
+      name: 'Dni wolne',
+      href: '/holidays',
+      section: 'Holidays/',
+      icon: StarIcon,
+      can: true,
+    },
+    {
+      name: 'Limity urlopów',
+      href: '/vacation/limits',
+      section: 'VacationLimits',
+      icon: SunIcon,
+      can: props.auth.can.manageVacationLimits,
+    },
+    {
+      name: 'Podsumowanie roczne',
+      href: '/vacation/annual-summary',
+      section: 'AnnualSummary',
+      icon: ClipboardDocumentListIcon,
+      can: true,
+    },
+  ].filter(item => item.can))
+
+const miscNavigation = computed(() => [
+  {
+    name: 'Użytkownicy',
+    href: '/users',
+    section: 'Users',
+    icon: UserGroupIcon,
+    can: props.auth.can.manageUsers,
+  },
+  {
+    name: 'Klucze',
+    href: '/keys',
+    section: 'Keys',
+    icon: KeyIcon,
+    can: true,
+  },
+  {
+    name: 'Technologie',
+    href: '/technologies',
+    section: 'Technologies',
+    icon: BeakerIcon,
+    can: props.auth.can.manageResumes,
+  },
+  {
+    name: 'CV',
+    href: '/resumes',
+    section: 'Resumes',
+    icon: RectangleGroupIcon,
+    can: props.auth.can.manageResumes,
+  },
+  {
+    name: 'Benefity',
+    href: '/benefits',
+    section: 'Benefits/',
+    icon: GiftIcon,
+    can: true,
+  },
+  {
+    name: 'Przypisane benefity',
+    href: '/assigned-benefits',
+    section: 'BenefitsReport',
+    icon: BanknotesIcon,
+    can: props.auth.can.manageBenefits,
+  },
+].filter(item => item.can))
+</script>

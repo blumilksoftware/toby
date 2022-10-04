@@ -45,6 +45,7 @@ class VacationCalendarController extends Controller
             "can" => [
                 "generateTimesheet" => $request->user()->can("generateTimesheet"),
                 "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee"),
+                "seePendingRequests" => $request->user()->can("seePendingRequests"),
             ],
         ]);
     }

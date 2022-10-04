@@ -77,11 +77,12 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->whereNumber("yearPeriod")
         ->name("year-periods.select");
 
+    Route::get("/calendar/{month?}", [VacationCalendarController::class, "index"])
+        ->name("calendar");
+
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
         Route::get("/limits", [VacationLimitController::class, "edit"])
             ->name("limits");
-        Route::get("/calendar/{month?}", [VacationCalendarController::class, "index"])
-            ->name("calendar");
         Route::get("/timesheet/{month}", TimesheetController::class)
             ->name("timesheet");
 

@@ -55,7 +55,7 @@ function linkParameters(user, day) {
           <InertiaLink
             v-if="previousMonth"
             as="button"
-            :href="`/vacation/calendar/${previousMonth.value}`"
+            :href="`/calendar/${previousMonth.value}`"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="w-5 h-5" />
@@ -69,7 +69,7 @@ function linkParameters(user, day) {
           <InertiaLink
             v-if="years.current.year === years.selected.year"
             as="button"
-            :href="`/vacation/calendar/${currentMonth.value}`"
+            :href="`/calendar/${currentMonth.value}`"
             class="hidden focus:relative items-center p-2 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border-y border-gray-300 focus:outline-blumilk-500 md:flex"
           >
             Dzisiaj
@@ -77,7 +77,7 @@ function linkParameters(user, day) {
           <InertiaLink
             v-if="nextMonth"
             as="button"
-            :href="`/vacation/calendar/${nextMonth.value}`"
+            :href="`/calendar/${nextMonth.value}`"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="w-5 h-5" />
@@ -150,7 +150,13 @@ function linkParameters(user, day) {
               @mouseleave="unsetActiveDay"
             >
               <div
-                v-if="day.vacations.includes(user.id)"
+                v-if="day.pendingVacations.includes(user.id) && (auth.user.id === user.id || can.seePendingRequests)"
+                class="flex justify-center items-center"
+              >
+                <VacationTypeCalendarIcon :type="day.vacationPendingTypes[user.id]" :opacity="true" />
+              </div>
+              <div
+                v-else-if="day.vacations.includes(user.id)"
                 class="flex justify-center items-center"
               >
                 <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
