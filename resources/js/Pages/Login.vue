@@ -1,3 +1,20 @@
+<script setup>
+import { XMarkIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
+import { ref } from 'vue'
+
+defineProps({
+  errors: Object,
+})
+
+const showError = ref(true)
+</script>
+
+<script>
+import GuestLayout from '@/Shared/Layout/GuestLayout.vue'
+
+export default { name: 'LoginPage', layout: GuestLayout }
+</script>
+
 <template>
   <InertiaHead title="Zaloguj się" />
   <transition
@@ -59,20 +76,3 @@
     </a>
   </div>
 </template>
-
-<script setup>
-import { XMarkIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
-import { ref } from 'vue'
-
-defineProps({
-  errors: Object,
-})
-
-const showError = ref(true)
-</script>
-
-<script>
-import GuestLayout from '@/Shared/Layout/GuestLayout.vue'
-
-export default { name: 'LoginPage', layout: GuestLayout }
-</script>

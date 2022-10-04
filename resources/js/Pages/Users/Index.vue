@@ -1,3 +1,69 @@
+<script setup>
+import { ref, watch, computed, reactive } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import { debounce } from 'lodash'
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { EllipsisVerticalIcon, PencilIcon, NoSymbolIcon, ArrowPathIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { DateTime } from 'luxon'
+import { useToast } from 'vue-toastification'
+import Pagination from '@/Shared/Pagination.vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+
+const props = defineProps({
+  users: Object,
+  filters: Object,
+})
+
+const statuses = [
+  {
+    name: 'Aktywni użytkownicy',
+    value: 'active',
+  },
+  {
+    name: 'Nieaktywni użytkownicy',
+    value: 'inactive',
+  },
+  {
+    name: 'Wszyscy',
+    value: 'all',
+  },
+]
+
+const form = reactive({
+  search: props.filters.search,
+  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+})
+
+const toast = useToast()
+const selectedUsers = ref([])
+const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < props.users.data.length)
+
+function copyEmails(){
+  const emails = selectedUsers.value.map((user) => `"${user.name}" <${user.email}>`).join(', ')
+  navigator.clipboard.writeText(emails)
+  selectedUsers.value = []
+  toast.info('Skopiowano adresy e-mail do schowka.')
+}
+
+function removeUser(user){
+  selectedUsers.value = selectedUsers.value.filter((selectedUser) => selectedUser.email !== user.email)
+}
+
+watch(form, debounce(() => {
+  selectedUsers.value = []
+
+  Inertia.get('/users', {
+    search: form.search,
+    status: form.status.value,
+  }, {
+    preserveState: true,
+    replace: true,
+  })
+}, 300))
+</script>
+
 <template>
   <InertiaHead title="Użytkownicy" />
   <div class="bg-white shadow-md">
@@ -308,69 +374,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, watch, computed, reactive } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import { debounce } from 'lodash'
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import { EllipsisVerticalIcon, PencilIcon, NoSymbolIcon, ArrowPathIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { DateTime } from 'luxon'
-import { useToast } from 'vue-toastification'
-import Pagination from '@/Shared/Pagination.vue'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
-const props = defineProps({
-  users: Object,
-  filters: Object,
-})
-
-const statuses = [
-  {
-    name: 'Aktywni użytkownicy',
-    value: 'active',
-  },
-  {
-    name: 'Nieaktywni użytkownicy',
-    value: 'inactive',
-  },
-  {
-    name: 'Wszyscy',
-    value: 'all',
-  },
-]
-
-const form = reactive({
-  search: props.filters.search,
-  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
-})
-
-const toast = useToast()
-const selectedUsers = ref([])
-const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < props.users.data.length)
-
-function copyEmails(){
-  const emails = selectedUsers.value.map((user) => `"${user.name}" <${user.email}>`).join(', ')
-  navigator.clipboard.writeText(emails)
-  selectedUsers.value = []
-  toast.info('Skopiowano adresy e-mail do schowka.')
-}
-
-function removeUser(user){
-  selectedUsers.value = selectedUsers.value.filter((selectedUser) => selectedUser.email !== user.email)
-}
-
-watch(form, debounce(() => {
-  selectedUsers.value = []
-
-  Inertia.get('/users', {
-    search: form.search,
-    status: form.status.value,
-  }, {
-    preserveState: true,
-    replace: true,
-  })
-}, 300))
-</script>

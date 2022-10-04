@@ -1,3 +1,37 @@
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3'
+import FlatPickr from 'vue-flatpickr-component'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+
+const props = defineProps({
+  employmentForms: Object,
+  roles: Object,
+})
+
+const form = useForm({
+  firstName: null,
+  lastName: null,
+  email: null,
+  employmentForm: props.employmentForms[0],
+  role: props.roles[0],
+  position: null,
+  employmentDate: null,
+  birthday: null,
+  slackId: null,
+})
+
+function createUser() {
+  form
+    .transform(data => ({
+      ...data,
+      employmentForm: data.employmentForm.value,
+      role: data.role.value,
+    }))
+    .post('/users')
+}
+</script>
+
 <template>
   <InertiaHead title="Dodawanie użytkownika" />
   <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
@@ -301,37 +335,3 @@
     </form>
   </div>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
-import FlatPickr from 'vue-flatpickr-component'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
-
-const props = defineProps({
-  employmentForms: Object,
-  roles: Object,
-})
-
-const form = useForm({
-  firstName: null,
-  lastName: null,
-  email: null,
-  employmentForm: props.employmentForms[0],
-  role: props.roles[0],
-  position: null,
-  employmentDate: null,
-  birthday: null,
-  slackId: null,
-})
-
-function createUser() {
-  form
-    .transform(data => ({
-      ...data,
-      employmentForm: data.employmentForm.value,
-      role: data.role.value,
-    }))
-    .post('/users')
-}
-</script>

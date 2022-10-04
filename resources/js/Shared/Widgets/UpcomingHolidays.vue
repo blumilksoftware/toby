@@ -1,3 +1,9 @@
+<script setup>
+defineProps({
+  holidays: Object,
+})
+</script>
+
 <template>
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
@@ -41,9 +47,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-defineProps({
-  holidays: Object,
-})
-</script>

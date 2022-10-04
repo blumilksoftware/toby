@@ -1,3 +1,15 @@
+<script setup>
+import Status from '@/Shared/Status.vue'
+import VacationType from '@/Shared/VacationType.vue'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import { RectangleStackIcon } from '@heroicons/vue/24/solid'
+
+defineProps({
+  requests: Object,
+})
+
+</script>
+
 <template>
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
@@ -78,15 +90,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import Status from '@/Shared/Status.vue'
-import VacationType from '@/Shared/VacationType.vue'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { RectangleStackIcon } from '@heroicons/vue/24/solid'
-
-defineProps({
-  requests: Object,
-})
-
-</script>

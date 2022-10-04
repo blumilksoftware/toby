@@ -1,3 +1,52 @@
+<script setup>
+import { ChevronRightIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
+import Status from '@/Shared/Status.vue'
+import VacationType from '@/Shared/VacationType.vue'
+import Pagination from '@/Shared/Pagination.vue'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { reactive, watch } from 'vue'
+import { debounce } from 'lodash'
+import { Inertia } from '@inertiajs/inertia'
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+
+const props = defineProps({
+  requests: Object,
+  stats: Object,
+  filters: Object,
+})
+
+const statuses = [
+  {
+    name: 'Wszystkie',
+    value: 'all',
+  },
+  {
+    name: 'W trakcie',
+    value: 'pending',
+  },
+  {
+    name: 'Zatwierdzone',
+    value: 'success',
+  },
+  {
+    name: 'Odrzucone/anulowane',
+    value: 'failed',
+  },
+]
+
+const form = reactive({
+  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+})
+
+watch(form, debounce(() => {
+  Inertia.get('/vacation/requests/me', { status: form.status.value }, {
+    preserveState: true,
+    replace: false,
+  })
+}, 300))
+
+</script>
+
 <template>
   <InertiaHead title="Moje wnioski" />
   <div class="bg-white shadow-md">
@@ -192,52 +241,3 @@
     <Pagination :pagination="requests.meta" />
   </div>
 </template>
-
-<script setup>
-import { ChevronRightIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
-import Status from '@/Shared/Status.vue'
-import VacationType from '@/Shared/VacationType.vue'
-import Pagination from '@/Shared/Pagination.vue'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { reactive, watch } from 'vue'
-import { debounce } from 'lodash'
-import { Inertia } from '@inertiajs/inertia'
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
-const props = defineProps({
-  requests: Object,
-  stats: Object,
-  filters: Object,
-})
-
-const statuses = [
-  {
-    name: 'Wszystkie',
-    value: 'all',
-  },
-  {
-    name: 'W trakcie',
-    value: 'pending',
-  },
-  {
-    name: 'Zatwierdzone',
-    value: 'success',
-  },
-  {
-    name: 'Odrzucone/anulowane',
-    value: 'failed',
-  },
-]
-
-const form = reactive({
-  status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
-})
-
-watch(form, debounce(() => {
-  Inertia.get('/vacation/requests/me', { status: form.status.value }, {
-    preserveState: true,
-    replace: false,
-  })
-}, 300))
-
-</script>

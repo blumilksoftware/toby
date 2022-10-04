@@ -1,3 +1,29 @@
+<script setup>
+import Popper from 'vue3-popper'
+
+const props = defineProps({
+  stats: {
+    type: Object,
+    default: () => ({
+      used: 0,
+      pending: 0,
+      remaining: 0,
+    }),
+  },
+})
+
+const colors = {
+  used: '#2C466F',
+  pending: '#AABDDD',
+  remaining: '#527ABA',
+}
+
+function calculatePercent(value) {
+  return value / (props.stats.used + props.stats.pending + props.stats.remaining) * 100
+}
+
+</script>
+
 <template>
   <Popper
     hover
@@ -56,29 +82,3 @@
     </template>
   </Popper>
 </template>
-
-<script setup>
-import Popper from 'vue3-popper'
-
-const props = defineProps({
-  stats: {
-    type: Object,
-    default: () => ({
-      used: 0,
-      pending: 0,
-      remaining: 0,
-    }),
-  },
-})
-
-const colors = {
-  used: '#2C466F',
-  pending: '#AABDDD',
-  remaining: '#527ABA',
-}
-
-function calculatePercent(value) {
-  return value / (props.stats.used + props.stats.pending + props.stats.remaining) * 100
-}
-
-</script>

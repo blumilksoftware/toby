@@ -1,3 +1,21 @@
+<script setup>
+import { useMonthInfo } from '@/Composables/monthInfo.js'
+import VacationBar from '@/Shared/VacationBar.vue'
+
+const props = defineProps({
+  years: Object,
+  monthlyUsage: Object,
+  currentMonth: String,
+})
+
+const { getMonths } = useMonthInfo()
+const months = getMonths()
+
+function isCurrentMonth(month) {
+  return (props.years.selected.year === props.years.current.year && props.currentMonth === month.value)
+}
+</script>
+
 <template>
   <InertiaHead title="Wykorzystanie miesięczne urlopu" />
   <div class="bg-white shadow-md">
@@ -75,21 +93,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { useMonthInfo } from '@/Composables/monthInfo.js'
-import VacationBar from '@/Shared/VacationBar.vue'
-
-const props = defineProps({
-  years: Object,
-  monthlyUsage: Object,
-  currentMonth: String,
-})
-
-const { getMonths } = useMonthInfo()
-const months = getMonths()
-
-function isCurrentMonth(month) {
-  return (props.years.selected.year === props.years.current.year && props.currentMonth === month.value)
-}
-</script>

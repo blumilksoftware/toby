@@ -1,3 +1,15 @@
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  pagination: Object,
+})
+
+const prevLink = computed(() => props.pagination.links.at(0)?.url)
+const nextLink = computed(() => props.pagination.links.at(-1)?.url)
+
+</script>
+
 <template>
   <div
     v-if="pagination.last_page !== 1"
@@ -48,15 +60,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed } from 'vue'
-
-const props = defineProps({
-  pagination: Object,
-})
-
-const prevLink = computed(() => props.pagination.links.at(0)?.url)
-const nextLink = computed(() => props.pagination.links.at(-1)?.url)
-
-</script>

@@ -1,3 +1,21 @@
+<script setup>
+import { useForm } from '@inertiajs/inertia-vue3'
+import FlatPickr from 'vue-flatpickr-component'
+
+const props = defineProps({
+  holiday: Object,
+})
+
+const form = useForm({
+  name: props.holiday.name,
+  date: props.holiday.date,
+})
+
+function editHoliday() {
+  form.put(`/holidays/${props.holiday.id}`)
+}
+</script>
+
 <template>
   <InertiaHead title="Edytuj dzień wolny" />
   <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
@@ -77,21 +95,3 @@
     </form>
   </div>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/inertia-vue3'
-import FlatPickr from 'vue-flatpickr-component'
-
-const props = defineProps({
-  holiday: Object,
-})
-
-const form = useForm({
-  name: props.holiday.name,
-  date: props.holiday.date,
-})
-
-function editHoliday() {
-  form.put(`/holidays/${props.holiday.id}`)
-}
-</script>

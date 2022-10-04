@@ -1,3 +1,25 @@
+<script setup>
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { computed } from 'vue'
+
+const emit = defineEmits(['update:modelValue'])
+
+const props = defineProps({
+  levels: Array,
+  modelValue: Object,
+})
+
+const selectedValue = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value)
+  },
+})
+
+const currentIndex = computed(() => props.levels.findIndex((level) => level.level === selectedValue.value.level))
+
+</script>
+
 <template>
   <RadioGroup v-model="selectedValue">
     <div
@@ -22,25 +44,3 @@
     </div>
   </RadioGroup>
 </template>
-
-<script setup>
-import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import { computed } from 'vue'
-
-const emit = defineEmits(['update:modelValue'])
-
-const props = defineProps({
-  levels: Array,
-  modelValue: Object,
-})
-
-const selectedValue = computed({
-  get: () => props.modelValue,
-  set: (value) => {
-    emit('update:modelValue', value)
-  },
-})
-
-const currentIndex = computed(() => props.levels.findIndex((level) => level.level === selectedValue.value.level))
-
-</script>

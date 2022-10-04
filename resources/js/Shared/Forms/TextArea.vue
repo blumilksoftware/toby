@@ -1,12 +1,3 @@
-<template>
-  <textarea
-    ref="textarea"
-    v-model="value"
-    :rows="rows"
-    @input="resizeTextarea"
-  />
-</template>
-
 <script setup>
 import { computed, ref, onMounted } from 'vue'
 const props = defineProps({
@@ -40,3 +31,12 @@ function resizeTextarea(){
   }
 }
 </script>
+
+<template>
+  <textarea
+    ref="textarea"
+    v-model="value"
+    :rows="rows"
+    @input="resizeTextarea"
+  />
+</template>

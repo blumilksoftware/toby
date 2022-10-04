@@ -1,13 +1,3 @@
-<template>
-  <div class="flex items-center">
-    <component
-      :is="statusInfo.solid.icon"
-      :class="[statusInfo.solid.color, 'w-5 h-5 mr-1']"
-    />
-    <span>{{ statusInfo.text }}</span>
-  </div>
-</template>
-
 <script setup>
 import { computed } from 'vue'
 import { useStatusInfo } from '@/Composables/statusInfo.js'
@@ -20,3 +10,13 @@ const { findStatus } = useStatusInfo()
 
 const statusInfo = computed(() => findStatus(props.status))
 </script>
+
+<template>
+  <div class="flex items-center">
+    <component
+      :is="statusInfo.solid.icon"
+      :class="[statusInfo.solid.color, 'w-5 h-5 mr-1']"
+    />
+    <span>{{ statusInfo.text }}</span>
+  </div>
+</template>

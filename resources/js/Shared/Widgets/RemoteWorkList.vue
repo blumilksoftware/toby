@@ -1,3 +1,14 @@
+<script setup>
+import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+
+defineProps({
+  remoteDays: Object,
+  upcomingRemoteDays: Object,
+})
+</script>
+
 <template>
   <section class="bg-white shadow-md">
     <TabGroup>
@@ -125,14 +136,3 @@
     </TabGroup>
   </section>
 </template>
-
-<script setup>
-import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-
-defineProps({
-  remoteDays: Object,
-  upcomingRemoteDays: Object,
-})
-</script>

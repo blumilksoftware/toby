@@ -1,3 +1,114 @@
+<script setup>
+import { Listbox, ListboxOption, ListboxOptions, ListboxLabel, ListboxButton } from '@headlessui/vue'
+import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/outline'
+import { ExclamationCircleIcon } from '@heroicons/vue/24/solid'
+import { useForm } from '@inertiajs/inertia-vue3'
+import MonthPicker from '@/Shared/Forms/MonthPicker.vue'
+import DynamicSection from '@/Shared/Forms/DynamicSection.vue'
+import Combobox from '@/Shared/Forms/Combobox.vue'
+import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
+import LevelPicker from '@/Shared/Forms/LevelPicker.vue'
+import useLevels from '@/Composables/useLevels.js'
+
+const props = defineProps({
+  users: Object,
+  technologies: Array,
+  resume: Object,
+})
+
+const { technologyLevels, languageLevels } = useLevels()
+
+const languages = [
+  'Polish',
+  'English',
+  'German',
+]
+
+const form = useForm(`EditResume:${props.resume.id}`, {
+  user: props.resume.user ?? null,
+  name: props.resume.name ?? null,
+  educations: props.resume.education ?? [],
+  projects: props.resume.projects ?? [],
+  technologies: props.resume.technologies.map((technology) => ({
+    name: technology.name,
+    level: technologyLevels.find((level) => level.level === technology.level),
+  })) ?? [],
+  languages: props.resume.languages.map((language) => ({
+    name: language.name,
+    level: languageLevels.find((level) => level.level === language.level),
+  })) ?? [],
+})
+
+function addProject() {
+  form.projects.push({
+    description: null,
+    technologies: [],
+    tasks: null,
+    startDate: null,
+    endDate: null,
+    current: false,
+  })
+}
+
+function addTechnology() {
+  form.technologies.push({
+    name: null,
+    level: technologyLevels[0],
+  })
+}
+
+function addEducation() {
+  form.educations.push({
+    school: null,
+    degree: null,
+    fieldOfStudy: null,
+    startDate: null,
+    endDate: null,
+    current: false,
+  })
+}
+
+function addLanguage() {
+  form.languages.push({
+    name: null,
+    level: languageLevels[0],
+  })
+}
+
+function hasAnyErrorInSection(section, index) {
+  return Object
+    .keys(form.errors)
+    .some((error) => error.startsWith(`${section}.${index}.`))
+}
+
+function submitResume() {
+  form
+    .transform((data) => ({
+      user: data.user?.id,
+      name: data.name,
+      education: data.educations.map(education => ({
+        ...education,
+        current: !!education.current,
+        endDate: education.current ? null: education.endDate,
+      })),
+      languages: data.languages.map(language => ({
+        name: language.name,
+        level: language.level.level,
+      })),
+      technologies: data.technologies.map(technology => ({
+        name: technology.name,
+        level: technology.level.level,
+      })),
+      projects: data.projects.map(project => ({
+        ...project,
+        current: !!project.current,
+        endDate: project.current ? null : project.endDate,
+      })),
+    }))
+    .put(`/resumes/${props.resume.id}`)
+}
+</script>
+
 <template>
   <InertiaHead title="Edycja CV" />
   <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
@@ -543,114 +654,3 @@
     </form>
   </div>
 </template>
-
-<script setup>
-import { Listbox, ListboxOption, ListboxOptions, ListboxLabel, ListboxButton } from '@headlessui/vue'
-import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/outline'
-import { ExclamationCircleIcon } from '@heroicons/vue/24/solid'
-import { useForm } from '@inertiajs/inertia-vue3'
-import MonthPicker from '@/Shared/Forms/MonthPicker.vue'
-import DynamicSection from '@/Shared/Forms/DynamicSection.vue'
-import Combobox from '@/Shared/Forms/Combobox.vue'
-import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
-import LevelPicker from '@/Shared/Forms/LevelPicker.vue'
-import useLevels from '@/Composables/useLevels.js'
-
-const props = defineProps({
-  users: Object,
-  technologies: Array,
-  resume: Object,
-})
-
-const { technologyLevels, languageLevels } = useLevels()
-
-const languages = [
-  'Polish',
-  'English',
-  'German',
-]
-
-const form = useForm(`EditResume:${props.resume.id}`, {
-  user: props.resume.user ?? null,
-  name: props.resume.name ?? null,
-  educations: props.resume.education ?? [],
-  projects: props.resume.projects ?? [],
-  technologies: props.resume.technologies.map((technology) => ({
-    name: technology.name,
-    level: technologyLevels.find((level) => level.level === technology.level),
-  })) ?? [],
-  languages: props.resume.languages.map((language) => ({
-    name: language.name,
-    level: languageLevels.find((level) => level.level === language.level),
-  })) ?? [],
-})
-
-function addProject() {
-  form.projects.push({
-    description: null,
-    technologies: [],
-    tasks: null,
-    startDate: null,
-    endDate: null,
-    current: false,
-  })
-}
-
-function addTechnology() {
-  form.technologies.push({
-    name: null,
-    level: technologyLevels[0],
-  })
-}
-
-function addEducation() {
-  form.educations.push({
-    school: null,
-    degree: null,
-    fieldOfStudy: null,
-    startDate: null,
-    endDate: null,
-    current: false,
-  })
-}
-
-function addLanguage() {
-  form.languages.push({
-    name: null,
-    level: languageLevels[0],
-  })
-}
-
-function hasAnyErrorInSection(section, index) {
-  return Object
-    .keys(form.errors)
-    .some((error) => error.startsWith(`${section}.${index}.`))
-}
-
-function submitResume() {
-  form
-    .transform((data) => ({
-      user: data.user?.id,
-      name: data.name,
-      education: data.educations.map(education => ({
-        ...education,
-        current: !!education.current,
-        endDate: education.current ? null: education.endDate,
-      })),
-      languages: data.languages.map(language => ({
-        name: language.name,
-        level: language.level.level,
-      })),
-      technologies: data.technologies.map(technology => ({
-        name: technology.name,
-        level: technology.level.level,
-      })),
-      projects: data.projects.map(project => ({
-        ...project,
-        current: !!project.current,
-        endDate: project.current ? null : project.endDate,
-      })),
-    }))
-    .put(`/resumes/${props.resume.id}`)
-}
-</script>

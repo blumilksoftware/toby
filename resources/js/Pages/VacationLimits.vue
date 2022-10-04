@@ -1,3 +1,31 @@
+<script setup>
+import { Switch } from '@headlessui/vue'
+import { useForm } from '@inertiajs/inertia-vue3'
+
+const props = defineProps({
+  limits: Object,
+  years: Object,
+})
+
+const form = useForm({
+  items: props.limits,
+})
+
+function submitVacationDays() {
+  form
+    .transform(data => ({
+      items: data.items.map(item => ({
+        id: item.id,
+        days: item.hasVacation ? item.days : null,
+      })),
+    }))
+    .put('/vacation/limits', {
+      preserveState: (page) => Object.keys(page.props.errors).length,
+      preserveScroll: true,
+    })
+}
+</script>
+
 <template>
   <InertiaHead title="Dostępne dni urlopu dla użytkowników" />
   <div class="bg-white shadow-md">
@@ -132,31 +160,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { Switch } from '@headlessui/vue'
-import { useForm } from '@inertiajs/inertia-vue3'
-
-const props = defineProps({
-  limits: Object,
-  years: Object,
-})
-
-const form = useForm({
-  items: props.limits,
-})
-
-function submitVacationDays() {
-  form
-    .transform(data => ({
-      items: data.items.map(item => ({
-        id: item.id,
-        days: item.hasVacation ? item.days : null,
-      })),
-    }))
-    .put('/vacation/limits', {
-      preserveState: (page) => Object.keys(page.props.errors).length,
-      preserveScroll: true,
-    })
-}
-</script>

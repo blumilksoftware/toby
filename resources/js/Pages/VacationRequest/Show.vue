@@ -1,3 +1,16 @@
+<script setup>
+import { PaperClipIcon } from '@heroicons/vue/24/outline'
+import Activity from '@/Shared/Activity.vue'
+import Status from '@/Shared/Status.vue'
+import VacationType from '@/Shared/VacationType.vue'
+
+defineProps({
+  request: Object,
+  can: Object,
+  activities: Object,
+})
+</script>
+
 <template>
   <InertiaHead :title="`Wniosek ${request.name}`" />
   <div class="grid grid-cols-1 gap-6 xl:grid-cols-3 xl:grid-flow-col-dense">
@@ -248,16 +261,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { PaperClipIcon } from '@heroicons/vue/24/outline'
-import Activity from '@/Shared/Activity.vue'
-import Status from '@/Shared/Status.vue'
-import VacationType from '@/Shared/VacationType.vue'
-
-defineProps({
-  request: Object,
-  can: Object,
-  activities: Object,
-})
-</script>

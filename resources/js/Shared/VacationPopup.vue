@@ -1,3 +1,14 @@
+<script setup>
+import VacationType from '@/Shared/VacationType.vue'
+import Status from '@/Shared/Status.vue'
+
+defineProps({
+  vacation: Object,
+})
+
+</script>
+
+
 <template>
   <div class="py-2 px-6 text-left text-gray-900 whitespace-nowrap bg-white rounded-lg border border-gray-400">
     <dl class="divide-y divide-gray-200">
@@ -49,14 +60,3 @@
     </dl>
   </div>
 </template>
-
-
-<script setup>
-import VacationType from '@/Shared/VacationType.vue'
-import Status from '@/Shared/Status.vue'
-
-defineProps({
-  vacation: Object,
-})
-
-</script>

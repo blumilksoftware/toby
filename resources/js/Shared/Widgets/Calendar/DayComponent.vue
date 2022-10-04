@@ -1,3 +1,29 @@
+<script setup>
+import Popper from 'vue3-popper'
+import { ref } from 'vue'
+import VacationPopup from '@/Shared/VacationPopup.vue'
+import VacationIcon from '@/Shared/VacationTypeCalendarIcon.vue'
+
+defineProps({
+  day: {
+    type: Object,
+    required: true,
+  },
+})
+
+const isActive = ref(false)
+
+function onMouseover() {
+  if (!isActive.value)
+    isActive.value = true
+}
+
+function onMouseleave() {
+  if (isActive.value)
+    isActive.value = false
+}
+</script>
+
 <template>
   <div
     class="box-border"
@@ -92,29 +118,3 @@
     </InertiaLink>
   </div>
 </template>
-
-<script setup>
-import Popper from 'vue3-popper'
-import { ref } from 'vue'
-import VacationPopup from '@/Shared/VacationPopup.vue'
-import VacationIcon from '@/Shared/VacationTypeCalendarIcon.vue'
-
-defineProps({
-  day: {
-    type: Object,
-    required: true,
-  },
-})
-
-const isActive = ref(false)
-
-function onMouseover() {
-  if (!isActive.value)
-    isActive.value = true
-}
-
-function onMouseleave() {
-  if (isActive.value)
-    isActive.value = false
-}
-</script>
