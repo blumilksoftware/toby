@@ -153,7 +153,10 @@ function linkParameters(user, day) {
                 v-if="day.pendingVacations.includes(user.id) && (auth.user.id === user.id || can.seePendingRequests)"
                 class="flex justify-center items-center"
               >
-                <VacationTypeCalendarIcon :type="day.vacationPendingTypes[user.id]" :opacity="true" />
+                <VacationTypeCalendarIcon
+                  :type="day.vacationPendingTypes[user.id]"
+                  :opacity="true"
+                />
               </div>
               <div
                 v-else-if="day.vacations.includes(user.id)"
