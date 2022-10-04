@@ -380,7 +380,7 @@ const vacationNavigation = computed(() =>
     },
     {
       name: 'Kalendarz',
-      href: '/vacation/calendar',
+      href: '/calendar',
       section: 'Calendar',
       icon: CalendarIcon,
       can: true,

@@ -2,7 +2,7 @@
   <Popper hover>
     <div class="flex items-center">
       <div>
-        <span :class="[typeInfo.color, 'flex items-center justify-center']">
+        <span :class="[ opacity ? 'opacity-30': '' ,typeInfo.color, 'flex items-center justify-center']">
           <component :is="typeInfo.icon" />
         </span>
       </div>
@@ -22,6 +22,10 @@ import Popper from 'vue3-popper'
 
 const props = defineProps({
   type: String,
+  opacity: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const { findType } = useVacationTypeInfo()
