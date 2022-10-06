@@ -100,6 +100,11 @@ class VacationRequest extends Model
             ->where("to", ">=", $vacationRequest->from);
     }
 
+    public function scopeExcludeType(Builder $query, VacationType $type): Builder
+    {
+        return $query->where("type", "!=", $type);
+    }
+
     public function hasFlowSkipped(): bool
     {
         return $this->flow_skipped;

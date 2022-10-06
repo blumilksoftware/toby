@@ -42,6 +42,7 @@ class VacationRequestController extends Controller
         }
 
         $status = $request->get("status", "all");
+        $withoutRemote = $request->boolean("withoutRemote", false);
 
         $vacationRequests = $request->user()
             ->vacationRequests()
@@ -49,24 +50,28 @@ class VacationRequestController extends Controller
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
+            ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->paginate();
 
         $pending = $request->user()
             ->vacationRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::pendingStates())
+            ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->count();
 
         $success = $request->user()
             ->vacationRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::successStates())
+            ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->count();
 
         $failed = $request->user()
             ->vacationRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::failedStates())
+            ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->count();
 
         return inertia("VacationRequest/Index", [
