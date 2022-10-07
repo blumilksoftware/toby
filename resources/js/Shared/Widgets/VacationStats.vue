@@ -8,7 +8,7 @@ defineProps({
   <section>
     <div
       v-if="stats.hasLimit"
-      class="grid grid-cols-2 2xl:grid-cols-4 gap-2 h-full"
+      class="grid grid-cols-2 2xl:grid-cols-4 gap-2 mb-2 2xl:mb-4"
     >
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
         <dd class="mt-1 text-4xl font-semibold text-blumilk-500">
@@ -56,8 +56,7 @@ defineProps({
       </div>
     </div>
     <div
-      v-else
-      class="h-full grid grid-cols-2 gap-2 h-full"
+      class="grid grid-cols-2 gap-2"
     >
       <div class="py-5 px-4 bg-white shadow-md sm:p-6">
         <dt class="mt-1 text-4xl font-semibold text-gray-500">
