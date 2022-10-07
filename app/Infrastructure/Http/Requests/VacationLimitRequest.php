@@ -15,7 +15,7 @@ class VacationLimitRequest extends FormRequest
         return [
             "items" => ["required", "array"],
             "items.*.id" => ["required", "exists:vacation_limits,id"],
-            "items.*.days" => ["nullable", "integer", "min:0"],
+            "items.*.days" => ["nullable", "integer", "min:0", "max:100"],
         ];
     }
 

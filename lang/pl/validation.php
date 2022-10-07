@@ -161,6 +161,9 @@ return [
         "name" => [
             "unique" => "Taka nazwa już występuje.",
         ],
+        "items.*.days" => [
+            "max" => "Limit dni urlopu nie może być większy niż :max."
+        ],
     ],
     "attributes" => [
         "to" => "do",
