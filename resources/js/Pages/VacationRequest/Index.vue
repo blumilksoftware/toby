@@ -36,10 +36,11 @@ const statuses = [
 
 const form = reactive({
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+  withoutRemote: props.filters.withoutRemote ?? false,
 })
 
 watch(form, debounce(() => {
-  Inertia.get('/vacation/requests/me', { status: form.status.value }, {
+  Inertia.get('/vacation/requests/me', { status: form.status.value, withoutRemote: form.withoutRemote }, {
     preserveState: true,
     replace: false,
   })
@@ -135,6 +136,18 @@ watch(form, debounce(() => {
             </transition>
           </div>
         </Listbox>
+      </div>
+    </div>
+    <div class="relative flex items-start p-4 sm:px-6">
+      <div class="flex h-5 items-center">
+        <label class="block text-sm font-medium text-gray-700 sm:mt-px">
+          <input
+            v-model="form.withoutRemote"
+            type="checkbox"
+            class="focus:ring-blumilk-500 h-4 w-4 text-blumilk-600 border-gray-300 rounded mr-1"
+          >
+          Ukryj wnioski o pracę zdalną
+        </label>
       </div>
     </div>
     <div class="overflow-auto xl:overflow-visible">
