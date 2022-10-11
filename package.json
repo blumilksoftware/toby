@@ -20,6 +20,7 @@
         "autoprefixer": "^10.4.12",
         "axios": "^0.27.2",
         "echarts": "^5.4.0",
+        "eslint-plugin-cypress": "^2.12.1",
         "flatpickr": "^4.6.13",
         "laravel-vite-plugin": "^0.6.1",
         "lodash": "^4.17.21",
@@ -37,6 +38,7 @@
         "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
+        "cypress": "^10.9.0",
         "eslint": "^8.24.0",
         "eslint-plugin-vue": "^9.5.1"
     }

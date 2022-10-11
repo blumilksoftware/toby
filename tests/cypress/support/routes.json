@@ -1,0 +1,623 @@
+{
+  "cypress.factory": {
+    "name": "cypress.factory",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@factory",
+    "uri": "__cypress__/factory",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.login": {
+    "name": "cypress.login",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@login",
+    "uri": "__cypress__/login",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.logout": {
+    "name": "cypress.logout",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@logout",
+    "uri": "__cypress__/logout",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.artisan": {
+    "name": "cypress.artisan",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@artisan",
+    "uri": "__cypress__/artisan",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.run-php": {
+    "name": "cypress.run-php",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@runPhp",
+    "uri": "__cypress__/run-php",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.csrf-token": {
+    "name": "cypress.csrf-token",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@csrfToken",
+    "uri": "__cypress__/csrf_token",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "cypress.routes": {
+    "name": "cypress.routes",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@routes",
+    "uri": "__cypress__/routes",
+    "method": [
+      "POST"
+    ]
+  },
+  "cypress.current-user": {
+    "name": "cypress.current-user",
+    "domain": null,
+    "action": "Laracasts\\Cypress\\Controllers\\CypressController@currentUser",
+    "uri": "__cypress__/current-user",
+    "method": [
+      "POST"
+    ]
+  },
+  "sanctum.csrf-cookie": {
+    "name": "sanctum.csrf-cookie",
+    "domain": null,
+    "action": "Laravel\\Sanctum\\Http\\Controllers\\CsrfCookieController@show",
+    "uri": "sanctum/csrf-cookie",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "ignition.healthCheck": {
+    "name": "ignition.healthCheck",
+    "domain": null,
+    "action": "Spatie\\LaravelIgnition\\Http\\Controllers\\HealthCheckController",
+    "uri": "_ignition/health-check",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "ignition.executeSolution": {
+    "name": "ignition.executeSolution",
+    "domain": null,
+    "action": "Spatie\\LaravelIgnition\\Http\\Controllers\\ExecuteSolutionController",
+    "uri": "_ignition/execute-solution",
+    "method": [
+      "POST"
+    ]
+  },
+  "ignition.updateConfig": {
+    "name": "ignition.updateConfig",
+    "domain": null,
+    "action": "Spatie\\LaravelIgnition\\Http\\Controllers\\UpdateConfigController",
+    "uri": "_ignition/update-config",
+    "method": [
+      "POST"
+    ]
+  },
+  "": {
+    "name": null,
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\EntriesController@destroy",
+    "uri": "telescope/telescope-api/entries",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "dashboard": {
+    "name": "dashboard",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\DashboardController",
+    "uri": "/",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.index": {
+    "name": "users.index",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\UserController@index",
+    "uri": "users",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.create": {
+    "name": "users.create",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\UserController@create",
+    "uri": "users/create",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.store": {
+    "name": "users.store",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\UserController@store",
+    "uri": "users",
+    "method": [
+      "POST"
+    ]
+  },
+  "users.edit": {
+    "name": "users.edit",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\UserController@edit",
+    "uri": "users/{user}/edit",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "users.update": {
+    "name": "users.update",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\UserController@update",
+    "uri": "users/{user}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "users.destroy": {
+    "name": "users.destroy",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\UserController@destroy",
+    "uri": "users/{user}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "benefits.index": {
+    "name": "benefits.index",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\BenefitController@index",
+    "uri": "benefits",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "benefits.store": {
+    "name": "benefits.store",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\BenefitController@store",
+    "uri": "benefits",
+    "method": [
+      "POST"
+    ]
+  },
+  "benefits.destroy": {
+    "name": "benefits.destroy",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\BenefitController@destroy",
+    "uri": "benefits/{benefit}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "assigned-benefits.index": {
+    "name": "assigned-benefits.index",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\AssignedBenefitController@index",
+    "uri": "assigned-benefits",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "assigned-benefits.update": {
+    "name": "assigned-benefits.update",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\AssignedBenefitController@update",
+    "uri": "assigned-benefits",
+    "method": [
+      "PUT"
+    ]
+  },
+  "benefits-report.store": {
+    "name": "benefits-report.store",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\BenefitsReportController@store",
+    "uri": "benefits-report",
+    "method": [
+      "POST"
+    ]
+  },
+  "benefits-report.show": {
+    "name": "benefits-report.show",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\BenefitsReportController@show",
+    "uri": "benefits-report/{benefitsReport}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "benefits-report.download": {
+    "name": "benefits-report.download",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\BenefitsReportController@download",
+    "uri": "benefits-report/{benefitsReport}/download",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "holidays.index": {
+    "name": "holidays.index",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\HolidayController@index",
+    "uri": "holidays",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "holidays.create": {
+    "name": "holidays.create",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\HolidayController@create",
+    "uri": "holidays/create",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "holidays.store": {
+    "name": "holidays.store",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\HolidayController@store",
+    "uri": "holidays",
+    "method": [
+      "POST"
+    ]
+  },
+  "holidays.edit": {
+    "name": "holidays.edit",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\HolidayController@edit",
+    "uri": "holidays/{holiday}/edit",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "holidays.update": {
+    "name": "holidays.update",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\HolidayController@update",
+    "uri": "holidays/{holiday}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "holidays.destroy": {
+    "name": "holidays.destroy",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\HolidayController@destroy",
+    "uri": "holidays/{holiday}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "resumes.index": {
+    "name": "resumes.index",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\ResumeController@index",
+    "uri": "resumes",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "resumes.create": {
+    "name": "resumes.create",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\ResumeController@create",
+    "uri": "resumes/create",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "resumes.store": {
+    "name": "resumes.store",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\ResumeController@store",
+    "uri": "resumes",
+    "method": [
+      "POST"
+    ]
+  },
+  "resumes.show": {
+    "name": "resumes.show",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\ResumeController@show",
+    "uri": "resumes/{resume}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "resumes.edit": {
+    "name": "resumes.edit",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\ResumeController@edit",
+    "uri": "resumes/{resume}/edit",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "resumes.update": {
+    "name": "resumes.update",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\ResumeController@update",
+    "uri": "resumes/{resume}",
+    "method": [
+      "PUT",
+      "PATCH"
+    ]
+  },
+  "resumes.destroy": {
+    "name": "resumes.destroy",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\ResumeController@destroy",
+    "uri": "resumes/{resume}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "technologies.index": {
+    "name": "technologies.index",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\TechnologyController@index",
+    "uri": "technologies",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "technologies.store": {
+    "name": "technologies.store",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\TechnologyController@store",
+    "uri": "technologies",
+    "method": [
+      "POST"
+    ]
+  },
+  "technologies.destroy": {
+    "name": "technologies.destroy",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\TechnologyController@destroy",
+    "uri": "technologies/{technology}",
+    "method": [
+      "DELETE"
+    ]
+  },
+  "year-periods.select": {
+    "name": "year-periods.select",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\SelectYearPeriodController",
+    "uri": "year-periods/{yearPeriod}/select",
+    "method": [
+      "POST"
+    ]
+  },
+  "calendar": {
+    "name": "calendar",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationCalendarController@index",
+    "uri": "calendar/{month?}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.limits": {
+    "name": "vacation.limits",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationLimitController@edit",
+    "uri": "vacation/limits",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.timesheet": {
+    "name": "vacation.timesheet",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\TimesheetController",
+    "uri": "vacation/timesheet/{month}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.": {
+    "name": "vacation.",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationLimitController@update",
+    "uri": "vacation/limits",
+    "method": [
+      "PUT"
+    ]
+  },
+  "vacation.requests.indexForApprovers": {
+    "name": "vacation.requests.indexForApprovers",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@indexForApprovers",
+    "uri": "vacation/requests",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.requests.index": {
+    "name": "vacation.requests.index",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@index",
+    "uri": "vacation/requests/me",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.requests.create": {
+    "name": "vacation.requests.create",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@create",
+    "uri": "vacation/requests/create",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.requests.store": {
+    "name": "vacation.requests.store",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@store",
+    "uri": "vacation/requests",
+    "method": [
+      "POST"
+    ]
+  },
+  "vacation.requests.show": {
+    "name": "vacation.requests.show",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@show",
+    "uri": "vacation/requests/{vacationRequest}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.requests.download": {
+    "name": "vacation.requests.download",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@download",
+    "uri": "vacation/requests/{vacationRequest}/download",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.requests.reject": {
+    "name": "vacation.requests.reject",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@reject",
+    "uri": "vacation/requests/{vacationRequest}/reject",
+    "method": [
+      "POST"
+    ]
+  },
+  "vacation.requests.cancel": {
+    "name": "vacation.requests.cancel",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@cancel",
+    "uri": "vacation/requests/{vacationRequest}/cancel",
+    "method": [
+      "POST"
+    ]
+  },
+  "vacation.requests.accept-as-technical": {
+    "name": "vacation.requests.accept-as-technical",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@acceptAsTechnical",
+    "uri": "vacation/requests/{vacationRequest}/accept-as-technical",
+    "method": [
+      "POST"
+    ]
+  },
+  "vacation.requests.accept-as-administrative": {
+    "name": "vacation.requests.accept-as-administrative",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\VacationRequestController@acceptAsAdministrative",
+    "uri": "vacation/requests/{vacationRequest}/accept-as-administrative",
+    "method": [
+      "POST"
+    ]
+  },
+  "vacation.monthly-usage": {
+    "name": "vacation.monthly-usage",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\MonthlyUsageController",
+    "uri": "vacation/monthly-usage",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "vacation.annual-summary": {
+    "name": "vacation.annual-summary",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\AnnualSummaryController",
+    "uri": "vacation/annual-summary",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "login": {
+    "name": "login",
+    "domain": null,
+    "action": "Closure",
+    "uri": "login",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "login.google.start": {
+    "name": "login.google.start",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\GoogleController@redirect",
+    "uri": "login/google/start",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "login.google.end": {
+    "name": "login.google.end",
+    "domain": null,
+    "action": "Toby\\Infrastructure\\Http\\Controllers\\GoogleController@callback",
+    "uri": "login/google/end",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  },
+  "telescope": {
+    "name": "telescope",
+    "domain": null,
+    "action": "Laravel\\Telescope\\Http\\Controllers\\HomeController@index",
+    "uri": "telescope/{view?}",
+    "method": [
+      "GET",
+      "HEAD"
+    ]
+  }
+}
