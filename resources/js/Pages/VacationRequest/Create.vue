@@ -223,8 +223,9 @@ async function refreshAvailableTypes(user) {
                       as="template"
                       :value="user"
                     >
-                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                          data-cy="users-list"
+                      <li
+                        :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                        data-cy="users-list"
                       >
                         <div class="flex items-center">
                           <img
@@ -320,8 +321,9 @@ async function refreshAvailableTypes(user) {
                       as="template"
                       :value="vacationType"
                     >
-                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                          data-cy="vacation-types-list"
+                      <li
+                        :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                        data-cy="vacation-types-list"
                       >
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                           <VacationType :type="vacationType.value" />
