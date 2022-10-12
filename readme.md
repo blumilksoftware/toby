@@ -53,7 +53,9 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 
       dcr node npm run dev
 
-- place google credentials here: `/google-credentials.json` ([how to obtain the credentials](https://github.com/spatie/laravel-google-calendar#how-to-obtain-the-credentials-to-communicate-with-google-calendar))
+- place Google credentials here: `/google-credentials.json` ([how to obtain the credentials](https://github.com/spatie/laravel-google-calendar#how-to-obtain-the-credentials-to-communicate-with-google-calendar))
+
+For now, you can login to the application only via Google. To do this, fill your e-mail address in field `LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE` in `.env` file. Next step is to create `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` - this can be done via Google Developers Console.
 
 ### Available containers (local)
 
@@ -68,6 +70,14 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 If xDebug is installed, set environment variable **XDEBUG_MODE=off** to improve performance
 
       dcr -e XDEBUG_MODE=off php php artisan test
+
+To run test in Cypress, install Cypress locally 
+
+      npm install cypress
+
+After that run Cypress
+
+      cypress open
 
 ### Code style check
 

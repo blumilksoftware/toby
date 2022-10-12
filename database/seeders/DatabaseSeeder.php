@@ -21,12 +21,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(9)->create();
         User::factory([
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
             "role" => Role::Administrator,
         ])
             ->create();
+
+        User::factory(9)->create();
 
         $users = User::all();
 

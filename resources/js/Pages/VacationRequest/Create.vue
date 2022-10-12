@@ -194,6 +194,7 @@ async function refreshAvailableTypes(user) {
                 <ListboxButton
                   class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.user, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.user }"
+                  data-cy="users-listbox-button"
                 >
                   <span class="flex items-center">
                     <img
@@ -222,7 +223,9 @@ async function refreshAvailableTypes(user) {
                       as="template"
                       :value="user"
                     >
-                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                          data-cy="users-list"
+                      >
                         <div class="flex items-center">
                           <img
                             :src="user.avatar"
@@ -290,6 +293,7 @@ async function refreshAvailableTypes(user) {
                 <ListboxButton
                   class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
+                  data-cy="vacation-types-listbox-button"
                 >
                   <template v-if="form.vacationType">
                     <span class="block truncate">
@@ -316,7 +320,9 @@ async function refreshAvailableTypes(user) {
                       as="template"
                       :value="vacationType"
                     >
-                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
+                      <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                          data-cy="vacation-types-list"
+                      >
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                           <VacationType :type="vacationType.value" />
                         </span>
@@ -393,6 +399,7 @@ async function refreshAvailableTypes(user) {
               <span class="block text-sm font-medium text-gray-700 sm:mt-px">Liczba dni</span>
               <div
                 class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm"
+                data-cy="estimated-days-text"
               >
                 {{ estimatedDays.length }}
               </div>
@@ -428,6 +435,7 @@ async function refreshAvailableTypes(user) {
                   id="flowSkipped"
                   v-model="form.flowSkipped"
                   :class="[form.flowSkipped ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
+                  data-cy="flowSkipped"
                 >
                   <span
                     :class="[form.flowSkipped ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"
@@ -449,6 +457,7 @@ async function refreshAvailableTypes(user) {
                 class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
                 :class="[form.processing || !isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                 :disabled="form.processing || !isDirty"
+                data-cy="save-button"
               >
                 Zapisz
               </button>
