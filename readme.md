@@ -55,7 +55,7 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 
 - place Google credentials here: `/google-credentials.json` ([how to obtain the credentials](https://github.com/spatie/laravel-google-calendar#how-to-obtain-the-credentials-to-communicate-with-google-calendar))
 
-For now, you can login to the application only via Google. To do this, fill your e-mail address in field `LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE` in `.env` file. Next step is to create `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` - this can be done via Google Developers Console.
+For now, you can login to the application only via Google. To do this, fill your e-mail address in field `LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE` in `.env` file. Next step is to create project via Google Developers Console and fill `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` variables in `.env` file.
 
 ### Available containers (local)
 
