@@ -23,7 +23,7 @@
         "flatpickr": "^4.6.13",
         "laravel-vite-plugin": "^0.6.1",
         "lodash": "^4.17.21",
-        "luxon": "^3.0.4",
+        "luxon": "^3.1.0",
         "postcss": "^8.4.17",
         "tailwindcss": "^3.1.8",
         "vite": "^3.1.4",
