@@ -35,7 +35,7 @@ services:
     restart: unless-stopped
 
   database:
-    image: postgres:14
+    image: postgres:15
     container_name: toby-db-dev
     environment:
       - PGPASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
 
   database-test:
-    image: postgres:14
+    image: postgres:15
     container_name: toby-db-test
     environment:
       - PGPASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
 
   node:
-    image: node:18.10.0-alpine3.16
+    image: node:19-alpine3.15
     container_name: toby-node
     working_dir: /application
     tty: true
