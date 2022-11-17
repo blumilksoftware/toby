@@ -1,0 +1,8 @@
+.git/
+.idea/
+vendor/
+node_modules/
+.composer/
+public/build/
+public/hot
+.phpunit.result.cache

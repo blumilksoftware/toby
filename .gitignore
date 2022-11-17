@@ -9,6 +9,7 @@
 /storage/*.sqlite
 /vendor
 .env
+.env.beta
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
