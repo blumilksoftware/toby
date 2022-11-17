@@ -26,7 +26,7 @@ services:
       - "traefik.http.routers.toby-beta-web.rule=Host(`${TOBY_HOST_NAME}`)"
       - "traefik.http.routers.toby-beta-web.entrypoints=websecure"
       - "traefik.http.routers.toby-beta-web.tls=true"
-      - "traefik.http.routers.toby-web-beta.tls.certresolver=lets-encrypt-resolver"
+      - "traefik.http.routers.toby-beta-web.tls.certresolver=lets-encrypt-resolver"
     networks:
       - traefik-proxy
       - toby-beta
