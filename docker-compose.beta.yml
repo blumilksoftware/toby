@@ -67,8 +67,6 @@ services:
       - POSTGRES_PASSWORD=${DOCKER_TOBY_BETA_DB_PASSWORD}
     volumes:
       - toby-beta-pgsql-data:/var/lib/postgresql/data
-    ports:
-      - "7777:5432"
     networks:
       - toby-beta
     restart: unless-stopped
