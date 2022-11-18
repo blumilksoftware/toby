@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Slack\Elements;
 
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Models\Vacation;
+use Toby\Eloquent\Models\VacationRequest;
 
 class AbsencesAttachment extends ListAttachment
 {
@@ -16,7 +16,7 @@ class AbsencesAttachment extends ListAttachment
         $this
             ->setTitle(__("Absences :palm_tree:"))
             ->setColor("#eab308")
-            ->setItems($absences->map(fn(Vacation $vacation): string => $vacation->user->profile->full_name))
+            ->setItems($absences->map(fn(VacationRequest $vacation): string => $vacation->user->profile->full_name))
             ->setEmptyText(__("Everybody works today :muscle:"));
     }
 }
