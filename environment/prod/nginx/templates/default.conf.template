@@ -1,6 +1,6 @@
 server {
     listen 80 default;
-    server_name toby-beta-nginx;
+    server_name ${SERVER_NAME};
 
     client_max_body_size 108M;
 
@@ -13,7 +13,7 @@ server {
         rewrite ^.*$ /index.php last;
     }
     location ~ \.php$ {
-        fastcgi_pass toby-beta-php:9000;
+        fastcgi_pass ${FASTCGI_PASS_NAME}:9000;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param PHP_VALUE "error_log=/dev/stdout";

@@ -20,10 +20,13 @@ services:
     container_name: toby-beta-web
     volumes:
       - toby-beta-static-assets:/application/public
-      - ./environment/prod/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./environment/prod/nginx/templates:/etc/nginx/templates/
+    environment:
+      - SERVER_NAME=toby-beta-nginx
+      - FASTCGI_PASS_NAME=toby-beta-php
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.toby-beta-web.rule=Host(`${TOBY_HOST_NAME}`)"
+      - "traefik.http.routers.toby-beta-web.rule=Host(`${TOBY_HOST_NAME? variable TOBY_HOST_NAME not set}`)"
       - "traefik.http.routers.toby-beta-web.entrypoints=websecure"
       - "traefik.http.routers.toby-beta-web.tls=true"
       - "traefik.http.routers.toby-beta-web.tls.certresolver=lets-encrypt-resolver"
@@ -70,10 +73,10 @@ services:
     image: postgres:15
     container_name: toby-beta-database
     environment:
-      - PGPASSWORD=${DOCKER_TOBY_BETA_DB_ROOT_PASSWORD}
-      - POSTGRES_DB=${DOCKER_TOBY_BETA_DB_DATABASE}
-      - POSTGRES_USER=${DOCKER_TOBY_BETA_DB_USERNAME}
-      - POSTGRES_PASSWORD=${DOCKER_TOBY_BETA_DB_PASSWORD}
+      - PGPASSWORD=${DOCKER_TOBY_BETA_DB_ROOT_PASSWORD? variable DOCKER_TOBY_BETA_DB_ROOT_PASSWORD not set}
+      - POSTGRES_DB=${DOCKER_TOBY_BETA_DB_DATABASE? variable DOCKER_TOBY_BETA_DB_DATABASE not set}
+      - POSTGRES_USER=${DOCKER_TOBY_BETA_DB_USERNAME? variable DOCKER_TOBY_BETA_DB_USERNAME not set}
+      - POSTGRES_PASSWORD=${DOCKER_TOBY_BETA_DB_PASSWORD? variable DOCKER_TOBY_BETA_DB_PASSWORD not set}
     volumes:
       - toby-beta-pgsql-data:/var/lib/postgresql/data
     networks:
