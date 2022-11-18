@@ -27,6 +27,7 @@ services:
       - "traefik.http.routers.toby-beta-web.entrypoints=websecure"
       - "traefik.http.routers.toby-beta-web.tls=true"
       - "traefik.http.routers.toby-beta-web.tls.certresolver=lets-encrypt-resolver"
+      - "traefik.http.routers.toby-beta-web.middlewares=response-gzip-compress@file"
     networks:
       - traefik-proxy
       - toby-beta
