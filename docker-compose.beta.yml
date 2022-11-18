@@ -58,6 +58,14 @@ services:
     user: root
     entrypoint: [ "./environment/prod/worker/entrypoint.sh" ]
 
+  toby-beta-scheduler:
+    <<: *app
+    container_name: toby-beta-scheduler
+    volumes:
+      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+    user: root
+    entrypoint: [ "./environment/prod/scheduler/entrypoint.sh" ]
+
   toby-beta-database:
     image: postgres:15
     container_name: toby-beta-database
