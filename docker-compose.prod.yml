@@ -1,0 +1,93 @@
+version: "3.8"
+
+networks:
+  traefik-proxy:
+    external: true
+  toby-prod:
+    driver: bridge
+
+volumes:
+  toby-prod-pgsql-data:
+    name: toby-prod-pgsql-data
+  toby-prod-redis-data:
+    name: toby-prod-redis-data
+  toby-prod-static-assets:
+    name: toby-prod-static-assets
+
+services:
+  toby-prod-web:
+    image: nginx:1.23-alpine
+    container_name: toby-prod-web
+    volumes:
+      - toby-prod-static-assets:/application/public
+      - ./environment/prod/nginx/templates:/etc/nginx/templates/
+    environment:
+      - SERVER_NAME=toby-prod-nginx
+      - FASTCGI_PASS_NAME=toby-prod-php
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.toby-prod-web.rule=Host(`${TOBY_HOST_NAME:? variable TOBY_HOST_NAME not set}`)"
+      - "traefik.http.routers.toby-prod-web.entrypoints=websecure"
+      - "traefik.http.routers.toby-prod-web.tls=true"
+      - "traefik.http.routers.toby-prod-web.tls.certresolver=lets-encrypt-resolver"
+      - "traefik.http.routers.toby-prod-web.middlewares=response-gzip-compress@file"
+    networks:
+      - traefik-proxy
+      - toby-prod
+    restart: unless-stopped
+    depends_on:
+      - toby-prod-php
+      - toby-prod-database
+
+  toby-prod-php: &app
+    build:
+      context: .
+      dockerfile: environment/prod/php/Dockerfile
+      target: prod
+    container_name: toby-prod-php
+    working_dir: /application
+    volumes:
+      - toby-prod-static-assets:/application/public
+      - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+    networks:
+      - toby-prod
+    restart: unless-stopped
+
+  toby-prod-worker:
+    <<: *app
+    container_name: toby-prod-worker
+    volumes:
+      - ./environment/prod/worker/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+    user: root
+    entrypoint: [ "./environment/prod/worker/entrypoint.sh" ]
+
+  toby-prod-scheduler:
+    <<: *app
+    container_name: toby-prod-scheduler
+    volumes:
+      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+    user: root
+    entrypoint: [ "./environment/prod/scheduler/entrypoint.sh" ]
+
+  toby-prod-database:
+    image: postgres:15
+    container_name: toby-prod-database
+    environment:
+      - PGPASSWORD=${DOCKER_TOBY_PROD_DB_ROOT_PASSWORD:? variable DOCKER_TOBY_PROD_DB_ROOT_PASSWORD not set}
+      - POSTGRES_DB=${DOCKER_TOBY_PROD_DB_DATABASE:? variable DOCKER_TOBY_PROD_DB_DATABASE not set}
+      - POSTGRES_USER=${DOCKER_TOBY_PROD_DB_USERNAME:? variable DOCKER_TOBY_PROD_DB_USERNAME not set}
+      - POSTGRES_PASSWORD=${DOCKER_TOBY_PROD_DB_PASSWORD:? variable DOCKER_TOBY_PROD_DB_PASSWORD not set}
+    volumes:
+      - toby-prod-pgsql-data:/var/lib/postgresql/data
+    networks:
+      - toby-prod
+    restart: unless-stopped
+
+  toby-prod-redis:
+    image: redis:7.0-alpine3.16
+    container_name: toby-prod-redis
+    volumes:
+      - toby-prod-redis-data:/data
+    networks:
+      - toby-prod
+    restart: unless-stopped
