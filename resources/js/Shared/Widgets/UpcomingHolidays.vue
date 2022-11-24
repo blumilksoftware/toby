@@ -19,7 +19,7 @@ defineProps({
           class="flex py-4"
         >
           <div>
-            <p class="text-sm font-medium text-gray-900">
+            <p class="text-sm font-medium text-gray-900 capitalize">
               {{ holiday.name }}
             </p>
             <p class="text-sm text-gray-500">
