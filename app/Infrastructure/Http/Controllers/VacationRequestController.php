@@ -157,6 +157,7 @@ class VacationRequestController extends Controller
                     && $user->can("cancel", $vacationRequest),
             ],
             "stats" => [
+                "limit" => $limit,
                 "used" => $used,
                 "pending" => $pending,
                 "remaining" => $remaining,
