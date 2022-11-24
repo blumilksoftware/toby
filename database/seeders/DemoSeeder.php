@@ -123,13 +123,16 @@ class DemoSeeder extends Seeder
         $year = 2021;
 
         YearPeriod::factory()
-            ->count(2)
+            ->count(3)
             ->sequence(
                 [
                     "year" => Carbon::createFromDate($year)->year,
                 ],
                 [
                     "year" => Carbon::createFromDate($year + 1)->year,
+                ],
+                [
+                    "year" => Carbon::createFromDate($year + 2)->year,
                 ],
             )
             ->afterCreating(function (YearPeriod $yearPeriod) use ($users): void {

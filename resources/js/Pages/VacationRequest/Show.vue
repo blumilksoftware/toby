@@ -3,11 +3,13 @@ import { PaperClipIcon } from '@heroicons/vue/24/outline'
 import Activity from '@/Shared/Activity.vue'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
+import VacationBar from '@/Shared/VacationBar.vue'
 
 defineProps({
   request: Object,
   can: Object,
   activities: Object,
+  stats: Object,
 })
 </script>
 
@@ -82,6 +84,17 @@ defineProps({
                 <span class="font-semibold">
                   [Liczba dni: {{ request.days.length }}]
                 </span>
+              </dd>
+            </div>
+            <div
+              v-if="request.isVacation && (stats.limit > 0) && (can.acceptAsTechnical || can.acceptAsAdministrative || can.reject)"
+              class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6"
+            >
+              <dt class="flex items-center text-sm font-medium text-gray-500">
+                Wykorzystanie urlopu
+              </dt>
+              <dd>
+                <VacationBar :stats="{ used: stats.used, pending: stats.pending, remaining: stats.remaining }" />
               </dd>
             </div>
             <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
