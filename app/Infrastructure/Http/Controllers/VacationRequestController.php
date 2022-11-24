@@ -23,6 +23,7 @@ use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
 use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
 use Toby\Domain\States\VacationRequest\Cancelled;
 use Toby\Domain\States\VacationRequest\Rejected;
+use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
@@ -130,10 +131,17 @@ class VacationRequestController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function show(Request $request, VacationRequest $vacationRequest): Response
+    public function show(Request $request, VacationRequest $vacationRequest, UserVacationStatsRetriever $statsRetriever, YearPeriodRetriever $yearPeriodRetriever): Response
     {
         $this->authorize("show", $vacationRequest);
         $user = $request->user();
+
+        $currentYearPeriod = $yearPeriodRetriever->selected();
+
+        $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $currentYearPeriod);
+        $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $currentYearPeriod);
+        $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $currentYearPeriod);
+        $remaining = $limit - $used - $pending;
 
         return inertia("VacationRequest/Show", [
             "request" => new VacationRequestResource($vacationRequest),
@@ -147,6 +155,11 @@ class VacationRequestController extends Controller
                     && $user->can("reject", $vacationRequest),
                 "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
                     && $user->can("cancel", $vacationRequest),
+            ],
+            "stats" => [
+                "used" => $used,
+                "pending" => $pending,
+                "remaining" => $remaining,
             ],
         ]);
     }
