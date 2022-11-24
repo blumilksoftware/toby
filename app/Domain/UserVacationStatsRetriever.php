@@ -80,7 +80,12 @@ class UserVacationStatsRetriever
         return $user
             ->vacations()
             ->whereBelongsTo($yearPeriod)
-            ->whereRelation("vacationRequest", "type", VacationType::RemoteWork)
+            ->whereRelation(
+                "vacationRequest",
+                fn(Builder $query): Builder => $query
+                    ->where("type", VacationType::RemoteWork)
+                    ->states(VacationRequestStatesRetriever::successStates()),
+            )
             ->count();
     }
 

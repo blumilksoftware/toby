@@ -530,6 +530,29 @@ class VacationRequestTest extends FeatureTestCase
             ->assertForbidden();
     }
 
+    public function testEmployeeCanCancelRemoteWorkEvenWithApprovedStatus(): void
+    {
+        $user = User::factory()->create();
+        $currentYearPeriod = YearPeriod::current();
+
+        /** @var VacationRequest $vacationRequest */
+        $vacationRequest = VacationRequest::factory([
+            "state" => Approved::class,
+            "type" => VacationType::RemoteWork,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/vacation/requests/{$vacationRequest->id}/cancel")
+            ->assertRedirect();
+
+        $vacationRequest->refresh();
+
+        $this->assertTrue($vacationRequest->state->equals(Cancelled::class));
+    }
+
     public function testAdministrativeApproverCanCancelVacationRequestWithApprovedStatus(): void
     {
         $user = User::factory()->create();

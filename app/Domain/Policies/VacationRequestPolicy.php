@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Policies;
 
 use Toby\Domain\Enums\Role;
+use Toby\Domain\Enums\VacationType;
 use Toby\Domain\States\VacationRequest\Created;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
@@ -45,6 +46,10 @@ class VacationRequestPolicy
 
     public function cancel(User $user, VacationRequest $vacationRequest): bool
     {
+        if ($vacationRequest->user->is($user) && $vacationRequest->type === VacationType::RemoteWork) {
+            return true;
+        }
+
         if ($vacationRequest->user->is($user) && $vacationRequest->state->equals(
             Created::class,
             WaitingForAdministrative::class,
