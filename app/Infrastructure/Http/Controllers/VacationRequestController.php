@@ -138,9 +138,9 @@ class VacationRequestController extends Controller
 
         $currentYearPeriod = $yearPeriodRetriever->selected();
 
-        $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $currentYearPeriod);
-        $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $currentYearPeriod);
-        $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $currentYearPeriod);
+        $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $vacationRequest->yearPeriod);
+        $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
+        $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
         $remaining = $limit - $used - $pending;
 
         return inertia("VacationRequest/Show", [

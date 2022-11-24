@@ -87,7 +87,7 @@ defineProps({
               </dd>
             </div>
             <div
-              v-if="request.isVacation && (can.acceptAsTechnical || can.acceptAsAdministrative)"
+              v-if="request.isVacation && (stats.limit > 0) && (can.acceptAsTechnical || can.acceptAsAdministrative)"
               class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6"
             >
               <dt class="flex items-center text-sm font-medium text-gray-500">
