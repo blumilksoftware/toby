@@ -61,8 +61,12 @@ class VacationRequestsSummaryNotification extends Notification
         foreach ($this->vacationRequests as $request) {
             $url = route("vacation.requests.show", ["vacationRequest" => $request->id]);
 
+            $date = $request->from->equalTo($request->to)
+                ? "{$request->from->toDisplayString()}"
+                : "{$request->from->toDisplayString()} - {$request->to->toDisplayString()}";
+
             $message->line(
-                __("- [request no. :request](:url) of user :user (:startDate - :endDate)", ["request" => $request->name, "url" => $url, "user" => $request->user->profile->full_name, "startDate" => $request->from->toDisplayString(), "endDate" => $request->to->toDisplayString()]),
+                __("[:request](:url) - :user (:date)", ["request" => $request->name, "url" => $url, "user" => $request->user->profile->full_name, "date" => $date]),
             );
         }
 

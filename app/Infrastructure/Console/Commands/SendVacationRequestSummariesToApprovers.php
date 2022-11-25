@@ -61,7 +61,7 @@ class SendVacationRequestSummariesToApprovers extends Command
 
     protected function worksToday(User $user, Carbon $date, VacationTypeConfigRetriever $configRetriever): bool
     {
-        $count = $user->createdVacationRequests()
+        $count = $user->vacationRequests()
             ->whereDate("from", "<=", $date)
             ->whereDate("to", ">=", $date)
             ->states(VacationRequestStatesRetriever::successStates())

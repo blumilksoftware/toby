@@ -15,7 +15,7 @@ class RemotesAttachment extends ListAttachment
 
         $this
             ->setTitle(__("Remote work :house_with_garden:"))
-            ->setColor("#527aba")
+            ->setColor("#84cc16")
             ->setItems($remoteDays->map(fn(VacationRequest $vacation): string => $vacation->user->profile->full_name))
             ->setEmptyText(__("Everybody is in the office :boom:"));
     }

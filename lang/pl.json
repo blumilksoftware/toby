@@ -62,8 +62,8 @@
   "Click here for details": "Kliknij, aby zobaczyć szczegóły",
   "Vacation request :title is waiting for your technical approval": "Wniosek urlopowy :title czeka na akceptację techniczną",
   "Vacation request :title is waiting for your administrative approval": "Wniosek urlopowy :title czeka na akceptację administracyjną",
-  "The vacation request :title from user :requester is waiting for your technical approval.": "Wniosek urlopowy :title użytkownika :requester czeka na Twoją akceptację techniczną.",
-  "The vacation request :title from user :requester is waiting for your administrative approval.": "Wniosek urlopowy :title użytkownika :requester czeka na Twoją akceptację administracyjną.",
+  "The vacation request :title from user :requester is waiting for your technical approval.": "Wniosek :title użytkownika :requester czeka na Twoją akceptację techniczną.",
+  "The vacation request :title from user :requester is waiting for your administrative approval.": "Wniosek :title użytkownika :requester czeka na Twoją akceptację administracyjną.",
   "Vacation request :title has been :status": "Wniosek :title został :status",
   "The vacation request :title from user :requester has been :status.": "Wniosek urlopowy :title użytkownika :requester został :status.",
   "Vacation request :title has been created on your behalf": "Wniosek urlopowy :title został utworzony w Twoim imieniu",
@@ -107,12 +107,12 @@
   "Remote work :house_with_garden:": "Praca zdalna :house_with_garden:",
   "Everybody is in the office :boom:": "Wszyscy dzisiaj są w biurze :boom:",
   "There are no keys in toby": "Nie ma żadnych kluczy w tobym",
-  "<:url|Request no. :request> for user :user (:date)": "<:url Wniosek urlopowy nr :request użytkownika :user (:date)",
+  "- <:url|:request> - :user (:date)": "<:url|:request> - :user (:date)",
   "The year period for given year does not exist.": "Okres roczny dla danego roku nie istnieje",
   "Daily summary for day :day": "Podsumowanie dla dnia :day",
   "Requests wait for your approval - status for day :date:": "Wnioski oczekujące na Twoją akcję - stan na dzień :date:",
   "Requests list waits for your approval - status for day :date:": "Lista wniosków oczekujących na Twoją akcję - stan na dzień :date:",
-  "- [request no. :request](:url) of user :user (:startDate - :endDate)": "- [wniosek nr :request](:url) użytkownika :user (:startDate - :endDate)",
+  "[:request](:url) - :user (:date)": "- [:request](:url) - :user (:date)",
   "Go to requests": "Przejdź do wniosków",
   "See details": "Zobacz szczegóły",
   "Assigned benefits has been updated.": "Zaktualizowano przypisane benefity.",
@@ -124,5 +124,6 @@
   "Benefits report :name has been created.": "Raport :name został utworzony.",
   ":sender leaves key no :key in the office": ":sender zostawia klucz nr :key w biurze",
   ":recipient takes key no :key from the office": ":recipient zabiera klucz nr :key z biura",
-  "today": "dzisiaj"
+  "today": "dzisiaj",
+  "Next birthdays: :relative": "Najbliższe urodziny: :relative"
 }

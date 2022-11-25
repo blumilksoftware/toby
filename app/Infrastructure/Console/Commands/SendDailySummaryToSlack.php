@@ -31,7 +31,7 @@ class SendDailySummaryToSlack extends Command
         $attachments = new Collection([
             new AbsencesAttachment($dailySummaryRetriever->getAbsences($now)),
             new RemotesAttachment($dailySummaryRetriever->getRemoteDays($now)),
-            new BirthdaysAttachment($dailySummaryRetriever->getBirthdays($now)),
+            new BirthdaysAttachment($dailySummaryRetriever->getUpcomingBirthdays()),
         ]);
 
         Http::withToken($this->getSlackClientToken())

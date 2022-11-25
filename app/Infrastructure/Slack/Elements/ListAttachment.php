@@ -18,6 +18,13 @@ class ListAttachment extends Attachment
         return $this;
     }
 
+    public function addItem(string $item): static
+    {
+        $this->items->add($item);
+
+        return $this;
+    }
+
     public function setEmptyText(string $emptyText): static
     {
         $this->emptyText = $emptyText;
