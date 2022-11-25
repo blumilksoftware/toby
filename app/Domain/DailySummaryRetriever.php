@@ -115,7 +115,7 @@ class DailySummaryRetriever
             ->sortBy(fn(User $user): int => $user->upcomingBirthday()->diffInDays(Carbon::today()));
 
         if ($limit) {
-            $users->take($limit);
+            return $users->take($limit);
         }
 
         return $users;
