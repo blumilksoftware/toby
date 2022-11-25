@@ -15,7 +15,7 @@ class BirthdaysAttachment extends ListAttachment
     {
         parent::__construct();
 
-        $todaysBirthadys = $birthdays->filter(
+        $todayBirthdays = $birthdays->filter(
             fn(User $user): bool => $user->upcomingBirthday()->isToday()
         );
 
@@ -26,10 +26,10 @@ class BirthdaysAttachment extends ListAttachment
         $this
             ->setTitle(__("Birthdays :birthday:"))
             ->setColor("#3c5f97")
-            ->setItems($todaysBirthadys->map(fn(User $user): string => $user->profile->full_name))
+            ->setItems($todayBirthdays->map(fn(User $user): string => $user->profile->full_name))
             ->setText($nextUpcomingBirthday->profile->full_name);
 
-        if ($todaysBirthadys->isEmpty() && $nextUpcomingBirthday) {
+        if ($todayBirthdays->isEmpty() && $nextUpcomingBirthday) {
             $this->addItem(__("Next birthdays: :relative", [
                 "relative" => $nextUpcomingBirthday->upcomingBirthday()->diffForHumans(
                     Carbon::today(),
