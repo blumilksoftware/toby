@@ -27,7 +27,7 @@ class VacationRequestsAttachment extends ListAttachment
                 ? "{$request->from->toDisplayString()}"
                 : "{$request->from->toDisplayString()} - {$request->to->toDisplayString()}";
 
-            return __("<:url|Request no. :request> for user :user (:date)", [
+            return __("<:url|:request> - :user (:date)", [
                 "url" => $url,
                 "request" => $request->name,
                 "user" => $request->user->profile->full_name,
