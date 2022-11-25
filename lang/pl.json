@@ -107,7 +107,7 @@
   "Remote work :house_with_garden:": "Praca zdalna :house_with_garden:",
   "Everybody is in the office :boom:": "Wszyscy dzisiaj są w biurze :boom:",
   "There are no keys in toby": "Nie ma żadnych kluczy w tobym",
-  "<:url|Request no. :request> for user :user (:date)": "<:url Wniosek urlopowy nr :request użytkownika :user (:date)",
+  "<:url|Request no. :request> for user :user (:date)": "<:url|Wniosek urlopowy nr :request> użytkownika :user (:date)",
   "The year period for given year does not exist.": "Okres roczny dla danego roku nie istnieje",
   "Daily summary for day :day": "Podsumowanie dla dnia :day",
   "Requests wait for your approval - status for day :date:": "Wnioski oczekujące na Twoją akcję - stan na dzień :date:",
@@ -124,5 +124,6 @@
   "Benefits report :name has been created.": "Raport :name został utworzony.",
   ":sender leaves key no :key in the office": ":sender zostawia klucz nr :key w biurze",
   ":recipient takes key no :key from the office": ":recipient zabiera klucz nr :key z biura",
-  "today": "dzisiaj"
+  "today": "dzisiaj",
+  "Next birthdays: :relative": "Najbliższe urodziny: :relative"
 }
