@@ -14,6 +14,19 @@ volumes:
   toby-beta-static-assets:
     name: toby-beta-static-assets
 
+# extension fields
+x-toby-app-shared: &app
+  image: toby-beta-app:latest
+  container_name: toby-beta-php
+  working_dir: /application
+  volumes:
+    - toby-beta-static-assets:/application/public
+    - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+    - ./.env:/application/.env
+  networks:
+    - toby-beta
+  restart: unless-stopped
+
 services:
   toby-beta-web:
     image: nginx:1.23-alpine
@@ -39,25 +52,19 @@ services:
       - toby-beta-php
       - toby-beta-database
 
-  toby-beta-php: &app
+  toby-beta-php:
     build:
       context: .
       dockerfile: environment/prod/php/Dockerfile
       target: prod
-    container_name: toby-beta-php
-    working_dir: /application
-    volumes:
-      - toby-beta-static-assets:/application/public
-      - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
-    networks:
-      - toby-beta
-    restart: unless-stopped
+    <<: *app
 
   toby-beta-worker:
     <<: *app
     container_name: toby-beta-worker
     volumes:
-      - ./environment/prod/worker/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+      - ./environment/prod/worker/php.ini:/usr/local/etc/php/conf.d/99-worker-toby-php.ini
+      - ./.env:/application/.env
     user: root
     entrypoint: [ "./environment/prod/worker/entrypoint.sh" ]
 
@@ -65,7 +72,8 @@ services:
     <<: *app
     container_name: toby-beta-scheduler
     volumes:
-      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-scheduler-toby-php.ini
+      - ./.env:/application/.env
     user: root
     entrypoint: [ "./environment/prod/scheduler/entrypoint.sh" ]
 

@@ -15,6 +15,10 @@ return [
             "url" => env("APP_URL") . "/storage",
             "visibility" => "public",
         ],
+        "database_backup" => [
+            "driver" => "local",
+            "root" => storage_path("app/database/backup"),
+        ],
     ],
     "links" => [
         public_path("storage") => storage_path("app/storage"),
