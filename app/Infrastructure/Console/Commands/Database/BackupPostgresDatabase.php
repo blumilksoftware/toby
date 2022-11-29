@@ -69,6 +69,6 @@ class BackupPostgresDatabase extends Command
             throw $exception;
         }
 
-        $this->info("Created backup file successfully");
+        $this->info("Created backup file successfully.");
     }
 }
