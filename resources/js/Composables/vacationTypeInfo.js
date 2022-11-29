@@ -90,7 +90,7 @@ const types = [
     border: 'border-lime-500',
   },
   {
-    text: 'Złóż wniosek',
+    text: 'Dodaj wniosek',
     value: 'create',
     icon: PlusIcon,
     color: 'text-blumilk-700',

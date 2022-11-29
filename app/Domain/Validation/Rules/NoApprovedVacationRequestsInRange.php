@@ -21,6 +21,6 @@ class NoApprovedVacationRequestsInRange implements VacationRequestRule
 
     public function errorMessage(): string
     {
-        return __("You have approved vacation request in this range.");
+        return __("You have an approved request in this date range.");
     }
 }

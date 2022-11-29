@@ -37,7 +37,7 @@ class TechnologyController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Technology :name has been created.", [
+            ->with("success", __("Technology :name created.", [
                 "name" => $technology->name,
             ]));
     }
@@ -50,7 +50,7 @@ class TechnologyController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Technology :name has been deleted.", [
+            ->with("success", __("Technology :name deleted.", [
                 "name" => $technology->name,
             ]));
     }

@@ -300,7 +300,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Vacation at weekend.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => __("Vacation needs minimum one day."),
+                "vacationRequest" => __("The request must be for at least one day."),
             ]);
     }
 
@@ -332,7 +332,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Vacation at holiday.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => __("Vacation needs minimum one day."),
+                "vacationRequest" => __("The request must be for at least one day."),
             ]);
     }
 
@@ -370,7 +370,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Another comment for the another vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => __("You have pending vacation request in this range."),
+                "vacationRequest" => __("You have a pending request in this date range."),
             ]);
     }
 
@@ -408,7 +408,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Another comment for the another vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => __("You have approved vacation request in this range."),
+                "vacationRequest" => __("You have an approved request in this date range."),
             ]);
     }
 
@@ -425,7 +425,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => __("Vacation needs minimum one day."),
+                "vacationRequest" => __("The request must be for at least one day."),
             ]);
     }
 
@@ -443,7 +443,7 @@ class VacationRequestTest extends FeatureTestCase
                 "comment" => "Comment for the vacation request.",
             ])
             ->assertSessionHasErrors([
-                "vacationRequest" => __("The vacation request cannot be created at the turn of the year."),
+                "vacationRequest" => __("The request cannot be created at the turn of the year."),
             ]);
     }
 

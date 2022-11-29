@@ -61,7 +61,6 @@ function createHoliday() {
           <FlatPickr
             id="date"
             v-model="form.date"
-            placeholder="Wybierz datę"
             :config="{minDate, maxDate}"
             class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.date, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.date }"
@@ -88,7 +87,7 @@ function createHoliday() {
             :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
             :disabled="form.processing || !form.isDirty"
           >
-            Zapisz
+            Dodaj
           </button>
         </div>
       </div>

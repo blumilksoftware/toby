@@ -21,6 +21,6 @@ class NoPendingVacationRequestInRange implements VacationRequestRule
 
     public function errorMessage(): string
     {
-        return __("You have pending vacation request in this range.");
+        return __("You have a pending request in this date range.");
     }
 }
