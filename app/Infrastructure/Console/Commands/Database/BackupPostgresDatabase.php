@@ -39,7 +39,7 @@ class BackupPostgresDatabase extends Command
     {
         $databaseName = $configRepository->get("database.connections.pgsql.database");
         $environmentName = $application->environment();
-        $dateString = Carbon::now()->toDateTimeString();
+        $dateString = Carbon::now()->toDateString();
 
         $backupFilename = "$environmentName-$databaseName-dump-$dateString.dump";
 
