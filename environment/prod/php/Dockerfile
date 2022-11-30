@@ -48,6 +48,7 @@ RUN apt-get update && apt-get install --assume-yes \
     libzip-dev \
     libpng-dev \
     supervisor \
+    cron \
     && pecl install redis-${PHPREDIS_VERSION} \
     && docker-php-ext-install \
     pdo_pgsql \

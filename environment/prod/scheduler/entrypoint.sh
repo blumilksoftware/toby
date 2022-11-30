@@ -3,7 +3,8 @@
 # -e is for "automatic error detection", tell shell to abort any time an error occurred
 set -e
 
-# -f  foreground
-# -L log output
+# https://manpages.debian.org/bullseye/cron/cron.8.en.html
+# -f  Stay in foreground mode, don't daemonize.
 
-crontab ./environment/prod/scheduler/tasks.cron && crond -f -L /dev/stdout
+crontab ./environment/prod/scheduler/tasks.cron \
+  && cron -f
