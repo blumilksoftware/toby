@@ -38,18 +38,17 @@ class Kernel extends ConsoleKernel
     protected function scheduleDatabaseBackup(Schedule $schedule): void
     {
         $scheduledTask = $schedule->command(BackupPostgresDatabase::class)
-            ->everyMinute();
-//            ->dailyAt(time: "05:00")
-//            ->withoutOverlapping()
-//            ->onOneServer()
-//            ->environments(["beta", "production"]);
-//
-//        $notifyOnFailure = config()->get("mail.database_backup.notify_on_failure");
-//
-//        if ($notifyOnFailure) {
-//            $emailAddress = config()->get("mail.database_backup.notification_email");
-//
-//            $scheduledTask->emailOutputOnFailure($emailAddress);
-//        }
+            ->dailyAt(time: "05:00")
+            ->withoutOverlapping()
+            ->onOneServer()
+            ->environments(["beta", "production"]);
+
+        $notifyOnFailure = config()->get("mail.database_backup.notify_on_failure");
+
+        if ($notifyOnFailure) {
+            $emailAddress = config()->get("mail.database_backup.notification_email");
+
+            $scheduledTask->emailOutputOnFailure($emailAddress);
+        }
     }
 }
