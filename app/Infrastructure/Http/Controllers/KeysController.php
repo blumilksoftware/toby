@@ -51,7 +51,7 @@ class KeysController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Key no :number has been created.", [
+            ->with("success", __("Key no :number created.", [
                 "number" => $key->id,
             ]));
     }
@@ -120,7 +120,7 @@ class KeysController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Key no :number has been leaved in the office.", [
+            ->with("success", __("Key no :number left in the office.", [
                 "number" => $key->id,
             ]));
     }
@@ -133,7 +133,7 @@ class KeysController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Key no :number has been deleted.", [
+            ->with("success", __("Key no :number deleted.", [
                 "number" => $key->id,
             ]));
     }

@@ -15,6 +15,6 @@ class VacationRangeIsInTheSameYearRule implements VacationRequestRule
 
     public function errorMessage(): string
     {
-        return __("The vacation request cannot be created at the turn of the year.");
+        return __("The request cannot be created at the turn of the year.");
     }
 }

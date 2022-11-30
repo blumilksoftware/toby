@@ -54,9 +54,13 @@ class VacationRequestStatusChangedNotification extends Notification
     {
         $user = $this->user->profile->first_name;
         $type = $this->vacationRequest->type->label();
-        $from = $this->vacationRequest->from->toDisplayString();
-        $to = $this->vacationRequest->to->toDisplayString();
+        $from = $this->vacationRequest->from;
+        $to = $this->vacationRequest->to;
         $days = $this->vacationRequest->vacations()->count();
+
+        $date = $from->equalTo($to)
+            ? "{$from->toDisplayString()}"
+            : "{$from->toDisplayString()} - {$to->toDisplayString()}";
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
@@ -64,20 +68,21 @@ class VacationRequestStatusChangedNotification extends Notification
             ]))
             ->subject($this->buildSubject())
             ->line($this->buildDescription())
-            ->line(__("Vacation type: :type", [
+            ->line(__("Request type: :type", [
                 "type" => $type,
             ]))
-            ->line(__("From :from to :to (number of days: :days)", [
-                "from" => $from,
-                "to" => $to,
-                "days" => $days,
-            ]))
+            ->line(
+                __("Date: :date (number of days: :days)", [
+                    "date" => $date,
+                    "days" => $days,
+                ]),
+            )
             ->action(__("Click here for details"), $url);
     }
 
     protected function buildSubject(): string
     {
-        return __("Vacation request :title has been :status", [
+        return __("Request :title has been :status", [
             "title" => $this->vacationRequest->name,
             "status" => $this->vacationRequest->state->label(),
         ]);
@@ -85,7 +90,7 @@ class VacationRequestStatusChangedNotification extends Notification
 
     protected function buildDescription(): string
     {
-        return __("The vacation request :title from user :requester has been :status.", [
+        return __("The request :title from user :requester has been :status.", [
             "title" => $this->vacationRequest->name,
             "requester" => $this->vacationRequest->user->profile->full_name,
             "status" => $this->vacationRequest->state->label(),

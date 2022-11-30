@@ -51,7 +51,7 @@ defineProps({
           Limit urlopu
         </dd>
         <dt class="mt-2 text-sm font-medium text-gray-500">
-          Twój roczny limit urlopu wypoczynkowego.
+          Roczny limit urlopu wypoczynkowego.
         </dt>
       </div>
     </div>

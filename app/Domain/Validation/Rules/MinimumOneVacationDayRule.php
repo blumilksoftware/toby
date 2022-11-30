@@ -22,6 +22,6 @@ class MinimumOneVacationDayRule implements VacationRequestRule
 
     public function errorMessage(): string
     {
-        return __("Vacation needs minimum one day.");
+        return __("The request must be for at least one day.");
     }
 }

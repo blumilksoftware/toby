@@ -256,7 +256,6 @@ function createUser() {
           <FlatPickr
             id="employment_date"
             v-model="form.employmentDate"
-            placeholder="Wybierz datę"
             class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentDate }"
           />
@@ -302,7 +301,6 @@ function createUser() {
           <FlatPickr
             id="birthday"
             v-model="form.birthday"
-            placeholder="Wybierz datę"
             class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.birthday, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.birthday }"
           />
@@ -328,7 +326,7 @@ function createUser() {
             :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
             :disabled="form.processing || !form.isDirty"
           >
-            Zapisz
+            Dodaj
           </button>
         </div>
       </div>

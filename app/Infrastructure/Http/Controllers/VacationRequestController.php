@@ -222,7 +222,7 @@ class VacationRequestController extends Controller
 
         return redirect()
             ->route("vacation.requests.show", $vacationRequest)
-            ->with("success", __("Vacation request has been created."));
+            ->with("success", __("Request created."));
     }
 
     /**
@@ -238,7 +238,7 @@ class VacationRequestController extends Controller
         $rejectAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
-            ->with("success", __("Vacation request has been rejected."));
+            ->with("success", __("Request rejected."));
     }
 
     /**
@@ -254,7 +254,7 @@ class VacationRequestController extends Controller
         $cancelAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
-            ->with("success", __("Vacation request has been cancelled."));
+            ->with("success", __("Request cancelled."));
     }
 
     /**
@@ -270,7 +270,7 @@ class VacationRequestController extends Controller
         $acceptAsTechnicalAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
-            ->with("success", __("Vacation request has been accepted."));
+            ->with("success", __("Request accepted."));
     }
 
     /**
@@ -286,6 +286,6 @@ class VacationRequestController extends Controller
         $acceptAsAdministrativeAction->execute($vacationRequest, $request->user());
 
         return redirect()->back()
-            ->with("success", __("Vacation request has been accepted."));
+            ->with("success", __("Request accepted."));
     }
 }
