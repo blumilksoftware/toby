@@ -11,7 +11,7 @@ services:
     networks:
       - toby-dev
     ports:
-      - ${EXTERNAL_WEBSERVER_PORT:-8080}:80
+      - ${EXTERNAL_WEBSERVER_PORT:-80}:80
     restart: unless-stopped
     depends_on:
       - php
@@ -24,12 +24,10 @@ services:
         INSTALL_XDEBUG: ${DOCKER_INSTALL_XDEBUG:-false}
     container_name: toby-php
     working_dir: /application
-    user: root
-#    user: ${CURRENT_UID:-1000}
+    user: ${CURRENT_UID:-1000}
     volumes:
       - .:/application
       - ./environment/dev/php/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - toby-pgsql-data-backups:/application/storage/app/database/backup
     networks:
       - toby-dev
     extra_hosts:
@@ -45,32 +43,32 @@ services:
       - POSTGRES_USER=${DOCKER_DEV_DB_USERNAME}
       - POSTGRES_PASSWORD=${DOCKER_DEV_DB_PASSWORD}
     ports:
-      - ${DOCKER_DEV_DB_EXTERNAL_PORT:-15432}:5432
+      - ${DOCKER_DEV_DB_EXTERNAL_PORT:-5432}:5432
     volumes:
       - toby-pgsql-data:/var/lib/postgresql/data
     networks:
       - toby-dev
     restart: unless-stopped
-#
-#  database-test:
-#    image: postgres:15
-#    container_name: toby-db-test
-#    environment:
-#      - PGPASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
-#      - POSTGRES_DB=${DOCKER_TEST_DB_DATABASE}
-#      - POSTGRES_USER=${DOCKER_TEST_DB_USERNAME}
-#      - POSTGRES_PASSWORD=${DOCKER_TEST_DB_PASSWORD}
-#    ports:
-#      - ${DOCKER_TEST_DB_EXTERNAL_PORT:-5433}:5432
-#    networks:
-#      - toby-dev
-#    restart: unless-stopped
+
+  database-test:
+    image: postgres:15
+    container_name: toby-db-test
+    environment:
+      - PGPASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
+      - POSTGRES_DB=${DOCKER_TEST_DB_DATABASE}
+      - POSTGRES_USER=${DOCKER_TEST_DB_USERNAME}
+      - POSTGRES_PASSWORD=${DOCKER_TEST_DB_PASSWORD}
+    ports:
+      - ${DOCKER_TEST_DB_EXTERNAL_PORT:-5433}:5432
+    networks:
+      - toby-dev
+    restart: unless-stopped
 
   redis:
     image: redis:7
     container_name: toby-redis
-#    ports:
-#      - ${FORWARD_REDIS_PORT:-6379}:6379
+    ports:
+      - ${FORWARD_REDIS_PORT:-6379}:6379
     volumes:
       - toby-redis-data:/data
     networks:
@@ -86,43 +84,27 @@ services:
       - .:/application
     networks:
       - toby-dev
-#    ports:
-#      - ${EXTERNAL_NODE_PORT:-5173}:5173
-    restart: unless-stopped
-#
-#  mailhog:
-#    image: mailhog/mailhog:v1.0.1
-#    container_name: toby-mailhog
-#    ports:
-#      - ${MAIL_PORT}:1025
-#      - ${MAILHOG_DASHBOARD_PORT}:8025
-#    networks:
-#      - toby-dev
-#    restart: unless-stopped
-#
-#  selenium:
-#    image: selenium/standalone-chrome
-#    container_name: toby-selenium
-#    volumes:
-#      - /dev/shm:/dev/shm
-#    networks:
-#      - toby-dev
-#    restart: unless-stopped
-
-  duplicati:
-    image: lscr.io/linuxserver/duplicati:latest
-    container_name: duplicati
-  #  environment:
-  #    - PUID=1000 #the user
-  #    - PGID=1000 #the group
-  #    - TZ=Europe/London
-  #    - CLI_ARGS= #optional
-    volumes:
-  #    - </path/to/appdata/config>:/config
-  #    - </path/to/backups>:/backups
-      - toby-pgsql-data-backups:/dumps/toby/dev
     ports:
-      - 8200:8200
+      - ${EXTERNAL_NODE_PORT:-5173}:5173
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: toby-mailhog
+    ports:
+      - ${MAIL_PORT}:1025
+      - ${MAILHOG_DASHBOARD_PORT}:8025
+    networks:
+      - toby-dev
+    restart: unless-stopped
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: toby-selenium
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - toby-dev
     restart: unless-stopped
 
 networks:
@@ -132,7 +114,5 @@ networks:
 volumes:
   toby-pgsql-data:
     name: toby-pgsql-data
-  toby-pgsql-data-backups:
-    name: toby-pgsql-data-backups
   toby-redis-data:
     name: toby-redis-data
