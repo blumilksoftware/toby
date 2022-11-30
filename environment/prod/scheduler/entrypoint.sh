@@ -7,4 +7,4 @@ set -e
 # -f  Stay in foreground mode, don't daemonize.
 
 crontab ./environment/prod/scheduler/tasks.cron \
-  && cron -f -L /dev/stdout
+  && cron -f
