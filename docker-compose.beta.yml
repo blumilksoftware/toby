@@ -13,6 +13,9 @@ volumes:
     name: toby-beta-redis-data
   toby-beta-static-assets:
     name: toby-beta-static-assets
+  duplicati-source:
+    name: duplicati-source
+    external: true
 
 # extension fields
 x-toby-app-shared: &app
@@ -20,6 +23,7 @@ x-toby-app-shared: &app
   container_name: toby-beta-php
   working_dir: /application
   volumes:
+    - duplicati-source:/backup
     - toby-beta-static-assets:/application/public
     - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
     - ./.env:/application/.env

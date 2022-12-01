@@ -17,7 +17,7 @@ return [
         ],
         "database_backup" => [
             "driver" => "local",
-            "root" => storage_path("app/database/backup"),
+            "root" => "/backup/toby/database/backup",
         ],
     ],
     "links" => [

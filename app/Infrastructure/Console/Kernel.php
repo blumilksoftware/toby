@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
             ->dailyAt(time: "05:00")
             ->withoutOverlapping()
             ->onOneServer()
-            ->environments(["beta", "production"]);
+            ->environments(["production"]);
 
         $notifyOnFailure = config()->get("mail.database_backup.notify_on_failure");
 
