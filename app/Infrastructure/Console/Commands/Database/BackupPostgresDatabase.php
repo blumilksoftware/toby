@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Config\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Filesystem\FilesystemManager;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -16,12 +17,21 @@ class BackupPostgresDatabase extends Command
     protected $signature = "toby:backup-db";
     protected $description = "Backup application Postgres database.";
 
-    public function handle(Application $application, Repository $configRepository): void
+    public function handle(Application $application, Repository $configRepository, FilesystemManager $filesystemManager): void
     {
+        $this->purgeBackupDirectory($filesystemManager);
+
         $connectionString = $this->buildConnectionString($configRepository);
         $backupFilePath = $this->buildBackupFilePath($application, $configRepository);
 
         $this->createDump($connectionString, $backupFilePath);
+    }
+
+    protected function purgeBackupDirectory(FilesystemManager $filesystemManager): void
+    {
+        $backupStorage = $filesystemManager->disk("database_backup");
+        $allFiles = $backupStorage->allFiles();
+        $backupStorage->delete($allFiles);
     }
 
     protected function buildConnectionString(Repository $configRepository): string
