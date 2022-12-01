@@ -14,7 +14,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     && docker-php-ext-enable xdebug \
 ;fi
 
-ARG REDIS_CLIENT_VERSION=5.3.7
+ARG PHPREDIS_VERSION=5.3.7
 
 RUN apt-get update && apt-get install --assume-yes \
     libpcre3-dev \
@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install --assume-yes \
     zip \
     libzip-dev \
     libpng-dev \
-    && pecl install redis-${REDIS_CLIENT_VERSION} \
+    && pecl install redis-${PHPREDIS_VERSION} \
     && docker-php-ext-install \
     pdo_pgsql \
     zip \
