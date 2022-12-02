@@ -76,6 +76,7 @@ services:
     <<: *app
     container_name: toby-prod-scheduler
     volumes:
+      - duplicati-source:/backup
       - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-scheduler-toby-php.ini
       - ./.env:/application/.env
     user: root
