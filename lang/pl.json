@@ -125,5 +125,6 @@
   ":sender leaves key no :key in the office": ":sender zostawia klucz nr :key w biurze",
   ":recipient takes key no :key from the office": ":recipient zabiera klucz nr :key z biura",
   "today": "dzisiaj",
-  "Next birthdays: :relative": "Najbliższe urodziny: :relative"
+  "Next birthdays: :relative": "Najbliższe urodziny: :relative",
+  "Days moved.": "Dni przeniesione."
 }

@@ -92,6 +92,6 @@ class VacationLimitController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __(":)"));
+            ->with("success", __("Days moved."));
     }
 }
