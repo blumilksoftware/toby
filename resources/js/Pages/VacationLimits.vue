@@ -18,8 +18,6 @@ const form = useForm({
 const takingDaysFromPreviousYear = ref(false)
 const limitToChange = ref(null)
 
-console.log(props.years)
-
 function submitVacationDays() {
   form
     .transform(data => ({
