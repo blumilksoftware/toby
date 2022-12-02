@@ -18,6 +18,8 @@ const form = useForm({
 const takingDaysFromPreviousYear = ref(false)
 const limitToChange = ref(null)
 
+console.log(props.years)
+
 function submitVacationDays() {
   form
     .transform(data => ({
@@ -78,19 +80,19 @@ watch(() => form.items, () => {
                   scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                 >
-                  Pozostałe dni z {{ years.current.year -1 }}
+                  Pozostałe dni z {{ years.selected.year -1 }}
                 </th>
                 <th
                   scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                 >
-                  Przysługujące dni w roku {{ years.current.year }}
+                  Przysługujące dni w roku {{ years.selected.year }}
                 </th>
                 <th
                   scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                 >
-                  Łączny limit na rok {{ years.current.year }}
+                  Łączny limit na rok {{ years.selected.year }}
                 </th>
               </tr>
             </thead>
@@ -134,6 +136,7 @@ watch(() => form.items, () => {
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   <RemainingFromPreviousYearPopup
                     class="w-full"
+                    :year="years.selected.year - 1"
                     :remaining="item.remainingLastYear"
                     :to-next-year="item.fromPreviousYear"
                     @change-previous-year="limitToChange = item; takingDaysFromPreviousYear = true"
@@ -164,6 +167,7 @@ watch(() => form.items, () => {
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   <VacationLimitPopup
                     class="w-full"
+                    :year="years.selected.year"
                     :limit="item.limit"
                     :days="item.days"
                     :from-previous-year="item.fromPreviousYear"
@@ -201,7 +205,7 @@ watch(() => form.items, () => {
   </div>
   <TakeVacationDaysFromPreviousYearModal
     :show="takingDaysFromPreviousYear"
-    :year="years.current.year - 1"
+    :year="years.selected.year - 1"
     :limit="limitToChange"
     @close="takingDaysFromPreviousYear = false"
     @changed="takingDaysFromPreviousYear = false"

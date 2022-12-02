@@ -5,6 +5,7 @@ const emit = defineEmits(['changePreviousYear'])
 
 defineProps({
   remaining: Number,
+  year: Number,
   toNextYear: Number,
 })
 </script>
@@ -29,7 +30,7 @@ defineProps({
           </div>
           <div class="py-2 space-y-1">
             <dt class="text-sm font-medium text-gray-500">
-              Przeniesione na następny rok
+              Przeniesione na {{ year + 1 }}
             </dt>
             <dd class="mt-1 text-sm text-gray-900">
               {{ toNextYear ?? 0 }}

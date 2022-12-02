@@ -6,6 +6,7 @@ defineProps({
   days: Number,
   fromPreviousYear: Number,
   toNextYear: Number,
+  year: Number,
 })
 </script>
 
@@ -37,7 +38,7 @@ defineProps({
           </div>
           <div class="py-2 space-y-1">
             <dt class="text-sm font-medium text-gray-500">
-              Przeniesione dni z poprzedniego roku
+              Przeniesione dni z {{ year - 1 }}
             </dt>
             <dd class="mt-1 text-sm text-gray-900">
               {{ fromPreviousYear ?? 0 }}
@@ -45,7 +46,7 @@ defineProps({
           </div>
           <div class="py-2 space-y-1">
             <dt class="text-sm font-medium text-gray-500">
-              Przeniesione dni na następny rok
+              Przeniesione dni na {{ year + 1 }}
             </dt>
             <dd class="mt-1 text-sm text-gray-900">
               {{ toNextYear ?? 0 }}

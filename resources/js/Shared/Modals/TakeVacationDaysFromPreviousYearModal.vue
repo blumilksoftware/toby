@@ -95,7 +95,7 @@ watch(() => props.show, () => {
                 as="h3"
                 class="text-lg font-medium leading-6 text-center text-gray-900 font-sembiold"
               >
-                Ustal przeniesione dni dla roku {{ year }}
+                Ustal przeniesione dni
               </DialogTitle>
               <div class="mt-5 space-y-4">
                 <div>
@@ -123,7 +123,7 @@ watch(() => props.show, () => {
                     for="name"
                     class="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Przeniesione dni
+                    Przeniesione dni na rok {{ year + 1 }}
                   </label>
                   <input
                     v-model="form.days"
@@ -144,7 +144,7 @@ watch(() => props.show, () => {
                     for="name"
                     class="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Pozostałe dni
+                    Pozostałe dni w roku {{ year }}
                   </label>
                   <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
                     {{ remaining }}
