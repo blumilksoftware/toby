@@ -95,7 +95,7 @@ watch(() => props.show, () => {
                 as="h3"
                 class="text-lg font-medium leading-6 text-center text-gray-900 font-sembiold"
               >
-               Przenieś dni
+                Przenieś dni
               </DialogTitle>
               <div class="mt-5 space-y-4">
                 <div>
