@@ -1,1 +1,3 @@
-* * * * * cd /application && php artisan schedule:run >> /dev/null 2>&1
+# Redirecting the cron's commands output into the docker stdout (/proc/1/fd/1) and stderr (/proc/1/fd/2)
+
+* * * * * cd /application && /usr/local/bin/php artisan schedule:run > /proc/1/fd/1 2>/proc/1/fd/2
