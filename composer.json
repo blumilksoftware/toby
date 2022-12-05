@@ -29,7 +29,7 @@
     "require-dev": {
         "blumilksoftware/codestyle": "^1.3",
         "fakerphp/faker": "^1.19",
-        "laravel/dusk": "^6.24",
+        "laravel/dusk": "^7.1",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^6.2",
         "phpunit/phpunit": "^9.5",
