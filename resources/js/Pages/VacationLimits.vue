@@ -1,6 +1,10 @@
 <script setup>
 import { Switch } from '@headlessui/vue'
 import { useForm } from '@inertiajs/inertia-vue3'
+import { ref, watch } from 'vue'
+import VacationLimitPopup from '@/Shared/VacationLimitPopup.vue'
+import RemainingFromPreviousYearPopup from '@/Shared/RemainingFromPreviousYearPopup.vue'
+import TakeVacationDaysFromPreviousYearModal from '@/Shared/Modals/TakeVacationDaysFromPreviousYearModal.vue'
 
 const props = defineProps({
   limits: Object,
@@ -10,6 +14,9 @@ const props = defineProps({
 const form = useForm({
   items: props.limits,
 })
+
+const takingDaysFromPreviousYear = ref(false)
+const limitToChange = ref(null)
 
 function submitVacationDays() {
   form
@@ -24,6 +31,13 @@ function submitVacationDays() {
       preserveScroll: true,
     })
 }
+
+watch(() => form.items, () => {
+  for (const item of form.items) {
+    item.limit = item.days + item.fromPreviousYear - item.toNextYear
+  }
+
+}, { deep: true })
 </script>
 
 <template>
@@ -32,7 +46,7 @@ function submitVacationDays() {
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Dostępne dni urlopu dla użytkowników
+          Limit dni urlopu dla użytkowników
         </h2>
       </div>
     </div>
@@ -64,13 +78,19 @@ function submitVacationDays() {
                   scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                 >
-                  Pozostałe dni z poprzedniego roku
+                  Pozostałe dni z {{ years.selected.year -1 }}
                 </th>
                 <th
                   scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                 >
-                  Dostępne dni w roku
+                  Przysługujące dni w roku {{ years.selected.year }}
+                </th>
+                <th
+                  scope="col"
+                  class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                >
+                  Łączny limit na rok {{ years.selected.year }}
                 </th>
               </tr>
             </thead>
@@ -112,9 +132,17 @@ function submitVacationDays() {
                   </Switch>
                 </td>
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                  <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
-                    {{ item.remainingLastYear }}
-                  </div>
+                  <RemainingFromPreviousYearPopup
+                    class="w-full"
+                    :year="years.selected.year - 1"
+                    :remaining="item.remainingLastYear"
+                    :to-next-year="item.fromPreviousYear"
+                    @change-previous-year="limitToChange = item; takingDaysFromPreviousYear = true"
+                  >
+                    <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
+                      {{ item.remainingLastYear }}
+                    </div>
+                  </RemainingFromPreviousYearPopup>
                 </td>
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   <div class="mt-1 sm:col-span-2 sm:mt-0">
@@ -133,6 +161,20 @@ function submitVacationDays() {
                       {{ form.errors[`items.${index}.days`] }}
                     </p>
                   </div>
+                </td>
+                <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                  <VacationLimitPopup
+                    class="w-full"
+                    :year="years.selected.year"
+                    :limit="item.limit"
+                    :days="item.days"
+                    :from-previous-year="item.fromPreviousYear"
+                    :to-next-year="item.toNextYear"
+                  >
+                    <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
+                      {{ item.limit }}
+                    </div>
+                  </VacationLimitPopup>
                 </td>
               </tr>
               <tr v-if="!form.items.length">
@@ -159,4 +201,11 @@ function submitVacationDays() {
       </form>
     </div>
   </div>
+  <TakeVacationDaysFromPreviousYearModal
+    :show="takingDaysFromPreviousYear"
+    :year="years.selected.year - 1"
+    :limit="limitToChange"
+    @close="takingDaysFromPreviousYear = false"
+    @changed="takingDaysFromPreviousYear = false"
+  />
 </template>

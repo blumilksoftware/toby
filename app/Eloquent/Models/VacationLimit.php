@@ -13,7 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property User $user
  * @property YearPeriod $yearPeriod
+ * @property int $limit
  * @property int $days
+ * @property int $from_previous_year
+ * @property int $to_next_year
  */
 class VacationLimit extends Model
 {

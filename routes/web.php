@@ -83,6 +83,9 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
         Route::get("/limits", [VacationLimitController::class, "edit"])
             ->name("limits");
+        Route::post("/limits/{limit}/take-from-last-year", [VacationLimitController::class, "takeFromLastYear"])
+            ->name("limits.take");
+
         Route::get("/timesheet/{month}", TimesheetController::class)
             ->name("timesheet");
 
