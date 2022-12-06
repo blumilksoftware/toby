@@ -65,7 +65,7 @@ class VacationLimitController extends Controller
 
         return redirect()
             ->back()
-            ->with("success", __("Vacation limits have been updated."));
+            ->with("success", __("Vacation limits updated."));
     }
 
     public function takeFromLastYear(

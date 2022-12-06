@@ -13,6 +13,23 @@ volumes:
     name: toby-prod-redis-data
   toby-prod-static-assets:
     name: toby-prod-static-assets
+  duplicati-source:
+    name: duplicati-source
+    external: true
+
+# extension fields
+x-toby-app-shared: &app
+  image: toby-prod-app:latest
+  container_name: toby-prod-php
+  working_dir: /application
+  volumes:
+    - duplicati-source:/backup
+    - toby-prod-static-assets:/application/public
+    - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+    - ./.env:/application/.env
+  networks:
+    - toby-prod
+  restart: unless-stopped
 
 services:
   toby-prod-web:
@@ -39,25 +56,19 @@ services:
       - toby-prod-php
       - toby-prod-database
 
-  toby-prod-php: &app
+  toby-prod-php:
     build:
       context: .
       dockerfile: environment/prod/php/Dockerfile
       target: prod
-    container_name: toby-prod-php
-    working_dir: /application
-    volumes:
-      - toby-prod-static-assets:/application/public
-      - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
-    networks:
-      - toby-prod
-    restart: unless-stopped
+    <<: *app
 
   toby-prod-worker:
     <<: *app
     container_name: toby-prod-worker
     volumes:
-      - ./environment/prod/worker/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+      - ./environment/prod/worker/php.ini:/usr/local/etc/php/conf.d/99-worker-toby-php.ini
+      - ./.env:/application/.env
     user: root
     entrypoint: [ "./environment/prod/worker/entrypoint.sh" ]
 
@@ -65,7 +76,9 @@ services:
     <<: *app
     container_name: toby-prod-scheduler
     volumes:
-      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
+      - duplicati-source:/backup
+      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-scheduler-toby-php.ini
+      - ./.env:/application/.env
     user: root
     entrypoint: [ "./environment/prod/scheduler/entrypoint.sh" ]
 

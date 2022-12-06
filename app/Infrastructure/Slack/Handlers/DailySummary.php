@@ -27,7 +27,7 @@ class DailySummary extends SignatureHandler
         $attachments = new Collection([
             new AbsencesAttachment($dailySummaryRetriever->getAbsences($now)),
             new RemotesAttachment($dailySummaryRetriever->getRemoteDays($now)),
-            new BirthdaysAttachment($dailySummaryRetriever->getBirthdays($now)),
+            new BirthdaysAttachment($dailySummaryRetriever->getUpcomingBirthdays()),
         ]);
 
         return $this->respondToSlack(__("Summary for the day :day", ["day" => $now->toDisplayString()]))

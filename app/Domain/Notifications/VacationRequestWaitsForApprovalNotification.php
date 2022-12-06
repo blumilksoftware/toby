@@ -55,9 +55,13 @@ class VacationRequestWaitsForApprovalNotification extends Notification
     {
         $user = $this->user->profile->first_name;
         $type = $this->vacationRequest->type->label();
-        $from = $this->vacationRequest->from->toDisplayString();
-        $to = $this->vacationRequest->to->toDisplayString();
+        $from = $this->vacationRequest->from;
+        $to = $this->vacationRequest->to;
         $days = $this->vacationRequest->vacations()->count();
+
+        $date = $from->equalTo($to)
+            ? "{$from->toDisplayString()}"
+            : "{$from->toDisplayString()} - {$to->toDisplayString()}";
 
         return (new MailMessage())
             ->greeting(__("Hi :user!", [
@@ -65,14 +69,15 @@ class VacationRequestWaitsForApprovalNotification extends Notification
             ]))
             ->subject($this->buildSubject())
             ->line($this->buildDescription())
-            ->line(__("Vacation type: :type", [
+            ->line(__("Request type: :type", [
                 "type" => $type,
             ]))
-            ->line(__("From :from to :to (number of days: :days)", [
-                "from" => $from,
-                "to" => $to,
-                "days" => $days,
-            ]))
+            ->line(
+                __("Date: :date (number of days: :days)", [
+                    "date" => $date,
+                    "days" => $days,
+                ]),
+            )
             ->action(__("Click here for details"), $url);
     }
 
@@ -81,12 +86,12 @@ class VacationRequestWaitsForApprovalNotification extends Notification
         $title = $this->vacationRequest->name;
 
         if ($this->vacationRequest->state->equals(WaitingForTechnical::class)) {
-            return __("Vacation request :title is waiting for your technical approval", [
+            return __("Request :title is waiting for your technical approval", [
                 "title" => $title,
             ]);
         }
 
-        return __("Vacation request :title is waiting for your administrative approval", [
+        return __("Request :title is waiting for your administrative approval", [
             "title" => $title,
         ]);
     }
@@ -97,13 +102,13 @@ class VacationRequestWaitsForApprovalNotification extends Notification
         $requester = $this->vacationRequest->user->profile->full_name;
 
         if ($this->vacationRequest->state->equals(WaitingForTechnical::class)) {
-            return __("The vacation request :title from user :requester is waiting for your technical approval.", [
+            return __("The request :title from user :requester is waiting for your technical approval.", [
                 "title" => $title,
                 "requester" => $requester,
             ]);
         }
 
-        return __("The vacation request :title from user :requester is waiting for your administrative approval.", [
+        return __("The request :title from user :requester is waiting for your administrative approval.", [
             "title" => $title,
             "requester" => $requester,
         ]);

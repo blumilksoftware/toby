@@ -62,7 +62,6 @@ function editHoliday() {
           <FlatPickr
             id="date"
             v-model="form.date"
-            placeholder="Wybierz datę"
             class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.date, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.date }"
           />

@@ -96,6 +96,6 @@ class AssignedBenefitController extends Controller
         $assignedBenefits->update(["data" => $data]);
 
         return back()
-            ->with("success", __("Assigned benefits has been updated."));
+            ->with("success", __("Assigned benefits updated."));
     }
 }

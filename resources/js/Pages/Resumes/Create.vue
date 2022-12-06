@@ -313,7 +313,6 @@ function submitResume() {
               <div class="mt-1 sm:mt-0">
                 <MonthPicker
                   v-model="element.startDate"
-                  placeholder="Wybierz datę"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.startDate`] }"
                 />
@@ -341,7 +340,6 @@ function submitResume() {
                   </label>
                   <MonthPicker
                     v-model="element.endDate"
-                    placeholder="Wybierz datę"
                     :disabled="element.current"
                     class="block w-full rounded-md shadow-sm sm:text-sm disabled:bg-gray-100"
                     :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.endDate`] }"
@@ -554,7 +552,6 @@ function submitResume() {
                 <MonthPicker
                   :id="`project-startDate-${index}`"
                   v-model="element.startDate"
-                  placeholder="Wybierz datę"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.startDate`] }"
                 />
@@ -586,7 +583,6 @@ function submitResume() {
                   <MonthPicker
                     :id="`project-endDate-${index}`"
                     v-model="element.endDate"
-                    placeholder="Wybierz datę"
                     :disabled="element.current"
                     class="block w-full rounded-md shadow-sm sm:text-sm disabled:bg-gray-100"
                     :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.endDate`] }"
@@ -639,7 +635,7 @@ function submitResume() {
               :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
               :disabled="form.processing || !form.isDirty"
             >
-              Zapisz
+              Dodaj
             </button>
           </div>
         </div>

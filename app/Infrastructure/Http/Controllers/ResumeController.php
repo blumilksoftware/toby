@@ -80,7 +80,7 @@ class ResumeController extends Controller
 
         return redirect()
             ->route("resumes.index")
-            ->with("success", __("Resume has been created."));
+            ->with("success", __("Resume created."));
     }
 
     public function edit(Resume $resume): Response
@@ -121,7 +121,7 @@ class ResumeController extends Controller
 
         return redirect()
             ->route("resumes.index")
-            ->with("success", __("Resume has been updated."));
+            ->with("success", __("Resume updated."));
     }
 
     public function destroy(Resume $resume): RedirectResponse
@@ -132,6 +132,6 @@ class ResumeController extends Controller
 
         return redirect()
             ->route("resumes.index")
-            ->with("success", __("Resume has been deleted."));
+            ->with("success", __("Resume deleted."));
     }
 }

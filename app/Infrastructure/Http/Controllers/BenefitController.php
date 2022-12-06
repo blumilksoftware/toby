@@ -45,7 +45,7 @@ class BenefitController extends Controller
         return back()
             ->with(
                 "success",
-                __("Benefit :name has been created.", [
+                __("Benefit :name created.", [
                     "name" => $benefit->name,
                 ]),
             );
@@ -63,7 +63,7 @@ class BenefitController extends Controller
         return back()
             ->with(
                 "success",
-                __("Benefit :name has been deleted.", [
+                __("Benefit :name deleted.", [
                     "name" => $benefit->name,
                 ]),
             );

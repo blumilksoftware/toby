@@ -103,7 +103,7 @@ class BenefitsReportController extends Controller
             ->route("benefits-report.show", $benefitsReport->id)
             ->with(
                 "success",
-                __("Benefits report :name has been created.", [
+                __("Benefits report :name created.", [
                     "name" => $benefitsReport->name,
                 ]),
             );

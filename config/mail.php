@@ -40,4 +40,8 @@ return [
             resource_path("views/vendor/mail"),
         ],
     ],
+    "database_backup" => [
+        "notify_on_failure" => env("MAIL_DATABASE_BACKUP_NOTIFY_ON_FAILURE", default: false),
+        "notification_email" => env("MAIL_DATABASE_BACKUP_NOTIFICATION_EMAIL"),
+    ],
 ];
