@@ -18,7 +18,7 @@ class RegenerateVacationLimits extends Command
 
         foreach ($limits as $limit) {
             $limit->update([
-                "limit" => $limit->from_previous_year + $limit->days - $limit->to_next_year
+                "limit" => $limit->from_previous_year + $limit->days - $limit->to_next_year,
             ]);
         }
     }
