@@ -5,9 +5,9 @@ DOCKER_COMPOSE_PROD_FILENAME=docker-compose.prod.yml
 PROD_DOCKER_EXEC=docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} exec --workdir /application/environment/scripts
 
 .PHONY: beta-deploy
-beta-deploy: |
+beta-deploy:
 	git fetch && \
-	git checkout --force ${BRANCH_NAME} && \
+	git checkout --force "${BRANCH_NAME}" && \
 	git pull && \
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose -f ${DOCKER_COMPOSE_BETA_FILENAME} build --pull && \
 	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} up --detach && \
