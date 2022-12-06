@@ -1,0 +1,97 @@
+name: Deploy to beta on trigger
+
+concurrency:
+  group: deploy-beta
+  cancel-in-progress: true
+
+on:
+  issue_comment:
+    types:
+      - created
+
+  workflow_dispatch:
+
+jobs:
+  pr_commented:
+    name: Deploy triggered by PR comment trigger
+
+    # todo:   https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#understanding-the-risk-of-script-injections
+
+    if: |
+      github.event_name != 'workflow_dispatch' &&
+      github.event.issue.pull_request && 
+      github.event.comment.body == '!deploy beta' && 
+      contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
+    runs-on: ubuntu-22.04
+    outputs:
+      branch-name: ${{ steps.get-branch-name-script.outputs.result }}
+    steps:
+      - name: Get branch name
+        uses: actions/github-script@v6
+        id: get-branch-name-script
+        with:
+          debug: true
+          result-encoding: string
+          script: |
+            const pr_url = '${{ github.event.issue.pull_request.url }}'
+            
+            // e.g. https://api.github.com/repos/OWNER/REPO/pulls/1347  
+            const pr_number = pr_url.split("/").pop() // gets 1347 from url
+            
+            const response = await github.rest.pulls.get({              
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr_number
+            })            
+            
+            return response.data.head.ref
+      - name: comment PR where deploy has been triggered
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Deploying to beta! :rocket:"
+            })
+
+  deploy:
+    environment: beta
+    needs: pr_commented
+    if: always() && (needs.pr_commented.result == 'success' || (github.event_name == 'workflow_dispatch' && needs.pr_commented.result == 'skipped'))
+    name: Deploy to beta
+    runs-on: ubuntu-22.04
+    env:
+      BRANCH_NAME: ${{ needs.pr_commented.outputs.branch-name }}
+    steps:
+      - name: set branch name
+        run: echo "BRANCH_NAME=${BRANCH_NAME:=$GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+      - name: run deployment script over ssh
+        run: "echo branch name: ${{ env.BRANCH_NAME }}"
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          timeout: 10s
+          command_timeout: 10m
+          host: ${{ secrets.TOBY_VPS_HOST }}
+          port: ${{ secrets.TOBY_VPS_PORT }}
+          username: ${{ secrets.TOBY_VPS_USERNAME }}
+          password: ${{ secrets.TOBY_VPS_PASSWORD }}
+          envs: BRANCH_NAME
+          script_stop: true
+          script: |
+            cd /blumilk/beta/projects/toby 
+            make beta-deploy
+
+      - name: comment PR that changes has been deployed to beta
+        if: github.event_name != 'workflow_dispatch'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Branch **${{ env.BRANCH_NAME }}** deployed to beta! :tada:"
+            })
