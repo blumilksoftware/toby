@@ -14,9 +14,10 @@ class RegenerateVacationLimits extends Command
 
     public function handle(): void
     {
-        VacationLimit::all()->each(fn(VacationLimit $limit): bool => $limit->update([
-                "limit" => $limit->from_previous_year + $limit->days - $limit->to_next_year
-            ])
+        VacationLimit::all()->each(
+            fn(VacationLimit $limit): bool => $limit->update([
+                "limit" => $limit->from_previous_year + $limit->days - $limit->to_next_year,
+            ]),
         );
     }
 }
