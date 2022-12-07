@@ -19,9 +19,10 @@ jobs:
 
     if: |
       github.event_name != 'workflow_dispatch' &&
-      github.event.issue.pull_request && 
-      github.event.comment.body == '!deploy beta' && 
-      contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
+      contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association) &&
+      github.event.issue.pull_request &&
+      github.event.comment.body == '!deploy beta' 
+
     runs-on: ubuntu-22.04
     outputs:
       branch-name: ${{ steps.get-branch-name-script.outputs.result }}
@@ -38,13 +39,19 @@ jobs:
             // e.g. https://api.github.com/repos/OWNER/REPO/pulls/1347  
             const pr_number = pr_url.split("/").pop() // gets 1347 from url
             
+            // https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
             const response = await github.rest.pulls.get({              
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr_number
-            })            
+            })     
+            
+            if (response.data.state !== 'open') {
+              throw 'PR must be open!'
+            }
             
             return response.data.head.ref
+
       - name: comment PR where deploy has been triggered
         uses: actions/github-script@v6
         with:
