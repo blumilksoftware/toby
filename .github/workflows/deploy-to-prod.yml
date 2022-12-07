@@ -1,0 +1,33 @@
+name: Deploy to production
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  deploy:
+    environment: production
+    runs-on: ubuntu-22.04
+    name: Deploy to production
+    steps:
+      - uses: appleboy/ssh-action@v0.1.5
+        env:
+          BRANCH_NAME: $GITHUB_REF_NAME
+        with:
+          timeout: 10s
+          command_timeout: 10m
+          host: ${{ secrets.TOBY_VPS_HOST }}
+          port: ${{ secrets.TOBY_VPS_PORT }}
+          username: ${{ secrets.TOBY_VPS_USERNAME }}
+          password: ${{ secrets.TOBY_VPS_PASSWORD }}
+          envs: BRANCH_NAME
+          script_stop: true
+          script: |
+            cd /blumilk/production/toby 
+            make prod-deploy
+
