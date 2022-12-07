@@ -3,4 +3,4 @@
 # -e is for "automatic error detection", tell shell to abort any time an error occurred
 set -e
 
-php artisan config:clear && php artisan config:cache
+php /application/artisan config:clear && php /application/artisan config:cache
