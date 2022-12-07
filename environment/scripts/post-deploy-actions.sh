@@ -3,6 +3,6 @@
 # -e is for "automatic error detection", tell shell to abort any time an error occurred
 set -e
 
-php artisan migrate --force && \
-  php artisan route:cache && \
+php /application/artisan migrate --force && \
+  php /application/artisan route:cache && \
   bash reload-config.sh

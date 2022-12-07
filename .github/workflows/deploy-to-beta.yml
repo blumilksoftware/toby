@@ -84,7 +84,9 @@ jobs:
           username: ${{ secrets.TOBY_VPS_USERNAME }}
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
           script_stop: true
-          script: BRANCH_NAME=${{ env.BRANCH_NAME }} make --makefile=/blumilk/beta/projects/toby/Makefile beta-deploy
+          script: |
+            cd /blumilk/beta/projects/toby
+            BRANCH_NAME=${{ env.BRANCH_NAME }} make beta-deploy
 
       - name: comment PR that changes has been deployed to beta
         if: github.event_name != 'workflow_dispatch'
