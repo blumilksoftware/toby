@@ -27,7 +27,7 @@ prod-deploy:
 	git checkout --force "${BRANCH_NAME}" && \
 	git pull && \
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} build --pull && \
-	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} up --detach && \
+	docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} up --detach && \
 	${PROD_DOCKER_EXEC} toby-prod-php bash post-deploy-actions.sh && \
 	${PROD_DOCKER_EXEC} toby-prod-worker bash post-deploy-actions.sh && \
 	${PROD_DOCKER_EXEC} toby-prod-scheduler bash post-deploy-actions.sh
