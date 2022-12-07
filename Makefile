@@ -6,6 +6,7 @@ PROD_DOCKER_EXEC=docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} exec --wo
 
 .PHONY: beta-deploy
 beta-deploy:
+	echo "${BRANCH_NAME}" && \
 	git fetch && \
 	git checkout --force "${BRANCH_NAME}" && \
 	git pull && \
