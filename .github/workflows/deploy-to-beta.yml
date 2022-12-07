@@ -76,9 +76,6 @@ jobs:
 
       - name: run deployment script over ssh
         uses: appleboy/ssh-action@v0.1.5
-        env:
-          TEST_NAME: ${{ needs.pr_commented.outputs.branch-name }}
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
         with:
           timeout: 10s
           command_timeout: 10m
@@ -86,10 +83,8 @@ jobs:
           port: ${{ secrets.TOBY_VPS_PORT }}
           username: ${{ secrets.TOBY_VPS_USERNAME }}
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
-          envs: BRANCH_NAME,TEST_NAME
           script_stop: true
-          debug: true
-          script: make --makefile=/blumilk/beta/projects/toby/Makefile beta-deploy
+          script: BRANCH_NAME=${{ env.BRANCH_NAME }} make --makefile=/blumilk/beta/projects/toby/Makefile beta-deploy
 
       - name: comment PR that changes has been deployed to beta
         if: github.event_name != 'workflow_dispatch'

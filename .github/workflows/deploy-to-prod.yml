@@ -25,7 +25,6 @@ jobs:
           port: ${{ secrets.TOBY_VPS_PORT }}
           username: ${{ secrets.TOBY_VPS_USERNAME }}
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
-          envs: BRANCH_NAME
           script_stop: true
-          script: make --makefile=/blumilk/production/toby/Makefile prod-deploy
+          script: BRANCH_NAME=${{ env.BRANCH_NAME }} make --makefile=/blumilk/production/toby/Makefile prod-deploy
 
