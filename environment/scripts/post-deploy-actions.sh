@@ -4,5 +4,5 @@
 set -e
 
 php artisan migrate --force && \
-  php artisan route:cache &&
+  php artisan route:cache && \
   bash reload-config.sh
