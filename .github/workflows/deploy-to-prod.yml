@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: appleboy/ssh-action@v0.1.5
         env:
-          BRANCH_NAME: $GITHUB_REF_NAME
+          BRANCH_NAME: "main"
         with:
           timeout: 10s
           command_timeout: 10m
@@ -26,5 +26,6 @@ jobs:
           username: ${{ secrets.TOBY_VPS_USERNAME }}
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
           script_stop: true
-          script: BRANCH_NAME=${{ env.BRANCH_NAME }} make --makefile=/blumilk/production/toby/Makefile prod-deploy
-
+          script: |
+            cd /blumilk/production/toby
+            BRANCH_NAME=${{ env.BRANCH_NAME }} make prod-deploy
