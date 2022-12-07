@@ -27,7 +27,5 @@ jobs:
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
           envs: BRANCH_NAME
           script_stop: true
-          script: |
-            cd /blumilk/production/toby 
-            make prod-deploy
+          script: make --makefile=/blumilk/production/toby/Makefile prod-deploy
 
