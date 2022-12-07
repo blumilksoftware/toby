@@ -10,11 +10,11 @@ beta-deploy:
 	git fetch && \
 	git checkout --force "${BRANCH_NAME}" && \
 	git pull && \
-	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose -f ${DOCKER_COMPOSE_BETA_FILENAME} build --pull && \
+	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} build --pull && \
 	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} up --detach && \
-	${BETA_DOCKER_EXEC} toby-beta-php post-deploy-actions && \
-	${BETA_DOCKER_EXEC} toby-beta-worker post-deploy-actions && \
-	${BETA_DOCKER_EXEC} toby-beta-scheduler post-deploy-actions
+	${BETA_DOCKER_EXEC} toby-beta-php bash post-deploy-actions.sh && \
+	${BETA_DOCKER_EXEC} toby-beta-worker bash post-deploy-actions.sh && \
+	${BETA_DOCKER_EXEC} toby-beta-scheduler bash post-deploy-actions.sh
 
 .PHONY: beta-reload-config
 beta-reload-config:
