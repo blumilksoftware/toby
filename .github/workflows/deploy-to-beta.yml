@@ -31,7 +31,6 @@ jobs:
         uses: actions/github-script@v6
         id: get-branch-name-script
         with:
-          debug: true
           result-encoding: string
           script: |
             const pr_url = '${{ github.event.issue.pull_request.url }}'
@@ -86,9 +85,7 @@ jobs:
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
           envs: BRANCH_NAME
           script_stop: true
-          script: |
-            cd /blumilk/beta/projects/toby 
-            make beta-deploy
+          script: make --makefile=/blumilk/beta/projects/toby/Makefile beta-deploy
 
       - name: comment PR that changes has been deployed to beta
         if: github.event_name != 'workflow_dispatch'
