@@ -37,3 +37,19 @@ prod-reload-config:
 	${PROD_DOCKER_EXEC} toby-prod-php bash reload-config.sh && \
 	${PROD_DOCKER_EXEC} toby-prod-worker bash reload-config.sh && \
 	${PROD_DOCKER_EXEC} toby-prod-scheduler bash reload-config.sh
+
+.PHONY: create-deployment-file
+create-deployment-file:
+	@$(eval DEPLOYMENT_DATETIME=$(shell date --rfc-3339=seconds))
+	@$(eval DEPLOYMENT_PROJECT_VERSION=$(shell ./environment/scripts/version.sh -l))
+	@echo "\
+	${DEPLOYMENT_DATETIME}\n\
+	${DEPLOYMENT_PROJECT_VERSION}\
+	" > .deployment
+
+.PHONY: abc
+abc: create-deployment-file
+	@./environment/scripts/version.sh -l
+	@echo ${DEPLOYMENT_DATETIME}
+	@echo ${DEPLOYMENT_PROJECT_VERSION}
+
