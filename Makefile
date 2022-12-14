@@ -1,5 +1,5 @@
 DOCKER_COMPOSE_BETA_FILENAME = docker-compose.beta.yml
-BETA_DOCKER_EXEC=docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} exec --workdir /application/environment/scripts
+BETA_DOCKER_EXEC = docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} exec --workdir /application/environment/scripts
 
 DOCKER_COMPOSE_PROD_FILENAME = docker-compose.prod.yml
 PROD_DOCKER_EXEC = docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} exec --workdir /application/environment/scripts
