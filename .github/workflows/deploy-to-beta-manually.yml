@@ -1,23 +1,23 @@
-name: Deploy to production
+name: Deploy to beta manually
 
 concurrency:
-  group: deploy-prod
-  cancel-in-progress: false
+  group: deploy-beta
+  cancel-in-progress: true
 
 on:
-  push:
-    tags:
-      - v*
+  workflow_dispatch:
 
 jobs:
+
   deploy:
-    environment: production
+    environment: beta
+    name: Deploy to beta
     runs-on: ubuntu-22.04
-    name: Deploy to production
+    env:
+      BRANCH_NAME: $GITHUB_REF_NAME
     steps:
-      - uses: appleboy/ssh-action@v0.1.5
-        env:
-          BRANCH_NAME: "main"
+      - name: run deployment script over ssh
+        uses: appleboy/ssh-action@v0.1.5
         with:
           timeout: 10s
           command_timeout: 10m
@@ -27,8 +27,8 @@ jobs:
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
           script_stop: true
           script: |
-            cd ${{ secrets.TOBY_VPS_LIVE_APP_PATH }}
+            cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}
             git fetch
             git checkout --force "${{ env.BRANCH_NAME }}"
             git pull
-            make prod-deploy
+            make beta-deploy

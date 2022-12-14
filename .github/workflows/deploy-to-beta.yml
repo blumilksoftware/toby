@@ -9,8 +9,6 @@ on:
     types:
       - created
 
-  workflow_dispatch:
-
 jobs:
   pr_commented:
     name: Deploy triggered by PR comment trigger
@@ -18,7 +16,6 @@ jobs:
     # todo:   https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#understanding-the-risk-of-script-injections
 
     if: |
-      github.event_name != 'workflow_dispatch' &&
       contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association) &&
       github.event.issue.pull_request &&
       github.event.comment.body == '!deploy beta' 
@@ -63,9 +60,10 @@ jobs:
             })
 
   deploy:
+#    todo: deployments to beta environment are pointing to the default (main) branch always, due to `issue_comment` event uses workflow from the default branch.
     environment: beta
     needs: pr_commented
-    if: always() && (needs.pr_commented.result == 'success' || (github.event_name == 'workflow_dispatch' && needs.pr_commented.result == 'skipped'))
+    if: needs.pr_commented.result == 'success'
     name: Deploy to beta
     runs-on: ubuntu-22.04
     env:
@@ -85,11 +83,13 @@ jobs:
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
           script_stop: true
           script: |
-            cd /blumilk/beta/projects/toby
-            BRANCH_NAME=${{ env.BRANCH_NAME }} make beta-deploy
+            cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}
+            git fetch
+            git checkout --force "${{ env.BRANCH_NAME }}"
+            git pull
+            make beta-deploy
 
       - name: comment PR that changes has been deployed to beta
-        if: github.event_name != 'workflow_dispatch'
         uses: actions/github-script@v6
         with:
           script: |

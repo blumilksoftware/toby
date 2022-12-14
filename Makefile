@@ -6,9 +6,6 @@ PROD_DOCKER_EXEC=docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} exec --wo
 
 .PHONY: beta-deploy
 beta-deploy:
-	git fetch && \
-	git checkout --force "${BRANCH_NAME}" && \
-	git pull && \
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} build --pull && \
 	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} up --detach && \
 	${BETA_DOCKER_EXEC} toby-beta-php bash post-deploy-actions.sh && \
@@ -23,9 +20,6 @@ beta-reload-config:
 
 .PHONY: prod-deploy
 prod-deploy:
-	git fetch && \
-	git checkout --force "${BRANCH_NAME}" && \
-	git pull && \
 	COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} build --pull && \
 	docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} up --detach && \
 	${PROD_DOCKER_EXEC} toby-prod-php bash post-deploy-actions.sh && \
