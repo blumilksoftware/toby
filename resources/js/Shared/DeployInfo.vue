@@ -1,5 +1,5 @@
 <script setup>
-let props = defineProps({
+defineProps({
   deployInformation: Object,
 })
 </script>
