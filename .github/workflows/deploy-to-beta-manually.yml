@@ -13,9 +13,10 @@ jobs:
     environment: beta
     name: Deploy to beta
     runs-on: ubuntu-22.04
-    env:
-      BRANCH_NAME: $GITHUB_REF_NAME
     steps:
+      - name: set branch name
+        run: echo "BRANCH_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
+
       - name: run deployment script over ssh
         uses: appleboy/ssh-action@v0.1.5
         with:
