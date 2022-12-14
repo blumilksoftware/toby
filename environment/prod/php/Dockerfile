@@ -1,5 +1,5 @@
-ARG PHP_VERSION=8.1.12-fpm
-ARG NODE_VERSION=19-alpine3.15
+ARG PHP_VERSION=8.1.13-fpm
+ARG NODE_VERSION=19-alpine3.16
 ARG COMPOSER_VERSION=2.4
 
 ### PHP DEPENDENCIES ###
@@ -24,7 +24,7 @@ WORKDIR /app_frontend_dependencies
 
 COPY package.json package-lock.json postcss.config.js tailwind.config.js vite.config.js webpack.config.js webpack.mix.js ./
 
-RUN npm install clean-install
+RUN npm clean-install
 
 COPY resources/js ./resources/js/
 COPY resources/css ./resources/css/
@@ -69,11 +69,11 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --o
     && apt-get install --assume-yes postgresql-client-${POSTGRESQL_CLIENT_VERSION}
 
 # Copy Frontend build
-COPY --from=frontend /app_frontend_dependencies/node_modules ./node_modules/
-COPY --from=frontend /app_frontend_dependencies/public/build ./public/build/
+COPY --chown=www-data:www-data --from=frontend /app_frontend_dependencies/node_modules ./node_modules/
+COPY --chown=www-data:www-data --from=frontend /app_frontend_dependencies/public/build ./public/build/
 
 # Copy Composer dependencies
-COPY --from=vendor /app_composer_dependencies/vendor ./vendor/
+COPY --chown=www-data:www-data --from=vendor /app_composer_dependencies/vendor ./vendor/
 
 # Copy App files
 COPY --chown=www-data:www-data . .

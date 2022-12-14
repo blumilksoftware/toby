@@ -3,4 +3,6 @@
 # -e is for "automatic error detection", tell shell to abort any time an error occurred
 set -e
 
-php /application/artisan config:clear && php /application/artisan config:cache
+ARTISAN_PATH="/application/artisan"
+
+php ${ARTISAN_PATH} config:clear && php ${ARTISAN_PATH} config:cache

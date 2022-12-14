@@ -32,10 +32,5 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
-        <env name="HEROKU_RELEASE_VERSION" value="v01"/>
-        <env name="HEROKU_SLUG_DESCRIPTION" value="Dev 643f546"/>
-        <env name="HEROKU_RELEASE_CREATED_AT" value="2022-07-04T18:05:46Z"/>
-        <env name="HEROKU_SLUG_COMMIT" value="643f546142b8a2db342f0ae46f01e61dce03e97c"/>
-        <env name="GITHUB_REPO_URL" value="https://github.com/blumilksoftware/toby"/>
     </php>
 </phpunit>

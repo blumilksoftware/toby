@@ -11,8 +11,6 @@ volumes:
     name: toby-beta-pgsql-data
   toby-beta-redis-data:
     name: toby-beta-redis-data
-  toby-beta-static-assets:
-    name: toby-beta-static-assets
 
 # extension fields
 x-toby-app-shared: &app
@@ -20,20 +18,24 @@ x-toby-app-shared: &app
   container_name: toby-beta-php
   working_dir: /application
   volumes:
-    - toby-beta-static-assets:/application/public
-    - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini
-    - ./.env:/application/.env
+    - ./environment/prod/php/php.ini:/usr/local/etc/php/conf.d/99-toby-php.ini:ro
+    - ./.env:/application/.env:ro
   networks:
     - toby-beta
   restart: unless-stopped
+  env_file:
+    - .deployment
 
 services:
   toby-beta-web:
-    image: nginx:1.23-alpine
+    build:
+      context: .
+      dockerfile: environment/prod/nginx/Dockerfile
+      target: webserver
+    image: toby-beta-web:latest
     container_name: toby-beta-web
     volumes:
-      - toby-beta-static-assets:/application/public
-      - ./environment/prod/nginx/templates:/etc/nginx/templates/
+      - ./environment/prod/nginx/templates:/etc/nginx/templates/:ro
     environment:
       - SERVER_NAME=toby-beta-nginx
       - FASTCGI_PASS_NAME=toby-beta-php
@@ -63,8 +65,8 @@ services:
     <<: *app
     container_name: toby-beta-worker
     volumes:
-      - ./environment/prod/worker/php.ini:/usr/local/etc/php/conf.d/99-worker-toby-php.ini
-      - ./.env:/application/.env
+      - ./environment/prod/worker/php.ini:/usr/local/etc/php/conf.d/99-worker-toby-php.ini:ro
+      - ./.env:/application/.env:ro
     user: root
     entrypoint: [ "./environment/prod/worker/entrypoint.sh" ]
 
@@ -72,8 +74,8 @@ services:
     <<: *app
     container_name: toby-beta-scheduler
     volumes:
-      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-scheduler-toby-php.ini
-      - ./.env:/application/.env
+      - ./environment/prod/scheduler/php.ini:/usr/local/etc/php/conf.d/99-scheduler-toby-php.ini:ro
+      - ./.env:/application/.env:ro
     user: root
     entrypoint: [ "./environment/prod/scheduler/entrypoint.sh" ]
 
