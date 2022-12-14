@@ -27,7 +27,7 @@ jobs:
           password: ${{ secrets.TOBY_VPS_PASSWORD }}
           script_stop: true
           script: |
-            cd /blumilk/production/toby
+            cd ${{ secrets.TOBY_VPS_LIVE_APP_PATH }}
             git fetch
             git checkout --force "${{ env.BRANCH_NAME }}"
             git pull
