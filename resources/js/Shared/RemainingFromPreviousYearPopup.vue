@@ -25,7 +25,7 @@ defineProps({
               Pozostałe dni
             </dt>
             <dd class="text-sm text-gray-900">
-              {{ remaining ?? 0 }}
+              {{ (remaining ?? 0) + toNextYear }}
             </dd>
           </div>
           <div class="py-2 space-y-1">
@@ -34,6 +34,14 @@ defineProps({
             </dt>
             <dd class="mt-1 text-sm text-gray-900">
               {{ toNextYear ?? 0 }}
+            </dd>
+          </div>
+          <div class="py-2 space-y-1">
+            <dt class="text-sm font-medium text-gray-500">
+              Pozostałe do wykorzystania
+            </dt>
+            <dd class="text-sm text-gray-900">
+              {{ remaining ?? 0 }}
             </dd>
           </div>
           <div class="py-2">
