@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.toby-https-router.entrypoints=websecure"
       - "traefik.http.routers.toby-https-router.tls=true"
     ports:
-      - ${EXTERNAL_WEBSERVER_PORT:-80}:80
+      - ${EXTERNAL_WEBSERVER_PORT:-8181}:80
     restart: unless-stopped
     depends_on:
       - php
