@@ -104,11 +104,26 @@ services:
   mailhog:
     image: mailhog/mailhog:v1.0.1
     container_name: toby-mailhog
+    labels:
+      - "traefik.enable=true"
+      - "traefik.blumilk.environment=true"
+      # HTTP
+      - "traefik.http.routers.toby-mailhog-http-router.rule=Host(`toby-mailhog.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailhog-http-router.entrypoints=web"
+      # HTTP to HTTPS redirect
+#      - "traefik.http.routers.toby-mailhog-http-router.middlewares=https-redirect@file"
+      # HTTPS
+      - "traefik.http.routers.toby-mailhog-https-router.rule=Host(`toby-mailhog.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailhog-https-router.entrypoints=websecure"
+      - "traefik.http.routers.toby-mailhog-https-router.tls=true"
+      # LOADBALANCER MAILHOG PORT
+      - "traefik.http.services.toby-mailhog.loadbalancer.server.port=8025"
     ports:
       - ${MAIL_PORT}:1025
       - ${MAILHOG_DASHBOARD_PORT}:8025
     networks:
       - toby-dev
+      - traefik-proxy-blumilk-local
     restart: unless-stopped
 
   selenium:
