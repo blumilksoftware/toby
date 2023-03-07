@@ -13,53 +13,20 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    /**
-     * @beforeClass
-     */
-    public static function prepare(): void
-    {
-        if (!static::runningInDocker()) {
-            static::startChromeDriver();
-        }
-    }
-
     protected function driver(): RemoteWebDriver
     {
-        $options = (new ChromeOptions())->addArguments(
-            collect(
-                [
-                    "--window-size=1920,1080",
-                ],
-            )->unless(
-                $this->hasHeadlessDisabled(),
-                function ($items) {
-                    return $items->merge(
-                        [
-                            "--disable-gpu",
-                            "--headless",
-                        ],
-                    );
-                },
-            )->all(),
-        );
+        $options = (new ChromeOptions())->addArguments(collect([
+            "--window-size=1920,1080",
+            "--disable-gpu",
+            "--headless",
+        ])->all());
 
         return RemoteWebDriver::create(
-            env("DUSK_DRIVER_URL") ?? "http://localhost:" . env("SELENIUM_PORT"),
+            env("DUSK_DRIVER_URL"),
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY,
                 $options,
             ),
         );
-    }
-
-    protected function hasHeadlessDisabled(): bool
-    {
-        return isset($_SERVER["DUSK_HEADLESS_DISABLED"]) ||
-            isset($_ENV["DUSK_HEADLESS_DISABLED"]);
-    }
-
-    protected static function runningInDocker(): bool
-    {
-        return isset($_ENV["DUSK_IN_DOCKER"]) && $_ENV["DUSK_IN_DOCKER"] === "true";
     }
 }

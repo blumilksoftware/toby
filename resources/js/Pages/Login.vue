@@ -52,7 +52,6 @@ export default { name: 'LoginPage', layout: GuestLayout }
   </transition>
   <div
     class="flex flex-col items-center py-8 px-4 space-y-8 text-white rounded-lg sm:mx-auto sm:w-full sm:max-w-md"
-    dusk="login-link"
   >
     <img
       class="mx-auto w-auto h-50"
@@ -61,6 +60,7 @@ export default { name: 'LoginPage', layout: GuestLayout }
     <a
       href="/login/google/start"
       class="inline-flex justify-center items-center py-2 px-6 font-medium text-white bg-blumilk-500 hover:bg-blumilk-700 rounded-md shadow-sm text-md"
+      dusk="login-link"
     >
       Zaloguj się za pomocą Google
       <svg

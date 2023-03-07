@@ -70,6 +70,7 @@ watch(form, debounce(() => {
         <InertiaLink
           href="/vacation/requests/create"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          dusk="create-vacation-request-button"
         >
           Dodaj wniosek
         </InertiaLink>
@@ -352,6 +353,7 @@ watch(form, debounce(() => {
             as="tr"
             :href="`/vacation/requests/${request.id}`"
             class="relative hover:bg-blumilk-25 hover:cursor-pointer"
+            dusk="single-vacation-request"
           >
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink

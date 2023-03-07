@@ -130,6 +130,7 @@ function submitResume() {
               <div class="relative mt-2">
                 <ListboxButton
                   class="relative py-2 pr-10 pl-3 w-full max-w-md h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+                  dusk="users-listbox-button"
                 >
                   <span v-if="form.user === null">
                     Nie istnieje w bazie
@@ -156,6 +157,8 @@ function submitResume() {
                 >
                   <ListboxOptions
                     class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+                  
+                    dusk="users-listbox-list"
                   >
                     <ListboxOption
                       v-slot="{ active }"
@@ -165,7 +168,10 @@ function submitResume() {
                       <li
                         :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                       >
-                        <div class="flex items-center">
+                        <div
+                          class="flex items-center"
+                          dusk="non-existing-user"
+                        >
                           Nie istnieje w bazie
                         </div>
 
@@ -239,6 +245,7 @@ function submitResume() {
           v-model="form.educations"
           header="Edukacja"
           add-label="Dodaj szkołę"
+          dusk="add-school"
           @add-item="addEducation"
           @remove-item="(index) => form.educations.splice(index, 1)"
         >
@@ -259,6 +266,7 @@ function submitResume() {
                   type="text"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.school`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.school`] }"
+                  dusk="school-name"
                 >
                 <p
                   v-if="form.errors[`education.${index}.school`]"
@@ -278,6 +286,7 @@ function submitResume() {
                   type="text"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.degree`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.degree`] }"
+                  dusk="school-degree"
                 >
                 <p
                   v-if="form.errors[`education.${index}.degree`]"
@@ -297,6 +306,7 @@ function submitResume() {
                   type="text"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.fieldOfStudy`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.fieldOfStudy`] }"
+                  dusk="school-fieldofstudy"
                 >
                 <p
                   v-if="form.errors[`education.${index}.fieldOfStudy`]"
@@ -310,7 +320,10 @@ function submitResume() {
               <label class="block text-sm font-medium text-gray-700 sm:mt-px">
                 Data rozpoczęcia
               </label>
-              <div class="mt-1 sm:mt-0">
+              <div
+                class="mt-1 sm:mt-0"
+                dusk="school-start-date"
+              >
                 <MonthPicker
                   v-model="element.startDate"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
@@ -329,7 +342,10 @@ function submitResume() {
                 Data zakończenia
               </label>
               <div class="mt-1 sm:mt-0">
-                <div class="space-y-2">
+                <div
+                  class="space-y-2"
+                  dusk="school-end-date"
+                >
                   <label class="block text-sm font-medium text-gray-700 sm:mt-px">
                     <input
                       v-model="element.current"
@@ -359,6 +375,7 @@ function submitResume() {
           v-model="form.languages"
           header="Języki"
           add-label="Dodaj język"
+          dusk="add-language"
           @add-item="addLanguage"
           @remove-item="(index) => form.languages.splice(index, 1)"
         >
@@ -423,6 +440,7 @@ function submitResume() {
           v-model="form.technologies"
           header="Technologie"
           add-label="Dodaj technologię"
+          dusk="add-technologies"
           @add-item="addTechnology"
           @remove-item="(index) => form.technologies.splice(index, 1)"
         >
@@ -487,6 +505,7 @@ function submitResume() {
           v-model="form.projects"
           header="Projekty"
           add-label="Dodaj projekt"
+          dusk="add-project"
           @add-item="addProject"
           @remove-item="(index) => form.projects.splice(index, 1)"
         >
@@ -511,6 +530,7 @@ function submitResume() {
                   rows="5"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.description`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.description`] }"
+                  dusk="project-text"
                 />
                 <p
                   v-if="form.errors[`projects.${index}.description`]"
@@ -548,7 +568,10 @@ function submitResume() {
               >
                 Data rozpoczęcia
               </label>
-              <div class="mt-1 sm:mt-0">
+              <div
+                class="mt-1 sm:mt-0"
+                dusk="project-start-date"
+              >
                 <MonthPicker
                   :id="`project-startDate-${index}`"
                   v-model="element.startDate"
@@ -577,6 +600,7 @@ function submitResume() {
                       v-model="element.current"
                       type="checkbox"
                       class="focus:ring-blumilk-500 h-4 w-4 text-blumilk-600 border-gray-300 rounded mr-1"
+                      dusk="project-in-work-date"
                     >
                     W trakcie
                   </label>
@@ -610,6 +634,7 @@ function submitResume() {
                   rows="5"
                   class="block w-full rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.tasks`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.tasks`] }"
+                  dusk="project-tasks"
                 />
                 <p
                   v-if="form.errors[`projects.${index}.tasks`]"
@@ -634,6 +659,7 @@ function submitResume() {
               class="inline-flex justify-center py-2 px-4 ml-3 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
               :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
               :disabled="form.processing || !form.isDirty"
+              dusk="save-resume-button"
             >
               Dodaj
             </button>

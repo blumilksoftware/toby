@@ -286,6 +286,7 @@ function isBenefitHasCompanion(benefitId) {
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     title="Wprowadź kwotę."
                     min="0"
+                    dusk="grid-employer"
                   >
                 </td>
                 <td style="height: 40px">
@@ -297,11 +298,15 @@ function isBenefitHasCompanion(benefitId) {
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     title="Wprowadź kwotę."
                     min="0"
+                    dusk="grid-employee"
                   >
                 </td>
               </template>
               <td>
-                <div class="w-full sm:text-sm focus:ring-white m-0 text-right p-3">
+                <div
+                  class="w-full sm:text-sm focus:ring-white m-0 text-right p-3"
+                  dusk="grid-sum"
+                >
                   {{ calculateSumOfBenefits(item.benefits) }}
                 </div>
               </td>

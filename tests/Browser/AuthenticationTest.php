@@ -19,7 +19,9 @@ class AuthenticationTest extends DuskTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create();
+        $this->seed();
+
+        $this->user = User::all()->last();
     }
 
     public function testUserCanLogout(): void
@@ -27,11 +29,10 @@ class AuthenticationTest extends DuskTestCase
         $this->browse(function (Browser $browser): void {
             $browser->loginAs($this->user)
                 ->visit(new HomePage())
-                ->assertVisible("@user-menu")
+                ->waitFor("@user-menu")
                 ->click("@user-menu")
-                ->assertVisible("@user-menu-list")
-                ->assertSee("Sign out")
-                ->press("Sign out")
+                ->waitForText("Wyloguj się")
+                ->press("Wyloguj się")
                 ->on(new HomePage())
                 ->waitFor("@login-link");
         });
