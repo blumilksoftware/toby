@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http;
 
-use Fruitcake\Cors\HandleCors;
+use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
