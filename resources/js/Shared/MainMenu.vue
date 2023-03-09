@@ -421,6 +421,7 @@ const miscNavigation = computed(() => [
           >
             <MenuButton
               class="flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 lg:p-2 lg:hover:bg-gray-50 lg:rounded-md"
+              dusk="user-menu"
             >
               <img
                 class="w-8 h-8 rounded-full"

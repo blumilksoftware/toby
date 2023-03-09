@@ -105,7 +105,6 @@ services:
       - /dev/shm:/dev/shm
     networks:
       - toby-dev
-    restart: unless-stopped
 
 networks:
   toby-dev:
