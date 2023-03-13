@@ -37,6 +37,7 @@ jobs:
         with:
           context: .
           file: ./environment/prod/app/Dockerfile
+          load: true
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/toby-beta:latest
           cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache
