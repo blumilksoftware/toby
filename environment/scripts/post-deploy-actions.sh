@@ -6,7 +6,7 @@ set -e
 ARTISAN_PATH="/application/artisan"
 
 php ${ARTISAN_PATH} migrate --force && \
-  php ${ARTISAN_PATH} route:clear && php ${ARTISAN_PATH} route:cache && \
-  php ${ARTISAN_PATH} view:clear && php ${ARTISAN_PATH} view:cache && \
-  php ${ARTISAN_PATH} event:clear && php ${ARTISAN_PATH} event:cache && \
+  php ${ARTISAN_PATH} route:cache && \
+  php ${ARTISAN_PATH} view:cache && \
+  php ${ARTISAN_PATH} event:cache && \
   bash reload-config.sh
