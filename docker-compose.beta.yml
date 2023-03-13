@@ -14,7 +14,7 @@ volumes:
 
 services:
   toby-beta-app:
-    image: ghcr.io/blumilksoftware/toby-beta:latest
+    image: ghcr.io/blumilksoftware/toby-beta-slim:latest
     container_name: toby-beta-app
     deploy:
       mode: replicated
