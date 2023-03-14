@@ -54,4 +54,4 @@ jobs:
             git checkout --force "${{ env.BRANCH_NAME }}"
             git pull
             make prod-deploy
-            docker rmi $(docker images --quiet 'ghcr.io/blumilksoftware/toby:<none>' | uniq)
+            docker rmi $(docker images | grep "ghcr.io/blumilksoftware/toby:<none>" | awk "{print $3}")

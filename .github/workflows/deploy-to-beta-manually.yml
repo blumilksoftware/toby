@@ -64,5 +64,6 @@ jobs:
             git pull
             git merge --no-commit --no-ff origin/main
             make beta-deploy
-            docker rmi $(docker images --quiet 'ghcr.io/blumilksoftware/toby:<none>' | uniq)
+            docker rmi $(docker images | grep "ghcr.io/blumilksoftware/toby:<none>" | awk "{print $3}")
+
 
