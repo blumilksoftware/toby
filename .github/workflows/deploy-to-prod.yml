@@ -54,4 +54,3 @@ jobs:
             git checkout --force "${{ env.BRANCH_NAME }}"
             git pull
             make prod-deploy
-            docker image prune --force
