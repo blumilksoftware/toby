@@ -36,7 +36,7 @@ prod-reload-config:
 
 
 DEPLOYMENT_PROJECT_VERSION = $(shell ./environment/scripts/version.sh --long)
-DEPLOYMENT_DATETIME = $(shell date --rfc-3339=seconds)
+DEPLOYMENT_DATETIME = $(shell TZ=Europe/Warsaw date --rfc-3339=seconds)
 
 create-deployment-file:
 	@echo "\
