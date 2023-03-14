@@ -61,11 +61,11 @@ jobs:
           ./dist_linux/docker-slim build \
             --pull \
             --http-probe-off \
-            --continue-after=enter \
-            --preserve-path=/application \            
+            --continue-after '1' \
+            --preserve-path '/application' \            
             --include-shell \
-            --tag ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest \
-            --target ghcr.io/${{ github.repository_owner }}/toby-beta:latest
+            --tag 'ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest' \
+            --target 'ghcr.io/${{ github.repository_owner }}/toby-beta:latest'
 
       - name: inspect slim image
         run: |
