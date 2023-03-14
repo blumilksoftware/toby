@@ -16,6 +16,7 @@ services:
   toby-beta-app:
     image: ghcr.io/blumilksoftware/toby-beta-slim:latest
     container_name: toby-beta-app
+    pull_policy: always
     deploy:
       mode: replicated
       replicas: 1

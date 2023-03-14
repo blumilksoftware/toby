@@ -8,7 +8,7 @@ export COMPOSE_DOCKER_CLI_BUILD = 1
 export DOCKER_BUILDKIT = 1
 
 beta-deploy: create-deployment-file
-	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} up --pull always --detach && \
+	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} up --force-recreate --detach && \
 	echo "App post deploy actions" && \
 	${BETA_DOCKER_EXEC} toby-beta-app bash post-deploy-actions.sh
 
