@@ -54,3 +54,4 @@ jobs:
             git checkout --force "${{ env.BRANCH_NAME }}"
             git pull
             make prod-deploy
+            docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/toby" | awk '{print $3}'| xargs docker rmi

@@ -119,6 +119,7 @@ jobs:
             git pull
             git merge --no-commit --no-ff origin/main
             make beta-deploy
+            docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/toby" | awk '{print $3}'| xargs docker rmi
 
       - name: comment PR that changes has been deployed to beta
         uses: actions/github-script@v6
