@@ -64,6 +64,9 @@ jobs:
         run: |
           docker image inspect ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest
 
+      - name: push slim image to GitHub Container Registry
+        run: docker push ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest
+
       - name: run deployment script over ssh
         uses: appleboy/ssh-action@v0.1.8
         with:
