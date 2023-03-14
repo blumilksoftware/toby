@@ -58,7 +58,7 @@ jobs:
 
       - name: minify docker image via Slim
         run: |
-          ./dist_linux/docker-slim build --pull --http-probe-off --continue-after '1' --include-path '/application' --include-path '/etc/nginx' --include-path '/usr/local/etc' --include-path '/usr/local/include/php' --include-path '/usr/local/lib/php' --include-exe php --include-exe php-fpm --include-exe nginx --include-exe sh --include-shell --tag ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest ghcr.io/${{ github.repository_owner }}/toby-beta:latest
+          ./dist_linux/docker-slim build --pull --http-probe-off --continue-after '1' --preserve-path '/application' --preserve-path '/etc/nginx' --preserve-path '/usr/local/etc' --preserve-path '/usr/local/include/php' --preserve-path '/usr/local/lib/php' --include-exe php --include-exe php-fpm --include-exe nginx --include-exe sh --include-shell --tag ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest ghcr.io/${{ github.repository_owner }}/toby-beta:latest
 
       - name: push slim image to GitHub Container Registry
         run: docker push ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest
