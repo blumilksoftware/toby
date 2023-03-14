@@ -22,8 +22,9 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ env.BRANCH_NAME }}
+
+      - name: sync with main branch
         run: |
-          echo "Sync with main branch:"
           git merge main --no-commit --no-ff
 
       - name: set up Docker Buildx
