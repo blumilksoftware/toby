@@ -119,7 +119,7 @@ jobs:
             git pull
             git merge --no-commit --no-ff origin/main
             make beta-deploy
-            docker rmi --force $(docker images --quiet 'ghcr.io/blumilksoftware/toby' | uniq)
+            docker rmi $(docker images --quiet 'ghcr.io/blumilksoftware/toby' | uniq)
 
       - name: comment PR that changes has been deployed to beta
         uses: actions/github-script@v6
