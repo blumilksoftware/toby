@@ -14,7 +14,7 @@ volumes:
 
 services:
   toby-beta-app:
-    image: ghcr.io/blumilksoftware/toby-beta-slim:latest
+    image: ghcr.io/blumilksoftware/toby:beta
     container_name: toby-beta-app
     pull_policy: always
     deploy:

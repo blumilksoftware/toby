@@ -38,30 +38,9 @@ jobs:
           context: .
           file: ./environment/prod/app/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/toby-beta:latest
+          tags: ghcr.io/${{ github.repository_owner }}/toby:beta
           cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache
           cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache, mode=max
-
-      - name: cache slim
-        id: cache-slim
-        uses: actions/cache@v3
-        with:
-          path: ./dist_linux/
-          key: ${{ runner.os }}-slim-cache-${{ hashFiles('docker-slim') }}
-
-      - name: download Slim
-        if: steps.cache-slim.outputs.cache-hit != 'true'
-        run: |
-          wget https://downloads.dockerslim.com/releases/1.40.0/dist_linux.tar.gz
-          tar zxvf dist_linux.tar.gz
-          chmod +x ./dist_linux/docker-slim
-
-      - name: minify docker image via Slim
-        run: |
-          ./dist_linux/docker-slim build --pull --http-probe-off --continue-after '1' --preserve-path '/application' --preserve-path '/etc/nginx' --preserve-path '/usr/local/etc' --preserve-path '/usr/local/include/php' --preserve-path '/usr/local/lib/php' --include-exe php --include-exe php-fpm --include-exe nginx --include-exe sh --include-shell --tag ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest ghcr.io/${{ github.repository_owner }}/toby-beta:latest
-
-      - name: push slim image to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository_owner }}/toby-beta-slim:latest
 
       - name: run deployment script over ssh
         uses: appleboy/ssh-action@v0.1.8
