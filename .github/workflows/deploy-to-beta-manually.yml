@@ -64,6 +64,4 @@ jobs:
             git pull
             git merge --no-commit --no-ff origin/main
             make beta-deploy
-            docker rmi $(docker images | grep "ghcr.io/blumilksoftware/toby:<none>" | awk "{print $3}")
-
-
+            docker image prune --force
