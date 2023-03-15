@@ -19,11 +19,11 @@ beta-reload-config:
 prod-deploy: create-deployment-file
 	docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} up --force-recreate --detach && \
 	echo "App post deploy actions" && \
-	${PROD_DOCKER_EXEC} toby-prod-php bash post-deploy-actions.sh
+	${PROD_DOCKER_EXEC} toby-prod-app bash post-deploy-actions.sh
 
 prod-reload-config:
 	echo "App config reload" && \
-	${PROD_DOCKER_EXEC} toby-prod-php bash reload-config.sh
+	${PROD_DOCKER_EXEC} toby-prod-app bash reload-config.sh
 
 
 DEPLOYMENT_PROJECT_VERSION = $(shell ./environment/scripts/version.sh --long)

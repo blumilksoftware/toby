@@ -40,7 +40,7 @@ jobs:
           cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-prod-build-cache
           cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-prod-build-cache, mode=max
 
-      - uses: appleboy/ssh-action@v0.1.5
+      - uses: appleboy/ssh-action@v0.1.8
         env:
           BRANCH_NAME: "main"
         with:
