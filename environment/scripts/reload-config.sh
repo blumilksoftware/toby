@@ -5,4 +5,4 @@ set -e
 
 ARTISAN_PATH="/application/artisan"
 
-php ${ARTISAN_PATH} config:clear && php ${ARTISAN_PATH} config:cache
+php ${ARTISAN_PATH} config:cache
