@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
 
 class Authenticate extends Middleware
 {
-    protected function redirectTo($request): string
+    protected function redirectTo(Request $request): ?string
     {
-        return route("login");
+        return $request->expectsJson() ? null : route("login");
     }
 }

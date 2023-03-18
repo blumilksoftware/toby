@@ -53,11 +53,11 @@ class Kernel extends HttpKernel
         ],
         "api" => [
             EnsureFrontendRequestsAreStateful::class,
-            "throttle:api",
+            ThrottleRequests::class . "throttle:api",
             SubstituteBindings::class,
         ],
     ];
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         "auth" => Authenticate::class,
         "auth.basic" => AuthenticateWithBasicAuth::class,
         "cache.headers" => SetCacheHeaders::class,

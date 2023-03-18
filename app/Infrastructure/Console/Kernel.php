@@ -6,6 +6,8 @@ namespace Toby\Infrastructure\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Toby\Infrastructure\Console\Commands\Database\BackupPostgresDatabase;
 use Toby\Infrastructure\Console\Commands\SendDailySummaryToSlack;
 use Toby\Infrastructure\Console\Commands\SendVacationRequestSummariesToApprovers;
@@ -13,6 +15,15 @@ use Toby\Infrastructure\Jobs\CheckYearPeriod;
 
 class Kernel extends ConsoleKernel
 {
+    protected function commands(): void
+    {
+        $this->load(__DIR__ . "/Commands");
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command(SendDailySummaryToSlack::class)
@@ -27,14 +38,15 @@ class Kernel extends ConsoleKernel
         $schedule->job(CheckYearPeriod::class)
             ->yearlyOn(1, 1, "01:00");
 
+        $schedule->command("cache:prune-stale-tags")->hourly();
+
         $this->scheduleDatabaseBackup($schedule);
     }
 
-    protected function commands(): void
-    {
-        $this->load(__DIR__ . "/Commands");
-    }
-
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     protected function scheduleDatabaseBackup(Schedule $schedule): void
     {
         $scheduledTask = $schedule->command(BackupPostgresDatabase::class)
