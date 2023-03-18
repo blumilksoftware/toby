@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http;
 
-use Fruitcake\Cors\HandleCors;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -16,6 +15,7 @@ use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Middleware\SetCacheHeaders;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
