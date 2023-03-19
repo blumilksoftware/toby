@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Console;
 
+use Illuminate\Cache\Console\PruneStaleTagsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Psr\Container\ContainerExceptionInterface;
@@ -38,7 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(CheckYearPeriod::class)
             ->yearlyOn(1, 1, "01:00");
 
-        $schedule->command("cache:prune-stale-tags")->hourly();
+        $schedule->command(PruneStaleTagsCommand::class)->hourly();
 
         $this->scheduleDatabaseBackup($schedule);
     }

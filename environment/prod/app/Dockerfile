@@ -22,7 +22,7 @@ FROM node:${NODE_VERSION} as frontend
 
 WORKDIR /app_frontend_dependencies
 
-COPY package.json package-lock.json postcss.config.js tailwind.config.js vite.config.js webpack.config.js webpack.mix.js ./
+COPY package.json package-lock.json postcss.config.js tailwind.config.js vite.config.js ./
 
 RUN npm clean-install
 
