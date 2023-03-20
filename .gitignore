@@ -20,3 +20,4 @@ google-credentials.json
 .idea/
 .composer
 .deployment
+/.phpunit.cache

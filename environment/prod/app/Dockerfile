@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.1.16-fpm-bullseye
+ARG PHP_VERSION=8.2.4-fpm-bullseye
 ARG NODE_VERSION=19-alpine3.16
 ARG COMPOSER_VERSION=2.5.4
 
@@ -22,7 +22,7 @@ FROM node:${NODE_VERSION} as frontend
 
 WORKDIR /app_frontend_dependencies
 
-COPY package.json package-lock.json postcss.config.js tailwind.config.js vite.config.js webpack.config.js webpack.mix.js ./
+COPY package.json package-lock.json postcss.config.js tailwind.config.js vite.config.js ./
 
 RUN npm clean-install
 
