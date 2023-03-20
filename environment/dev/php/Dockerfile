@@ -6,7 +6,7 @@ FROM php:${PHP_VERSION}
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
-ARG XDEBUG_VERSION=3.1.6
+ARG XDEBUG_VERSION=3.2.0
 ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
