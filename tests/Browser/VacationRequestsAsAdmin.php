@@ -48,8 +48,3 @@ class VacationRequestsAsAdmin extends DuskTestCase
         });
     }
 }
-// cy.attr('vacation-types-list')
-// .should('be.visible')
-// .contains('Zwolnienie lekarskie')
-// .click()
-
