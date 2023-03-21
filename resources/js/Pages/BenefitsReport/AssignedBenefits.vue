@@ -286,6 +286,7 @@ function isBenefitHasCompanion(benefitId) {
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     title="Wprowadź kwotę."
                     min="0"
+                    dusk="grid-employer"
                   >
                 </td>
                 <td style="height: 40px">
@@ -297,6 +298,7 @@ function isBenefitHasCompanion(benefitId) {
                     class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
                     title="Wprowadź kwotę."
                     min="0"
+                    dusk="grid-employee"
                   >
                 </td>
               </template>
@@ -307,6 +309,7 @@ function isBenefitHasCompanion(benefitId) {
               </td>
               <td
                 class="px-0.5 ring-inset hover:bg-blumilk-25 focus-within:bg-blumilk-25 ring-blumilk-300 focus-within:ring-2"
+                dusk="emplyer-cost"
               >
                 <TextArea
                   v-model="item.comment"

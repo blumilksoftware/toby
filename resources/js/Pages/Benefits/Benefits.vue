@@ -41,6 +41,7 @@ function submitCreateBenefit() {
           type="button"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           @click="creating = true"
+          dusk="create-benefit-button"
         >
           Dodaj benefit
         </button>
@@ -255,6 +256,7 @@ function submitCreateBenefit() {
                   class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
                   :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                   :disabled="form.processing || !form.isDirty"
+                  dusk="save-benefit-button"
                 >
                   Dodaj
                 </button>

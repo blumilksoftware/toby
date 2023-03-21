@@ -130,6 +130,7 @@ function submitResume() {
               <div class="relative mt-2">
                 <ListboxButton
                   class="relative py-2 pr-10 pl-3 w-full max-w-md h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+                  dusk='vacation-types-listbox-button'
                 >
                   <span v-if="form.user === null">
                     Nie istnieje w bazie
