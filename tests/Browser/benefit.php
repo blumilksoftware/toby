@@ -42,20 +42,3 @@ class benefit extends DuskTestCase
         });
     }
 }
-
-// it('Create a benefit, add it to a user and check if the calculation is correct', () => {
-//     cy.visit('/benefits');
-
-//     cy.attr('create-benefit-button')
-//       .click()
-    
-//     cy.get('#name')
-//       .type('Gym')
-
-//     cy.attr('save-benefit-button')
-//       .click()
-    
-//     cy.attr('benefit-name')
-//       .should('contain.text', 'Gym')
-
-//     cy.visit('/assigned-benefits')
