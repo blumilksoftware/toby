@@ -303,7 +303,7 @@ function isBenefitHasCompanion(benefitId) {
                 </td>
               </template>
               <td>
-                <div class="w-full sm:text-sm focus:ring-white m-0 text-right p-3">
+                <div class="w-full sm:text-sm focus:ring-white m-0 text-right p-3" dusk="grid-sum">
                   {{ calculateSumOfBenefits(item.benefits) }}
                 </div>
               </td>

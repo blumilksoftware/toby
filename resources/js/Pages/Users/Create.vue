@@ -252,7 +252,9 @@ function createUser() {
         >
           Data zatrudnienia
         </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
+        <div class="mt-1 sm:col-span-2 sm:mt-0"
+          dusk="employment-date"
+        >
           <FlatPickr
             id="employment_date"
             v-model="form.employmentDate"
@@ -276,7 +278,7 @@ function createUser() {
         </label>
         <div class="mt-1 sm:col-span-2 sm:mt-0">
           <input
-            id="position"
+            id="slack"
             v-model="form.slackId"
             type="text"
             class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
@@ -297,7 +299,9 @@ function createUser() {
         >
           Data urodzenia
         </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
+        <div class="mt-1 sm:col-span-2 sm:mt-0"
+          dusk="birthday"
+        >
           <FlatPickr
             id="birthday"
             v-model="form.birthday"
@@ -325,6 +329,7 @@ function createUser() {
             class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
             :disabled="form.processing || !form.isDirty"
+            dusk="save-user-button"
           >
             Dodaj
           </button>

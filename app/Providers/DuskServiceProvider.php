@@ -39,5 +39,10 @@ class DuskServiceProvider extends ServiceProvider
             $this->click("div.flatpickr-calendar.animate.arrowTop.arrowLeft.open > div.flatpickr-innerContainer > div > div.flatpickr-days > div > span:nth-child({$day})");
             return $this;
         });
+        
+        Browser::macro("fillGrid", function ($data,$value) {
+            $this->type("tr.group:nth-child(1) > td:nth-child({$data}) > input:nth-child(1)",$value);
+            return $this;
+        });
     }
 }

@@ -77,6 +77,7 @@ watch(form, debounce(() => {
         <InertiaLink
           href="users/create"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          dusk="create-user-button"
         >
           Dodaj użytkownika
         </InertiaLink>
@@ -226,6 +227,7 @@ watch(form, debounce(() => {
               v-for="user in users.data"
               :key="user.id"
               :class="[ selectedUsers.find((selectedUser) => selectedUser.email === user.email) && 'bg-blumilk-25', { 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
+              dusk="user-name"
             >
               <td class="relative w-12 px-6 sm:w-16 sm:px-8">
                 <div

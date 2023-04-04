@@ -25,7 +25,7 @@ class VacationRequestsAsAdmin extends DuskTestCase
 
         $this->user = User::all()->last();
     }
-    public function testExample(): void
+    public function testAdminCanCreateVacationRequest(): void
     {
         $this->browse(function (Browser $browser): void {
             $browser->loginAs($this->user)

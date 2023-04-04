@@ -165,6 +165,7 @@ defineProps({
               as="button"
               preserve-scroll
               class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              dusk="vacation-accept-by-technical"
             >
               Zaakceptuj wniosek
             </InertiaLink>
@@ -191,6 +192,7 @@ defineProps({
               as="button"
               preserve-scroll
               class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              dusk="vacation-accept-by-administrative-approval"
             >
               Zaakceptuj wniosek
             </InertiaLink>

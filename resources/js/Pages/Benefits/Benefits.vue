@@ -95,6 +95,7 @@ function submitCreateBenefit() {
                 >
                   <MenuButton
                     class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                    dusk="benefit-button"
                   >
                     <EllipsisVerticalIcon class="w-5 h-5" />
                   </MenuButton>
@@ -121,6 +122,7 @@ function submitCreateBenefit() {
                             preserve-scroll
                             :href="`/benefits/${benefit.id}`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            dusk="benefit-delete-button"
                           >
                             <TrashIcon class="mr-2 w-5 h-5 text-red-500" />
                             Usuń
