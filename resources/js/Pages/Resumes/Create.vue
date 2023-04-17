@@ -167,7 +167,7 @@ function submitResume() {
                       <li
                         :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
                       >
-                        <div class="flex items-center">
+                        <div class="flex items-center" dusk="non-existing-user">
                           Nie istnieje w bazie
                         </div>
 
