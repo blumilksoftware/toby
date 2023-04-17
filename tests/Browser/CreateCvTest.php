@@ -33,14 +33,7 @@ class CreateCv extends DuskTestCase
                 ->visit(new CvPage())
                 ->waitFor('@create-resume-button')
                 ->click('@create-resume-button')
-                ->waitFor('@users-listbox-button')
-                ->screenshot('b')
-                ->click('@users-listbox-button')
-                ->screenshot('c')
-                ->select('@users-listbox-list', 0)
-                ->click()
-                ->pause(1111)
-                ->screenshot('a');
+                ->waitFor('@users-listbox-button');
         });
     }
 }

@@ -320,7 +320,6 @@ async function refreshAvailableTypes(user) {
                     >
                       <li 
                         :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                        dusk="vacation-types-list"
                       >
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
                           <VacationType :type="vacationType.value" />

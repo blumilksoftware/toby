@@ -21,7 +21,7 @@ class VacationRequestsAsAdmin extends DuskTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
+        $this->seed('DuskSeeder');
 
         $this->user = User::all()->last();
     }
@@ -33,8 +33,8 @@ class VacationRequestsAsAdmin extends DuskTestCase
             ->waitFor("@create-vacation-request-button")
             ->click("@create-vacation-request-button")
             ->waitFor("@vacation-types-listbox-button")
-            // ->click("@vacation-types-listbox-button")
-            // ->select("@vacation-types-listbox-button")
+            ->waitFor("@date-to")
+            ->waitFor("@date-from")
             ->click('@date-from')
             ->fillMonth(11)
             ->fillDay(8)
