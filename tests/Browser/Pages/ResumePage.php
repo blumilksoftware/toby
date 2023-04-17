@@ -5,7 +5,7 @@ namespace Tests\Browser\Pages;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Page;
 
-class CvPage extends Page
+class ResumePage extends Page
 {
     public function url()
     {
