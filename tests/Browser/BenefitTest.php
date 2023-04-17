@@ -12,7 +12,7 @@ use Tests\DuskTestCase;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
 
-class Benefit extends DuskTestCase
+class BenefitTest extends DuskTestCase
 {
     use DatabaseMigrations;
 

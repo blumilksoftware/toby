@@ -16,7 +16,7 @@ use Toby\Domain\Enums\EmploymentForm;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
-class VacationRequestsAsEmployee extends DuskTestCase
+class VacationRequestsAsEmployeeTest extends DuskTestCase
 {
     use DatabaseMigrations;
 

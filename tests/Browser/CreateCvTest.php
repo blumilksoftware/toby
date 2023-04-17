@@ -12,7 +12,7 @@ use Tests\DuskTestCase;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
 
-class CreateCv extends DuskTestCase
+class CreateCvTest extends DuskTestCase
 {
     use DatabaseMigrations;
 

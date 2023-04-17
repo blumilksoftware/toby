@@ -11,7 +11,7 @@ use Tests\DuskTestCase;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
 
-class CreateUser extends DuskTestCase
+class CreateUserTest extends DuskTestCase
 {
     use DatabaseMigrations;
 

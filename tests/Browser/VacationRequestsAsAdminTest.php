@@ -12,7 +12,7 @@ use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
 use Toby\Providers\DuskServiceProvider;
 
-class VacationRequestsAsAdmin extends DuskTestCase
+class VacationRequestsAsAdminTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
