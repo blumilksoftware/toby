@@ -316,6 +316,7 @@ async function refreshAvailableTypes(user) {
                       v-slot="{ active, selected }"
                       as="template"
                       :value="vacationType"
+                      :dusk="vacationType.value"
                     >
                       <li 
                         :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"

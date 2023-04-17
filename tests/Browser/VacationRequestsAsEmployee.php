@@ -11,7 +11,7 @@ use Tests\Browser\Pages\MyRequestPage;
 use Tests\DuskTestCase;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
-use app\Providers\DuskServiceProvider;
+use Toby\Providers\DuskServiceProvider;
 use Toby\Domain\Enums\EmploymentForm;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -53,9 +53,9 @@ class VacationRequestsAsEmployee extends DuskTestCase
             ->screenshot('filename')
             ->click("@create-vacation-request-button")
             ->waitFor("@vacation-types-listbox-button")
-            // ->click("@vacation-types-listbox-button")
-            // ->screenshot('filenameaaa')
-            // ->select("@vacation-types-listbox-button")
+             ->click("@vacation-types-listbox-button")
+             ->waitUntilMissingText("Ładowanie...")
+             ->click("@unpaid_vacation")
             ->waitFor('@date-from')
             ->waitFor('@date-to')
             ->waitFor('@save-request-button')

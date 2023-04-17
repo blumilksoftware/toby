@@ -10,7 +10,7 @@ use Tests\Browser\Pages\RequestPage;
 use Tests\DuskTestCase;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\User;
-use app\Providers\DuskServiceProvider;
+use Toby\Providers\DuskServiceProvider;
 
 class VacationRequestsAsAdmin extends DuskTestCase
 {
