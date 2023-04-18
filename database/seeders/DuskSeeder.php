@@ -13,6 +13,7 @@ use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Benefit;
 use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\Key;
+use Toby\Eloquent\Models\Technology;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
 use Toby\Eloquent\Models\VacationRequest;
@@ -93,5 +94,10 @@ class DuskSeeder extends Seeder
         ]);
 
         BenefitsReport::factory(3)->create();
+        Technology::factory()->createMany([
+            ["name" => "Laravel"],
+            ["name" => "Cypress"],
+            ["name" => "Dusk"],
+        ]);
     }
 }

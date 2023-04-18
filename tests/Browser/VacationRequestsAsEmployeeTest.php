@@ -50,7 +50,6 @@ class VacationRequestsAsEmployeeTest extends DuskTestCase
             $browser->loginAs($this->employee)
             ->visit(new MyRequestPage())
             ->waitFor("@create-vacation-request-button")
-            ->screenshot('filename')
             ->click("@create-vacation-request-button")
             ->waitFor("@vacation-types-listbox-button")
             ->click("@vacation-types-listbox-button")

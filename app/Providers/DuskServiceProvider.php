@@ -44,5 +44,27 @@ class DuskServiceProvider extends ServiceProvider
             $this->type("tr.group:nth-child(1) > td:nth-child({$data}) > input:nth-child(1)",$value);
             return $this;
         });
+
+        Browser::macro("dropDownButton", function () {
+            $this->click(".rotate-90");
+            return $this;
+        });
+
+        Browser::macro("changeMonthInResume", function ($month) {
+            $this->click(".open > .flatpickr-innerContainer > .flatpickr-rContainer > .flatpickr-monthSelect-months > span:nth-child($month)");
+            return $this;
+        });
+
+        Browser::macro("enterValue", function ($value ,$number,$name) {
+            $this->click("#{$value}-{$number}-level")
+            ->keys("#{$value}-{$number}-level",$name, "{enter}");
+            return $this;
+        });
+
+        Browser::macro("enterProjectTechnology", function ($number,$name) {
+            $this->click("#project-technologies-{$number}")
+            ->keys("#project-technologies-{$number}",$name, "{enter}");
+            return $this;
+        });
     }
 }
