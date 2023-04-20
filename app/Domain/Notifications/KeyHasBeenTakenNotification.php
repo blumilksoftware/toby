@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Toby\Domain\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 

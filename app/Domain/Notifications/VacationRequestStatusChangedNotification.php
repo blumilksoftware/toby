@@ -6,7 +6,6 @@ namespace Toby\Domain\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;

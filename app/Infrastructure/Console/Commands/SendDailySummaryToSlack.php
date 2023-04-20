@@ -18,7 +18,7 @@ class SendDailySummaryToSlack extends Command
 
     public function handle(
         GenerateDailySummaryAction $generateDailySummary,
-        SendDailySummaryToSlackAction $sendDailySummary
+        SendDailySummaryToSlackAction $sendDailySummary,
     ): void {
         $now = Carbon::today();
 

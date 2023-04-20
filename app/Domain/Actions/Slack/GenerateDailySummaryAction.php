@@ -12,9 +12,9 @@ use Toby\Eloquent\Models\VacationRequest;
 
 class GenerateDailySummaryAction
 {
-    public function __construct(protected DailySummaryRetriever $dailySummaryRetriever)
-    {
-    }
+    public function __construct(
+        protected DailySummaryRetriever $dailySummaryRetriever,
+    ) {}
 
     public function execute(Carbon $day): DailySummary
     {

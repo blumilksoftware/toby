@@ -11,9 +11,9 @@ use Toby\Eloquent\Models\VacationRequest;
 
 class UpdateDailySummaryAction
 {
-    public function __construct(protected DailySummaryRetriever $dailySummaryRetriever)
-    {
-    }
+    public function __construct(
+        protected DailySummaryRetriever $dailySummaryRetriever,
+    ) {}
 
     public function execute(DailySummary $dailySummary): DailySummary
     {
@@ -22,13 +22,13 @@ class UpdateDailySummaryAction
                 fn(VacationRequest $request) => [
                     "id" => $request->user->id,
                     "name" => $request->user->profile->fullName,
-                ]
+                ],
             )->toArray(),
             "remotes" => $this->dailySummaryRetriever->getRemoteDays($dailySummary->day)->map(
                 fn(VacationRequest $request) => [
                     "id" => $request->user->id,
                     "name" => $request->user->profile->fullName,
-                ]
+                ],
             )->toArray(),
             "birthdays" => $this->dailySummaryRetriever->getUpcomingBirthdays()->map(fn(User $user) => [
                 "id" => $user->id,

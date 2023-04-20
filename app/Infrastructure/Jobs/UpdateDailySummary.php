@@ -16,9 +16,9 @@ class UpdateDailySummary implements ShouldQueue
     use Dispatchable;
     use Queueable;
 
-    public function __construct(protected DailySummary $dailySummary)
-    {
-    }
+    public function __construct(
+        protected DailySummary $dailySummary,
+    ) {}
 
     public function handle(UpdateDailySummaryMessageAction $updateDailySummaryMessage, UpdateDailySummaryAction $updateDailySummary): void
     {

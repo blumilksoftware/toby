@@ -14,9 +14,8 @@ class UpdateDailySummaries
 {
     public function __construct(
         protected UpdateDailySummaryMessageAction $updateDailySummaryMessage,
-        protected UpdateDailySummaryAction $updateDailySummary
-    ) {
-    }
+        protected UpdateDailySummaryAction $updateDailySummary,
+    ) {}
 
     public function handle(VacationRequestChanged $event): void
     {

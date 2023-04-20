@@ -23,7 +23,6 @@ use Toby\Infrastructure\Slack\Elements\RemotesAttachment;
 class DailySummary extends Model
 {
     protected $guarded = [];
-
     protected $casts = [
         "day" => "date",
         "absences" => "collection",

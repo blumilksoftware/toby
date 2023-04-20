@@ -31,7 +31,6 @@ class ApproveAction
         }
 
         event(new VacationRequestChanged($vacationRequest));
-
     }
 
     protected function notify(VacationRequest $vacationRequest): void
