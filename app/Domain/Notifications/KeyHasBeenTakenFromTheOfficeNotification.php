@@ -9,13 +9,15 @@ use Illuminate\Notifications\Notification;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
-class KeyHasBeenTakenFromTheOfficeNotification extends Notification
+class KeyHasBeenTakenFromTheOfficeNotification extends QueuedNotification
 {
     use Queueable;
 
     public function __construct(
         protected User $recipient,
-    ) {}
+    ) {
+        parent::__construct();
+    }
 
     public function via(): array
     {

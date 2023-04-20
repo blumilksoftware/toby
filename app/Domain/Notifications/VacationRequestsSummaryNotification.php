@@ -12,14 +12,16 @@ use Illuminate\Support\Collection;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 use Toby\Infrastructure\Slack\Elements\VacationRequestsAttachment;
 
-class VacationRequestsSummaryNotification extends Notification
+class VacationRequestsSummaryNotification extends QueuedNotification
 {
     use Queueable;
 
     public function __construct(
         protected Carbon $day,
         protected Collection $vacationRequests,
-    ) {}
+    ) {
+        parent::__construct();
+    }
 
     public function via(): array
     {

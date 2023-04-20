@@ -7,6 +7,7 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Eloquent\Models\Holiday;
@@ -21,7 +22,10 @@ class SendDailySummaryToSlackTest extends TestCase
     {
         parent::setUp();
 
-        Http::fake();
+        Http::fake(fn(): array => [
+            "channel" => Str::random(8),
+            "message" => ["ts" => Carbon::now()->toDateTimeString()],
+        ]);
         $this->createCurrentYearPeriod();
     }
 
