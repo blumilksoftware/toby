@@ -17,8 +17,38 @@ jobs:
       - name: set branch name
         run: echo "BRANCH_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
 
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ env.BRANCH_NAME }}
+
+      - name: sync with main branch
+        run: |
+          git merge --no-commit --no-ff origin/main
+
+      - name: set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: build and push image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./environment/prod/app/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/toby:beta
+          cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache
+          cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache, mode=max
+
       - name: run deployment script over ssh
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/ssh-action@v0.1.8
         with:
           timeout: 10s
           command_timeout: 10m
@@ -32,4 +62,6 @@ jobs:
             git fetch
             git checkout --force "${{ env.BRANCH_NAME }}"
             git pull
+            git merge --no-commit --no-ff origin/main
             make beta-deploy
+            docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/toby" | awk '{print $3}'| xargs --no-run-if-empty docker rmi

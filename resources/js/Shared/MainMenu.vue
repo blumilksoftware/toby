@@ -195,7 +195,7 @@ const miscNavigation = computed(() => [
             >
               <img
                 class="w-auto h-8"
-                src="/img/logo-white.svg"
+                src="/images/logo-white.svg"
               >
             </InertiaLink>
           </div>
@@ -270,7 +270,7 @@ const miscNavigation = computed(() => [
       <div class="flex shrink-0 items-center px-4">
         <InertiaLink href="/">
           <img
-            src="/img/logo-white.svg"
+            src="/images/logo-white.svg"
             class="w-auto h-8"
           >
         </InertiaLink>

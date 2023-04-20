@@ -1,12 +1,12 @@
-ARG PHP_VERSION=8.1.13-fpm
-ARG COMPOSER_VERSION=2.4
+ARG PHP_VERSION=8.2.4-fpm
+ARG COMPOSER_VERSION=2.5
 
 FROM composer:${COMPOSER_VERSION} as composer
 FROM php:${PHP_VERSION}
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
-ARG XDEBUG_VERSION=3.1.6
+ARG XDEBUG_VERSION=3.2.0
 ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
