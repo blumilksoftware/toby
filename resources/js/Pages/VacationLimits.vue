@@ -140,7 +140,7 @@ watch(() => form.items, () => {
                     @change-previous-year="limitToChange = item; takingDaysFromPreviousYear = true"
                   >
                     <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
-                      {{ item.remainingLastYear }}
+                      {{ item.remainingLastYear + item.fromPreviousYear }}
                     </div>
                   </RemainingFromPreviousYearPopup>
                 </td>
