@@ -87,7 +87,7 @@ class CreateAction
             return;
         }
 
-        $this->stateManager->approve($vacationRequest);
+        $this->approveAction->execute($vacationRequest);
     }
 
     protected function notify(VacationRequest $vacationRequest): void
