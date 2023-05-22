@@ -55,7 +55,7 @@ export default { name: 'LoginPage', layout: GuestLayout }
   >
     <img
       class="mx-auto w-auto h-50"
-      src="img/logo.svg"
+      src="images/logo.svg"
     >
     <a
       href="/login/google/start"

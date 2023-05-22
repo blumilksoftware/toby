@@ -10,8 +10,21 @@ services:
       - .:/application
     networks:
       - toby-dev
+      - traefik-proxy-blumilk-local
+    labels:
+      - "traefik.enable=true"
+      - "traefik.blumilk.environment=true"
+      # HTTP
+      - "traefik.http.routers.toby-http-router.rule=Host(`toby.blumilk.localhost`)"
+      - "traefik.http.routers.toby-http-router.entrypoints=web"
+      # HTTP to HTTPS redirect
+#      - "traefik.http.routers.toby-http-router.middlewares=https-redirect@file"
+      # HTTPS
+      - "traefik.http.routers.toby-https-router.rule=Host(`toby.blumilk.localhost`)"
+      - "traefik.http.routers.toby-https-router.entrypoints=websecure"
+      - "traefik.http.routers.toby-https-router.tls=true"
     ports:
-      - ${EXTERNAL_WEBSERVER_PORT:-80}:80
+      - ${EXTERNAL_WEBSERVER_PORT:-8181}:80
     restart: unless-stopped
     depends_on:
       - php
@@ -91,11 +104,26 @@ services:
   mailhog:
     image: mailhog/mailhog:v1.0.1
     container_name: toby-mailhog
+    labels:
+      - "traefik.enable=true"
+      - "traefik.blumilk.environment=true"
+      # HTTP
+      - "traefik.http.routers.toby-mailhog-http-router.rule=Host(`toby-mailhog.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailhog-http-router.entrypoints=web"
+      # HTTP to HTTPS redirect
+#      - "traefik.http.routers.toby-mailhog-http-router.middlewares=https-redirect@file"
+      # HTTPS
+      - "traefik.http.routers.toby-mailhog-https-router.rule=Host(`toby-mailhog.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailhog-https-router.entrypoints=websecure"
+      - "traefik.http.routers.toby-mailhog-https-router.tls=true"
+      # LOADBALANCER MAILHOG PORT
+      - "traefik.http.services.toby-mailhog.loadbalancer.server.port=8025"
     ports:
       - ${MAIL_PORT}:1025
       - ${MAILHOG_DASHBOARD_PORT}:8025
     networks:
       - toby-dev
+      - traefik-proxy-blumilk-local
     restart: unless-stopped
 
   selenium:
@@ -109,6 +137,8 @@ services:
 networks:
   toby-dev:
     driver: bridge
+  traefik-proxy-blumilk-local:
+    external: true
 
 volumes:
   toby-pgsql-data:

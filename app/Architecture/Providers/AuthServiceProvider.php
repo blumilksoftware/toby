@@ -22,8 +22,6 @@ class AuthServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->registerPolicies();
-
         Gate::before(function (User $user) {
             if ($user->role === Role::Administrator) {
                 return true;

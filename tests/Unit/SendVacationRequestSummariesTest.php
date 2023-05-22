@@ -31,6 +31,7 @@ class SendVacationRequestSummariesTest extends TestCase
 
         Notification::fake();
         $this->createCurrentYearPeriod();
+        $this->travelTo(now()->startOfWeek());
     }
 
     public function testSummariesAreSentOnlyToProperApprovers(): void
@@ -60,6 +61,26 @@ class SendVacationRequestSummariesTest extends TestCase
 
         Notification::assertSentTo([$technicalApprover, $admin], VacationRequestsSummaryNotification::class);
         Notification::assertNotSentTo([$user, $administrativeApprover], VacationRequestsSummaryNotification::class);
+    }
+
+    public function testSummariesAreNotSentOnWeekends(): void
+    {
+        $this->travelTo(now()->endOfWeek());
+        $currentYearPeriod = YearPeriod::current();
+
+        $user = User::factory([
+            "role" => Role::Employee,
+        ])->create();
+
+        VacationRequest::factory()
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create(["state" => WaitingForTechnical::class]);
+
+        $this->artisan(SendVacationRequestSummariesToApprovers::class)
+            ->execute();
+
+        Notification::assertNothingSent();
     }
 
     public function testSummariesAreSentOnlyIfVacationRequestWaitingForActionExists(): void

@@ -23,7 +23,7 @@ class UserFactory extends Factory
         ];
     }
 
-    public function configure(): self
+    public function configure(): static
     {
         return $this->afterCreating(function (User $user): void {
             if (!$user->profile()->exists()) {
