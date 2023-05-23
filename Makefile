@@ -7,6 +7,10 @@ PROD_DOCKER_EXEC = docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} exec --
 export COMPOSE_DOCKER_CLI_BUILD = 1
 export DOCKER_BUILDKIT = 1
 
+beta-artisan:
+	echo "Running: php artisan ${ARTISAN_ARGS}" && \
+	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} exec toby-beta-app php artisan ${ARTISAN_ARGS}
+
 beta-deploy: create-deployment-file
 	docker compose --file ${DOCKER_COMPOSE_BETA_FILENAME} up --force-recreate --detach && \
 	echo "App post deploy actions" && \
@@ -35,4 +39,4 @@ create-deployment-file:
 	DEPLOY_VERSION='${DEPLOYMENT_PROJECT_VERSION}'\
 	" > .deployment
 
-.PHONY: beta-deploy beta-reload-config prod-deploy prod-reload-config create-deployment-file
+.PHONY: beta-deploy beta-reload-config prod-deploy prod-reload-config create-deployment-file beta-artisan
