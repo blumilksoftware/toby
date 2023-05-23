@@ -5,6 +5,7 @@ on:
     inputs:
       artisan_arguments:
         description: "PHP Artisan command arguments (php artisan <args>)"
+        type: string
         required: true
 
 jobs:
