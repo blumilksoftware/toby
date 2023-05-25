@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Slack\Handlers;
 
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\DailySummaryRetriever;
-use Toby\Infrastructure\Slack\Elements\AbsencesAttachment;
-use Toby\Infrastructure\Slack\Elements\BirthdaysAttachment;
-use Toby\Infrastructure\Slack\Elements\RemotesAttachment;
+use Toby\Domain\Actions\Slack\RetrieveDailySummaryAction;
 
 class DailySummary extends SignatureHandler
 {
@@ -20,17 +16,11 @@ class DailySummary extends SignatureHandler
 
     public function handle(Request $request): Response
     {
-        $dailySummaryRetriever = app()->make(DailySummaryRetriever::class);
+        $retrieveDailySummary = app()->make(RetrieveDailySummaryAction::class);
 
-        $now = Carbon::today();
+        $dailySummary = $retrieveDailySummary->execute(Carbon::now());
 
-        $attachments = new Collection([
-            new AbsencesAttachment($dailySummaryRetriever->getAbsences($now)),
-            new RemotesAttachment($dailySummaryRetriever->getRemoteDays($now)),
-            new BirthdaysAttachment($dailySummaryRetriever->getUpcomingBirthdays()),
-        ]);
-
-        return $this->respondToSlack(__("Summary for the day :day", ["day" => $now->toDisplayString()]))
-            ->withAttachments($attachments->all());
+        return $this->respondToSlack($dailySummary->getTitle())
+            ->withAttachments($dailySummary->getAttachments());
     }
 }

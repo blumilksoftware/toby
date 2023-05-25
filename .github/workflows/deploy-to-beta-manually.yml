@@ -54,10 +54,11 @@ jobs:
         with:
           timeout: 10s
           command_timeout: 10m
-          host: ${{ secrets.TOBY_VPS_HOST }}
-          port: ${{ secrets.TOBY_VPS_PORT }}
-          username: ${{ secrets.TOBY_VPS_USERNAME }}
-          password: ${{ secrets.TOBY_VPS_PASSWORD }}
+          host: ${{ secrets.VPS_OVH_BF7EC892_HOST }}
+          port: ${{ secrets.VPS_OVH_BF7EC892_PORT }}
+          username: ${{ secrets.VPS_OVH_BF7EC892_USERNAME }}
+          key: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY_PASSPHRASE }}
           script_stop: true
           script: |
             cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}

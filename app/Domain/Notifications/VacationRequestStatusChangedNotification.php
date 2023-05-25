@@ -6,20 +6,21 @@ namespace Toby\Domain\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use InvalidArgumentException;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
-class VacationRequestStatusChangedNotification extends Notification
+class VacationRequestStatusChangedNotification extends QueuedNotification
 {
     use Queueable;
 
     public function __construct(
         protected VacationRequest $vacationRequest,
         protected User $user,
-    ) {}
+    ) {
+        parent::__construct();
+    }
 
     public function via(): array
     {

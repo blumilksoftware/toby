@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Actions\VacationRequest;
 
 use Toby\Domain\Enums\Role;
+use Toby\Domain\Events\VacationRequestChanged;
 use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -28,6 +29,8 @@ class CancelAction
         if ($this->configRetriever->isVacation($vacationRequest->type)) {
             $this->notify($vacationRequest);
         }
+
+        event(new VacationRequestChanged($vacationRequest));
     }
 
     protected function notify(VacationRequest $vacationRequest): void

@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Toby\Domain\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
-class KeyHasBeenGivenNotification extends Notification
+class KeyHasBeenGivenNotification extends QueuedNotification
 {
     use Queueable;
 
     public function __construct(
         protected User $sender,
         protected User $recipient,
-    ) {}
+    ) {
+        parent::__construct();
+    }
 
     public function via(): array
     {
