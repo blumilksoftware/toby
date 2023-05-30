@@ -24,8 +24,28 @@ prod-reload-config:
 	echo "App config reload" && \
 	${PROD_DOCKER_EXEC} toby-prod-app bash reload-config.sh
 
+build:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} build --pull
+
+run:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} up --detach
+
+stop:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} stop
+
+restart: stop run
+
 shell:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} bash
+
+test:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} composer test
+
+fix:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} bash -c 'composer csf'
+
+queue:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} php artisan queue:work
 
 encrypt-beta-env:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
@@ -55,4 +75,4 @@ decrypt-beta-env:
 		&& mv .env.beta /envs \
 		&& rm .env.beta.encrypted"
 
-.PHONY: prod-deploy prod-reload-config beta-artisan
+.PHONY: prod-deploy prod-reload-config build run stop restart shell test fix queue encrypt-beta-env decrypt-beta-env
