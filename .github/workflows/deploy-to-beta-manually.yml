@@ -48,9 +48,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: |
-            ${{ github.repository_owner }}/${{ env.REPO_NAME }}
-            ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}
+          images: ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}
+          tags: type=raw,value=beta
           context: git
 
       - name: build and push image
@@ -92,7 +91,5 @@ jobs:
           script_stop: true
           script: |
             cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}/environment/prod/deployment/beta
-            echo ${{secrets.PACKAGES_READ_TOKEN}} | docker login ghcr.io --username blumilkbot --password-stdin
             make beta-deploy BETA_ENV_KEY=${{ secrets.BETA_ENV_KEY }}
             docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/${{ env.REPO_NAME }}" | awk '{print $3}'| xargs --no-run-if-empty docker rmi
-            docker logout
