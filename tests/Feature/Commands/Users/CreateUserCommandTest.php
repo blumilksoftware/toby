@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Tests\Feature\Commands\Users;
+
 use Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\FeatureTestCase;
@@ -26,7 +27,9 @@ class CreateUserCommandTest extends FeatureTestCase
         );
     }
 
-    /** @dataProvider userRolesProvider */
+    /**
+     * @dataProvider userRolesProvider
+     */
     public function testUserCanBeCreatedWithExpectedRole(string $role): void
     {
         $this->artisan(CreateUser::class, ["email" => "test@example.com", "--role" => $role])
@@ -63,13 +66,13 @@ class CreateUserCommandTest extends FeatureTestCase
     public function testUserWithTheSameEmailCannotBeCreated(): void
     {
         User::factory(
-            ["email" => "test@example.com"]
+            ["email" => "test@example.com"],
         )->create();
 
         $this->artisan(CreateUser::class, ["email" => "test@example.com"])
             ->expectsOutput("Email already exists.");
 
-        $this->assertDatabaseCount(table: "users" , count: 1);
+        $this->assertDatabaseCount(table: "users", count: 1);
     }
 
     public function testUserCannotBeCreatedInProductionEnvironment(): void
@@ -83,7 +86,7 @@ class CreateUserCommandTest extends FeatureTestCase
 
         app()->detectEnvironment(fn(): string => "testing");
 
-        $this->assertDatabaseCount(table: "users" , count: 0);
+        $this->assertDatabaseCount(table: "users", count: 0);
     }
 
     public function testUserWithInvalidRoleCannotBeCreated(): void
@@ -91,6 +94,6 @@ class CreateUserCommandTest extends FeatureTestCase
         $this->artisan(CreateUser::class, ["email" => "test@example.com", "--role" => "invalid"])
             ->expectsOutput("Invalid role.");
 
-        $this->assertDatabaseCount(table: "users" , count: 0);
+        $this->assertDatabaseCount(table: "users", count: 0);
     }
 }

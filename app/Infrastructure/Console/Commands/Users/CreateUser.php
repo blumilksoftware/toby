@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Toby\Infrastructure\Console\Commands\Users;
+
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
