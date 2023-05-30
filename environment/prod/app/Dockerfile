@@ -34,6 +34,9 @@ RUN npm run build
 ### APPLICATION ###
 FROM php:${PHP_VERSION} as app
 
+ARG DEPLOYMENT_PROJECT_VERSION_ARG
+ENV DEPLOY_VERSION=${DEPLOYMENT_PROJECT_VERSION_ARG}
+
 COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 
 # For other versions check: http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
