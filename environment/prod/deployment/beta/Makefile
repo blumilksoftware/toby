@@ -18,7 +18,7 @@ beta-deploy: decrypt-beta-env create-deployment-file
 decrypt-beta-env:
 	@docker run \
 	--rm \
-	--volume ${CURRENT_DIR}/beta:/envs \
+	--volume ${CURRENT_DIR}:/envs \
 	--entrypoint "" \
 	--workdir /application \
 	${BETA_DOCKER_IMAGE} \
