@@ -11,6 +11,7 @@
         "azuyalabs/yasumi": "^2.6.0",
         "barryvdh/laravel-dompdf": "^2.0.1",
         "doctrine/dbal": "^3.6.2",
+        "fakerphp/faker": "^1.22.0",
         "guzzlehttp/guzzle": "^7.7.0",
         "inertiajs/inertia-laravel": "^0.6.9",
         "laravel/framework": "^10.12.0",
@@ -28,7 +29,6 @@
     },
     "require-dev": {
         "blumilksoftware/codestyle": "^2.2.0",
-        "fakerphp/faker": "^1.22.0",
         "laravel/dusk": "^7.7.1",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^7.5.2",
