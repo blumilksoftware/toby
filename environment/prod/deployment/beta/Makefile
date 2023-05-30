@@ -5,10 +5,15 @@ DOCKER_COMPOSE_FILENAME = docker-compose.beta.yml
 DOCKER_COMPOSE_APP_CONTAINER = toby-beta-app
 
 DOCKER_EXEC_SCRIPT = docker compose --file ${DOCKER_COMPOSE_FILENAME} exec --workdir /application/environment/prod/deployment/scripts ${DOCKER_COMPOSE_APP_CONTAINER} bash
+DOCKER_EXEC_ARTISAN_COMMAND = docker compose --file ${DOCKER_COMPOSE_FILENAME} exec ${DOCKER_COMPOSE_APP_CONTAINER} php artisan
 
 BETA_DOCKER_IMAGE = ghcr.io/blumilksoftware/toby:beta
 
 CURRENT_DIR = $(shell pwd)
+
+beta-artisan:
+	echo "Running: php artisan ${ARTISAN_ARGS}" && \
+	${DOCKER_EXEC_ARTISAN_COMMAND} ${ARTISAN_ARGS}
 
 beta-deploy: decrypt-beta-env create-deployment-file
 	@docker compose --file ${DOCKER_COMPOSE_FILENAME} up --force-recreate --detach && \
@@ -34,4 +39,4 @@ create-deployment-file:
 	DEPLOY_DATE='${DEPLOYMENT_DATETIME}'\
 	" > .deployment
 
-.PHONY: beta-deploy decrypt-beta-env create-deployment-file
+.PHONY: beta-artisan beta-deploy decrypt-beta-env create-deployment-file

@@ -15,10 +15,6 @@ CURRENT_USER_ID = $(shell id --user)
 CURRENT_USER_GROUP_ID = $(shell id --group)
 CURRENT_DIR = $(shell pwd)
 
-beta-artisan:
-	echo "Running: php artisan ${ARTISAN_ARGS}" && \
-	docker compose --file ${DOCKER_COMPOSE_FILENAME} exec toby-beta-app php artisan ${ARTISAN_ARGS}
-
 prod-deploy:
 	docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} up --force-recreate --detach && \
 	echo "App post deploy actions" && \

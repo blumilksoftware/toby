@@ -26,5 +26,5 @@ jobs:
           passphrase: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY_PASSPHRASE }}
           script_stop: true
           script: |
-            cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}
+            cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}/environment/prod/deployment/beta
             make beta-artisan ARTISAN_ARGS="${{ inputs.artisan_arguments }}"
