@@ -52,7 +52,7 @@ services:
       - POSTGRES_USER=${DOCKER_TOBY_BETA_DB_USERNAME:? variable DOCKER_TOBY_BETA_DB_USERNAME not set}
       - POSTGRES_PASSWORD=${DOCKER_TOBY_BETA_DB_PASSWORD:? variable DOCKER_TOBY_BETA_DB_PASSWORD not set}
     healthcheck:
-      test: "pg_isready"
+      test: [ "CMD-SHELL", "pg_isready --dbname ${DOCKER_TOBY_BETA_DB_DATABASE} --username ${DOCKER_TOBY_BETA_DB_USERNAME}"]
       interval: 3s
       timeout: 3s
       retries: 5
