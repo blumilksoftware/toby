@@ -6,6 +6,7 @@ namespace Toby\Architecture;
 
 use Illuminate\Foundation\Exceptions\Handler;
 use Inertia\Inertia;
+use Sentry\State\HubInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -25,6 +26,15 @@ class ExceptionHandler extends Handler
         Response::HTTP_FORBIDDEN,
         Response::HTTP_UNAUTHORIZED,
     ];
+
+    public function register(): void
+    {
+        $this->reportable(function (Throwable $exception): void {
+            if (app()->bound(HubInterface::class)) {
+                app(HubInterface::class)->captureException($exception);
+            }
+        });
+    }
 
     public function render($request, Throwable $e): Response
     {
