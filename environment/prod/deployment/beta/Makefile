@@ -12,7 +12,7 @@ BETA_DOCKER_IMAGE = ghcr.io/blumilksoftware/toby:beta
 CURRENT_DIR = $(shell pwd)
 
 beta-artisan:
-	echo "Running: php artisan ${ARTISAN_ARGS}" && \
+	@echo "Running: php artisan ${ARTISAN_ARGS}" && \
 	${DOCKER_EXEC_ARTISAN_COMMAND} ${ARTISAN_ARGS}
 
 beta-deploy: decrypt-beta-env create-deployment-file
