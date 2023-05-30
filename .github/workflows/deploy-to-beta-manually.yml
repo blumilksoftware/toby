@@ -79,7 +79,7 @@ jobs:
           rm: true
 
       - name: run deployment script over ssh
-        uses: appleboy/ssh-action@v0.1.8
+        uses: appleboy/ssh-action@v0.1.10
         with:
           timeout: 10s
           command_timeout: 10m
