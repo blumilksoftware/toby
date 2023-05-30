@@ -7,4 +7,4 @@ public/build/
 public/hot
 .phpunit.result.cache
 .env
-environment/prod/deployment
+environment/prod/deployment/beta
