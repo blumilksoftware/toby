@@ -8,21 +8,9 @@ SHELL := /bin/bash
 DOCKER_COMPOSE_FILE = docker-compose.yml
 DOCKER_COMPOSE_APP_CONTAINER = php
 
-DOCKER_COMPOSE_PROD_FILENAME = docker-compose.prod.yml
-PROD_DOCKER_EXEC = docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} exec --workdir /application/environment/scripts
-
 CURRENT_USER_ID = $(shell id --user)
 CURRENT_USER_GROUP_ID = $(shell id --group)
 CURRENT_DIR = $(shell pwd)
-
-prod-deploy:
-	docker compose --file ${DOCKER_COMPOSE_PROD_FILENAME} up --force-recreate --detach && \
-	echo "App post deploy actions" && \
-	${PROD_DOCKER_EXEC} toby-prod-app bash post-deploy-actions.sh
-
-prod-reload-config:
-	echo "App config reload" && \
-	${PROD_DOCKER_EXEC} toby-prod-app bash reload-config.sh
 
 build:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} build --pull
@@ -75,4 +63,32 @@ decrypt-beta-env:
 		&& mv .env.beta /envs \
 		&& rm .env.beta.encrypted"
 
-.PHONY: prod-deploy prod-reload-config build run stop restart shell test fix queue encrypt-beta-env decrypt-beta-env
+encrypt-prod-env:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
+	--rm \
+	--no-deps \
+	--volume ${CURRENT_DIR}/environment/prod/deployment/prod:/envs \
+	--entrypoint "" \
+	--workdir /application \
+	--user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" \
+	${DOCKER_COMPOSE_APP_CONTAINER} \
+	bash -c "cp /envs/.env.prod /application \
+		&& php artisan env:encrypt --env prod --key ${PROD_ENV_KEY} \
+		&& mv .env.prod.encrypted /envs \
+		&& rm .env.prod"
+
+decrypt-prod-env:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
+	--rm \
+	--no-deps \
+	--volume ${CURRENT_DIR}/environment/prod/deployment/prod:/envs \
+	--entrypoint "" \
+	--workdir /application \
+	--user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" \
+	${DOCKER_COMPOSE_APP_CONTAINER} \
+	bash -c "cp /envs/.env.prod.encrypted /application \
+		&& php artisan env:decrypt --env prod --key ${PROD_ENV_KEY} \
+		&& mv .env.prod /envs \
+		&& rm .env.prod.encrypted"
+
+.PHONY: build run stop restart shell test fix queue encrypt-beta-env decrypt-beta-env encrypt-prod-env decrypt-prod-env

@@ -1,9 +1,5 @@
-ARG PHP_VERSION=8.2.4-fpm-bullseye
-ARG NODE_VERSION=19-alpine3.16
-ARG COMPOSER_VERSION=2.5.4
-
 ### PHP DEPENDENCIES ###
-FROM composer:${COMPOSER_VERSION} as vendor
+FROM composer:2.5.5 as vendor
 
 WORKDIR /app_composer_dependencies
 
@@ -18,7 +14,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:${NODE_VERSION} as frontend
+FROM node:20.2.0-alpine3.17 as frontend
 
 WORKDIR /app_frontend_dependencies
 
@@ -32,12 +28,12 @@ COPY resources/css ./resources/css/
 RUN npm run build
 
 ### APPLICATION ###
-FROM php:${PHP_VERSION} as app
+FROM php:8.2.6-fpm-bullseye as app
 
 COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 
 # For other versions check: http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
-ARG NGINX_VERSION="1.23.3-1~bullseye"
+ARG NGINX_VERSION="1.25.0-1~bullseye"
 # Install Postgresql client (https://www.postgresql.org/download/linux/debian/)
 ARG POSTGRESQL_CLIENT_VERSION=15
 ARG PHPREDIS_VERSION=5.3.7
@@ -58,15 +54,16 @@ RUN apt-get update \
         libpng-dev \
         supervisor \
         cron \
-        && pecl install redis-${PHPREDIS_VERSION} \
-        && docker-php-ext-install \
+    && pecl install \
+        redis-${PHPREDIS_VERSION} \
+    && docker-php-ext-install \
         pdo_pgsql \
         zip \
         gd \
         opcache \
-        && docker-php-ext-configure \
+    && docker-php-ext-configure \
         zip \
-        && docker-php-ext-enable \
+    && docker-php-ext-enable \
         redis
 
 RUN mv "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini"

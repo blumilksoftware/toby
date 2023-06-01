@@ -35,7 +35,7 @@ updates:
     open-pull-requests-limit: 1
 
   - package-ecosystem: docker
-    directory: "/environment/dev/app"
+    directory: "/environment/prod/app"
     schedule:
       interval: monthly
       time: "06:30"
