@@ -6,6 +6,7 @@ updates:
     schedule:
       interval: monthly
       time: "06:30"
+      timezone: "Europe/Warsaw"
     commit-message:
       prefix: "- "
     target-branch: main
@@ -16,7 +17,30 @@ updates:
     schedule:
       interval: monthly
       time: "06:30"
+      timezone: "Europe/Warsaw"
     commit-message:
       prefix: "- "
+    target-branch: main
+    open-pull-requests-limit: 1
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "06:30"
+      timezone: "Europe/Warsaw"
+    commit-message:
+      prefix: "- (github actions) "
+    target-branch: main
+    open-pull-requests-limit: 1
+
+  - package-ecosystem: docker
+    directory: "/environment/dev/app"
+    schedule:
+      interval: monthly
+      time: "06:30"
+      timezone: "Europe/Warsaw"
+    commit-message:
+      prefix: "- (docker dev) "
     target-branch: main
     open-pull-requests-limit: 1
