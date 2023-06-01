@@ -50,7 +50,10 @@
     "scripts": {
         "cs": "./vendor/bin/php-cs-fixer fix --dry-run --diff --config codestyle.php",
         "csf": "./vendor/bin/php-cs-fixer fix --diff --config codestyle.php",
-        "test": "@php artisan test",
+        "test": [
+            "@putenv XDEBUG_MODE=off",
+            "@php artisan test"
+        ],
         "fresh": "@php artisan migrate:fresh",
         "fresh:demo": [
             "composer fresh",

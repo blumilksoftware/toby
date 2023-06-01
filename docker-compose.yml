@@ -1,16 +1,13 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  web:
-    image: nginx:1.23-alpine
-    container_name: toby-web
-    working_dir: /application
-    volumes:
-      - ./environment/dev/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      - .:/application
-    networks:
-      - toby-dev
-      - traefik-proxy-blumilk-local
+  app:
+    build:
+      context: ./environment/dev/app
+      dockerfile: Dockerfile
+      args:
+        - INSTALL_XDEBUG=${DOCKER_INSTALL_XDEBUG:-true}
+        - USER_ID=${DOCKER_HOST_USER_ID:-1000}
     labels:
       - "traefik.enable=true"
       - "traefik.blumilk.environment=true"
@@ -18,34 +15,30 @@ services:
       - "traefik.http.routers.toby-http-router.rule=Host(`toby.blumilk.localhost`)"
       - "traefik.http.routers.toby-http-router.entrypoints=web"
       # HTTP to HTTPS redirect
-#      - "traefik.http.routers.toby-http-router.middlewares=https-redirect@file"
+      #      - "traefik.http.routers.toby-http-router.middlewares=https-redirect@file"
       # HTTPS
       - "traefik.http.routers.toby-https-router.rule=Host(`toby.blumilk.localhost`)"
       - "traefik.http.routers.toby-https-router.entrypoints=websecure"
       - "traefik.http.routers.toby-https-router.tls=true"
-    ports:
-      - ${EXTERNAL_WEBSERVER_PORT:-8181}:80
-    restart: unless-stopped
-    depends_on:
-      - php
-      - database
-
-  php:
-    build:
-      context: environment/dev/php
-      args:
-        INSTALL_XDEBUG: ${DOCKER_INSTALL_XDEBUG:-false}
-    container_name: toby-php
+    container_name: toby-app-dev
     working_dir: /application
-    user: ${CURRENT_UID:-1000}
     volumes:
+      - ./environment/dev/app/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./environment/dev/app/php.ini:/usr/local/etc/php/conf.d/zzz-overrides.ini:ro
+      - ./environment/dev/app/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-overrides.conf:ro
+      - ./environment/dev/app/supervisord.conf:/etc/supervisor/custom-supervisord.conf:ro
       - .:/application
-      - ./environment/dev/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    ports:
+      - ${DOCKER_APP_HOST_PORT:-8181}:80
     networks:
       - toby-dev
-    extra_hosts:
-      - host.docker.internal:host-gateway
+      - traefik-proxy-blumilk-local
     restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   database:
     image: postgres:15
@@ -55,72 +48,54 @@ services:
       - POSTGRES_DB=${DOCKER_DEV_DB_DATABASE}
       - POSTGRES_USER=${DOCKER_DEV_DB_USERNAME}
       - POSTGRES_PASSWORD=${DOCKER_DEV_DB_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready --dbname ${DOCKER_DEV_DB_DATABASE} --username ${DOCKER_DEV_DB_USERNAME}" ]
+      interval: 3s
+      timeout: 3s
+      retries: 5
     ports:
-      - ${DOCKER_DEV_DB_EXTERNAL_PORT:-5432}:5432
+      - ${DOCKER_DATABASE_HOST_PORT:-5432}:5432
     volumes:
       - toby-pgsql-data:/var/lib/postgresql/data
     networks:
       - toby-dev
     restart: unless-stopped
 
-  database-test:
-    image: postgres:15
-    container_name: toby-db-test
-    environment:
-      - PGPASSWORD=${DOCKER_TEST_DB_ROOT_PASSWORD}
-      - POSTGRES_DB=${DOCKER_TEST_DB_DATABASE}
-      - POSTGRES_USER=${DOCKER_TEST_DB_USERNAME}
-      - POSTGRES_PASSWORD=${DOCKER_TEST_DB_PASSWORD}
-    ports:
-      - ${DOCKER_TEST_DB_EXTERNAL_PORT:-5433}:5432
-    networks:
-      - toby-dev
-    restart: unless-stopped
-
   redis:
-    image: redis:7
-    container_name: toby-redis
+    image: redis:7.0-alpine3.16
+    container_name: toby-redis-dev
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 3s
+      timeout: 3s
+      retries: 5
     ports:
-      - ${FORWARD_REDIS_PORT:-6379}:6379
+      - ${DOCKER_REDIS_HOST_PORT:-6379}:6379
     volumes:
       - toby-redis-data:/data
     networks:
       - toby-dev
     restart: unless-stopped
 
-  node:
-    image: node:19-alpine3.16
-    container_name: toby-node
-    working_dir: /application
-    tty: true
-    volumes:
-      - .:/application
-    networks:
-      - toby-dev
-    ports:
-      - ${EXTERNAL_NODE_PORT:-5173}:5173
-    restart: unless-stopped
-
-  mailhog:
-    image: mailhog/mailhog:v1.0.1
-    container_name: toby-mailhog
+  mailpit:
+    image: axllent/mailpit:v1.6.9
+    container_name: toby-mailpit-dev
     labels:
       - "traefik.enable=true"
       - "traefik.blumilk.environment=true"
       # HTTP
-      - "traefik.http.routers.toby-mailhog-http-router.rule=Host(`toby-mailhog.blumilk.localhost`)"
-      - "traefik.http.routers.toby-mailhog-http-router.entrypoints=web"
+      - "traefik.http.routers.toby-mailpit-http-router.rule=Host(`toby-mailpit.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailpit-http-router.entrypoints=web"
       # HTTP to HTTPS redirect
-#      - "traefik.http.routers.toby-mailhog-http-router.middlewares=https-redirect@file"
+#      - "traefik.http.routers.toby-mailpit-http-router.middlewares=https-redirect@file"
       # HTTPS
-      - "traefik.http.routers.toby-mailhog-https-router.rule=Host(`toby-mailhog.blumilk.localhost`)"
-      - "traefik.http.routers.toby-mailhog-https-router.entrypoints=websecure"
-      - "traefik.http.routers.toby-mailhog-https-router.tls=true"
-      # LOADBALANCER MAILHOG PORT
-      - "traefik.http.services.toby-mailhog.loadbalancer.server.port=8025"
+      - "traefik.http.routers.toby-mailpit-https-router.rule=Host(`toby-mailpit.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailpit-https-router.entrypoints=websecure"
+      - "traefik.http.routers.toby-mailpit-https-router.tls=true"
+      # LOADBALANCER MAILPIT PORT
+      - "traefik.http.services.toby-mailpit.loadbalancer.server.port=8025"
     ports:
-      - ${MAIL_PORT}:1025
-      - ${MAILHOG_DASHBOARD_PORT}:8025
+      - ${DOCKER_MAILPIT_DASHBOARD_HOST_PORT:-8025}:8025
     networks:
       - toby-dev
       - traefik-proxy-blumilk-local
@@ -128,7 +103,7 @@ services:
 
   selenium:
     image: selenium/standalone-chrome
-    container_name: toby-selenium
+    container_name: toby-selenium-dev
     volumes:
       - /dev/shm:/dev/shm
     networks:
