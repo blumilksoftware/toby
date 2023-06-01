@@ -12,87 +12,69 @@ Directory structure little differs from a standard Laravel tree. We decided to r
 * `app/Infrastructure` for entry points to the application: CLI, HTTP and async ones.
 
 ## Local setup
-- run `sh setup` or:
 
-> `dcr` is an alias to `docker-compose run --rm -u "$(id -u):$(id -g)"`
+### Prerequisites
+- make
+- docker and docker compose v2
 
-- clone the repository
-- initialize `.env` file and customize if needed
-
-      cp .env.example .env
-
-- build containers
-
-      docker-compose build --no-cache --pull
-
-- run containers
-
-      docker-compose up -d
-
-- install composer packages
-
-      dcr php composer install
-
-- generate app key
-
-      dcr php php artisan key:generate
-
-- generate storage link
-
-      dcr php php artisan storage:link
-
-- migrate and seed database
-
-      dcr php php artisan migrate --seed
-
-- install npm packages
-
-      dcr node npm install
-
-- build assets
-
-      dcr node npm run dev
+```
+cp .env.example .env
+make init
+make shell
+  # inside container
+  npm run dev
+```
 
 - place google credentials here: `/google-credentials.json` ([how to obtain the credentials](https://github.com/spatie/laravel-google-calendar#how-to-obtain-the-credentials-to-communicate-with-google-calendar))
 
+_Check **Makefile** for available commands._
+
 ### Available containers (local)
 
-- **web** - nginx HTTP server
-- **php** - php and composer stuff
-- **node** - npm stuff
-- **pgsql** - database for local development
-- **mailhog** - for emails preview
+- **app** - nginx HTTP server + php-fpm + node
+- **database** - Postgres database for local development
+- **mailpit** - for emails preview
+- **selenium** - for automated tests
+- **redis** - for session/cache store
+
+### Shell in app container
+
+```shell
+make shell
+```
+```shell
+make shell-root
+```
+
+### Queue worker
+
+```shell
+make queue
+```
 
 ### Running tests
 
-If xDebug is installed, set environment variable **XDEBUG_MODE=off** to improve performance
-
-      dcr -e XDEBUG_MODE=off php php artisan test
+```shell
+make test
+```
 
 ### Code style check
-
-      dcr php composer cs
-      dcr php composer csf
-      dcr node npm run lint
-      dcr node npm run lintf
-
-### xDebug
-
-* To use xDebug you need to set `DOCKER_INSTALL_XDEBUG` to `true` in `.env` file.
-* Then rebuild php container `docker-compose up --build -d php`.
-* You can also set up xDebug params (see docs https://xdebug.org/docs/all_settings) in `docker/dev/php/php.ini` file:
-
-Default values for xDebug:
-
+```shell
+make cs
 ```
-xdebug.client_host=host.docker.internal
-xdebug.client_port=9003
-xdebug.mode=debug
-xdebug.start_with_request=yes
-xdebug.log_level=0
+```shell
+make fix
 ```
+---
+### Xdebug
 
-#### Disable xDebug
+Xdebug is enabled and installed by default.
+
+You can set `DOCKER_INSTALL_XDEBUG` to `false` in `.env` file, to not install it.\
+Then rebuild app container `make build && make run`.
+* You can also set up xDebug params (see docs https://xdebug.org/docs/all_settings) in `docker/dev/app/php.ini` file:
+
+#### Disable Xdebug
 
 * It is possible to disable the Xdebug completely by setting the option **xdebug.mode** to **off**, or by setting the environment variable **XDEBUG_MODE=off**.
 * See docs: (https://xdebug.org/docs/all_settings#mode)
@@ -106,7 +88,7 @@ XDEBUG_MODE=off php artisan test
 Docker container:
 
 ```
-docker-compose run --rm -e XDEBUG_MODE=off php php artisan test
+docker compose run --rm -e XDEBUG_MODE=off php php artisan test
 ```
 
 ---
