@@ -13,6 +13,8 @@ jobs:
     environment: beta
     name: Deploy to beta
     runs-on: ubuntu-22.04
+    env:
+      REPO_NAME: toby
     steps:
       - name: set branch name
         run: echo "BRANCH_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
@@ -29,6 +31,9 @@ jobs:
           git config user.email "<>"
           git merge --no-commit --no-ff origin/main
 
+      - name: set deployment project version
+        run: echo "DEPLOYMENT_PROJECT_VERSION=$(bash ./environment/prod/deployment/scripts/version.sh --long)" >> $GITHUB_ENV
+
       - name: set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -39,18 +44,42 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}
+          tags: type=raw,value=beta
+          context: git
+
       - name: build and push image
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./environment/prod/app/Dockerfile
+          build-args: DEPLOYMENT_PROJECT_VERSION_ARG=${{ env.DEPLOYMENT_PROJECT_VERSION }}
+          labels: ${{ steps.meta.outputs.labels }}
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/toby:beta
           cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache
           cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache, mode=max
 
+      - name: copy files via ssh
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          timeout: 10s
+          command_timeout: 10m
+          host: ${{ secrets.VPS_OVH_BF7EC892_HOST }}
+          port: ${{ secrets.VPS_OVH_BF7EC892_PORT }}
+          username: ${{ secrets.VPS_OVH_BF7EC892_USERNAME }}
+          key: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY_PASSPHRASE }}
+          source: "./environment/prod/deployment/beta/*,./environment/prod/deployment/scripts/*"
+          target: ${{ secrets.TOBY_VPS_BETA_APP_PATH }}
+          rm: true
+
       - name: run deployment script over ssh
-        uses: appleboy/ssh-action@v0.1.8
+        uses: appleboy/ssh-action@v0.1.10
         with:
           timeout: 10s
           command_timeout: 10m
@@ -61,12 +90,6 @@ jobs:
           passphrase: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY_PASSPHRASE }}
           script_stop: true
           script: |
-            cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}
-            git config user.name "GitHub Actions Bot"
-            git config user.email "<>"
-            git fetch
-            git checkout --force "${{ env.BRANCH_NAME }}"
-            git pull
-            git merge --no-commit --no-ff origin/main
-            make beta-deploy
-            docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/toby" | awk '{print $3}'| xargs --no-run-if-empty docker rmi
+            cd ${{ secrets.TOBY_VPS_BETA_APP_PATH }}/environment/prod/deployment/beta
+            make beta-deploy BETA_ENV_KEY=${{ secrets.BETA_ENV_KEY }}
+            docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/${{ env.REPO_NAME }}" | awk '{print $3}'| xargs --no-run-if-empty docker rmi

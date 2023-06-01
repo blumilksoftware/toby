@@ -30,4 +30,5 @@ return [
         ],
     ],
     "password_timeout" => 10800,
+    "local_email_for_login_via_google" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
 ];

@@ -108,3 +108,22 @@ Docker container:
 ```
 docker-compose run --rm -e XDEBUG_MODE=off php php artisan test
 ```
+
+---
+### Encrypt/Decrypt envs
+
+**Beta**
+- set `BETA_ENV_KEY` in `.env` file, which will be used to encrypt/decrypt
+
+decrypt:
+```shell
+# this will decrypt .env.beta.encrypted and create/override .env.beta file
+make decrypt-beta-env
+```
+
+encrypt:
+```shell
+# this will encrypt .env.beta file and create/override .env.beta.encrypted file
+make encrypt-beta-env
+```
+Files are in `./environment/prod/deployment/beta`
