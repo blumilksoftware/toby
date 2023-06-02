@@ -41,7 +41,7 @@ jobs:
           tags: |
             type=raw,value=latest
             type=raw,value=${{ github.ref_name }}
-          context: git
+          context: workflow
 
       - name: build and push image
         uses: docker/build-push-action@v4
@@ -72,8 +72,6 @@ jobs:
           rm: true
 
       - uses: appleboy/ssh-action@v0.1.10
-        env:
-          BRANCH_NAME: "main"
         with:
           timeout: 10s
           command_timeout: 10m
