@@ -1,5 +1,5 @@
 ### PHP DEPENDENCIES ###
-FROM composer:2.5.5 as vendor
+FROM composer:2.5.7 as vendor
 
 WORKDIR /app_composer_dependencies
 
