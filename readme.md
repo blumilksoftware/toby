@@ -127,3 +127,20 @@ encrypt:
 make encrypt-beta-env
 ```
 Files are in `./environment/prod/deployment/beta`
+
+---
+**Production**
+- set `PROD_ENV_KEY` in `.env` file, which will be used to encrypt/decrypt
+
+decrypt:
+```shell
+# this will decrypt .env.prod.encrypted and create/override .env.prod file
+make decrypt-prod-env
+```
+
+encrypt:
+```shell
+# this will encrypt .env.prod file and create/override .env.prod.encrypted file
+make encrypt-prod-env
+```
+Files are in `./environment/prod/deployment/prod`

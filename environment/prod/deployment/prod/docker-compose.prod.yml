@@ -36,6 +36,8 @@ services:
     depends_on:
       toby-prod-database:
         condition: service_healthy
+      toby-prod-redis:
+        condition: service_healthy
     working_dir: /application
     volumes:
       - duplicati-source:/backup
@@ -56,7 +58,7 @@ services:
       - POSTGRES_USER=${DOCKER_TOBY_PROD_DB_USERNAME:? variable DOCKER_TOBY_PROD_DB_USERNAME not set}
       - POSTGRES_PASSWORD=${DOCKER_TOBY_PROD_DB_PASSWORD:? variable DOCKER_TOBY_PROD_DB_PASSWORD not set}
     healthcheck:
-      test: "pg_isready"
+      test: [ "CMD-SHELL", "pg_isready --dbname ${DOCKER_TOBY_PROD_DB_DATABASE} --username ${DOCKER_TOBY_PROD_DB_USERNAME}"]
       interval: 3s
       timeout: 3s
       retries: 5
@@ -69,6 +71,11 @@ services:
   toby-prod-redis:
     image: redis:7.0-alpine3.16
     container_name: toby-prod-redis
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 3s
+      timeout: 3s
+      retries: 5
     volumes:
       - toby-prod-redis-data:/data
     networks:

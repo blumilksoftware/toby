@@ -60,9 +60,9 @@ jobs:
           build-args: DEPLOYMENT_PROJECT_VERSION_ARG=${{ env.DEPLOYMENT_PROJECT_VERSION }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/toby:beta
-          cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache
-          cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/toby-beta-build-cache, mode=max
+          tags: ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}:beta
+          cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}-beta-build-cache
+          cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}-beta-build-cache, mode=max
 
       - name: copy files via ssh
         uses: appleboy/scp-action@v0.1.4
