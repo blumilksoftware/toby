@@ -6,11 +6,27 @@ include .env
 SHELL := /bin/bash
 
 DOCKER_COMPOSE_FILE = docker-compose.yml
-DOCKER_COMPOSE_APP_CONTAINER = php
+DOCKER_COMPOSE_APP_CONTAINER = app
+DOCKER_COMPOSE_DATABASE_CONTAINER = database
 
 CURRENT_USER_ID = $(shell id --user)
 CURRENT_USER_GROUP_ID = $(shell id --group)
 CURRENT_DIR = $(shell pwd)
+
+DATABASE_USERNAME=toby
+TEST_DATABASE_NAME=toby-test
+
+init: check-env-file
+	@make build \
+    && make run \
+	&& docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} bash "./environment/dev/scripts/init.sh" \
+	&& make create-test-db
+
+check-env-file:
+	@if [ ! -f ".env" ]; then \
+	  echo "Create .env file and adjust." ;\
+	  exit 1;\
+	fi; \
 
 build:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} build --pull
@@ -26,6 +42,9 @@ restart: stop run
 shell:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} bash
 
+shell-root:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec ${DOCKER_COMPOSE_APP_CONTAINER} bash
+
 test:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} composer test
 
@@ -34,6 +53,9 @@ fix:
 
 queue:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} php artisan queue:work
+
+create-test-db:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec ${DOCKER_COMPOSE_DATABASE_CONTAINER} bash -c 'createdb --username=${DATABASE_USERNAME} ${TEST_DATABASE_NAME} &> /dev/null && echo "Created database for tests (${TEST_DATABASE_NAME})." || echo "Database for tests (${TEST_DATABASE_NAME}) exists."'
 
 encrypt-beta-env:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
@@ -91,4 +113,4 @@ decrypt-prod-env:
 		&& mv .env.prod /envs \
 		&& rm .env.prod.encrypted"
 
-.PHONY: build run stop restart shell test fix queue encrypt-beta-env decrypt-beta-env encrypt-prod-env decrypt-prod-env
+.PHONY: init check-env-file build run stop restart shell shell-root test fix queue create-test-db encrypt-beta-env decrypt-beta-env encrypt-prod-env decrypt-prod-env
