@@ -45,6 +45,7 @@ class VacationRequestCreatedNotification extends QueuedNotification
                 "vacationRequest" => $this->vacationRequest,
             ],
         );
+
         return $this->buildMailMessage($url);
     }
 
