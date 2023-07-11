@@ -1,4 +1,4 @@
-FROM composer/composer:2.5.7-bin as composer-bin
+FROM composer/composer:2.5.8-bin as composer-bin
 
 FROM node:20.2.0-bullseye-slim as node
 

@@ -78,7 +78,7 @@ services:
     restart: unless-stopped
 
   mailpit:
-    image: axllent/mailpit:v1.6.9
+    image: axllent/mailpit:v1.7
     container_name: toby-mailpit-dev
     labels:
       - "traefik.enable=true"
