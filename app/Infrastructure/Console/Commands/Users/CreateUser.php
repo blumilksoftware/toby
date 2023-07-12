@@ -20,6 +20,7 @@ class CreateUser extends Command
     {
         if (app()->isProduction()) {
             $this->error("User cannot be created in production environment.");
+
             return;
         }
 
@@ -29,6 +30,7 @@ class CreateUser extends Command
             Validator::validate(data: ["email" => $email], rules: ["email" => ["email"]]);
         } catch (ValidationException) {
             $this->error("Invalid email.");
+
             return;
         }
 
@@ -36,12 +38,15 @@ class CreateUser extends Command
             $role = Role::from($this->option("role"));
         } catch (ValueError) {
             $this->error("Invalid role.");
+
             return;
         }
 
         $userExists = User::query()->where("email", $email)->exists();
+
         if ($userExists) {
             $this->error("Email already exists.");
+
             return;
         }
 
