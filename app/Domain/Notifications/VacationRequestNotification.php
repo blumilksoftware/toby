@@ -7,15 +7,17 @@ namespace Toby\Domain\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use InvalidArgumentException;
+use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Slack\Elements\SlackMessage;
 
-class VacationRequestCreatedNotification extends QueuedNotification
+abstract class VacationRequestNotification extends QueuedNotification
 {
     use Queueable;
 
     public function __construct(
         protected VacationRequest $vacationRequest,
+        protected User $user,
     ) {
         parent::__construct();
     }
@@ -51,7 +53,7 @@ class VacationRequestCreatedNotification extends QueuedNotification
 
     protected function buildMailMessage(string $url): MailMessage
     {
-        $user = $this->vacationRequest->user->profile->first_name;
+        $user = $this->user->profile->first_name;
         $type = $this->vacationRequest->type->label();
         $from = $this->vacationRequest->from;
         $to = $this->vacationRequest->to;
@@ -65,14 +67,14 @@ class VacationRequestCreatedNotification extends QueuedNotification
             ->greeting(
                 __("Hi :user!", [
                     "user" => $user,
-                ]),
+                ])
             )
             ->subject($this->buildSubject())
             ->line($this->buildDescription())
             ->line(
                 __("Request type: :type", [
                     "type" => $type,
-                ]),
+                ])
             )
             ->line(
                 __("Date: :date (number of days: :days)", [
@@ -88,20 +90,5 @@ class VacationRequestCreatedNotification extends QueuedNotification
         return VacationRequestEmailTitle::get($this->vacationRequest->name);
     }
 
-    protected function buildDescription(): string
-    {
-        $name = $this->vacationRequest->name;
-
-        if ($this->vacationRequest->creator()->is($this->vacationRequest->user)) {
-            return __("The request :title has been created.", [
-                "requester" => $this->vacationRequest->user->profile->full_name,
-                "title" => $name,
-            ]);
-        }
-
-        return __("The request :title has been created by user :creator on your behalf.", [
-            "title" => $this->vacationRequest->name,
-            "creator" => $this->vacationRequest->creator->profile->full_name,
-        ]);
-    }
+    abstract protected function buildDescription(): string;
 }

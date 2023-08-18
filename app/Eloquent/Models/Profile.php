@@ -16,6 +16,7 @@ use Toby\Eloquent\Helpers\ColorGenerator;
 /**
  * @property string $first_name
  * @property string $last_name
+ * @property-read string $full_name
  * @property string $position
  * @property EmploymentForm $employment_form
  * @property Carbon $employment_date
@@ -47,7 +48,7 @@ class Profile extends Model
             ->image();
     }
 
-    public function getfullNameAttribute(): string
+    public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
     }
