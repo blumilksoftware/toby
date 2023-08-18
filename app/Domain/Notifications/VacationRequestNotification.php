@@ -67,14 +67,14 @@ abstract class VacationRequestNotification extends QueuedNotification
             ->greeting(
                 __("Hi :user!", [
                     "user" => $user,
-                ])
+                ]),
             )
             ->subject($this->buildSubject())
             ->line($this->buildDescription())
             ->line(
                 __("Request type: :type", [
                     "type" => $type,
-                ])
+                ]),
             )
             ->line(
                 __("Date: :date (number of days: :days)", [
