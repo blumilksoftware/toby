@@ -43,7 +43,7 @@ class VacationRequestController extends Controller
         }
 
         $status = $request->get("status", "all");
-        $withoutRemote = $request->boolean("withoutRemote", false);
+        $withoutRemote = $request->boolean("withoutRemote", default: false);
 
         $vacationRequests = $request->user()
             ->vacationRequests()
@@ -173,7 +173,7 @@ class VacationRequestController extends Controller
         VacationTypeConfigRetriever $configRetriever,
     ): LaravelResponse {
         if (!$configRetriever->isVacation($vacationRequest->type)) {
-            return abort(SymfonyResponse::HTTP_NOT_FOUND);
+            abort(SymfonyResponse::HTTP_NOT_FOUND);
         }
 
         $this->authorize("show", $vacationRequest);
