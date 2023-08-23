@@ -43,7 +43,7 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
     {
         $data = Arr::where(
             $this->report->data,
-            fn(array $item): bool => in_array($item["user"], $this->userIds, false),
+            fn(array $item): bool => in_array($item["user"], $this->userIds, strict: false),
         );
 
         $data = Arr::map($data, function (array $item): array {
