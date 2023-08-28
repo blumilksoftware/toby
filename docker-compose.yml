@@ -29,7 +29,7 @@ services:
       - ./environment/dev/app/supervisord.conf:/etc/supervisor/custom-supervisord.conf:ro
       - .:/application
     ports:
-      - ${DOCKER_APP_HOST_PORT:-80}:80
+      - ${DOCKER_APP_HOST_PORT:-8751}:80
     networks:
       - toby-dev
       - traefik-proxy-blumilk-local
