@@ -189,12 +189,6 @@ watch(form, debounce(() => {
                 scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
-                Rola
-              </th>
-              <th
-                scope="col"
-                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-              >
                 Ostatnia aktywność
               </th>
               <th
@@ -207,13 +201,13 @@ watch(form, debounce(() => {
                 scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
-                Forma zatrudnienia
+                Następne badanie lekarskie
               </th>
               <th
                 scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
-                Data rozpoczęcia
+                Następne szkolenie BHP
               </th>
               <th
                 scope="col"
@@ -258,19 +252,16 @@ watch(form, debounce(() => {
                 </div>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ user.role }}
-              </td>
-              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.lastActiveAt ? DateTime.fromSQL(user.lastActiveAt).toRelative() : '-' }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.position }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ user.employmentForm }}
+                {{ user.nextMedicalExamDate || '-' }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ user.employmentDate }}
+                {{ user.nextOhsTrainingDate || '-' }}
               </td>
               <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
                 <Menu
