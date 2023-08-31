@@ -164,6 +164,12 @@ return [
         "items.*.days" => [
             "max" => "Limit dni urlopu nie może być większy niż :max.",
         ],
+        "nextOhsTrainingDate" => [
+            "after" => "Data następnego szkolenia BHP musi być późniejsza od daty ostatniego szkolenia BHP.",
+        ],
+        "nextMedicalExamDate" => [
+            "after" => "Data następnego badania lekarskiego musi być późniejsza od daty ostatniego badania lekarskiego.",
+        ],
     ],
     "attributes" => [
         "to" => "do",

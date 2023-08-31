@@ -24,6 +24,8 @@ class UserRequest extends FormRequest
             "employmentDate" => ["required", "date_format:Y-m-d"],
             "birthday" => ["nullable", "date_format:Y-m-d"],
             "slackId" => [],
+            "nextMedicalExamDate" => ["after:lastMedicalExamDate"],
+            "nextOhsTrainingDate" => ["after:lastOhsTrainingDate"],
         ];
     }
 
