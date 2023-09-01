@@ -21,10 +21,22 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory([
+        $userWithUpcomingMedicalExam = User::factory([
             "role" => Role::Employee,
         ])->hasProfile([
             "next_medical_exam_date" => Carbon::now()->addMonth(),
+        ])->create();
+
+        $userWithDistantMedicalExamDate = User::factory([
+            "role" => Role::Employee,
+        ])->hasProfile([
+            "next_medical_exam_date" => Carbon::now()->addYear(),
+        ])->create();
+
+        $userWithOverdueMedicalExam = User::factory([
+            "role" => Role::Employee,
+        ])->hasProfile([
+            "next_medical_exam_date" => Carbon::now()->subMonth(),
         ])->create();
 
         $administrativeApprover = User::factory([
@@ -34,7 +46,36 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
         $this->artisan(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)
             ->execute();
 
-        Notification::assertSentTo($administrativeApprover, UpcomingAndOverdueMedicalExamsNotification::class);
-        Notification::assertNotSentTo($user, UpcomingAndOverdueMedicalExamsNotification::class);
+        Notification::assertSentTo(
+            $administrativeApprover,
+            UpcomingAndOverdueMedicalExamsNotification::class,
+            function ($notification) use ($administrativeApprover, $userWithUpcomingMedicalExam, $userWithOverdueMedicalExam, $userWithDistantMedicalExamDate) {
+                $mailData = $notification->toMail($administrativeApprover)->toArray();
+                $this->assertContains("{$userWithUpcomingMedicalExam->profile->full_name} - {$userWithUpcomingMedicalExam->profile->next_medical_exam_date->toDisplayString()} (za {$userWithUpcomingMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
+                $this->assertContains("{$userWithOverdueMedicalExam->profile->full_name} - {$userWithOverdueMedicalExam->profile->next_medical_exam_date->toDisplayString()} (przeterminowane {$userWithOverdueMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
+                $this->assertNotContains("{$userWithDistantMedicalExamDate->profile->full_name} - {$userWithDistantMedicalExamDate->profile->next_medical_exam_date->toDisplayString()} (za {$userWithDistantMedicalExamDate->profile->next_medical_exam_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
+
+                return true;
+            },
+        );
+        Notification::assertNotSentTo([$userWithUpcomingMedicalExam, $userWithOverdueMedicalExam, $userWithDistantMedicalExamDate], UpcomingAndOverdueMedicalExamsNotification::class);
+    }
+
+    public function testNotSendingNotificationAboutUpcomingAndOverdueMedicalExamsWhenNoUsers(): void
+    {
+        Notification::fake();
+
+        $user = User::factory([
+            "role" => Role::Employee,
+        ])->create();
+
+        $administrativeApprover = User::factory([
+            "role" => Role::AdministrativeApprover,
+        ])->create();
+
+        $this->artisan(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)
+            ->execute();
+
+        Notification::assertNotSentTo([$administrativeApprover, $user], UpcomingAndOverdueMedicalExamsNotification::class);
     }
 }
