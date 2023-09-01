@@ -15,42 +15,34 @@ class SendNotificationAboutUpcomingAndOverdueMedicalExams extends Command
 {
     protected $signature = "toby:send-notification-about-medical-exams";
     protected $description = "Send notifications about upcoming and overdue medical exams.";
-    protected Collection $usersToNotify;
-    protected Collection $usersUpcomingMedicalExams;
-    protected Collection $usersOverdueMedicalExams;
 
-    public function __construct()
+    public function handle(): void
     {
-        parent::__construct();
-
-        $this->usersToNotify = User::query()
+        $usersToNotify = User::query()
             ->whereIn("role", [Role::AdministrativeApprover])
             ->get();
 
-        $this->usersUpcomingMedicalExams = User::query()
+        $usersUpcomingMedicalExams = User::query()
             ->whereRelation("profile", "next_medical_exam_date", ">", Carbon::now())
             ->whereRelation("profile", "next_medical_exam_date", "<=", Carbon::now()->addMonths(2))
             ->orderByProfileField("next_medical_exam_date", "desc")
             ->get();
 
-        $this->usersOverdueMedicalExams = User::query()
+        $usersOverdueMedicalExams = User::query()
             ->whereRelation("profile", "next_medical_exam_date", "<=", Carbon::now())
             ->orderByProfileField("next_medical_exam_date", "desc")
             ->get();
-    }
 
-    public function handle(): void
-    {
-        if ($this->usersUpcomingMedicalExams->isEmpty() && $this->usersOverdueMedicalExams->isEmpty())
+        if ($usersUpcomingMedicalExams->isEmpty() && $usersOverdueMedicalExams->isEmpty())
         {
             return;
         }
 
-        foreach ($this->usersToNotify as $user)
+        foreach ($usersToNotify as $user)
         {
             $user->notify(new UpcomingAndOverdueMedicalExamsNotification(
-                $this->usersUpcomingMedicalExams,
-                $this->usersOverdueMedicalExams,
+                $usersUpcomingMedicalExams,
+                $usersOverdueMedicalExams,
             ));
         }
     }
