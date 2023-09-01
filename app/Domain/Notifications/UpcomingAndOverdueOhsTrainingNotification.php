@@ -7,11 +7,24 @@ namespace Toby\Domain\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Carbon;
-use Toby\Eloquent\Models\User;
+use Illuminate\Support\Collection;
 
 class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
 {
     use Queueable;
+
+    protected Collection $usersForUpcomingOhsTraining;
+    protected Collection $usersForOverdueOhsTraining;
+
+    public function __construct(
+        $usersForUpcomingOhsTraining,
+        $usersForOverdueOhsTraining,
+    ) {
+        parent::__construct();
+
+        $this->usersForUpcomingOhsTraining = $usersForUpcomingOhsTraining;
+        $this->usersForOverdueOhsTraining = $usersForOverdueOhsTraining;
+    }
 
     public function via(): array
     {
@@ -29,19 +42,7 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
 
     protected function buildMailMessage(Notifiable $notifiable, string $url): MailMessage
     {
-        $now = Carbon::now();
         $user = $notifiable->profile->first_name;
-
-        $usersForUpcomingOhsTraining = User::query()
-            ->whereRelation("profile", "next_ohs_training_date", ">", $now)
-            ->whereRelation("profile", "next_ohs_training_date", "<=", Carbon::now()->addMonths(2))
-            ->orderByProfileField("next_ohs_training_date", "desc")
-            ->get();
-
-        $usersForOverdueOhsTraining = User::query()
-            ->whereRelation("profile", "next_ohs_training_date", "<=", $now)
-            ->orderByProfileField("next_ohs_training_date", "desc")
-            ->get();
 
         $message = (new MailMessage())
             ->greeting(
@@ -51,17 +52,17 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
             )
             ->subject(__("Health and safety training for employees"));
 
-        if ($usersForUpcomingOhsTraining->isEmpty() && $usersForOverdueOhsTraining->isEmpty())
+        if ($this->usersForUpcomingOhsTraining->isEmpty() && $this->usersForOverdueOhsTraining->isEmpty())
         {
             $message->line(__("During the next two months, none of the employees have to go for OHS training."));
         }
 
-        if ($usersForUpcomingOhsTraining->isNotEmpty())
+        if ($this->usersForUpcomingOhsTraining->isNotEmpty())
         {
             $message->line(__("The deadline for OHS training for some employees is about to expire."))
                 ->line(__("Below is a list of employees with upcoming OHS training:"));
 
-            foreach ($usersForUpcomingOhsTraining as $user) {
+            foreach ($this->usersForUpcomingOhsTraining as $user) {
                 $message->line(__(":user - :date (in :difference days)", [
                     "user" => $user->profile->full_name,
                     "date" => $user->profile->next_ohs_training_date->toDisplayString(),
@@ -70,11 +71,11 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
             }
         }
 
-        if ($usersForOverdueOhsTraining->isNotEmpty()) {
+        if ($this->usersForOverdueOhsTraining->isNotEmpty()) {
             $message->line(__("The deadline for OHS training for some employees has passed."))
                 ->line(__("Below is a list of employees with overdue OHS training:"));
 
-            foreach ($usersForOverdueOhsTraining as $user) {
+            foreach ($this->usersForOverdueOhsTraining as $user) {
                 $message->line(__(":user - :date (overdue :difference days)", [
                     "user" => $user->profile->full_name,
                     "date" => $user->profile->next_ohs_training_date->toDisplayString(),

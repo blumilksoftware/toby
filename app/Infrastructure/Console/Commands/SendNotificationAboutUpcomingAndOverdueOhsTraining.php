@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 use Toby\Eloquent\Models\User;
@@ -20,9 +21,25 @@ class SendNotificationAboutUpcomingAndOverdueOhsTraining extends Command
             ->whereIn("role", [Role::AdministrativeApprover])
             ->get();
 
+        $usersForUpcomingOhsTraining = User::query()
+            ->whereRelation("profile", "next_ohs_training_date", ">", Carbon::now())
+            ->whereRelation("profile", "next_ohs_training_date", "<=", Carbon::now()->addMonths(2))
+            ->orderByProfileField("next_ohs_training_date", "desc")
+            ->get();
+
+        $usersForOverdueOhsTraining = User::query()
+            ->whereRelation("profile", "next_ohs_training_date", "<=", Carbon::now())
+            ->orderByProfileField("next_ohs_training_date", "desc")
+            ->get();
+
+        if ($usersForUpcomingOhsTraining->isEmpty() && $usersForOverdueOhsTraining->isEmpty())
+        {
+            return;
+        }
+
         foreach ($usersToNotify as $user)
         {
-            $user->notify(new UpcomingAndOverdueOhsTrainingNotification());
+            $user->notify(new UpcomingAndOverdueOhsTrainingNotification($usersForUpcomingOhsTraining, $usersForOverdueOhsTraining));
         }
     }
 }

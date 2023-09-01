@@ -6,7 +6,6 @@ namespace Toby\Infrastructure\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Eloquent\Models\User;

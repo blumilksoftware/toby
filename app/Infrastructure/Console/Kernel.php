@@ -7,10 +7,8 @@ namespace Toby\Infrastructure\Console;
 use Illuminate\Cache\Console\PruneStaleTagsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Carbon;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Console\Commands\Database\BackupPostgresDatabase;
 use Toby\Infrastructure\Console\Commands\SendDailySummaryToSlack;
 use Toby\Infrastructure\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
@@ -42,11 +40,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)->monthlyOn(1, "08:00");
 
-        $schedule->command(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)->monthlyOn(1, "08:00")->when(function (): void {
-            $users = User::query()
-                ->whereRelation("profile", "next_ohs_training_date", "<=", Carbon::now()->addMonths(2))
-                ->exists();
-        });
+        $schedule->command(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)->monthlyOn(1, "08:00");
 
         $schedule->job(CheckYearPeriod::class)
             ->yearlyOn(1, 1, "01:00");
