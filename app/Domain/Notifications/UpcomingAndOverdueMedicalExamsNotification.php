@@ -7,11 +7,24 @@ namespace Toby\Domain\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Carbon;
-use Toby\Eloquent\Models\User;
+use Illuminate\Support\Collection;
 
 class UpcomingAndOverdueMedicalExamsNotification extends QueuedNotification
 {
     use Queueable;
+
+    protected Collection $usersUpcomingMedicalExams;
+    protected Collection $usersOverdueMedicalExams;
+
+    public function __construct(
+        $usersUpcomingMedicalExams,
+        $usersOverdueMedicalExams,
+    ) {
+        parent::__construct();
+
+        $this->usersUpcomingMedicalExams = $usersUpcomingMedicalExams;
+        $this->usersOverdueMedicalExams = $usersOverdueMedicalExams;
+    }
 
     public function via(): array
     {
@@ -31,17 +44,6 @@ class UpcomingAndOverdueMedicalExamsNotification extends QueuedNotification
     {
         $user = $notifiable->profile->first_name;
 
-        $usersUpcomingMedicalExams = User::query()
-            ->whereRelation("profile", "next_medical_exam_date", ">", Carbon::now())
-            ->whereRelation("profile", "next_medical_exam_date", "<=", Carbon::now()->addMonths(2))
-            ->orderByProfileField("next_medical_exam_date", "desc")
-            ->get();
-
-        $usersOverdueMedicalExams = User::query()
-            ->whereRelation("profile", "next_medical_exam_date", "<=", Carbon::now())
-            ->orderByProfileField("next_medical_exam_date", "desc")
-            ->get();
-
         $message = (new MailMessage())
             ->greeting(
                 __("Hi :user!", [
@@ -50,17 +52,17 @@ class UpcomingAndOverdueMedicalExamsNotification extends QueuedNotification
             )
             ->subject(__("Occupational medicine examinations for employees"));
 
-        if ($usersUpcomingMedicalExams->isEmpty() && $usersOverdueMedicalExams->isEmpty())
+        if ($this->usersUpcomingMedicalExams->isEmpty() && $this->usersOverdueMedicalExams->isEmpty())
         {
             $message->line(__("During the next two months, none of the employees have to go for medical examinations."));
         }
 
-        if ($usersUpcomingMedicalExams->isNotEmpty())
+        if ($this->usersUpcomingMedicalExams->isNotEmpty())
         {
             $message->line(__("The deadline for occupational health examinations for some employees is about to expire."))
                 ->line(__("Below is a list of employees with upcoming health examinations:"));
 
-            foreach ($usersUpcomingMedicalExams as $user) {
+            foreach ($this->usersUpcomingMedicalExams as $user) {
                 $message->line(__(":user - :date (in :difference days)", [
                     "user" => $user->profile->full_name,
                     "date" => $user->profile->next_medical_exam_date->toDisplayString(),
@@ -69,11 +71,11 @@ class UpcomingAndOverdueMedicalExamsNotification extends QueuedNotification
             }
         }
 
-        if ($usersOverdueMedicalExams->isNotEmpty()) {
+        if ($this->usersOverdueMedicalExams->isNotEmpty()) {
             $message->line(__("The deadline for medical examinations for some employees has passed."))
                 ->line(__("Below is a list of employees with overdue examinations:"));
 
-            foreach ($usersOverdueMedicalExams as $user) {
+            foreach ($this->usersOverdueMedicalExams as $user) {
                 $message->line(__(":user - :date (overdue :difference days)", [
                     "user" => $user->profile->full_name,
                     "date" => $user->profile->next_medical_exam_date->toDisplayString(),

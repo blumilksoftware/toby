@@ -40,11 +40,7 @@ class Kernel extends ConsoleKernel
             ->weekdays()
             ->dailyAt("08:30");
 
-        $schedule->command(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)->monthlyOn(1, "08:00")->when(function (): void {
-            $users = User::query()
-                ->whereRelation("profile", "next_medical_exam_date", "<=", Carbon::now()->addMonths(2))
-                ->exists();
-        });
+        $schedule->command(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)->monthlyOn(1, "08:00");
 
         $schedule->command(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)->monthlyOn(1, "08:00")->when(function (): void {
             $users = User::query()

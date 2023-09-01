@@ -11,7 +11,6 @@ use Tests\TestCase;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
 
 class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
@@ -31,8 +30,6 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
         $administrativeApprover = User::factory([
             "role" => Role::AdministrativeApprover,
         ])->create();
-
-        $currentYearPeriod = YearPeriod::current();
 
         $this->artisan(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)
             ->execute();
