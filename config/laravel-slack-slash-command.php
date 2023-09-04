@@ -7,8 +7,10 @@ use Toby\Infrastructure\Slack\Handlers\DailySummary;
 use Toby\Infrastructure\Slack\Handlers\GiveKeysTo;
 use Toby\Infrastructure\Slack\Handlers\Help;
 use Toby\Infrastructure\Slack\Handlers\KeyList;
+use Toby\Infrastructure\Slack\Handlers\LeaveKeysInOffice;
 use Toby\Infrastructure\Slack\Handlers\RemoteWork;
 use Toby\Infrastructure\Slack\Handlers\TakeKeysFrom;
+use Toby\Infrastructure\Slack\Handlers\TakeKeysFromOffice;
 
 return [
     "signing_secret" => env("SLACK_SIGNING_SECRET"),
@@ -20,5 +22,7 @@ return [
         DailySummary::class,
         Help::class,
         CatchAll::class,
+        TakeKeysFromOffice::class,
+        LeaveKeysInOffice::class,
     ],
 ];
