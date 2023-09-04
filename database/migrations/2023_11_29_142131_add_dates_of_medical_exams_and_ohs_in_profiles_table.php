@@ -10,10 +10,10 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table("profiles", function (Blueprint $table): void {
-            $table->date("last_medical_exam_date")->nullable();
-            $table->date("next_medical_exam_date")->nullable();
-            $table->date("last_ohs_training_date")->nullable();
-            $table->date("next_ohs_training_date")->nullable();
+            $table->date("last_medical_exam_date")->nullable()->default(null);
+            $table->date("next_medical_exam_date")->nullable()->default(null);
+            $table->date("last_ohs_training_date")->nullable()->default(null);
+            $table->date("next_ohs_training_date")->nullable()->default(null);
         });
     }
 

@@ -21,10 +21,10 @@ use Toby\Eloquent\Helpers\ColorGenerator;
  * @property EmploymentForm $employment_form
  * @property Carbon $employment_date
  * @property Carbon $birthday
- * @property Carbon $last_medical_exam_date
- * @property Carbon $next_medical_exam_date
- * @property Carbon $last_ohs_training_date
- * @property Carbon $next_ohs_training_date
+ * @property ?Carbon $last_medical_exam_date
+ * @property ?Carbon $next_medical_exam_date
+ * @property ?Carbon $last_ohs_training_date
+ * @property ?Carbon $next_ohs_training_date
  */
 class Profile extends Model
 {
