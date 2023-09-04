@@ -32,20 +32,29 @@ class Kernel extends ConsoleKernel
         $schedule->command(SendDailySummaryToSlack::class)
             ->when(config("services.slack.enabled"))
             ->weekdays()
-            ->dailyAt("08:00");
+            ->dailyAt("08:00")
+            ->onOneServer();
 
         $schedule->command(SendVacationRequestSummariesToApprovers::class)
             ->weekdays()
-            ->dailyAt("08:30");
+            ->dailyAt("08:30")
+            ->onOneServer();
 
-        $schedule->command(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)->monthlyOn(1, "08:00");
+        $schedule->command(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)
+            ->monthlyOn(1, "08:00")
+            ->onOneServer();
 
-        $schedule->command(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)->monthlyOn(1, "08:00");
+        $schedule->command(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)
+            ->monthlyOn(1, "08:00")
+            ->onOneServer();
 
         $schedule->job(CheckYearPeriod::class)
-            ->yearlyOn(1, 1, "01:00");
+            ->yearlyOn(1, 1, "01:00")
+            ->onOneServer();
 
-        $schedule->command(PruneStaleTagsCommand::class)->hourly();
+        $schedule->command(PruneStaleTagsCommand::class)
+            ->hourly()
+            ->onOneServer();
 
         $this->scheduleDatabaseBackup($schedule);
     }
