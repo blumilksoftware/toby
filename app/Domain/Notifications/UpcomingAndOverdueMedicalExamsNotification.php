@@ -52,13 +52,11 @@ class UpcomingAndOverdueMedicalExamsNotification extends QueuedNotification
             )
             ->subject(__("Occupational medicine examinations for employees"));
 
-        if ($this->usersUpcomingMedicalExams->isEmpty() && $this->usersOverdueMedicalExams->isEmpty())
-        {
+        if ($this->usersUpcomingMedicalExams->isEmpty() && $this->usersOverdueMedicalExams->isEmpty()) {
             $message->line(__("During the next two months, none of the employees have to go for medical examinations."));
         }
 
-        if ($this->usersUpcomingMedicalExams->isNotEmpty())
-        {
+        if ($this->usersUpcomingMedicalExams->isNotEmpty()) {
             $message->line(__("The deadline for occupational health examinations for some employees is about to expire."))
                 ->line(__("Below is a list of employees with upcoming health examinations:"));
 

@@ -52,13 +52,11 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
             )
             ->subject(__("Health and safety training for employees"));
 
-        if ($this->usersForUpcomingOhsTraining->isEmpty() && $this->usersForOverdueOhsTraining->isEmpty())
-        {
+        if ($this->usersForUpcomingOhsTraining->isEmpty() && $this->usersForOverdueOhsTraining->isEmpty()) {
             $message->line(__("During the next two months, none of the employees have to go for OHS training."));
         }
 
-        if ($this->usersForUpcomingOhsTraining->isNotEmpty())
-        {
+        if ($this->usersForUpcomingOhsTraining->isNotEmpty()) {
             $message->line(__("The deadline for OHS training for some employees is about to expire."))
                 ->line(__("Below is a list of employees with upcoming OHS training:"));
 

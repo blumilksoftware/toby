@@ -51,9 +51,24 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
             UpcomingAndOverdueMedicalExamsNotification::class,
             function ($notification) use ($administrativeApprover, $userWithUpcomingMedicalExam, $userWithOverdueMedicalExam, $userWithDistantMedicalExamDate) {
                 $mailData = $notification->toMail($administrativeApprover)->toArray();
-                $this->assertContains("{$userWithUpcomingMedicalExam->profile->full_name} - {$userWithUpcomingMedicalExam->profile->next_medical_exam_date->toDisplayString()} (za {$userWithUpcomingMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
-                $this->assertContains("{$userWithOverdueMedicalExam->profile->full_name} - {$userWithOverdueMedicalExam->profile->next_medical_exam_date->toDisplayString()} (przeterminowane {$userWithOverdueMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
-                $this->assertNotContains("{$userWithDistantMedicalExamDate->profile->full_name} - {$userWithDistantMedicalExamDate->profile->next_medical_exam_date->toDisplayString()} (za {$userWithDistantMedicalExamDate->profile->next_medical_exam_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
+
+                $this->assertContains(__(":user - :date (in :difference days)", [
+                    "user" => $userWithUpcomingMedicalExam->profile->full_name,
+                    "date" => $userWithUpcomingMedicalExam->profile->next_medical_exam_date->toDisplayString(),
+                    "difference" => $userWithUpcomingMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today())
+                ]), $mailData["introLines"]);
+
+                $this->assertContains(__(":user - :date (overdue :difference days)", [
+                    "user" => $userWithOverdueMedicalExam->profile->full_name,
+                    "date" => $userWithOverdueMedicalExam->profile->next_medical_exam_date->toDisplayString(),
+                    "difference" => $userWithOverdueMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today())
+                ]), $mailData["introLines"]);
+
+                $this->assertNotContains(__(":user - :date (in :difference days)", [
+                    "user" => $userWithDistantMedicalExamDate->profile->full_name,
+                    "date" => $userWithDistantMedicalExamDate->profile->next_medical_exam_date->toDisplayString(),
+                    "difference" => $userWithDistantMedicalExamDate->profile->next_medical_exam_date->diffInDays(Carbon::today())
+                ]), $mailData["introLines"]);
 
                 return true;
             },

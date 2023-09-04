@@ -32,13 +32,11 @@ class SendNotificationAboutUpcomingAndOverdueOhsTraining extends Command
             ->orderByProfileField("next_ohs_training_date", "desc")
             ->get();
 
-        if ($usersForUpcomingOhsTraining->isEmpty() && $usersForOverdueOhsTraining->isEmpty())
-        {
+        if ($usersForUpcomingOhsTraining->isEmpty() && $usersForOverdueOhsTraining->isEmpty()) {
             return;
         }
 
-        foreach ($usersToNotify as $user)
-        {
+        foreach ($usersToNotify as $user) {
             $user->notify(new UpcomingAndOverdueOhsTrainingNotification($usersForUpcomingOhsTraining, $usersForOverdueOhsTraining));
         }
     }

@@ -32,17 +32,12 @@ class SendNotificationAboutUpcomingAndOverdueMedicalExams extends Command
             ->orderByProfileField("next_medical_exam_date", "desc")
             ->get();
 
-        if ($usersUpcomingMedicalExams->isEmpty() && $usersOverdueMedicalExams->isEmpty())
-        {
+        if ($usersUpcomingMedicalExams->isEmpty() && $usersOverdueMedicalExams->isEmpty()) {
             return;
         }
 
-        foreach ($usersToNotify as $user)
-        {
-            $user->notify(new UpcomingAndOverdueMedicalExamsNotification(
-                $usersUpcomingMedicalExams,
-                $usersOverdueMedicalExams,
-            ));
+        foreach ($usersToNotify as $user) {
+            $user->notify(new UpcomingAndOverdueMedicalExamsNotification($usersUpcomingMedicalExams, $usersOverdueMedicalExams));
         }
     }
 }

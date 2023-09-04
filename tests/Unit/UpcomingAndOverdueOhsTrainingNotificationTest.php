@@ -52,9 +52,24 @@ class UpcomingAndOverdueOhsTrainingNotificationTest extends TestCase
             UpcomingAndOverdueOhsTrainingNotification::class,
             function ($notification) use ($administrativeApprover, $userWithUpcomingOhsTraining, $userWithDistantOhsTrainingDate, $userWithOverdueOhsTraining) {
                 $mailData = $notification->toMail($administrativeApprover)->toArray();
-                $this->assertContains("{$userWithUpcomingOhsTraining->profile->full_name} - {$userWithUpcomingOhsTraining->profile->next_ohs_training_date->toDisplayString()} (za {$userWithUpcomingOhsTraining->profile->next_ohs_training_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
-                $this->assertContains("{$userWithOverdueOhsTraining->profile->full_name} - {$userWithOverdueOhsTraining->profile->next_ohs_training_date->toDisplayString()} (przeterminowane {$userWithOverdueOhsTraining->profile->next_ohs_training_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
-                $this->assertNotContains("{$userWithDistantOhsTrainingDate->profile->full_name} - {$userWithDistantOhsTrainingDate->profile->next_ohs_training_date->toDisplayString()} (za {$userWithDistantOhsTrainingDate->profile->next_ohs_training_date->diffInDays(Carbon::today())} dni)", $mailData["introLines"]);
+
+                $this->assertContains(__(":user - :date (in :difference days)", [
+                    "user" => $userWithUpcomingOhsTraining->profile->full_name,
+                    "date" => $userWithUpcomingOhsTraining->profile->next_ohs_training_date->toDisplayString(),
+                    "difference" => $userWithUpcomingOhsTraining->profile->next_ohs_training_date->diffInDays(Carbon::today())
+                ]), $mailData["introLines"]);
+
+                $this->assertContains(__(":user - :date (overdue :difference days)", [
+                    "user" => $userWithOverdueOhsTraining->profile->full_name,
+                    "date" => $userWithOverdueOhsTraining->profile->next_ohs_training_date->toDisplayString(),
+                    "difference" => $userWithOverdueOhsTraining->profile->next_ohs_training_date->diffInDays(Carbon::today())
+                ]), $mailData["introLines"]);
+
+                $this->assertNotContains(__(":user - :date (in :difference days)", [
+                    "user" => $userWithDistantOhsTrainingDate->profile->full_name,
+                    "date" => $userWithDistantOhsTrainingDate->profile->next_ohs_training_date->toDisplayString(),
+                    "difference" => $userWithDistantOhsTrainingDate->profile->next_ohs_training_date->diffInDays(Carbon::today())
+                ]), $mailData["introLines"]);
 
                 return true;
             },
