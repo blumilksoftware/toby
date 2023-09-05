@@ -35,7 +35,7 @@ class UserTest extends FeatureTestCase
     public function testAdminCanSearchUsersList(): void
     {
         User::factory()
-            ->hasprofile([
+            ->hasProfile([
                 "first_name" => "Test",
                 "last_name" => "User1",
             ])
