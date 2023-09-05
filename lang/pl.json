@@ -128,5 +128,20 @@
   "Days moved.": "Dni przeniesione.",
   "Key no :number left in the office.": "Klucz nr :number zostawiony w biurze.",
   "Key no :number has been taken from the office.": "Klucz nr :number został zabrany z biura.",
-  "Invalid credentials.": "Nieprawidłowe dane logowania."
+  "Invalid credentials.": "Nieprawidłowe dane logowania.",
+  "Occupational medicine examinations for employees": "Badania z medycyny pracy dla pracowników",
+  "During the next two months, none of the employees have to go for medical examinations.": "W ciągu dwóch następnych miesięcy żaden z pracowników nie musi iść na badania lekarskie.",
+  "The deadline for occupational health examinations for some employees is about to expire.": "Niedługo mija termin badań lekarskich z medycyny pracy dla części pracowników.",
+  "Below is a list of employees with upcoming health examinations:": "Poniżej znajduje się lista pracowników ze zbliżającym się terminem badań:",
+  ":user - :date (in :difference days)": ":user - :date (za :difference dni)",
+  "The deadline for medical examinations for some employees has passed.": "Termin badań lekarskich dla części pracowników minął.",
+  "Below is a list of employees with overdue examinations:": "Poniżej znajduje się lista pracowników z przeterminowanymi badaniami:",
+  ":user - :date (overdue :difference days)": ":user - :date (przeterminowane :difference dni)",
+  "See list of users": "Zobacz listę użytkowników",
+  "Health and safety training for employees": "Szkolenie BHP dla pracowników",
+  "During the next two months, none of the employees have to go for OHS training.": "W ciągu dwóch następnych miesięcy żaden z pracowników nie musi iść na szkolenie BHP.",
+  "The deadline for OHS training for some employees is about to expire.": "Niedługo mija termin szkolenia BHP dla części pracowników.",
+  "Below is a list of employees with upcoming OHS training:": "Poniżej znajduje się lista pracowników ze zbliżającym się terminem szkolenia BHP:",
+  "The deadline for OHS training for some employees has passed.": "Termin szkolenia BHP dla części pracowników minął.",
+  "Below is a list of employees with overdue OHS training:": "Poniżej znajduje się lista pracowników z przeterminowanym szkoleniem BHP:"
 }

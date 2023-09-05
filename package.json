@@ -21,7 +21,7 @@
         "axios": "^1.4.0",
         "echarts": "^5.4.3",
         "flatpickr": "^4.6.13",
-        "laravel-vite-plugin": "^0.7.8",
+        "laravel-vite-plugin": "^0.8.0",
         "lodash": "^4.17.21",
         "luxon": "^3.3.0",
         "postcss": "^8.4.27",
