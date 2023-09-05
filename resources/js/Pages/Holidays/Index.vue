@@ -71,8 +71,12 @@ defineProps({
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap flex items-center gap-1">
                 {{ holiday.dayOfWeek }}
-                <span class="inline-block" v-if="holiday.isSaturday" v-tooltip.right="'sobota do odebrania'">
-                  <FlagIcon class="w-5 h-5 text-red-500"/>
+                <span
+                  v-if="holiday.isSaturday"
+                  v-tooltip.right="'sobota do odebrania'"
+                  class="inline-block"
+                >
+                  <FlagIcon class="w-5 h-5 text-red-500" />
                 </span>
               </td>
               <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
