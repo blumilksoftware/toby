@@ -31,7 +31,7 @@ class TakeKeysFromOffice extends SignatureHandler
         $authUser = $this->findUserBySlackIdOrFail($request->userId);
 
         /** @var Key $key */
-        $key = Key::query()->whereNull('user_id')->first();
+        $key = Key::query()->whereNull("user_id")->first();
 
         if (!$key) {
             throw ValidationException::withMessages(["key" => __("There are no keys in the office.")]);
@@ -44,7 +44,7 @@ class TakeKeysFromOffice extends SignatureHandler
         $key->notify(new KeyHasBeenTakenFromTheOfficeNotification($authUser));
 
         return $this->respondToSlack(
-            __(":white_check_mark: Key no. :key has been taken from the office", ["key" => $key->id]),
+            __(":white_check_mark: Key no. :number has been taken from the office", ["number" => $key->id]),
         );
     }
 }

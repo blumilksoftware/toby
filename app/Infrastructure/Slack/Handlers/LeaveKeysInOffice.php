@@ -7,18 +7,16 @@ namespace Toby\Infrastructure\Slack\Handlers;
 use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
 use Toby\Domain\Notifications\KeyHasBeenLeftInTheOffice;
 use Toby\Eloquent\Models\Key;
 use Toby\Infrastructure\Slack\Exceptions\UserNotFoundException;
-use Toby\Infrastructure\Slack\Rules\SlackUserExistsRule;
 use Toby\Infrastructure\Slack\Traits\FindsUserBySlackId;
 
 class LeaveKeysInOffice extends SignatureHandler
 {
     use FindsUserBySlackId;
 
-    protected $signature = "toby klucze:biuro:daj";
+    protected $signature = "toby klucze:biuro:zostaw";
     protected $description = "Leave the keys in the office.";
 
     /**
@@ -33,7 +31,7 @@ class LeaveKeysInOffice extends SignatureHandler
         $key = $authUser->keys()->first();
 
         if (!$key) {
-            throw ValidationException::withMessages(["key" => __("You don't have any key to give")]);
+            throw ValidationException::withMessages(["key" => __("You don't have any key to leave in the office.")]);
         }
 
         $key->user()->associate(null);
@@ -43,7 +41,7 @@ class LeaveKeysInOffice extends SignatureHandler
         $key->notify(new KeyHasBeenLeftInTheOffice($authUser));
 
         return $this->respondToSlack(
-            __(":white_check_mark: Key no. :key has been left in the office", ["key" => $key->id]),
+            __(":white_check_mark: Key no. :number has been left in the office", ["number" => $key->id]),
         );
     }
 }

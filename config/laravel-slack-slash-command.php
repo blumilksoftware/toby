@@ -20,9 +20,9 @@ return [
         KeyList::class,
         RemoteWork::class,
         DailySummary::class,
-        Help::class,
-        CatchAll::class,
         TakeKeysFromOffice::class,
         LeaveKeysInOffice::class,
+        Help::class,
+        CatchAll::class,
     ],
 ];
