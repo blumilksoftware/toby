@@ -127,5 +127,6 @@
   "Next birthdays: :relative": "Najbliższe urodziny: :relative",
   "Days moved.": "Dni przeniesione.",
   "Key no :number left in the office.": "Klucz nr :number zostawiony w biurze.",
-  "Key no :number has been taken from the office.": "Klucz nr :number został zabrany z biura."
+  "Key no :number has been taken from the office.": "Klucz nr :number został zabrany z biura.",
+  "Invalid credentials.": "Nieprawidłowe dane logowania."
 }

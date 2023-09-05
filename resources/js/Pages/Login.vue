@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 defineProps({
   errors: Object,
+  showLocalLoginButton: Boolean,
 })
 
 const showError = ref(true)
@@ -73,6 +74,13 @@ export default { name: 'LoginPage', layout: GuestLayout }
           fill="currentColor"
         />
       </svg>
+    </a>
+    <a
+        v-if="showLocalLoginButton"
+        href="/login/local"
+        class="inline-flex justify-center items-center py-2 px-6 font-medium text-white bg-blumilk-500 hover:bg-blumilk-700 rounded-md shadow-sm text-md"
+    >
+      Zaloguj się za pomocą hasła
     </a>
   </div>
 </template>

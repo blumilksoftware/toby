@@ -11,6 +11,8 @@ use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\KeysController;
+use Toby\Infrastructure\Http\Controllers\LocalLoginController;
+use Toby\Infrastructure\Http\Controllers\LoginController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
 use Toby\Infrastructure\Http\Controllers\ResumeController;
@@ -21,6 +23,7 @@ use Toby\Infrastructure\Http\Controllers\UserController;
 use Toby\Infrastructure\Http\Controllers\VacationCalendarController;
 use Toby\Infrastructure\Http\Controllers\VacationLimitController;
 use Toby\Infrastructure\Http\Controllers\VacationRequestController;
+use Toby\Infrastructure\Http\Middleware\CheckIfLocalEnvironment;
 use Toby\Infrastructure\Http\Middleware\TrackUserLastActivity;
 
 Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): void {
@@ -129,10 +132,16 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
 });
 
 Route::middleware("guest")->group(function (): void {
-    Route::get("login", fn() => inertia("Login"))
+    Route::get("login", LoginController::class)
         ->name("login");
-    Route::get("login/google/start", [GoogleController::class, "redirect"])
-        ->name("login.google.start");
+
+    Route::middleware(CheckIfLocalEnvironment::class)->group(function (): void {
+        Route::get("login/local", fn() => inertia("LocalLogin"))
+            ->name("login.local");
+        Route::post("login/local", LocalLoginController::class)
+            ->name("login.local.post");
+    });
+
     Route::get("login/google/end", [GoogleController::class, "callback"])
         ->name("login.google.end");
 });

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\Profile;
@@ -18,6 +19,7 @@ class UserFactory extends Factory
     {
         return [
             "email" => $this->faker->unique()->safeEmail(),
+            "password" => Hash::make("password"),
             "role" => Role::Employee,
             "remember_token" => Str::random(10),
         ];
