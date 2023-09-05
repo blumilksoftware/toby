@@ -142,5 +142,8 @@
   "The deadline for OHS training for some employees is about to expire.": "Niedługo mija termin szkolenia BHP dla części pracowników.",
   "Below is a list of employees with upcoming OHS training:": "Poniżej znajduje się lista pracowników ze zbliżającym się terminem szkolenia BHP:",
   "The deadline for OHS training for some employees has passed.": "Termin szkolenia BHP dla części pracowników minął.",
-  "Below is a list of employees with overdue OHS training:": "Poniżej znajduje się lista pracowników z przeterminowanym szkoleniem BHP:"
+  "Below is a list of employees with overdue OHS training:": "Poniżej znajduje się lista pracowników z przeterminowanym szkoleniem BHP:",
+  "Reminder to create benefit report": "Przypomnienie o utworzeniu raportu benefitów",
+  "This message is a reminder to create a report for benefits for this month. If a report has already been created, please ignore this message.": "Ta wiadomość jest przypomnieniem o utworzeniu raportu dla benefitów za obecny miesiąc. Jeśli raport już został utworzony, zignoruj tę wiadomość.",
+  "Benefits reports": "Raporty benefitów"
 }
