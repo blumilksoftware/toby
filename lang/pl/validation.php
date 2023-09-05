@@ -181,5 +181,6 @@ return [
         "employmentDate" => "data zatrudnienia",
         "date" => "data",
         "name" => "nazwa",
+        "password" => "hasło",
     ],
 ];

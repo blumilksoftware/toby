@@ -20,6 +20,8 @@ class UserObserver
          * A random password for user is generated because AuthenticateSession middleware needs a user's password
          * for some checks. Users use Google to login, so they don't need to know the password (GitHub issue #84)
          */
-        $user->password = $this->hash->make(Str::random(40));
+        if (!$user->password) {
+            $user->password = $this->hash->make(Str::random(40));
+        }
     }
 }
