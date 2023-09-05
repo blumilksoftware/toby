@@ -7,7 +7,7 @@ namespace Toby\Infrastructure\Slack\Handlers;
 use Illuminate\Support\Carbon;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\Actions\Slack\RetrieveDailySummaryAction;
+use Toby\Domain\Actions\Slack\GenerateDailySummaryAction;
 
 class DailySummary extends SignatureHandler
 {
@@ -16,11 +16,11 @@ class DailySummary extends SignatureHandler
 
     public function handle(Request $request): Response
     {
-        $retrieveDailySummary = app()->make(RetrieveDailySummaryAction::class);
+        $generateDailySummary = app()->make(GenerateDailySummaryAction::class);
 
-        $dailySummary = $retrieveDailySummary->execute(Carbon::now());
+        $dailySummary = $generateDailySummary->execute(Carbon::now());
 
         return $this->respondToSlack($dailySummary->getTitle())
-            ->withAttachments($dailySummary->getAttachments());
+            ->withAttachments($dailySummary->getAttachments()->flatten()->all());
     }
 }

@@ -7,12 +7,9 @@ namespace Toby\Infrastructure\Slack\Handlers;
 use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
-use Toby\Domain\Notifications\KeyHasBeenLeftInTheOffice;
 use Toby\Domain\Notifications\KeyHasBeenTakenFromTheOfficeNotification;
 use Toby\Eloquent\Models\Key;
 use Toby\Infrastructure\Slack\Exceptions\UserNotFoundException;
-use Toby\Infrastructure\Slack\Rules\SlackUserExistsRule;
 use Toby\Infrastructure\Slack\Traits\FindsUserBySlackId;
 
 class TakeKeysFromOffice extends SignatureHandler
