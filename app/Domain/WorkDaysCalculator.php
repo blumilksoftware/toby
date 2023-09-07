@@ -7,11 +7,20 @@ namespace Toby\Domain;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
+use Toby\Domain\Enums\VacationType;
 use Toby\Eloquent\Models\YearPeriod;
 
 class WorkDaysCalculator
 {
-    public function calculateDays(CarbonInterface $from, CarbonInterface $to): Collection
+    public function __construct(
+        protected VacationTypeConfigRetriever $configRetriever,
+    ) {}
+
+    public function calculateDays(
+        VacationType $vacationType,
+        CarbonInterface $from,
+        CarbonInterface $to,
+    ): Collection
     {
         $period = CarbonPeriod::create($from, $to);
         $yearPeriod = YearPeriod::findByYear($from->year);
@@ -20,7 +29,7 @@ class WorkDaysCalculator
         $validDays = new Collection();
 
         foreach ($period as $day) {
-            if ($this->passes($day, $holidays)) {
+            if ($this->passes($vacationType, $day, $holidays)) {
                 $validDays->add($day);
             }
         }
@@ -28,13 +37,13 @@ class WorkDaysCalculator
         return $validDays;
     }
 
-    protected function passes(CarbonInterface $day, Collection $holidays): bool
+    protected function passes(VacationType $vacationType, CarbonInterface $day, Collection $holidays): bool
     {
-        if ($day->isWeekend()) {
+        if ($day->isWeekend() && !$this->configRetriever->isDuringNonWorkDays($vacationType)) {
             return false;
         }
 
-        if ($holidays->contains($day)) {
+        if ($holidays->contains($day) && !$this->configRetriever->isDuringNonWorkDays($vacationType)) {
             return false;
         }
 

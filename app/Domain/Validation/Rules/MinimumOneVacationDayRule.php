@@ -16,7 +16,7 @@ class MinimumOneVacationDayRule implements VacationRequestRule
     public function check(VacationRequest $vacationRequest): bool
     {
         return $this->workDaysCalculator
-            ->calculateDays($vacationRequest->from, $vacationRequest->to)
+            ->calculateDays($vacationRequest->type, $vacationRequest->from, $vacationRequest->to)
             ->isNotEmpty();
     }
 

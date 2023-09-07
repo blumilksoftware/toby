@@ -6,6 +6,7 @@ namespace Toby\Domain;
 
 use Illuminate\Contracts\Config\Repository;
 use Toby\Domain\Enums\EmploymentForm;
+use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationType;
 
 class VacationTypeConfigRetriever
@@ -16,6 +17,8 @@ class VacationTypeConfigRetriever
     public const KEY_HAS_LIMIT = "has_limit";
     public const KEY_AVAILABLE_FOR = "available_for";
     public const KEY_IS_VACATION = "is_vacation";
+    public const KEY_DURING_NON_WORKDAYS = "during_non_workdays";
+    public const KEY_REQUEST_ALLOWED_FOR = "request_allowed_for";
 
     public function __construct(
         protected Repository $config,
@@ -46,9 +49,19 @@ class VacationTypeConfigRetriever
         return $this->getConfigFor($type)[static::KEY_IS_VACATION];
     }
 
+    public function isDuringNonWorkDays(VacationType $type): bool
+    {
+        return $this->getConfigFor($type)[static::KEY_DURING_NON_WORKDAYS];
+    }
+
     public function isAvailableFor(VacationType $type, EmploymentForm $employmentForm): bool
     {
         return in_array($employmentForm, $this->getConfigFor($type)[static::KEY_AVAILABLE_FOR], true);
+    }
+
+    public function isRequestAllowedFor(VacationType $type, Role $role): bool
+    {
+        return in_array($role, $this->getConfigFor($type)[static::KEY_REQUEST_ALLOWED_FOR], true);
     }
 
     protected function getConfigFor(VacationType $type): array

@@ -14,7 +14,7 @@ class CalculateVacationDaysController extends Controller
 {
     public function __invoke(CalculateVacationDaysRequest $request, WorkDaysCalculator $calculator): JsonResponse
     {
-        $days = $calculator->calculateDays($request->from(), $request->to());
+        $days = $calculator->calculateDays($request->vacationType(), $request->from(), $request->to());
 
         return new JsonResponse($days->map(fn(Carbon $day): string => $day->toDateString())->all());
     }

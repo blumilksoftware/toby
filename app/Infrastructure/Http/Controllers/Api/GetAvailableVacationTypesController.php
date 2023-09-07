@@ -22,6 +22,7 @@ class GetAvailableVacationTypesController extends Controller
 
         $types = VacationType::all()
             ->filter(fn(VacationType $type): bool => $configRetriever->isAvailableFor($type, $user->profile->employment_form))
+            ->filter(fn(VacationType $type): bool => $configRetriever->isRequestAllowedFor($type, $request->user()->role))
             ->map(fn(VacationType $type): array => [
                 "label" => $type->label(),
                 "value" => $type->value,
