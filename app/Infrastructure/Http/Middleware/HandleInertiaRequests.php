@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\BenefitsReport;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Resources\UserResource;
 
@@ -26,6 +27,7 @@ class HandleInertiaRequests extends Middleware
             "years" => $this->getYearsData($request),
             "vacationRequestsCount" => $this->getVacationRequestsCount($request),
             "deployInformation" => $this->getDeployInformation(),
+            "lastBenefitsReport" => $this->getLastBenefitsReport($request),
         ]);
     }
 
@@ -65,13 +67,13 @@ class HandleInertiaRequests extends Middleware
         $user = $request->user();
 
         return fn(): ?int => $user && $user->can("listAll", VacationRequest::class)
-        ? VacationRequest::query()
-            ->whereBelongsTo($this->yearPeriodRetriever->selected())
-            ->states(
-                VacationRequestStatesRetriever::waitingForUserActionStates($user),
-            )
-            ->count()
-        : null;
+            ? VacationRequest::query()
+                ->whereBelongsTo($this->yearPeriodRetriever->selected())
+                ->states(
+                    VacationRequestStatesRetriever::waitingForUserActionStates($user),
+                )
+                ->count()
+            : null;
     }
 
     protected function getDeployInformation(): Closure
@@ -80,5 +82,17 @@ class HandleInertiaRequests extends Middleware
             "version" => config("deploy.version"),
             "date" => config("deploy.date"),
         ];
+    }
+
+    protected function getLastBenefitsReport(Request $request): Closure
+    {
+        $user = $request->user();
+
+        return fn(): ?int => $user && $user->can("manageBenefits")
+            ? BenefitsReport::query()
+                ->orderBy("committed_at", "desc")
+                ->whereKeyNot(1)
+                ->value("id")
+        : null;
     }
 }

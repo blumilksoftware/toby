@@ -27,6 +27,7 @@ import {
   BeakerIcon,
   GiftIcon,
   BanknotesIcon,
+  DocumentDuplicateIcon
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
@@ -34,6 +35,7 @@ const props = defineProps({
   auth: Object,
   years: Object,
   vacationRequestsCount: Number,
+  lastBenefitsReport: Number,
 })
 
 const sidebarOpen = ref(false)
@@ -131,9 +133,16 @@ const miscNavigation = computed(() => [
   {
     name: 'Przypisane benefity',
     href: '/assigned-benefits',
-    section: 'BenefitsReport',
+    section: 'BenefitsReport/AssignedBenefits',
     icon: BanknotesIcon,
     can: props.auth.can.manageBenefits,
+  },
+  {
+    name: 'Raporty benefitowe',
+    href: `/benefits-report/${props.lastBenefitsReport}`,
+    section: 'BenefitsReport/BenefitsReport',
+    icon: DocumentDuplicateIcon,
+    can: props.auth.can.manageBenefits && props.lastBenefitsReport,
   },
 ].filter(item => item.can))
 </script>

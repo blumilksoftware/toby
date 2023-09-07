@@ -101,19 +101,6 @@ function generateUrl(){
               class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
             >
               <ListboxOption
-                as="template"
-                value="Aktualne benefity"
-              >
-                <InertiaLink
-                  as="button"
-                  method="get"
-                  href="/assigned-benefits"
-                  class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
-                >
-                  Aktualne benefity
-                </InertiaLink>
-              </ListboxOption>
-              <ListboxOption
                 v-for="currentBenefitsReport in benefitsReports"
                 :key="currentBenefitsReport.name"
                 v-slot="{ active, selected }"
