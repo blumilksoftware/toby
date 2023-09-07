@@ -54,6 +54,9 @@ fix:
 queue:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} php artisan queue:work
 
+dev:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} npm run dev
+
 create-test-db:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} exec ${DOCKER_COMPOSE_DATABASE_CONTAINER} bash -c 'createdb --username=${DATABASE_USERNAME} ${TEST_DATABASE_NAME} &> /dev/null && echo "Created database for tests (${TEST_DATABASE_NAME})." || echo "Database for tests (${TEST_DATABASE_NAME}) exists."'
 
@@ -113,4 +116,4 @@ decrypt-prod-env:
 		&& mv .env.prod /envs \
 		&& rm .env.prod.encrypted"
 
-.PHONY: init check-env-file build run stop restart shell shell-root test fix queue create-test-db encrypt-beta-env decrypt-beta-env encrypt-prod-env decrypt-prod-env
+.PHONY: init check-env-file build run stop restart shell shell-root test fix queue dev create-test-db encrypt-beta-env decrypt-beta-env encrypt-prod-env decrypt-prod-env

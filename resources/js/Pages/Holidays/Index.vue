@@ -1,5 +1,6 @@
 <script setup>
 import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { FlagIcon } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
@@ -68,8 +69,15 @@ defineProps({
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ holiday.displayDate }}
               </td>
-              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap flex items-center gap-1">
                 {{ holiday.dayOfWeek }}
+                <span
+                  v-if="holiday.isSaturday"
+                  v-tooltip.right="'sobota do odebrania'"
+                  class="inline-block"
+                >
+                  <FlagIcon class="w-5 h-5 text-red-500" />
+                </span>
               </td>
               <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
                 <Menu

@@ -1,11 +1,11 @@
 @import 'flatpickr/dist/themes/light.css';
 @import 'flatpickr/dist/plugins/monthSelect/style.css';
 @import 'vue-toastification/dist/index.css';
+@import 'floating-vue/dist/style.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 .flatpickr-months .flatpickr-prev-month:hover svg,
 .flatpickr-months .flatpickr-next-month:hover svg {
@@ -69,4 +69,8 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: #dadce0;
+}
+
+.v-popper__popper {
+    font-size: .66em;
 }
