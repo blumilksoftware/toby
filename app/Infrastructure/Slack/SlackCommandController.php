@@ -16,7 +16,7 @@ use Spatie\SlashCommand\Exceptions\RequestCouldNotBeHandled;
 use Spatie\SlashCommand\Exceptions\SlackSlashCommandException;
 use Spatie\SlashCommand\Response;
 
-class Controller extends SlackController
+class SlackCommandController extends SlackController
 {
     /**
      * @throws InvalidRequest|RequestCouldNotBeHandled
@@ -50,7 +50,10 @@ class Controller extends SlackController
             );
 
         return Response::create($this->request)
-            ->withText(":x: Polecenie `/{$this->request->command} {$this->request->text}` jest niepoprawne:")
+            ->withText(__(":x: Command /:command :text is incorrect:", [
+                "command" => $this->request->command,
+                "text" => $this->request->text,
+            ]))
             ->withAttachments($errors->all());
     }
 }

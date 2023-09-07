@@ -143,5 +143,19 @@
   "The deadline for OHS training for some employees is about to expire.": "Niedługo mija termin szkolenia BHP dla części pracowników.",
   "Below is a list of employees with upcoming OHS training:": "Poniżej znajduje się lista pracowników ze zbliżającym się terminem szkolenia BHP:",
   "The deadline for OHS training for some employees has passed.": "Termin szkolenia BHP dla części pracowników minął.",
-  "Below is a list of employees with overdue OHS training:": "Poniżej znajduje się lista pracowników z przeterminowanym szkoleniem BHP:"
+  "Below is a list of employees with overdue OHS training:": "Poniżej znajduje się lista pracowników z przeterminowanym szkoleniem BHP:",
+  "Approve": "Zaakceptuj",
+  "Reject": "Odrzuć",
+  "Available actions:": "Dostępne akcje:",
+  "The request :title from user :requester has been approved by you as a technical approver.": "Wniosek :title użytkownika :requester został zaakceptowany przez Ciebie jako przełożonego technicznego.",
+  "The request :title from user :requester has been approved by you as an administrative approver.": "Wniosek :title użytkownika :requester został zaakceptowany przez Ciebie jako przełożonego administracyjnego.",
+  "The request :title from user :requester has been rejected by you.": "Wniosek :title użytkownika :requester został odrzucony przez Ciebie.",
+  "Unrecognized action": "Nieznana akcja",
+  ":x: Command /:command :text is incorrect:": ":x: Polecenie /:command :text jest niepoprawne:",
+  "Key no. :number - is in the office.": "Klucz nr :number - jest w biurze",
+  "Key no. :number - :user": "Klucz nr :number - :user",
+  "waiting_for_administrative": "czeka na akceptację od przełożonego administracyjnego",
+  "You do not have permission to perform this action.": "Nie masz uprawnień, aby wykonać tę akcję.",
+  "waiting_for_technical": "czeka na akceptację od przełożonego technicznego",
+  "You cannot perform this action because the current status of the request :title by user :requester is :status.": "Nie możesz wykonać tej akcji, ponieważ aktualny status wniosku :title użytkownika :requester to :status"
 }
