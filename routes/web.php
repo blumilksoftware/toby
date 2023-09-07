@@ -142,6 +142,8 @@ Route::middleware("guest")->group(function (): void {
             ->name("login.local.post");
     });
 
+    Route::get("login/google/start", [GoogleController::class, "redirect"])
+        ->name("login.google.start");
     Route::get("login/google/end", [GoogleController::class, "callback"])
         ->name("login.google.end");
 });
