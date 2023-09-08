@@ -16,11 +16,7 @@ class WorkDaysCalculator
         protected VacationTypeConfigRetriever $configRetriever,
     ) {}
 
-    public function calculateDays(
-        VacationType $vacationType,
-        CarbonInterface $from,
-        CarbonInterface $to,
-    ): Collection
+    public function calculateDays(CarbonInterface $from, CarbonInterface $to, ?VacationType $vacationType = null): Collection
     {
         $period = CarbonPeriod::create($from, $to);
         $yearPeriod = YearPeriod::findByYear($from->year);
@@ -29,7 +25,7 @@ class WorkDaysCalculator
         $validDays = new Collection();
 
         foreach ($period as $day) {
-            if ($this->passes($vacationType, $day, $holidays)) {
+            if ($this->passes($day, $holidays, $vacationType)) {
                 $validDays->add($day);
             }
         }
@@ -37,13 +33,17 @@ class WorkDaysCalculator
         return $validDays;
     }
 
-    protected function passes(VacationType $vacationType, CarbonInterface $day, Collection $holidays): bool
+    protected function passes(CarbonInterface $day, Collection $holidays, ?VacationType $vacationType = null): bool
     {
-        if ($day->isWeekend() && !$this->configRetriever->isDuringNonWorkDays($vacationType)) {
+        if ($vacationType && $this->configRetriever->isDuringNonWorkDays($vacationType)) {
+            return true;
+        }
+
+        if ($day->isWeekend()) {
             return false;
         }
 
-        if ($holidays->contains($day) && !$this->configRetriever->isDuringNonWorkDays($vacationType)) {
+        if ($holidays->contains($day)) {
             return false;
         }
 

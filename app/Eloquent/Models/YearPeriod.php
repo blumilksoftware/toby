@@ -57,9 +57,9 @@ class YearPeriod extends Model
         $start = Carbon::create($this->year);
         $end = Carbon::create($this->year)->endOfYear();
 
-        $weekends = collect();
+        $weekends = new Collection();
 
-        while ($start->lte($end)) {
+        while ($start->lessThanOrEqualTo($end)) {
             if ($start->isWeekend()) {
                 $weekends->push($start->copy());
             }

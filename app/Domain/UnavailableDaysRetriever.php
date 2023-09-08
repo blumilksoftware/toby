@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\YearPeriod;
@@ -17,7 +17,7 @@ class UnavailableDaysRetriever
         protected VacationTypeConfigRetriever $configRetriever,
     ) {}
 
-    public function getUnavailableDays(User $user, YearPeriod $yearPeriod, ?VacationType $vacationType = null): array
+    public function getUnavailableDays(User $user, YearPeriod $yearPeriod, ?VacationType $vacationType = null): Collection
     {
         $unavailableDays = $user->vacations()
             ->whereBelongsTo($yearPeriod)
@@ -32,6 +32,9 @@ class UnavailableDaysRetriever
             $unavailableDays->push(...$yearPeriod->holidays()->pluck("date"));
         }
 
-        return $unavailableDays->map(fn(Carbon $date): string => $date->toDateString())->toArray();
+        return $unavailableDays
+            ->unique()
+            ->sort()
+            ->values();
     }
 }

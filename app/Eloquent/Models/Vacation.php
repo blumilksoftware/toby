@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Eloquent\Models;
 
+use Database\Factories\VacationFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -67,5 +68,10 @@ class Vacation extends Model
             "vacationRequest",
             fn(Builder $query): Builder => $query->whereIn("type", $types),
         );
+    }
+
+    protected static function newFactory(): VacationFactory
+    {
+        return VacationFactory::new();
     }
 }

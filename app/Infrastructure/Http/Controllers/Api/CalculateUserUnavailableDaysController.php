@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use Toby\Domain\UnavailableDaysRetriever;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
@@ -24,11 +25,9 @@ class CalculateUserUnavailableDaysController extends Controller
         $user = User::query()->find($request->get("user"));
         $yearPeriod = $yearPeriodRetriever->selected();
 
-        $unavailableDays = $unavailableDaysRetriever->getUnavailableDays(
-            $user,
-            $yearPeriod,
-            $request->vacationType(),
-        );
+        $unavailableDays = $unavailableDaysRetriever->getUnavailableDays($user, $yearPeriod, $request->vacationType())
+            ->map(fn(Carbon $date): string => $date->toDateString())
+            ->toArray();
 
         return new JsonResponse($unavailableDays);
     }
