@@ -1,11 +1,8 @@
 <script setup>
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
 import { computed, ref } from 'vue'
 
 const props = defineProps({
   benefitsReport: Object,
-  benefitsReports: Object,
   auth: Object,
 })
 
@@ -18,7 +15,6 @@ const benefitsReportData = props.benefitsReport.data.map((item) => {
   }
 })
 
-const selectedBenefitsReport = ref(props.benefitsReport.name)
 const selectedUsers = ref([])
 const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < benefitsReportData.length)
 
@@ -46,7 +42,7 @@ function generateUrl(){
 </script>
 
 <template>
-  <InertiaHead title="Raport benefitów" />
+  <InertiaHead :title="`Raport benefitowy - ${benefitsReport.name}`" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
@@ -57,7 +53,7 @@ function generateUrl(){
       <div v-if="auth.can.manageBenefits">
         <a
           v-if="selectedUsers.length !== 0"
-          :href="`/benefits-report/${props.benefitsReport.id}/download?${generateUrl()}`"
+          :href="`/benefits-reports/${props.benefitsReport.id}/download?${generateUrl()}`"
         >
           <button
             class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
@@ -75,58 +71,6 @@ function generateUrl(){
           Pobierz raport
         </button>
       </div>
-    </div>
-    <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4 border-t border-gray-200">
-      <Listbox
-        v-model="selectedBenefitsReport"
-        as="div"
-      >
-        <div class="relative">
-          <ListboxButton
-            class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
-          >
-            <span class="block truncate w-48">
-              {{ benefitsReport.name }}
-            </span>
-            <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-              <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
-            </span>
-          </ListboxButton>
-          <transition
-            leave-active-class="transition ease-in duration-100"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
-          >
-            <ListboxOptions
-              class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
-            >
-              <ListboxOption
-                v-for="currentBenefitsReport in benefitsReports"
-                :key="currentBenefitsReport.name"
-                v-slot="{ active, selected }"
-                as="template"
-                :value="currentBenefitsReport.name"
-              >
-                <InertiaLink
-                  as="button"
-                  method="get"
-                  :href="`/benefits-report/${currentBenefitsReport.id}`"
-                  class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
-                  :class="[active ? 'bg-gray-100' : 'text-gray-900']"
-                >
-                  {{ currentBenefitsReport.name }}
-                  <span
-                    v-if="selected"
-                    :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
-                  >
-                    <CheckIcon class="w-5 h-5" />
-                  </span>
-                </InertiaLink>
-              </ListboxOption>
-            </ListboxOptions>
-          </transition>
-        </div>
-      </Listbox>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm text-center border border-gray-300 divide-y divide-x divide-gray-300">

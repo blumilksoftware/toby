@@ -35,23 +35,14 @@ class AssignedBenefitController extends Controller
             ->orderBy("name")
             ->get();
 
-        $benefitsReports = BenefitsReport::query()
-            ->orderBy("committed_at", "desc")
-            ->whereKeyNot(1)
-            ->get();
-
         $assignedBenefits = BenefitsReport::query()
             ->whereKey(1)
             ->first();
 
-        return inertia("BenefitsReport/AssignedBenefits", [
+        return inertia("AssignedBenefits/AssignedBenefits", [
             "current" => Month::current(),
             "users" => SimpleUserResource::collection($users),
             "benefits" => BenefitResource::collection($benefits),
-            "benefitsReports" => $benefitsReports->map(fn(BenefitsReport $benefitsReport): array => [
-                "id" => $benefitsReport->id,
-                "name" => $benefitsReport->name,
-            ]),
             "assignedBenefits" => new BenefitsReportResource($assignedBenefits),
         ]);
     }

@@ -10,7 +10,6 @@ const props = defineProps({
   years: Object,
   vacationRequestsCount: Number,
   deployInformation: Object,
-  lastBenefitsReport: Number,
 })
 
 const toast = useToast()
@@ -36,7 +35,6 @@ watch(() => props.flash, flash => {
       :auth="auth"
       :years="years"
       :vacation-requests-count="vacationRequestsCount"
-      :last-benefits-report="lastBenefitsReport"
     />
     <main class="flex flex-col flex-1 py-8 lg:ml-64">
       <div class="lg:px-4">

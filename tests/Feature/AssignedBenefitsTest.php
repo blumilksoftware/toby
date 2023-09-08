@@ -34,7 +34,7 @@ class AssignedBenefitsTest extends FeatureTestCase
             ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page
-                    ->component("BenefitsReport/AssignedBenefits")
+                    ->component("AssignedBenefits/AssignedBenefits")
                     ->where("assignedBenefits.name", $assignedBenefits->name)
                     ->where("assignedBenefits.data", $assignedBenefits->data),
             );

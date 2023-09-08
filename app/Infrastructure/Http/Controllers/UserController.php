@@ -26,11 +26,11 @@ class UserController extends Controller
     {
         $this->authorize("manageUsers");
 
-        $searchTest = $request->query("search");
+        $searchText = $request->query("search");
         $status = $request->query("status", "active");
 
         $users = User::query()
-            ->search($searchTest)
+            ->search($searchText)
             ->status($status)
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
@@ -40,7 +40,7 @@ class UserController extends Controller
         return inertia("Users/Index", [
             "users" => UserResource::collection($users),
             "filters" => [
-                "search" => $searchTest,
+                "search" => $searchText,
                 "status" => $status,
             ],
         ]);

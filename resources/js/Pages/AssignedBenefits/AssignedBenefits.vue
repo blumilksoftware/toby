@@ -16,7 +16,6 @@ const props = defineProps({
   auth: Object,
 })
 
-const selectedItem = ref('Aktualne benefity')
 const creatingBenefitsReport = ref(false)
 const { findMonth } = useMonthInfo()
 const currentMonth = computed(() => findMonth(props.current))
@@ -70,7 +69,7 @@ function startCreatingBenefitsReport() {
   creatingBenefitsReport.value = true
 }
 function submitCreateBenefitsReport() {
-  formBenefitsReport.post('/benefits-report')
+  formBenefitsReport.post('/benefits-reports')
 }
 function calculateSumOfBenefits(benefits) {
   let sum = 0
