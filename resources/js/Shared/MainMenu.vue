@@ -199,7 +199,7 @@ const miscNavigation = computed(() => [
               >
             </InertiaLink>
           </div>
-          <nav class="overflow-y-auto shrink-0 mt-5 h-full space-y-5">
+          <nav class="overflow-y-auto shrink-0 py-5 h-full space-y-5">
             <div class="px-2 space-y-1">
               <InertiaLink
                 href="/"
