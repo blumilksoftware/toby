@@ -70,6 +70,7 @@ class UserVacationStatsRetriever
                 fn(Builder $query): Builder => $query
                     ->whereIn("type", $this->getNotLimitableVacationTypes())
                     ->whereNot("type", VacationType::RemoteWork)
+                    ->whereNot("type", VacationType::Delegation)
                     ->states(VacationRequestStatesRetriever::successStates()),
             )
             ->count();

@@ -174,6 +174,7 @@ class DemoSeeder extends Seeder
                 $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
                     $vacationRequest->to,
+                    $vacationRequest->type,
                 );
 
                 foreach ($days as $day) {
@@ -243,6 +244,7 @@ class DemoSeeder extends Seeder
                 $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
                     $vacationRequest->to,
+                    $vacationRequest->type,
                 );
 
                 foreach ($days as $day) {
@@ -301,6 +303,7 @@ class DemoSeeder extends Seeder
                 $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
                     $vacationRequest->to,
+                    $vacationRequest->type,
                 );
 
                 foreach ($days as $day) {

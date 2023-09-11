@@ -19,6 +19,7 @@ enum VacationType: string
     case Sick = "sick_vacation";
     case Absence = "absence";
     case RemoteWork = "remote_work";
+    case Delegation = "delegation";
 
     public function label(): string
     {
