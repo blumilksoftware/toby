@@ -34,7 +34,7 @@ class VacationRequestController extends Controller
 {
     public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response|RedirectResponse
     {
-        if ($request->user()->can("list all requests")) {
+        if ($request->user()->can("listAllRequests")) {
             return redirect()->route("vacation.requests.indexForApprovers");
         }
 
@@ -89,7 +89,7 @@ class VacationRequestController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
-        if ($request->user()->cannot("list all requests")) {
+        if ($request->user()->cannot("listAllRequests")) {
             return redirect()->route("vacation.requests.index");
         }
 
@@ -190,11 +190,11 @@ class VacationRequestController extends Controller
     public function store(VacationRequestRequest $request, CreateAction $createAction): RedirectResponse
     {
         if ($request->createsOnBehalfOfEmployee()) {
-            $this->authorize("create requests on behalf of employee");
+            $this->authorize("createRequestsOnBehalfOfEmployee");
         }
 
         if ($request->wantsSkipFlow()) {
-            $this->authorize("skip request flow");
+            $this->authorize("skipRequestFlow");
         }
 
         $vacationRequest = $createAction->execute($request->data(), $request->user());

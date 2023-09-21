@@ -42,7 +42,7 @@ class KeysController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->authorize("manage keys");
+        $this->authorize("manageKeys");
 
         $key = Key::query()->create();
 
@@ -124,7 +124,7 @@ class KeysController extends Controller
 
     public function destroy(Key $key): RedirectResponse
     {
-        $this->authorize("manage keys");
+        $this->authorize("manageKeys");
 
         $key->delete();
 

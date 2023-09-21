@@ -84,7 +84,7 @@ class DashboardAggregator
 
     public function aggregateVacationRequests(User $user, YearPeriod $yearPeriod): JsonResource
     {
-        if ($user->can("list all requests")) {
+        if ($user->can("listAllRequests")) {
             $vacationRequests = $yearPeriod->vacationRequests()
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")

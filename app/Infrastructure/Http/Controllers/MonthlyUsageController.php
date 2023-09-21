@@ -19,7 +19,7 @@ class MonthlyUsageController extends Controller
         YearPeriodRetriever $yearPeriodRetriever,
         UserVacationStatsRetriever $statsRetriever,
     ): Response {
-        $this->authorize("list monthly usage");
+        $this->authorize("listMonthlyUsage");
 
         $currentYearPeriod = $yearPeriodRetriever->selected();
         $currentUser = $request->user();

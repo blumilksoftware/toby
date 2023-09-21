@@ -20,7 +20,7 @@ class PermissionController extends Controller
      */
     public function show(User $user): Response
     {
-        $this->authorize("manage permissions");
+        $this->authorize("managePermissions");
 
         $permissions = Permission::all()->pluck("name");
 
@@ -37,7 +37,7 @@ class PermissionController extends Controller
      */
     public function update(PermissionRequest $request, UpdateUserPermissionsAction $action, User $user): RedirectResponse
     {
-        $this->authorize("manage permissions");
+        $this->authorize("managePermissions");
 
         $action->execute($user, $request->input("permissions"));
 

@@ -34,7 +34,7 @@ class BenefitController extends Controller
      */
     public function store(BenefitRequest $request): RedirectResponse
     {
-        $this->authorize("manage benefits");
+        $this->authorize("manageBenefits");
 
         /** @var Benefit $benefit */
         $benefit = Benefit::query()->create($request->only("name", "companion"));
@@ -53,7 +53,7 @@ class BenefitController extends Controller
      */
     public function destroy(Benefit $benefit): RedirectResponse
     {
-        $this->authorize("manage benefits");
+        $this->authorize("manageBenefits");
 
         $benefit->delete();
 

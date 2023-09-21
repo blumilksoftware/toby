@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function index(Request $request): Response
     {
-        $this->authorize("manage users");
+        $this->authorize("manageUsers");
 
         $searchTest = $request->query("search");
         $status = $request->query("status", "active");
@@ -52,7 +52,7 @@ class UserController extends Controller
      */
     public function create(): Response
     {
-        $this->authorize("manage users");
+        $this->authorize("manageUsers");
 
         return inertia("Users/Create", [
             "employmentForms" => EmploymentForm::casesToSelect(),
@@ -68,7 +68,7 @@ class UserController extends Controller
         CreateUserAction $createUserAction,
         SyncUserPermissionsWithRoleAction $syncUserPermissionsWithRoleAction,
     ): RedirectResponse {
-        $this->authorize("manage users");
+        $this->authorize("manageUsers");
 
         $user = $createUserAction->execute($request->userData(), $request->profileData());
         $syncUserPermissionsWithRoleAction->execute($user);
@@ -83,7 +83,7 @@ class UserController extends Controller
      */
     public function edit(User $user): Response
     {
-        $this->authorize("manage users");
+        $this->authorize("manageUsers");
 
         return inertia("Users/Edit", [
             "user" => new UserFormDataResource($user),
@@ -101,7 +101,7 @@ class UserController extends Controller
         SyncUserPermissionsWithRoleAction $syncUserPermissionsWithRoleAction,
         User $user,
     ): RedirectResponse {
-        $this->authorize("manage users");
+        $this->authorize("manageUsers");
 
         $shouldSyncPermissions = $request->input("role") !== $user->role->value;
 
@@ -121,7 +121,7 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        $this->authorize("manage users");
+        $this->authorize("manageUsers");
 
         $user->delete();
 
@@ -134,7 +134,7 @@ class UserController extends Controller
      */
     public function restore(User $user): RedirectResponse
     {
-        $this->authorize("manage users");
+        $this->authorize("manageUsers");
 
         $user->restore();
 

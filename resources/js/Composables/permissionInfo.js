@@ -1,72 +1,72 @@
 const permissionsInfo = [
   {
     'name': 'Zarządzanie uprawnieniami',
-    'value': 'manage permissions',
+    'value': 'managePermissions',
     'section': 'Użytkownicy',
   },
   {
     'name': 'Zarządzanie dniami wolnymi',
-    'value': 'manage holidays',
+    'value': 'manageHolidays',
     'section': 'Urlopy',
   },
   {
     'name': 'Zarządzanie użytkownikami',
-    'value': 'manage users',
+    'value': 'manageUsers',
     'section': 'Użytkownicy',
   },
   {
     'name': 'Zarządzanie kluczami',
-    'value': 'manage keys',
+    'value': 'manageKeys',
     'section': 'Biuro',
   },
   {
     'name': 'Zarządzanie technologiami',
-    'value': 'manage technologies',
+    'value': 'manageTechnologies',
     'section': 'Zespół',
   },
   {
     'name': 'Zarządzanie CV',
-    'value': 'manage resumes',
+    'value': 'manageResumes',
     'section': 'Zespół',
   },
   {
     'name': 'Zarządzanie benefitami',
-    'value': 'manage benefits',
+    'value': 'manageBenefits',
     'section': 'Zespół',
   },
   {
     'name': 'Zarządzanie limitami urlopowymi',
-    'value': 'manage vacation limits',
+    'value': 'manageVacationLimits',
     'section': 'Urlopy',
   },
   {
     'name': 'Zarządzanie wnioskami jako przełożony administracyjny',
-    'value': 'manage requests as administrative approver',
+    'value': 'manageRequestsAsAdministrativeApprover',
     'section': 'Urlopy',
   },
   {
     'name': 'Zarządzanie wnioskami jako przełożony techniczny',
-    'value': 'manage requests as technical approver',
+    'value': 'manageRequestsAsTechnicalApprover',
     'section': 'Urlopy',
   },
   {
     'name': 'Tworzenie wniosków w imieniu pracownika',
-    'value': 'create requests on behalf of employee',
+    'value': 'createRequestsOnBehalfOfEmployee',
     'section': 'Urlopy',
   },
   {
     'name': 'Przeglądanie wykorzystania urlopu',
-    'value': 'list monthly usage',
+    'value': 'listMonthlyUsage',
     'section': 'Urlopy',
   },
   {
     'name': 'Przeglądanie wszystkich wniosków',
-    'value': 'list all requests',
+    'value': 'listAllRequests',
     'section': 'Urlopy',
   },
   {
     'name': 'Natychmiastowe zatwierdzanie wniosków',
-    'value': 'skip request flow',
+    'value': 'skipRequestFlow',
     'section': 'Urlopy',
   },
 ]

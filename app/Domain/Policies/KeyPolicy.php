@@ -15,6 +15,6 @@ class KeyPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manage keys");
+        return $user->hasPermissionTo("manageKeys");
     }
 }

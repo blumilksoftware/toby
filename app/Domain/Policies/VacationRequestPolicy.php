@@ -15,23 +15,23 @@ class VacationRequestPolicy
 {
     public function acceptAsAdminApprover(User $user): bool
     {
-        return $user->hasPermissionTo("manage requests as administrative approver");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover");
     }
 
     public function acceptAsTechApprover(User $user): bool
     {
-        return $user->hasPermissionTo("manage requests as technical approver");
+        return $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 
     public function skipFlow(User $user): bool
     {
-        return $user->hasPermissionTo("manage requests as administrative approver");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover");
     }
 
     public function reject(User $user): bool
     {
-        return $user->hasPermissionTo("manage requests as administrative approver") ||
-            $user->hasPermissionTo("manage requests as technical approver");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 
     public function cancel(User $user, VacationRequest $vacationRequest): bool
@@ -48,7 +48,7 @@ class VacationRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manage requests as administrative approver");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover");
     }
 
     public function show(User $user, VacationRequest $vacationRequest): bool
@@ -57,7 +57,7 @@ class VacationRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manage requests as administrative approver") ||
-            $user->hasPermissionTo("manage requests as technical approver");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 }

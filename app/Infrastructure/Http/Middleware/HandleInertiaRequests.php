@@ -7,10 +7,10 @@ namespace Toby\Infrastructure\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\VacationRequest;
-use Toby\Infrastructure\Http\Resources\AuthPermissionsResource;
 use Toby\Infrastructure\Http\Resources\UserResource;
 
 class HandleInertiaRequests extends Middleware
@@ -36,7 +36,11 @@ class HandleInertiaRequests extends Middleware
 
         return fn(): array => [
             "user" => $user ? new UserResource($user) : null,
-            "can" => new AuthPermissionsResource($user),
+            "can" => Permission::all()->mapWithKeys(
+                fn(Permission $permission): array => [
+                    $permission->name => $user ? $user->hasPermissionTo($permission) : false,
+                ],
+            ),
         ];
     }
 
@@ -58,7 +62,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
-        return fn(): ?int => $user && $user->can("list all requests")
+        return fn(): ?int => $user && $user->can("listAllRequests")
         ? VacationRequest::query()
             ->whereBelongsTo($this->yearPeriodRetriever->selected())
             ->states(

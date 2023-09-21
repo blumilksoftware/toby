@@ -35,7 +35,7 @@ class HolidayController extends Controller
      */
     public function create(): Response
     {
-        $this->authorize("manage holidays");
+        $this->authorize("manageHolidays");
 
         return inertia("Holidays/Create");
     }
@@ -45,7 +45,7 @@ class HolidayController extends Controller
      */
     public function store(HolidayRequest $request): RedirectResponse
     {
-        $this->authorize("manage holidays");
+        $this->authorize("manageHolidays");
 
         Holiday::query()->create($request->data());
 
@@ -59,7 +59,7 @@ class HolidayController extends Controller
      */
     public function edit(Holiday $holiday): Response
     {
-        $this->authorize("manage holidays");
+        $this->authorize("manageHolidays");
 
         return inertia("Holidays/Edit", [
             "holiday" => new HolidayFormDataResource($holiday),
@@ -71,7 +71,7 @@ class HolidayController extends Controller
      */
     public function update(HolidayRequest $request, Holiday $holiday): RedirectResponse
     {
-        $this->authorize("manage holidays");
+        $this->authorize("manageHolidays");
 
         $holiday->update($request->data());
 
@@ -85,7 +85,7 @@ class HolidayController extends Controller
      */
     public function destroy(Holiday $holiday): RedirectResponse
     {
-        $this->authorize("manage holidays");
+        $this->authorize("manageHolidays");
 
         $holiday->delete();
 
