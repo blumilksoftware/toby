@@ -44,10 +44,6 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
         ->whereNumber("user");
 
-    Route::resource("users", UserController::class)
-        ->except("show")
-        ->whereNumber("user");
-
     Route::resource("benefits", BenefitController::class)
         ->only(["index", "store", "destroy"])
         ->whereNumber("benefit");

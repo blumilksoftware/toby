@@ -19,10 +19,6 @@ use Toby\Domain\Actions\VacationRequest\CancelAction;
 use Toby\Domain\Actions\VacationRequest\CreateAction;
 use Toby\Domain\Actions\VacationRequest\RejectAction;
 use Toby\Domain\Enums\VacationType;
-use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
-use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
-use Toby\Domain\States\VacationRequest\Cancelled;
-use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -131,12 +127,9 @@ class VacationRequestController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function show(Request $request, VacationRequest $vacationRequest, UserVacationStatsRetriever $statsRetriever, YearPeriodRetriever $yearPeriodRetriever): Response
+    public function show(VacationRequest $vacationRequest, UserVacationStatsRetriever $statsRetriever): Response
     {
         $this->authorize("show", $vacationRequest);
-        $user = $request->user();
-
-        $currentYearPeriod = $yearPeriodRetriever->selected();
 
         $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $vacationRequest->yearPeriod);
         $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
@@ -146,16 +139,6 @@ class VacationRequestController extends Controller
         return inertia("VacationRequest/Show", [
             "request" => new VacationRequestResource($vacationRequest),
             "activities" => VacationRequestActivityResource::collection($vacationRequest->activities),
-            //            "can" => [
-            //                "acceptAsTechnical" => $vacationRequest->state->canTransitionTo(AcceptedByTechnical::class)
-            //                    && $user->can("acceptAsTechApprover", $vacationRequest),
-            //                "acceptAsAdministrative" => $vacationRequest->state->canTransitionTo(AcceptedByAdministrative::class)
-            //                    && $user->can("acceptAsAdminApprover", $vacationRequest),
-            //                "reject" => $vacationRequest->state->canTransitionTo(Rejected::class)
-            //                    && $user->can("reject", $vacationRequest),
-            //                "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
-            //                    && $user->can("cancel", $vacationRequest),
-            //            ],
             "stats" => [
                 "limit" => $limit,
                 "used" => $used,
@@ -195,10 +178,6 @@ class VacationRequestController extends Controller
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
             "users" => SimpleUserResource::collection($users),
-            //            "can" => [
-            //                "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
-            //                "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),
-            //            ],
             "vacationUserId" => (int)$request->get("user"),
             "vacationFromDate" => $request->get("from_date"),
         ]);

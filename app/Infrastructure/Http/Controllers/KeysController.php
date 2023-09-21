@@ -34,9 +34,6 @@ class KeysController extends Controller
         return inertia("Keys", [
             "keys" => KeyResource::collection($keys),
             "users" => SimpleUserResource::collection($users),
-            //            "can" => [
-            //                "manageKeys" => $request->user()->can("manage", Key::class),
-            //            ],
         ]);
     }
 
