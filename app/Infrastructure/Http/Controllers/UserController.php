@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Domain\Actions\CreateUserAction;
+use Toby\Domain\Actions\SyncUserPermissionsWithRoleAction;
 use Toby\Domain\Actions\UpdateUserAction;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
@@ -24,7 +25,7 @@ class UserController extends Controller
      */
     public function index(Request $request): Response
     {
-        $this->authorize("manageUsers");
+        $this->authorize("manage users");
 
         $searchTest = $request->query("search");
         $status = $request->query("status", "active");
@@ -51,7 +52,7 @@ class UserController extends Controller
      */
     public function create(): Response
     {
-        $this->authorize("manageUsers");
+        $this->authorize("manage users");
 
         return inertia("Users/Create", [
             "employmentForms" => EmploymentForm::casesToSelect(),
@@ -62,11 +63,15 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function store(UserRequest $request, CreateUserAction $createUserAction): RedirectResponse
-    {
-        $this->authorize("manageUsers");
+    public function store(
+        UserRequest $request,
+        CreateUserAction $createUserAction,
+        SyncUserPermissionsWithRoleAction $syncUserPermissionsWithRoleAction,
+    ): RedirectResponse {
+        $this->authorize("manage users");
 
-        $createUserAction->execute($request->userData(), $request->profileData());
+        $user = $createUserAction->execute($request->userData(), $request->profileData());
+        $syncUserPermissionsWithRoleAction->execute($user);
 
         return redirect()
             ->route("users.index")
@@ -78,7 +83,7 @@ class UserController extends Controller
      */
     public function edit(User $user): Response
     {
-        $this->authorize("manageUsers");
+        $this->authorize("manage users");
 
         return inertia("Users/Edit", [
             "user" => new UserFormDataResource($user),
@@ -90,11 +95,21 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function update(UserRequest $request, UpdateUserAction $updateUserAction, User $user): RedirectResponse
-    {
-        $this->authorize("manageUsers");
+    public function update(
+        UserRequest $request,
+        UpdateUserAction $updateUserAction,
+        SyncUserPermissionsWithRoleAction $syncUserPermissionsWithRoleAction,
+        User $user,
+    ): RedirectResponse {
+        $this->authorize("manage users");
+
+        $shouldSyncPermissions = $request->input("role") !== $user->role->value;
 
         $updateUserAction->execute($user, $request->userData(), $request->profileData());
+
+        if ($shouldSyncPermissions) {
+            $syncUserPermissionsWithRoleAction->execute($user);
+        }
 
         return redirect()
             ->route("users.index")
@@ -106,7 +121,7 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        $this->authorize("manageUsers");
+        $this->authorize("manage users");
 
         $user->delete();
 
@@ -119,7 +134,7 @@ class UserController extends Controller
      */
     public function restore(User $user): RedirectResponse
     {
-        $this->authorize("manageUsers");
+        $this->authorize("manage users");
 
         $user->restore();
 

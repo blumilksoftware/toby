@@ -38,7 +38,7 @@ class VacationRequestController extends Controller
 {
     public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response|RedirectResponse
     {
-        if ($request->user()->can("listAll", VacationRequest::class)) {
+        if ($request->user()->can("list all requests")) {
             return redirect()->route("vacation.requests.indexForApprovers");
         }
 
@@ -93,7 +93,7 @@ class VacationRequestController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
-        if ($request->user()->cannot("listAll", VacationRequest::class)) {
+        if ($request->user()->cannot("list all requests")) {
             return redirect()->route("vacation.requests.index");
         }
 
@@ -146,16 +146,16 @@ class VacationRequestController extends Controller
         return inertia("VacationRequest/Show", [
             "request" => new VacationRequestResource($vacationRequest),
             "activities" => VacationRequestActivityResource::collection($vacationRequest->activities),
-            "can" => [
-                "acceptAsTechnical" => $vacationRequest->state->canTransitionTo(AcceptedByTechnical::class)
-                    && $user->can("acceptAsTechApprover", $vacationRequest),
-                "acceptAsAdministrative" => $vacationRequest->state->canTransitionTo(AcceptedByAdministrative::class)
-                    && $user->can("acceptAsAdminApprover", $vacationRequest),
-                "reject" => $vacationRequest->state->canTransitionTo(Rejected::class)
-                    && $user->can("reject", $vacationRequest),
-                "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
-                    && $user->can("cancel", $vacationRequest),
-            ],
+            //            "can" => [
+            //                "acceptAsTechnical" => $vacationRequest->state->canTransitionTo(AcceptedByTechnical::class)
+            //                    && $user->can("acceptAsTechApprover", $vacationRequest),
+            //                "acceptAsAdministrative" => $vacationRequest->state->canTransitionTo(AcceptedByAdministrative::class)
+            //                    && $user->can("acceptAsAdminApprover", $vacationRequest),
+            //                "reject" => $vacationRequest->state->canTransitionTo(Rejected::class)
+            //                    && $user->can("reject", $vacationRequest),
+            //                "cancel" => $vacationRequest->state->canTransitionTo(Cancelled::class)
+            //                    && $user->can("cancel", $vacationRequest),
+            //            ],
             "stats" => [
                 "limit" => $limit,
                 "used" => $used,
@@ -195,10 +195,10 @@ class VacationRequestController extends Controller
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
             "users" => SimpleUserResource::collection($users),
-            "can" => [
-                "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
-                "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),
-            ],
+            //            "can" => [
+            //                "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee", VacationRequest::class),
+            //                "skipFlow" => $request->user()->can("skipFlow", VacationRequest::class),
+            //            ],
             "vacationUserId" => (int)$request->get("user"),
             "vacationFromDate" => $request->get("from_date"),
         ]);
@@ -211,11 +211,11 @@ class VacationRequestController extends Controller
     public function store(VacationRequestRequest $request, CreateAction $createAction): RedirectResponse
     {
         if ($request->createsOnBehalfOfEmployee()) {
-            $this->authorize("createOnBehalfOfEmployee", VacationRequest::class);
+            $this->authorize("create requests on behalf of employee");
         }
 
         if ($request->wantsSkipFlow()) {
-            $this->authorize("skipFlow", VacationRequest::class);
+            $this->authorize("skip request flow");
         }
 
         $vacationRequest = $createAction->execute($request->data(), $request->user());

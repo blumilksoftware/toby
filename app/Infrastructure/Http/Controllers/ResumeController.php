@@ -20,7 +20,7 @@ class ResumeController extends Controller
 {
     public function index(): Response
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $resumes = Resume::query()
             ->latest("updated_at")
@@ -33,7 +33,7 @@ class ResumeController extends Controller
 
     public function create(): Response
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $users = User::query()
             ->orderByProfileField("last_name")
@@ -48,7 +48,7 @@ class ResumeController extends Controller
 
     public function show(Resume $resume, ResumeGenerator $generator): BinaryFileResponseAlias
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $path = $generator->generate($resume);
 
@@ -59,7 +59,7 @@ class ResumeController extends Controller
 
     public function store(ResumeRequest $request): RedirectResponse
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $resume = new Resume();
 
@@ -85,7 +85,7 @@ class ResumeController extends Controller
 
     public function edit(Resume $resume): Response
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $users = User::query()
             ->orderByProfileField("last_name")
@@ -101,7 +101,7 @@ class ResumeController extends Controller
 
     public function update(Resume $resume, ResumeRequest $request): RedirectResponse
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         if ($request->hasEmployee()) {
             $resume->user()->associate($request->getEmployee());
@@ -126,7 +126,7 @@ class ResumeController extends Controller
 
     public function destroy(Resume $resume): RedirectResponse
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $resume->delete();
 

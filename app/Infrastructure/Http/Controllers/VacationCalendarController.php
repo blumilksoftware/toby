@@ -42,11 +42,11 @@ class VacationCalendarController extends Controller
             "current" => Month::current(),
             "selected" => $month->value,
             "users" => SimpleUserResource::collection($users),
-            "can" => [
-                "generateTimesheet" => $request->user()->can("generateTimesheet"),
-                "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee"),
-                "seePendingRequests" => $request->user()->can("seePendingRequests"),
-            ],
+            //            "can" => [
+            //                "generateTimesheet" => $request->user()->can("generateTimesheet"),
+            //                "createOnBehalfOfEmployee" => $request->user()->can("createOnBehalfOfEmployee"),
+            //                "seePendingRequests" => $request->user()->can("seePendingRequests"),
+            //            ],
         ]);
     }
 }

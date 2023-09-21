@@ -29,7 +29,7 @@ class BenefitsReportController extends Controller
      */
     public function show(BenefitsReport $benefitsReport): Response
     {
-        $this->authorize("manageBenefits");
+        $this->authorize("manage benefits");
 
         $reports = BenefitsReport::query()
             ->orderBy("committed_at", "desc")
@@ -50,7 +50,7 @@ class BenefitsReportController extends Controller
      */
     public function store(BenefitsReportRequest $request): RedirectResponse
     {
-        $this->authorize("manageBenefits");
+        $this->authorize("manage benefits");
 
         $nameReport = $request->get("name");
 
@@ -114,7 +114,7 @@ class BenefitsReportController extends Controller
      */
     public function download(Request $request, BenefitsReport $benefitsReport): BinaryFileResponse
     {
-        $this->authorize("manageBenefits");
+        $this->authorize("manage benefits");
 
         $filename = Str::slug($benefitsReport->name) . ".xlsx";
 

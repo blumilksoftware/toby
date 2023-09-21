@@ -34,9 +34,9 @@ class KeysController extends Controller
         return inertia("Keys", [
             "keys" => KeyResource::collection($keys),
             "users" => SimpleUserResource::collection($users),
-            "can" => [
-                "manageKeys" => $request->user()->can("manage", Key::class),
-            ],
+            //            "can" => [
+            //                "manageKeys" => $request->user()->can("manage", Key::class),
+            //            ],
         ]);
     }
 
@@ -45,7 +45,7 @@ class KeysController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->authorize("manage", Key::class);
+        $this->authorize("manage keys");
 
         $key = Key::query()->create();
 
@@ -127,7 +127,7 @@ class KeysController extends Controller
 
     public function destroy(Key $key): RedirectResponse
     {
-        $this->authorize("manage", Key::class);
+        $this->authorize("manage keys");
 
         $key->delete();
 

@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\VacationRequest;
 use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Http\Resources\BirthdayResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
@@ -85,7 +84,7 @@ class DashboardAggregator
 
     public function aggregateVacationRequests(User $user, YearPeriod $yearPeriod): JsonResource
     {
-        if ($user->can("listAll", VacationRequest::class)) {
+        if ($user->can("list all requests")) {
             $vacationRequests = $yearPeriod->vacationRequests()
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")

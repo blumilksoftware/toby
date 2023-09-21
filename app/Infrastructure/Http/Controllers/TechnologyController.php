@@ -15,7 +15,7 @@ class TechnologyController extends Controller
 {
     public function index(): Response
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $technologies = Technology::query()
             ->orderBy("name")
@@ -31,7 +31,7 @@ class TechnologyController extends Controller
      */
     public function store(TechnologyRequest $request): RedirectResponse
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $technology = Technology::query()->create($request->data());
 
@@ -44,7 +44,7 @@ class TechnologyController extends Controller
 
     public function destroy(Technology $technology): RedirectResponse
     {
-        $this->authorize("manageResumes");
+        $this->authorize("manage resumes");
 
         $technology->delete();
 

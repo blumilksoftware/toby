@@ -33,9 +33,9 @@ class DashboardController extends Controller
             "benefits" => $dashboardAggregator->aggregateUserBenefits($user),
             "calendar" => $dashboardAggregator->aggregateCalendarData($user, $yearPeriod),
             "stats" => $dashboardAggregator->aggregateStats($user, $yearPeriod),
-            "can" => [
-                "listAllVacationRequests" => $user->can("listAll", VacationRequest::class),
-            ],
+            //            "can" => [
+            //                "listAllVacationRequests" => $user->can("listAll", VacationRequest::class),
+            //            ],
         ]);
     }
 }

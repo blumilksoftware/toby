@@ -19,7 +19,7 @@ class MonthlyUsageController extends Controller
         YearPeriodRetriever $yearPeriodRetriever,
         UserVacationStatsRetriever $statsRetriever,
     ): Response {
-        $this->authorize("listMonthlyUsage");
+        $this->authorize("list monthly usage");
 
         $currentYearPeriod = $yearPeriodRetriever->selected();
         $currentUser = $request->user();
@@ -59,9 +59,9 @@ class MonthlyUsageController extends Controller
         return inertia("MonthlyUsage", [
             "monthlyUsage" => $monthlyUsage,
             "currentMonth" => Month::current(),
-            "can" => [
-                "listMonthlyUsage" => $request->user()->can("listMonthlyUsage"),
-            ],
+            //            "can" => [
+            //                "listMonthlyUsage" => $request->user()->can("listMonthlyUsage"),
+            //            ],
         ]);
     }
 }

@@ -13,13 +13,12 @@ const props = defineProps({
   auth: Object,
   users: Object,
   holidays: Object,
-  can: Object,
   vacationUserId: [Number, null],
   vacationFromDate: [String, null],
 })
 
 const form = useForm({
-  user: props.can.createOnBehalfOfEmployee
+  user: props.auth.can.createRequestsOnBehalfOfEmployee
     ? props.users.data.find(user => user.id === (checkUserId(props.vacationUserId) ?? props.auth.user.id)) ?? props.users.data[0]
     : props.auth.user,
   from: props.vacationFromDate,
@@ -185,7 +184,7 @@ async function refreshAvailableTypes(user) {
               </div>
             </div>
             <Listbox
-              v-if="can.createOnBehalfOfEmployee"
+              v-if="auth.can.createRequestsOnBehalfOfEmployee"
               v-model="form.user"
               as="div"
               class="items-center py-4 sm:grid sm:grid-cols-3"
@@ -420,7 +419,7 @@ async function refreshAvailableTypes(user) {
               </div>
             </div>
             <div
-              v-if="can.skipFlow"
+              v-if="auth.can.skipRequestFlow"
               class="items-center py-4 sm:grid sm:grid-cols-3"
             >
               <label

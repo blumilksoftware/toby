@@ -26,9 +26,9 @@ class BenefitController extends Controller
 
         return inertia("Benefits/Benefits", [
             "benefits" => BenefitResource::collection($benefits),
-            "can" => [
-                "manageBenefits" => $request->user()->can("manageBenefits"),
-            ],
+            //            "can" => [
+            //                "manageBenefits" => $request->user()->can("manageBenefits"),
+            //            ],
         ]);
     }
 
@@ -37,7 +37,7 @@ class BenefitController extends Controller
      */
     public function store(BenefitRequest $request): RedirectResponse
     {
-        $this->authorize("manageBenefits");
+        $this->authorize("manage benefits");
 
         /** @var Benefit $benefit */
         $benefit = Benefit::query()->create($request->only("name", "companion"));
@@ -56,7 +56,7 @@ class BenefitController extends Controller
      */
     public function destroy(Benefit $benefit): RedirectResponse
     {
-        $this->authorize("manageBenefits");
+        $this->authorize("manage benefits");
 
         $benefit->delete();
 

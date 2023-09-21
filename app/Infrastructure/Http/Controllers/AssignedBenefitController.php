@@ -24,7 +24,7 @@ class AssignedBenefitController extends Controller
      */
     public function index(): Response
     {
-        $this->authorize("manageBenefits");
+        $this->authorize("manage benefits");
 
         $users = User::query()
             ->orderByProfileField("last_name")
@@ -61,7 +61,7 @@ class AssignedBenefitController extends Controller
      */
     public function update(AssignedBenefitsRequest $request): RedirectResponse
     {
-        $this->authorize("manageBenefits");
+        $this->authorize("manage benefits");
 
         $users = User::query()
             ->orderByProfileField("last_name")

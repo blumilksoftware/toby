@@ -15,7 +15,6 @@ defineProps({
   current: Object,
   upcoming: Object,
   vacationRequests: Object,
-  can: Object,
   stats: Object,
   calendar: Object,
   years: Object,
@@ -35,7 +34,7 @@ defineProps({
         :pending-vacations="calendar.pendingVacations"
       />
       <PendingVacationRequests
-        v-if="can.listAllVacationRequests"
+        v-if="auth.can.listAllRequests"
         :requests="vacationRequests.data"
       />
       <UserVacationRequests
