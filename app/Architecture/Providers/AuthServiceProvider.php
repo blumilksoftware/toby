@@ -16,8 +16,4 @@ class AuthServiceProvider extends ServiceProvider
         VacationRequest::class => VacationRequestPolicy::class,
         Key::class => KeyPolicy::class,
     ];
-
-    public function boot(): void
-    {
-    }
 }
