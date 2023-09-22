@@ -39,7 +39,12 @@ class PermissionTest extends FeatureTestCase
                             ->where("createRequestsOnBehalfOfEmployee", false)
                             ->where("listMonthlyUsage", false)
                             ->where("listAllRequests", false)
-                            ->where("skipRequestFlow", false),
+                            ->where("skipRequestFlow", false)
+                            ->where("receiveUpcomingAndOverdueMedicalExamsNotification", false)
+                            ->where("receiveUpcomingAndOverdueOhsTrainingNotification", false)
+                            ->where("receiveVacationRequestsSummaryNotification", false)
+                            ->where("receiveVacationRequestWaitsForApprovalNotification", false)
+                            ->where("receiveVacationRequestStatusChangedNotification", false),
                     ),
             );
     }
@@ -70,7 +75,12 @@ class PermissionTest extends FeatureTestCase
                             ->where("createRequestsOnBehalfOfEmployee", false)
                             ->where("listMonthlyUsage", false)
                             ->where("listAllRequests", true)
-                            ->where("skipRequestFlow", false),
+                            ->where("skipRequestFlow", false)
+                            ->where("receiveUpcomingAndOverdueMedicalExamsNotification", false)
+                            ->where("receiveUpcomingAndOverdueOhsTrainingNotification", false)
+                            ->where("receiveVacationRequestsSummaryNotification", true)
+                            ->where("receiveVacationRequestWaitsForApprovalNotification", true)
+                            ->where("receiveVacationRequestStatusChangedNotification", true),
                     ),
             );
     }
@@ -97,11 +107,16 @@ class PermissionTest extends FeatureTestCase
                             ->where("manageBenefits", true)
                             ->where("manageVacationLimits", true)
                             ->where("manageRequestsAsAdministrativeApprover", true)
-                            ->where("manageRequestsAsTechnicalApprover", true)
+                            ->where("manageRequestsAsTechnicalApprover", false)
                             ->where("createRequestsOnBehalfOfEmployee", true)
                             ->where("listMonthlyUsage", true)
                             ->where("listAllRequests", true)
-                            ->where("skipRequestFlow", true),
+                            ->where("skipRequestFlow", true)
+                            ->where("receiveUpcomingAndOverdueMedicalExamsNotification", true)
+                            ->where("receiveUpcomingAndOverdueOhsTrainingNotification", true)
+                            ->where("receiveVacationRequestsSummaryNotification", true)
+                            ->where("receiveVacationRequestWaitsForApprovalNotification", true)
+                            ->where("receiveVacationRequestStatusChangedNotification", true),
                     ),
             );
     }

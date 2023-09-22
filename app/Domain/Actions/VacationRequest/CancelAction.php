@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Actions\VacationRequest;
 
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Events\VacationRequestChanged;
 use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\VacationRequestStateManager;
@@ -35,10 +35,7 @@ class CancelAction
 
     protected function notify(VacationRequest $vacationRequest): void
     {
-        $users = User::query()
-            ->where("id", "!=", $vacationRequest->user->id)
-            ->whereIn("role", [Role::TechnicalApprover, Role::AdministrativeApprover, Role::Administrator])
-            ->get();
+        $users = Permission::findByName("receiveVacationRequestStatusChangedNotification")->users()->get();
 
         foreach ($users as $user) {
             $user->notify(new VacationRequestStatusChangedNotification($vacationRequest, $user));

@@ -69,6 +69,31 @@ const permissionsInfo = [
     'value': 'skipRequestFlow',
     'section': 'Urlopy',
   },
+  {
+    'name': 'Nadchodzące i zaległe badania medycyny pracy',
+    'value': 'receiveUpcomingAndOverdueMedicalExamsNotification',
+    'section': 'Powiadomienia',
+  },
+  {
+    'name': 'Nadchodzące i zaległe szkolenia BHP',
+    'value': 'receiveUpcomingAndOverdueOhsTrainingNotification',
+    'section': 'Powiadomienia',
+  },
+  {
+    'name': 'Podsumowania wniosków urlopowych',
+    'value': 'receiveVacationRequestsSummaryNotification',
+    'section': 'Powiadomienia',
+  },
+  {
+    'name': 'Nowy wniosek oczekuje na potwierdzenie',
+    'value': 'receiveVacationRequestWaitsForApprovalNotification',
+    'section': 'Powiadomienia',
+  },
+  {
+    'name': 'Status wniosku urlopowego został zmieniony',
+    'value': 'receiveVacationRequestStatusChangedNotification',
+    'section': 'Powiadomienia',
+  },
 ]
 
 export function usePermissionInfo() {
