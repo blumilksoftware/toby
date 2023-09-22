@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Permission;
 use Toby\Domain\Actions\UpdateUserPermissionsAction;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Http\Requests\PermissionRequest;
-use Toby\Infrastructure\Http\Resources\SimpleUserResource;
+use Toby\Infrastructure\Http\Resources\UserResource;
 
 class PermissionController extends Controller
 {
@@ -25,7 +25,7 @@ class PermissionController extends Controller
         $permissions = Permission::all()->pluck("name");
 
         return inertia("Permissions/Edit", [
-            "user" => new SimpleUserResource($user),
+            "user" => new UserResource($user),
             "permissions" => $permissions->mapWithKeys(
                 fn($permission) => [$permission => $user->hasPermissionTo($permission)],
             )->toArray(),
