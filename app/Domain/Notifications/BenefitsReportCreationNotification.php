@@ -18,9 +18,7 @@ class BenefitsReportCreationNotification extends QueuedNotification
 
     public function toMail(Notifiable $notifiable): MailMessage
     {
-        $url = route(
-            "assigned-benefits.index",
-        );
+        $url = route("assigned-benefits.index");
 
         return $this->buildMailMessage($notifiable, $url);
     }
