@@ -7,7 +7,7 @@ namespace Toby\Infrastructure\Console\Commands;
 use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\Notifications\VacationRequestsSummaryNotification;
 use Toby\Domain\VacationRequestStatesRetriever;
@@ -29,9 +29,7 @@ class SendVacationRequestSummariesToApprovers extends Command
             return;
         }
 
-        $users = User::query()
-            ->whereIn("role", [Role::AdministrativeApprover, Role::TechnicalApprover, Role::Administrator])
-            ->get();
+        $users = Permission::findByName("receiveVacationRequestsSummaryNotification")->users()->get();
 
         foreach ($users as $user) {
             $vacationRequests = VacationRequest::query()

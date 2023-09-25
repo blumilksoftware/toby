@@ -10,6 +10,7 @@ import MedicalBagIcon from 'vue-material-design-icons/MedicalBag.vue'
 import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
 import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import PlaneTrainIcon from 'vue-material-design-icons/PlaneTrain.vue'
 
 const types = [
   {
@@ -88,6 +89,13 @@ const types = [
     icon: HomeCityIcon,
     color: 'text-lime-500',
     border: 'border-lime-500',
+  },
+  {
+    text: 'Delegacja',
+    value: 'delegation',
+    icon: PlaneTrainIcon,
+    color: 'text-sky-500',
+    border: 'border-sky-500',
   },
   {
     text: 'Dodaj wniosek',

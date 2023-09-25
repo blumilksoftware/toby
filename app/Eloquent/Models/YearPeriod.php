@@ -52,6 +52,24 @@ class YearPeriod extends Model
         return $this->hasMany(Holiday::class);
     }
 
+    public function weekends(): Collection
+    {
+        $start = Carbon::create($this->year);
+        $end = Carbon::create($this->year)->endOfYear();
+
+        $weekends = new Collection();
+
+        while ($start->lessThanOrEqualTo($end)) {
+            if ($start->isWeekend()) {
+                $weekends->push($start->copy());
+            }
+
+            $start->addDay();
+        }
+
+        return $weekends;
+    }
+
     protected static function newFactory(): YearPeriodFactory
     {
         return YearPeriodFactory::new();

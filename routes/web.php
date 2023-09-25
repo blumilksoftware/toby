@@ -11,8 +11,11 @@ use Toby\Infrastructure\Http\Controllers\DashboardController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\KeysController;
+use Toby\Infrastructure\Http\Controllers\LocalLoginController;
+use Toby\Infrastructure\Http\Controllers\LoginController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
+use Toby\Infrastructure\Http\Controllers\PermissionController;
 use Toby\Infrastructure\Http\Controllers\ResumeController;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
 use Toby\Infrastructure\Http\Controllers\TechnologyController;
@@ -21,6 +24,7 @@ use Toby\Infrastructure\Http\Controllers\UserController;
 use Toby\Infrastructure\Http\Controllers\VacationCalendarController;
 use Toby\Infrastructure\Http\Controllers\VacationLimitController;
 use Toby\Infrastructure\Http\Controllers\VacationRequestController;
+use Toby\Infrastructure\Http\Middleware\CheckIfLocalEnvironment;
 use Toby\Infrastructure\Http\Middleware\TrackUserLastActivity;
 
 Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): void {
@@ -34,6 +38,11 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
+
+    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
+        ->whereNumber("user");
+    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
+        ->whereNumber("user");
 
     Route::resource("benefits", BenefitController::class)
         ->only(["index", "store", "destroy"])
@@ -129,8 +138,16 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
 });
 
 Route::middleware("guest")->group(function (): void {
-    Route::get("login", fn() => inertia("Login"))
+    Route::get("login", LoginController::class)
         ->name("login");
+
+    Route::middleware(CheckIfLocalEnvironment::class)->group(function (): void {
+        Route::get("login/local", fn() => inertia("LocalLogin"))
+            ->name("login.local");
+        Route::post("login/local", LocalLoginController::class)
+            ->name("login.local.post");
+    });
+
     Route::get("login/google/start", [GoogleController::class, "redirect"])
         ->name("login.google.start");
     Route::get("login/google/end", [GoogleController::class, "callback"])

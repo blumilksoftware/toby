@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Enums\Role;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Benefit;
@@ -21,11 +20,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(9)->create();
-        User::factory([
+        $this->call(PermissionsSeeder::class);
+
+        User::factory(9)->employee()->create();
+        $user = User::factory([
             "email" => env("LOCAL_EMAIL_FOR_LOGIN_VIA_GOOGLE"),
-            "role" => Role::Administrator,
         ])
+            ->admin()
             ->create();
 
         $users = User::all();
@@ -77,6 +78,7 @@ class DatabaseSeeder extends Seeder
                     $days = app(WorkDaysCalculator::class)->calculateDays(
                         $vacationRequest->from,
                         $vacationRequest->to,
+                        $vacationRequest->type,
                     );
 
                     foreach ($days as $day) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
 use Tests\Traits\InteractsWithYearPeriods;
@@ -30,5 +31,7 @@ abstract class FeatureTestCase extends BaseTestCase
             "data" => null,
             "committed_at" => null,
         ]);
+
+        $this->seed(PermissionsSeeder::class);
     }
 }

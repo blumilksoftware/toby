@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Toby\Domain\Enums\Role;
 use Toby\Eloquent\Models\Profile;
@@ -18,6 +19,7 @@ class UserFactory extends Factory
     {
         return [
             "email" => $this->faker->unique()->safeEmail(),
+            "password" => Hash::make("password"),
             "role" => Role::Employee,
             "remember_token" => Str::random(10),
         ];
@@ -32,24 +34,31 @@ class UserFactory extends Factory
         });
     }
 
+    public function employee(): static
+    {
+        return $this->state([
+            "role" => Role::Employee,
+        ])->afterCreating(fn(User $user): User => $user->syncPermissions(Role::Employee->permissions()));
+    }
+
     public function admin(): static
     {
         return $this->state([
             "role" => Role::Administrator,
-        ]);
+        ])->afterCreating(fn(User $user): User => $user->syncPermissions(Role::Administrator->permissions()));
     }
 
     public function technicalApprover(): static
     {
         return $this->state([
             "role" => Role::TechnicalApprover,
-        ]);
+        ])->afterCreating(fn(User $user): User => $user->syncPermissions(Role::TechnicalApprover->permissions()));
     }
 
     public function administrativeApprover(): static
     {
         return $this->state([
             "role" => Role::AdministrativeApprover,
-        ]);
+        ])->afterCreating(fn(User $user): User => $user->syncPermissions(Role::AdministrativeApprover->permissions()));
     }
 }

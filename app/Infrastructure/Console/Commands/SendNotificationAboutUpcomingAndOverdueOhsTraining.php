@@ -6,7 +6,7 @@ namespace Toby\Infrastructure\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 use Toby\Eloquent\Models\User;
 
@@ -17,9 +17,7 @@ class SendNotificationAboutUpcomingAndOverdueOhsTraining extends Command
 
     public function handle(): void
     {
-        $usersToNotify = User::query()
-            ->whereIn("role", [Role::AdministrativeApprover])
-            ->get();
+        $usersToNotify = Permission::findByName("receiveUpcomingAndOverdueOhsTrainingNotification")->users()->get();
 
         $usersForUpcomingOhsTraining = User::query()
             ->whereRelation("profile", "next_ohs_training_date", ">", Carbon::now())

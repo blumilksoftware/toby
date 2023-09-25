@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\VacationRequestsSummaryNotification;
 use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Domain\States\VacationRequest\Cancelled;
@@ -38,18 +37,10 @@ class SendVacationRequestSummariesTest extends TestCase
     {
         $currentYearPeriod = YearPeriod::current();
 
-        $user = User::factory([
-            "role" => Role::Employee,
-        ])->create();
-        $technicalApprover = User::factory([
-            "role" => Role::TechnicalApprover,
-        ])->create();
-        $administrativeApprover = User::factory([
-            "role" => Role::AdministrativeApprover,
-        ])->create();
-        $admin = User::factory([
-            "role" => Role::Administrator,
-        ])->create();
+        $user = User::factory()->employee()->create();
+        $technicalApprover = User::factory()->technicalApprover()->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
+        $admin = User::factory()->admin()->create();
 
         VacationRequest::factory()
             ->for($user)
@@ -68,9 +59,7 @@ class SendVacationRequestSummariesTest extends TestCase
         $this->travelTo(now()->endOfWeek());
         $currentYearPeriod = YearPeriod::current();
 
-        $user = User::factory([
-            "role" => Role::Employee,
-        ])->create();
+        $user = User::factory()->employee()->create();
 
         VacationRequest::factory()
             ->for($user)
@@ -87,15 +76,9 @@ class SendVacationRequestSummariesTest extends TestCase
     {
         $currentYearPeriod = YearPeriod::current();
 
-        $user = User::factory([
-            "role" => Role::Employee,
-        ])->create();
-        $technicalApprover = User::factory([
-            "role" => Role::TechnicalApprover,
-        ])->create();
-        $admin = User::factory([
-            "role" => Role::Administrator,
-        ])->create();
+        $user = User::factory()->employee()->create();
+        $technicalApprover = User::factory()->technicalApprover()->create();
+        $admin = User::factory()->admin()->create();
 
         VacationRequest::factory()
             ->for($user)
@@ -113,15 +96,9 @@ class SendVacationRequestSummariesTest extends TestCase
     {
         $currentYearPeriod = YearPeriod::current();
 
-        $user = User::factory([
-            "role" => Role::Employee,
-        ])->create();
-        $technicalApprover = User::factory([
-            "role" => Role::TechnicalApprover,
-        ])->create();
-        $admin = User::factory([
-            "role" => Role::Administrator,
-        ])->create();
+        $user = User::factory()->employee()->create();
+        $technicalApprover = User::factory()->technicalApprover()->create();
+        $admin = User::factory()->admin()->create();
 
         VacationRequest::factory()
             ->for($user)

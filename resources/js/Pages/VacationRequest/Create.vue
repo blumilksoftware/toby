@@ -13,13 +13,12 @@ const props = defineProps({
   auth: Object,
   users: Object,
   holidays: Object,
-  can: Object,
   vacationUserId: [Number, null],
   vacationFromDate: [String, null],
 })
 
 const form = useForm({
-  user: props.can.createOnBehalfOfEmployee
+  user: props.auth.can.createRequestsOnBehalfOfEmployee
     ? props.users.data.find(user => user.id === (checkUserId(props.vacationUserId) ?? props.auth.user.id)) ?? props.users.data[0]
     : props.auth.user,
   from: props.vacationFromDate,
@@ -36,7 +35,7 @@ watch(form, formData => {
   isDirty.value = formData.isDirty || from !== null || to !== null
 }, { immediate: true, deep: true })
 
-refreshEstimatedDays(form.from, form.to)
+refreshEstimatedDays(form.from, form.to, form.vacationType)
 
 const estimatedDays = ref([])
 const vacationTypes = ref([])
@@ -49,18 +48,14 @@ const stats = ref({
 
 const { minDate, maxDate } = useCurrentYearPeriodInfo()
 
-const weekends = date => (date.getDay() === 0 || date.getDay() === 6)
-
 const fromInputConfig = reactive({
   minDate,
   maxDate,
-  disable: [weekends],
 })
 
 const toInputConfig = reactive({
   minDate,
   maxDate,
-  disable: [weekends],
 })
 
 watch(() => form.user, user => {
@@ -69,6 +64,11 @@ watch(() => form.user, user => {
   refreshUnavailableDays(user)
   refreshVacationStats(user)
 }, { immediate: true })
+
+watch(() => form.vacationType, vacationType => {
+  refreshEstimatedDays(form.from, form.to, vacationType)
+  refreshUnavailableDays(form.user, vacationType)
+})
 
 function createForm() {
   form
@@ -87,7 +87,7 @@ function onFromChange(selectedDates, dateStr) {
     return
   }
 
-  refreshEstimatedDays(form.from, form.to)
+  refreshEstimatedDays(form.from, form.to, form.vacationType)
 }
 
 function onToChange(selectedDates, dateStr) {
@@ -96,7 +96,7 @@ function onToChange(selectedDates, dateStr) {
 
     return
   }
-  refreshEstimatedDays(form.from, form.to)
+  refreshEstimatedDays(form.from, form.to, form.vacationType)
 }
 
 function resetForm() {
@@ -106,12 +106,15 @@ function resetForm() {
 }
 
 function checkUserId(userId) {
-  return userId > 0 ? userId: null
+  return userId > 0 ? userId : null
 }
 
-async function refreshEstimatedDays(from, to) {
-  if (from && to) {
-    const res = await axios.post('/api/vacation/calculate-days', { from, to })
+async function refreshEstimatedDays(from, to, vacationType) {
+  if (from && to && vacationType) {
+    const res = await axios.post(
+      '/api/vacation/calculate-days',
+      { vacationType: vacationType.value, from: from, to: to },
+    )
 
     estimatedDays.value = res.data
   }
@@ -124,18 +127,15 @@ async function refreshVacationStats(user) {
 }
 
 async function refreshUnavailableDays(user) {
-  const res = await axios.post('/api/vacation/calculate-unavailable-days', { user: user.id })
+  const res = await axios.post(
+    '/api/vacation/calculate-unavailable-days',
+    { user: user.id, vacationType: form.vacationType?.value },
+  )
   const unavailableDays = res.data
 
-  fromInputConfig.disable = [
-    weekends,
-    ...unavailableDays,
-  ]
+  fromInputConfig.disable = unavailableDays
 
-  toInputConfig.disable = [
-    weekends,
-    ...unavailableDays,
-  ]
+  toInputConfig.disable = unavailableDays
 }
 
 async function refreshAvailableTypes(user) {
@@ -150,7 +150,9 @@ async function refreshAvailableTypes(user) {
 
 <template>
   <InertiaHead title="Dodaj wniosek" />
-  <div :class="[stats.limit > 0 ? ' grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8' : 'mx-auto w-full max-w-7xl']">
+  <div
+    :class="[stats.limit > 0 ? ' grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8' : 'mx-auto w-full max-w-7xl']"
+  >
     <div class="flex flex-col h-full bg-white shadow-md xl:col-span-2">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
@@ -182,7 +184,7 @@ async function refreshAvailableTypes(user) {
               </div>
             </div>
             <Listbox
-              v-if="can.createOnBehalfOfEmployee"
+              v-if="auth.can.createRequestsOnBehalfOfEmployee"
               v-model="form.user"
               as="div"
               class="items-center py-4 sm:grid sm:grid-cols-3"
@@ -308,7 +310,9 @@ async function refreshAvailableTypes(user) {
                   leave-from-class="opacity-100"
                   leave-to-class="opacity-0"
                 >
-                  <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm">
+                  <ListboxOptions
+                    class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+                  >
                     <ListboxOption
                       v-for="vacationType in vacationTypes"
                       :key="vacationType.value"
@@ -415,7 +419,7 @@ async function refreshAvailableTypes(user) {
               </div>
             </div>
             <div
-              v-if="can.skipFlow"
+              v-if="auth.can.skipRequestFlow"
               class="items-center py-4 sm:grid sm:grid-cols-3"
             >
               <label

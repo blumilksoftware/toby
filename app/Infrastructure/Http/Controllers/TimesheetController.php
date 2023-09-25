@@ -22,7 +22,7 @@ class TimesheetController extends Controller
         YearPeriodRetriever $yearPeriodRetriever,
         VacationTypeConfigRetriever $configRetriever,
     ): BinaryFileResponse {
-        $this->authorize("generateTimesheet");
+        $this->authorize("manageRequestsAsAdministrativeApprover");
 
         $yearPeriod = $yearPeriodRetriever->selected();
         $carbonMonth = Carbon::create($yearPeriod->year, $month->toCarbonNumber());

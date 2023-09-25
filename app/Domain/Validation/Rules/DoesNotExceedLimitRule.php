@@ -30,7 +30,7 @@ class DoesNotExceedLimitRule implements VacationRequestRule
         $limit = $this->getUserVacationLimit($vacationRequest->user, $vacationRequest->yearPeriod);
         $vacationDays = $this->getVacationDaysWithLimit($vacationRequest->user, $vacationRequest->yearPeriod);
         $estimatedDays = $this->workDaysCalculator
-            ->calculateDays($vacationRequest->from, $vacationRequest->to)
+            ->calculateDays($vacationRequest->from, $vacationRequest->to, $vacationRequest->type)
             ->count();
 
         return $limit >= ($vacationDays + $estimatedDays);
