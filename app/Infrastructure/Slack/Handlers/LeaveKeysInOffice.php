@@ -27,7 +27,7 @@ class LeaveKeysInOffice extends SignatureHandler
     {
         $authUser = $this->findUserBySlackIdOrFail($request->userId);
 
-        /** @var Key $key */
+        /** @var Key|null $key */
         $key = $authUser->keys()->first();
 
         if (!$key) {

@@ -27,7 +27,7 @@ class TakeKeysFromOffice extends SignatureHandler
     {
         $authUser = $this->findUserBySlackIdOrFail($request->userId);
 
-        /** @var Key $key */
+        /** @var Key|null $key */
         $key = Key::query()->whereNull("user_id")->first();
 
         if (!$key) {
