@@ -34,6 +34,8 @@ class DemoSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->call(PermissionsSeeder::class);
+
         $user = User::factory([
             "email" => config("auth.local_email_for_login_via_google"),
             "remember_token" => Str::random(10),

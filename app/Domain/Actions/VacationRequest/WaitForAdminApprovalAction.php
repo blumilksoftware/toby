@@ -34,7 +34,7 @@ class WaitForAdminApprovalAction
             ->users()
             ->get();
 
-        $users = $users->filter(fn(User $user) => $user->can("acceptAsAdminApprover", $vacationRequest));
+        $users = $users->filter(fn(User $user): bool => $user->can("acceptAsAdminApprover", $vacationRequest));
 
         foreach ($users as $user) {
             $user->notify(new VacationRequestWaitsForApprovalNotification($vacationRequest, $user));

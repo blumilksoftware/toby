@@ -34,7 +34,7 @@ class WaitForTechApprovalAction
             ->users()
             ->get();
 
-        $users = $users->filter(fn(User $user) => $user->can("acceptAsTechApprover", $vacationRequest));
+        $users = $users->filter(fn(User $user): bool => $user->can("acceptAsTechApprover", $vacationRequest));
 
         foreach ($users as $user) {
             $user->notify(new VacationRequestWaitsForApprovalNotification($vacationRequest, $user));
