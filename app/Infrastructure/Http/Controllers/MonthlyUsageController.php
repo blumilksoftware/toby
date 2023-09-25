@@ -59,9 +59,6 @@ class MonthlyUsageController extends Controller
         return inertia("MonthlyUsage", [
             "monthlyUsage" => $monthlyUsage,
             "currentMonth" => Month::current(),
-            "can" => [
-                "listMonthlyUsage" => $request->user()->can("listMonthlyUsage"),
-            ],
         ]);
     }
 }

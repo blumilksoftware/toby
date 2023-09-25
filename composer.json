@@ -25,6 +25,7 @@
         "sentry/sentry-laravel": "^3.4.1",
         "spatie/laravel-google-calendar": "^3.6.0",
         "spatie/laravel-model-states": "^2.4.6",
+        "spatie/laravel-permission": "^5.11",
         "spatie/laravel-slack-slash-command": "^1.11.4"
     },
     "require-dev": {

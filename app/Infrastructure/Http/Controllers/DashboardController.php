@@ -11,7 +11,6 @@ use Toby\Domain\DashboardAggregator;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
-use Toby\Eloquent\Models\VacationRequest;
 
 class DashboardController extends Controller
 {
@@ -33,9 +32,6 @@ class DashboardController extends Controller
             "benefits" => $dashboardAggregator->aggregateUserBenefits($user),
             "calendar" => $dashboardAggregator->aggregateCalendarData($user, $yearPeriod),
             "stats" => $dashboardAggregator->aggregateStats($user, $yearPeriod),
-            "can" => [
-                "listAllVacationRequests" => $user->can("listAll", VacationRequest::class),
-            ],
         ]);
     }
 }

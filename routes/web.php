@@ -15,6 +15,7 @@ use Toby\Infrastructure\Http\Controllers\LocalLoginController;
 use Toby\Infrastructure\Http\Controllers\LoginController;
 use Toby\Infrastructure\Http\Controllers\LogoutController;
 use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
+use Toby\Infrastructure\Http\Controllers\PermissionController;
 use Toby\Infrastructure\Http\Controllers\ResumeController;
 use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
 use Toby\Infrastructure\Http\Controllers\TechnologyController;
@@ -37,6 +38,11 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
+
+    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
+        ->whereNumber("user");
+    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
+        ->whereNumber("user");
 
     Route::resource("benefits", BenefitController::class)
         ->only(["index", "store", "destroy"])

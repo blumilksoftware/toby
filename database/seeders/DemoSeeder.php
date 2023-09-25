@@ -34,11 +34,13 @@ class DemoSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->call(PermissionsSeeder::class);
+
         $user = User::factory([
             "email" => config("auth.local_email_for_login_via_google"),
-            "role" => Role::Administrator,
             "remember_token" => Str::random(10),
         ])
+            ->admin()
             ->hasProfile([
                 "first_name" => "Jan",
                 "last_name" => "Kowalski",
@@ -50,9 +52,9 @@ class DemoSeeder extends Seeder
 
         User::factory([
             "email" => "anna.nowak@example.com",
-            "role" => Role::Employee,
             "remember_token" => Str::random(10),
         ])
+            ->employee()
             ->hasProfile([
                 "first_name" => "Anna",
                 "last_name" => "Nowak",
@@ -67,6 +69,7 @@ class DemoSeeder extends Seeder
             "role" => Role::Employee,
             "remember_token" => Str::random(10),
         ])
+            ->employee()
             ->hasProfile([
                 "first_name" => "Tola",
                 "last_name" => "Sawicka",
@@ -78,9 +81,9 @@ class DemoSeeder extends Seeder
 
         $technicalApprover = User::factory([
             "email" => "maciej.ziolkowski@example.com",
-            "role" => Role::TechnicalApprover,
             "remember_token" => Str::random(10),
         ])
+            ->technicalApprover()
             ->hasProfile([
                 "first_name" => "Maciej",
                 "last_name" => "Ziółkowski",
@@ -92,9 +95,9 @@ class DemoSeeder extends Seeder
 
         $administrativeApprover = User::factory([
             "email" => "katarzyna.zajac@example.com",
-            "role" => Role::AdministrativeApprover,
             "remember_token" => Str::random(10),
         ])
+            ->administrativeApprover()
             ->hasProfile([
                 "first_name" => "Katarzyna",
                 "last_name" => "Zając",
@@ -106,9 +109,9 @@ class DemoSeeder extends Seeder
 
         User::factory([
             "email" => "milosz.borowski@example.com",
-            "role" => Role::Administrator,
             "remember_token" => Str::random(10),
         ])
+            ->admin()
             ->hasProfile([
                 "first_name" => "Miłosz",
                 "last_name" => "Borowski",

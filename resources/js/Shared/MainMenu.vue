@@ -45,14 +45,14 @@ const vacationNavigation = computed(() =>
       href: '/vacation/requests/me',
       section: 'VacationRequest',
       icon: DocumentTextIcon,
-      can: !props.auth.can.listAllVacationRequests,
+      can: !props.auth.can.listAllRequests,
     },
     {
       name: 'Wnioski',
       href: '/vacation/requests',
       section: 'VacationRequest',
       icon: RectangleStackIcon,
-      can: props.auth.can.listAllVacationRequests,
+      can: props.auth.can.listAllRequests,
       badge: props.vacationRequestsCount,
     },
     {

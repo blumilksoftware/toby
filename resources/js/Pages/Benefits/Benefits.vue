@@ -8,7 +8,7 @@ import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 defineProps({
   benefits: Object,
-  can: Object,
+  auth: Object,
 })
 
 const creating = ref(false)
@@ -36,7 +36,7 @@ function submitCreateBenefit() {
           Benefity
         </h2>
       </div>
-      <div v-if="can.manageBenefits">
+      <div v-if="auth.can.manageBenefits">
         <button
           type="button"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
@@ -88,7 +88,7 @@ function submitCreateBenefit() {
               </td>
               <td class="px-4 py-2 text-sm text-right text-gray-500 whitespace-nowrap">
                 <Menu
-                  v-if="can.manageBenefits"
+                  v-if="auth.can.manageBenefits"
                   as="div"
                   class="inline-block relative text-left"
                 >

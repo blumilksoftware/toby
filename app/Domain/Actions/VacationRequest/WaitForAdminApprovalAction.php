@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Actions\VacationRequest;
 
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -24,15 +24,17 @@ class WaitForAdminApprovalAction
         $this->stateManager->waitForAdministrative($vacationRequest);
 
         if ($this->configRetriever->isVacation($vacationRequest->type)) {
-            $this->notifyAdminApprovers($vacationRequest);
+            $this->notifyAuthorizedUsers($vacationRequest);
         }
     }
 
-    protected function notifyAdminApprovers(VacationRequest $vacationRequest): void
+    protected function notifyAuthorizedUsers(VacationRequest $vacationRequest): void
     {
-        $users = User::query()
-            ->whereIn("role", [Role::AdministrativeApprover, Role::Administrator])
+        $users = Permission::findByName("receiveVacationRequestWaitsForApprovalNotification")
+            ->users()
             ->get();
+
+        $users = $users->filter(fn(User $user): bool => $user->can("acceptAsAdminApprover", $vacationRequest));
 
         foreach ($users as $user) {
             $user->notify(new VacationRequestWaitsForApprovalNotification($vacationRequest, $user));

@@ -27,9 +27,6 @@ class HolidayController extends Controller
 
         return inertia("Holidays/Index", [
             "holidays" => HolidayResource::collection($holidays),
-            "can" => [
-                "manageHolidays" => $request->user()->can("manageHolidays"),
-            ],
         ]);
     }
 

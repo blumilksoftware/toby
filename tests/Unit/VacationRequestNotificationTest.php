@@ -11,7 +11,6 @@ use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\Actions\VacationRequest\RejectAction;
 use Toby\Domain\Actions\VacationRequest\WaitForTechApprovalAction;
-use Toby\Domain\Enums\Role;
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
@@ -37,18 +36,10 @@ class VacationRequestNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory([
-            "role" => Role::Employee,
-        ])->create();
-        $technicalApprover = User::factory([
-            "role" => Role::TechnicalApprover,
-        ])->create();
-        $administrativeApprover = User::factory([
-            "role" => Role::AdministrativeApprover,
-        ])->create();
-        $admin = User::factory([
-            "role" => Role::Administrator,
-        ])->create();
+        $user = User::factory()->employee()->create();
+        $technicalApprover = User::factory()->technicalApprover()->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
+        $admin = User::factory()->admin()->create();
 
         $currentYearPeriod = YearPeriod::current();
 
@@ -76,15 +67,9 @@ class VacationRequestNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $technicalApprover = User::factory([
-            "role" => Role::TechnicalApprover,
-        ])->create();
-        $administrativeApprover = User::factory([
-            "role" => Role::AdministrativeApprover,
-        ])->create();
-        $admin = User::factory([
-            "role" => Role::Administrator,
-        ])->create();
+        $technicalApprover = User::factory()->technicalApprover()->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
+        $admin = User::factory()->admin()->create();
 
         $currentYearPeriod = YearPeriod::current();
 
