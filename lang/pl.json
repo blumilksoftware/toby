@@ -144,5 +144,11 @@
   "The deadline for OHS training for some employees is about to expire.": "Niedługo mija termin szkolenia BHP dla części pracowników.",
   "Below is a list of employees with upcoming OHS training:": "Poniżej znajduje się lista pracowników ze zbliżającym się terminem szkolenia BHP:",
   "The deadline for OHS training for some employees has passed.": "Termin szkolenia BHP dla części pracowników minął.",
-  "Below is a list of employees with overdue OHS training:": "Poniżej znajduje się lista pracowników z przeterminowanym szkoleniem BHP:"
+  "Below is a list of employees with overdue OHS training:": "Poniżej znajduje się lista pracowników z przeterminowanym szkoleniem BHP:",
+  "Take the keys from the office.": "Weź klucze z biura.",
+  "There are no keys in the office.": "W biurze nie ma kluczy.",
+  ":white_check_mark: Key no. :number has been taken from the office": ":white_check_mark: Klucz nr :number został zabrany z biura",
+  "Leave the keys in the office.": "Zostaw klucze w biurze.",
+  "You don't have any key to leave in the office.": "Nie masz żadnych kluczy do pozostawienia w biurze.",
+  ":white_check_mark: Key no. :number has been left in the office": ":white_check_mark: Klucz nr :number został pozostawiony w biurze"
 }
