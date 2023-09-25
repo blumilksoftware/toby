@@ -97,16 +97,16 @@ function editPermissions() {
                   v-for="permission in sectionPermissions"
                   :key="permission.value"
                 >
-                  <td class="p-6 text-md text-gray-500 w-1/2">
+                  <td class="p-4 text-sm text-gray-500 w-1/2">
                     {{ permission.name }}
                   </td>
-                  <td class="p-6 text-md text-gray-500">
+                  <td class="p-4 text-sm text-gray-500">
                     <Switch
                       v-model="form.permissions[permission.value]"
-                      :class="[form.permissions[permission.value] ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-8 w-16 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
+                      :class="[form.permissions[permission.value] ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
                     >
                       <span
-                        :class="[form.permissions[permission.value] ? 'translate-x-8' : 'translate-x-0', 'pointer-events-none inline-block h-7 w-7 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"
+                        :class="[form.permissions[permission.value] ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"
                       />
                     </Switch>
                   </td>
