@@ -80,6 +80,11 @@ const permissionsInfo = [
     'section': 'Powiadomienia',
   },
   {
+    'name': 'Tworzenie raportu benefitów',
+    'value': 'receiveBenefitsReportCreationNotification',
+    'section': 'Powiadomienia',
+  },
+  {
     'name': 'Podsumowania wniosków urlopowych',
     'value': 'receiveVacationRequestsSummaryNotification',
     'section': 'Powiadomienia',
