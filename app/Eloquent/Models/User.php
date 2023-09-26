@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Spatie\Permission\Traits\HasRoles;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\Notifiable as NotifiableInterface;
@@ -34,6 +35,7 @@ class User extends Authenticatable implements NotifiableInterface
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use HasRoles;
 
     protected $guarded = [];
     protected $casts = [
@@ -78,11 +80,6 @@ class User extends Authenticatable implements NotifiableInterface
     public function keys(): HasMany
     {
         return $this->hasMany(Key::class);
-    }
-
-    public function hasRole(Role $role): bool
-    {
-        return $this->role === $role;
     }
 
     public function hasVacationLimit(YearPeriod $yearPeriod): bool

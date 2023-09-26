@@ -6,7 +6,7 @@ import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 defineProps({
   holidays: Object,
-  can: Object,
+  auth: Object,
 })
 </script>
 
@@ -19,7 +19,7 @@ defineProps({
           Dni wolne od pracy
         </h2>
       </div>
-      <div v-if="can.manageHolidays">
+      <div v-if="auth.can.manageHolidays">
         <InertiaLink
           href="holidays/create"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
@@ -81,7 +81,7 @@ defineProps({
               </td>
               <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
                 <Menu
-                  v-if="can.manageHolidays"
+                  v-if="auth.can.manageHolidays"
                   as="div"
                   class="inline-block relative text-left"
                 >

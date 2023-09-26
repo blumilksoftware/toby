@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Domain\Actions\CreateUserAction;
+use Toby\Domain\Actions\SyncUserPermissionsWithRoleAction;
 use Toby\Domain\Actions\UpdateUserAction;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
@@ -62,11 +63,15 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function store(UserRequest $request, CreateUserAction $createUserAction): RedirectResponse
-    {
+    public function store(
+        UserRequest $request,
+        CreateUserAction $createUserAction,
+        SyncUserPermissionsWithRoleAction $syncUserPermissionsWithRoleAction,
+    ): RedirectResponse {
         $this->authorize("manageUsers");
 
-        $createUserAction->execute($request->userData(), $request->profileData());
+        $user = $createUserAction->execute($request->userData(), $request->profileData());
+        $syncUserPermissionsWithRoleAction->execute($user);
 
         return redirect()
             ->route("users.index")
@@ -90,11 +95,21 @@ class UserController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function update(UserRequest $request, UpdateUserAction $updateUserAction, User $user): RedirectResponse
-    {
+    public function update(
+        UserRequest $request,
+        UpdateUserAction $updateUserAction,
+        SyncUserPermissionsWithRoleAction $syncUserPermissionsWithRoleAction,
+        User $user,
+    ): RedirectResponse {
         $this->authorize("manageUsers");
 
+        $shouldSyncPermissions = $request->input("role") !== $user->role->value;
+
         $updateUserAction->execute($user, $request->userData(), $request->profileData());
+
+        if ($shouldSyncPermissions) {
+            $syncUserPermissionsWithRoleAction->execute($user);
+        }
 
         return redirect()
             ->route("users.index")

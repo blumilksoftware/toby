@@ -11,7 +11,6 @@ const props = defineProps({
   current: String,
   selected: String,
   years: Object,
-  can: Object,
 })
 
 let activeElement = ref(undefined)
@@ -39,7 +38,7 @@ function unsetActiveDay() {
 }
 
 function linkParameters(user, day) {
-  return props.can.createOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
+  return props.auth.can.createRequestsOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
 }
 </script>
 
@@ -90,7 +89,7 @@ function linkParameters(user, day) {
           </span>
         </div>
       </div>
-      <div v-if="can.generateTimesheet">
+      <div v-if="auth.can.manageRequestsAsAdministrativeApprover">
         <a
           :href="`/vacation/timesheet/${selectedMonth.value}`"
           class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
@@ -150,7 +149,7 @@ function linkParameters(user, day) {
               @mouseleave="unsetActiveDay"
             >
               <div
-                v-if="day.pendingVacations.includes(user.id) && (auth.user.id === user.id || can.seePendingRequests)"
+                v-if="day.pendingVacations.includes(user.id) && (auth.user.id === user.id || auth.can.manageRequestsAsAdministrativeApprover || auth.can.manageRequestsAsTechnicalApprover)"
                 class="flex justify-center items-center"
               >
                 <VacationTypeCalendarIcon
@@ -165,7 +164,7 @@ function linkParameters(user, day) {
                 <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
               <template
-                v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && (auth.user.id === user.id || can.createOnBehalfOfEmployee)"
+                v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && (auth.user.id === user.id || auth.can.createRequestsOnBehalfOfEmployee)"
               >
                 <InertiaLink
                   href="/vacation/requests/create"

@@ -6,7 +6,7 @@ namespace Toby\Infrastructure\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Eloquent\Models\User;
 
@@ -17,9 +17,7 @@ class SendNotificationAboutUpcomingAndOverdueMedicalExams extends Command
 
     public function handle(): void
     {
-        $usersToNotify = User::query()
-            ->whereIn("role", [Role::AdministrativeApprover])
-            ->get();
+        $usersToNotify = Permission::findByName("receiveUpcomingAndOverdueMedicalExamsNotification")->users()->get();
 
         $usersUpcomingMedicalExams = User::query()
             ->whereRelation("profile", "next_medical_exam_date", ">", Carbon::now())

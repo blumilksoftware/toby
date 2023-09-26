@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Domain\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 use Toby\Eloquent\Models\User;
@@ -22,27 +21,19 @@ class UpcomingAndOverdueOhsTrainingNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $userWithUpcomingOhsTraining = User::factory([
-            "role" => Role::Employee,
-        ])->hasProfile([
+        $userWithUpcomingOhsTraining = User::factory()->employee()->hasProfile([
             "next_ohs_training_date" => Carbon::now()->addMonth(),
         ])->create();
 
-        $userWithDistantOhsTrainingDate = User::factory([
-            "role" => Role::Employee,
-        ])->hasProfile([
+        $userWithDistantOhsTrainingDate = User::factory()->employee()->hasProfile([
             "next_ohs_training_date" => Carbon::now()->addYear(),
         ])->create();
 
-        $userWithOverdueOhsTraining = User::factory([
-            "role" => Role::Employee,
-        ])->hasProfile([
+        $userWithOverdueOhsTraining = User::factory()->employee()->hasProfile([
             "next_ohs_training_date" => Carbon::now()->subMonth(),
         ])->create();
 
-        $administrativeApprover = User::factory([
-            "role" => Role::AdministrativeApprover,
-        ])->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
 
         $this->artisan(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)
             ->execute();
@@ -81,13 +72,9 @@ class UpcomingAndOverdueOhsTrainingNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory([
-            "role" => Role::Employee,
-        ])->create();
+        $user = User::factory()->employee()->create();
 
-        $administrativeApprover = User::factory([
-            "role" => Role::AdministrativeApprover,
-        ])->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
 
         $this->artisan(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)
             ->execute();

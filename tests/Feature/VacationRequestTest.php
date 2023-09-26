@@ -304,6 +304,38 @@ class VacationRequestTest extends FeatureTestCase
             ]);
     }
 
+    public function testUserCanCreateNonWorkDayVacationRequestAtWeekend(): void
+    {
+        $user = User::factory()->create();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/vacation/requests", [
+                "user" => $user->id,
+                "type" => VacationType::Delegation->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 5)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 6)->toDateString(),
+                "comment" => "Delegation at weekend.",
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $user->id,
+            "year_period_id" => $currentYearPeriod->id,
+            "type" => VacationType::Delegation->value,
+            "from" => Carbon::create($currentYearPeriod->year, 2, 5)->toDateString(),
+            "to" => Carbon::create($currentYearPeriod->year, 2, 6)->toDateString(),
+            "comment" => "Delegation at weekend.",
+        ]);
+    }
+
     public function testUserCannotCreateVacationRequestAtHoliday(): void
     {
         $user = User::factory()->create();
@@ -334,6 +366,45 @@ class VacationRequestTest extends FeatureTestCase
             ->assertSessionHasErrors([
                 "vacationRequest" => __("The request must be for at least one day."),
             ]);
+    }
+
+    public function testUserCanCreateNonWorkDayVacationAtHoliday(): void
+    {
+        $user = User::factory()->create();
+        $currentYearPeriod = YearPeriod::current();
+
+        VacationLimit::factory([
+            "days" => 20,
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        foreach ($this->polishHolidaysRetriever->getForYearPeriod($currentYearPeriod) as $holiday) {
+            $currentYearPeriod->holidays()->create([
+                "name" => $holiday["name"],
+                "date" => $holiday["date"],
+            ]);
+        }
+
+        $this->actingAs($user)
+            ->post("/vacation/requests", [
+                "user" => $user->id,
+                "type" => VacationType::Delegation->value,
+                "from" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
+                "to" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
+                "comment" => "Delegation at holiday.",
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $user->id,
+            "year_period_id" => $currentYearPeriod->id,
+            "type" => VacationType::Delegation->value,
+            "from" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
+            "to" => Carbon::create($currentYearPeriod->year, 4, 18)->toDateString(),
+            "comment" => "Delegation at holiday.",
+        ]);
     }
 
     public function testUserCannotCreateVacationRequestIfHeHasPendingVacationRequestInThisRange(): void
@@ -635,5 +706,161 @@ class VacationRequestTest extends FeatureTestCase
         $this->actingAs($user)
             ->get("/vacation/requests/{$vacationRequest->id}/download")
             ->assertForbidden();
+    }
+
+    public function testCorrectVacationTypesAreAvailableForEmployee(): void
+    {
+        $employee = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $this->actingAs($employee)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $employee->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+            ]);
+    }
+
+    public function testCorrectVacationTypesAreAvailableForTechnicalApprover(): void
+    {
+        $technicalApprover = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->technicalApprover()
+            ->create();
+
+        $this->actingAs($technicalApprover)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $technicalApprover->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+            ]);
+    }
+
+    public function testCorrectVacationTypesAreAvailableForAdministrativeApprover(): void
+    {
+        $administrativeApprover = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->administrativeApprover()
+            ->create();
+
+        $this->actingAs($administrativeApprover)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $administrativeApprover->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Delegacja", "value" => "delegation"],
+            ]);
+    }
+
+    public function testCorrectVacationTypesAreAvailableForAdmin(): void
+    {
+        $admin = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->admin()
+            ->create();
+
+        $this->actingAs($admin)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $admin->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Delegacja", "value" => "delegation"],
+            ]);
+    }
+
+    public function testCorrectVacationTypesAreAvailableForCommissionContract(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::CommissionContract]))
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $user->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Nieobecność", "value" => "absence"],
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+            ]);
+    }
+
+    public function testCorrectVacationTypesAreAvailableForB2bContract(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::B2bContract]))
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $user->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Nieobecność", "value" => "absence"],
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+            ]);
+    }
+
+    public function testCorrectVacationTypesAreAvailableForBoardMemberContract(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::BoardMemberContract]))
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $user->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Nieobecność", "value" => "absence"],
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+            ]);
     }
 }

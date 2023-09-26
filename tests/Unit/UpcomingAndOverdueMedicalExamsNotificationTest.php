@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use Toby\Domain\Enums\Role;
 use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Eloquent\Models\User;
 use Toby\Infrastructure\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
@@ -21,27 +20,19 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $userWithUpcomingMedicalExam = User::factory([
-            "role" => Role::Employee,
-        ])->hasProfile([
+        $userWithUpcomingMedicalExam = User::factory()->employee()->hasProfile([
             "next_medical_exam_date" => Carbon::now()->addMonth(),
         ])->create();
 
-        $userWithDistantMedicalExamDate = User::factory([
-            "role" => Role::Employee,
-        ])->hasProfile([
+        $userWithDistantMedicalExamDate = User::factory()->employee()->hasProfile([
             "next_medical_exam_date" => Carbon::now()->addYear(),
         ])->create();
 
-        $userWithOverdueMedicalExam = User::factory([
-            "role" => Role::Employee,
-        ])->hasProfile([
+        $userWithOverdueMedicalExam = User::factory()->employee()->hasProfile([
             "next_medical_exam_date" => Carbon::now()->subMonth(),
         ])->create();
 
-        $administrativeApprover = User::factory([
-            "role" => Role::AdministrativeApprover,
-        ])->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
 
         $this->artisan(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)
             ->execute();
@@ -80,13 +71,9 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory([
-            "role" => Role::Employee,
-        ])->create();
+        $user = User::factory()->employee()->create();
 
-        $administrativeApprover = User::factory([
-            "role" => Role::AdministrativeApprover,
-        ])->create();
+        $administrativeApprover = User::factory()->administrativeApprover()->create();
 
         $this->artisan(SendNotificationAboutUpcomingAndOverdueMedicalExams::class)
             ->execute();

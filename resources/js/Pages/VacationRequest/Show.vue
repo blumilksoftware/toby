@@ -7,9 +7,9 @@ import VacationBar from '@/Shared/VacationBar.vue'
 
 defineProps({
   request: Object,
-  can: Object,
   activities: Object,
   stats: Object,
+  auth: Object,
 })
 </script>
 
@@ -87,7 +87,7 @@ defineProps({
               </dd>
             </div>
             <div
-              v-if="request.isVacation && (stats.limit > 0) && (can.acceptAsTechnical || can.acceptAsAdministrative || can.reject)"
+              v-if="request.isVacation && (stats.limit > 0) && (request.can.acceptAsTechnical || request.can.acceptAsAdministrative || request.can.reject)"
               class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6"
             >
               <dt class="flex items-center text-sm font-medium text-gray-500">
@@ -145,7 +145,7 @@ defineProps({
         </div>
       </div>
       <div
-        v-if="can.acceptAsTechnical"
+        v-if="request.can.acceptAsTechnical"
         class="bg-white shadow"
       >
         <div class="py-5 px-4 sm:p-6">
@@ -172,7 +172,7 @@ defineProps({
         </div>
       </div>
       <div
-        v-if="can.acceptAsAdministrative"
+        v-if="request.can.acceptAsAdministrative"
         class="bg-white shadow"
       >
         <div class="py-5 px-4 sm:p-6">
@@ -198,7 +198,7 @@ defineProps({
         </div>
       </div>
       <div
-        v-if="can.reject"
+        v-if="request.can.reject"
         class="bg-white shadow"
       >
         <div class="py-5 px-4 sm:p-6">
@@ -224,7 +224,7 @@ defineProps({
         </div>
       </div>
       <div
-        v-if="can.cancel"
+        v-if="request.can.cancel"
         class="bg-white border border-red-500 shadow"
       >
         <div class="py-5 px-4 sm:p-6">

@@ -7,6 +7,7 @@ namespace Toby\Infrastructure\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\VacationRequest;
@@ -35,14 +36,11 @@ class HandleInertiaRequests extends Middleware
 
         return fn(): array => [
             "user" => $user ? new UserResource($user) : null,
-            "can" => [
-                "manageVacationLimits" => $user ? $user->can("manageVacationLimits") : false,
-                "manageUsers" => $user ? $user->can("manageUsers") : false,
-                "manageBenefits" => $user ? $user->can("manageBenefits") : false,
-                "listAllVacationRequests" => $user ? $user->can("listAll", VacationRequest::class) : false,
-                "listMonthlyUsage" => $user ? $user->can("listMonthlyUsage") : false,
-                "manageResumes" => $user ? $user->can("manageResumes") : false,
-            ],
+            "can" => Permission::all()->mapWithKeys(
+                fn(Permission $permission): array => [
+                    $permission->name => $user ? $user->hasPermissionTo($permission) : false,
+                ],
+            ),
         ];
     }
 
@@ -64,14 +62,14 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
-        return fn(): ?int => $user && $user->can("listAll", VacationRequest::class)
-            ? VacationRequest::query()
-                ->whereBelongsTo($this->yearPeriodRetriever->selected())
-                ->states(
-                    VacationRequestStatesRetriever::waitingForUserActionStates($user),
-                )
-                ->count()
-            : null;
+        return fn(): ?int => $user && $user->can("listAllRequests")
+        ? VacationRequest::query()
+            ->whereBelongsTo($this->yearPeriodRetriever->selected())
+            ->states(
+                VacationRequestStatesRetriever::waitingForUserActionStates($user),
+            )
+            ->count()
+        : null;
     }
 
     protected function getDeployInformation(): Closure
