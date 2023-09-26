@@ -124,6 +124,33 @@ class UserTest extends FeatureTestCase
         ]);
     }
 
+    public function testItCreatesProperPermissionsWhileCreatingUser(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->post("/users", [
+                "firstName" => "John",
+                "lastName" => "Doe",
+                "role" => Role::TechnicalApprover->value,
+                "position" => "Test position",
+                "email" => "john.doe@example.com",
+                "employmentForm" => EmploymentForm::B2bContract->value,
+                "employmentDate" => Carbon::now()->toDateString(),
+            ])
+            ->assertSessionHasNoErrors();
+
+        /** @var User $user */
+        $user = User::query()
+            ->where("email", "john.doe@example.com")
+            ->first();
+
+        $this->assertTrue($user->hasPermissionTo("manageTechnologies"));
+        $this->assertTrue($user->hasPermissionTo("manageResumes"));
+        $this->assertTrue($user->hasPermissionTo("manageRequestsAsTechnicalApprover"));
+        $this->assertTrue($user->hasPermissionTo("listAllRequests"));
+    }
+
     public function testAdminCanEditUser(): void
     {
         $admin = User::factory()->admin()->create();
@@ -195,5 +222,32 @@ class UserTest extends FeatureTestCase
             ->assertSessionHasNoErrors();
 
         $this->assertNotSoftDeleted($user);
+    }
+
+    public function testChangingUserRoleUpdatesPermissions(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $user = User::factory()->create();
+
+        $this->actingAs($admin)
+            ->put("/users/{$user->id}", [
+                "firstName" => "John",
+                "lastName" => "Doe",
+                "email" => "john.doe@example.com",
+                "role" => Role::TechnicalApprover->value,
+                "position" => "Test position",
+                "employmentForm" => EmploymentForm::B2bContract->value,
+                "employmentDate" => Carbon::now()->toDateString(),
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas("users", [
+            "id" => $user->id,
+            "email" => "john.doe@example.com",
+            "role" => Role::TechnicalApprover->value,
+        ]);
+
+        $this->assertTrue($user->refresh()->can("manageTechnologies"));
     }
 }

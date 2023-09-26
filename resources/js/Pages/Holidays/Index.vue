@@ -1,11 +1,12 @@
 <script setup>
 import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { FlagIcon } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 defineProps({
   holidays: Object,
-  can: Object,
+  auth: Object,
 })
 </script>
 
@@ -18,7 +19,7 @@ defineProps({
           Dni wolne od pracy
         </h2>
       </div>
-      <div v-if="can.manageHolidays">
+      <div v-if="auth.can.manageHolidays">
         <InertiaLink
           href="holidays/create"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
@@ -68,12 +69,19 @@ defineProps({
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ holiday.displayDate }}
               </td>
-              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap flex items-center gap-1">
                 {{ holiday.dayOfWeek }}
+                <span
+                  v-if="holiday.isSaturday"
+                  v-tooltip.right="'sobota do odebrania'"
+                  class="inline-block"
+                >
+                  <FlagIcon class="w-5 h-5 text-red-500" />
+                </span>
               </td>
               <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
                 <Menu
-                  v-if="can.manageHolidays"
+                  v-if="auth.can.manageHolidays"
                   as="div"
                   class="inline-block relative text-left"
                 >

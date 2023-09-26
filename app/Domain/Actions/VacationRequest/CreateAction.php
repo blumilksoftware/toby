@@ -52,7 +52,11 @@ class CreateAction
 
         $vacationRequest->save();
 
-        $days = $this->workDaysCalculator->calculateDays($vacationRequest->from, $vacationRequest->to);
+        $days = $this->workDaysCalculator->calculateDays(
+            $vacationRequest->from,
+            $vacationRequest->to,
+            $vacationRequest->type,
+        );
 
         foreach ($days as $day) {
             $vacationRequest->vacations()->create([

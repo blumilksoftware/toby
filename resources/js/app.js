@@ -9,6 +9,7 @@ import { Polish } from 'flatpickr/dist/l10n/pl.js'
 import Toast from 'vue-toastification'
 import InertiaLink from '@/Shared/InertiaLink.js'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import FloatingVue from 'floating-vue'
 
 createInertiaApp({
   resolve: (name) => {
@@ -32,6 +33,7 @@ createInertiaApp({
         timeout: 3000,
         pauseOnFocusLoss: false,
       })
+      .use(FloatingVue)
       .component('InertiaLink', InertiaLink)
       .component('InertiaHead', Head)
       .mount(el)

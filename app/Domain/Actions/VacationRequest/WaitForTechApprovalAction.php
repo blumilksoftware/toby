@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Actions\VacationRequest;
 
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -30,9 +30,11 @@ class WaitForTechApprovalAction
 
     protected function notifyTechApprovers(VacationRequest $vacationRequest): void
     {
-        $users = User::query()
-            ->whereIn("role", [Role::TechnicalApprover, Role::Administrator])
+        $users = Permission::findByName("receiveVacationRequestWaitsForApprovalNotification")
+            ->users()
             ->get();
+
+        $users = $users->filter(fn(User $user): bool => $user->can("acceptAsTechApprover", $vacationRequest));
 
         foreach ($users as $user) {
             $user->notify(new VacationRequestWaitsForApprovalNotification($vacationRequest, $user));

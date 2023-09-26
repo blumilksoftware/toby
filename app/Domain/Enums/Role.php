@@ -27,4 +27,9 @@ enum Role: string
             ],
         )->toArray();
     }
+
+    public function permissions(): array
+    {
+        return config("permission.permission_roles")[$this->value];
+    }
 }

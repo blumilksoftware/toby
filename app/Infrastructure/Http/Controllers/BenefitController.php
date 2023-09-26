@@ -26,9 +26,6 @@ class BenefitController extends Controller
 
         return inertia("Benefits/Benefits", [
             "benefits" => BenefitResource::collection($benefits),
-            "can" => [
-                "manageBenefits" => $request->user()->can("manageBenefits"),
-            ],
         ]);
     }
 

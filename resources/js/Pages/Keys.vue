@@ -12,7 +12,7 @@ import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 const props = defineProps({
   keys: Object,
   users: Object,
-  can: Object,
+  auth: Object,
 })
 
 const keyToGive = ref(null)
@@ -52,7 +52,7 @@ function submitGiveKey() {
           Klucze
         </h2>
       </div>
-      <div v-if="can.manageKeys">
+      <div v-if="auth.can.manageKeys">
         <InertiaLink
           as="button"
           href="/keys"
@@ -203,7 +203,7 @@ function submitGiveKey() {
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
-                          v-if="can.manageKeys"
+                          v-if="auth.can.manageKeys"
                           v-slot="{ active }"
                           class="flex"
                         >

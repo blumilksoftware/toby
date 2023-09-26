@@ -7,7 +7,6 @@ import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 
 defineProps({
   resumes: Object,
-  can: Object,
 })
 </script>
 
