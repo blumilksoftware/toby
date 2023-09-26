@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Toby\Infrastructure\Console\Commands;
 
 use Illuminate\Console\Command;
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Notifications\BenefitsReportCreationNotification;
-use Toby\Eloquent\Models\User;
 
 class SendNotificationAboutBenefitsReportCreation extends Command
 {
@@ -16,9 +15,7 @@ class SendNotificationAboutBenefitsReportCreation extends Command
 
     public function handle(): void
     {
-        $usersToNotify = User::query()
-            ->whereIn("role", [Role::AdministrativeApprover])
-            ->get();
+        $usersToNotify = Permission::findByName("receiveBenefitsReportCreationNotification")->users()->get();
 
         foreach ($usersToNotify as $user) {
             $user->notify(new BenefitsReportCreationNotification());

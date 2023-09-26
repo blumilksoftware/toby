@@ -11,12 +11,18 @@ class PermissionsSeeder extends Seeder
 {
     public function run(): void
     {
-        foreach (config("permission.permissions") as $permission) {
-            Permission::create(
-                [
-                    "name" => $permission,
-                ],
-            );
+        $configPermissions = config("permission.permissions");
+
+        foreach ($configPermissions as $permission) {
+            Permission::findOrCreate($permission, "web");
+        }
+
+        $permissions = Permission::all();
+
+        foreach ($permissions as $permission) {
+            if (!in_array($permission->name, $configPermissions, true)) {
+                $permission->delete();
+            }
         }
     }
 }
