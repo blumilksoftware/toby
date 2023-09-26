@@ -27,6 +27,7 @@ import {
   BeakerIcon,
   GiftIcon,
   BanknotesIcon,
+  DocumentDuplicateIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
@@ -129,10 +130,17 @@ const miscNavigation = computed(() => [
     can: true,
   },
   {
-    name: 'Przypisane benefity',
+    name: 'Aktualne benefity',
     href: '/assigned-benefits',
-    section: 'BenefitsReport',
+    section: 'AssignedBenefits',
     icon: BanknotesIcon,
+    can: props.auth.can.manageBenefits,
+  },
+  {
+    name: 'Raporty benefitowe',
+    href: '/benefits-reports',
+    section: 'BenefitsReport',
+    icon: DocumentDuplicateIcon,
     can: props.auth.can.manageBenefits,
   },
 ].filter(item => item.can))

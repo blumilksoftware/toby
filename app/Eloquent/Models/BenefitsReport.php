@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Eloquent\Models;
 
 use Database\Factories\BenefitsReportFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -30,6 +31,16 @@ class BenefitsReport extends Model
         "users" => "array",
         "data" => "array",
     ];
+
+    public function scopeSearch(Builder $query, ?string $text): Builder
+    {
+        if ($text === null) {
+            return $query;
+        }
+
+        return $query
+            ->where("name", "ILIKE", "%{$text}%");
+    }
 
     protected static function newFactory(): BenefitsReportFactory
     {

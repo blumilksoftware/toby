@@ -27,21 +27,36 @@ class BenefitsReportController extends Controller
     /**
      * @throws AuthorizationException
      */
+    public function index(Request $request): Response
+    {
+        $this->authorize("manageBenefits");
+
+        $searchText = $request->query("search");
+
+        $benefitsReports = BenefitsReport::query()
+            ->search($searchText)
+            ->orderBy("committed_at", "desc")
+            ->whereKeyNot(1)
+            ->paginate()
+            ->withQueryString();
+
+        return inertia("BenefitsReport/Index", [
+            "benefitsReports" => BenefitsReportResource::collection($benefitsReports),
+            "filters" => [
+                "search" => $searchText,
+            ],
+        ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
     public function show(BenefitsReport $benefitsReport): Response
     {
         $this->authorize("manageBenefits");
 
-        $reports = BenefitsReport::query()
-            ->orderBy("committed_at", "desc")
-            ->whereKeyNot(1)
-            ->get();
-
-        return inertia("BenefitsReport/BenefitsReport", [
+        return inertia("BenefitsReport/Show", [
             "benefitsReport" => new BenefitsReportResource($benefitsReport),
-            "benefitsReports" => $reports->map(fn(BenefitsReport $benefitsReport): array => [
-                "id" => $benefitsReport->id,
-                "name" => $benefitsReport->name,
-            ]),
         ]);
     }
 
@@ -100,7 +115,7 @@ class BenefitsReportController extends Controller
             ]);
 
         return redirect()
-            ->route("benefits-report.show", $benefitsReport->id)
+            ->route("benefits-reports.show", $benefitsReport->id)
             ->with(
                 "success",
                 __("Benefits report :name created.", [

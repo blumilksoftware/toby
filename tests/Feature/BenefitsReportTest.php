@@ -17,6 +17,26 @@ class BenefitsReportTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 
+    public function testAdminCanSeeBenefitsReportsList(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        User::factory(4)->create();
+        Benefit::factory(4)->create();
+        BenefitsReport::factory(9)->create();
+
+        $this->assertDatabaseCount("reports", 10);
+
+        $this->actingAs($admin)
+            ->get("/benefits-reports")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("BenefitsReport/Index")
+                    ->has("benefitsReports.data", 9),
+            );
+    }
+
     public function testAdminCanSeeBenefitsReport(): void
     {
         $admin = User::factory()->admin()->create();
@@ -33,11 +53,11 @@ class BenefitsReportTest extends FeatureTestCase
         $expectedData = (new BenefitsReportResource($benefitsReport))->response();
 
         $this->actingAs($admin)
-            ->get("/benefits-report/{$benefitsReport->id}")
+            ->get("/benefits-reports/{$benefitsReport->id}")
             ->assertOk()
             ->assertInertia(
                 fn(Assert $page) => $page
-                    ->component("BenefitsReport/BenefitsReport")
+                    ->component("BenefitsReport/Show")
                     ->where("benefitsReport", $expectedData->getData(true)),
             );
 
@@ -55,7 +75,7 @@ class BenefitsReportTest extends FeatureTestCase
         User::factory(4)->create();
 
         $this->actingAs($admin)
-            ->post("/benefits-report", [
+            ->post("/benefits-reports", [
                 "name" => "Test Benefits Report",
             ])
             ->assertSessionHasNoErrors();
@@ -81,7 +101,7 @@ class BenefitsReportTest extends FeatureTestCase
         $expectedFilename = Str::slug($benefitsReport->name) . ".xlsx";
 
         $this->actingAs($admin)
-            ->get("/benefits-report/{$benefitsReport->id}/download?users[]={$firstUser->id}&users[]={$secondUser->id}")
+            ->get("/benefits-reports/{$benefitsReport->id}/download?users[]={$firstUser->id}&users[]={$secondUser->id}")
             ->assertDownload($expectedFilename);
     }
 }

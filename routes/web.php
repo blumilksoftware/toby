@@ -54,15 +54,18 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::put("/assigned-benefits", [AssignedBenefitController::class, "update"])
         ->name("assigned-benefits.update");
 
-    Route::post("/benefits-report", [BenefitsReportController::class, "store"])
-        ->name("benefits-report.store");
+    Route::get("/benefits-reports", [BenefitsReportController::class, "index"])
+        ->name("benefits-reports.index");
 
-    Route::get("/benefits-report/{benefitsReport}", [BenefitsReportController::class, "show"])
-        ->name("benefits-report.show")
+    Route::post("/benefits-reports", [BenefitsReportController::class, "store"])
+        ->name("benefits-reports.store");
+
+    Route::get("/benefits-reports/{benefitsReport}", [BenefitsReportController::class, "show"])
+        ->name("benefits-reports.show")
         ->whereNumber("report");
 
-    Route::get("/benefits-report/{benefitsReport}/download", [BenefitsReportController::class, "download"])
-        ->name("benefits-report.download")
+    Route::get("/benefits-reports/{benefitsReport}/download", [BenefitsReportController::class, "download"])
+        ->name("benefits-reports.download")
         ->whereNumber("report");
 
     Route::resource("holidays", HolidayController::class)
