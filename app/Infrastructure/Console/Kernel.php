@@ -11,6 +11,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Toby\Infrastructure\Console\Commands\Database\BackupPostgresDatabase;
 use Toby\Infrastructure\Console\Commands\SendDailySummaryToSlack;
+use Toby\Infrastructure\Console\Commands\SendNotificationAboutBenefitsReportCreation;
 use Toby\Infrastructure\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
 use Toby\Infrastructure\Console\Commands\SendNotificationAboutUpcomingAndOverdueOhsTraining;
 use Toby\Infrastructure\Console\Commands\SendVacationRequestSummariesToApprovers;
@@ -46,6 +47,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(SendNotificationAboutUpcomingAndOverdueOhsTraining::class)
             ->monthlyOn(1, "08:00")
+            ->onOneServer();
+
+        $schedule->command(SendNotificationAboutBenefitsReportCreation::class)
+            ->lastDayOfMonth("08:00")
             ->onOneServer();
 
         $schedule->job(CheckYearPeriod::class)

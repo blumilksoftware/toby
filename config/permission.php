@@ -52,6 +52,7 @@ return [
         "receiveVacationRequestsSummaryNotification",
         "receiveVacationRequestWaitsForApprovalNotification",
         "receiveVacationRequestStatusChangedNotification",
+        "receiveBenefitsReportCreationNotification",
     ],
     "permission_roles" => [
         Role::Administrator->value => [
@@ -92,6 +93,7 @@ return [
             "receiveVacationRequestsSummaryNotification",
             "receiveVacationRequestWaitsForApprovalNotification",
             "receiveVacationRequestStatusChangedNotification",
+            "receiveBenefitsReportCreationNotification",
         ],
         Role::TechnicalApprover->value => [
             "manageTechnologies",

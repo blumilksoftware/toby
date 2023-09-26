@@ -42,6 +42,7 @@ class PermissionTest extends FeatureTestCase
                             ->where("skipRequestFlow", false)
                             ->where("receiveUpcomingAndOverdueMedicalExamsNotification", false)
                             ->where("receiveUpcomingAndOverdueOhsTrainingNotification", false)
+                            ->where("receiveBenefitsReportCreationNotification", false)
                             ->where("receiveVacationRequestsSummaryNotification", false)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", false)
                             ->where("receiveVacationRequestStatusChangedNotification", false),
@@ -78,6 +79,7 @@ class PermissionTest extends FeatureTestCase
                             ->where("skipRequestFlow", false)
                             ->where("receiveUpcomingAndOverdueMedicalExamsNotification", false)
                             ->where("receiveUpcomingAndOverdueOhsTrainingNotification", false)
+                            ->where("receiveBenefitsReportCreationNotification", false)
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true),
@@ -114,6 +116,7 @@ class PermissionTest extends FeatureTestCase
                             ->where("skipRequestFlow", true)
                             ->where("receiveUpcomingAndOverdueMedicalExamsNotification", true)
                             ->where("receiveUpcomingAndOverdueOhsTrainingNotification", true)
+                            ->where("receiveBenefitsReportCreationNotification", true)
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true),
