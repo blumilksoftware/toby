@@ -31,11 +31,12 @@ class CreateAction
     public function execute(array $data, User $creator): VacationRequest
     {
         $vacationRequest = $this->createVacationRequest($data, $creator);
-        $this->handleCreatedVacationRequest($vacationRequest);
 
         if ($this->configRetriever->isVacation($vacationRequest->type)) {
             $this->notify($vacationRequest);
         }
+
+        $this->handleCreatedVacationRequest($vacationRequest);
 
         return $vacationRequest;
     }
