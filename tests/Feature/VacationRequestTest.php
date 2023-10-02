@@ -729,6 +729,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
                 ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
                 ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
             ]);
     }
@@ -755,6 +756,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
                 ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
                 ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
             ]);
     }
@@ -781,6 +783,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
                 ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
                 ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
                 ["label" => "Delegacja", "value" => "delegation"],
             ]);
@@ -808,6 +811,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
                 ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
                 ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
                 ["label" => "Delegacja", "value" => "delegation"],
             ]);
