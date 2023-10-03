@@ -247,10 +247,10 @@ async function refreshAvailableTypes(user) {
                   </ListboxOptions>
                 </transition>
                 <p
-                  v-if="form.errors.type"
+                  v-if="form.errors.user"
                   class="mt-2 text-sm text-red-600"
                 >
-                  {{ form.errors.type }}
+                  {{ form.errors.user }}
                 </p>
               </div>
             </Listbox>

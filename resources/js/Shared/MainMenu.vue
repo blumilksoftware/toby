@@ -27,6 +27,7 @@ import {
   BeakerIcon,
   GiftIcon,
   BanknotesIcon,
+  ComputerDesktopIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
@@ -134,6 +135,13 @@ const miscNavigation = computed(() => [
     section: 'BenefitsReport',
     icon: BanknotesIcon,
     can: props.auth.can.manageBenefits,
+  },
+  {
+    name: 'Sprzęt',
+    href: '/equipment-items',
+    section: 'Equipment',
+    icon: ComputerDesktopIcon,
+    can: props.auth.can.manageEquipment,
   },
 ].filter(item => item.can))
 </script>

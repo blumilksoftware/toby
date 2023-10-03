@@ -13,6 +13,8 @@ const props = defineProps({
   items: Array,
   modelValue: Array,
   id: String,
+  placeholder: String,
+  showChips: Boolean,
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -41,7 +43,10 @@ const filteredItems = computed(() =>
     nullable
     multiple
   >
-    <div class="flex flex-wrap gap-3">
+    <div 
+      v-if="showChips"
+      class="flex flex-wrap mb-2 gap-2 gap-y-2"
+    >
       <span
         v-for="(item, index) in selectedItems"
         :key="index"
@@ -68,9 +73,10 @@ const filteredItems = computed(() =>
         </button>
       </span>
     </div>
-    <div class="relative mt-2">
+    <div class="relative">
       <ComboboxInput
         :id="id"
+        placeholder="Etykiety"
         class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
         @change="query = $event.target.value"
       />

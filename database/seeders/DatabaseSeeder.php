@@ -10,6 +10,8 @@ use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Benefit;
 use Toby\Eloquent\Models\BenefitsReport;
+use Toby\Eloquent\Models\EquipmentItem;
+use Toby\Eloquent\Models\EquipmentLabel;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\VacationLimit;
@@ -106,5 +108,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         BenefitsReport::factory(3)->create();
+
+        EquipmentLabel::factory(10)->create();
+
+        EquipmentItem::factory(40)->create();
     }
 }

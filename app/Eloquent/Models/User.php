@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
@@ -102,7 +103,8 @@ class User extends Authenticatable implements NotifiableInterface
                 "profile",
                 fn(Builder $query): Builder => $query
                     ->where("first_name", "ILIKE", "%{$text}%")
-                    ->orWhere("last_name", "ILIKE", "%{$text}%"),
+                    ->orWhere("last_name", "ILIKE", "%{$text}%")
+                    ->orWhere(DB::raw("CONCAT(first_name, ' ', last_name)"), "ILIKE", "%{$text}%"),
             );
     }
 
