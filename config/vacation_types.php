@@ -61,14 +61,13 @@ return [
     ],
     VacationType::Sick->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => false,
-        VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => true,
+        VacationTypeConfigRetriever::KEY_ADMINISTRATIVE_APPROVAL => false,
         VacationTypeConfigRetriever::KEY_BILLABLE => true,
         VacationTypeConfigRetriever::KEY_HAS_LIMIT => false,
         VacationTypeConfigRetriever::KEY_AVAILABLE_FOR => [
             EmploymentForm::EmploymentContract,
         ],
         VacationTypeConfigRetriever::KEY_REQUEST_ALLOWED_FOR => [
-            Role::Employee,
             Role::Administrator,
             Role::AdministrativeApprover,
             Role::TechnicalApprover,
