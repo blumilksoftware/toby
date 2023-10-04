@@ -16,7 +16,8 @@ class BenefitsReportResource extends JsonResource
             "benefits" => $this->benefits,
             "users" => $this->users,
             "data" => $this->data,
-            "committedAt" => $this->commited_at,
+            "committedAt" => $this->committed_at,
+            "createdAt" => $this->created_at->toDisplayDateTimeString(),
         ];
     }
 }

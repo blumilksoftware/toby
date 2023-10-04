@@ -7,9 +7,11 @@ use Toby\Infrastructure\Http\Controllers\Api\CalculateUserUnavailableDaysControl
 use Toby\Infrastructure\Http\Controllers\Api\CalculateUserVacationStatsController;
 use Toby\Infrastructure\Http\Controllers\Api\CalculateVacationDaysController;
 use Toby\Infrastructure\Http\Controllers\Api\GetAvailableVacationTypesController;
-use Toby\Infrastructure\Slack\Controller as SlackCommandController;
+use Toby\Infrastructure\Slack\SlackActionController;
+use Toby\Infrastructure\Slack\SlackCommandController;
 
-Route::post("slack", [SlackCommandController::class, "getResponse"]);
+Route::post("slack/commands", [SlackCommandController::class, "getResponse"]);
+Route::post("slack/actions", [SlackActionController::class, "handleVacationRequestAction"]);
 
 Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("vacation/calculate-days", CalculateVacationDaysController::class);

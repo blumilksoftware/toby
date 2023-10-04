@@ -92,7 +92,7 @@ watch(form, debounce(() => {
           <input
             v-model.trim="form.search"
             type="search"
-            class="block py-2 pr-3 pl-10 w-full max-w-lg sm:text-sm placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+            class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
             placeholder="Szukaj"
           >
         </div>
@@ -144,7 +144,7 @@ watch(form, debounce(() => {
           </div>
         </Listbox>
       </div>
-      <div class="overflow-auto xl:overflow-visible relative">
+      <div class="overflow-auto 2xl:overflow-visible relative">
         <div
           v-if="selectedUsers.length > 0"
           class="flex absolute top-0 left-20 h-10 items-center bg-gray-50"
@@ -200,13 +200,13 @@ watch(form, debounce(() => {
               </th>
               <th
                 scope="col"
-                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-normal"
               >
                 Następne badanie lekarskie
               </th>
               <th
                 scope="col"
-                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-normal"
               >
                 Następne szkolenie BHP
               </th>
@@ -255,7 +255,7 @@ watch(form, debounce(() => {
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.lastActiveAt ? DateTime.fromSQL(user.lastActiveAt).toRelative() : '-' }}
               </td>
-              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+              <td class="p-4 text-sm text-gray-500 whitespace-normal">
                 {{ user.position }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">

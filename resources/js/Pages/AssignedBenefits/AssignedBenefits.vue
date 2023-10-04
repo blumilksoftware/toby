@@ -1,8 +1,6 @@
 <script setup>
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { XCircleIcon, ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/24/solid'
 import TextArea from '@/Shared/Forms/TextArea.vue'
 import { computed, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
@@ -18,7 +16,6 @@ const props = defineProps({
   auth: Object,
 })
 
-const selectedItem = ref('Aktualne benefity')
 const creatingBenefitsReport = ref(false)
 const { findMonth } = useMonthInfo()
 const currentMonth = computed(() => findMonth(props.current))
@@ -72,7 +69,7 @@ function startCreatingBenefitsReport() {
   creatingBenefitsReport.value = true
 }
 function submitCreateBenefitsReport() {
-  formBenefitsReport.post('/benefits-report')
+  formBenefitsReport.post('/benefits-reports')
 }
 function calculateSumOfBenefits(benefits) {
   let sum = 0
@@ -109,88 +106,6 @@ function isBenefitHasCompanion(benefitId) {
         >
           Utwórz raport
         </button>
-      </div>
-    </div>
-    <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4 border-t border-gray-200">
-      <Listbox
-        v-model="selectedItem"
-        as="div"
-      >
-        <div class="relative">
-          <ListboxButton
-            class="relative py-2 pr-10 pl-3 w-full max-w-lg sm:text-sm text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default"
-          >
-            <span class="block truncate">
-              {{ selectedItem }}
-            </span>
-            <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-              <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
-            </span>
-          </ListboxButton>
-          <transition
-            leave-active-class="transition ease-in duration-100"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
-          >
-            <ListboxOptions
-              class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
-            >
-              <ListboxOption
-                v-slot="{ active, selected }"
-                as="template"
-                value="Aktualne benefity"
-              >
-                <InertiaLink
-                  as="button"
-                  method="get"
-                  href="/assigned-benefits"
-                  class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
-                  :class="[active ? 'bg-gray-100' : 'text-gray-900']"
-                >
-                  {{ selectedItem }}
-                  <span
-                    v-if="selected"
-                    class="text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4"
-                  >
-                    <CheckIcon class="w-5 h-5" />
-                  </span>
-                </InertiaLink>
-              </ListboxOption>
-              <ListboxOption
-                v-for="benefitsReport in benefitsReports"
-                :key="benefitsReport.name"
-                as="template"
-                :value="benefitsReport.name"
-              >
-                <InertiaLink
-                  as="button"
-                  method="get"
-                  :href="`/benefits-report/${benefitsReport.id}`"
-                  class="hover:bg-gray-100 cursor-default truncate select-none relative py-2 pl-3 pr-9 w-full text-left"
-                >
-                  {{ benefitsReport.name }}
-                </InertiaLink>
-              </ListboxOption>
-            </ListboxOptions>
-          </transition>
-        </div>
-      </Listbox>
-      <div
-        v-if="Object.keys(form.errors).length !== 0"
-        class="md:col-span-2 max-w-lg"
-      >
-        <div class="p-2 bg-red-50 rounded-md shadow-sm">
-          <div class="flex">
-            <div class="shrink-0">
-              <XCircleIcon class="w-5 h-5 text-red-400" />
-            </div>
-            <div class="ml-3">
-              <h3 class="text-sm font-medium text-red-800">
-                Wystąpił błąd podczas przypisywania benefitów.
-              </h3>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <form @submit.prevent="submitAssignedBenefits">
@@ -238,13 +153,13 @@ function isBenefitHasCompanion(benefitId) {
               >
                 <th
                   v-if="!benefit.companion"
-                  class="text-sm p-1 font-normal text-gray-900 bg-blumilk-50 text-blumilk-800 border border-gray-300"
+                  class="text-sm p-1 font-normal bg-blumilk-50 text-blumilk-800 border border-gray-300"
                   style="min-width: 90px;"
                 >
                   Pracodawca
                 </th>
                 <th
-                  class="text-sm p-1 font-normal text-gray-900 bg-green-50 text-green-800 border border-gray-300"
+                  class="text-sm p-1 font-normal bg-green-50 text-green-800 border border-gray-300"
                   style="min-width:90px;"
                 >
                   Pracownik

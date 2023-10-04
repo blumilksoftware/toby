@@ -17,14 +17,22 @@ class KeysAttachment extends ListAttachment
             ->setColor("#3c5f97")
             ->setItems($keys->map(function (Key $key): string {
                 if ($key->user === null) {
-                    return "Klucz nr {$key->id} - jest w biurze";
+                    return __("Key no. :number - is in the office.", [
+                        "number" => $key->id,
+                    ]);
                 }
 
                 if ($key->user->profile->slack_id === null) {
-                    return "Klucz nr {$key->id} - {$key->user->profile->full_name}";
+                    return __("Key no. :number - :user", [
+                        "number" => $key->id,
+                        "user" => $key->user->profile->full_name,
+                    ]);
                 }
 
-                return "Klucz nr {$key->id} - <@{$key->user->profile->slack_id}>";
+                return __("Key no. :number - :user", [
+                    "number" => $key->id,
+                    "user" => "<@{$key->user->profile->slack_id}>",
+                ]);
             }))
             ->setEmptyText(__("There are no keys in toby"));
     }

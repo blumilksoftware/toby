@@ -14,7 +14,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:20.2.0-alpine3.17 as frontend
+FROM node:20.8.0-alpine3.17 as frontend
 
 WORKDIR /app_frontend_dependencies
 
