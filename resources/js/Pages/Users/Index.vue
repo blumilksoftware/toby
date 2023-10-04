@@ -92,7 +92,7 @@ watch(form, debounce(() => {
           <input
             v-model.trim="form.search"
             type="search"
-            class="block py-2 pr-3 pl-10 w-full max-w-lg sm:text-sm placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+            class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
             placeholder="Szukaj"
           >
         </div>
