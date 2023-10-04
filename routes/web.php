@@ -44,6 +44,8 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::resource("equipment-items", EquipmentController::class)
         ->except("show")
         ->whereNumber("equipmentItem");
+    Route::get("/equipment-items/download", [EquipmentController::class, "downloadExcel"])
+        ->name("equipment-items.download");
 
     Route::resource("equipment-labels", EquipmentLabelController::class)
         ->only(["index", "store", "destroy"])

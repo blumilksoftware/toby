@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Toby\Domain\EquipmentExport;
 use Toby\Eloquent\Models\EquipmentItem;
 use Toby\Eloquent\Models\EquipmentLabel;
 use Toby\Eloquent\Models\User;
@@ -118,5 +122,18 @@ class EquipmentController extends Controller
         return redirect()
             ->route("equipment-items.index")
             ->with("success", __("Equipment item deleted."));
+    }
+
+    public function downloadExcel(): BinaryFileResponse
+    {
+        $this->authorize("manageEquipment");
+
+        $equipmentItems = EquipmentItem::query()->get();
+
+        $equipmentExport = new EquipmentExport($equipmentItems);
+
+        $name = __("Equipment") . " " . Carbon::now()->translatedFormat("d F Y") . ".xlsx";
+
+        return Excel::download($equipmentExport, $name);
     }
 }

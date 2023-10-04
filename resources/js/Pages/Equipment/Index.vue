@@ -47,6 +47,12 @@ watch(form, debounce(() => {
         </h2>
       </div>
       <div>
+        <a
+          href="equipment-items/download"
+          class="inline-flex mr-2 items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+        >
+          Pobierz plik Excel
+        </a>
         <InertiaLink
           href="equipment-labels"
           class="inline-flex mr-2 items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"

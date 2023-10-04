@@ -159,5 +159,11 @@
   "Equipment item updated.": "Sprzęt zaktualizowany.",
   "Equipment item deleted.": "Sprzęt usunięty.",
   "Label :name created.": "Etykieta :name utworzona.",
-  "Label :name deleted.": "Etykieta :name usunięta."
+  "Label :name deleted.": "Etykieta :name usunięta.",
+  "Equipment": "Sprzęt",
+  "Name": "Nazwa",
+  "Labels": "Etykiety",
+  "Is mobile": "Czy mobilny",
+  "Assignee": "Przypisany do",
+  "Assigned at": "Przypisany od"
 }
