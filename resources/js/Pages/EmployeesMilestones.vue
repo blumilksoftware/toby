@@ -1,12 +1,13 @@
 <script setup>
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import { MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
-import { reactive, watch } from 'vue'
-import { debounce } from 'lodash'
-import { Inertia } from '@inertiajs/inertia'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import {MagnifyingGlassIcon, ChevronDownIcon} from '@heroicons/vue/24/outline'
+import {CalendarDaysIcon} from '@heroicons/vue/24/solid'
+import {reactive, watch} from 'vue'
+import {debounce} from 'lodash'
+import {Inertia} from '@inertiajs/inertia'
+import {CheckIcon, ChevronUpDownIcon} from '@heroicons/vue/24/solid'
+import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
 
 const sortOptions = [
   {
@@ -54,7 +55,7 @@ watch(form, debounce(() => {
 </script>
 
 <template>
-  <InertiaHead title="Jubileusze" />
+  <InertiaHead title="Jubileusze"/>
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
@@ -67,7 +68,7 @@ watch(form, debounce(() => {
       <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4">
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-            <MagnifyingGlassIcon class="w-5 h-5 text-gray-400" />
+            <MagnifyingGlassIcon class="w-5 h-5 text-gray-400"/>
           </div>
           <input
             v-model.trim="form.search"
@@ -88,7 +89,7 @@ watch(form, debounce(() => {
                 {{ form.sort.name }}
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400"/>
               </span>
             </ListboxButton>
 
@@ -116,7 +117,7 @@ watch(form, debounce(() => {
                       v-if="selected"
                       :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                     >
-                      <CheckIcon class="w-5 h-5" />
+                      <CheckIcon class="w-5 h-5"/>
                     </span>
                   </li>
                 </ListboxOption>
@@ -147,7 +148,7 @@ watch(form, debounce(() => {
               scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
             >
-                Staż pracy
+              Staż pracy
             </th>
           </tr>
           </thead>
@@ -174,10 +175,19 @@ watch(form, debounce(() => {
               </div>
             </td>
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-             {{ user.birthdayDisplayDate }} - {{ user.birthdayRelativeDate }}
+              {{ user.birthdayDisplayDate }} - {{ user.birthdayRelativeDate }}
             </td>
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-              {{ user.seniorityDisplayDate }}
+              <div class="flex gap-1">
+                {{ user.seniorityDisplayDate }}
+                <span
+                  v-if="user.isWorkAnniversaryToday"
+                  v-tooltip.right="'okrągła rocznica pracy'"
+                  class="inline-block"
+                >
+                <CalendarDaysIcon class="w-5 h-5 text-pink-400"/>
+              </span>
+              </div>
             </td>
           </tr>
           <tr
@@ -200,7 +210,7 @@ watch(form, debounce(() => {
           </tbody>
         </table>
       </div>
-      <Pagination :pagination="users.meta" />
+      <Pagination :pagination="users.meta"/>
     </div>
   </div>
 </template>

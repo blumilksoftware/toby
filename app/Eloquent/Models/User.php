@@ -106,7 +106,7 @@ class User extends Authenticatable implements NotifiableInterface
             );
     }
 
-    public function scopeOrderByProfileField(Builder $query, string $field, string $direction = 'asc'): Builder
+    public function scopeOrderByProfileField(Builder $query, string $field, string $direction = "asc"): Builder
     {
         $profileQuery = Profile::query()->select($field)->whereColumn("users.id", "profiles.user_id");
 
@@ -163,14 +163,23 @@ class User extends Authenticatable implements NotifiableInterface
     public function scopeSortForEmployeesMilestones(Builder $query, ?string $sort): Builder
     {
         return match ($sort) {
-//            "birthday-asc"  TO DO
-//            "birthday-desc" TO DO
-            "seniority-asc" => $query->orderByProfileField('employment_date', 'asc'),
-            "seniority-desc" => $query->orderByProfileField('employment_date', 'desc'),
+            //            "birthday-asc"  TO DO
+            //            "birthday-desc" TO DO
+            "seniority-asc" => $query->orderByProfileField("employment_date", "asc"),
+            "seniority-desc" => $query->orderByProfileField("employment_date", "desc"),
             default => $query
                 ->orderByProfileField("last_name")
                 ->orderByProfileField("first_name"),
         };
+    }
+
+    public function isWorkAnniversaryToday(): bool
+    {
+        $today = Carbon::now();
+
+        $workAnniversary = $this->profile->employment_date->setYear($today->year);
+
+        return $workAnniversary->isToday();
     }
 
     protected static function newFactory(): UserFactory

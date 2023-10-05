@@ -16,6 +16,7 @@ class EmployeeMilestoneResource extends JsonResource
     {
         $upcomingBirthday = $this->upcomingBirthday();
         $seniority = $this->seniority();
+        $isSeniorityAnniversaryToday = $this->isWorkAnniversaryToday();
 
         return [
             "user" => new SimpleUserResource($this->resource),
@@ -27,6 +28,7 @@ class EmployeeMilestoneResource extends JsonResource
                     ["options" => CarbonInterface::ONE_DAY_WORDS, "syntax" => CarbonInterface::DIFF_RELATIVE_TO_NOW],
                 ),
             "seniorityDisplayDate" => $seniority,
+            "isWorkAnniversaryToday" => $isSeniorityAnniversaryToday,
         ];
     }
 }
