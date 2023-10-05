@@ -8,6 +8,7 @@ use Toby\Infrastructure\Http\Controllers\AssignedBenefitController;
 use Toby\Infrastructure\Http\Controllers\BenefitController;
 use Toby\Infrastructure\Http\Controllers\BenefitsReportController;
 use Toby\Infrastructure\Http\Controllers\DashboardController;
+use Toby\Infrastructure\Http\Controllers\EmployeesMilestonesController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
 use Toby\Infrastructure\Http\Controllers\KeysController;
@@ -84,6 +85,9 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/keys/{key}/take", [KeysController::class, "take"]);
     Route::post("/keys/{key}/give", [KeysController::class, "give"]);
     Route::post("/keys/{key}/leave-in-the-office", [KeysController::class, "leaveInTheOffice"]);
+
+    Route::get("/employees-milestones", [EmployeesMilestonesController::class, "index"])
+        ->name("employees-milestones");
 
     Route::post("/year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
         ->whereNumber("yearPeriod")

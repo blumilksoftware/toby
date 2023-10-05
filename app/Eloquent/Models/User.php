@@ -106,11 +106,11 @@ class User extends Authenticatable implements NotifiableInterface
             );
     }
 
-    public function scopeOrderByProfileField(Builder $query, string $field): Builder
+    public function scopeOrderByProfileField(Builder $query, string $field, string $direction = 'asc'): Builder
     {
         $profileQuery = Profile::query()->select($field)->whereColumn("users.id", "profiles.user_id");
 
-        return $query->orderBy($profileQuery);
+        return $query->orderBy($profileQuery, $direction);
     }
 
     public function scopeWithVacationLimitIn(Builder $query, YearPeriod $yearPeriod): Builder
@@ -133,8 +133,12 @@ class User extends Authenticatable implements NotifiableInterface
         };
     }
 
-    public function upcomingBirthday(): Carbon
+    public function upcomingBirthday(): ?Carbon
     {
+        if (!$this->profile->birthday) {
+            return null;
+        }
+
         $today = Carbon::today();
 
         $birthday = $this->profile->birthday->setYear($today->year);
@@ -146,9 +150,27 @@ class User extends Authenticatable implements NotifiableInterface
         return $birthday;
     }
 
+    public function seniority(): string
+    {
+        return $this->profile->employment_date->longAbsoluteDiffForHumans(Carbon::today(), 2);
+    }
+
     public function routeNotificationForSlack()
     {
         return $this->profile->slack_id;
+    }
+
+    public function scopeSortForEmployeesMilestones(Builder $query, ?string $sort): Builder
+    {
+        return match ($sort) {
+//            "birthday-asc"  TO DO
+//            "birthday-desc" TO DO
+            "seniority-asc" => $query->orderByProfileField('employment_date', 'asc'),
+            "seniority-desc" => $query->orderByProfileField('employment_date', 'desc'),
+            default => $query
+                ->orderByProfileField("last_name")
+                ->orderByProfileField("first_name"),
+        };
     }
 
     protected static function newFactory(): UserFactory

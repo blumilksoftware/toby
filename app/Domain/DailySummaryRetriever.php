@@ -92,21 +92,6 @@ class DailySummaryRetriever
     /**
      * @return Collection<User>
      */
-    public function getBirthdays(Carbon $date): Collection
-    {
-        return User::query()
-            ->whereRelation(
-                "profile",
-                fn(Builder $query): Builder => $query
-                    ->whereMonth("birthday", $date->month)
-                    ->whereDay("birthday", $date->day),
-            )
-            ->get();
-    }
-
-    /**
-     * @return Collection<User>
-     */
     public function getUpcomingBirthdays(?int $limit = null): Collection
     {
         $users = User::query()
