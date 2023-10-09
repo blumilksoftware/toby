@@ -12,7 +12,7 @@ import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
-import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { EllipsisVerticalIcon, PencilIcon, TrashIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
   auth: Object,
@@ -157,15 +157,12 @@ watch(form, debounce(() => {
                 <span v-else>-</span>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                <Switch
-                  v-model="item.isMobile"
-                  disabled="true"
-                  :class="[item.isMobile ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
-                >
-                  <span
-                    :class="[item.isMobile ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"
-                  />
-                </Switch>
+                <div v-if="item.isMobile">
+                  <CheckIcon class="w-6 h-6 text-green-500"/>
+                </div>
+                <div v-else>
+                  <XMarkIcon class="w-6 h-6 text-red-500"/>
+                </div>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 <div
