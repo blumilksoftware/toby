@@ -2,9 +2,9 @@
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import {
   Menu,
-  MenuButton, MenuItem,
+  MenuButton,
+  MenuItem,
   MenuItems,
-  Switch,
 } from '@headlessui/vue'
 import Pagination from '@/Shared/Pagination.vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
@@ -158,10 +158,10 @@ watch(form, debounce(() => {
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 <div v-if="item.isMobile">
-                  <CheckIcon class="w-6 h-6 text-green-500"/>
+                  <CheckIcon class="w-6 h-6 text-green-500" />
                 </div>
                 <div v-else>
-                  <XMarkIcon class="w-6 h-6 text-red-500"/>
+                  <XMarkIcon class="w-6 h-6 text-red-500" />
                 </div>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
