@@ -2,7 +2,7 @@
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import {
   Listbox,
-  ListboxButton, ListboxLabel,
+  ListboxButton,
   ListboxOption,
   ListboxOptions,
   Menu,

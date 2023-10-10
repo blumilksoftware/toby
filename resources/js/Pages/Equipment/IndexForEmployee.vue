@@ -1,15 +1,6 @@
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import {
-  Listbox,
-  ListboxButton, ListboxLabel,
-  ListboxOption,
-  ListboxOptions,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from '@headlessui/vue'
+
 import Pagination from '@/Shared/Pagination.vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { reactive, watch } from 'vue'
@@ -17,12 +8,8 @@ import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
 import {
-  EllipsisVerticalIcon,
-  PencilIcon,
-  TrashIcon,
   CheckIcon,
   XMarkIcon,
-  ChevronUpDownIcon,
 } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
