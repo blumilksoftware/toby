@@ -268,4 +268,22 @@ class EquipmentTest extends FeatureTestCase
 
         $this->assertModelMissing($equipmentLabel);
     }
+
+    public function testEmployeeCanOwnEquipment(): void
+    {
+        $employee = User::factory()->employee()->create();
+        EquipmentItem::factory()
+            ->count(10)
+            ->for($employee, "assignee")
+            ->create();
+
+        $this->actingAs($employee)
+            ->get("/equipment-items/me")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("Equipment/IndexForEmployee")
+                    ->has("equipmentItems.data", 10),
+            );
+    }
 }

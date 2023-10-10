@@ -71,9 +71,13 @@ class EquipmentItem extends Model
             return $query;
         }
 
-        foreach ($labels as $label) {
-            $query->orWhereJsonContains("labels", $label);
-        }
+        $query->where(function (Builder $query) use ($labels): Builder {
+            foreach ($labels as $label) {
+                $query->orWhereJsonContains("labels", $label);
+            }
+
+            return $query;
+        });
 
         return $query;
     }

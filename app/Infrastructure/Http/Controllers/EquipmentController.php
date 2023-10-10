@@ -24,7 +24,7 @@ class EquipmentController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function index(Request $request): Response
+    public function index(Request $request): RedirectResponse|Response
     {
         $this->authorize("manageEquipment");
 
@@ -32,15 +32,53 @@ class EquipmentController extends Controller
 
         $equipmentItems = EquipmentItem::query()
             ->search($searchQuery)
+            ->when(
+                $request->has("assignee"),
+                fn($query) => $query->where("assignee_id", $request->query("assignee")),
+            )
             ->labels($request->query("labels"))
+            ->orderBy("id_number")
             ->paginate()
             ->withQueryString();
+
+        $users = User::query()
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
+            ->get();
 
         return inertia("Equipment/Index", [
             "equipmentItems" => EquipmentItemResource::collection($equipmentItems),
             "labels" => EquipmentLabel::query()->pluck("name"),
+            "users" => SimpleUserResource::collection($users),
             "filters" => [
                 "search" => $searchQuery,
+                "labels" => $request->query("labels"),
+                "assignee" => (int)$request->query("assignee"),
+            ],
+        ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function indexForEmployee(Request $request): RedirectResponse|Response
+    {
+        $searchQuery = $request->query("search");
+
+        $equipmentItems = EquipmentItem::query()
+            ->search($searchQuery)
+            ->labels($request->query("labels"))
+            ->where("assignee_id", $request->user()->id)
+            ->orderBy("id_number")
+            ->paginate()
+            ->withQueryString();
+
+        return inertia("Equipment/IndexForEmployee", [
+            "equipmentItems" => EquipmentItemResource::collection($equipmentItems),
+            "labels" => EquipmentLabel::query()->pluck("name"),
+            "filters" => [
+                "search" => $searchQuery,
+                "labels" => $request->query("labels"),
             ],
         ]);
     }

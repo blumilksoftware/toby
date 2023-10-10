@@ -1,6 +1,10 @@
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import {
+  Listbox,
+  ListboxButton, ListboxLabel,
+  ListboxOption,
+  ListboxOptions,
   Menu,
   MenuButton,
   MenuItem,
@@ -12,24 +16,34 @@ import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
-import { EllipsisVerticalIcon, PencilIcon, TrashIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/solid'
+import {
+  EllipsisVerticalIcon,
+  PencilIcon,
+  TrashIcon,
+  CheckIcon,
+  XMarkIcon,
+  ChevronUpDownIcon,
+} from '@heroicons/vue/24/solid'
 
 const props = defineProps({
   auth: Object,
   equipmentItems: Object,
   labels: Array,
   filters: Object,
+  users: Array,
 })
 
 const form = reactive({
   search: props.filters.search,
-  labels: [],
+  labels: props.filters.labels ?? [],
+  assignee: props.users.data.find(user => user.id === props.filters.assignee) ?? null,
 })
 
 watch(form, debounce(() => {
   Inertia.get('/equipment-items', {
     search: form.search,
     labels: form.labels,
+    assignee: form.assignee?.id,
   }, {
     preserveState: true,
     replace: true,
@@ -68,7 +82,7 @@ watch(form, debounce(() => {
       </div>
     </div>
     <div class="border-t border-gray-200">
-      <div class="flex-1 items-end grid grid-cols-1 p-4 md:grid-cols-3 gap-4">
+      <div class="items-end grid grid-cols-1 p-4 md:grid-cols-3 gap-4">
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
             <MagnifyingGlassIcon class="w-5 h-5 text-gray-400" />
@@ -76,7 +90,7 @@ watch(form, debounce(() => {
           <input
             v-model.trim="form.search"
             type="search"
-            class="inline-block align-baseline py-2 pr-3 pl-10 w-full max-w-lg sm:text-sm placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+            class="inline-block align-baseline py-2 pr-3 pl-10 w-full placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
             placeholder="Szukaj"
           >
         </div>
@@ -85,6 +99,96 @@ watch(form, debounce(() => {
           placeholder="Etykiety"
           :items="labels"
         />
+        <Listbox
+          v-model="form.assignee"
+          as="div"
+        >
+          <div class="relative mt-1 sm:mt-0">
+            <ListboxButton
+              class="relative py-2 pr-10 pl-3 w-full  h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm placeholder:text-gray-500 focus:text-gray-800 focus:placeholder:text-gray-400 "
+            >
+              <span
+                v-if="form.assignee === null"
+                class="text-gray-500"
+              >
+                Przydzielona osoba
+              </span>
+              <span
+                v-else
+                class="flex items-center"
+              >
+                <img
+                  :src="form.assignee.avatar"
+                  class="shrink-0 w-6 h-6 rounded-full"
+                >
+                <span class="block ml-3 truncate">{{ form.assignee.name }}</span>
+              </span>
+              <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition ease-in duration-100"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+              >
+                <ListboxOption
+                  v-for="user in users.data"
+                  :key="user.id"
+                  v-slot="{ active }"
+                  as="template"
+                  :value="user"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                  >
+                    <div class="flex items-center">
+                      <img
+                        :src="user.avatar"
+                        class="shrink-0 w-6 h-6 rounded-full"
+                      >
+                      <span
+                        :class="[form.assignee?.id === user.id ? 'font-semibold' : 'font-normal', 'ml-3 block truncate']"
+                      >
+                        {{ user.name }}
+                      </span>
+                    </div>
+                    <span
+                      v-if="form.assignee?.id === user.id"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+                <ListboxOption
+                  v-slot="{ active }"
+                  as="template"
+                  :value="null"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                  >
+                    <div class="flex items-center">
+                      Brak
+                    </div>
+
+                    <span
+                      v-if="form.assignee === null"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
       </div>
       <div class="overflow-auto xl:overflow-visible">
         <table class="min-w-full divide-y divide-gray-200">

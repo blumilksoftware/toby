@@ -151,6 +151,13 @@ const miscNavigation = computed(() => [
     icon: ComputerDesktopIcon,
     can: props.auth.can.manageEquipment,
   },
+  {
+    name: 'Mój sprzęt',
+    href: '/equipment-items/me',
+    section: 'Equipment',
+    icon: ComputerDesktopIcon,
+    can: !props.auth.can.manageEquipment,
+  },
 ].filter(item => item.can))
 </script>
 
