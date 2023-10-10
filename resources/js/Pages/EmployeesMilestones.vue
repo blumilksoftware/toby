@@ -179,7 +179,7 @@ watch(form, debounce(() => {
             </td>
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <div class="flex gap-1">
-                {{ user.seniorityDisplayDate }}
+                {{ user.seniorityDisplayDate ? user.seniorityDisplayDate : '-'}}
                 <span
                   v-if="user.isWorkAnniversaryToday"
                   v-tooltip.right="'okrągła rocznica pracy'"
@@ -210,7 +210,6 @@ watch(form, debounce(() => {
           </tbody>
         </table>
       </div>
-      <Pagination :pagination="users.meta"/>
     </div>
   </div>
 </template>

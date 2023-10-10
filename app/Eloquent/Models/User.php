@@ -150,9 +150,15 @@ class User extends Authenticatable implements NotifiableInterface
         return $birthday;
     }
 
-    public function seniority(): string
+    public function seniority(): ?string
     {
-        return $this->profile->employment_date->longAbsoluteDiffForHumans(Carbon::today(), 2);
+        $employmentDate = $this->profile->employment_date;
+
+        if ($employmentDate->isFuture() || $employmentDate->isToday()) {
+            return null;
+        }
+
+        return $employmentDate->longAbsoluteDiffForHumans(Carbon::today(), 2);
     }
 
     public function routeNotificationForSlack()
@@ -160,24 +166,17 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->profile->slack_id;
     }
 
-    public function scopeSortForEmployeesMilestones(Builder $query, ?string $sort): Builder
-    {
-        return match ($sort) {
-            //            "birthday-asc"  TO DO
-            //            "birthday-desc" TO DO
-            "seniority-asc" => $query->orderByProfileField("employment_date", "asc"),
-            "seniority-desc" => $query->orderByProfileField("employment_date", "desc"),
-            default => $query
-                ->orderByProfileField("last_name")
-                ->orderByProfileField("first_name"),
-        };
-    }
-
     public function isWorkAnniversaryToday(): bool
     {
         $today = Carbon::now();
 
-        $workAnniversary = $this->profile->employment_date->setYear($today->year);
+        $employmentDate = $this->profile->employment_date;
+
+        if ($employmentDate->isToday()) {
+            return false;
+        }
+
+        $workAnniversary = $employmentDate->setYear($today->year);
 
         return $workAnniversary->isToday();
     }

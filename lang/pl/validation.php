@@ -170,6 +170,9 @@ return [
         "nextMedicalExamDate" => [
             "after" => "Data następnego badania lekarskiego musi być późniejsza od daty ostatniego badania lekarskiego.",
         ],
+        "birthday" => [
+            "before" => "Data urodzenia musi być datą wcześniejszą od dzisiaj.",
+        ],
     ],
     "attributes" => [
         "to" => "do",
@@ -182,5 +185,6 @@ return [
         "date" => "data",
         "name" => "nazwa",
         "password" => "hasło",
+        "birthday" => "data urodzenia",
     ],
 ];

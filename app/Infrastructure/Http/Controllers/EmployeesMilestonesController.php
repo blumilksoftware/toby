@@ -6,28 +6,23 @@ namespace Toby\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Response;
-use Toby\Eloquent\Models\User;
+use Toby\Domain\EmployeesMilestoneRetriever;
 use Toby\Infrastructure\Http\Resources\EmployeeMilestoneResource;
 
 class EmployeesMilestonesController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request, EmployeesMilestoneRetriever $employeesMilestoneRetriever): Response
     {
         $searchText = $request->query("search");
         $sort = $request->query("sort");
 
-        $users = User::query()
-            ->sortForEmployeesMilestones($sort)
-            ->search($searchText)
-            ->orderByProfileField("last_name")
-            ->orderByProfileField("first_name")
-            ->paginate()
-            ->withQueryString();
+        $users = $employeesMilestoneRetriever->getResults($searchText, $sort);
 
         return inertia("EmployeesMilestones", [
             "users" => EmployeeMilestoneResource::collection($users),
             "filters" => [
                 "search" => $searchText,
+                "sort" => $sort,
             ],
         ]);
     }
