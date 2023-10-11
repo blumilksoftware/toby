@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Toby\Domain;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Eloquent\Models\User;
@@ -33,7 +32,6 @@ class EmployeesMilestoneRetriever
     public function getUpcomingBirthdays(?string $searchText, string $direction = "asc"): Collection
     {
         $users = User::query()
-            ->whereRelation("profile", fn(Builder $query): Builder => $query->whereNotNull("birthday"))
             ->search($searchText)
             ->get();
 
