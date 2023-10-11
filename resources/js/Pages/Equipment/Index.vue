@@ -30,7 +30,7 @@ const props = defineProps({
   equipmentItems: Object,
   labels: Array,
   filters: Object,
-  users: Array,
+  users: Object,
 })
 
 const form = reactive({
