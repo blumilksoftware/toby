@@ -26,7 +26,9 @@ class EquipmentController extends Controller
      */
     public function index(Request $request): RedirectResponse|Response
     {
-        $this->authorize("manageEquipment");
+        if ($request->user()->cannot("manageEquipment")) {
+            return redirect()->route("equipment-items.indexForEmployee");
+        }
 
         $searchQuery = $request->query("search");
 
