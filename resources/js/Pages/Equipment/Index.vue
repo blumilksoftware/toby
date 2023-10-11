@@ -138,6 +138,26 @@ watch(form, debounce(() => {
                 class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
               >
                 <ListboxOption
+                  v-slot="{ active }"
+                  as="template"
+                  :value="null"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                  >
+                    <div class="flex items-center">
+                      Brak
+                    </div>
+
+                    <span
+                      v-if="form.assignee === null"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+                <ListboxOption
                   v-for="user in users.data"
                   :key="user.id"
                   v-slot="{ active }"
@@ -160,26 +180,6 @@ watch(form, debounce(() => {
                     </div>
                     <span
                       v-if="form.assignee?.id === user.id"
-                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
-                    >
-                      <CheckIcon class="w-5 h-5" />
-                    </span>
-                  </li>
-                </ListboxOption>
-                <ListboxOption
-                  v-slot="{ active }"
-                  as="template"
-                  :value="null"
-                >
-                  <li
-                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                  >
-                    <div class="flex items-center">
-                      Brak
-                    </div>
-
-                    <span
-                      v-if="form.assignee === null"
                       :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                     >
                       <CheckIcon class="w-5 h-5" />

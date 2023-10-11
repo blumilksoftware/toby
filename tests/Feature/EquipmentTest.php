@@ -38,7 +38,7 @@ class EquipmentTest extends FeatureTestCase
 
         $this->actingAs($employee)
             ->get("/equipment-items")
-            ->assertForbidden();
+            ->assertRedirect("/equipment-items/me");
     }
 
     public function testAnyUserWithProperPermissionCanSeeEquipmentList(): void
