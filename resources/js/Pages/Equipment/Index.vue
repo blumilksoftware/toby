@@ -12,7 +12,7 @@ import {
 } from '@headlessui/vue'
 import Pagination from '@/Shared/Pagination.vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import { reactive, watch } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
@@ -23,7 +23,6 @@ import {
   CheckIcon,
   XMarkIcon,
   ChevronUpDownIcon,
-  ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
@@ -37,14 +36,16 @@ const props = defineProps({
 const form = reactive({
   search: props.filters.search,
   labels: props.filters.labels ?? [],
-  assignee: props.users.data.find(user => user.id === props.filters.assignee) ?? null,
+  assignee: props.filters.assignee,
 })
+
+const selectedAssignee = computed(() =>  props.users.data.find(user => user.id === parseInt(props.filters.assignee)) ?? null)
 
 watch(form, debounce(() => {
   Inertia.get('/equipment-items', {
     search: form.search,
     labels: form.labels,
-    assignee: form.assignee?.id,
+    assignee: form.assignee,
   }, {
     preserveState: true,
     replace: true,
@@ -115,14 +116,19 @@ watch(form, debounce(() => {
                 Przydzielona osoba
               </span>
               <span
+                v-else-if="form.assignee === 'unassigned'"
+              >
+                Nieprzydzielone
+              </span>
+              <span
                 v-else
                 class="flex items-center"
               >
                 <img
-                  :src="form.assignee.avatar"
+                  :src="selectedAssignee.avatar"
                   class="shrink-0 w-6 h-6 rounded-full"
                 >
-                <span class="block ml-3 truncate">{{ form.assignee.name }}</span>
+                <span class="block ml-3 truncate">{{ selectedAssignee.name }}</span>
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
                 <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
@@ -138,31 +144,11 @@ watch(form, debounce(() => {
                 class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
               >
                 <ListboxOption
-                  v-slot="{ active }"
-                  as="template"
-                  :value="null"
-                >
-                  <li
-                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
-                  >
-                    <div class="flex items-center">
-                      Brak
-                    </div>
-
-                    <span
-                      v-if="form.assignee === null"
-                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
-                    >
-                      <CheckIcon class="w-5 h-5" />
-                    </span>
-                  </li>
-                </ListboxOption>
-                <ListboxOption
                   v-for="user in users.data"
                   :key="user.id"
                   v-slot="{ active }"
                   as="template"
-                  :value="user"
+                  :value="user.id"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
@@ -180,6 +166,46 @@ watch(form, debounce(() => {
                     </div>
                     <span
                       v-if="form.assignee?.id === user.id"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+                <ListboxOption
+                  v-slot="{ active }"
+                  as="template"
+                  :value="'unassigned'"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                  >
+                    <div class="flex items-center">
+                      Nieprzydzielone
+                    </div>
+
+                    <span
+                      v-if="form.assignee === 'unassigned'"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+                <ListboxOption
+                  v-slot="{ active }"
+                  as="template"
+                  :value="null"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                  >
+                    <div class="flex items-center">
+                      Wszystkie
+                    </div>
+
+                    <span
+                      v-if="form.assignee === null"
                       :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                     >
                       <CheckIcon class="w-5 h-5" />
@@ -363,7 +389,7 @@ watch(form, debounce(() => {
               >
                 <EmptyState class="text-gray-700">
                   <template #head>
-                    <ComputerDesktopIcon class="mx-auto w-12 h-12" />
+                    <KeyIcon class="mx-auto w-12 h-12" />
                   </template>
                   <template #title>
                     Brak wpisów

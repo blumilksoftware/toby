@@ -35,8 +35,12 @@ class EquipmentController extends Controller
         $equipmentItems = EquipmentItem::query()
             ->search($searchQuery)
             ->when(
-                $request->has("assignee"),
+                $request->query("assignee") && $request->query("assignee") !== "unassigned",
                 fn($query) => $query->where("assignee_id", $request->query("assignee")),
+            )
+            ->when(
+                $request->query("assignee") === "unassigned",
+                fn($query) => $query->where("assignee_id", null),
             )
             ->labels($request->query("labels"))
             ->orderBy("id_number")
@@ -55,7 +59,7 @@ class EquipmentController extends Controller
             "filters" => [
                 "search" => $searchQuery,
                 "labels" => $request->query("labels"),
-                "assignee" => (int)$request->query("assignee"),
+                "assignee" => $request->query("assignee"),
             ],
         ]);
     }
