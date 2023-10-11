@@ -31,7 +31,6 @@ import {
   CakeIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
-import EmployeesMilestones from "@/Pages/EmployeesMilestones.vue";
 
 const props = defineProps({
   auth: Object,

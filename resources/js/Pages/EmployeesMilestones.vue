@@ -1,13 +1,16 @@
 <script setup>
-import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-import {MagnifyingGlassIcon, ChevronDownIcon} from '@heroicons/vue/24/outline'
-import {CalendarDaysIcon} from '@heroicons/vue/24/solid'
-import {reactive, watch} from 'vue'
-import {debounce} from 'lodash'
-import {Inertia} from '@inertiajs/inertia'
-import {CheckIcon, ChevronUpDownIcon} from '@heroicons/vue/24/solid'
-import {Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions} from '@headlessui/vue'
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
+import { reactive, watch } from 'vue'
+import { debounce } from 'lodash'
+import { Inertia } from '@inertiajs/inertia'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import { Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from '@headlessui/vue'
 
 const sortOptions = [
   {
@@ -55,7 +58,7 @@ watch(form, debounce(() => {
 </script>
 
 <template>
-  <InertiaHead title="Jubileusze"/>
+  <InertiaHead title="Jubileusze" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
@@ -68,7 +71,7 @@ watch(form, debounce(() => {
       <div class="flex-1 grid grid-cols-1 p-4 md:grid-cols-3 gap-4">
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-            <MagnifyingGlassIcon class="w-5 h-5 text-gray-400"/>
+            <MagnifyingGlassIcon class="w-5 h-5 text-gray-400" />
           </div>
           <input
             v-model.trim="form.search"
@@ -89,7 +92,7 @@ watch(form, debounce(() => {
                 {{ form.sort.name }}
               </span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                <ChevronUpDownIcon class="w-5 h-5 text-gray-400"/>
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
               </span>
             </ListboxButton>
 
@@ -117,7 +120,7 @@ watch(form, debounce(() => {
                       v-if="selected"
                       :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                     >
-                      <CheckIcon class="w-5 h-5"/>
+                      <CheckIcon class="w-5 h-5" />
                     </span>
                   </li>
                 </ListboxOption>
@@ -129,84 +132,85 @@ watch(form, debounce(() => {
       <div class="overflow-auto xl:overflow-visible relative">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
-          <tr>
-            <th
-              scope="col"
-              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-            >
+            <tr>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
                 <span>
                   Imię i nazwisko
                 </span>
-            </th>
-            <th
-              scope="col"
-              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-            >
-              Następne urodziny
-            </th>
-            <th
-              scope="col"
-              class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-            >
-              Staż pracy
-            </th>
-          </tr>
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Następne urodziny
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
+                Staż pracy
+              </th>
+            </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-100">
-          <tr
-            v-for="user in users.data"
-          >
-            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-              <div class="flex">
+            <tr
+              v-for="user in users.data"
+              :key="user.id"
+            >
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                <div class="flex">
                   <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                     <img
                       class="w-10 h-10 rounded-full"
                       :src="user.user.avatar"
                     >
                   </span>
-                <div class="ml-3">
-                  <p class="text-sm font-medium text-gray-900 break-all">
-                    {{ user.user.name }}
-                  </p>
-                  <p class="text-sm text-gray-500 break-all">
-                    {{ user.user.email }}
-                  </p>
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900 break-all">
+                      {{ user.user.name }}
+                    </p>
+                    <p class="text-sm text-gray-500 break-all">
+                      {{ user.user.email }}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-              {{ user.birthdayDisplayDate }} - {{ user.birthdayRelativeDate }}
-            </td>
-            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-              <div class="flex gap-1">
-                {{ user.seniorityDisplayDate ? user.seniorityDisplayDate : '-'}}
-                <span
-                  v-if="user.isWorkAnniversaryToday"
-                  v-tooltip.right="'okrągła rocznica pracy'"
-                  class="inline-block"
-                >
-                <CalendarDaysIcon class="w-5 h-5 text-pink-400"/>
-              </span>
-              </div>
-            </td>
-          </tr>
-          <tr
-            v-if="! users.data.length"
-          >
-            <td
-              colspan="100%"
-              class="py-4 text-xl leading-5 text-center text-gray-700"
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ user.birthdayDisplayDate }} - {{ user.birthdayRelativeDate }}
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                <div class="flex gap-1">
+                  {{ user.seniorityDisplayDate ? user.seniorityDisplayDate : '-' }}
+                  <span
+                    v-if="user.isWorkAnniversaryToday"
+                    v-tooltip.right="'okrągła rocznica pracy'"
+                    class="inline-block"
+                  >
+                    <CalendarDaysIcon class="w-5 h-5 text-pink-400" />
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr
+              v-if="! users.data.length"
             >
-              <EmptyState>
-                <template #title>
-                  Nie znaleziono użytkownika
-                </template>
-                <template #text>
-                  Spróbuj sformułować zapytanie inaczej
-                </template>
-              </EmptyState>
-            </td>
-          </tr>
+              <td
+                colspan="100%"
+                class="py-4 text-xl leading-5 text-center text-gray-700"
+              >
+                <EmptyState>
+                  <template #title>
+                    Nie znaleziono użytkownika
+                  </template>
+                  <template #text>
+                    Spróbuj sformułować zapytanie inaczej
+                  </template>
+                </EmptyState>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
