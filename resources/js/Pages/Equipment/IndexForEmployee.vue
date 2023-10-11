@@ -9,7 +9,7 @@ import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
 import {
   CheckIcon,
   XMarkIcon,
-  ComputerDesktopIcon
+  ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid'
 
 const props = defineProps({

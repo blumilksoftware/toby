@@ -23,7 +23,7 @@ import {
   CheckIcon,
   XMarkIcon,
   ChevronUpDownIcon,
-  ComputerDesktopIcon
+  ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
