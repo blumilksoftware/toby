@@ -22,7 +22,7 @@ class UserRequest extends FormRequest
             "position" => ["required"],
             "employmentForm" => ["required", new Enum(EmploymentForm::class)],
             "employmentDate" => ["required", "date_format:Y-m-d"],
-            "birthday" => ["required", "nullable", "date_format:Y-m-d", "before:today"],
+            "birthday" => ["required", "date_format:Y-m-d", "before:today"],
             "slackId" => [],
             "nextMedicalExamDate" => ["nullable", "after:lastMedicalExamDate"],
             "nextOhsTrainingDate" => ["nullable", "after:lastOhsTrainingDate"],
