@@ -1,6 +1,5 @@
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
-
 import Pagination from '@/Shared/Pagination.vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { reactive, watch } from 'vue'
@@ -10,6 +9,7 @@ import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
 import {
   CheckIcon,
   XMarkIcon,
+  ComputerDesktopIcon
 } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
@@ -143,7 +143,7 @@ watch(form, debounce(() => {
               >
                 <EmptyState class="text-gray-700">
                   <template #head>
-                    <KeyIcon class="mx-auto w-12 h-12" />
+                    <ComputerDesktopIcon class="mx-auto w-12 h-12" />
                   </template>
                   <template #title>
                     Brak wpisów
