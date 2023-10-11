@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Toby\Eloquent\Models\User;
 
-class EmployeesMilestoneRetriever
+class EmployeesMilestonesRetriever
 {
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,

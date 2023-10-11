@@ -8,20 +8,20 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Domain\EmployeesMilestoneRetriever;
+use Toby\Domain\EmployeesMilestonesRetriever;
 use Toby\Eloquent\Models\User;
 
 class EmployeesMilestonesTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 
-    protected EmployeesMilestoneRetriever $employeesMilestoneRetriever;
+    protected EmployeesMilestonesRetriever $employeesMilestonesRetriever;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->employeesMilestoneRetriever = $this->app->make(EmployeesMilestoneRetriever::class);
+        $this->employeesMilestonesRetriever = $this->app->make(EmployeesMilestonesRetriever::class);
     }
 
     public function testUserCanSeeEmployeesMilestonesList(): void
@@ -57,13 +57,13 @@ class EmployeesMilestonesTest extends FeatureTestCase
             ->employee()
             ->create();
 
-        $sortedUsersByUpcomingBirthday = $this->employeesMilestoneRetriever->getResults(null, "birthday-asc")->values();
+        $sortedUsersByUpcomingBirthday = $this->employeesMilestonesRetriever->getResults(null, "birthday-asc")->values();
 
         $this->assertEquals($user1->id, $sortedUsersByUpcomingBirthday[0]->id);
         $this->assertEquals($user3->id, $sortedUsersByUpcomingBirthday[1]->id);
         $this->assertEquals($user2->id, $sortedUsersByUpcomingBirthday[2]->id);
 
-        $sortedUsersByFurthestBirthday = $this->employeesMilestoneRetriever->getResults(null, "birthday-desc")->values();
+        $sortedUsersByFurthestBirthday = $this->employeesMilestonesRetriever->getResults(null, "birthday-desc")->values();
 
         $this->assertEquals($user2->id, $sortedUsersByFurthestBirthday[0]->id);
         $this->assertEquals($user3->id, $sortedUsersByFurthestBirthday[1]->id);
@@ -87,13 +87,13 @@ class EmployeesMilestonesTest extends FeatureTestCase
             ->employee()
             ->create();
 
-        $sortedUsersByLongestSeniority = $this->employeesMilestoneRetriever->getResults(null, "seniority-asc")->values();
+        $sortedUsersByLongestSeniority = $this->employeesMilestonesRetriever->getResults(null, "seniority-asc")->values();
 
         $this->assertEquals($user3->id, $sortedUsersByLongestSeniority[0]->id);
         $this->assertEquals($user2->id, $sortedUsersByLongestSeniority[1]->id);
         $this->assertEquals($user1->id, $sortedUsersByLongestSeniority[2]->id);
 
-        $sortedUsersByShortestSeniority = $this->employeesMilestoneRetriever->getResults(null, "seniority-desc")->values();
+        $sortedUsersByShortestSeniority = $this->employeesMilestonesRetriever->getResults(null, "seniority-desc")->values();
 
         $this->assertEquals($user1->id, $sortedUsersByShortestSeniority[0]->id);
         $this->assertEquals($user2->id, $sortedUsersByShortestSeniority[1]->id);

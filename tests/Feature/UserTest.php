@@ -101,6 +101,7 @@ class UserTest extends FeatureTestCase
                 "email" => "john.doe@example.com",
                 "employmentForm" => EmploymentForm::B2bContract->value,
                 "employmentDate" => Carbon::now()->toDateString(),
+                "birthday" => Carbon::create(1990, 5, 31)->toDateString(),
             ])
             ->assertSessionHasNoErrors();
 
@@ -121,6 +122,7 @@ class UserTest extends FeatureTestCase
             "position" => "Test position",
             "employment_form" => EmploymentForm::B2bContract->value,
             "employment_date" => Carbon::now()->toDateString(),
+            "birthday" => Carbon::create(1990, 5, 31)->toDateString(),
         ]);
     }
 
@@ -137,6 +139,7 @@ class UserTest extends FeatureTestCase
                 "email" => "john.doe@example.com",
                 "employmentForm" => EmploymentForm::B2bContract->value,
                 "employmentDate" => Carbon::now()->toDateString(),
+                "birthday" => Carbon::create(1990, 5, 31)->toDateString(),
             ])
             ->assertSessionHasNoErrors();
 
@@ -165,6 +168,7 @@ class UserTest extends FeatureTestCase
             "last_name" => $user->profile->last_name,
             "employment_form" => $user->profile->employment_form->value,
             "employment_date" => $user->profile->employment_date->toDateString(),
+            "birthday" => $user->profile->birthday->toDateString(),
         ]);
 
         $this->actingAs($admin)
@@ -176,6 +180,7 @@ class UserTest extends FeatureTestCase
                 "position" => "Test position",
                 "employmentForm" => EmploymentForm::B2bContract->value,
                 "employmentDate" => Carbon::now()->toDateString(),
+                "birthday" => Carbon::create(1990, 5, 31)->toDateString(),
             ])
             ->assertSessionHasNoErrors();
 
@@ -192,6 +197,7 @@ class UserTest extends FeatureTestCase
             "position" => "Test position",
             "employment_form" => EmploymentForm::B2bContract->value,
             "employment_date" => Carbon::now()->toDateString(),
+            "birthday" => Carbon::create(1990, 5, 31)->toDateString(),
         ]);
     }
 
@@ -239,6 +245,7 @@ class UserTest extends FeatureTestCase
                 "position" => "Test position",
                 "employmentForm" => EmploymentForm::B2bContract->value,
                 "employmentDate" => Carbon::now()->toDateString(),
+                "birthday" => Carbon::create(1990, 5, 31)->toDateString(),
             ])
             ->assertSessionHasNoErrors();
 
