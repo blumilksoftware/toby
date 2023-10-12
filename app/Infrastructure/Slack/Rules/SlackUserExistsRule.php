@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Slack\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
 use Toby\Eloquent\Models\Profile;
 
-class SlackUserExistsRule implements Rule
+class SlackUserExistsRule implements ValidationRule
 {
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $slackId = Str::between($value, "<@", "|");
 
-        return Profile::query()->where("slack_id", $slackId)->exists();
-    }
-
-    public function message(): string
-    {
-        return __("User :input does not exist in toby");
+        if (!Profile::query()->where("slack_id", $slackId)->exists()) {
+            $fail(__("User :input does not exist in toby"));
+        }
     }
 }
