@@ -139,4 +139,17 @@ class BenefitsReportController extends Controller
 
         return Excel::download($timesheet, $filename);
     }
+
+    public function destroy(BenefitsReport $benefitsReport): RedirectResponse
+    {
+        $this->authorize("manageBenefits");
+
+        $benefitsReport->delete();
+
+        return redirect()
+            ->back()
+            ->with("success", __("Benefits report :name deleted.", [
+                "name" => $benefitsReport->name,
+            ]));
+    }
 }
