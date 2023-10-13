@@ -123,6 +123,7 @@
   "Benefit :name created.": "Benefit :name utworzony.",
   "Benefit :name deleted.": "Benefit :name usunięty.",
   "Benefits report :name created.": "Raport :name utworzony.",
+  "Benefits report :name deleted.": "Raport :name usunięty.",
   ":sender leaves key no :key in the office": ":sender zostawia klucz nr :key w biurze",
   ":recipient takes key no :key from the office": ":recipient zabiera klucz nr :key z biura",
   "today": "dzisiaj",
