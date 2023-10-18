@@ -168,5 +168,16 @@
   "waiting_for_administrative": "czeka na akceptację od przełożonego administracyjnego",
   "You do not have permission to perform this action.": "Nie masz uprawnień, aby wykonać tę akcję.",
   "waiting_for_technical": "czeka na akceptację od przełożonego technicznego",
-  "You cannot perform this action because the current status of the request :title by user :requester is :status.": "Nie możesz wykonać tej akcji, ponieważ aktualny status wniosku :title użytkownika :requester to :status"
+  "You cannot perform this action because the current status of the request :title by user :requester is :status.": "Nie możesz wykonać tej akcji, ponieważ aktualny status wniosku :title użytkownika :requester to :status",
+  "Equipment item created.": "Sprzęt utworzony.",
+  "Equipment item updated.": "Sprzęt zaktualizowany.",
+  "Equipment item deleted.": "Sprzęt usunięty.",
+  "Label :name created.": "Etykieta :name utworzona.",
+  "Label :name deleted.": "Etykieta :name usunięta.",
+  "Equipment": "Sprzęt",
+  "Name": "Nazwa",
+  "Labels": "Etykiety",
+  "Is mobile": "Czy mobilny",
+  "Assignee": "Przypisany do",
+  "Assigned at": "Przypisany od"
 }

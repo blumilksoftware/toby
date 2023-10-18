@@ -21,6 +21,8 @@ use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Eloquent\Models\Benefit;
 use Toby\Eloquent\Models\BenefitsReport;
+use Toby\Eloquent\Models\EquipmentItem;
+use Toby\Eloquent\Models\EquipmentLabel;
 use Toby\Eloquent\Models\Key;
 use Toby\Eloquent\Models\Resume;
 use Toby\Eloquent\Models\Technology;
@@ -395,5 +397,75 @@ class DemoSeeder extends Seeder
             "data" => null,
             "committed_at" => null,
         ]);
+
+        EquipmentLabel::factory()->createMany([
+            ["name" => "Komputery"],
+            ["name" => "Telefony"],
+            ["name" => "Urządzenia peryferyjne"],
+            ["name" => "Monitory"],
+            ["name" => "Telewizory"],
+            ["name" => "Wyposażenie biura"],
+            ["name" => "Inne"],
+        ]);
+
+        User::query()->each(function (User $user): void {
+            /** @var EquipmentItem $computer */
+            $computer = EquipmentItem::factory([
+                "name" => "Laptop Dell Latitude 7400",
+                "assigned_at" => fake()->dateTimeBetween("-1 year"),
+                "is_mobile" => true,
+                "labels" => [
+                    "Komputery",
+                ],
+            ])->for($user, "assignee")->create();
+
+            EquipmentItem::factory([
+                "name" => "Monitor Philips 2" . fake()->numberBetween(1, 8) . '"',
+                "assigned_at" => $computer->assigned_at,
+                "is_mobile" => false,
+                "labels" => [
+                    "Monitory",
+                    "Urządzenia peryferyjne",
+                ],
+            ])->for($user, "assignee")->create();
+
+            EquipmentItem::factory([
+                "name" => "Myszka Logitech MX" . fake()->numerify(),
+                "assigned_at" => $computer->assigned_at,
+                "is_mobile" => true,
+                "labels" => [
+                    "Urządzenia peryferyjne",
+                ],
+            ])->for($user, "assignee")->create();
+
+            EquipmentItem::factory([
+                "name" => "Klawiatura Dell " . fake()->numerify("#####"),
+                "assigned_at" => $computer->assigned_at,
+                "is_mobile" => true,
+                "labels" => [
+                    "Urządzenia peryferyjne",
+                ],
+            ])->for($user, "assignee")->create();
+
+            EquipmentItem::factory([
+                "name" => "Hub USB",
+                "assigned_at" => $computer->assigned_at,
+                "is_mobile" => true,
+                "labels" => [
+                    "Urządzenia peryferyjne",
+                ],
+            ])->for($user, "assignee")->create();
+        });
+
+        EquipmentItem::factory([
+            "name" => 'Telewizor TCN 55" 4K',
+            "is_mobile" => false,
+            "assigned_at" => null,
+            "assignee_id" => null,
+            "labels" => [
+                "Telewizory",
+                "Wyposażenie biura",
+            ],
+        ])->create();
     }
 }

@@ -13,6 +13,8 @@ const props = defineProps({
   items: Array,
   modelValue: Array,
   id: String,
+  placeholder: String,
+  showChips: Boolean,
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -41,7 +43,10 @@ const filteredItems = computed(() =>
     nullable
     multiple
   >
-    <div class="flex flex-wrap gap-3">
+    <div 
+      v-if="showChips"
+      class="flex flex-wrap mb-2 gap-2 gap-y-2"
+    >
       <span
         v-for="(item, index) in selectedItems"
         :key="index"
@@ -68,9 +73,10 @@ const filteredItems = computed(() =>
         </button>
       </span>
     </div>
-    <div class="relative mt-2">
+    <div class="relative">
       <ComboboxInput
         :id="id"
+        placeholder="Etykiety"
         class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
         @change="query = $event.target.value"
       />
@@ -79,7 +85,6 @@ const filteredItems = computed(() =>
       </ComboboxButton>
 
       <ComboboxOptions
-        v-if="filteredItems.length"
         class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
       >
         <ComboboxOption
@@ -99,6 +104,16 @@ const filteredItems = computed(() =>
               :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-blumilk-600']"
             >
               <CheckIcon class="h-5 w-5" />
+            </span>
+          </li>
+        </ComboboxOption>
+        <ComboboxOption
+          v-if="filteredItems.length === 0"
+          as="template"
+        >
+          <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-500">
+            <span class="block truncate">
+              Brak wyników wyszukiwania
             </span>
           </li>
         </ComboboxOption>

@@ -27,6 +27,7 @@ import {
   BeakerIcon,
   GiftIcon,
   BanknotesIcon,
+  ComputerDesktopIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
@@ -142,6 +143,20 @@ const miscNavigation = computed(() => [
     section: 'BenefitsReport',
     icon: DocumentDuplicateIcon,
     can: props.auth.can.manageBenefits,
+  },
+  {
+    name: 'Sprzęt',
+    href: '/equipment-items',
+    section: 'Equipment',
+    icon: ComputerDesktopIcon,
+    can: props.auth.can.manageEquipment,
+  },
+  {
+    name: 'Mój sprzęt',
+    href: '/equipment-items/me',
+    section: 'Equipment',
+    icon: ComputerDesktopIcon,
+    can: !props.auth.can.manageEquipment,
   },
 ].filter(item => item.can))
 </script>

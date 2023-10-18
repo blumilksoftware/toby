@@ -531,6 +531,7 @@ function submitResume() {
                 <MultipleCombobox
                   :id="`project-technologies-${index}`"
                   v-model="element.technologies"
+                  :show-chips="true"
                   :items="technologies"
                 />
                 <p
