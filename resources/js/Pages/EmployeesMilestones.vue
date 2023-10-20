@@ -151,6 +151,12 @@ watch(form, debounce(() => {
                 scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
               >
+                Data zatrudnienia
+              </th>
+              <th
+                scope="col"
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              >
                 Staż pracy
               </th>
             </tr>
@@ -180,6 +186,9 @@ watch(form, debounce(() => {
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.birthdayDisplayDate }} - {{ user.birthdayRelativeDate }}
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ user.employmentDate }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 <div class="flex gap-1">
