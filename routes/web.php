@@ -8,6 +8,8 @@ use Toby\Infrastructure\Http\Controllers\AssignedBenefitController;
 use Toby\Infrastructure\Http\Controllers\BenefitController;
 use Toby\Infrastructure\Http\Controllers\BenefitsReportController;
 use Toby\Infrastructure\Http\Controllers\DashboardController;
+use Toby\Infrastructure\Http\Controllers\EquipmentController;
+use Toby\Infrastructure\Http\Controllers\EquipmentLabelController;
 use Toby\Infrastructure\Http\Controllers\EmployeesMilestonesController;
 use Toby\Infrastructure\Http\Controllers\GoogleController;
 use Toby\Infrastructure\Http\Controllers\HolidayController;
@@ -39,6 +41,18 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
+
+    Route::resource("equipment-items", EquipmentController::class)
+        ->except("show")
+        ->whereNumber("equipmentItem");
+    Route::get("/equipment-items/me", [EquipmentController::class, "indexForEmployee"])
+        ->name("equipment-items.indexForEmployee");
+    Route::get("/equipment-items/download", [EquipmentController::class, "downloadExcel"])
+        ->name("equipment-items.download");
+
+    Route::resource("equipment-labels", EquipmentLabelController::class)
+        ->only(["index", "store", "destroy"])
+        ->whereNumber("equipmentLabels");
 
     Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
         ->whereNumber("user");

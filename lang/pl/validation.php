@@ -158,8 +158,18 @@ return [
         "projects.*.tasks" => [
             "required" => "Zadania w projekcie są wymagane.",
         ],
+        "idNumber" => [
+            "required" => "ID jest wymagane.",
+        ],
+        "assignee" => [
+            "required_with" => "Przydzielona osoba jest wymagana.",
+        ],
+        "assignedAt" => [
+            "required_with" => "Data przydzielenia jest wymagana.",
+        ],
         "name" => [
             "unique" => "Taka nazwa już występuje.",
+            "required" => "Nazwa jest wymagana.",
         ],
         "items.*.days" => [
             "max" => "Limit dni urlopu nie może być większy niż :max.",
@@ -185,6 +195,10 @@ return [
         "date" => "data",
         "name" => "nazwa",
         "password" => "hasło",
+        "idNumber" => "ID",
+        "isMobile" => "mobilny",
+        "assignee" => "przydzielona osoba",
+        "assignedAt" => "data przydzielenia",
         "birthday" => "data urodzenia",
     ],
 ];

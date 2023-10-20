@@ -20,6 +20,11 @@ const permissionsInfo = [
     'section': 'Biuro',
   },
   {
+    'name': 'Zarządzanie sprzętem',
+    'value': 'manageEquipment',
+    'section': 'Biuro',
+  },
+  {
     'name': 'Zarządzanie technologiami',
     'value': 'manageTechnologies',
     'section': 'Zespół',
