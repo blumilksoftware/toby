@@ -1,11 +1,10 @@
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import { CheckIcon, ChevronUpDownIcon, CalendarDaysIcon, CakeIcon } from '@heroicons/vue/24/solid'
 import { Listbox,
   ListboxButton,
   ListboxOption,
@@ -153,12 +152,6 @@ watch(form, debounce(() => {
               >
                 Data zatrudnienia
               </th>
-              <th
-                scope="col"
-                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
-              >
-                Staż pracy
-              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-100">
@@ -185,21 +178,37 @@ watch(form, debounce(() => {
                 </div>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ user.birthdayDisplayDate }} - {{ user.birthdayRelativeDate }}
+                <div class="flex flex-col gap-1">
+                  <div>
+                    {{ user.birthdayDisplayDate }}
+                  </div>
+                  <div class="flex items-center gap-1">
+                    {{ user.birthdayRelativeDate }}
+                    <span
+                      v-if="user.isBirthdayToday"
+                      v-tooltip.right="'urodziny'"
+                      class="inline-block"
+                    >
+                      <CakeIcon class="w-5 h-5 text-violet-400" />
+                    </span>
+                  </div>
+                </div>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ user.employmentDate }}
-              </td>
-              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                <div class="flex gap-1">
-                  {{ user.seniorityDisplayDate ? user.seniorityDisplayDate : '-' }}
-                  <span
-                    v-if="user.isWorkAnniversaryToday"
-                    v-tooltip.right="'okrągła rocznica pracy'"
-                    class="inline-block"
-                  >
-                    <CalendarDaysIcon class="w-5 h-5 text-pink-400" />
-                  </span>
+                <div class="flex flex-col gap-1">
+                  <div>
+                    {{ user.employmentDate }}
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <div>{{ user.seniorityDisplayDate ? user.seniorityDisplayDate : '-' }}</div>
+                    <span
+                      v-if="user.isWorkAnniversaryToday"
+                      v-tooltip.right="'okrągła rocznica pracy'"
+                      class="inline-block"
+                    >
+                      <CalendarDaysIcon class="w-5 h-5 text-pink-400" />
+                    </span>
+                  </div>
                 </div>
               </td>
             </tr>

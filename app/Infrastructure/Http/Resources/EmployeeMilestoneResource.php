@@ -27,6 +27,7 @@ class EmployeeMilestoneResource extends JsonResource
                     Carbon::today(),
                     ["options" => CarbonInterface::ONE_DAY_WORDS, "syntax" => CarbonInterface::DIFF_RELATIVE_TO_NOW],
                 ),
+            "isBirthdayToday" => (bool)$upcomingBirthday?->isToday(),
             "seniorityDisplayDate" => $seniority,
             "isWorkAnniversaryToday" => $isSeniorityAnniversaryToday,
             "employmentDate" => $this->profile->employment_date->toDisplayString(),
