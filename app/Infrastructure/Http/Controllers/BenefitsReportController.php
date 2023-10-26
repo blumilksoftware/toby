@@ -36,7 +36,6 @@ class BenefitsReportController extends Controller
         $benefitsReports = BenefitsReport::query()
             ->search($searchText)
             ->orderBy("committed_at", "desc")
-            ->whereKeyNot(1)
             ->paginate()
             ->withQueryString();
 
@@ -80,7 +79,7 @@ class BenefitsReportController extends Controller
 
         /** @var BenefitsReport $assignedBenefits */
         $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
             ->first();
 
         $data = $users->map(fn(User $user): array => [
@@ -143,6 +142,12 @@ class BenefitsReportController extends Controller
     public function destroy(BenefitsReport $benefitsReport): RedirectResponse
     {
         $this->authorize("manageBenefits");
+
+        if ($benefitsReport->id === 1) {
+            return redirect()
+                ->back()
+                ->with("error", __("Nie możesz usunąć bazowego raportu"));
+        }
 
         $benefitsReport->delete();
 

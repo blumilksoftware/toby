@@ -121,4 +121,20 @@ class BenefitsReportTest extends FeatureTestCase
             ->delete("/benefits-reports/{$benefitsReport->id}")
             ->assertRedirect();
     }
+
+    public function testAdminCannotDeleteBenefitsReportWithNullCommittedAtDate(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        Benefit::factory(4)->create();
+        User::factory(4)->create();
+
+        $firstBenefitReport = BenefitsReport::query()
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
+            ->first();
+
+        $this->actingAs($admin)
+            ->delete("/benefits-reports/{$firstBenefitReport->id}")
+            ->assertStatus(404);
+    }
 }
