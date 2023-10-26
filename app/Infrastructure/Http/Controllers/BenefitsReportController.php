@@ -143,12 +143,6 @@ class BenefitsReportController extends Controller
     {
         $this->authorize("manageBenefits");
 
-        if ($benefitsReport->id === 1) {
-            return redirect()
-                ->back()
-                ->with("error", __("Nie możesz usunąć bazowego raportu"));
-        }
-
         $benefitsReport->delete();
 
         return redirect()
