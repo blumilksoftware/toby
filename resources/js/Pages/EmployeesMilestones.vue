@@ -182,7 +182,7 @@ watch(form, debounce(() => {
                   <div>
                     {{ user.birthdayDisplayDate }}
                   </div>
-                  <div class="flex items-center gap-1">
+                  <div class="flex items-center gap-1 font-medium">
                     {{ user.birthdayRelativeDate }}
                     <span
                       v-if="user.isBirthdayToday"
@@ -199,7 +199,7 @@ watch(form, debounce(() => {
                   <div>
                     {{ user.employmentDate }}
                   </div>
-                  <div class="flex items-center gap-1">
+                  <div class="flex items-center gap-1 font-medium">
                     <div>{{ user.seniorityDisplayDate ? user.seniorityDisplayDate : '-' }}</div>
                     <span
                       v-if="user.isWorkAnniversaryToday"
