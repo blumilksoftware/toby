@@ -44,7 +44,7 @@ class BenefitsReport extends Model
 
     protected static function booted(): void
     {
-        static::addGlobalScope("withoutAssignedBenefitReport", fn(Builder $builder) => $builder->whereNotNull("committed_at"));
+        static::addGlobalScope("withoutAssignedBenefitReport", fn(Builder $builder): Builder => $builder->whereNotNull("committed_at"));
     }
 
     protected static function newFactory(): BenefitsReportFactory
