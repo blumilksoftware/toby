@@ -42,6 +42,11 @@ class BenefitsReport extends Model
             ->where("name", "ILIKE", "%{$text}%");
     }
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope("withoutAssignedBenefitReport", fn(Builder $builder): Builder => $builder->whereNotNull("committed_at"));
+    }
+
     protected static function newFactory(): BenefitsReportFactory
     {
         return BenefitsReportFactory::new();

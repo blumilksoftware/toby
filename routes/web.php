@@ -74,6 +74,10 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/benefits-reports", [BenefitsReportController::class, "store"])
         ->name("benefits-reports.store");
 
+    Route::delete("/benefits-reports/{benefitsReport}", [BenefitsReportController::class, "destroy"])
+        ->name("benefits-reports.delete")
+        ->whereNumber("report");
+
     Route::get("/benefits-reports/{benefitsReport}", [BenefitsReportController::class, "show"])
         ->name("benefits-reports.show")
         ->whereNumber("report");

@@ -24,7 +24,7 @@ class AssignedBenefitsTest extends FeatureTestCase
 
         /** @var BenefitsReport $assignedBenefits */
         $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
             ->first();
 
         $assignedBenefits->refresh();
@@ -54,7 +54,7 @@ class AssignedBenefitsTest extends FeatureTestCase
 
         /** @var BenefitsReport $assignedBenefits */
         $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
             ->first();
 
         $assignedBenefits->refresh();

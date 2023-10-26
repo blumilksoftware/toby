@@ -36,7 +36,6 @@ class BenefitsReportController extends Controller
         $benefitsReports = BenefitsReport::query()
             ->search($searchText)
             ->orderBy("committed_at", "desc")
-            ->whereKeyNot(1)
             ->paginate()
             ->withQueryString();
 
@@ -80,7 +79,7 @@ class BenefitsReportController extends Controller
 
         /** @var BenefitsReport $assignedBenefits */
         $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
             ->first();
 
         $data = $users->map(fn(User $user): array => [
@@ -138,5 +137,18 @@ class BenefitsReportController extends Controller
         $timesheet = new BenefitsReportTimesheet($benefitsReport, $userIds);
 
         return Excel::download($timesheet, $filename);
+    }
+
+    public function destroy(BenefitsReport $benefitsReport): RedirectResponse
+    {
+        $this->authorize("manageBenefits");
+
+        $benefitsReport->delete();
+
+        return redirect()
+            ->back()
+            ->with("success", __("Benefits report :name deleted.", [
+                "name" => $benefitsReport->name,
+            ]));
     }
 }

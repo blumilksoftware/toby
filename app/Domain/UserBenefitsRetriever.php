@@ -16,7 +16,7 @@ class UserBenefitsRetriever
     {
         /* @var BenefitsReport $assignedBenefits */
         $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
             ->first();
 
         $allBenefits = Benefit::query()->get();

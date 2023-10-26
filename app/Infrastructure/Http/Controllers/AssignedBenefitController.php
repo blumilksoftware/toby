@@ -36,7 +36,7 @@ class AssignedBenefitController extends Controller
             ->get();
 
         $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
             ->first();
 
         return inertia("AssignedBenefits/AssignedBenefits", [
@@ -65,7 +65,7 @@ class AssignedBenefitController extends Controller
 
         /** @var BenefitsReport $assignedBenefits */
         $assignedBenefits = BenefitsReport::query()
-            ->whereKey(1)
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
             ->first();
 
         $data = Arr::where(

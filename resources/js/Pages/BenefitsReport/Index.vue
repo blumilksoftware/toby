@@ -1,11 +1,12 @@
 <script setup>
-import { ChevronRightIcon } from '@heroicons/vue/24/solid'
+import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { reactive, watch } from 'vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const props = defineProps({
   benefitsReports: Object,
@@ -71,12 +72,9 @@ watch(form, debounce(() => {
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-100">
-          <InertiaLink
+          <tr
             v-for="benefitsReport in benefitsReports.data"
             :key="benefitsReport.id"
-            :href="`/benefits-reports/${benefitsReport.id}`"
-            as="tr"
-            class="relative hover:bg-blumilk-25"
           >
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
@@ -89,15 +87,50 @@ watch(form, debounce(() => {
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               {{ benefitsReport.createdAt }}
             </td>
-            <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-              <InertiaLink
-                :href="`/benefits-reports/${benefitsReport.id}`"
-                class="flex justify-around focus:outline-blumilk-500"
+            <td class="p-4 text-sm text-right text-gray-500 whitespace-nowrap">
+              <Menu
+                as="div"
+                class="inline-block relative text-left"
               >
-                <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
-              </InertiaLink>
+                <MenuButton
+                  class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                >
+                  <EllipsisVerticalIcon class="w-5 h-5" />
+                </MenuButton>
+
+                <transition
+                  enter-active-class="transition ease-out duration-100"
+                  enter-from-class="transform opacity-0 scale-95"
+                  enter-to-class="transform opacity-100 scale-100"
+                  leave-active-class="transition ease-in duration-75"
+                  leave-from-class="transform opacity-100 scale-100"
+                  leave-to-class="transform opacity-0 scale-95"
+                >
+                  <MenuItems
+                    class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
+                  >
+                    <div class="py-1">
+                      <MenuItem
+                        v-slot="{ active }"
+                        class="flex"
+                      >
+                        <InertiaLink
+                          as="button"
+                          method="delete"
+                          preserve-scroll
+                          :href="`/benefits-reports/${benefitsReport.id}`"
+                          :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                        >
+                          <TrashIcon class="mr-2 w-5 h-5 text-red-500" />
+                          Usuń
+                        </InertiaLink>
+                      </MenuItem>
+                    </div>
+                  </MenuItems>
+                </transition>
+              </Menu>
             </td>
-          </InertiaLink>
+          </tr>
           <tr v-if="! benefitsReports.data.length">
             <td
               colspan="100%"

@@ -104,4 +104,37 @@ class BenefitsReportTest extends FeatureTestCase
             ->get("/benefits-reports/{$benefitsReport->id}/download?users[]={$firstUser->id}&users[]={$secondUser->id}")
             ->assertDownload($expectedFilename);
     }
+
+    public function testAdminCanDeleteBenefitsReport(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        Benefit::factory(4)->create();
+        User::factory(4)->create();
+
+        /** @var BenefitsReport $benefitsReport */
+        $benefitsReport = BenefitsReport::factory()->create([
+            "name" => "Test BenefitsReport",
+        ]);
+
+        $this->actingAs($admin)
+            ->delete("/benefits-reports/{$benefitsReport->id}")
+            ->assertRedirect();
+    }
+
+    public function testAdminCannotDeleteBenefitsReportWithNullCommittedAtDate(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        Benefit::factory(4)->create();
+        User::factory(4)->create();
+
+        $firstBenefitReport = BenefitsReport::query()
+            ->withoutGlobalScope("withoutAssignedBenefitReport")
+            ->first();
+
+        $this->actingAs($admin)
+            ->delete("/benefits-reports/{$firstBenefitReport->id}")
+            ->assertStatus(404);
+    }
 }
