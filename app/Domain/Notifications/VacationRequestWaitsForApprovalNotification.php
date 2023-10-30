@@ -51,17 +51,29 @@ class VacationRequestWaitsForApprovalNotification extends VacationRequestNotific
     {
         $title = $this->vacationRequest->name;
         $requester = $this->vacationRequest->user->profile->full_name;
+        $from = $this->vacationRequest->from;
+        $to = $this->vacationRequest->to;
+
+        $date = $from->equalTo($to)
+            ? "{$from->toDisplayString()}"
+            : "{$from->toDisplayString()} - {$to->toDisplayString()}";
+
+        $days = $this->vacationRequest->vacations()->count();
 
         if ($this->vacationRequest->state->equals(WaitingForTechnical::class)) {
-            return __("The request :title from user :requester is waiting for your technical approval.", [
+            return __("The request :title is waiting for your technical approval.\nUser: :requester\nDate: :date (number of days: :days)", [
                 "title" => $title,
                 "requester" => $requester,
+                "date" => $date,
+                "days" => $days,
             ]);
         }
 
-        return __("The request :title from user :requester is waiting for your administrative approval.", [
+        return __("The request :title is waiting for your administrative approval.\nUser: :requester\nDate: :date (number of days: :days)", [
             "title" => $title,
             "requester" => $requester,
+            "date" => $date,
+            "days" => $days,
         ]);
     }
 }
