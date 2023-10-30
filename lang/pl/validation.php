@@ -180,6 +180,9 @@ return [
         "nextMedicalExamDate" => [
             "after" => "Data następnego badania lekarskiego musi być późniejsza od daty ostatniego badania lekarskiego.",
         ],
+        "birthday" => [
+            "before" => "Data urodzenia musi być datą wcześniejszą od dzisiaj.",
+        ],
     ],
     "attributes" => [
         "to" => "do",
@@ -196,5 +199,6 @@ return [
         "isMobile" => "mobilny",
         "assignee" => "przydzielona osoba",
         "assignedAt" => "data przydzielenia",
+        "birthday" => "data urodzenia",
     ],
 ];

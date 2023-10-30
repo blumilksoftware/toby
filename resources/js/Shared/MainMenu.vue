@@ -29,6 +29,7 @@ import {
   BanknotesIcon,
   ComputerDesktopIcon,
   DocumentDuplicateIcon,
+  CakeIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
@@ -101,6 +102,13 @@ const miscNavigation = computed(() => [
     section: 'Users',
     icon: UserGroupIcon,
     can: props.auth.can.manageUsers,
+  },
+  {
+    name: 'Jubileusze',
+    href: '/employees-milestones',
+    section: 'EmployeesMilestones',
+    icon: CakeIcon,
+    can: true,
   },
   {
     name: 'Klucze',
