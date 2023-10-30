@@ -83,11 +83,21 @@ class SlackActionController extends SlackController
 
         $acceptAsTechnical->execute($vacationRequest, $user);
 
+        $from = $vacationRequest->from;
+        $to = $vacationRequest->to;
+
+        $date = $from->equalTo($to)
+            ? "{$from->toDisplayString()}"
+            : "{$from->toDisplayString()} - {$to->toDisplayString()}";
+
+        $days = $vacationRequest->vacations()->count();
+
         return response()->json([
-            "text" => __("The request :title from user :requester has been approved by you as a technical approver.", [
+            "text" => __("The request :title has been approved by you as a technical approver.\nUser: :requester\nDate: :date (number of days: :days)", [
                 "title" => $vacationRequest->name,
                 "requester" => $vacationRequest->user->profile->full_name,
-                "technical" => $user->profile->full_name,
+                "date" => $date,
+                "days" => $days,
             ]),
         ]);
     }
@@ -104,10 +114,21 @@ class SlackActionController extends SlackController
 
         $acceptAsAdministrative->execute($vacationRequest, $user);
 
+        $from = $vacationRequest->from;
+        $to = $vacationRequest->to;
+
+        $date = $from->equalTo($to)
+            ? "{$from->toDisplayString()}"
+            : "{$from->toDisplayString()} - {$to->toDisplayString()}";
+
+        $days = $vacationRequest->vacations()->count();
+
         return response()->json([
-            "text" => __("The request :title from user :requester has been approved by you as an administrative approver.", [
+            "text" => __("The request :title has been approved by you as an administrative approver.\nUser: :requester\nDate: :date (number of days: :days)", [
                 "title" => $vacationRequest->name,
                 "requester" => $vacationRequest->user->profile->full_name,
+                "date" => $date,
+                "days" => $days,
             ]),
         ]);
     }
