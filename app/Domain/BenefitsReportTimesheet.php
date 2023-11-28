@@ -26,8 +26,8 @@ class BenefitsReportTimesheet implements WithTitle, WithHeadings, WithEvents, Wi
 {
     use RegistersEventListeners;
 
-    protected const ROW_HEIGHT = 70;
-    protected const COLUMN_WIDTH = 22;
+    protected const int ROW_HEIGHT = 70;
+    protected const int COLUMN_WIDTH = 22;
 
     public function __construct(
         protected BenefitsReport $report,

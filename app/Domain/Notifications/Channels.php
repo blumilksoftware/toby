@@ -6,6 +6,6 @@ namespace Toby\Domain\Notifications;
 
 class Channels
 {
-    public const MAIL = "mail";
-    public const SLACK = "slack";
+    public const string MAIL = "mail";
+    public const string SLACK = "slack";
 }
