@@ -34,9 +34,9 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
 {
     use RegistersEventListeners;
 
-    protected const HOURS_PER_DAY = 8;
-    protected const START_HOUR = 8;
-    protected const END_HOUR = 16;
+    protected const int HOURS_PER_DAY = 8;
+    protected const int START_HOUR = 8;
+    protected const int END_HOUR = 16;
 
     public function __construct(
         protected User $user,

@@ -11,14 +11,14 @@ use Toby\Domain\Enums\VacationType;
 
 class VacationTypeConfigRetriever
 {
-    public const KEY_TECHNICAL_APPROVAL = "technical_approval";
-    public const KEY_ADMINISTRATIVE_APPROVAL = "administrative_approval";
-    public const KEY_BILLABLE = "billable";
-    public const KEY_HAS_LIMIT = "has_limit";
-    public const KEY_AVAILABLE_FOR = "available_for";
-    public const KEY_IS_VACATION = "is_vacation";
-    public const KEY_DURING_NON_WORKDAYS = "during_non_workdays";
-    public const KEY_REQUEST_ALLOWED_FOR = "request_allowed_for";
+    public const string KEY_TECHNICAL_APPROVAL = "technical_approval";
+    public const string KEY_ADMINISTRATIVE_APPROVAL = "administrative_approval";
+    public const string KEY_BILLABLE = "billable";
+    public const string KEY_HAS_LIMIT = "has_limit";
+    public const string KEY_AVAILABLE_FOR = "available_for";
+    public const string KEY_IS_VACATION = "is_vacation";
+    public const string KEY_DURING_NON_WORKDAYS = "during_non_workdays";
+    public const string KEY_REQUEST_ALLOWED_FOR = "request_allowed_for";
 
     public function __construct(
         protected Repository $config,

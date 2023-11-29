@@ -9,7 +9,7 @@ use Toby\Eloquent\Models\YearPeriod;
 
 class YearPeriodRetriever
 {
-    public const SESSION_KEY = "selected_year_period";
+    public const string SESSION_KEY = "selected_year_period";
 
     public function __construct(
         protected Session $session,
