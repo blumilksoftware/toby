@@ -1,14 +1,55 @@
-FROM composer/composer:2.5.8-bin as composer-bin
+ARG PHP_VERSION=8.3.0
+ARG PHP_MODULE_NAME=php${PHP_VERSION}
+# https://github.com/nginx/unit/tags
+ARG UNIT_VERSION=1.31.1-1
 
-FROM node:20.8.0-bullseye-slim as node
+# https://hub.docker.com/r/composer/composer
+FROM composer/composer:2.6.6-bin as composer-bin
 
-FROM php:8.3.0-fpm-bullseye
+# https://hub.docker.com/_/node
+FROM node:21.4.0-bullseye-slim as node
+
+# https://hub.docker.com/_/unit
+FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
+
+RUN apt-get update && apt-get install --assume-yes \
+        git \
+        libpcre2-dev
+
+ARG UNIT_VERSION
+ARG PHP_MODULE_NAME
+
+RUN git clone https://github.com/nginx/unit \
+        && cd unit \
+        && git checkout ${UNIT_VERSION} \
+        && ./configure \
+        && ./configure php --module=${PHP_MODULE_NAME} \
+        && make ${PHP_MODULE_NAME}
+
+FROM php:${PHP_VERSION}-cli-bullseye as app
+
+ARG UNIT_VERSION
+# https://packages.nginx.org/unit/debian/pool/unit/u/unit/
+ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bullseye"
+ARG PHP_MODULE_NAME
+
+COPY --from=unit-modules-builder /unit/build/lib/unit/modules/${PHP_MODULE_NAME}.unit.so /usr/lib/unit/modules/${PHP_MODULE_NAME}.unit.so
+
+# Install Nginx Unit
+RUN curl --output /usr/share/keyrings/nginx-keyring.gpg https://unit.nginx.org/keys/nginx-keyring.gpg \
+    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && apt-get update && apt-get install --assume-yes \
+        systemd \
+        unit=${NGINX_UNIT_VERSION} \
+    # Redirect logs to stdout
+    && ln --symbolic --force /dev/stdout /var/log/unit.log
 
 COPY --from=composer-bin ./composer /usr/bin/composer
 
 ARG USER_NAME=host-user
 ARG USER_ID=1000
-ARG PHP_FPM_GROUP=www-data
+ARG NGINX_UNIT_GROUP=unit
 
 RUN adduser \
         --disabled-password \
@@ -17,10 +58,10 @@ RUN adduser \
     && usermod \
         --append \
         --groups \
-        ${PHP_FPM_GROUP} \
+        ${NGINX_UNIT_GROUP} \
         ${USER_NAME}
 
-#Add node and npm
+# Add node and npm
 COPY --from=node --chown=${USER_NAME}:root /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node --chown=${USER_NAME}:root /usr/local/bin/node /usr/local/bin/node
 RUN ln --symbolic /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
@@ -31,16 +72,10 @@ RUN ln --symbolic /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/
 # Use the default development configuration
 RUN mv "${PHP_INI_DIR}/php.ini-development" "${PHP_INI_DIR}/php.ini"
 
-# For other versions check: http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
-ARG NGINX_VERSION="1.25.0-1~bullseye"
-ARG PHPREDIS_VERSION=5.3.7
+# https://pecl.php.net/package/redis
+ARG PHPREDIS_VERSION=6.0.2
 
-RUN apt-get update \
-    && apt-get install --assume-yes gpg \
-    && curl https://nginx.org/keys/nginx_signing.key | gpg --dearmour --output /etc/apt/trusted.gpg.d/apt.nginx.org.gpg > /dev/null \
-    && echo "deb https://nginx.org/packages/mainline/debian bullseye nginx" | tee /etc/apt/sources.list.d/nginx.list \
-    && apt-get update && apt-get install --assume-yes \
-        nginx=${NGINX_VERSION} \
+RUN apt-get update && apt-get install --assume-yes \
         libpcre3-dev \
         gnupg \
         zip \
@@ -64,7 +99,7 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --o
     && apt-get install --assume-yes postgresql-client-15
 
 # For other versions check: https://pecl.php.net/package/xdebug
-ARG XDEBUG_VERSION=3.3.0alpha3
+ARG XDEBUG_VERSION=3.3.0
 ARG INSTALL_XDEBUG=true
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
@@ -77,3 +112,5 @@ COPY ./entrypoint.sh /entrypoint.sh
 WORKDIR /application
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+EXPOSE 80
