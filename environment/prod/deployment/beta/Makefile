@@ -16,7 +16,8 @@ beta-artisan:
 	${DOCKER_EXEC_ARTISAN_COMMAND} ${ARTISAN_ARGS}
 
 beta-deploy: decrypt-beta-env create-deployment-file
-	@docker compose --file ${DOCKER_COMPOSE_FILENAME} up --force-recreate --detach && \
+	@docker compose --file ${DOCKER_COMPOSE_FILENAME} pull \
+	docker compose --file ${DOCKER_COMPOSE_FILENAME} up --detach && \
 	echo "App post deploy actions" && \
 	${DOCKER_EXEC_SCRIPT} post-deploy-actions.sh
 

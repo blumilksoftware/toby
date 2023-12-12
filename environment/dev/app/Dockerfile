@@ -9,7 +9,6 @@ FROM composer/composer:2.6.6-bin as composer-bin
 # https://hub.docker.com/_/node
 FROM node:21.4.0-bullseye-slim as node
 
-# https://hub.docker.com/_/unit
 FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
 
 RUN apt-get update && apt-get install --assume-yes \
