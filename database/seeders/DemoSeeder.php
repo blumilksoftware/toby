@@ -125,19 +125,19 @@ class DemoSeeder extends Seeder
 
         $users = User::all();
 
-        $year = 2021;
+        $year = Carbon::now()->year;
 
         YearPeriod::factory()
             ->count(3)
             ->sequence(
                 [
+                    "year" => Carbon::createFromDate($year - 1)->year,
+                ],
+                [
                     "year" => Carbon::createFromDate($year)->year,
                 ],
                 [
                     "year" => Carbon::createFromDate($year + 1)->year,
-                ],
-                [
-                    "year" => Carbon::createFromDate($year + 2)->year,
                 ],
             )
             ->afterCreating(function (YearPeriod $yearPeriod) use ($users): void {
@@ -162,7 +162,7 @@ class DemoSeeder extends Seeder
             })
             ->create();
 
-        $currentYearPeriod = YearPeriod::query()->where("year", 2022)->first();
+        $currentYearPeriod = YearPeriod::query()->where("year", $year)->first();
 
         /** @var VacationRequest $vacationRequestApproved */
         $vacationRequestApproved = VacationRequest::factory([

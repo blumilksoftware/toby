@@ -36,7 +36,7 @@ watch(() => props.flash, flash => {
       :years="years"
       :vacation-requests-count="vacationRequestsCount"
     />
-    <main class="flex flex-col flex-1 py-8 lg:ml-64">
+    <main class="flex flex-col flex-1 py-8 lg:ml-60">
       <div class="lg:px-4">
         <slot />
       </div>

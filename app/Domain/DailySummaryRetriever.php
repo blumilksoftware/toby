@@ -26,7 +26,7 @@ class DailySummaryRetriever
             ->with(["user"])
             ->whereDate("from", "<=", $date)
             ->whereDate("to", ">=", $date)
-            ->states(VacationRequestStatesRetriever::successStates())
+            ->states(VacationRequestStatesRetriever::notFailedStates())
             ->whereIn(
                 "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
@@ -44,7 +44,7 @@ class DailySummaryRetriever
             ->with(["user"])
             ->whereDate("from", "<=", $date)
             ->whereDate("to", ">=", $date)
-            ->states(VacationRequestStatesRetriever::successStates())
+            ->states(VacationRequestStatesRetriever::notFailedStates())
             ->whereIn(
                 "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
@@ -61,7 +61,7 @@ class DailySummaryRetriever
         return VacationRequest::query()
             ->with(["user"])
             ->whereDate("from", ">", $date)
-            ->states(VacationRequestStatesRetriever::successStates())
+            ->states(VacationRequestStatesRetriever::notFailedStates())
             ->whereIn(
                 "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
@@ -79,7 +79,7 @@ class DailySummaryRetriever
         return VacationRequest::query()
             ->with(["user"])
             ->whereDate("from", ">", $date)
-            ->states(VacationRequestStatesRetriever::successStates())
+            ->states(VacationRequestStatesRetriever::notFailedStates())
             ->whereIn(
                 "type",
                 VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),

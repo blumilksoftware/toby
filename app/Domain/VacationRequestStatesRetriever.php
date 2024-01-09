@@ -41,6 +41,11 @@ class VacationRequestStatesRetriever
         ];
     }
 
+    public static function notFailedStates(): array
+    {
+        return array_merge(static::successStates(), static::pendingStates());
+    }
+
     public static function waitingForUserActionStates(User $user): array
     {
         return match ($user->role) {

@@ -17,18 +17,11 @@ const typeInfo = computed(() => findType(props.type))
 </script>
 
 <template>
-  <Popper hover>
-    <div class="flex items-center">
-      <div>
-        <span :class="[ opacity ? 'opacity-30': '' ,typeInfo.color, 'flex items-center justify-center']">
-          <component :is="typeInfo.icon" />
-        </span>
-      </div>
+  <div class="flex items-center">
+    <div>
+      <span :class="[ opacity ? 'opacity-30': '' ,typeInfo.color, 'flex items-center justify-center']">
+        <component :is="typeInfo.icon" />
+      </span>
     </div>
-    <template #content>
-      <div class="py-2 px-4 text-xs text-gray-900 bg-white rounded-lg border border-gray-400 ">
-        {{ typeInfo.text }}
-      </div>
-    </template>
-  </Popper>
+  </div>
 </template>

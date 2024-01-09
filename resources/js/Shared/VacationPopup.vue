@@ -4,15 +4,18 @@ import Status from '@/Shared/Status.vue'
 
 defineProps({
   vacation: Object,
+  seeVacationDetails: Boolean,
 })
 
 </script>
 
-
 <template>
   <div class="py-2 px-6 text-left text-gray-900 whitespace-nowrap bg-white rounded-lg border border-gray-400">
     <dl class="divide-y divide-gray-200">
-      <div class="py-2 space-y-1">
+      <div
+        v-if="seeVacationDetails"
+        class="py-2 space-y-1"
+      >
         <dt class="text-sm font-medium text-gray-500">
           Nr wniosku
         </dt>
@@ -23,6 +26,17 @@ defineProps({
           >
             {{ vacation.name }}
           </InertiaLink>
+        </dd>
+      </div>
+      <div
+        v-else
+        class="py-2 space-y-1"
+      >
+        <dt class="text-sm font-medium text-gray-500">
+          Nr wniosku
+        </dt>
+        <dd class="text-sm text-gray-900 font-semibold">
+          {{ vacation.name }}
         </dd>
       </div>
       <div class="py-2 space-y-1">

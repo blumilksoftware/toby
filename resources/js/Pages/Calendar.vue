@@ -3,6 +3,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 import { computed, ref } from 'vue'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
+import VacationPopup from '@/Shared/VacationPopup.vue'
+import CalendarDay from '@/Shared/CalendarDay.vue'
 
 const props = defineProps({
   users: Object,
@@ -39,6 +41,10 @@ function unsetActiveDay() {
 
 function linkParameters(user, day) {
   return props.auth.can.createRequestsOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
+}
+
+function linkVacationRequest(user){
+  return props.auth.user.id === user.id || props.auth.can.manageRequestsAsTechnicalApprover || props.auth.can.manageRequestsAsAdministrativeApprover
 }
 </script>
 
@@ -149,19 +155,13 @@ function linkParameters(user, day) {
               @mouseleave="unsetActiveDay"
             >
               <div
-                v-if="day.pendingVacations.includes(user.id) && (auth.user.id === user.id || auth.can.manageRequestsAsAdministrativeApprover || auth.can.manageRequestsAsTechnicalApprover)"
+                v-if="user.id in day.vacations"
                 class="flex justify-center items-center"
               >
-                <VacationTypeCalendarIcon
-                  :type="day.vacationPendingTypes[user.id]"
-                  :opacity="true"
+                <CalendarDay
+                  :vacation="day.vacations[user.id]"
+                  :see-vacation-details="linkVacationRequest(user)"
                 />
-              </div>
-              <div
-                v-else-if="day.vacations.includes(user.id)"
-                class="flex justify-center items-center"
-              >
-                <VacationTypeCalendarIcon :type="day.vacationTypes[user.id]" />
               </div>
               <template
                 v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && (auth.user.id === user.id || auth.can.createRequestsOnBehalfOfEmployee)"

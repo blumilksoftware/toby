@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Actions\VacationRequest;
 
 use Spatie\Permission\Models\Permission;
+use Toby\Domain\Events\VacationRequestChanged;
 use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
@@ -26,6 +27,8 @@ class WaitForTechApprovalAction
         if ($this->configRetriever->isVacation($vacationRequest->type)) {
             $this->notifyTechApprovers($vacationRequest);
         }
+
+        event(new VacationRequestChanged($vacationRequest));
     }
 
     protected function notifyTechApprovers(VacationRequest $vacationRequest): void

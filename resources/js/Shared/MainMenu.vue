@@ -296,7 +296,7 @@ const miscNavigation = computed(() => [
     </Dialog>
   </TransitionRoot>
 
-  <div class="hidden lg:flex lg:fixed lg:inset-y-0 lg:flex-col lg:w-64">
+  <div class="hidden lg:flex lg:fixed lg:inset-y-0 lg:flex-col lg:w-60">
     <div class="flex overflow-y-auto flex-col grow pt-5 pb-4 bg-blumilk-700">
       <div class="flex shrink-0 items-center px-4">
         <InertiaLink href="/">
@@ -364,7 +364,7 @@ const miscNavigation = computed(() => [
     </div>
   </div>
 
-  <div class="flex flex-col flex-1 lg:pl-64">
+  <div class="flex flex-col flex-1 lg:pl-60">
     <div class="flex relative z-10 shrink-0 h-16 bg-white border-b border-gray-200">
       <button
         type="button"
