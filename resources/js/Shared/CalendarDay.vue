@@ -1,6 +1,4 @@
 <script setup>
-import { computed } from 'vue'
-import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
 import VacationPopup from '@/Shared/VacationPopup.vue'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
 import Popper from 'vue3-popper'

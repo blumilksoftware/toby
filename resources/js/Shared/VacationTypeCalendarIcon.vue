@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue'
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
-import Popper from 'vue3-popper'
 
 const props = defineProps({
   type: String,
