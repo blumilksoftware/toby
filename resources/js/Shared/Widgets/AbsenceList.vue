@@ -70,7 +70,7 @@ defineProps({
                   {{ day.user.email }}
                 </p>
                 <p class="text-sm text-gray-500">
-                  {{ day.displayDate }} <span v-if="day.pending">(Oczekujące)</span>
+                  {{ day.displayDate }} <span v-if="day.pending">(oczekujące)</span>
                 </p>
               </div>
             </li>
@@ -109,7 +109,7 @@ defineProps({
                   {{ day.user.email }}
                 </p>
                 <p class="text-sm text-gray-500">
-                  {{ day.displayDate }} <span v-if="day.pending">(Oczekujące)</span>
+                  {{ day.displayDate }} <span v-if="day.pending">(oczekujące)</span>
                 </p>
               </div>
             </li>
