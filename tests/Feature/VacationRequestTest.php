@@ -728,6 +728,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
                 ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
                 ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
             ]);

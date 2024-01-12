@@ -11,8 +11,8 @@ use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\YearPeriod;
 use Toby\Infrastructure\Http\Resources\BirthdayResource;
+use Toby\Infrastructure\Http\Resources\DashboardVacationRequestResource;
 use Toby\Infrastructure\Http\Resources\HolidayResource;
-use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 use Toby\Infrastructure\Http\Resources\UserBenefitsResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
@@ -55,7 +55,7 @@ class DashboardAggregator
             ->get()
             ->mapWithKeys(
                 fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest),
                 ],
             );
 
@@ -67,7 +67,7 @@ class DashboardAggregator
             ->get()
             ->mapWithKeys(
                 fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest),
                 ],
             );
 
@@ -109,8 +109,8 @@ class DashboardAggregator
         $remoteDays = $this->dailySummaryRetriever->getRemoteDays($today);
 
         return [
-            "absences" => VacationRequestResource::collection($absences),
-            "remoteDays" => VacationRequestResource::collection($remoteDays),
+            "absences" => DashboardVacationRequestResource::collection($absences),
+            "remoteDays" => DashboardVacationRequestResource::collection($remoteDays),
         ];
     }
 
@@ -129,8 +129,8 @@ class DashboardAggregator
             ->get();
 
         return [
-            "absences" => VacationRequestResource::collection($upcomingAbsences),
-            "remoteDays" => VacationRequestResource::collection($upcomingRemoteDays),
+            "absences" => DashboardVacationRequestResource::collection($upcomingAbsences),
+            "remoteDays" => DashboardVacationRequestResource::collection($upcomingRemoteDays),
             "birthdays" => BirthdayResource::collection($upcomingBirthdays),
             "holidays" => HolidayResource::collection($upcomingHolidays),
         ];
