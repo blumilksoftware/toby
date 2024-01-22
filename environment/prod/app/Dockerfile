@@ -1,5 +1,5 @@
 ### PHP DEPENDENCIES ###
-FROM composer:2.5.8 as vendor
+FROM composer:2.6.6 as vendor
 
 WORKDIR /app_composer_dependencies
 
@@ -14,7 +14,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:20.8.0-alpine3.17 as frontend
+FROM node:21.6.0-alpine3.18 as frontend
 
 WORKDIR /app_frontend_dependencies
 
