@@ -14,7 +14,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:21.6.0-alpine3.18 as frontend
+FROM node:21.6.0-bullseye-slim as frontend
 
 WORKDIR /app_frontend_dependencies
 
