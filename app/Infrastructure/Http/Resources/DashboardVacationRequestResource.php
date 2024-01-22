@@ -22,11 +22,10 @@ class DashboardVacationRequestResource extends JsonResource
 
     public function toArray($request): array
     {
-        $user = $request->user();
-
         return [
             "id" => $this->id,
             "user" => new SimpleUserResource($this->user),
+            "name" => $this->name,
             "type" => $this->type,
             "state" => $this->state,
             "from" => $this->from->toDisplayString(),
