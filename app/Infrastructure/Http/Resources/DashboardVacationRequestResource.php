@@ -22,17 +22,16 @@ class DashboardVacationRequestResource extends JsonResource
 
     public function toArray($request): array
     {
-        $user = $request->user();
-
         return [
             "id" => $this->id,
             "user" => new SimpleUserResource($this->user),
+            "name" => $this->name,
             "type" => $this->type,
             "state" => $this->state,
             "from" => $this->from->toDisplayString(),
             "to" => $this->to->toDisplayString(),
             "displayDate" => $this->getDate($this->from->toDisplayString(), $this->to->toDisplayString()),
-            "days" => VacationResource::collection($this->vacations),
+            "days" => $this->vacations->count(),
             "pending" => $this->state->equals(...VacationRequestStatesRetriever::pendingStates()),
         ];
     }
