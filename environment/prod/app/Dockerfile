@@ -1,5 +1,10 @@
+ARG PHP_VERSION=8.3.0
+ARG PHP_MODULE_NAME=php${PHP_VERSION}
+# https://github.com/nginx/unit/tags
+ARG UNIT_VERSION=1.31.1-1
+
 ### PHP DEPENDENCIES ###
-FROM composer:2.5.8 as vendor
+FROM composer:2.6.6 as vendor
 
 WORKDIR /app_composer_dependencies
 
@@ -14,7 +19,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:20.8.0-alpine3.17 as frontend
+FROM node:21.4.0-bullseye-slim as frontend
 
 WORKDIR /app_frontend_dependencies
 
@@ -27,25 +32,56 @@ COPY resources/css ./resources/css/
 
 RUN npm run build
 
+### NGINIX UNIT PHP MODULE ###
+FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
+
+RUN apt-get update && apt-get install --assume-yes \
+        git \
+        libpcre2-dev
+
+ARG UNIT_VERSION
+ARG PHP_MODULE_NAME
+
+RUN git clone https://github.com/nginx/unit \
+        && cd unit \
+        && git checkout ${UNIT_VERSION} \
+        && ./configure \
+        && ./configure php --module=${PHP_MODULE_NAME} \
+        && make ${PHP_MODULE_NAME}
+
+
 ### APPLICATION ###
-FROM php:8.3.0-fpm-bullseye as app
+FROM php:${PHP_VERSION}-cli-bullseye as app
+
+ARG UNIT_VERSION
+# https://packages.nginx.org/unit/debian/pool/unit/u/unit/
+ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bullseye"
+ARG PHP_MODULE_NAME
+
+COPY --from=unit-modules-builder /unit/build/lib/unit/modules/${PHP_MODULE_NAME}.unit.so /usr/lib/unit/modules/${PHP_MODULE_NAME}.unit.so
+
+# Install Nginx Unit
+RUN curl --output /usr/share/keyrings/nginx-keyring.gpg https://unit.nginx.org/keys/nginx-keyring.gpg \
+    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && apt-get update && apt-get install --assume-yes \
+        systemd \
+        unit=${NGINX_UNIT_VERSION} \
+    # Redirect logs to stdout
+    && ln --symbolic --force /dev/stdout /var/log/unit.log
 
 COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 
-# For other versions check: http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
-ARG NGINX_VERSION="1.25.0-1~bullseye"
 # Install Postgresql client (https://www.postgresql.org/download/linux/debian/)
 ARG POSTGRESQL_CLIENT_VERSION=15
-ARG PHPREDIS_VERSION=5.3.7
+# https://pecl.php.net/package/redis
+ARG PHPREDIS_VERSION=6.0.2
 
 RUN apt-get update \
     && apt-get install --assume-yes gpg \
-    && curl https://nginx.org/keys/nginx_signing.key | gpg --dearmour --output /etc/apt/trusted.gpg.d/apt.nginx.org.gpg > /dev/null \
-    && echo "deb https://nginx.org/packages/mainline/debian bullseye nginx" | tee /etc/apt/sources.list.d/nginx.list \
     && curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --output /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null \
     && echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update && apt-get install --assume-yes \
-        nginx=${NGINX_VERSION} \
         postgresql-client-${POSTGRESQL_CLIENT_VERSION} \
         libpcre3-dev \
         libpq-dev \
@@ -68,21 +104,20 @@ RUN apt-get update \
 
 RUN mv "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini"
 COPY ./environment/prod/app/php.ini "${PHP_INI_DIR}/conf.d/zzz-overrides-php.ini"
-COPY ./environment/prod/app/php-fpm.conf "/usr/local/etc/php-fpm.d/zzz-overrides.conf"
-COPY ./environment/prod/app/nginx.conf "/etc/nginx/nginx.conf"
 COPY ./environment/prod/app/supervisord.conf "/etc/supervisor/custom-supervisord.conf"
 COPY ./environment/prod/app/entrypoint.sh /entrypoint.sh
+COPY ./environment/prod/app/nginx-unit.config.json /var/lib/unit/conf.json
 
 WORKDIR /application
 
 # Copy Frontend build
-COPY --chown=www-data:www-data --from=frontend /app_frontend_dependencies/public/build ./public/build/
+COPY --chown=unit:unit --from=frontend /app_frontend_dependencies/public/build ./public/build/
 
 # Copy Composer dependencies
-COPY --chown=www-data:www-data --from=vendor /app_composer_dependencies/vendor ./vendor/
+COPY --chown=unit:unit --from=vendor /app_composer_dependencies/vendor ./vendor/
 
 # Copy App files
-COPY --chown=www-data:www-data . .
+COPY --chown=unit:unit . .
 
 RUN composer dump-autoload --optimize
 
