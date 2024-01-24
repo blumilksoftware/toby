@@ -10,8 +10,8 @@
 /vendor
 .env
 .env.backup
-.env.beta
-.env.prod
+.env.beta.secrets.decrypted
+.env.prod.secrets.decrypted
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json

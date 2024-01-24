@@ -1,6 +1,8 @@
 export COMPOSE_DOCKER_CLI_BUILD = 1
 export DOCKER_BUILDKIT = 1
 
+MAKEFLAGS += --no-print-directory
+
 include .env
 
 SHELL := /bin/bash
@@ -17,10 +19,10 @@ DATABASE_USERNAME=toby
 TEST_DATABASE_NAME=toby-test
 
 init: check-env-file
-	@make build \
-    && make run \
+	@$(MAKE) build \
+    && $(MAKE) run \
 	&& docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} bash "./environment/dev/scripts/init.sh" \
-	&& make create-test-db
+	&& $(MAKE) create-test-db
 
 check-env-file:
 	@if [ ! -f ".env" ]; then \
@@ -66,60 +68,30 @@ unit-reload-config:
 	@echo "Reloading Nginx Unit config..." \
 	&& docker compose --file ${DOCKER_COMPOSE_FILE} exec ${DOCKER_COMPOSE_APP_CONTAINER} curl -X PUT --data-binary @/application/environment/dev/app/nginx-unit.config.json --unix-socket /var/run/control.unit.sock http://localhost/config
 
-encrypt-beta-env:
-	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
-	--rm \
-	--no-deps \
-	--volume ${CURRENT_DIR}/environment/prod/deployment/beta:/envs \
-	--entrypoint "" \
-	--workdir /application \
-	--user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" \
-	${DOCKER_COMPOSE_APP_CONTAINER} \
-	bash -c "cp /envs/.env.beta /application \
-		&& php artisan env:encrypt --env beta --key ${BETA_ENV_KEY} \
-		&& mv .env.beta.encrypted /envs \
-		&& rm .env.beta"
+encrypt-beta-secrets:
+	@$(MAKE) encrypt-secrets SECRETS_ENV=beta
 
-decrypt-beta-env:
-	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
-	--rm \
-	--no-deps \
-	--volume ${CURRENT_DIR}/environment/prod/deployment/beta:/envs \
-	--entrypoint "" \
-	--workdir /application \
-	--user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" \
-	${DOCKER_COMPOSE_APP_CONTAINER} \
-	bash -c "cp /envs/.env.beta.encrypted /application \
-		&& php artisan env:decrypt --env beta --key ${BETA_ENV_KEY} \
-		&& mv .env.beta /envs \
-		&& rm .env.beta.encrypted"
+decrypt-beta-secrets:
+	@$(MAKE) decrypt-secrets SECRETS_ENV=beta AGE_SECRET_KEY=${SOPS_AGE_BETA_SECRET_KEY}
 
-encrypt-prod-env:
-	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
-	--rm \
-	--no-deps \
-	--volume ${CURRENT_DIR}/environment/prod/deployment/prod:/envs \
-	--entrypoint "" \
-	--workdir /application \
-	--user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" \
-	${DOCKER_COMPOSE_APP_CONTAINER} \
-	bash -c "cp /envs/.env.prod /application \
-		&& php artisan env:encrypt --env prod --key ${PROD_ENV_KEY} \
-		&& mv .env.prod.encrypted /envs \
-		&& rm .env.prod"
+encrypt-prod-secrets:
+	@$(MAKE) encrypt-secrets SECRETS_ENV=prod
 
-decrypt-prod-env:
-	@docker compose --file ${DOCKER_COMPOSE_FILE} run \
-	--rm \
-	--no-deps \
-	--volume ${CURRENT_DIR}/environment/prod/deployment/prod:/envs \
-	--entrypoint "" \
-	--workdir /application \
-	--user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" \
-	${DOCKER_COMPOSE_APP_CONTAINER} \
-	bash -c "cp /envs/.env.prod.encrypted /application \
-		&& php artisan env:decrypt --env prod --key ${PROD_ENV_KEY} \
-		&& mv .env.prod /envs \
-		&& rm .env.prod.encrypted"
+decrypt-prod-secrets:
+	@$(MAKE) decrypt-secrets SECRETS_ENV=prod AGE_SECRET_KEY=${SOPS_AGE_PROD_SECRET_KEY}
 
-.PHONY: init check-env-file build run stop restart shell shell-root test fix queue dev create-test-db encrypt-beta-env decrypt-beta-env encrypt-prod-env decrypt-prod-env
+decrypt-secrets:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" --env SOPS_AGE_KEY=${AGE_SECRET_KEY} ${DOCKER_COMPOSE_APP_CONTAINER} \
+		bash -c "echo 'Decrypting ${SECRETS_ENV} secrets' \
+			&& cd ./environment/prod/deployment/${SECRETS_ENV} \
+			&& sops --decrypt --input-type=dotenv --output-type=dotenv --output .env.${SECRETS_ENV}.secrets.decrypted .env.${SECRETS_ENV}.secrets \
+			&& echo 'Done'"
+
+encrypt-secrets:
+	@docker compose --file ${DOCKER_COMPOSE_FILE} exec --user "${CURRENT_USER_ID}:${CURRENT_USER_GROUP_ID}" ${DOCKER_COMPOSE_APP_CONTAINER} \
+		bash -c "echo 'Encrypting ${SECRETS_ENV} secrets' \
+			&& cd ./environment/prod/deployment/${SECRETS_ENV} \
+			&& sops --encrypt --input-type=dotenv --output-type=dotenv --output .env.${SECRETS_ENV}.secrets .env.${SECRETS_ENV}.secrets.decrypted \
+			&& echo 'Done'"
+
+.PHONY: init check-env-file build run stop restart shell shell-root test fix queue dev create-test-db encrypt-beta-secrets decrypt-beta-secrets encrypt-prod-secrets decrypt-prod-secrets

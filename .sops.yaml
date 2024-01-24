@@ -1,0 +1,11 @@
+creation_rules:
+
+  - name: beta
+    path_regex: \.env\.beta\.secrets.*$
+    age: >-
+      age1lpq469g6flcfuga0p5uhdqwlaafc9mstz8vg4tdq85786qzyr5eqmkr5nc
+
+  - name: prod
+    path_regex: \.env\.prod\.secrets.*$
+    age: >-
+      age1g3s9a27nysky0s8ngtly0v25rzwmrt6jn850v8dfjyazra739vkqf04v50
