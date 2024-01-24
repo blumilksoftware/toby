@@ -12,8 +12,8 @@ use Yasumi\Yasumi;
 
 class PolishHolidaysRetriever
 {
-    protected const PROVIDER_KEY = "Poland";
-    protected const LANG_KEY = "pl";
+    protected const string PROVIDER_KEY = "Poland";
+    protected const string LANG_KEY = "pl";
 
     public function getForYearPeriod(YearPeriod $yearPeriod): Collection
     {

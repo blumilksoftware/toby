@@ -28,7 +28,7 @@ COPY resources/css ./resources/css/
 RUN npm run build
 
 ### APPLICATION ###
-FROM php:8.2.9-fpm-bullseye as app
+FROM php:8.3.0-fpm-bullseye as app
 
 COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 

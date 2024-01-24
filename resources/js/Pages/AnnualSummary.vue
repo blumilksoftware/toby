@@ -131,7 +131,10 @@ function getVacationInfo(day) {
                   </button>
                 </div>
                 <template #content>
-                  <VacationPopup :vacation="getVacationInfo(day)" />
+                  <VacationPopup
+                    :vacation="getVacationInfo(day)"
+                    :see-vacation-details="true"
+                  />
                 </template>
               </Popper>
               <Popper

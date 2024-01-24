@@ -2,7 +2,7 @@ FROM composer/composer:2.5.8-bin as composer-bin
 
 FROM node:20.8.0-bullseye-slim as node
 
-FROM php:8.2.9-fpm-bullseye
+FROM php:8.3.0-fpm-bullseye
 
 COPY --from=composer-bin ./composer /usr/bin/composer
 
@@ -63,7 +63,8 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --o
     && apt-get update \
     && apt-get install --assume-yes postgresql-client-15
 
-ARG XDEBUG_VERSION=3.2.1
+# For other versions check: https://pecl.php.net/package/xdebug
+ARG XDEBUG_VERSION=3.3.0alpha3
 ARG INSTALL_XDEBUG=true
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \

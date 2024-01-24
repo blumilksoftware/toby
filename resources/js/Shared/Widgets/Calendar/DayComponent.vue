@@ -87,7 +87,10 @@ function onMouseleave() {
         </div>
       </div>
       <template #content>
-        <VacationPopup :vacation="day.getVacationInfo" />
+        <VacationPopup
+          :vacation="day.getVacationInfo"
+          :see-vacation-details="true"
+        />
       </template>
     </Popper>
     <div

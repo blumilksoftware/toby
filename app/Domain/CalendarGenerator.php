@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
 use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\YearPeriod;
+use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 
 class CalendarGenerator
 {
@@ -31,11 +32,9 @@ class CalendarGenerator
     {
         $calendar = [];
         $vacations = $this->getVacationsForPeriod($period);
-        $pendingVacations = $this->getPendingVacationsForPeriod($period);
 
         foreach ($period as $day) {
             $vacationsForDay = $vacations[$day->toDateString()] ?? new Collection();
-            $pendingVacationsForDay = $pendingVacations[$day->toDateString()] ?? new Collection();
 
             $calendar[] = [
                 "date" => $day->toDateString(),
@@ -44,10 +43,8 @@ class CalendarGenerator
                 "isToday" => $day->isToday(),
                 "isWeekend" => $day->isWeekend(),
                 "isHoliday" => $holidays->contains($day),
-                "vacations" => $vacationsForDay->pluck("user_id"),
-                "pendingVacations" => $pendingVacationsForDay->pluck("user_id"),
-                "vacationTypes" => $vacationsForDay->pluck("vacationRequest.type", "user_id"),
-                "vacationPendingTypes" => $pendingVacationsForDay->pluck("vacationRequest.type", "user_id"),
+                "vacations" => $vacationsForDay
+                    ->mapWithKeys(fn(Vacation $vacation): array => [$vacation->user_id => new SimpleVacationRequestResource($vacation->vacationRequest)]),
             ];
         }
 
@@ -59,6 +56,9 @@ class CalendarGenerator
         return Vacation::query()
             ->whereBetween("date", [$period->start, $period->end])
             ->approved()
+            ->orWhere(function ($query): void {
+                $query->pending();
+            })
             ->with("vacationRequest")
             ->get()
             ->groupBy(fn(Vacation $vacation): string => $vacation->date->toDateString());
