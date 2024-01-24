@@ -23,9 +23,8 @@ services:
     container_name: toby-app-dev
     working_dir: /application
     volumes:
-      - ./environment/dev/app/nginx.conf:/etc/nginx/nginx.conf:ro
+      - toby-unit-data:/var/lib/unit
       - ./environment/dev/app/php.ini:/usr/local/etc/php/conf.d/zzz-overrides.ini:ro
-      - ./environment/dev/app/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-overrides.conf:ro
       - ./environment/dev/app/supervisord.conf:/etc/supervisor/custom-supervisord.conf:ro
       - .:/application
     ports:
@@ -121,3 +120,5 @@ volumes:
     name: toby-pgsql-data
   toby-redis-data:
     name: toby-redis-data
+  toby-unit-data:
+    name: toby-unit-data

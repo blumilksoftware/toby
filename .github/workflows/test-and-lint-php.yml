@@ -34,20 +34,20 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4.0.0
         with:
           path: vendor
           key: ${{ runner.os }}-composer-dependencies-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-dependencies
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.29.0
         with:
           php-version: 8.3
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, intl, gd

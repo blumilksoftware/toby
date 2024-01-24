@@ -161,7 +161,7 @@ class VacationRequestController extends Controller
 
         $this->authorize("show", $vacationRequest);
 
-        $pdf = PDF::loadView("pdf.vacation-request", [
+        $pdf = Pdf::loadView("pdf.vacation-request", [
             "vacationRequest" => $vacationRequest,
         ]);
 

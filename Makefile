@@ -32,7 +32,8 @@ build:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} build --pull
 
 run:
-	@docker compose --file ${DOCKER_COMPOSE_FILE} up --detach
+	@docker compose --file ${DOCKER_COMPOSE_FILE} up --detach \
+	&& sleep 2 && make unit-reload-config
 
 stop:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} stop
@@ -60,6 +61,10 @@ dev:
 
 create-test-db:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} exec ${DOCKER_COMPOSE_DATABASE_CONTAINER} bash -c 'createdb --username=${DATABASE_USERNAME} ${TEST_DATABASE_NAME} &> /dev/null && echo "Created database for tests (${TEST_DATABASE_NAME})." || echo "Database for tests (${TEST_DATABASE_NAME}) exists."'
+
+unit-reload-config:
+	@echo "Reloading Nginx Unit config..." \
+	&& docker compose --file ${DOCKER_COMPOSE_FILE} exec ${DOCKER_COMPOSE_APP_CONTAINER} curl -X PUT --data-binary @/application/environment/dev/app/nginx-unit.config.json --unix-socket /var/run/control.unit.sock http://localhost/config
 
 encrypt-beta-env:
 	@docker compose --file ${DOCKER_COMPOSE_FILE} run \

@@ -20,7 +20,7 @@ jobs:
         run: echo "BRANCH_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
 
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
           ref: ${{ env.BRANCH_NAME }}
@@ -46,14 +46,14 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v5.5.0
         with:
           images: ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}
           tags: type=raw,value=beta
           context: git
 
       - name: build and push image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v5.1.0
         with:
           context: .
           file: ./environment/prod/app/Dockerfile
@@ -65,7 +65,7 @@ jobs:
           cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}-beta-build-cache, mode=max
 
       - name: copy files via ssh
-        uses: appleboy/scp-action@v0.1.4
+        uses: appleboy/scp-action@v0.1.7
         with:
           timeout: 10s
           command_timeout: 10m
@@ -79,7 +79,7 @@ jobs:
           rm: true
 
       - name: run deployment script over ssh
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v1.0.3
         with:
           timeout: 10s
           command_timeout: 10m
