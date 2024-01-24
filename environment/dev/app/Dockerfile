@@ -7,7 +7,7 @@ ARG UNIT_VERSION=1.31.1-1
 FROM composer/composer:2.6.6-bin as composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:21.4.0-bullseye-slim as node
+FROM node:21.6.0-bullseye-slim as node
 
 FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
 
@@ -98,7 +98,7 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --o
     && apt-get install --assume-yes postgresql-client-15
 
 # For other versions check: https://pecl.php.net/package/xdebug
-ARG XDEBUG_VERSION=3.3.0
+ARG XDEBUG_VERSION=3.3.1
 ARG INSTALL_XDEBUG=true
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \

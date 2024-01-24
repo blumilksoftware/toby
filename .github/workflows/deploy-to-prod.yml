@@ -18,7 +18,7 @@ jobs:
       REPO_NAME: toby
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.1
 
       - name: set deployment project version
         run: echo "DEPLOYMENT_PROJECT_VERSION=$(bash ./environment/prod/deployment/scripts/version.sh --long)" >> $GITHUB_ENV
@@ -35,7 +35,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v5.5.0
         with:
           images: ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}
           tags: |
@@ -44,7 +44,7 @@ jobs:
           context: workflow
 
       - name: build and push image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v5.1.0
         with:
           context: .
           file: ./environment/prod/app/Dockerfile
@@ -58,7 +58,7 @@ jobs:
           cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}-prod-build-cache, mode=max
 
       - name: copy files via ssh
-        uses: appleboy/scp-action@v0.1.4
+        uses: appleboy/scp-action@v0.1.7
         with:
           timeout: 10s
           command_timeout: 10m
@@ -71,7 +71,7 @@ jobs:
           target: ${{ secrets.TOBY_VPS_LIVE_APP_PATH }}
           rm: true
 
-      - uses: appleboy/ssh-action@v1.0.0
+      - uses: appleboy/ssh-action@v1.0.3
         with:
           timeout: 10s
           command_timeout: 10m
