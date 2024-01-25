@@ -3,7 +3,6 @@ ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
 
-#FROM debian:bullseye-slim as secops-tools
 FROM alpine:3.19.0 as secops-tools
 
 # https://github.com/FiloSottile/age/releases
