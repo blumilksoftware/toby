@@ -93,36 +93,40 @@ docker compose run --rm -e XDEBUG_MODE=off php php artisan test
 
 ---
 ### Encrypt/Decrypt envs
+- sops, age and age-keygen are bundled in the app container
+- for decryption secret key is used, which is defined in the `.env` file
+- for encryption public key is used, which is defined in the `.sops.yaml` file
+- age public key and secret key depends on each other
 
 **Beta**
-- set `BETA_ENV_KEY` in `.env` file, which will be used to encrypt/decrypt
+- set `SOPS_AGE_BETA_SECRET_KEY` in `.env` file, which will be used to decrypt.
 
 decrypt:
 ```shell
-# this will decrypt .env.beta.encrypted and create/override .env.beta file
-make decrypt-beta-env
+# this will decrypt .env.beta.secrets and create/override .env.beta.secrets.decrypted file
+make decrypt-beta-secrets
 ```
 
 encrypt:
 ```shell
-# this will encrypt .env.beta file and create/override .env.beta.encrypted file
-make encrypt-beta-env
+# this will encrypt .env.beta.secrets.decrypted file and create/override .env.beta.secrets file
+make encrypt-beta-secrets
 ```
 Files are in `./environment/prod/deployment/beta`
 
 ---
 **Production**
-- set `PROD_ENV_KEY` in `.env` file, which will be used to encrypt/decrypt
+- set `SOPS_AGE_PROD_SECRET_KEY` in `.env` file, which will be used to decrypt.
 
 decrypt:
 ```shell
-# this will decrypt .env.prod.encrypted and create/override .env.prod file
-make decrypt-prod-env
+# this will decrypt .env.prod.secrets and create/override .env.prod.secrets.decrypted file
+make decrypt-prod-secrets
 ```
 
 encrypt:
 ```shell
-# this will encrypt .env.prod file and create/override .env.prod.encrypted file
-make encrypt-prod-env
+# this will encrypt .env.prod.secrets.decrypted file and create/override .env.prod.secrets file
+make encrypt-prod-secrets
 ```
 Files are in `./environment/prod/deployment/prod`

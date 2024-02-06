@@ -83,5 +83,5 @@ jobs:
           script_stop: true
           script: |
             cd ${{ secrets.TOBY_VPS_LIVE_APP_PATH }}/environment/prod/deployment/prod
-            make prod-deploy PROD_ENV_KEY=${{ secrets.PROD_ENV_KEY }}
+            make prod-deploy SOPS_AGE_KEY=${{ secrets.SOPS_AGE_PROD_SECRET_KEY }}
             docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/${{ env.REPO_NAME }}" | awk '{print $3}'| xargs --no-run-if-empty docker rmi

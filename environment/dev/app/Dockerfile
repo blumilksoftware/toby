@@ -3,6 +3,21 @@ ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
 
+FROM alpine:3.19.0 as secops-tools
+
+# https://github.com/FiloSottile/age/releases
+ARG AGE_VERSION="1.1.1"
+
+# https://github.com/getsops/sops/releases
+ARG SOPS_VERSION="3.8.1"
+
+RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releases/download/v${AGE_VERSION}/age-v${AGE_VERSION}-linux-amd64.tar.gz" \
+    && tar --extract --file age.tar.gz \
+    && mv age/age /usr/local/bin \
+    && mv age/age-keygen /usr/local/bin \
+    && wget --output-document /usr/local/bin/sops "https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64" \
+    && chmod +x /usr/local/bin/sops
+
 # https://hub.docker.com/r/composer/composer
 FROM composer/composer:2.6.6-bin as composer-bin
 
@@ -26,6 +41,10 @@ RUN git clone https://github.com/nginx/unit \
         && make ${PHP_MODULE_NAME}
 
 FROM php:${PHP_VERSION}-cli-bullseye as app
+
+COPY --from=secops-tools /usr/local/bin/age /usr/local/bin/age
+COPY --from=secops-tools /usr/local/bin/age-keygen /usr/local/bin/age-keygen
+COPY --from=secops-tools /usr/local/bin/sops /usr/local/bin/sops
 
 ARG UNIT_VERSION
 # https://packages.nginx.org/unit/debian/pool/unit/u/unit/
