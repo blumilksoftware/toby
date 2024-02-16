@@ -22,7 +22,7 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
 FROM composer/composer:2.6.6-bin as composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:21.6.0-bullseye-slim as node
+FROM node:21.6.1-bullseye-slim as node
 
 FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
 
