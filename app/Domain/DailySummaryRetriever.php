@@ -32,7 +32,7 @@ class DailySummaryRetriever
                 VacationType::all()->filter(fn(VacationType $type): bool => $this->configRetriever->isVacation($type)),
             )
             ->get()
-            ->sortBy("user.last_name");
+            ->sortBy("user.profile.last_name");
     }
 
     /**
@@ -50,7 +50,7 @@ class DailySummaryRetriever
                 VacationType::all()->filter(fn(VacationType $type): bool => !$this->configRetriever->isVacation($type)),
             )
             ->get()
-            ->sortBy("user.last_name");
+            ->sortBy("user.profile.last_name");
     }
 
     /**
