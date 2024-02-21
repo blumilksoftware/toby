@@ -25,6 +25,7 @@ use Illuminate\Translation\TranslationServiceProvider;
 use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\View\ViewServiceProvider;
 use Toby\Architecture\Providers\AppServiceProvider;
+use Toby\Architecture\Providers\AuthServiceProvider as ApplicationAuthServiceProvider;
 use Toby\Architecture\Providers\EventServiceProvider;
 use Toby\Architecture\Providers\ObserverServiceProvider;
 use Toby\Architecture\Providers\RouteServiceProvider;
@@ -67,7 +68,7 @@ return [
         ViewServiceProvider::class,
         ServiceProvider::class,
         AppServiceProvider::class,
-        Toby\Architecture\Providers\AuthServiceProvider::class,
+        ApplicationAuthServiceProvider::class,
         EventServiceProvider::class,
         RouteServiceProvider::class,
         TelescopeServiceProvider::class,
