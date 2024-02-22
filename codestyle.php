@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Blumilk\Codestyle\Config;
-use Blumilk\Codestyle\Configuration\Defaults\LaravelPaths;
 use Blumilk\Codestyle\Configuration\Defaults\CommonRules;
+use Blumilk\Codestyle\Configuration\Defaults\LaravelPaths;
 use PhpCsFixer\Fixer\LanguageConstruct\ClassKeywordFixer;
 
 $paths = new LaravelPaths();
