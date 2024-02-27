@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
+use Spatie\Permission\Models\Permission;
 use Toby\Domain\Enums\Role;
 
 return [
     "models" => [
-        "permission" => Spatie\Permission\Models\Permission::class,
+        "permission" => Permission::class,
         "role" => Spatie\Permission\Models\Role::class,
     ],
     "table_names" => [

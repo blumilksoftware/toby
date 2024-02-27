@@ -1,6 +1,8 @@
 <?php
 
 declare(strict_types=1);
+use Rackbeat\UIAvatars\Generators\ApiGenerator;
+use Rackbeat\UIAvatars\Generators\LocalGenerator;
 
 return [
     "provider" => "api",
@@ -15,7 +17,7 @@ return [
     "font_color" => "#FFFFFF",
     "font_bold" => true,
     "providers" => [
-        "api" => Rackbeat\UIAvatars\Generators\ApiGenerator::class,
-        "local" => Rackbeat\UIAvatars\Generators\LocalGenerator::class,
+        "api" => ApiGenerator::class,
+        "local" => LocalGenerator::class,
     ],
 ];
