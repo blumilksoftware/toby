@@ -35,6 +35,7 @@ class WaitForTechApprovalAction
     {
         $users = Permission::findByName("receiveVacationRequestWaitsForApprovalNotification")
             ->users()
+            ->with("permissions")
             ->get();
 
         $users = $users->filter(fn(User $user): bool => $user->can("acceptAsTechApprover", $vacationRequest));

@@ -50,8 +50,6 @@ class User extends Authenticatable implements NotifiableInterface
     ];
     protected $with = [
         "profile",
-        "permissions",
-        "roles",
     ];
     protected $perPage = 50;
 
