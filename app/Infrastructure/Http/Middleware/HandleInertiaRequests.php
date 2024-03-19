@@ -36,11 +36,12 @@ class HandleInertiaRequests extends Middleware
 
         return fn(): array => [
             "user" => $user ? new UserResource($user) : null,
-            "can" => Permission::all()->mapWithKeys(
-                fn(Permission $permission): array => [
-                    $permission->name => $user ? $user->hasPermissionTo($permission) : false,
-                ],
-            ),
+            "can" => Permission::query()->with("roles")->get()
+                ->mapWithKeys(
+                    fn(Permission $permission): array => [
+                        $permission->name => $user ? $user->hasPermissionTo($permission) : false,
+                    ],
+                ),
         ];
     }
 
@@ -63,13 +64,13 @@ class HandleInertiaRequests extends Middleware
         $user = $request->user();
 
         return fn(): ?int => $user && $user->can("listAllRequests")
-        ? VacationRequest::query()
-            ->whereBelongsTo($this->yearPeriodRetriever->selected())
-            ->states(
-                VacationRequestStatesRetriever::waitingForUserActionStates($user),
-            )
-            ->count()
-        : null;
+            ? VacationRequest::query()
+                ->whereBelongsTo($this->yearPeriodRetriever->selected())
+                ->states(
+                    VacationRequestStatesRetriever::waitingForUserActionStates($user),
+                )
+                ->count()
+            : null;
     }
 
     protected function getDeployInformation(): Closure

@@ -38,7 +38,7 @@ class VacationRequestResource extends JsonResource
             "to" => $this->to->toDisplayString(),
             "displayDate" => $this->getDate($this->from->toDisplayString(), $this->to->toDisplayString()),
             "comment" => $this->comment,
-            "days" => VacationResource::collection($this->vacations),
+            "days" => VacationResource::collection($this->vacations->load("user")),
             "can" => [
                 "acceptAsTechnical" => $this->resource->state->canTransitionTo(AcceptedByTechnical::class)
                     && $user->can("acceptAsTechApprover", $this->resource),
