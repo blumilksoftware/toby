@@ -23,7 +23,7 @@ class DailySummaryRetriever
     public function getAbsences(Carbon $date): Collection
     {
         return VacationRequest::query()
-            ->with(["user", "vacations"])
+            ->with(["user.profile", "vacations"])
             ->whereDate("from", "<=", $date)
             ->whereDate("to", ">=", $date)
             ->states(VacationRequestStatesRetriever::notFailedStates())
@@ -41,7 +41,7 @@ class DailySummaryRetriever
     public function getRemoteDays(Carbon $date): Collection
     {
         return VacationRequest::query()
-            ->with(["user", "vacations"])
+            ->with(["user.profile", "vacations"])
             ->whereDate("from", "<=", $date)
             ->whereDate("to", ">=", $date)
             ->states(VacationRequestStatesRetriever::notFailedStates())
@@ -59,7 +59,7 @@ class DailySummaryRetriever
     public function getUpcomingAbsences(Carbon $date): Collection
     {
         return VacationRequest::query()
-            ->with(["user", "vacations"])
+            ->with(["user.profile", "vacations"])
             ->whereDate("from", ">", $date)
             ->states(VacationRequestStatesRetriever::notFailedStates())
             ->whereIn(
@@ -77,7 +77,7 @@ class DailySummaryRetriever
     public function getUpcomingRemoteDays(Carbon $date): Collection
     {
         return VacationRequest::query()
-            ->with(["user", "vacations"])
+            ->with(["user.profile", "vacations"])
             ->whereDate("from", ">", $date)
             ->states(VacationRequestStatesRetriever::notFailedStates())
             ->whereIn(

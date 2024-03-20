@@ -26,6 +26,7 @@ class VacationRequestResource extends JsonResource
     public function toArray($request): array
     {
         $user = $request->user();
+        $user->load("profile", "roles", "permissions");
 
         return [
             "id" => $this->id,

@@ -6,6 +6,7 @@ namespace Toby\Eloquent\Helpers;
 
 use Illuminate\Contracts\Session\Session;
 use Toby\Eloquent\Models\YearPeriod;
+use Illuminate\Support\Facades\Cache;
 
 class YearPeriodRetriever
 {
@@ -17,10 +18,12 @@ class YearPeriodRetriever
 
     public function selected(): YearPeriod
     {
-        /** @var YearPeriod $yearPeriod */
-        $yearPeriod = YearPeriod::query()->find($this->session->get(static::SESSION_KEY));
+        return Cache::remember('selected_year_period', 60, function () {
+            /** @var YearPeriod $yearPeriod */
+            $yearPeriod = YearPeriod::query()->find($this->session->get(static::SESSION_KEY));
 
-        return $yearPeriod !== null ? $yearPeriod : $this->current();
+            return $yearPeriod !== null ? $yearPeriod : $this->current();
+        });
     }
 
     public function current(): YearPeriod

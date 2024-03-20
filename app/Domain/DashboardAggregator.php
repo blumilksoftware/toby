@@ -6,6 +6,7 @@ namespace Toby\Domain;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
+use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\Vacation;
@@ -49,25 +50,25 @@ class DashboardAggregator
     {
         $approvedVacations = $user
             ->vacations()
-            ->with("vacationRequest.vacations")
+            ->with(["vacationRequest.vacations", "vacationRequest.user"])
             ->whereBelongsTo($yearPeriod)
             ->approved()
             ->get()
             ->mapWithKeys(
                 fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest->load(["user", "vacations"])),
+                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest),
                 ],
             );
 
         $pendingVacations = $user
             ->vacations()
-            ->with("vacationRequest.vacations")
+            ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereBelongsTo($yearPeriod)
             ->pending()
             ->get()
             ->mapWithKeys(
                 fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest->load(["user", "vacations"])),
+                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest),
                 ],
             );
 
@@ -86,17 +87,19 @@ class DashboardAggregator
     {
         if ($user->can("listAllRequests")) {
             $vacationRequests = $yearPeriod->vacationRequests()
-                ->with(["user", "vacations"])
+                ->with(["user.profile", "vacations"])
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")
                 ->limit(3)
+                ->cache()
                 ->get();
         } else {
             $vacationRequests = $user->vacationRequests()
-                ->with(["user", "vacations"])
+                ->with(["user.profile", "vacations"])
                 ->whereBelongsTo($yearPeriod)
                 ->latest("updated_at")
                 ->limit(3)
+                ->cache()
                 ->get();
         }
 
