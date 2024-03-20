@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2b9d0480e2cd51af4a1ef7288e70ba7",
+    "content-hash": "b41bbbe781a14f9a3bc2c8a287313795",
     "packages": [
         {
             "name": "azuyalabs/yasumi",
@@ -6258,17 +6258,17 @@
             "time": "2024-02-28T08:11:20+00:00"
         },
         {
-            "name": "spatie/laravel-slack-slash-command-slash-command",
-            "version": "dev-l11-compatibility",
+            "name": "spatie/laravel-slack-slash-command",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel-shift/laravel-slack-slash-command.git",
-                "reference": "a5e2ae8b5bdb66e1fd216ddfb55d17a4484ac9f6"
+                "url": "https://github.com/spatie/laravel-slack-slash-command.git",
+                "reference": "ba3ee5603f8bde562eb93cd7822a0ffee543889d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-shift/laravel-slack-slash-command/zipball/a5e2ae8b5bdb66e1fd216ddfb55d17a4484ac9f6",
-                "reference": "a5e2ae8b5bdb66e1fd216ddfb55d17a4484ac9f6",
+                "url": "https://api.github.com/repos/spatie/laravel-slack-slash-command/zipball/ba3ee5603f8bde562eb93cd7822a0ffee543889d",
+                "reference": "ba3ee5603f8bde562eb93cd7822a0ffee543889d",
                 "shasum": ""
             },
             "require": {
@@ -6298,16 +6298,7 @@
                     "Spatie\\SlashCommand\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Spatie\\SlashCommand\\Test\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/pest"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6326,9 +6317,10 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/laravel-shift/laravel-slack-slash-command/tree/l11-compatibility"
+                "issues": "https://github.com/spatie/laravel-slack-slash-command/issues",
+                "source": "https://github.com/spatie/laravel-slack-slash-command/tree/1.12.0"
             },
-            "time": "2024-03-02T00:22:09+00:00"
+            "time": "2024-03-20T07:31:06+00:00"
         },
         {
             "name": "symfony/clock",
@@ -11888,8 +11880,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "rackbeat/laravel-ui-avatars": 20,
-        "spatie/laravel-slack-slash-command-slash-command": 20
+        "rackbeat/laravel-ui-avatars": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
