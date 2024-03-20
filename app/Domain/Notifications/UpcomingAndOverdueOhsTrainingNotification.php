@@ -64,7 +64,7 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
                 $message->line(__(":user - :date (in :difference days)", [
                     "user" => $user->profile->full_name,
                     "date" => $user->profile->next_ohs_training_date->toDisplayString(),
-                    "difference" => $user->profile->next_ohs_training_date->diffInDays(Carbon::today()),
+                    "difference" => (int)$user->profile->next_ohs_training_date->diffInDays(Carbon::today()),
                 ]));
             }
         }
@@ -77,7 +77,7 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
                 $message->line(__(":user - :date (overdue :difference days)", [
                     "user" => $user->profile->full_name,
                     "date" => $user->profile->next_ohs_training_date->toDisplayString(),
-                    "difference" => $user->profile->next_ohs_training_date->diffInDays(Carbon::today()),
+                    "difference" => (int)$user->profile->next_ohs_training_date->diffInDays(Carbon::today()),
                 ]));
             }
         }

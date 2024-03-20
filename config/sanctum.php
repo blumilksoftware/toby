@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Laravel\Sanctum\Http\Middleware\AuthenticateSession;
 
 return [
     "stateful" => explode(",", env("SANCTUM_STATEFUL_DOMAINS", sprintf(
@@ -13,8 +14,9 @@ return [
     ))),
     "guard" => ["web"],
     "expiration" => null,
-    "middleware" => [
-        "verify_csrf_token" => VerifyCsrfToken::class,
-        "encrypt_cookies" => EncryptCookies::class,
+    'middleware' => [
+        'authenticate_session' => AuthenticateSession::class,
+        'encrypt_cookies' => EncryptCookies::class,
+        'validate_csrf_token' => ValidateCsrfToken::class,
     ],
 ];

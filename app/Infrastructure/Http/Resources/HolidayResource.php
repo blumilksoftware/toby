@@ -26,7 +26,7 @@ class HolidayResource extends JsonResource
             "isSaturday" => $this->date->endOfDay()->isSaturday(),
             "displayDate" => $this->date->toDisplayString(),
             "dayOfWeek" => $this->date->dayName,
-            "daysToHoliday" => $this->date->diffInDays(),
+            "daysToHoliday" => (int)$this->date->diffInDays(),
             "displayDaysToHoliday" => $this->date->diffForHumans(),
         ];
     }

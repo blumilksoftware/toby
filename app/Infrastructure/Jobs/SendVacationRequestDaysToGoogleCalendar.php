@@ -62,7 +62,7 @@ class SendVacationRequestDaysToGoogleCalendar implements ShouldQueue
         ];
 
         foreach ($days as $day) {
-            if ($day->diffInDays($ranges[$index]["to"]) > 1) {
+            if (((int)$day->diffInDays($ranges[$index]["to"])) > 1) {
                 $index++;
 
                 $ranges[$index] = [
