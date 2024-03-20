@@ -43,7 +43,7 @@ class VacationRequestController extends Controller
 
         $vacationRequests = $request->user()
             ->vacationRequests()
-            ->with(["user", "vacations"])
+            ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
@@ -89,7 +89,9 @@ class VacationRequestController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
-        if ($request->user()->cannot("listAllRequests")) {
+        $requestUser = $request->user();
+
+        if ($requestUser->cannot("listAllRequests")) {
             return redirect()->route("vacation.requests.index");
         }
 
@@ -99,11 +101,11 @@ class VacationRequestController extends Controller
         $type = $request->get("type");
 
         $vacationRequests = VacationRequest::query()
-            ->with(["user", "vacations"])
+            ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriod)
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))
-            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
+            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $requestUser))
             ->latest()
             ->paginate();
 
@@ -131,7 +133,7 @@ class VacationRequestController extends Controller
     {
         $this->authorize("show", $vacationRequest);
 
-        $vacationRequest->load(["user", "vacations", "activities", "activities.user.profile"]);
+        $vacationRequest->load(["vacations.user.profile", "user.permissions", "user.profile", "activities.user.profile"]);
         $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $vacationRequest->yearPeriod);
         $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
         $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);

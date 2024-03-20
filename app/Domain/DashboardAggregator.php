@@ -6,7 +6,6 @@ namespace Toby\Domain;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
-use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\User;
 use Toby\Eloquent\Models\Vacation;
@@ -89,7 +88,7 @@ class DashboardAggregator
     {
         if ($user->can("listAllRequests")) {
             $vacationRequests = $yearPeriod->vacationRequests()
-                ->with(["user.profile", "vacations"])
+                ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")
                 ->limit(3)
@@ -97,7 +96,7 @@ class DashboardAggregator
                 ->get();
         } else {
             $vacationRequests = $user->vacationRequests()
-                ->with(["user.profile", "vacations"])
+                ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
                 ->whereBelongsTo($yearPeriod)
                 ->latest("updated_at")
                 ->limit(3)

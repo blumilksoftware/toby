@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($users as $user) {
             VacationRequest::factory()
-                ->count(10)
+                ->count(50)
                 ->for($user)
                 ->for($user, "creator")
                 ->sequence(fn() => [

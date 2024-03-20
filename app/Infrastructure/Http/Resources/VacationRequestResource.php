@@ -26,7 +26,6 @@ class VacationRequestResource extends JsonResource
     public function toArray($request): array
     {
         $user = $request->user();
-        $user->load("profile", "roles", "permissions");
 
         return [
             "id" => $this->id,
@@ -39,7 +38,7 @@ class VacationRequestResource extends JsonResource
             "to" => $this->to->toDisplayString(),
             "displayDate" => $this->getDate($this->from->toDisplayString(), $this->to->toDisplayString()),
             "comment" => $this->comment,
-            "days" => VacationResource::collection($this->vacations->load("user")),
+            "days" => VacationResource::collection($this->vacations),
             "can" => [
                 "acceptAsTechnical" => $this->resource->state->canTransitionTo(AcceptedByTechnical::class)
                     && $user->can("acceptAsTechApprover", $this->resource),
