@@ -89,9 +89,7 @@ class VacationRequestController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
-        $requestUser = $request->user();
-
-        if ($requestUser->cannot("listAllRequests")) {
+        if ($request->user()->cannot("listAllRequests")) {
             return redirect()->route("vacation.requests.index");
         }
 
@@ -101,11 +99,11 @@ class VacationRequestController extends Controller
         $type = $request->get("type");
 
         $vacationRequests = VacationRequest::query()
-            ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
+            ->with(["user", "vacations"])
             ->whereBelongsTo($yearPeriod)
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))
-            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $requestUser))
+            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->latest()
             ->paginate();
 
