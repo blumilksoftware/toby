@@ -43,7 +43,7 @@ class VacationRequestController extends Controller
 
         $vacationRequests = $request->user()
             ->vacationRequests()
-            ->with("vacations")
+            ->with(["user", "vacations"])
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
@@ -131,6 +131,7 @@ class VacationRequestController extends Controller
     {
         $this->authorize("show", $vacationRequest);
 
+        $vacationRequest->load(["user", "vacations", "activities", "activities.user.profile"]);
         $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $vacationRequest->yearPeriod);
         $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
         $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
