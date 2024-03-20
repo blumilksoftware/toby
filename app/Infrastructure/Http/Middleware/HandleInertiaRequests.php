@@ -32,7 +32,8 @@ class HandleInertiaRequests extends Middleware
 
     protected function getAuthData(Request $request): Closure
     {
-        $user = $request->user()->load("profile");
+        $user = $request->user();
+        $user->load("profile");
 
         return fn(): array => [
             "user" => $user ? new UserResource($user) : null,
