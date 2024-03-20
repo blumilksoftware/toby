@@ -50,8 +50,9 @@ class DashboardAggregator
     {
         $approvedVacations = $user
             ->vacations()
-            ->with(["vacationRequest.vacations", "vacationRequest.user"])
+            ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereBelongsTo($yearPeriod)
+            ->cache()
             ->approved()
             ->get()
             ->mapWithKeys(
@@ -64,6 +65,7 @@ class DashboardAggregator
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereBelongsTo($yearPeriod)
+            ->cache()
             ->pending()
             ->get()
             ->mapWithKeys(
