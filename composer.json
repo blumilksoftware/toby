@@ -9,6 +9,7 @@
         "ext-pdo": "*",
         "ext-redis": "*",
         "azuyalabs/yasumi": "^2.6.0",
+        "barryvdh/laravel-debugbar": "^3.12",
         "barryvdh/laravel-dompdf": "^2.0.1",
         "doctrine/dbal": "^3.7.2",
         "fakerphp/faker": "^1.22.0",
