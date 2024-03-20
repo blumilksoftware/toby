@@ -34,6 +34,7 @@
         "spatie/laravel-slack-slash-command": "1.12"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.12",
         "blumilksoftware/codestyle": "^2.8",
         "laravel/dusk": "^8.0",
         "mockery/mockery": "^1.6",
