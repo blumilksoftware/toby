@@ -43,7 +43,7 @@ class VacationRequestController extends Controller
 
         $vacationRequests = $request->user()
             ->vacationRequests()
-            ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
+            ->with(["vacations.user.profile", "user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
@@ -99,7 +99,7 @@ class VacationRequestController extends Controller
         $type = $request->get("type");
 
         $vacationRequests = VacationRequest::query()
-            ->with(["user", "vacations"])
+            ->with(["vacations.user.profile", "user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriod)
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))

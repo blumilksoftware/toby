@@ -88,7 +88,7 @@ class DashboardAggregator
     {
         if ($user->can("listAllRequests")) {
             $vacationRequests = $yearPeriod->vacationRequests()
-                ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
+                ->with(["user", "vacations", "vacations.user", "vacations.user.profile", "user.permissions", "user.profile"])
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")
                 ->limit(3)
@@ -96,7 +96,7 @@ class DashboardAggregator
                 ->get();
         } else {
             $vacationRequests = $user->vacationRequests()
-                ->with(["user", "vacations.user.profile", "user.permissions", "user.profile"])
+                ->with(["user", "vacations", "vacations.user", "vacations.user.profile", "user.permissions", "user.profile"])
                 ->whereBelongsTo($yearPeriod)
                 ->latest("updated_at")
                 ->limit(3)
