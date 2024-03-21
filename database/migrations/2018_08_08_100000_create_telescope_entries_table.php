@@ -7,9 +7,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration {
-    /**
-     * Get the migration connection name.
-     */
     public function getConnection(): string|null
     {
         return config("telescope.storage.database.connection");

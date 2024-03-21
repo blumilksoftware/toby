@@ -35,7 +35,7 @@ class EmployeesMilestonesRetriever
             ->search($searchText)
             ->get();
 
-        return $users->sortBy(fn(User $user): int => (int) $user->upcomingBirthday()->diffInDays(Carbon::today()), descending: $direction !== "asc");
+        return $users->sortBy(fn(User $user): int => (int)$user->upcomingBirthday()->diffInDays(Carbon::today()), descending: $direction !== "asc");
     }
 
     public function getSeniority(?string $searchText, string $direction = "asc"): Collection

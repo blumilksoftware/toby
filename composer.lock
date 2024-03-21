@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2b9d0480e2cd51af4a1ef7288e70ba7",
+    "content-hash": "f56529bfeaa2e554014dd4c63328f235",
     "packages": [
         {
             "name": "azuyalabs/yasumi",
@@ -6258,17 +6258,17 @@
             "time": "2024-02-28T08:11:20+00:00"
         },
         {
-            "name": "spatie/laravel-slack-slash-command-slash-command",
-            "version": "dev-l11-compatibility",
+            "name": "spatie/laravel-slack-slash-command",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel-shift/laravel-slack-slash-command.git",
-                "reference": "a5e2ae8b5bdb66e1fd216ddfb55d17a4484ac9f6"
+                "url": "https://github.com/spatie/laravel-slack-slash-command.git",
+                "reference": "ba3ee5603f8bde562eb93cd7822a0ffee543889d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-shift/laravel-slack-slash-command/zipball/a5e2ae8b5bdb66e1fd216ddfb55d17a4484ac9f6",
-                "reference": "a5e2ae8b5bdb66e1fd216ddfb55d17a4484ac9f6",
+                "url": "https://api.github.com/repos/spatie/laravel-slack-slash-command/zipball/ba3ee5603f8bde562eb93cd7822a0ffee543889d",
+                "reference": "ba3ee5603f8bde562eb93cd7822a0ffee543889d",
                 "shasum": ""
             },
             "require": {
@@ -6298,16 +6298,7 @@
                     "Spatie\\SlashCommand\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Spatie\\SlashCommand\\Test\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/pest"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6326,9 +6317,10 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/laravel-shift/laravel-slack-slash-command/tree/l11-compatibility"
+                "issues": "https://github.com/spatie/laravel-slack-slash-command/issues",
+                "source": "https://github.com/spatie/laravel-slack-slash-command/tree/1.12.0"
             },
-            "time": "2024-03-02T00:22:09+00:00"
+            "time": "2024-03-20T07:31:06+00:00"
         },
         {
             "name": "symfony/clock",
@@ -9048,6 +9040,90 @@
     ],
     "packages-dev": [
         {
+            "name": "barryvdh/laravel-debugbar",
+            "version": "v3.12.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-debugbar.git",
+                "reference": "43555503052443964ce2c1c1f3b0378e58219eb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/43555503052443964ce2c1c1f3b0378e58219eb8",
+                "reference": "43555503052443964ce2c1c1f3b0378e58219eb8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/routing": "^9|^10|^11",
+                "illuminate/session": "^9|^10|^11",
+                "illuminate/support": "^9|^10|^11",
+                "maximebf/debugbar": "~1.21.0",
+                "php": "^8.0",
+                "symfony/finder": "^6|^7"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.3",
+                "orchestra/testbench-dusk": "^5|^6|^7|^8|^9",
+                "phpunit/phpunit": "^9.6|^10.5",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.10-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Barryvdh\\Debugbar\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Debugbar": "Barryvdh\\Debugbar\\Facades\\Debugbar"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Barryvdh\\Debugbar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "PHP Debugbar integration for Laravel",
+            "keywords": [
+                "debug",
+                "debugbar",
+                "laravel",
+                "profiler",
+                "webprofiler"
+            ],
+            "support": {
+                "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.12.2"
+            },
+            "funding": [
+                {
+                    "url": "https://fruitcake.nl",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/barryvdh",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-13T09:50:34+00:00"
+        },
+        {
             "name": "blumilksoftware/codestyle",
             "version": "v2.8.0",
             "source": {
@@ -9565,6 +9641,72 @@
                 "source": "https://github.com/laravel/dusk/tree/v8.0.0"
             },
             "time": "2024-03-12T14:10:13+00:00"
+        },
+        {
+            "name": "maximebf/debugbar",
+            "version": "v1.21.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maximebf/php-debugbar.git",
+                "reference": "0b407703b08ea0cf6ebc61e267cc96ff7000911b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0b407703b08ea0cf6ebc61e267cc96ff7000911b",
+                "reference": "0b407703b08ea0cf6ebc61e267cc96ff7000911b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8",
+                "psr/log": "^1|^2|^3",
+                "symfony/var-dumper": "^4|^5|^6|^7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=7.5.20 <10.0",
+                "twig/twig": "^1.38|^2.7|^3.0"
+            },
+            "suggest": {
+                "kriswallsmith/assetic": "The best way to manage assets",
+                "monolog/monolog": "Log using Monolog",
+                "predis/predis": "Redis storage"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.21-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DebugBar\\": "src/DebugBar/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxime Bouroumeau-Fuseau",
+                    "email": "maxime.bouroumeau@gmail.com",
+                    "homepage": "http://maximebf.com"
+                },
+                {
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
+                }
+            ],
+            "description": "Debug bar in the browser for php application",
+            "homepage": "https://github.com/maximebf/php-debugbar",
+            "keywords": [
+                "debug",
+                "debugbar"
+            ],
+            "support": {
+                "issues": "https://github.com/maximebf/php-debugbar/issues",
+                "source": "https://github.com/maximebf/php-debugbar/tree/v1.21.3"
+            },
+            "time": "2024-03-12T14:23:07+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -11888,8 +12030,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "rackbeat/laravel-ui-avatars": 20,
-        "spatie/laravel-slack-slash-command-slash-command": 20
+        "rackbeat/laravel-ui-avatars": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

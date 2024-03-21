@@ -8,10 +8,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/laravel-shift/laravel-ui-avatars.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/laravel-shift/laravel-slack-slash-command.git"
         }
     ],
     "require": {
@@ -35,9 +31,10 @@
         "spatie/laravel-google-calendar": "3.8",
         "spatie/laravel-model-states": "^2.6",
         "spatie/laravel-permission": "^6.4",
-        "spatie/laravel-slack-slash-command-slash-command": "dev-l11-compatibility"
+        "spatie/laravel-slack-slash-command": "1.12"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.12",
         "blumilksoftware/codestyle": "^2.8",
         "laravel/dusk": "^8.0",
         "mockery/mockery": "^1.6",
