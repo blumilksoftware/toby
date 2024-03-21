@@ -59,7 +59,7 @@ class CalendarGenerator
             ->orWhere(function ($query): void {
                 $query->pending();
             })
-            ->with("vacationRequest")
+            ->with("vacationRequest.vacations")
             ->get()
             ->groupBy(fn(Vacation $vacation): string => $vacation->date->toDateString());
     }

@@ -55,7 +55,7 @@ class DashboardAggregator
             ->get()
             ->mapWithKeys(
                 fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest),
+                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest->load(["user", "vacations"])),
                 ],
             );
 
@@ -67,7 +67,7 @@ class DashboardAggregator
             ->get()
             ->mapWithKeys(
                 fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest),
+                    $vacation->date->toDateString() => new DashboardVacationRequestResource($vacation->vacationRequest->load(["user", "vacations"])),
                 ],
             );
 
@@ -86,14 +86,14 @@ class DashboardAggregator
     {
         if ($user->can("listAllRequests")) {
             $vacationRequests = $yearPeriod->vacationRequests()
-                ->with(["user"])
+                ->with(["user", "vacations"])
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")
                 ->limit(3)
                 ->get();
         } else {
             $vacationRequests = $user->vacationRequests()
-                ->with(["user"])
+                ->with(["user", "vacations"])
                 ->whereBelongsTo($yearPeriod)
                 ->latest("updated_at")
                 ->limit(3)

@@ -33,6 +33,7 @@ class EquipmentController extends Controller
         $searchQuery = $request->query("search");
 
         $equipmentItems = EquipmentItem::query()
+            ->with("assignee")
             ->search($searchQuery)
             ->when(
                 $request->query("assignee") && $request->query("assignee") !== "unassigned",
@@ -72,6 +73,7 @@ class EquipmentController extends Controller
         $searchQuery = $request->query("search");
 
         $equipmentItems = EquipmentItem::query()
+            ->with("assignee")
             ->search($searchQuery)
             ->labels($request->query("labels"))
             ->where("assignee_id", $request->user()->id)
@@ -172,7 +174,7 @@ class EquipmentController extends Controller
     {
         $this->authorize("manageEquipment");
 
-        $equipmentItems = EquipmentItem::query()->get();
+        $equipmentItems = EquipmentItem::query()->with("assignee")->get();
 
         $equipmentExport = new EquipmentExport($equipmentItems);
 
