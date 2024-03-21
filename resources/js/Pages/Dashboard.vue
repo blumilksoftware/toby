@@ -9,8 +9,10 @@ import UserVacationRequests from '@/Shared/Widgets/UserVacationRequests.vue'
 import PendingVacationRequests from '@/Shared/Widgets/PendingVacationRequests.vue'
 import VacationCalendar from '@/Shared/Widgets/VacationCalendar.vue'
 import BenefitList from '@/Shared/Widgets/BenefitList.vue'
+import {onMounted, onUnmounted, ref} from "vue";
+import axios from "axios";
 
-defineProps({
+const props = defineProps({
   auth: Object,
   current: Object,
   upcoming: Object,
@@ -20,6 +22,7 @@ defineProps({
   years: Object,
   benefits: Object,
 })
+
 </script>
 
 <template>
