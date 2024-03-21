@@ -6117,16 +6117,16 @@
         },
         {
             "name": "spatie/laravel-package-tools",
-            "version": "1.16.3",
+            "version": "1.16.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-package-tools.git",
-                "reference": "59db18c2e20d49a0b6d447bb1c654f6c123beb9e"
+                "reference": "ddf678e78d7f8b17e5cdd99c0c3413a4a6592e53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/59db18c2e20d49a0b6d447bb1c654f6c123beb9e",
-                "reference": "59db18c2e20d49a0b6d447bb1c654f6c123beb9e",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/ddf678e78d7f8b17e5cdd99c0c3413a4a6592e53",
+                "reference": "ddf678e78d7f8b17e5cdd99c0c3413a4a6592e53",
                 "shasum": ""
             },
             "require": {
@@ -6165,7 +6165,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
-                "source": "https://github.com/spatie/laravel-package-tools/tree/1.16.3"
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.16.4"
             },
             "funding": [
                 {
@@ -6173,7 +6173,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-07T07:35:57+00:00"
+            "time": "2024-03-20T07:29:11+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -10312,16 +10312,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.13",
+            "version": "10.5.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7"
+                "reference": "4cf8824bab39c2dd57b57b9f6332f7135e2a3a49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
-                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4cf8824bab39c2dd57b57b9f6332f7135e2a3a49",
+                "reference": "4cf8824bab39c2dd57b57b9f6332f7135e2a3a49",
                 "shasum": ""
             },
             "require": {
@@ -10393,7 +10393,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.13"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.14"
             },
             "funding": [
                 {
@@ -10409,7 +10409,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-12T15:37:41+00:00"
+            "time": "2024-03-21T07:31:09+00:00"
         },
         {
             "name": "sebastian/cli-parser",

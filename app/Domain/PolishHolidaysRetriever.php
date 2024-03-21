@@ -28,7 +28,7 @@ class PolishHolidaysRetriever
     {
         return collect($holidays)->map(fn(Holiday $holiday): array => [
             "name" => $holiday->getName([static::LANG_KEY]),
-            "date" => Carbon::createFromTimestamp($holiday->getTimestamp()),
+            "date" => Carbon::createFromTimestamp($holiday->getTimestamp(), config("app.timezone")),
         ])->values();
     }
 }
