@@ -59,7 +59,7 @@ class DailySummaryRetriever
     public function getUpcomingAbsences(Carbon $date): Collection
     {
         return VacationRequest::query()
-            ->with(["user"])
+            ->with(["user", "vacations"])
             ->whereDate("from", ">", $date)
             ->states(VacationRequestStatesRetriever::notFailedStates())
             ->whereIn(
