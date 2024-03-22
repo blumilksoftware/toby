@@ -1,9 +1,10 @@
 <script setup>
 import MainMenu from '@/Shared/MainMenu.vue'
+import LastUpdate from '@/Shared/LastUpdate.vue'
 import { useToast } from 'vue-toastification'
-import {onMounted, ref, watch} from 'vue'
+import { ref, watch } from 'vue'
 import DeployInfo from '@/Shared/DeployInfo.vue'
-import axios from "axios";
+import { updateFavicon } from '@/Shared/updateFavicon'
 
 const props = defineProps({
   flash: Object,
@@ -30,46 +31,28 @@ watch(() => props.flash, flash => {
   }
 }, { immediate: true })
 
-
 const isUpdated = ref(false)
 
-const fetchLastUpdate = async () => {
-  try {
-    const response = await axios.get('/api/last-update')
-    if (response.data.lastUpdate !== props.lastUpdate) {
-      isUpdated.value = true
-      updateFavicon("/images/icon-alert.png")
-    }
-  } catch (error) {
-    console.error('Failed to fetch last update:', error)
-  }
-}
-
-onMounted(() => {
-  fetchLastUpdate()
-  setInterval(fetchLastUpdate, 5000)
-})
-
-// onUnmounted(() => {
-//   updateFavicon("/images/icon.png")
-// })
-
-function updateFavicon(iconUrl) {
-  var link = document.querySelector("link[rel*='icon']") || document.createElement("link");
-  link.type = "image/x-icon";
-  link.rel = "shortcut icon";
-  link.href = iconUrl;
-  document.getElementsByTagName("head")[0].appendChild(link);
+function vacationPageOpened() {
+  isUpdated.value = false
+  updateFavicon('/images/icon.png')
 }
 </script>
 
 <template>
+  <LastUpdate
+    v-if="props.auth.can.listAllRequests"
+    :is-updated="isUpdated"
+    :last-update="lastUpdate"
+    @last-update-updated="isUpdated = true"
+  />
   <div class="relative min-h-screen">
     <MainMenu
       :auth="auth"
-      :years="years"
-      :vacation-requests-count="vacationRequestsCount"
       :show-refresh-button="isUpdated"
+      :vacation-requests-count="vacationRequestsCount"
+      :years="years"
+      @open="vacationPageOpened"
     />
     <main class="flex flex-col flex-1 py-8 lg:ml-60">
       <div class="lg:px-4">

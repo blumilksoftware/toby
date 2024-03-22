@@ -6,7 +6,6 @@ namespace Toby\Domain\Listeners;
 
 use Carbon\Carbon;
 use Illuminate\Cache\CacheManager;
-use Psr\SimpleCache\InvalidArgumentException;
 use Toby\Domain\Events\VacationRequestChanged;
 
 class UpdateLastUpdateCache
