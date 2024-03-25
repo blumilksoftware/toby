@@ -171,6 +171,9 @@ const miscNavigation = computed(() => [
   },
 ].filter(item => item.can))
 
+const refreshablePages = ['Dashboard', 'Calendar', 'VacationRequest/IndexForApprovers']
+const refreshableHrefs = ['/vacation/requests', '/calendar']
+
 const reloadPage = () => {
   window.location.reload()
 }
@@ -283,7 +286,7 @@ const emit = defineEmits(['open'])
                 :key="item.name"
                 :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
                 :href="item.href"
-                @click="sidebarOpen = false;item.href === '/vacation/requests' ? emit('open') : null"
+                @click="sidebarOpen = false;refreshableHrefs.includes(item.href) ? emit('open') : null"
               >
                 <component
                   :is="item.icon"
@@ -334,7 +337,7 @@ const emit = defineEmits(['open'])
             :key="item.name"
             :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
             :href="item.href"
-            @click="item.href === '/vacation/requests' ? emit('open') : null"
+            @click="refreshableHrefs.includes(item.href) ? emit('open') : null"
           >
             <component
               :is="item.icon"
@@ -405,7 +408,7 @@ const emit = defineEmits(['open'])
                   </MenuButton>
                 </div>
                 <button
-                  v-if="showRefreshButton && ($page.component === 'Dashboard' || $page.component === 'VacationRequest/IndexForApprovers')"
+                  v-if="showRefreshButton && refreshablePages.includes($page.component)"
                   class="inline-flex items-center py-2.5 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm ml-3"
                   @click="reloadPage"
                 >
