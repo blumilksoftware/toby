@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Toby\Infrastructure\Http\Controllers\Api;
 
 use Carbon\Carbon;
