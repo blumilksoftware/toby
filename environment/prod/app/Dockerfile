@@ -24,6 +24,7 @@ FROM node:21.6.2-bullseye-slim as frontend
 WORKDIR /app_frontend_dependencies
 
 COPY package.json package-lock.json postcss.config.js tailwind.config.js vite.config.js ./
+COPY ./environment/prod/app/vite.env .env
 
 RUN npm clean-install
 

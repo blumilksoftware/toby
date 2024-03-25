@@ -23,6 +23,6 @@ const fetchLastUpdate = async () => {
 
 onMounted(() => {
   fetchLastUpdate()
-  setInterval(fetchLastUpdate, 300000) // 5 minutes
+  setInterval(fetchLastUpdate, import.meta.env.VITE_LAST_UPDATE_TIMEOUT)
 })
 </script>
