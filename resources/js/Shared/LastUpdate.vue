@@ -23,6 +23,6 @@ const fetchLastUpdate = async () => {
 
 onMounted(() => {
   fetchLastUpdate()
-  setInterval(fetchLastUpdate, 5000)
+  setInterval(fetchLastUpdate, 300000) // 5 minutes
 })
 </script>
