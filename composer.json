@@ -15,6 +15,7 @@
         "fakerphp/faker": "^1.22.0",
         "guzzlehttp/guzzle": "^7.7.0",
         "inertiajs/inertia-laravel": "^0.6.11",
+        "laragear/cache-query": "^4.0",
         "laravel/framework": "^10.33.0",
         "laravel/sanctum": "^3.3.2",
         "laravel/socialite": "^5.10.0",
@@ -30,6 +31,7 @@
         "spatie/laravel-slack-slash-command": "^1.11.4"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.12",
         "blumilksoftware/codestyle": "^2.8.0",
         "laravel/dusk": "^7.11.4",
         "mockery/mockery": "^1.5.1",
