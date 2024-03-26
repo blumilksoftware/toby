@@ -29,7 +29,7 @@ services:
       - "traefik.http.routers.toby-beta-app.entrypoints=websecure"
       - "traefik.http.routers.toby-beta-app.tls=true"
       - "traefik.http.routers.toby-beta-app.tls.certresolver=lets-encrypt-resolver"
-      - "traefik.http.routers.toby-beta-app.middlewares=response-gzip-compress@file,csp-header@docker"
+      - "traefik.http.routers.toby-beta-app.middlewares=response-gzip-compress@file"
     depends_on:
       toby-beta-database:
         condition: service_healthy
