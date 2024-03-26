@@ -273,7 +273,7 @@ defineProps({
           </ul>
         </div>
       </div>
-      <div class="bg-white shadow-md">
+      <div class="bg-white shadow-md" v-if="request.can.acceptAsAdministrative || request.can.acceptAsTechnical">
         <div class="py-5 px-4 sm:px-6">
           <h3 class="text-lg font-medium leading-6 text-gray-900">
             Kalendarz pracownika
