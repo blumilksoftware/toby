@@ -133,9 +133,8 @@ class VacationRequestController extends Controller
     public function show(
         VacationRequest $vacationRequest,
         UserVacationStatsRetriever $statsRetriever,
-        YearPeriodRetriever $yearPeriodRetriever
-    ): Response
-    {
+        YearPeriodRetriever $yearPeriodRetriever,
+    ): Response {
         $this->authorize("show", $vacationRequest);
 
         $vacationRequest->load(["vacations.user.profile", "user.permissions", "user.profile", "activities.user.profile"]);
@@ -176,21 +175,23 @@ class VacationRequestController extends Controller
                 "pending" => $pending,
                 "remaining" => $remaining,
             ],
-            "holidays" => $holidays->mapWithKeys(
-                fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
-            ),
-            "vacations" => $vacations->mapWithKeys(
-                fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
-                ],
-            ),
-            "pendingVacations" => $pendingVacations->mapWithKeys(
-                fn(Vacation $vacation): array => [
-                    $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
-                ],
-            ),
-            "startMonth" => $requestFromDateMonth > 1 ? --$requestFromDateMonth : 1,
-            "endMonth" => $requestToDateMonth < 12 ? ++$requestToDateMonth : 12,
+            "handyCalendarData" => [
+                "holidays" => $holidays->mapWithKeys(
+                    fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
+                ),
+                "vacations" => $vacations->mapWithKeys(
+                    fn(Vacation $vacation): array => [
+                        $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                    ],
+                ),
+                "pendingVacations" => $pendingVacations->mapWithKeys(
+                    fn(Vacation $vacation): array => [
+                        $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                    ],
+                ),
+                "startMonth" => $requestFromDateMonth > 1 ? --$requestFromDateMonth : 1,
+                "endMonth" => $requestToDateMonth < 12 ? ++$requestToDateMonth : 12,
+            ],
         ]);
     }
 

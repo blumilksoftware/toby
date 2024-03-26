@@ -4,18 +4,14 @@ import Activity from '@/Shared/Activity.vue'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
 import VacationBar from '@/Shared/VacationBar.vue'
-import CalendarComponent from "@/Shared/CalendarComponent.vue";
+import CalendarComponent from '@/Shared/CalendarComponent.vue'
 
-const props = defineProps({
+defineProps({
   request: Object,
   activities: Object,
   stats: Object,
   auth: Object,
-  holidays: Object,
-  vacations: Object,
-  pendingVacations: Object,
-  startMonth: Number,
-  endMonth: Number,
+  handyCalendarData: Object,
 })
 </script>
 
@@ -278,14 +274,14 @@ const props = defineProps({
         </div>
       </div>
       <div
-          class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6"
+        class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6"
       >
         <CalendarComponent
-            :start-month="startMonth"
-            :end-month="endMonth"
-            :vacations="vacations"
-            :pending-vacations="pendingVacations"
-            :holidays="holidays"
+          :start-month="handyCalendarData.startMonth"
+          :end-month="handyCalendarData.endMonth"
+          :vacations="handyCalendarData.vacations"
+          :pending-vacations="handyCalendarData.pendingVacations"
+          :holidays="handyCalendarData.holidays"
         />
       </div>
     </div>

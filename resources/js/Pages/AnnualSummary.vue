@@ -1,7 +1,7 @@
 <script setup>
-import CalendarComponent from "@/Shared/CalendarComponent.vue";
+import CalendarComponent from '@/Shared/CalendarComponent.vue'
 
-const props = defineProps({
+defineProps({
   holidays: Object,
   vacations: Object,
   pendingVacations: Object,
@@ -21,11 +21,11 @@ const props = defineProps({
       class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6 xl:grid-cols-3 xl:px-8 xl:max-w-none 2xl:grid-cols-4"
     >
       <CalendarComponent
-          :start-month="1"
-          :end-month="12"
-          :vacations="vacations"
-          :pending-vacations="pendingVacations"
-          :holidays="holidays"
+        :start-month="1"
+        :end-month="12"
+        :vacations="vacations"
+        :pending-vacations="pendingVacations"
+        :holidays="holidays"
       />
     </div>
   </div>
