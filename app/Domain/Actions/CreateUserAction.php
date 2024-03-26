@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Actions;
 
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\YearPeriod;
 
 class CreateUserAction
 {

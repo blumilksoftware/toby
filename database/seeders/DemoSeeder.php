@@ -19,18 +19,18 @@ use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\WorkDaysCalculator;
-use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\BenefitsReport;
-use Toby\Eloquent\Models\EquipmentItem;
-use Toby\Eloquent\Models\EquipmentLabel;
-use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\Resume;
-use Toby\Eloquent\Models\Technology;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationLimit;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\VacationRequestActivity;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\Benefit;
+use Toby\Models\BenefitsReport;
+use Toby\Models\EquipmentItem;
+use Toby\Models\EquipmentLabel;
+use Toby\Models\Key;
+use Toby\Models\Resume;
+use Toby\Models\Technology;
+use Toby\Models\User;
+use Toby\Models\VacationLimit;
+use Toby\Models\VacationRequest;
+use Toby\Models\VacationRequestActivity;
+use Toby\Models\YearPeriod;
 
 class DemoSeeder extends Seeder
 {

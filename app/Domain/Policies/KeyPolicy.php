@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Policies;
 
-use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\User;
+use Toby\Models\Key;
+use Toby\Models\User;
 
 class KeyPolicy
 {

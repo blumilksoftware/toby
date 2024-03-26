@@ -6,7 +6,7 @@ namespace Toby\Domain\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\VacationRequest;
 
 class VacationRequestChanged
 {

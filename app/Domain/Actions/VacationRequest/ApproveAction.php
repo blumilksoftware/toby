@@ -9,9 +9,9 @@ use Toby\Domain\Events\VacationRequestChanged;
 use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Infrastructure\Jobs\SendVacationRequestDaysToGoogleCalendar;
+use Toby\Jobs\SendVacationRequestDaysToGoogleCalendar;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class ApproveAction
 {

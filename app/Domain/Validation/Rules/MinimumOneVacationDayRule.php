@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Validation\Rules;
 
 use Toby\Domain\WorkDaysCalculator;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\VacationRequest;
 
 class MinimumOneVacationDayRule implements VacationRequestRule
 {

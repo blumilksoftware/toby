@@ -10,8 +10,8 @@ use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Domain\Validation\VacationRequestValidator;
 use Toby\Domain\WorkDaysCalculator;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class CreateAction
 {

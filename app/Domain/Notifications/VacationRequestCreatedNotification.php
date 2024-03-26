@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\VacationRequest;
 
 class VacationRequestCreatedNotification extends VacationRequestNotification
 {

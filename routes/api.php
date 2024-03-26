@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Toby\Infrastructure\Http\Controllers\Api\CalculateUserUnavailableDaysController;
-use Toby\Infrastructure\Http\Controllers\Api\CalculateUserVacationStatsController;
-use Toby\Infrastructure\Http\Controllers\Api\CalculateVacationDaysController;
-use Toby\Infrastructure\Http\Controllers\Api\GetAvailableVacationTypesController;
-use Toby\Infrastructure\Slack\SlackActionController;
-use Toby\Infrastructure\Slack\SlackCommandController;
+use Toby\Http\Controllers\Api\CalculateUserUnavailableDaysController;
+use Toby\Http\Controllers\Api\CalculateUserVacationStatsController;
+use Toby\Http\Controllers\Api\CalculateVacationDaysController;
+use Toby\Http\Controllers\Api\GetAvailableVacationTypesController;
+use Toby\Slack\SlackActionController;
+use Toby\Slack\SlackCommandController;
 
 Route::post("slack/commands", [SlackCommandController::class, "getResponse"]);
 Route::post("slack/actions", [SlackActionController::class, "handleVacationRequestAction"]);

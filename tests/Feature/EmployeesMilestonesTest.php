@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\EmployeesMilestonesRetriever;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class EmployeesMilestonesTest extends FeatureTestCase
 {

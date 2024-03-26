@@ -7,8 +7,8 @@ namespace Toby\Domain\Notifications;
 use Spatie\SlashCommand\AttachmentAction;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Infrastructure\Slack\Elements\Attachment;
-use Toby\Infrastructure\Slack\Elements\SlackMessage;
+use Toby\Slack\Elements\Attachment;
+use Toby\Slack\Elements\SlackMessage;
 
 class VacationRequestWaitsForApprovalNotification extends VacationRequestNotification
 {

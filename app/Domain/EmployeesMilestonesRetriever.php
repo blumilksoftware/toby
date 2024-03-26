@@ -6,7 +6,7 @@ namespace Toby\Domain;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class EmployeesMilestonesRetriever
 {

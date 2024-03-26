@@ -8,8 +8,8 @@ use Spatie\Permission\Models\Permission;
 use Toby\Domain\Events\VacationRequestChanged;
 use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\VacationRequestStateManager;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class RejectAction
 {

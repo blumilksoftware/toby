@@ -18,11 +18,11 @@ use Toby\Domain\States\VacationRequest\Cancelled;
 use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Eloquent\Models\Profile;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationLimit;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\Profile;
+use Toby\Models\User;
+use Toby\Models\VacationLimit;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
 
 class VacationRequestTest extends FeatureTestCase
 {

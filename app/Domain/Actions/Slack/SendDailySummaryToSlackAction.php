@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Actions\Slack;
 
 use Illuminate\Support\Facades\Http;
-use Toby\Eloquent\Models\DailySummary;
+use Toby\Models\DailySummary;
 
 class SendDailySummaryToSlackAction
 {

@@ -8,8 +8,8 @@ use Toby\Domain\Enums\VacationType;
 use Toby\Domain\States\VacationRequest\Created;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class VacationRequestPolicy
 {

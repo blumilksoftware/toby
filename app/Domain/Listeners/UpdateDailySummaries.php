@@ -7,8 +7,8 @@ namespace Toby\Domain\Listeners;
 use Toby\Domain\Actions\Slack\UpdateDailySummaryAction;
 use Toby\Domain\Actions\Slack\UpdateDailySummaryMessageAction;
 use Toby\Domain\Events\VacationRequestChanged;
-use Toby\Eloquent\Models\DailySummary;
-use Toby\Infrastructure\Jobs\UpdateDailySummary;
+use Toby\Jobs\UpdateDailySummary;
+use Toby\Models\DailySummary;
 
 class UpdateDailySummaries
 {

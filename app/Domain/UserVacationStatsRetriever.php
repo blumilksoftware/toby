@@ -7,9 +7,9 @@ namespace Toby\Domain;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\Vacation;
+use Toby\Models\YearPeriod;
 
 class UserVacationStatsRetriever
 {

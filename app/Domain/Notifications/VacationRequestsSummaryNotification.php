@@ -8,8 +8,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Infrastructure\Slack\Elements\SlackMessage;
-use Toby\Infrastructure\Slack\Elements\VacationRequestsAttachment;
+use Toby\Slack\Elements\SlackMessage;
+use Toby\Slack\Elements\VacationRequestsAttachment;
 
 class VacationRequestsSummaryNotification extends QueuedNotification
 {

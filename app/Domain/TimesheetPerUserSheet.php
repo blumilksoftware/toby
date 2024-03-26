@@ -26,9 +26,9 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Toby\Domain\Enums\VacationType;
-use Toby\Eloquent\Models\Holiday;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
+use Toby\Models\Holiday;
+use Toby\Models\User;
+use Toby\Models\Vacation;
 
 class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, WithStyles, WithStrictNullComparison, ShouldAutoSize, FromGenerator
 {

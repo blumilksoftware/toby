@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Validation\Rules;
 
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\VacationRequest;
 
 interface VacationRequestRule
 {

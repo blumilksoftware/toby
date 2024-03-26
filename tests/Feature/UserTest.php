@@ -10,7 +10,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\EmploymentForm;
 use Toby\Domain\Enums\Role;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class UserTest extends FeatureTestCase
 {

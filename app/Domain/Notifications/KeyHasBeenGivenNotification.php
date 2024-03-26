@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Toby\Domain\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Slack\Elements\SlackMessage;
+use Toby\Models\User;
+use Toby\Slack\Elements\SlackMessage;
 
 class KeyHasBeenGivenNotification extends QueuedNotification
 {

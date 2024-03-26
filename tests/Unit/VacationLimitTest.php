@@ -9,9 +9,9 @@ use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\Actions\CreateUserAction;
 use Toby\Domain\Actions\CreateYearPeriodAction;
-use Toby\Eloquent\Models\Profile;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\Profile;
+use Toby\Models\User;
+use Toby\Models\YearPeriod;
 
 class VacationLimitTest extends TestCase
 {

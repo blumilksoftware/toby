@@ -15,9 +15,9 @@ use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Domain\States\VacationRequest\Created;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\VacationRequestStateManager;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
 
 class VacationRequestStatesTest extends TestCase
 {

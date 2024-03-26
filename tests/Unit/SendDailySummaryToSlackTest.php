@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Eloquent\Models\Holiday;
-use Toby\Infrastructure\Console\Commands\SendDailySummaryToSlack;
+use Toby\Console\Commands\SendDailySummaryToSlack;
+use Toby\Models\Holiday;
 
 class SendDailySummaryToSlackTest extends TestCase
 {

@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\User;
+use Toby\Models\Key;
+use Toby\Models\User;
 
 class KeyTest extends FeatureTestCase
 {

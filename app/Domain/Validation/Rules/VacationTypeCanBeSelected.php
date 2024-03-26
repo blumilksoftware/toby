@@ -6,7 +6,7 @@ namespace Toby\Domain\Validation\Rules;
 
 use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationTypeConfigRetriever;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\VacationRequest;
 
 class VacationTypeCanBeSelected implements VacationRequestRule
 {

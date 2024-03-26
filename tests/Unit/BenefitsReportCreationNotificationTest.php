@@ -7,9 +7,9 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use Toby\Console\Commands\SendNotificationAboutBenefitsReportCreation;
 use Toby\Domain\Notifications\BenefitsReportCreationNotification;
-use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Console\Commands\SendNotificationAboutBenefitsReportCreation;
+use Toby\Models\User;
 
 class BenefitsReportCreationNotificationTest extends TestCase
 {

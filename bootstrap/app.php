@@ -6,9 +6,9 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Debug\ExceptionHandler as HandlerContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;
-use Toby\Architecture\ExceptionHandler;
-use Toby\Infrastructure\Console\Kernel as ConsoleKernel;
-use Toby\Infrastructure\Http\Kernel as HttpKernel;
+use Toby\Exceptions\ExceptionHandler;
+use Toby\Console\Kernel as ConsoleKernel;
+use Toby\Http\Kernel as HttpKernel;
 
 $basePath = $_ENV["APP_BASE_PATH"] ?? dirname(__DIR__);
 $application = new Application($basePath);

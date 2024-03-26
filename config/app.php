@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 use Barryvdh\DomPDF\ServiceProvider;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
@@ -24,12 +25,12 @@ use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Translation\TranslationServiceProvider;
 use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\View\ViewServiceProvider;
-use Toby\Architecture\Providers\AppServiceProvider;
-use Toby\Architecture\Providers\AuthServiceProvider as ApplicationAuthServiceProvider;
-use Toby\Architecture\Providers\EventServiceProvider;
-use Toby\Architecture\Providers\ObserverServiceProvider;
-use Toby\Architecture\Providers\RouteServiceProvider;
-use Toby\Architecture\Providers\TelescopeServiceProvider;
+use Toby\Providers\AppServiceProvider;
+use Toby\Providers\AuthServiceProvider as ApplicationAuthServiceProvider;
+use Toby\Providers\EventServiceProvider;
+use Toby\Providers\ObserverServiceProvider;
+use Toby\Providers\RouteServiceProvider;
+use Toby\Providers\TelescopeServiceProvider;
 
 return [
     "name" => env("APP_NAME", "Toby HR application"),

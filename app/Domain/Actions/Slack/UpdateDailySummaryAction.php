@@ -6,9 +6,9 @@ namespace Toby\Domain\Actions\Slack;
 
 use Toby\Domain\DailySummaryRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
-use Toby\Eloquent\Models\DailySummary;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\DailySummary;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class UpdateDailySummaryAction
 {

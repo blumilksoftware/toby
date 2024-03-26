@@ -6,8 +6,8 @@ namespace Toby\Domain\Actions\VacationRequest;
 
 use Toby\Domain\VacationRequestStateManager;
 use Toby\Domain\VacationTypeConfigRetriever;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class AcceptAsTechnicalAction
 {

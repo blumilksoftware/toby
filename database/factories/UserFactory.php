@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Toby\Domain\Enums\Role;
-use Toby\Eloquent\Models\Profile;
-use Toby\Eloquent\Models\User;
+use Toby\Models\Profile;
+use Toby\Models\User;
 
 class UserFactory extends Factory
 {

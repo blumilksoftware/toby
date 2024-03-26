@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Domain\Actions;
 
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class SyncUserPermissionsWithRoleAction
 {

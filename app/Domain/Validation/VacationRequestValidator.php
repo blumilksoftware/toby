@@ -13,7 +13,7 @@ use Toby\Domain\Validation\Rules\NoPendingVacationRequestInRange;
 use Toby\Domain\Validation\Rules\VacationRangeIsInTheSameYearRule;
 use Toby\Domain\Validation\Rules\VacationRequestRule;
 use Toby\Domain\Validation\Rules\VacationTypeCanBeSelected;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\VacationRequest;
 
 class VacationRequestValidator
 {

@@ -6,10 +6,10 @@ namespace Database\Factories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\Vacation;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
 
 class VacationFactory extends Factory
 {

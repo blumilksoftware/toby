@@ -13,8 +13,8 @@ use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\States\VacationRequest\VacationRequestState;
 use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class VacationRequestStateManager
 {

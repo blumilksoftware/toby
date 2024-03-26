@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Domain\Validation\Rules;
 
 use Toby\Domain\VacationRequestStatesRetriever;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Models\VacationRequest;
 
 class NoApprovedVacationRequestsInRange implements VacationRequestRule
 {

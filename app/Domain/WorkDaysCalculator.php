@@ -8,7 +8,7 @@ use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 use Toby\Domain\Enums\VacationType;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\YearPeriod;
 
 class WorkDaysCalculator
 {

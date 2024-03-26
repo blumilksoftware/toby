@@ -15,10 +15,10 @@ use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Domain\UnavailableDaysRetriever;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\Vacation;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
 
 class UnavailableDaysRetrieverTest extends TestCase
 {

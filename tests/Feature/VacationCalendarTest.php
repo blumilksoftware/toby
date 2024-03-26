@@ -7,7 +7,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\FeatureTestCase;
 use Toby\Domain\Enums\EmploymentForm;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class VacationCalendarTest extends FeatureTestCase
 {

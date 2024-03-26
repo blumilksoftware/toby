@@ -16,9 +16,9 @@ use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
 use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
 use Toby\Domain\States\VacationRequest\Created;
 use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
 
 class VacationRequestNotificationTest extends TestCase
 {

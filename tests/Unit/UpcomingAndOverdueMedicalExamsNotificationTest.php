@@ -8,9 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
 use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
-use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
+use Toby\Models\User;
 
 class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
 {

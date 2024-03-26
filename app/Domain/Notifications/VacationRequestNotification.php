@@ -7,9 +7,9 @@ namespace Toby\Domain\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use InvalidArgumentException;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Infrastructure\Slack\Elements\SlackMessage;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
+use Toby\Slack\Elements\SlackMessage;
 
 abstract class VacationRequestNotification extends QueuedNotification
 {
