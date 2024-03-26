@@ -23,6 +23,7 @@ class KeysController extends Controller
     public function index(Request $request): Response
     {
         $keys = Key::query()
+            ->with("user")
             ->get()
             ->sortBy("id");
 

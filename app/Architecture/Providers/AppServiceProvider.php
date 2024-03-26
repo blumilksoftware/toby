@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Architecture\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Model::preventLazyLoading(!app()->isProduction());
         Carbon::macro("toDisplayString", fn(): string => $this->translatedFormat("d.m.Y"));
         Carbon::macro("toDisplayDateTimeString", fn(): string => $this->translatedFormat("d.m.Y H:i:s"));
     }

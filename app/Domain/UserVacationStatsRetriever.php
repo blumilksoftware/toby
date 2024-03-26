@@ -103,6 +103,7 @@ class UserVacationStatsRetriever
     {
         return $user->vacationLimits()
             ->whereBelongsTo($yearPeriod)
+            ->cache()
             ->first()?->limit ?? 0;
     }
 
@@ -110,6 +111,7 @@ class UserVacationStatsRetriever
     {
         return $user->vacationLimits()
             ->whereBelongsTo($yearPeriod)
+            ->cache()
             ->first()?->hasVacation() ?? false;
     }
 
