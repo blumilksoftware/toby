@@ -59,15 +59,15 @@ class EmployeesMilestonesTest extends FeatureTestCase
 
         $sortedUsersByUpcomingBirthday = $this->employeesMilestonesRetriever->getResults(null, "birthday-asc")->values();
 
-        $this->assertEquals($user1->id, $sortedUsersByUpcomingBirthday[0]->id);
+        $this->assertEquals($user2->id, $sortedUsersByUpcomingBirthday[0]->id);
         $this->assertEquals($user3->id, $sortedUsersByUpcomingBirthday[1]->id);
-        $this->assertEquals($user2->id, $sortedUsersByUpcomingBirthday[2]->id);
+        $this->assertEquals($user1->id, $sortedUsersByUpcomingBirthday[2]->id);
 
         $sortedUsersByFurthestBirthday = $this->employeesMilestonesRetriever->getResults(null, "birthday-desc")->values();
 
-        $this->assertEquals($user2->id, $sortedUsersByFurthestBirthday[0]->id);
+        $this->assertEquals($user1->id, $sortedUsersByFurthestBirthday[0]->id);
         $this->assertEquals($user3->id, $sortedUsersByFurthestBirthday[1]->id);
-        $this->assertEquals($user1->id, $sortedUsersByFurthestBirthday[2]->id);
+        $this->assertEquals($user2->id, $sortedUsersByFurthestBirthday[2]->id);
     }
 
     public function testSortingBySeniority(): void

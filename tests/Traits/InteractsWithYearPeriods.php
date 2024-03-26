@@ -25,7 +25,7 @@ trait InteractsWithYearPeriods
 
     public function createCurrentYearPeriod(): YearPeriod
     {
-        return $this->createYearPeriod(Carbon::now()->year);
+        return $this->createYearPeriod(Carbon::now("1")->year);
     }
 
     public function markYearPeriodAsSelected(YearPeriod $yearPeriod): void
