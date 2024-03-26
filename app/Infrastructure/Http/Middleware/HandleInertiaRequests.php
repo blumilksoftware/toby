@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Toby\Infrastructure\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
+use Illuminate\Cache\CacheManager;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Spatie\Permission\Models\Permission;
@@ -17,6 +19,7 @@ class HandleInertiaRequests extends Middleware
 {
     public function __construct(
         protected YearPeriodRetriever $yearPeriodRetriever,
+        protected CacheManager $cache,
     ) {}
 
     public function share(Request $request): array
@@ -27,6 +30,7 @@ class HandleInertiaRequests extends Middleware
             "years" => $this->getYearsData($request),
             "vacationRequestsCount" => $this->getVacationRequestsCount($request),
             "deployInformation" => $this->getDeployInformation(),
+            "lastUpdate" => $this->cache->rememberForever("last_update", fn(): string => Carbon::now()->toIso8601String()),
         ]);
     }
 

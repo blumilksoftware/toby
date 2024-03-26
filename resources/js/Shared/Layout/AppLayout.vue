@@ -1,8 +1,10 @@
 <script setup>
 import MainMenu from '@/Shared/MainMenu.vue'
+import LastUpdate from '@/Shared/LastUpdate.vue'
 import { useToast } from 'vue-toastification'
-import { watch } from 'vue'
+import { ref, watch } from 'vue'
 import DeployInfo from '@/Shared/DeployInfo.vue'
+import { updateFavicon } from '@/Shared/updateFavicon'
 
 const props = defineProps({
   flash: Object,
@@ -10,6 +12,7 @@ const props = defineProps({
   years: Object,
   vacationRequestsCount: Number,
   deployInformation: Object,
+  lastUpdate: String,
 })
 
 const toast = useToast()
@@ -27,14 +30,29 @@ watch(() => props.flash, flash => {
     toast.error(flash.error)
   }
 }, { immediate: true })
+
+const isUpdated = ref(false)
+
+function vacationPageOpened() {
+  isUpdated.value = false
+  updateFavicon('/images/icon.png')
+}
 </script>
 
 <template>
+  <LastUpdate
+    v-if="props.auth.can.listAllRequests"
+    :is-updated="isUpdated"
+    :last-update="lastUpdate"
+    @last-update-updated="isUpdated = true"
+  />
   <div class="relative min-h-screen">
     <MainMenu
       :auth="auth"
-      :years="years"
+      :show-refresh-button="isUpdated"
       :vacation-requests-count="vacationRequestsCount"
+      :years="years"
+      @open="vacationPageOpened"
     />
     <main class="flex flex-col flex-1 py-8 lg:ml-60">
       <div class="lg:px-4">
