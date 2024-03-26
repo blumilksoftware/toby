@@ -13,13 +13,13 @@ return [
     "faker_locale" => "pl_PL",
     "cipher" => "AES-256-CBC",
     "key" => env("APP_KEY"),
-    'previous_keys' => [
+    "previous_keys" => [
         ...array_filter(
-            explode(',', env('APP_PREVIOUS_KEYS', ''))
+            explode(",", env("APP_PREVIOUS_KEYS", "")),
         ),
     ],
-    'maintenance' => [
-        'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-        'store' => env('APP_MAINTENANCE_STORE', 'database'),
+    "maintenance" => [
+        "driver" => env("APP_MAINTENANCE_DRIVER", "file"),
+        "store" => env("APP_MAINTENANCE_STORE", "database"),
     ],
 ];

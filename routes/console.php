@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Cache\Console\PruneStaleTagsCommand;
+use Illuminate\Support\Facades\Schedule;
 use Toby\Console\Commands\Database\BackupPostgresDatabase;
 use Toby\Console\Commands\SendDailySummaryToSlack;
 use Toby\Console\Commands\SendNotificationAboutBenefitsReportCreation;
@@ -10,7 +11,6 @@ use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueOhsTraining;
 use Toby\Console\Commands\SendVacationRequestSummariesToApprovers;
 use Toby\Jobs\CheckYearPeriod;
-use Illuminate\Support\Facades\Schedule;
 
 Schedule::command(SendDailySummaryToSlack::class)
     ->when(config("services.slack.enabled"))
