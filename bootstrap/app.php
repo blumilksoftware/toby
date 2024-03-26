@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
-use Illuminate\Contracts\Debug\ExceptionHandler as HandlerContract;
-use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;
-use Toby\Exceptions\ExceptionHandler;
-use Toby\Console\Kernel as ConsoleKernel;
-use Toby\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Configuration\Middleware;
+use Toby\Http\Middleware\HandleInertiaRequests;
+use Toby\Http\Middleware\RedirectIfAuthenticated;
 
-$basePath = $_ENV["APP_BASE_PATH"] ?? dirname(__DIR__);
-$application = new Application($basePath);
-
-$application->singleton(HttpKernelContract::class, HttpKernel::class);
-$application->singleton(ConsoleKernelContract::class, ConsoleKernel::class);
-$application->singleton(HandlerContract::class, ExceptionHandler::class);
-
-return $application;
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__ . "/../routes/web.php",
+        api: __DIR__ . "/../routes/api.php",
+        commands: __DIR__ . "/../routes/console.php",
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(HandleInertiaRequests::class);
+        $middleware->alias([
+            "guest" => RedirectIfAuthenticated::class,
+        ]);
+    })
+    ->withExceptions()
+    ->create();
