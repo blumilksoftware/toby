@@ -11,25 +11,26 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 import {
-  HomeIcon,
-  RectangleStackIcon,
-  Bars3CenterLeftIcon,
-  UserGroupIcon,
-  XMarkIcon,
-  SunIcon,
-  ClipboardDocumentListIcon,
-  StarIcon,
-  CalendarIcon,
-  DocumentTextIcon,
+  ArrowPathIcon,
   AdjustmentsVerticalIcon,
-  KeyIcon,
-  RectangleGroupIcon,
-  BeakerIcon,
-  GiftIcon,
   BanknotesIcon,
+  Bars3CenterLeftIcon,
+  BeakerIcon,
+  CakeIcon,
+  CalendarIcon,
+  ClipboardDocumentListIcon,
   ComputerDesktopIcon,
   DocumentDuplicateIcon,
-  CakeIcon,
+  DocumentTextIcon,
+  GiftIcon,
+  HomeIcon,
+  KeyIcon,
+  RectangleGroupIcon,
+  RectangleStackIcon,
+  StarIcon,
+  SunIcon,
+  UserGroupIcon,
+  XMarkIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
@@ -37,6 +38,8 @@ const props = defineProps({
   auth: Object,
   years: Object,
   vacationRequestsCount: Number,
+  showRefreshButton: Boolean,
+  lastUpdate: String,
 })
 
 const sidebarOpen = ref(false)
@@ -167,12 +170,21 @@ const miscNavigation = computed(() => [
     can: !props.auth.can.manageEquipment,
   },
 ].filter(item => item.can))
+
+const refreshablePages = ['Dashboard', 'Calendar', 'VacationRequest/IndexForApprovers']
+const refreshableHrefs = ['/vacation/requests', '/calendar']
+
+const reloadPage = () => {
+  window.location.reload()
+}
+
+const emit = defineEmits(['open'])
 </script>
 
 <template>
   <TransitionRoot
-    as="template"
     :show="sidebarOpen"
+    as="template"
   >
     <Dialog
       as="div"
@@ -211,8 +223,8 @@ const miscNavigation = computed(() => [
           >
             <div class="absolute top-0 right-0 pt-2 -mr-12">
               <button
-                type="button"
                 class="flex justify-center items-center ml-1 w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                type="button"
                 @click="sidebarOpen = false"
               >
                 <XMarkIcon class="w-6 h-6 text-white" />
@@ -222,7 +234,7 @@ const miscNavigation = computed(() => [
           <div class="flex shrink-0 items-center px-4">
             <InertiaLink
               href="/"
-              @click="sidebarOpen = false;"
+              @click="sidebarOpen = false;emit('open')"
             >
               <img
                 class="w-auto h-8"
@@ -233,9 +245,9 @@ const miscNavigation = computed(() => [
           <nav class="overflow-y-auto shrink-0 py-5 h-full space-y-5">
             <div class="px-2 space-y-1">
               <InertiaLink
-                href="/"
                 :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md']"
-                @click="sidebarOpen = false;"
+                href="/"
+                @click="sidebarOpen = false;emit('open')"
               >
                 <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
                 Strona główna
@@ -248,9 +260,9 @@ const miscNavigation = computed(() => [
               <InertiaLink
                 v-for="item in vacationNavigation"
                 :key="item.name"
-                :href="item.href"
                 :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
-                @click="sidebarOpen = false;"
+                :href="item.href"
+                @click="sidebarOpen = false;item.href === '/vacation/requests' ? emit('open') : null"
               >
                 <component
                   :is="item.icon"
@@ -272,9 +284,9 @@ const miscNavigation = computed(() => [
               <InertiaLink
                 v-for="item in miscNavigation"
                 :key="item.name"
-                :href="item.href"
                 :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
-                @click="sidebarOpen = false;"
+                :href="item.href"
+                @click="sidebarOpen = false;refreshableHrefs.includes(item.href) ? emit('open') : null"
               >
                 <component
                   :is="item.icon"
@@ -301,15 +313,17 @@ const miscNavigation = computed(() => [
       <div class="flex shrink-0 items-center px-4">
         <InertiaLink href="/">
           <img
-            src="/images/logo-white.svg"
             class="w-auto h-8"
+            src="/images/logo-white.svg"
+            @click="emit('open')"
           >
         </InertiaLink>
       </div>
       <nav class="flex overflow-y-auto flex-col flex-1 px-2 mt-5 space-y-4">
         <InertiaLink
-          href="/"
           :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 mt-1 text-sm leading-6 font-medium rounded-md']"
+          href="/"
+          @click="emit('open')"
         >
           <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
           Strona główna
@@ -321,8 +335,9 @@ const miscNavigation = computed(() => [
           <InertiaLink
             v-for="item in vacationNavigation"
             :key="item.name"
-            :href="item.href"
             :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :href="item.href"
+            @click="refreshableHrefs.includes(item.href) ? emit('open') : null"
           >
             <component
               :is="item.icon"
@@ -344,8 +359,8 @@ const miscNavigation = computed(() => [
           <InertiaLink
             v-for="item in miscNavigation"
             :key="item.name"
-            :href="item.href"
             :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :href="item.href"
           >
             <component
               :is="item.icon"
@@ -367,8 +382,8 @@ const miscNavigation = computed(() => [
   <div class="flex flex-col flex-1 lg:pl-60">
     <div class="flex relative z-10 shrink-0 h-16 bg-white border-b border-gray-200">
       <button
-        type="button"
         class="px-4 text-gray-400 border-r border-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
+        type="button"
         @click="sidebarOpen = true"
       >
         <Bars3CenterLeftIcon class="w-6 h-6" />
@@ -392,6 +407,18 @@ const miscNavigation = computed(() => [
                     <ChevronDownIcon class="-mr-1 ml-2 w-5 h-5" />
                   </MenuButton>
                 </div>
+                <button
+                  v-if="showRefreshButton && refreshablePages.includes($page.component)"
+                  class="inline-flex items-center py-2.5 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm ml-3"
+                  @click="reloadPage"
+                >
+                  <div class="hidden sm:block">
+                    Odśwież
+                  </div>
+                  <div class="sm:hidden">
+                    <ArrowPathIcon class="h-4 w-4" />
+                  </div>
+                </button>
               </div>
 
               <transition
@@ -412,11 +439,11 @@ const miscNavigation = computed(() => [
                       v-slot="{ active }"
                     >
                       <InertiaLink
+                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full px-4 py-2 text-sm']"
                         :href="item.link"
+                        :preserve-state="false"
                         as="button"
                         method="post"
-                        :preserve-state="false"
-                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full px-4 py-2 text-sm']"
                       >
                         {{ item.year }}
                         <CheckIcon
@@ -436,10 +463,10 @@ const miscNavigation = computed(() => [
           >
             <InertiaLink
               :href="years.current.link"
-              as="button"
-              method="post"
               :preserve-state="false"
+              as="button"
               class="font-semibold text-blumilk-600 hover:text-blumilk-500"
+              method="post"
             >
               Wróć do obecnego roku
             </inertialink>
@@ -454,8 +481,8 @@ const miscNavigation = computed(() => [
               class="flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 lg:p-2 lg:hover:bg-gray-50 lg:rounded-md"
             >
               <img
-                class="w-8 h-8 rounded-full"
                 :src="auth.user.avatar"
+                class="w-8 h-8 rounded-full"
               >
               <span class="hidden ml-3 text-sm font-medium text-gray-700 lg:block">
                 {{ auth.user.name }}
@@ -475,10 +502,10 @@ const miscNavigation = computed(() => [
               >
                 <MenuItem v-slot="{ active }">
                   <InertiaLink
+                    :class="[active ? 'bg-gray-100' : '', 'block w-full text-left px-4 py-2 text-sm text-gray-700']"
+                    as="button"
                     href="/logout"
                     method="POST"
-                    as="button"
-                    :class="[active ? 'bg-gray-100' : '', 'block w-full text-left px-4 py-2 text-sm text-gray-700']"
                   >
                     Wyloguj się
                   </InertiaLink>
