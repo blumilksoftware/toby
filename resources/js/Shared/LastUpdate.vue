@@ -26,3 +26,7 @@ onMounted(() => {
   setInterval(fetchLastUpdate, import.meta.env.VITE_LAST_UPDATE_TIMEOUT)
 })
 </script>
+
+<template>
+  <span hidden />
+</template>

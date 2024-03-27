@@ -4,12 +4,14 @@ import Activity from '@/Shared/Activity.vue'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
 import VacationBar from '@/Shared/VacationBar.vue'
+import CalendarComponent from '@/Shared/CalendarComponent.vue'
 
 defineProps({
   request: Object,
   activities: Object,
   stats: Object,
   auth: Object,
+  handyCalendarData: Object,
 })
 </script>
 
@@ -269,6 +271,27 @@ defineProps({
               />
             </li>
           </ul>
+        </div>
+      </div>
+      <div
+        v-if="(auth.can.manageRequestsAsAdministrativeApprover || request.can.manageRequestsAsTechnicalApprover) && request.state !== 'cancelled'"
+        class="bg-white shadow-md"
+      >
+        <div class="py-5 px-4 sm:px-6">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
+            Kalendarz pracownika
+          </h3>
+        </div>
+        <div
+          class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6"
+        >
+          <CalendarComponent
+            :start-month="handyCalendarData.startMonth"
+            :end-month="handyCalendarData.endMonth"
+            :vacations="handyCalendarData.vacations"
+            :pending-vacations="handyCalendarData.pendingVacations"
+            :holidays="handyCalendarData.holidays"
+          />
         </div>
       </div>
     </div>

@@ -23,10 +23,13 @@ use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Eloquent\Helpers\YearPeriodRetriever;
+use Toby\Eloquent\Models\Holiday;
 use Toby\Eloquent\Models\User;
+use Toby\Eloquent\Models\Vacation;
 use Toby\Eloquent\Models\VacationRequest;
 use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
 use Toby\Infrastructure\Http\Resources\SimpleUserResource;
+use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
 use Toby\Infrastructure\Http\Resources\VacationRequestResource;
 
@@ -127,8 +130,11 @@ class VacationRequestController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function show(VacationRequest $vacationRequest, UserVacationStatsRetriever $statsRetriever): Response
-    {
+    public function show(
+        VacationRequest $vacationRequest,
+        UserVacationStatsRetriever $statsRetriever,
+        YearPeriodRetriever $yearPeriodRetriever,
+    ): Response {
         $this->authorize("show", $vacationRequest);
 
         $vacationRequest->load(["vacations.user.profile", "user.permissions", "user.profile", "activities.user.profile"]);
@@ -136,6 +142,29 @@ class VacationRequestController extends Controller
         $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
         $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
         $remaining = $limit - $used - $pending;
+
+        $yearPeriod = $yearPeriodRetriever->selected();
+        $requestFromDateMonth = $vacationRequest->from->month;
+        $requestToDateMonth = $vacationRequest->to->month;
+
+        $holidays = $yearPeriod->holidays()
+            ->get();
+
+        $user = $vacationRequest->user;
+
+        $vacations = $user
+            ->vacations()
+            ->with("vacationRequest.vacations")
+            ->whereBelongsTo($yearPeriod)
+            ->approved()
+            ->get();
+
+        $pendingVacations = $user
+            ->vacations()
+            ->with("vacationRequest.vacations")
+            ->whereBelongsTo($yearPeriod)
+            ->pending()
+            ->get();
 
         return inertia("VacationRequest/Show", [
             "request" => new VacationRequestResource($vacationRequest),
@@ -145,6 +174,23 @@ class VacationRequestController extends Controller
                 "used" => $used,
                 "pending" => $pending,
                 "remaining" => $remaining,
+            ],
+            "handyCalendarData" => [
+                "holidays" => $holidays->mapWithKeys(
+                    fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name],
+                ),
+                "vacations" => $vacations->mapWithKeys(
+                    fn(Vacation $vacation): array => [
+                        $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                    ],
+                ),
+                "pendingVacations" => $pendingVacations->mapWithKeys(
+                    fn(Vacation $vacation): array => [
+                        $vacation->date->toDateString() => new SimpleVacationRequestResource($vacation->vacationRequest),
+                    ],
+                ),
+                "startMonth" => $requestFromDateMonth > 1 ? --$requestFromDateMonth : 1,
+                "endMonth" => $requestToDateMonth < 12 ? ++$requestToDateMonth : 12,
             ],
         ]);
     }
