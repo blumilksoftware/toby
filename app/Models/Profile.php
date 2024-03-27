@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Rackbeat\UIAvatars\HasAvatar;
+use Toby\Domain\UiAvatar;
 use Toby\Enums\EmploymentForm;
 use Toby\Helpers\ColorGenerator;
 
@@ -29,7 +29,6 @@ use Toby\Helpers\ColorGenerator;
 class Profile extends Model
 {
     use HasFactory;
-    use HasAvatar;
 
     protected $primaryKey = "user_id";
     protected $guarded = [];
@@ -51,19 +50,16 @@ class Profile extends Model
 
     public function getAvatar(): string
     {
-        return $this->getAvatarGenerator()
-            ->backgroundColor(ColorGenerator::generate($this->full_name))
-            ->image();
+        $avatar = new UiAvatar();
+        $avatar->background = ColorGenerator::generate($this->full_name);
+        $avatar->name = mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1);
+
+        return $avatar->getUrl();
     }
 
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
-    }
-
-    protected function getAvatarName(): string
-    {
-        return mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1);
     }
 
     protected static function newFactory(): ProfileFactory

@@ -4,12 +4,6 @@
     "description": "HR software you love to hate",
     "keywords": ["toby", "laravel", "hr"],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/laravel-shift/laravel-ui-avatars.git"
-        }
-    ],
     "require": {
         "php": "^8.3",
         "ext-pdo": "*",
@@ -27,7 +21,6 @@
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpword": "1.1",
-        "rackbeat/laravel-ui-avatars": "dev-l11-compatibility",
         "sentry/sentry-laravel": "^4.2",
         "spatie/laravel-google-calendar": "3.8",
         "spatie/laravel-model-states": "^2.6",
