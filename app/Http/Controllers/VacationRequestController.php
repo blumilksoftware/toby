@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Infrastructure\Http\Controllers;
+namespace Toby\Http\Controllers;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -22,16 +22,16 @@ use Toby\Domain\Enums\VacationType;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
-use Toby\Eloquent\Helpers\YearPeriodRetriever;
-use Toby\Eloquent\Models\Holiday;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Infrastructure\Http\Requests\VacationRequestRequest;
-use Toby\Infrastructure\Http\Resources\SimpleUserResource;
-use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
-use Toby\Infrastructure\Http\Resources\VacationRequestActivityResource;
-use Toby\Infrastructure\Http\Resources\VacationRequestResource;
+use Toby\Helpers\YearPeriodRetriever;
+use Toby\Http\Requests\VacationRequestRequest;
+use Toby\Http\Resources\SimpleUserResource;
+use Toby\Http\Resources\SimpleVacationRequestResource;
+use Toby\Http\Resources\VacationRequestActivityResource;
+use Toby\Http\Resources\VacationRequestResource;
+use Toby\Models\Holiday;
+use Toby\Models\User;
+use Toby\Models\Vacation;
+use Toby\Models\VacationRequest;
 
 class VacationRequestController extends Controller
 {
