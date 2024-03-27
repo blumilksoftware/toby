@@ -6,7 +6,7 @@ namespace Toby\Slack\Channels;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
-use Toby\Domain\Notifications\Notifiable;
+use Toby\Notifications\Notifiable;
 
 class SlackApiChannel
 {

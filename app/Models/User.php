@@ -16,9 +16,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Domain\Enums\Role;
-use Toby\Domain\Notifications\Notifiable as NotifiableInterface;
+use Toby\Enums\EmploymentForm;
+use Toby\Enums\Role;
+use Toby\Notifications\Notifiable as NotifiableInterface;
 
 /**
  * @property int $id

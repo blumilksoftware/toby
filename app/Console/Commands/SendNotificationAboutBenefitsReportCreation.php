@@ -6,7 +6,7 @@ namespace Toby\Console\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Permission\Models\Permission;
-use Toby\Domain\Notifications\BenefitsReportCreationNotification;
+use Toby\Notifications\BenefitsReportCreationNotification;
 
 class SendNotificationAboutBenefitsReportCreation extends Command
 {

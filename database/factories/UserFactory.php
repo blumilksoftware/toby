@@ -7,7 +7,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Toby\Domain\Enums\Role;
+use Toby\Enums\Role;
 use Toby\Models\Profile;
 use Toby\Models\User;
 

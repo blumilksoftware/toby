@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
-use Toby\Domain\Notifications\Notifiable as NotifiableInterface;
+use Toby\Notifications\Notifiable as NotifiableInterface;
 
 /**
  * @property int $id

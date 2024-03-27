@@ -15,8 +15,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\ModelStates\HasStates;
-use Toby\Domain\Enums\VacationType;
-use Toby\Domain\States\VacationRequest\VacationRequestState;
+use Toby\Enums\VacationType;
+use Toby\States\VacationRequest\VacationRequestState;
 
 /**
  * @property int $id

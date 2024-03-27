@@ -8,14 +8,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request as IlluminateRequest;
 use Spatie\SlashCommand\Controller as SlackController;
-use Toby\Domain\Actions\VacationRequest\AcceptAsAdministrativeAction;
-use Toby\Domain\Actions\VacationRequest\AcceptAsTechnicalAction;
-use Toby\Domain\Actions\VacationRequest\RejectAction;
-use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
-use Toby\Domain\States\VacationRequest\WaitingForTechnical;
+use Toby\Actions\VacationRequest\AcceptAsAdministrativeAction;
+use Toby\Actions\VacationRequest\AcceptAsTechnicalAction;
+use Toby\Actions\VacationRequest\RejectAction;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
 use Toby\Slack\Traits\FindsUserBySlackId;
+use Toby\States\VacationRequest\WaitingForAdministrative;
+use Toby\States\VacationRequest\WaitingForTechnical;
 
 class SlackActionController extends SlackController
 {

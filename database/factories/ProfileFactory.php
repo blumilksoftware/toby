@@ -6,7 +6,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Enums\EmploymentForm;
+use Toby\Enums\EmploymentForm;
 use Toby\Models\Profile;
 use Toby\Models\User;
 

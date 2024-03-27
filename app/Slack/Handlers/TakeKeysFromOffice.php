@@ -7,8 +7,8 @@ namespace Toby\Slack\Handlers;
 use Illuminate\Validation\ValidationException;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\Notifications\KeyHasBeenTakenFromTheOfficeNotification;
 use Toby\Models\Key;
+use Toby\Notifications\KeyHasBeenTakenFromTheOfficeNotification;
 use Toby\Slack\Exceptions\UserNotFoundException;
 use Toby\Slack\Traits\FindsUserBySlackId;
 

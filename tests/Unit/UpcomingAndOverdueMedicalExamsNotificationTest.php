@@ -9,8 +9,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
-use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Models\User;
+use Toby\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 
 class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
 {

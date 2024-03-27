@@ -7,7 +7,7 @@ namespace Toby\Http\Requests\Api;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules\Enum;
-use Toby\Domain\Enums\VacationType;
+use Toby\Enums\VacationType;
 use Toby\Http\Rules\YearPeriodExists;
 use Toby\Models\YearPeriod;
 

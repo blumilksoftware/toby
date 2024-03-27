@@ -7,8 +7,8 @@ namespace Toby\Jobs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Toby\Domain\Actions\Slack\UpdateDailySummaryAction;
-use Toby\Domain\Actions\Slack\UpdateDailySummaryMessageAction;
+use Toby\Actions\Slack\UpdateDailySummaryAction;
+use Toby\Actions\Slack\UpdateDailySummaryMessageAction;
 use Toby\Models\DailySummary;
 
 class UpdateDailySummary implements ShouldQueue

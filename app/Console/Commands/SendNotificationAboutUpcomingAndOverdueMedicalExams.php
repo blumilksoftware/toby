@@ -7,8 +7,8 @@ namespace Toby\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission;
-use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Models\User;
+use Toby\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 
 class SendNotificationAboutUpcomingAndOverdueMedicalExams extends Command
 {

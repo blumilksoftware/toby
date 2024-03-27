@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\CalendarGenerator;
-use Toby\Domain\Enums\Month;
+use Toby\Enums\Month;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\SimpleUserResource;
 use Toby\Models\User;

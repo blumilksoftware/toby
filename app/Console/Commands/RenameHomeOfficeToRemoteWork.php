@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Console\Commands;
 
 use Illuminate\Console\Command;
-use Toby\Domain\Enums\VacationType;
+use Toby\Enums\VacationType;
 use Toby\Models\VacationRequest;
 
 class RenameHomeOfficeToRemoteWork extends Command

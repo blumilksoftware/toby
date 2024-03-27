@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Toby\Console\Commands;
 
 use Illuminate\Console\Command;
-use Toby\Domain\Actions\SyncUserPermissionsWithRoleAction;
+use Toby\Actions\SyncUserPermissionsWithRoleAction;
 use Toby\Models\User;
 
 class SyncDefaultPermissionsWithRole extends Command

@@ -7,7 +7,7 @@ namespace Toby\Slack\Handlers;
 use Illuminate\Support\Carbon;
 use Spatie\SlashCommand\Request;
 use Spatie\SlashCommand\Response;
-use Toby\Domain\Actions\Slack\GenerateDailySummaryAction;
+use Toby\Actions\Slack\GenerateDailySummaryAction;
 
 class DailySummary extends SignatureHandler
 {

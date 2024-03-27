@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Toby\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Toby\Domain\Events\VacationRequestChanged;
-use Toby\Domain\Listeners\UpdateDailySummaries;
-use Toby\Domain\Listeners\UpdateLastUpdateCache;
+use Toby\Events\VacationRequestChanged;
+use Toby\Listeners\UpdateDailySummaries;
+use Toby\Listeners\UpdateLastUpdateCache;
 
 class EventServiceProvider extends ServiceProvider
 {

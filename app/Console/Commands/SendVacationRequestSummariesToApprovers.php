@@ -8,13 +8,13 @@ use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission;
-use Toby\Domain\Enums\VacationType;
-use Toby\Domain\Notifications\VacationRequestsSummaryNotification;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\Enums\VacationType;
 use Toby\Models\Holiday;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
+use Toby\Notifications\VacationRequestsSummaryNotification;
 
 class SendVacationRequestSummariesToApprovers extends Command
 {

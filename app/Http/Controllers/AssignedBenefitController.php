@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Inertia\Response;
-use Toby\Domain\Enums\Month;
+use Toby\Enums\Month;
 use Toby\Http\Requests\AssignedBenefitsRequest;
 use Toby\Http\Resources\BenefitResource;
 use Toby\Http\Resources\BenefitsReportResource;

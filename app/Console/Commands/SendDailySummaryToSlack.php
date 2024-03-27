@@ -7,8 +7,8 @@ namespace Toby\Console\Commands;
 use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Actions\Slack\GenerateDailySummaryAction;
-use Toby\Domain\Actions\Slack\SendDailySummaryToSlackAction;
+use Toby\Actions\Slack\GenerateDailySummaryAction;
+use Toby\Actions\Slack\SendDailySummaryToSlackAction;
 use Toby\Models\Holiday;
 
 class SendDailySummaryToSlack extends Command

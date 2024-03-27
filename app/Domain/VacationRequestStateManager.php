@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Toby\Domain;
 
 use Illuminate\Contracts\Events\Dispatcher;
-use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
-use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
-use Toby\Domain\States\VacationRequest\Approved;
-use Toby\Domain\States\VacationRequest\Cancelled;
-use Toby\Domain\States\VacationRequest\Rejected;
-use Toby\Domain\States\VacationRequest\VacationRequestState;
-use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
-use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
+use Toby\States\VacationRequest\AcceptedByAdministrative;
+use Toby\States\VacationRequest\AcceptedByTechnical;
+use Toby\States\VacationRequest\Approved;
+use Toby\States\VacationRequest\Cancelled;
+use Toby\States\VacationRequest\Rejected;
+use Toby\States\VacationRequest\VacationRequestState;
+use Toby\States\VacationRequest\WaitingForAdministrative;
+use Toby\States\VacationRequest\WaitingForTechnical;
 
 class VacationRequestStateManager
 {

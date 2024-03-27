@@ -7,11 +7,11 @@ namespace Toby\Http\Controllers;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Domain\Enums\Month;
-use Toby\Domain\Enums\VacationType;
 use Toby\Domain\TimesheetExport;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\Enums\EmploymentForm;
+use Toby\Enums\Month;
+use Toby\Enums\VacationType;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Models\User;
 

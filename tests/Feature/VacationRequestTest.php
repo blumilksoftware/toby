@@ -10,19 +10,19 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
-use Toby\Domain\States\VacationRequest\Approved;
-use Toby\Domain\States\VacationRequest\Cancelled;
-use Toby\Domain\States\VacationRequest\Rejected;
-use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
-use Toby\Domain\States\VacationRequest\WaitingForTechnical;
+use Toby\Enums\EmploymentForm;
+use Toby\Enums\VacationType;
 use Toby\Models\Profile;
 use Toby\Models\User;
 use Toby\Models\VacationLimit;
 use Toby\Models\VacationRequest;
 use Toby\Models\YearPeriod;
+use Toby\States\VacationRequest\Approved;
+use Toby\States\VacationRequest\Cancelled;
+use Toby\States\VacationRequest\Rejected;
+use Toby\States\VacationRequest\WaitingForAdministrative;
+use Toby\States\VacationRequest\WaitingForTechnical;
 
 class VacationRequestTest extends FeatureTestCase
 {

@@ -7,7 +7,7 @@ namespace Toby\Domain;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Domain\Enums\VacationType;
+use Toby\Enums\VacationType;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
 

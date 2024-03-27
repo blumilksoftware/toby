@@ -9,9 +9,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueOhsTraining;
-use Toby\Domain\Notifications\UpcomingAndOverdueMedicalExamsNotification;
-use Toby\Domain\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 use Toby\Models\User;
+use Toby\Notifications\UpcomingAndOverdueMedicalExamsNotification;
+use Toby\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 
 class UpcomingAndOverdueOhsTrainingNotificationTest extends TestCase
 {

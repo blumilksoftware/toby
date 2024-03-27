@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
-use Toby\Domain\Actions\UpdateUserPermissionsAction;
+use Toby\Actions\UpdateUserPermissionsAction;
 use Toby\Http\Requests\PermissionRequest;
 use Toby\Http\Resources\UserResource;
 use Toby\Models\User;

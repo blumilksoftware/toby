@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Rackbeat\UIAvatars\HasAvatar;
-use Toby\Domain\Enums\EmploymentForm;
+use Toby\Enums\EmploymentForm;
 use Toby\Helpers\ColorGenerator;
 
 /**

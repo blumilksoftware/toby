@@ -7,7 +7,7 @@ namespace Toby\Console\Commands\Users;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Toby\Domain\Enums\Role;
+use Toby\Enums\Role;
 use Toby\Models\User;
 use ValueError;
 

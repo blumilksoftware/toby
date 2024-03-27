@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Toby\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
-use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
-use Toby\Domain\States\VacationRequest\Cancelled;
-use Toby\Domain\States\VacationRequest\Rejected;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\States\VacationRequest\AcceptedByAdministrative;
+use Toby\States\VacationRequest\AcceptedByTechnical;
+use Toby\States\VacationRequest\Cancelled;
+use Toby\States\VacationRequest\Rejected;
 
 class VacationRequestResource extends JsonResource
 {

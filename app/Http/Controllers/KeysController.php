@@ -8,15 +8,15 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Toby\Domain\Notifications\KeyHasBeenGivenNotification;
-use Toby\Domain\Notifications\KeyHasBeenLeftInTheOffice;
-use Toby\Domain\Notifications\KeyHasBeenTakenFromTheOfficeNotification;
-use Toby\Domain\Notifications\KeyHasBeenTakenNotification;
 use Toby\Http\Requests\GiveKeyRequest;
 use Toby\Http\Resources\KeyResource;
 use Toby\Http\Resources\SimpleUserResource;
 use Toby\Models\Key;
 use Toby\Models\User;
+use Toby\Notifications\KeyHasBeenGivenNotification;
+use Toby\Notifications\KeyHasBeenLeftInTheOffice;
+use Toby\Notifications\KeyHasBeenTakenFromTheOfficeNotification;
+use Toby\Notifications\KeyHasBeenTakenNotification;
 
 class KeysController extends Controller
 {

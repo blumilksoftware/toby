@@ -7,7 +7,7 @@ namespace Toby\Domain;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
-use Toby\Domain\Enums\VacationType;
+use Toby\Enums\VacationType;
 use Toby\Models\YearPeriod;
 
 class WorkDaysCalculator

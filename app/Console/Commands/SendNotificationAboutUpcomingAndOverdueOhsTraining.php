@@ -7,8 +7,8 @@ namespace Toby\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission;
-use Toby\Domain\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 use Toby\Models\User;
+use Toby\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 
 class SendNotificationAboutUpcomingAndOverdueOhsTraining extends Command
 {

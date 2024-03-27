@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Domain\Enums\Role;
-use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\Enums\EmploymentForm;
+use Toby\Enums\Role;
+use Toby\Enums\VacationType;
 
 return [
     VacationType::Vacation->value => [

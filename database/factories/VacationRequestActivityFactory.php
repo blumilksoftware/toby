@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Domain\States\VacationRequest\VacationRequestState;
 use Toby\Models\VacationRequestActivity;
+use Toby\States\VacationRequest\VacationRequestState;
 
 class VacationRequestActivityFactory extends Factory
 {

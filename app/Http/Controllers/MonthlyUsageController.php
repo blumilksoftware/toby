@@ -6,8 +6,8 @@ namespace Toby\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Response;
-use Toby\Domain\Enums\Month;
 use Toby\Domain\UserVacationStatsRetriever;
+use Toby\Enums\Month;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\SimpleUserResource;
 use Toby\Models\User;

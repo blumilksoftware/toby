@@ -7,8 +7,8 @@ namespace Toby\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Domain\Enums\Role;
+use Toby\Enums\EmploymentForm;
+use Toby\Enums\Role;
 
 class UserRequest extends FormRequest
 {

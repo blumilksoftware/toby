@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Toby\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
-use Toby\Domain\Enums\VacationType;
 use Toby\Domain\VacationTypeConfigRetriever;
+use Toby\Enums\VacationType;
 use Toby\Http\Controllers\Controller;
 use Toby\Http\Requests\Api\GetAvailableVacationTypesRequest;
 use Toby\Models\User;

@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Actions\CreateYearPeriodAction;
+use Toby\Actions\CreateYearPeriodAction;
 use Toby\Models\YearPeriod;
 
 class CheckYearPeriod implements ShouldQueue

@@ -7,18 +7,11 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Domain\Enums\Role;
-use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
-use Toby\Domain\States\VacationRequest\AcceptedByAdministrative;
-use Toby\Domain\States\VacationRequest\AcceptedByTechnical;
-use Toby\Domain\States\VacationRequest\Approved;
-use Toby\Domain\States\VacationRequest\Created;
-use Toby\Domain\States\VacationRequest\Rejected;
-use Toby\Domain\States\VacationRequest\WaitingForAdministrative;
-use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\WorkDaysCalculator;
+use Toby\Enums\EmploymentForm;
+use Toby\Enums\Role;
+use Toby\Enums\VacationType;
 use Toby\Models\Benefit;
 use Toby\Models\BenefitsReport;
 use Toby\Models\EquipmentItem;
@@ -31,6 +24,13 @@ use Toby\Models\VacationLimit;
 use Toby\Models\VacationRequest;
 use Toby\Models\VacationRequestActivity;
 use Toby\Models\YearPeriod;
+use Toby\States\VacationRequest\AcceptedByAdministrative;
+use Toby\States\VacationRequest\AcceptedByTechnical;
+use Toby\States\VacationRequest\Approved;
+use Toby\States\VacationRequest\Created;
+use Toby\States\VacationRequest\Rejected;
+use Toby\States\VacationRequest\WaitingForAdministrative;
+use Toby\States\VacationRequest\WaitingForTechnical;
 
 class DemoSeeder extends Seeder
 {

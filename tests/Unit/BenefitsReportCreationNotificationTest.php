@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Toby\Console\Commands\SendNotificationAboutBenefitsReportCreation;
-use Toby\Domain\Notifications\BenefitsReportCreationNotification;
 use Toby\Models\User;
+use Toby\Notifications\BenefitsReportCreationNotification;
 
 class BenefitsReportCreationNotificationTest extends TestCase
 {
