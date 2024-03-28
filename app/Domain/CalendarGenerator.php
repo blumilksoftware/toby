@@ -7,10 +7,10 @@ namespace Toby\Domain;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Helpers\YearPeriodRetriever;
-use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\YearPeriod;
-use Toby\Infrastructure\Http\Resources\SimpleVacationRequestResource;
+use Toby\Helpers\YearPeriodRetriever;
+use Toby\Http\Resources\SimpleVacationRequestResource;
+use Toby\Models\Vacation;
+use Toby\Models\YearPeriod;
 
 class CalendarGenerator
 {

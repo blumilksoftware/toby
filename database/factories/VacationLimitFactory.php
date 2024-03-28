@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationLimit;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\VacationLimit;
+use Toby\Models\YearPeriod;
 
 class VacationLimitFactory extends Factory
 {

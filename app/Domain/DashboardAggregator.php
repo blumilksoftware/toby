@@ -6,15 +6,15 @@ namespace Toby\Domain;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
-use Toby\Eloquent\Models\Holiday;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\YearPeriod;
-use Toby\Infrastructure\Http\Resources\BirthdayResource;
-use Toby\Infrastructure\Http\Resources\DashboardVacationRequestResource;
-use Toby\Infrastructure\Http\Resources\HolidayResource;
-use Toby\Infrastructure\Http\Resources\UserBenefitsResource;
-use Toby\Infrastructure\Http\Resources\VacationRequestResource;
+use Toby\Http\Resources\BirthdayResource;
+use Toby\Http\Resources\DashboardVacationRequestResource;
+use Toby\Http\Resources\HolidayResource;
+use Toby\Http\Resources\UserBenefitsResource;
+use Toby\Http\Resources\VacationRequestResource;
+use Toby\Models\Holiday;
+use Toby\Models\User;
+use Toby\Models\Vacation;
+use Toby\Models\YearPeriod;
 
 class DashboardAggregator
 {

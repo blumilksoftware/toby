@@ -10,15 +10,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Domain\Enums\Role;
-use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
-use Toby\Domain\States\VacationRequest\Approved;
 use Toby\Domain\UnavailableDaysRetriever;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\Vacation;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Enums\Role;
+use Toby\Enums\VacationType;
+use Toby\Models\User;
+use Toby\Models\Vacation;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
+use Toby\States\VacationRequest\Approved;
 
 class UnavailableDaysRetrieverTest extends TestCase
 {

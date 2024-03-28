@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Spatie\Permission\Models\Permission;
-use Toby\Domain\Enums\Role;
+use Toby\Enums\Role;
 
 return [
     "models" => [

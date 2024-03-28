@@ -7,7 +7,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Tests\FeatureTestCase;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class TrackLastActivityMiddlewareTest extends FeatureTestCase
 {

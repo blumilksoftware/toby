@@ -7,7 +7,7 @@ namespace Toby\Domain;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class TimesheetExport implements WithMultipleSheets
 {

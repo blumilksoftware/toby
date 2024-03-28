@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\User;
+use Toby\Models\Key;
+use Toby\Models\User;
 
 class KeyFactory extends Factory
 {

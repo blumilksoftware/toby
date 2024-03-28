@@ -6,7 +6,7 @@ namespace Toby\Domain;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\YearPeriod;
 use Yasumi\Holiday;
 use Yasumi\Yasumi;
 
@@ -28,7 +28,7 @@ class PolishHolidaysRetriever
     {
         return collect($holidays)->map(fn(Holiday $holiday): array => [
             "name" => $holiday->getName([static::LANG_KEY]),
-            "date" => Carbon::createFromTimestamp($holiday->getTimestamp()),
+            "date" => Carbon::createFromTimestamp($holiday->getTimestamp(), config("app.timezone")),
         ])->values();
     }
 }

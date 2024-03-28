@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Infrastructure\Jobs\CheckYearPeriod;
+use Toby\Jobs\CheckYearPeriod;
 
 class CheckYearPeriodTest extends TestCase
 {

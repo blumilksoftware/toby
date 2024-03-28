@@ -8,7 +8,7 @@ use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Eloquent\Models\BenefitsReport;
+use Toby\Models\BenefitsReport;
 
 abstract class FeatureTestCase extends BaseTestCase
 {

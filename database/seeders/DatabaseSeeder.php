@@ -8,15 +8,15 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
-use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\BenefitsReport;
-use Toby\Eloquent\Models\EquipmentItem;
-use Toby\Eloquent\Models\EquipmentLabel;
-use Toby\Eloquent\Models\Key;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationLimit;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\Benefit;
+use Toby\Models\BenefitsReport;
+use Toby\Models\EquipmentItem;
+use Toby\Models\EquipmentLabel;
+use Toby\Models\Key;
+use Toby\Models\User;
+use Toby\Models\VacationLimit;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
 
 class DatabaseSeeder extends Seeder
 {

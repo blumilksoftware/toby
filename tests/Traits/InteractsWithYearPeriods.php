@@ -6,8 +6,8 @@ namespace Tests\Traits;
 
 use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Support\Carbon;
-use Toby\Eloquent\Helpers\YearPeriodRetriever;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Helpers\YearPeriodRetriever;
+use Toby\Models\YearPeriod;
 
 trait InteractsWithYearPeriods
 {

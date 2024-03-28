@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Eloquent\Models\EquipmentLabel;
+use Toby\Models\EquipmentLabel;
 
 class EquipmentLabelFactory extends Factory
 {

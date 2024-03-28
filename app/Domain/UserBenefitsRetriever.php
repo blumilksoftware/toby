@@ -6,9 +6,9 @@ namespace Toby\Domain;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\BenefitsReport;
-use Toby\Eloquent\Models\User;
+use Toby\Models\Benefit;
+use Toby\Models\BenefitsReport;
+use Toby\Models\User;
 
 class UserBenefitsRetriever
 {

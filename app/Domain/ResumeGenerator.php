@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\TemplateProcessor;
-use Toby\Eloquent\Models\Resume;
+use Toby\Models\Resume;
 
 class ResumeGenerator
 {

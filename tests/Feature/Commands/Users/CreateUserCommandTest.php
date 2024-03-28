@@ -7,8 +7,8 @@ namespace Tests\Feature\Commands\Users;
 use Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\FeatureTestCase;
-use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Console\Commands\Users\CreateUser;
+use Toby\Console\Commands\Users\CreateUser;
+use Toby\Models\User;
 
 class CreateUserCommandTest extends FeatureTestCase
 {

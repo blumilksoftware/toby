@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
 
 return new class() extends Migration {
     public function up(): void

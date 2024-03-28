@@ -9,9 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Domain\Enums\VacationType;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
+use Toby\Enums\VacationType;
 
 class WorkDaysCalculatorTest extends TestCase
 {

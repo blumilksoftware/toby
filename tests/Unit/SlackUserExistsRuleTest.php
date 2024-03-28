@@ -6,8 +6,8 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Slack\Rules\SlackUserExistsRule;
+use Toby\Models\User;
+use Toby\Slack\Rules\SlackUserExistsRule;
 
 class SlackUserExistsRuleTest extends TestCase
 {

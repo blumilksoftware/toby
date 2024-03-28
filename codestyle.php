@@ -11,7 +11,7 @@ $paths = new LaravelPaths();
 $rules = new CommonRules();
 
 $config = new Config(
-    paths: $paths->add("codestyle.php"),
+    paths: $paths->add("codestyle.php", "bootstrap/providers.php"),
     rules: $rules->filter(ClassKeywordFixer::class),
 );
 

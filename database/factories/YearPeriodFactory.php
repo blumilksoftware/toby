@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Models\YearPeriod;
 
 class YearPeriodFactory extends Factory
 {
