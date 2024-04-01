@@ -14,7 +14,7 @@
         "doctrine/dbal": "^3.7.2",
         "fakerphp/faker": "^1.22.0",
         "guzzlehttp/guzzle": "^7.7.0",
-        "inertiajs/inertia-laravel": "^0.6.11",
+        "inertiajs/inertia-laravel": "^1.0.0",
         "laragear/cache-query": "^4.0",
         "laravel/framework": "^10.33.0",
         "laravel/sanctum": "^3.3.2",
