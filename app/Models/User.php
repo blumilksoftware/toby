@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Toby\Enums\EmploymentForm;
 use Toby\Enums\Role;
@@ -37,6 +38,7 @@ class User extends Authenticatable implements NotifiableInterface
     use Notifiable;
     use SoftDeletes;
     use HasRoles;
+    use HasApiTokens;
 
     protected $guarded = [];
     protected $casts = [
