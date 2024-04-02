@@ -6,6 +6,7 @@ namespace Tests\Feature\Commands\Users;
 
 use Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\FeatureTestCase;
 use Toby\Console\Commands\Users\CreateUser;
 use Toby\Models\User;
@@ -27,9 +28,7 @@ class CreateUserCommandTest extends FeatureTestCase
         );
     }
 
-    /**
-     * @dataProvider userRolesProvider
-     */
+    #[DataProvider("userRolesProvider")]
     public function testUserCanBeCreatedWithExpectedRole(string $role): void
     {
         $this->artisan(CreateUser::class, ["email" => "test@example.com", "--role" => $role])
