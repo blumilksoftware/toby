@@ -6,7 +6,7 @@ namespace Toby\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
-use Symfony\Component\HttpFoundation\BinaryFileResponse as BinaryFileResponseAlias;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Toby\Domain\ResumeGenerator;
 use Toby\Http\Requests\ResumeRequest;
 use Toby\Http\Resources\ResumeFormResource;
@@ -47,7 +47,7 @@ class ResumeController extends Controller
         ]);
     }
 
-    public function show(Resume $resume, ResumeGenerator $generator): BinaryFileResponseAlias
+    public function show(Resume $resume, ResumeGenerator $generator): BinaryFileResponse
     {
         $this->authorize("manageResumes");
 
