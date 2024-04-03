@@ -41,6 +41,10 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
+    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
+        ->whereNumber("user");
+    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
+        ->whereNumber("user");
 
     Route::resource("equipment-items", EquipmentController::class)
         ->except("show")
@@ -53,11 +57,6 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::resource("equipment-labels", EquipmentLabelController::class)
         ->only(["index", "store", "destroy"])
         ->whereNumber("equipmentLabels");
-
-    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
-        ->whereNumber("user");
-    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
-        ->whereNumber("user");
 
     Route::resource("benefits", BenefitController::class)
         ->only(["index", "store", "destroy"])

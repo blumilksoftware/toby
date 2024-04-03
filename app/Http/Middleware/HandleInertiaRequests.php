@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Permission;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\UserResource;
+use Toby\Models\User;
 use Toby\Models\VacationRequest;
 
 class HandleInertiaRequests extends Middleware
@@ -36,14 +37,15 @@ class HandleInertiaRequests extends Middleware
 
     protected function getAuthData(Request $request): Closure
     {
+        /** @var ?User $user */
         $user = $request->user()?->load("profile");
 
         return fn(): array => [
-            "user" => $user ? new UserResource($user) : null,
+            "user" => $user ?? new UserResource($user),
             "can" => Permission::query()->with("roles")->get()
                 ->mapWithKeys(
                     fn(Permission $permission): array => [
-                        $permission->name => $user ? $user->hasPermissionTo($permission) : false,
+                        $permission->name => $user && $user->hasPermissionTo($permission),
                     ],
                 ),
         ];

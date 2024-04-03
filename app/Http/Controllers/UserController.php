@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Spatie\Permission\Models\Permission;
 use Toby\Actions\CreateUserAction;
 use Toby\Actions\SyncUserPermissionsWithRoleAction;
 use Toby\Actions\UpdateUserAction;
@@ -25,6 +26,9 @@ class UserController extends Controller
      */
     public function index(Request $request): Response
     {
+        /** @var User $user */
+        $user = $request->user();
+
         $this->authorize("manageUsers");
 
         $searchText = $request->query("search");
