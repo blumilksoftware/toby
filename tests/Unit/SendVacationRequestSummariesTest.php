@@ -8,16 +8,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Domain\Notifications\VacationRequestsSummaryNotification;
-use Toby\Domain\States\VacationRequest\Approved;
-use Toby\Domain\States\VacationRequest\Cancelled;
-use Toby\Domain\States\VacationRequest\Created;
-use Toby\Domain\States\VacationRequest\Rejected;
-use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
-use Toby\Infrastructure\Console\Commands\SendVacationRequestSummariesToApprovers;
+use Toby\Console\Commands\SendVacationRequestSummariesToApprovers;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
+use Toby\Notifications\VacationRequestsSummaryNotification;
+use Toby\States\VacationRequest\Approved;
+use Toby\States\VacationRequest\Cancelled;
+use Toby\States\VacationRequest\Created;
+use Toby\States\VacationRequest\Rejected;
+use Toby\States\VacationRequest\WaitingForTechnical;
 
 class SendVacationRequestSummariesTest extends TestCase
 {

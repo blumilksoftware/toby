@@ -20,7 +20,7 @@ class PermissionsSeeder extends Seeder
         $permissions = Permission::all();
 
         foreach ($permissions as $permission) {
-            if (!in_array($permission->name, $configPermissions, true)) {
+            if (!in_array($permission->name, $configPermissions, strict: true)) {
                 $permission->delete();
             }
         }

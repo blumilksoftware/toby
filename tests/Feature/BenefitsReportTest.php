@@ -8,10 +8,10 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Eloquent\Models\Benefit;
-use Toby\Eloquent\Models\BenefitsReport;
-use Toby\Eloquent\Models\User;
-use Toby\Infrastructure\Http\Resources\BenefitsReportResource;
+use Toby\Http\Resources\BenefitsReportResource;
+use Toby\Models\Benefit;
+use Toby\Models\BenefitsReport;
+use Toby\Models\User;
 
 class BenefitsReportTest extends FeatureTestCase
 {

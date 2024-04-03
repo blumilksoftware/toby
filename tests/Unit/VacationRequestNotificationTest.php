@@ -9,16 +9,16 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Domain\Actions\VacationRequest\RejectAction;
-use Toby\Domain\Actions\VacationRequest\WaitForTechApprovalAction;
-use Toby\Domain\Enums\VacationType;
-use Toby\Domain\Notifications\VacationRequestStatusChangedNotification;
-use Toby\Domain\Notifications\VacationRequestWaitsForApprovalNotification;
-use Toby\Domain\States\VacationRequest\Created;
-use Toby\Domain\States\VacationRequest\WaitingForTechnical;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Actions\VacationRequest\RejectAction;
+use Toby\Actions\VacationRequest\WaitForTechApprovalAction;
+use Toby\Enums\VacationType;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
+use Toby\Notifications\VacationRequestStatusChangedNotification;
+use Toby\Notifications\VacationRequestWaitsForApprovalNotification;
+use Toby\States\VacationRequest\Created;
+use Toby\States\VacationRequest\WaitingForTechnical;
 
 class VacationRequestNotificationTest extends TestCase
 {

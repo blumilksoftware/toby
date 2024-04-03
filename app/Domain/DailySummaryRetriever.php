@@ -7,9 +7,9 @@ namespace Toby\Domain;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Domain\Enums\VacationType;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
+use Toby\Enums\VacationType;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
 
 class DailySummaryRetriever
 {
@@ -97,7 +97,7 @@ class DailySummaryRetriever
         $users = User::query()
             ->whereRelation("profile", fn(Builder $query): Builder => $query->whereNotNull("birthday"))
             ->get()
-            ->sortBy(fn(User $user): int => $user->upcomingBirthday()->diffInDays(Carbon::today()));
+            ->sortBy(fn(User $user): int => (int)$user->upcomingBirthday()->diffInDays(Carbon::today()));
 
         if ($limit) {
             return $users->take($limit);

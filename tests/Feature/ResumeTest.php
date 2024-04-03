@@ -9,10 +9,10 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Eloquent\Models\Resume;
-use Toby\Eloquent\Models\Technology;
-use Toby\Eloquent\Models\User;
+use Toby\Enums\EmploymentForm;
+use Toby\Models\Resume;
+use Toby\Models\Technology;
+use Toby\Models\User;
 
 class ResumeTest extends FeatureTestCase
 {
