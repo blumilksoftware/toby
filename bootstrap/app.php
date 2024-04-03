@@ -42,20 +42,20 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->respond(function (Response $response, Throwable $exception, LaravelRequest $request) {
-            if (!app()->environment(['local', 'testing']) && in_array($response->getStatusCode(), [
-                    Response::HTTP_INTERNAL_SERVER_ERROR,
-                    Response::HTTP_SERVICE_UNAVAILABLE,
-                    Response::HTTP_TOO_MANY_REQUESTS,
-                    Response::HTTP_NOT_FOUND,
-                    Response::HTTP_FORBIDDEN,
-                    Response::HTTP_UNAUTHORIZED,
-                ], strict: true)) {
-                return Inertia::render('Error', ['status' => $response->getStatusCode()])
+            if (!app()->environment(["local", "testing"]) && in_array($response->getStatusCode(), [
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+                Response::HTTP_SERVICE_UNAVAILABLE,
+                Response::HTTP_TOO_MANY_REQUESTS,
+                Response::HTTP_NOT_FOUND,
+                Response::HTTP_FORBIDDEN,
+                Response::HTTP_UNAUTHORIZED,
+            ], strict: true)) {
+                return Inertia::render("Error", ["status" => $response->getStatusCode()])
                     ->toResponse($request)
                     ->setStatusCode($response->getStatusCode());
             } elseif ($response->getStatusCode() === 419) {
                 return back()->with([
-                    'message' => 'The page expired, please try again.',
+                    "message" => "The page expired, please try again.",
                 ]);
             }
 
