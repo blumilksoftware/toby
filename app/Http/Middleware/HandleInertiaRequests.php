@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
         $user = $request->user()?->load("profile");
 
         return fn(): array => [
-            "user" => $user ?? new UserResource($user),
+            "user" => $user ? new UserResource($user) : null,
             "can" => Permission::query()->with("roles")->get()
                 ->mapWithKeys(
                     fn(Permission $permission): array => [
