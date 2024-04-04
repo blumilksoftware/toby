@@ -97,7 +97,7 @@ class DailySummaryRetriever
         $users = User::query()
             ->whereRelation("profile", fn(Builder $query): Builder => $query->whereNotNull("birthday"))
             ->get()
-            ->sortBy(fn(User $user): int => (int)$user->upcomingBirthday()->diffInDays(Carbon::today()));
+            ->sortBy(fn(User $user): int => (int)$user->upcomingBirthday()->diffInDays(Carbon::today()), descending: true);
 
         if ($limit) {
             return $users->take($limit);
