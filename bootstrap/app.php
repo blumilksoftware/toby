@@ -2,19 +2,64 @@
 
 declare(strict_types=1);
 
-use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
-use Illuminate\Contracts\Debug\ExceptionHandler as HandlerContract;
-use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;
-use Toby\Architecture\ExceptionHandler;
-use Toby\Infrastructure\Console\Kernel as ConsoleKernel;
-use Toby\Infrastructure\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request as LaravelRequest;
+use Inertia\Inertia;
+use Sentry\State\HubInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Toby\Http\Middleware\HandleInertiaRequests;
+use Toby\Http\Middleware\RedirectIfAuthenticated;
 
-$basePath = $_ENV["APP_BASE_PATH"] ?? dirname(__DIR__);
-$application = new Application($basePath);
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__ . "/../routes/web.php",
+        api: __DIR__ . "/../routes/api.php",
+        commands: __DIR__ . "/../routes/console.php",
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(HandleInertiaRequests::class);
+        $middleware->alias([
+            "guest" => RedirectIfAuthenticated::class,
+        ]);
+        $middleware->trustProxies(
+            at: "*",
+            headers: Request::HEADER_X_FORWARDED_FOR |
+            Request::HEADER_X_FORWARDED_HOST |
+            Request::HEADER_X_FORWARDED_PORT |
+            Request::HEADER_X_FORWARDED_PROTO |
+            Request::HEADER_X_FORWARDED_AWS_ELB,
+        );
+        $middleware->statefulApi();
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->reportable(function (Throwable $exception): void {
+            if (app()->bound(HubInterface::class)) {
+                app(HubInterface::class)->captureException($exception);
+            }
+        });
 
-$application->singleton(HttpKernelContract::class, HttpKernel::class);
-$application->singleton(ConsoleKernelContract::class, ConsoleKernel::class);
-$application->singleton(HandlerContract::class, ExceptionHandler::class);
+        $exceptions->respond(function (Response $response, Throwable $exception, LaravelRequest $request) {
+            if (!app()->environment(["local", "testing"]) && in_array($response->getStatusCode(), [
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+                Response::HTTP_SERVICE_UNAVAILABLE,
+                Response::HTTP_TOO_MANY_REQUESTS,
+                Response::HTTP_NOT_FOUND,
+                Response::HTTP_FORBIDDEN,
+                Response::HTTP_UNAUTHORIZED,
+            ], strict: true)) {
+                return Inertia::render("Error", ["status" => $response->getStatusCode()])
+                    ->toResponse($request)
+                    ->setStatusCode($response->getStatusCode());
+            } elseif ($response->getStatusCode() === 419) {
+                return back()->with([
+                    "message" => "The page expired, please try again.",
+                ]);
+            }
 
-return $application;
+            return $response;
+        });
+    })
+    ->create();

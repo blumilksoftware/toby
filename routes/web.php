@@ -3,32 +3,32 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Toby\Infrastructure\Http\Controllers\AnnualSummaryController;
-use Toby\Infrastructure\Http\Controllers\AssignedBenefitController;
-use Toby\Infrastructure\Http\Controllers\BenefitController;
-use Toby\Infrastructure\Http\Controllers\BenefitsReportController;
-use Toby\Infrastructure\Http\Controllers\DashboardController;
-use Toby\Infrastructure\Http\Controllers\EmployeesMilestonesController;
-use Toby\Infrastructure\Http\Controllers\EquipmentController;
-use Toby\Infrastructure\Http\Controllers\EquipmentLabelController;
-use Toby\Infrastructure\Http\Controllers\GoogleController;
-use Toby\Infrastructure\Http\Controllers\HolidayController;
-use Toby\Infrastructure\Http\Controllers\KeysController;
-use Toby\Infrastructure\Http\Controllers\LocalLoginController;
-use Toby\Infrastructure\Http\Controllers\LoginController;
-use Toby\Infrastructure\Http\Controllers\LogoutController;
-use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
-use Toby\Infrastructure\Http\Controllers\PermissionController;
-use Toby\Infrastructure\Http\Controllers\ResumeController;
-use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
-use Toby\Infrastructure\Http\Controllers\TechnologyController;
-use Toby\Infrastructure\Http\Controllers\TimesheetController;
-use Toby\Infrastructure\Http\Controllers\UserController;
-use Toby\Infrastructure\Http\Controllers\VacationCalendarController;
-use Toby\Infrastructure\Http\Controllers\VacationLimitController;
-use Toby\Infrastructure\Http\Controllers\VacationRequestController;
-use Toby\Infrastructure\Http\Middleware\CheckIfLocalEnvironment;
-use Toby\Infrastructure\Http\Middleware\TrackUserLastActivity;
+use Toby\Http\Controllers\AnnualSummaryController;
+use Toby\Http\Controllers\AssignedBenefitController;
+use Toby\Http\Controllers\BenefitController;
+use Toby\Http\Controllers\BenefitsReportController;
+use Toby\Http\Controllers\DashboardController;
+use Toby\Http\Controllers\EmployeesMilestonesController;
+use Toby\Http\Controllers\EquipmentController;
+use Toby\Http\Controllers\EquipmentLabelController;
+use Toby\Http\Controllers\GoogleController;
+use Toby\Http\Controllers\HolidayController;
+use Toby\Http\Controllers\KeysController;
+use Toby\Http\Controllers\LocalLoginController;
+use Toby\Http\Controllers\LoginController;
+use Toby\Http\Controllers\LogoutController;
+use Toby\Http\Controllers\MonthlyUsageController;
+use Toby\Http\Controllers\PermissionController;
+use Toby\Http\Controllers\ResumeController;
+use Toby\Http\Controllers\SelectYearPeriodController;
+use Toby\Http\Controllers\TechnologyController;
+use Toby\Http\Controllers\TimesheetController;
+use Toby\Http\Controllers\UserController;
+use Toby\Http\Controllers\VacationCalendarController;
+use Toby\Http\Controllers\VacationLimitController;
+use Toby\Http\Controllers\VacationRequestController;
+use Toby\Http\Middleware\CheckIfLocalEnvironment;
+use Toby\Http\Middleware\TrackUserLastActivity;
 
 Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): void {
     Route::get("/", DashboardController::class)
@@ -41,6 +41,10 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
+    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
+        ->whereNumber("user");
+    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
+        ->whereNumber("user");
 
     Route::resource("equipment-items", EquipmentController::class)
         ->except("show")
@@ -53,11 +57,6 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::resource("equipment-labels", EquipmentLabelController::class)
         ->only(["index", "store", "destroy"])
         ->whereNumber("equipmentLabels");
-
-    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
-        ->whereNumber("user");
-    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
-        ->whereNumber("user");
 
     Route::resource("benefits", BenefitController::class)
         ->only(["index", "store", "destroy"])

@@ -6,7 +6,7 @@ namespace Toby\Domain;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class EmployeesMilestonesRetriever
 {
@@ -35,7 +35,7 @@ class EmployeesMilestonesRetriever
             ->search($searchText)
             ->get();
 
-        return $users->sortBy(fn(User $user): int => $user->upcomingBirthday()->diffInDays(Carbon::today()), descending: $direction !== "asc");
+        return $users->sortBy(fn(User $user): int => (int)$user->upcomingBirthday()->diffInDays(Carbon::today()), descending: $direction !== "desc");
     }
 
     public function getSeniority(?string $searchText, string $direction = "asc"): Collection

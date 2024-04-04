@@ -6,9 +6,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Eloquent\Models\Profile;
-use Toby\Eloquent\Models\User;
+use Toby\Enums\EmploymentForm;
+use Toby\Models\Profile;
+use Toby\Models\User;
 
 class ProfileFactory extends Factory
 {

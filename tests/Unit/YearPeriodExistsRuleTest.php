@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Infrastructure\Http\Rules\YearPeriodExists;
+use Toby\Http\Rules\YearPeriodExists;
 
 class YearPeriodExistsRuleTest extends TestCase
 {

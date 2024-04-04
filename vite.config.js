@@ -5,6 +5,7 @@ import { networkInterfaces } from 'os'
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
+
   return defineConfig({
     server: {
       host: Object.values(networkInterfaces()).flat().find(i => i.family === 'IPv4' && !i.internal).address,

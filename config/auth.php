@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 return [
     "defaults" => [

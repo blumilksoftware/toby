@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Domain\Enums\VacationType;
-use Toby\Domain\States\VacationRequest\Approved;
-use Toby\Domain\States\VacationRequest\Created;
-use Toby\Domain\States\VacationRequest\WaitingForTechnical;
 use Toby\Domain\VacationRequestStateManager;
-use Toby\Eloquent\Models\User;
-use Toby\Eloquent\Models\VacationRequest;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Enums\VacationType;
+use Toby\Models\User;
+use Toby\Models\VacationRequest;
+use Toby\Models\YearPeriod;
+use Toby\States\VacationRequest\Approved;
+use Toby\States\VacationRequest\Created;
+use Toby\States\VacationRequest\WaitingForTechnical;
 
 class VacationRequestStatesTest extends TestCase
 {
