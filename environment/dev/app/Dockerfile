@@ -19,10 +19,10 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
     && chmod +x /usr/local/bin/sops
 
 # https://hub.docker.com/r/composer/composer
-FROM composer/composer:2.7.1-bin as composer-bin
+FROM composer/composer:2.7.2-bin as composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:21.6.2-bullseye-slim as node
+FROM node:21.7.1-bullseye-slim as node
 
 FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
 
