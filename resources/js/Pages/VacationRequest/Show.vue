@@ -274,7 +274,7 @@ defineProps({
         </div>
       </div>
       <div
-        v-if="(auth.can.manageRequestsAsAdministrativeApprover || request.can.manageRequestsAsTechnicalApprover) && request.state !== 'cancelled'"
+        v-if="(auth.can.manageRequestsAsAdministrativeApprover || auth.can.manageRequestsAsTechnicalApprover) && request.state !== 'cancelled'"
         class="bg-white shadow-md"
       >
         <div class="py-5 px-4 sm:px-6">
