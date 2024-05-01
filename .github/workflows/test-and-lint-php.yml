@@ -34,7 +34,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v4.1.4
 
       - name: Validate composer.json and composer.lock
         run: composer validate
