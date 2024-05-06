@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.3.0
+ARG PHP_VERSION=8.3.6
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
@@ -19,7 +19,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:21.7.2-bullseye-slim as frontend
+FROM node:22.1.0-bullseye-slim as frontend
 
 WORKDIR /app_frontend_dependencies
 
