@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.3.0
+ARG PHP_VERSION=8.3.6
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
@@ -19,10 +19,10 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
     && chmod +x /usr/local/bin/sops
 
 # https://hub.docker.com/r/composer/composer
-FROM composer/composer:2.7.2-bin as composer-bin
+FROM composer/composer:2.7.4-bin as composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:21.7.2-bullseye-slim as node
+FROM node:22.1.0-bullseye-slim as node
 
 FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
 
