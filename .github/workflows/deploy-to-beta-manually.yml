@@ -20,7 +20,7 @@ jobs:
         run: echo "BRANCH_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
 
       - name: checkout
-        uses: actions/checkout@v4.1.4
+        uses: actions/checkout@v4.1.5
         with:
           fetch-depth: 0
           ref: ${{ env.BRANCH_NAME }}
