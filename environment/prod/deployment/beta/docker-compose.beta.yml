@@ -14,7 +14,7 @@ volumes:
 
 services:
   toby-beta-app:
-    image: ghcr.io/blumilksoftware/toby:beta
+    image: registry.blumilk.pl/toby/toby:beta
     container_name: toby-beta-app
     pull_policy: always
     deploy:
