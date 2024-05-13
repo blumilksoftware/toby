@@ -34,6 +34,20 @@ Application will be running under [localhost:8751](localhost:8751) and [http://t
 | `make cs`         | Runs codestyle checks              |
 | `make fix`        | Runs codestyle fixers              |
 
+### Docker image
+
+App images will be accessible under the following tags:
+
+Beta:
+- `registry.blumilk.pl/toby/toby:beta`
+
+Production image will be accessible in the new registry since `v1.2.1` tag.
+
+Prod:
+- `registry.blumilk.pl/toby/toby:latest`
+- `registry.blumilk.pl/toby/toby:v1.2.3` (depends on releases/tags)
+
+
 ### Further reading
 * [Xdebug configuration](./readme.xdebug.md)
 * [sops configuration](./readme.sops.md)
