@@ -15,7 +15,9 @@ jobs:
     runs-on: ubuntu-22.04
     name: Deploy to production
     env:
-      REPO_NAME: toby
+      DOCKER_REGISTRY: registry.blumilk.pl
+      DOCKER_REGISTRY_USER_NAME: robot@blumilkbot-harbor
+      DOCKER_REGISTRY_PROJECT_NAME: ${{ github.event.repository.name }}
     steps:
       - name: checkout
         uses: actions/checkout@v4.1.4
@@ -29,15 +31,18 @@ jobs:
       - name: login to GitHub Container Registry
         uses: docker/login-action@v3.1.0
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.DOCKER_REGISTRY_USER_NAME }}
+          password: ${{ secrets.BLUMILKBOT_HARBOR_TOKEN }}
+
+      - name: set docker image name
+        run: echo "DOCKER_IMAGE_NAME=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_REGISTRY_PROJECT_NAME }}/${{ env.DOCKER_REGISTRY_PROJECT_NAME }}" >> $GITHUB_ENV
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5.5.1
         with:
-          images: ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}
+          images: ${{ env.DOCKER_IMAGE_NAME }}
           tags: |
             type=raw,value=latest
             type=raw,value=${{ github.ref_name }}
@@ -50,12 +55,10 @@ jobs:
           file: ./environment/prod/app/Dockerfile
           build-args: DEPLOYMENT_PROJECT_VERSION_ARG=${{ env.DEPLOYMENT_PROJECT_VERSION }}
           labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}:latest
-            ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}:${{ github.ref_name }}
-          cache-from: type=gha, ref=ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}-prod-build-cache
-          cache-to: type=gha, ref=ghcr.io/${{ github.repository_owner }}/${{ env.REPO_NAME }}-prod-build-cache, mode=max
+          cache-from: type=gha, ref=${{ env.DOCKER_IMAGE_NAME }}-prod-build-cache
+          cache-to: type=gha, ref=${{ env.DOCKER_IMAGE_NAME }}-prod-build-cache, mode=max
 
       - name: copy files via ssh
         uses: appleboy/scp-action@v0.1.7
@@ -84,4 +87,4 @@ jobs:
           script: |
             cd ${{ secrets.TOBY_VPS_LIVE_APP_PATH }}/environment/prod/deployment/prod
             make prod-deploy SOPS_AGE_KEY=${{ secrets.SOPS_AGE_PROD_SECRET_KEY }}
-            docker images --filter dangling=true | grep "ghcr.io/blumilksoftware/${{ env.REPO_NAME }}" | awk '{print $3}'| xargs --no-run-if-empty docker rmi
+            docker images --filter dangling=true | grep "${{ env.DOCKER_IMAGE_NAME }}" | awk '{print $3}'| xargs --no-run-if-empty docker rmi

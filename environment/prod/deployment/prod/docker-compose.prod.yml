@@ -17,7 +17,7 @@ volumes:
 
 services:
   toby-prod-app:
-    image: ghcr.io/blumilksoftware/toby:latest
+    image: registry.blumilk.pl/toby/toby:latest
     container_name: toby-prod-app
     pull_policy: always
     deploy:
