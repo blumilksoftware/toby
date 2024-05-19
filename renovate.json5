@@ -1,6 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>blumilksoftware/traefik-configuration/renovate/presets/default.json5",
+    "github>blumilksoftware/traefik-configuration//renovate/presets/default.json5",
   ],
+  "ignoreDeps": [
+    "registry.blumilk.pl/toby/toby",
+  ]
 }
