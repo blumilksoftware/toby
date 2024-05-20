@@ -1,0 +1,9 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>blumilksoftware/infrastructure//renovate/presets/default.json5",
+  ],
+  "ignoreDeps": [
+    "registry.blumilk.pl/toby/toby",
+  ]
+}

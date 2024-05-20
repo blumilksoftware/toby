@@ -10,7 +10,7 @@ updates:
     commit-message:
       prefix: "- "
     target-branch: main
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 0
 
   - package-ecosystem: npm
     directory: "/"
@@ -21,7 +21,7 @@ updates:
     commit-message:
       prefix: "- "
     target-branch: main
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 0
 
   - package-ecosystem: github-actions
     directory: "/"
@@ -32,7 +32,7 @@ updates:
     commit-message:
       prefix: "- (github actions) "
     target-branch: main
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 0
 
   - package-ecosystem: docker
     directory: "/environment/prod/app"
@@ -43,4 +43,4 @@ updates:
     commit-message:
       prefix: "- (docker dev) "
     target-branch: main
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 0
