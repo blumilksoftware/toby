@@ -5,5 +5,14 @@
   ],
   "ignoreDeps": [
     "registry.blumilk.pl/toby/toby",
+  ],
+  "packageRules": [
+    {
+      "description": "Manually pined dependency by developers",
+      "matchManagers": ["composer"],
+      "packageName": "phpoffice/phpword",
+      "groupName": "Manually pined phpoffice/phpword",
+      "dependencyDashboardApproval": true,
+    }
   ]
 }
