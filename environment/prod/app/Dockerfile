@@ -5,7 +5,7 @@ ARG PHP_MODULE_NAME=php${PHP_VERSION}
 ARG UNIT_VERSION=1.31.1-1
 
 ### PHP DEPENDENCIES ###
-FROM composer:2.7.4 as vendor
+FROM composer:2.7.4@sha256:ee4676ef56f97c82f11b421717386bcf9353a53bee9276c414ad80a0a4dc0e02 as vendor
 
 WORKDIR /app_composer_dependencies
 
@@ -20,7 +20,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:22.1.0-bullseye-slim as frontend
+FROM node:22.1.0-bullseye-slim@sha256:d5a435ce3230983b4d359cdc79341fd0b3482aeb445f2fbc04d0e23ecb211dd4 as frontend
 
 WORKDIR /app_frontend_dependencies
 
