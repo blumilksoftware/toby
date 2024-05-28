@@ -46,7 +46,7 @@ services:
       - .deployment
 
   toby-beta-database:
-    image: postgres:15
+    image: postgres:15@sha256:4b4da96c37fefd6f28c3f58e7470bbc6d2cb34ac5641b9df7221d962eb4bc55d
     container_name: toby-beta-database
     environment:
       - PGPASSWORD=${DOCKER_TOBY_BETA_DB_ROOT_PASSWORD:? variable DOCKER_TOBY_BETA_DB_ROOT_PASSWORD not set}
@@ -65,7 +65,7 @@ services:
     restart: unless-stopped
 
   toby-beta-redis:
-    image: redis:7.0-alpine3.16
+    image: redis:7.0-alpine3.16@sha256:2700d5097763fda285c463f4eefc3d0730a2df2a9d48e66707b19d5a5e5f23d4
     container_name: toby-beta-redis
     healthcheck:
       test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
