@@ -21,7 +21,7 @@
 
   "applications": {
     "laravel": {
-      "type": "php 8.3.6",
+      "type": "php",
       "root": "/application/public/",
       "script": "index.php",
       "limits": {
