@@ -3,6 +3,9 @@
   "extends": [
     "github>blumilksoftware/infrastructure//renovate/presets/default.json5",
   ],
+  "additionalReviewers": [
+    "Blusia", // Agnieszka Rudek
+  ],
   "ignoreDeps": [
     "registry.blumilk.pl/toby/toby",
   ],
@@ -13,6 +16,23 @@
       "packageName": "phpoffice/phpword",
       "groupName": "Manually pined phpoffice/phpword",
       "dependencyDashboardApproval": true,
-    }
+    },
+    {
+      "description": "Disable digest pinning for regex managers in Dockerfile used for PHP_VERSION upgrading",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchFileNames": [
+        "environment/dev/app/Dockerfile",
+        "environment/prod/app/Dockerfile",
+      ],
+      "matchDepNames": [
+        "php",
+      ],
+      "pinDigests": false,
+    },
   ]
 }
