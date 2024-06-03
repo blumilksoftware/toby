@@ -33,6 +33,7 @@ class SendVacationRequestSummariesToApprovers extends Command
 
         foreach ($users as $user) {
             $vacationRequests = VacationRequest::query()
+                ->with(["user"])
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->get();
 
