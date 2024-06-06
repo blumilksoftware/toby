@@ -18,6 +18,7 @@ use Toby\Http\Controllers\LocalLoginController;
 use Toby\Http\Controllers\LoginController;
 use Toby\Http\Controllers\LogoutController;
 use Toby\Http\Controllers\MonthlyUsageController;
+use Toby\Http\Controllers\OvertimeRequestController;
 use Toby\Http\Controllers\PermissionController;
 use Toby\Http\Controllers\ResumeController;
 use Toby\Http\Controllers\SelectYearPeriodController;
@@ -158,6 +159,12 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
             ->name("monthly-usage");
         Route::get("/annual-summary", AnnualSummaryController::class)
             ->name("annual-summary");
+    });
+    Route::prefix("/overtime")->as("vacation.")->group(function (): void {
+        Route::get("/requests/create", [OvertimeRequestController::class, "create"])
+            ->name("overtime.create");
+        Route::post("/requests", [OvertimeRequestController::class, "store"])
+            ->name("overtime.store");
     });
 });
 

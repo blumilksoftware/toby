@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
  * @property int $year
  * @property Collection $vacationLimits
  * @property Collection $vacationRequests
+ * @property Collection $overtimeRequests
  * @property Collection $holidays
  */
 class YearPeriod extends Model
@@ -45,6 +46,11 @@ class YearPeriod extends Model
     public function vacationRequests(): HasMany
     {
         return $this->hasMany(VacationRequest::class);
+    }
+
+    public function overtimeRequests(): HasMany
+    {
+        return $this->hasMany(OvertimeRequest::class);
     }
 
     public function holidays(): HasMany
