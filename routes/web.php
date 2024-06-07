@@ -160,11 +160,30 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         Route::get("/annual-summary", AnnualSummaryController::class)
             ->name("annual-summary");
     });
-    Route::prefix("/overtime")->as("vacation.")->group(function (): void {
-        Route::get("/requests/create", [OvertimeRequestController::class, "create"])
-            ->name("overtime.create");
+    Route::prefix("/overtime")->as("overtime.")->group(function (): void {
+        Route::get("/requests", [OvertimeRequestController::class, "indexForApprovers"])
+            ->name("requests.indexForApprovers");
         Route::post("/requests", [OvertimeRequestController::class, "store"])
-            ->name("overtime.store");
+            ->name("requests.store");
+        Route::get("/requests/me", [OvertimeRequestController::class, "index"])
+            ->name("requests.index");
+        Route::get("/requests/create", [OvertimeRequestController::class, "create"])
+            ->name("requests.create");
+        Route::get("/requests/{overtimeRequest}", [OvertimeRequestController::class, "show"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.show");
+        Route::post("/requests/{overtimeRequest}/reject", [OvertimeRequestController::class, "reject"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.reject");
+        Route::post("/requests/{overtimeRequest}/cancel", [OvertimeRequestController::class, "cancel"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.cancel");
+        Route::post("/requests/{overtimeRequest}/settle", [OvertimeRequestController::class, "settle"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.settle");
+        Route::post("/requests/{overtimeRequest}/accept-as-technical", [OvertimeRequestController::class, "acceptAsTechnical"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.accept-as-technical");
     });
 });
 

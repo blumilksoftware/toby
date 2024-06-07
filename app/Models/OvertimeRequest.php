@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Toby\Models;
 
 use Database\Factories\OvertimeRequestFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Spatie\ModelStates\HasStates;
 use Toby\Enums\SettlementType;
 use Toby\States\OvertimeRequest\OvertimeRequestState;
@@ -27,6 +29,7 @@ use Toby\States\OvertimeRequest\OvertimeRequestState;
  * @property User $user
  * @property User $creator
  * @property YearPeriod $yearPeriod
+ * @property Collection $activities
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -64,6 +67,11 @@ class OvertimeRequest extends Model
     public function activities(): HasMany
     {
         return $this->hasMany(OvertimeRequestActivity::class);
+    }
+
+    public function scopeStates(Builder $query, OvertimeRequestState|array $states): Builder
+    {
+        return $query->whereState("state", $states);
     }
 
     protected static function newFactory(): OvertimeRequestFactory

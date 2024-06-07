@@ -11,6 +11,7 @@ use Toby\States\OvertimeRequest\Approved;
 use Toby\States\OvertimeRequest\Cancelled;
 use Toby\States\OvertimeRequest\Created;
 use Toby\States\OvertimeRequest\Rejected;
+use Toby\States\OvertimeRequest\Settled;
 use Toby\States\OvertimeRequest\WaitingForTechnical;
 
 class OvertimeRequestStatesRetriever
@@ -26,7 +27,10 @@ class OvertimeRequestStatesRetriever
 
     public static function successStates(): array
     {
-        return [Approved::class];
+        return [
+            Approved::class,
+            Settled::class,
+        ];
     }
 
     public static function failedStates(): array

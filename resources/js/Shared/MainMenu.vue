@@ -31,6 +31,7 @@ import {
   SunIcon,
   UserGroupIcon,
   XMarkIcon,
+  ClockIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
@@ -54,12 +55,26 @@ const vacationNavigation = computed(() =>
       can: !props.auth.can.listAllRequests,
     },
     {
+      name: 'Moje nadgodziny',
+      href: '/overtime/requests/me',
+      section: 'OvertimeRequest',
+      icon: ClockIcon,
+      can: !props.auth.can.listAllRequests,
+    },
+    {
       name: 'Wnioski',
       href: '/vacation/requests',
       section: 'VacationRequest',
       icon: RectangleStackIcon,
       can: props.auth.can.listAllRequests,
       badge: props.vacationRequestsCount,
+    },
+    {
+      name: 'Nadgodziny',
+      href: '/overtime/requests',
+      section: 'OvertimeRequest',
+      icon: ClockIcon,
+      can: props.auth.can.listAllRequests,
     },
     {
       name: 'Kalendarz',

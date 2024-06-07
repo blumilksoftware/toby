@@ -70,6 +70,11 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->hasMany(VacationRequest::class);
     }
 
+    public function overtimeRequests(): HasMany
+    {
+        return $this->hasMany(OvertimeRequest::class);
+    }
+
     public function createdVacationRequests(): HasMany
     {
         return $this->hasMany(VacationRequest::class, "creator_id");

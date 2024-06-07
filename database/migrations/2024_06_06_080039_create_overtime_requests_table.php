@@ -20,8 +20,8 @@ return new class() extends Migration {
             $table->string("state")->nullable();
             $table->string("settlement_type");
             $table->boolean("settled")->default(false);
-            $table->date("from");
-            $table->date("to");
+            $table->dateTime("from");
+            $table->dateTime("to");
             $table->integer("hours");
             $table->text("comment")->nullable();
             $table->timestamps();

@@ -3,10 +3,8 @@ import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import { CheckIcon, ChevronUpDownIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 import { reactive, ref, watch } from 'vue'
-import axios from 'axios'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import VacationType from '@/Shared/VacationType.vue'
 import SettlementType from '@/Shared/SettlementType.vue'
 
 const props = defineProps({

@@ -12,6 +12,7 @@ use Toby\States\OvertimeRequest\Approved;
 use Toby\States\OvertimeRequest\Cancelled;
 use Toby\States\OvertimeRequest\OvertimeRequestState;
 use Toby\States\OvertimeRequest\Rejected;
+use Toby\States\OvertimeRequest\Settled;
 use Toby\States\OvertimeRequest\WaitingForTechnical;
 
 class OvertimeRequestStateManager
@@ -48,6 +49,11 @@ class OvertimeRequestStateManager
     public function waitForTechnical(OvertimeRequest $overtimeRequest): void
     {
         $this->changeState($overtimeRequest, WaitingForTechnical::class);
+    }
+
+    public function settle(OvertimeRequest $overtimeRequest, User $user): void
+    {
+        $this->changeState($overtimeRequest, Settled::class, $user);
     }
 
     protected function changeState(OvertimeRequest $overtimeRequest, string $state, ?User $user = null): void

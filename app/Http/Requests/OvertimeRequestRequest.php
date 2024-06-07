@@ -18,7 +18,7 @@ class OvertimeRequestRequest extends FormRequest
         return [
             "user" => ["required", "exists:users,id"],
             "from" => ["required", "date_format:Y-m-d H:i", new YearPeriodExists()],
-            "to" => ["required", "date_format:Y-m-d H:i", new YearPeriodExists()],
+            "to" => ["required", "date_format:Y-m-d H:i", "after:from", new YearPeriodExists()],
             "type" => ["required", new Enum(SettlementType::class)],
             "comment" => ["nullable"],
         ];

@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace Toby\Actions\OvertimeRequest;
 
 use Illuminate\Validation\ValidationException;
-use Toby\Actions\VacationRequest\ApproveAction;
-use Toby\Actions\VacationRequest\WaitForTechApprovalAction;
 use Toby\Domain\OvertimeCalculator;
 use Toby\Domain\OvertimeRequestStateManager;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
-use Toby\Notifications\VacationRequestCreatedNotification;
 
 class CreateAction
 {
@@ -20,7 +17,6 @@ class CreateAction
         protected OvertimeRequestStateManager $stateManager,
         protected WaitForTechApprovalAction $waitForTechApprovalAction,
         protected OvertimeCalculator $overtimeCalculator,
-        protected ApproveAction $approveAction,
     ) {}
 
     /**
@@ -50,6 +46,7 @@ class CreateAction
 
     protected function handleCreatedOvertimeRequest(OvertimeRequest $overtimeRequest): void
     {
+        $this->waitForTechApprovalAction->execute($overtimeRequest);
     }
 
     protected function notify(VacationRequest $vacationRequest): void
