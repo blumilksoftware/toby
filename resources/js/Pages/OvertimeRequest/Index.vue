@@ -32,11 +32,14 @@ const statuses = [
     name: 'Odrzucone/anulowane',
     value: 'failed',
   },
+  {
+    name: 'Rozliczone',
+    value: 'settled',
+  },
 ]
 
 const form = reactive({
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
-  withoutRemote: props.filters.withoutRemote ?? false,
 })
 
 watch(form, debounce(() => {

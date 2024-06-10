@@ -60,13 +60,20 @@ class OvertimeRequestController extends Controller
             ->states(OvertimeRequestStatesRetriever::failedStates())
             ->count();
 
+        $settled = $request->user()
+            ->overtimeRequests()
+            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->states(OvertimeRequestStatesRetriever::settledStates())
+            ->count();
+
         return inertia("OvertimeRequest/Index", [
             "requests" => OvertimeRequestResource::collection($overtimeRequests),
             "stats" => [
-                "all" => $pending + $success + $failed,
+                "all" => $pending + $success + $failed + $settled,
                 "pending" => $pending,
                 "success" => $success,
                 "failed" => $failed,
+                "settled" => $settled,
             ],
             "filters" => [
                 "status" => $status,
@@ -201,6 +208,6 @@ class OvertimeRequestController extends Controller
         $settleAction->execute($overtimeRequest, $request->user());
 
         return redirect()->back()
-            ->with("success", __("Request settled."));
+            ->with("success", __("Overtime settled."));
     }
 }

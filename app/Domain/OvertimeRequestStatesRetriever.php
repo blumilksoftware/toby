@@ -27,10 +27,12 @@ class OvertimeRequestStatesRetriever
 
     public static function successStates(): array
     {
-        return [
-            Approved::class,
-            Settled::class,
-        ];
+        return [Approved::class];
+    }
+
+    public static function settledStates(): array
+    {
+        return [Settled::class];
     }
 
     public static function failedStates(): array
@@ -39,11 +41,6 @@ class OvertimeRequestStatesRetriever
             Rejected::class,
             Cancelled::class,
         ];
-    }
-
-    public static function notFailedStates(): array
-    {
-        return array_merge(static::successStates(), static::pendingStates());
     }
 
     public static function waitingForUserActionStates(User $user): array
@@ -60,6 +57,7 @@ class OvertimeRequestStatesRetriever
             ...self::pendingStates(),
             ...self::successStates(),
             ...self::failedStates(),
+            ...self::settledStates(),
         ];
     }
 
@@ -70,6 +68,7 @@ class OvertimeRequestStatesRetriever
             "success" => self::successStates(),
             "failed" => self::failedStates(),
             "waiting_for_action" => self::waitingForUserActionStates($user),
+            "settled" => self::settledStates(),
             default => self::all(),
         };
     }

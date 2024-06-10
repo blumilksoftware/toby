@@ -36,6 +36,10 @@ const statuses = [
     name: 'Odrzucone/anulowane',
     value: 'failed',
   },
+  {
+    name: 'Rozliczone',
+    value: 'settled',
+  },
 ]
 
 const form = reactive({
@@ -306,7 +310,7 @@ watch(form, debounce(() => {
             </td>
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
-                :href="`/vacation/requests/${request.id}`"
+                :href="`/overtime/requests/${request.id}`"
                 class="flex justify-around focus:outline-blumilk-500"
               >
                 <ChevronRightIcon class="block w-6 h-6 fill-blumilk-500" />
