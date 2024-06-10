@@ -131,10 +131,11 @@ class OvertimeRequestController extends Controller
         ]);
     }
 
-    public function create(): Response
+    public function create(Request $request): Response
     {
         return inertia("OvertimeRequest/Create", [
             "settlementTypes" => SettlementType::casesToSelect(),
+            "overtimeFromDate" => $request->get("from_date"),
         ]);
     }
 

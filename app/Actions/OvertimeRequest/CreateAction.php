@@ -10,6 +10,7 @@ use Toby\Domain\OvertimeRequestStateManager;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
+use Toby\Validation\OvertimeRequestValidator;
 
 class CreateAction
 {
@@ -17,6 +18,7 @@ class CreateAction
         protected OvertimeRequestStateManager $stateManager,
         protected WaitForTechApprovalAction $waitForTechApprovalAction,
         protected OvertimeCalculator $overtimeCalculator,
+        protected OvertimeRequestValidator $overtimeRequestValidator,
     ) {}
 
     /**
@@ -31,11 +33,16 @@ class CreateAction
         return $overtimeRequest;
     }
 
+    /**
+     * @throws ValidationException
+     */
     protected function createVacationRequest(array $data, User $creator): OvertimeRequest
     {
         /** @var OvertimeRequest $overtimeRequest */
         $overtimeRequest = $creator->createdOvertimeRequests()->make($data);
         $overtimeRequest->hours = $this->overtimeCalculator->calculateHours($overtimeRequest->from, $overtimeRequest->to);
+
+        $this->overtimeRequestValidator->validate($overtimeRequest);
 
         $overtimeRequest->save();
 

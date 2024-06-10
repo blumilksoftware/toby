@@ -74,6 +74,12 @@ class OvertimeRequest extends Model
         return $query->whereState("state", $states);
     }
 
+    public function scopeOverlapsWith(Builder $query, self $overtimeRequest): Builder
+    {
+        return $query->where("from", "<=", $overtimeRequest->to)
+            ->where("to", ">=", $overtimeRequest->from);
+    }
+
     protected static function newFactory(): OvertimeRequestFactory
     {
         return OvertimeRequestFactory::new();

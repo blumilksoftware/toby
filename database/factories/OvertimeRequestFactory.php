@@ -7,6 +7,7 @@ namespace Database\Factories;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Toby\Domain\OvertimeRequestStatesRetriever;
+use Toby\Enums\SettlementType;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
 use Toby\Models\YearPeriod;
@@ -29,6 +30,7 @@ class OvertimeRequestFactory extends Factory
             "from" => $from,
             "to" => $to,
             "hours" => $hours,
+            "settlement_type" => $this->faker->randomElement(SettlementType::cases())->value,
             "comment" => $this->faker->boolean ? $this->faker->paragraph() : null,
         ];
     }

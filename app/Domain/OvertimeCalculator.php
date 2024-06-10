@@ -11,8 +11,8 @@ class OvertimeCalculator
 {
     public function calculateHours(CarbonInterface $from, CarbonInterface $to): int
     {
-        $hours = Carbon::create($from)->diffInHours($to);
+        $hours = Carbon::create($from)->diffInMinutes($to, true);
 
-        return (int)$hours;
+        return (int)ceil($hours / 60);
     }
 }

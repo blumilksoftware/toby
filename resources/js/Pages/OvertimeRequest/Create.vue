@@ -6,18 +6,18 @@ import { reactive, ref, watch } from 'vue'
 import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import SettlementType from '@/Shared/SettlementType.vue'
+import axios from 'axios'
 
 const props = defineProps({
   auth: Object,
-  vacationUserId: [Number, null],
-  vacationFromDate: [String, null],
+  overtimeFromDate: [String, null],
   settlementTypes: Array,
 })
 
 const form = useForm({
   user: props.auth.user,
-  from: props.vacationFromDate,
-  to: props.vacationFromDate,
+  from: props.overtimeFromDate,
+  to: props.overtimeFromDate,
   settlementType: props.settlementTypes[0],
   comment: null,
 })
@@ -29,7 +29,9 @@ watch(form, formData => {
   isDirty.value = formData.isDirty || from !== null || to !== null
 }, { immediate: true, deep: true })
 
-const estimatedDays = ref([])
+refreshEstimatedHours(form.from, form.to)
+
+const estimatedHours = ref(0)
 
 const { minDate, maxDate } = useCurrentYearPeriodInfo()
 
@@ -57,6 +59,40 @@ function createForm() {
       type: data.settlementType.value,
     }))
     .post('/overtime/requests')
+}
+
+function onFromChange(selectedDates, dateStr) {
+  if (form.to === null) {
+    form.to = dateStr
+
+    return
+  }
+}
+
+function onToChange(selectedDates, dateStr) {
+  if (form.from === null) {
+    form.from = dateStr
+
+    return
+  }
+}
+
+watch(() => form.to, () => {
+  refreshEstimatedHours(form.from, form.to)
+})
+
+watch(() => form.from, () => {
+  refreshEstimatedHours(form.from, form.to)
+})
+async function refreshEstimatedHours(from, to) {
+  if (from && to) {
+    const res = await axios.post(
+      '/api/overtime/calculate-hours',
+      { from: from, to: to },
+    )
+
+    estimatedHours.value = res.data
+  }
 }
 </script>
 
@@ -130,6 +166,7 @@ function createForm() {
                   :config="fromInputConfig"
                   class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.from, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.from }"
+                  @on-change="onFromChange"
                 />
                 <p
                   v-if="form.errors.from"
@@ -153,6 +190,7 @@ function createForm() {
                   :config="toInputConfig"
                   class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
                   :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.to, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.to }"
+                  @on-change="onToChange"
                 />
                 <p
                   v-if="form.errors.to"
@@ -167,7 +205,7 @@ function createForm() {
               <div
                 class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm"
               >
-                {{ estimatedDays.length }}
+                {{ estimatedHours }}
               </div>
             </div>
             <Listbox

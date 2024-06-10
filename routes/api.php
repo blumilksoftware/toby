@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Toby\Http\Controllers\Api\CalculateOvertimeHoursController;
 use Toby\Http\Controllers\Api\CalculateUserUnavailableDaysController;
 use Toby\Http\Controllers\Api\CalculateUserVacationStatsController;
 use Toby\Http\Controllers\Api\CalculateVacationDaysController;
@@ -19,5 +20,6 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("vacation/calculate-stats", CalculateUserVacationStatsController::class);
     Route::post("vacation/calculate-unavailable-days", CalculateUserUnavailableDaysController::class);
     Route::post("vacation/get-available-vacation-types", GetAvailableVacationTypesController::class);
+    Route::post("overtime/calculate-hours", CalculateOvertimeHoursController::class);
     Route::get("last-update", LastUpdateController::class);
 });
