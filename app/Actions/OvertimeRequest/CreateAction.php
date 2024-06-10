@@ -55,9 +55,4 @@ class CreateAction
     {
         $this->waitForTechApprovalAction->execute($overtimeRequest);
     }
-
-    protected function notify(VacationRequest $vacationRequest): void
-    {
-        $vacationRequest->user->notify(new VacationRequestCreatedNotification($vacationRequest));
-    }
 }
