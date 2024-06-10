@@ -26,7 +26,10 @@ class OvertimeRequestTest extends FeatureTestCase
 
     public function testUserCanSeeOvertimeRequestsList(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->employee()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
         $currentYearPeriod = YearPeriod::current();
 
         OvertimeRequest::factory()
@@ -45,9 +48,10 @@ class OvertimeRequestTest extends FeatureTestCase
             );
     }
 
-    public function testUserCanCreateOvertimeRequest(): void
+    public function testUserWithEmploymentContractCanCreateOvertimeRequest(): void
     {
         $user = User::factory()
+            ->employee()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
 
@@ -74,6 +78,42 @@ class OvertimeRequestTest extends FeatureTestCase
             "hours" => 3,
             "comment" => "Comment for the overtime request.",
         ]);
+    }
+
+    public function testUserWithB2bContractCannotCreateOvertimeRequest(): void
+    {
+        $user = User::factory()
+            ->employee()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::B2bContract]))
+            ->create();
+
+        $this->actingAs($user)
+            ->get("/overtime/requests/create")
+            ->assertStatus(403);
+    }
+
+    public function testUserWithBoardMemberContractCannotCreateOvertimeRequest(): void
+    {
+        $user = User::factory()
+            ->employee()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::BoardMemberContract]))
+            ->create();
+
+        $this->actingAs($user)
+            ->get("/overtime/requests/create")
+            ->assertStatus(403);
+    }
+
+    public function testUserWithCommissionContractCannotCreateOvertimeRequest(): void
+    {
+        $user = User::factory()
+            ->employee()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::CommissionContract]))
+            ->create();
+
+        $this->actingAs($user)
+            ->get("/overtime/requests/create")
+            ->assertStatus(403);
     }
 
     public function testTechnicalApproverCanApproveOvertimeRequest(): void

@@ -17,7 +17,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Toby\Enums\EmploymentForm;
 use Toby\Enums\Role;
 use Toby\Notifications\Notifiable as NotifiableInterface;
 
@@ -44,7 +43,6 @@ class User extends Authenticatable implements NotifiableInterface
     protected $casts = [
         "role" => Role::class,
         "last_active_at" => "datetime",
-        "employment_form" => EmploymentForm::class,
         "employment_date" => "date",
     ];
     protected $hidden = [

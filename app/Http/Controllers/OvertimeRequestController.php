@@ -32,6 +32,8 @@ class OvertimeRequestController extends Controller
             return redirect()->route("overtime.requests.indexForApprovers");
         }
 
+        $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
+
         $status = $request->get("status", "all");
 
         $overtimeRequests = $request->user()
@@ -133,6 +135,8 @@ class OvertimeRequestController extends Controller
 
     public function create(Request $request): Response
     {
+        $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
+
         return inertia("OvertimeRequest/Create", [
             "settlementTypes" => SettlementType::casesToSelect(),
             "overtimeFromDate" => $request->get("from_date"),

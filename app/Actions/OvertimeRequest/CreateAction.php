@@ -9,7 +9,6 @@ use Toby\Domain\OvertimeCalculator;
 use Toby\Domain\OvertimeRequestStateManager;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
-use Toby\Models\VacationRequest;
 use Toby\Validation\OvertimeRequestValidator;
 
 class CreateAction

@@ -59,7 +59,7 @@ const vacationNavigation = computed(() =>
       href: '/overtime/requests/me',
       section: 'OvertimeRequest',
       icon: ClockIcon,
-      can: !props.auth.can.listAllRequests,
+      can: props.auth.overtimeEnabled,
     },
     {
       name: 'Wnioski',
