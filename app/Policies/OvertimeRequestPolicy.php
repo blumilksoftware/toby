@@ -14,12 +14,14 @@ class OvertimeRequestPolicy
 {
     public function acceptAsTechApprover(User $user): bool
     {
-        return $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 
     public function reject(User $user): bool
     {
-        return $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 
     public function cancel(User $user, OvertimeRequest $overtimeRequest): bool
@@ -31,7 +33,8 @@ class OvertimeRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 
     public function settle(User $user, OvertimeRequest $overtimeRequest): bool
@@ -42,7 +45,8 @@ class OvertimeRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 
     public function show(User $user, OvertimeRequest $overtimeRequest): bool
@@ -51,6 +55,7 @@ class OvertimeRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
     }
 }
