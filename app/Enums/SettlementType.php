@@ -16,13 +16,12 @@ enum SettlementType: string
 
     public static function casesToSelect(): array
     {
-        $cases = collect(SettlementType::cases());
-
-        return $cases->map(
+        return array_map(
             fn(SettlementType $enum): array => [
                 "label" => $enum->label(),
                 "value" => $enum->value,
             ],
-        )->toArray();
+            SettlementType::cases(),
+        )
     }
 }
