@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules\Enum;
 use Toby\Enums\VacationType;
+use Toby\Helpers\DateFormats;
 use Toby\Http\Rules\YearPeriodExists;
 use Toby\Models\YearPeriod;
 
@@ -17,8 +18,8 @@ class CalculateVacationDaysRequest extends FormRequest
     {
         return [
             "vacationType" => ["required", new Enum(VacationType::class)],
-            "from" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
-            "to" => ["required", "date_format:Y-m-d", new YearPeriodExists()],
+            "from" => ["required", "date_format:" . DateFormats::DATE, new YearPeriodExists()],
+            "to" => ["required", "date_format:" . DateFormats::DATE, new YearPeriodExists()],
         ];
     }
 

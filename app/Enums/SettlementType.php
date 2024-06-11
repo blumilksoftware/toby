@@ -22,6 +22,6 @@ enum SettlementType: string
                 "value" => $enum->value,
             ],
             SettlementType::cases(),
-        )
+        );
     }
 }

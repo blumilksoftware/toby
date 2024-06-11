@@ -26,7 +26,7 @@ use Toby\Models\User;
 
 class OvertimeRequestController extends Controller
 {
-    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response|RedirectResponse
+    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
     {
         $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
 
@@ -44,24 +44,28 @@ class OvertimeRequestController extends Controller
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::pendingStates())
+            ->cache(key: "overtimeStats")
             ->count();
 
         $success = $request->user()
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::successStates())
+            ->cache(key: "overtimeStats")
             ->count();
 
         $failed = $request->user()
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::failedStates())
+            ->cache(key: "overtimeStats")
             ->count();
 
         $settled = $request->user()
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::settledStates())
+            ->cache(key: "overtimeStats")
             ->count();
 
         return inertia("OvertimeRequest/Index", [
@@ -84,7 +88,7 @@ class OvertimeRequestController extends Controller
         YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
         if ($request->user()->cannot("listAllRequests")) {
-            return redirect()->route("overtime.requests.index");
+            abort(403);
         }
 
         $yearPeriod = $yearPeriodRetriever->selected();

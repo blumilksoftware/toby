@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Toby\Enums\EmploymentForm;
 use Toby\Enums\Role;
+use Toby\Helpers\DateFormats;
 
 class UserRequest extends FormRequest
 {
@@ -21,8 +22,8 @@ class UserRequest extends FormRequest
             "role" => ["required", new Enum(Role::class)],
             "position" => ["required"],
             "employmentForm" => ["required", new Enum(EmploymentForm::class)],
-            "employmentDate" => ["required", "date_format:Y-m-d"],
-            "birthday" => ["required", "date_format:Y-m-d", "before:today"],
+            "employmentDate" => ["required", "date_format:" . DateFormats::DATE],
+            "birthday" => ["required", "date_format:" . DateFormats::DATE, "before:today"],
             "slackId" => [],
             "nextMedicalExamDate" => ["nullable", "after:lastMedicalExamDate"],
             "nextOhsTrainingDate" => ["nullable", "after:lastOhsTrainingDate"],

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Observers;
 
+use Laragear\CacheQuery\Facades\CacheQuery;
 use Toby\Models\OvertimeRequest;
 
 class OvertimeRequestObserver
@@ -14,5 +15,10 @@ class OvertimeRequestObserver
         $number = $count + 1;
 
         $overtime->name = "{$number}/{$overtime->yearPeriod->year}";
+    }
+
+    public function updating(OvertimeRequest $overtime): void
+    {
+        CacheQuery::forget("overtimeStats");
     }
 }

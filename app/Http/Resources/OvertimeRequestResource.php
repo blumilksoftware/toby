@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Toby\Helpers\DateFormats;
 use Toby\States\OvertimeRequest\AcceptedByTechnical;
 use Toby\States\OvertimeRequest\Cancelled;
 use Toby\States\OvertimeRequest\Rejected;
@@ -23,8 +24,8 @@ class OvertimeRequestResource extends JsonResource
             "name" => $this->name,
             "user" => new SimpleUserResource($this->user),
             "state" => $this->state,
-            "from" => $this->from->format("Y-m-d H:i"),
-            "to" => $this->to->format("Y-m-d H:i"),
+            "from" => $this->from->format(DateFormats::DATETIME),
+            "to" => $this->to->format(DateFormats::DATETIME),
             "hours" => $this->hours,
             "settlementType" => $this->settlement_type,
             "settled" => $this->settled,
