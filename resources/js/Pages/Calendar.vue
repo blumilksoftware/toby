@@ -94,12 +94,21 @@ function linkVacationRequest(user){
           </span>
         </div>
       </div>
-      <div v-if="auth.can.manageRequestsAsAdministrativeApprover">
+      <div
+        v-if="auth.can.manageRequestsAsAdministrativeApprover"
+        class="flex"
+      >
         <a
           :href="`/vacation/timesheet/${selectedMonth.value}`"
           class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
         >
           Pobierz plik Excel
+        </a>
+        <a
+          :href="`/overtime/timesheet/${selectedMonth.value}`"
+          class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+        >
+          Pobierz nadgodziny
         </a>
       </div>
     </div>
