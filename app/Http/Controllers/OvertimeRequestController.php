@@ -15,6 +15,7 @@ use Toby\Actions\OvertimeRequest\CreateAction;
 use Toby\Actions\OvertimeRequest\RejectAction;
 use Toby\Actions\OvertimeRequest\SettleAction;
 use Toby\Domain\OvertimeRequestStatesRetriever;
+use Toby\Enums\Month;
 use Toby\Enums\SettlementType;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Requests\OvertimeRequestRequest;
@@ -94,11 +95,13 @@ class OvertimeRequestController extends Controller
         $yearPeriod = $yearPeriodRetriever->selected();
         $status = $request->get("status", "all");
         $user = $request->get("user");
+        $month = $request->get("month") ?? Month::current()->value;
 
         $overtimeRequests = OvertimeRequest::query()
             ->with(["user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriod)
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
+            ->when($month !== null, fn(Builder $query) => $query->whereMonth("from", Month::fromNameOrCurrent($month)->toCarbonNumber()))
             ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->latest()
             ->paginate();
@@ -111,9 +114,11 @@ class OvertimeRequestController extends Controller
         return inertia("OvertimeRequest/ApproversIndex", [
             "requests" => OvertimeRequestResource::collection($overtimeRequests),
             "users" => SimpleUserResource::collection($users),
+            "months" => Month::cases(),
             "filters" => [
                 "status" => $status,
                 "user" => (int)$user,
+                "month" => $month,
             ],
         ]);
     }

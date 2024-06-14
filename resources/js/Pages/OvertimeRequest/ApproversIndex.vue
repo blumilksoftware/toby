@@ -8,8 +8,10 @@ import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } f
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import SettlementType from '@/Shared/SettlementType.vue'
+import { useMonthInfo } from '@/Composables/monthInfo.js'
 
 const props = defineProps({
+  auth: Object,
   requests: Object,
   users: Object,
   filters: Object,
@@ -42,15 +44,19 @@ const statuses = [
   },
 ]
 
+const months = useMonthInfo().getMonths()
+
 const form = reactive({
   user: props.users.data.find(user => user.id === props.filters.user) ?? null,
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+  month: months.find(month => month.value === props.filters.month),
 })
 
 watch(form, debounce(() => {
   Inertia.get('/overtime/requests', {
     user: form.user?.id,
     status: form.status.value,
+    month: form.month.value,
   }, {
     preserveState: true,
     replace: true,
@@ -66,6 +72,17 @@ watch(form, debounce(() => {
         <h2 class="text-lg font-medium leading-6 text-gray-900">
           Lista wniosków
         </h2>
+      </div>
+      <div
+        v-if="auth.can.manageRequestsAsAdministrativeApprover"
+        class="flex"
+      >
+        <a
+          :href="`/overtime/timesheet/${filters.month}`"
+          class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+        >
+          Pobierz plik Excel
+        </a>
       </div>
     </div>
     <div class="border-t border-gray-200">
@@ -198,6 +215,57 @@ watch(form, debounce(() => {
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
                   >
                     {{ status.name }}
+
+                    <span
+                      v-if="selected"
+                      :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
+                    >
+                      <CheckIcon class="w-5 h-5" />
+                    </span>
+                  </li>
+                </ListboxOption>
+              </ListboxOptions>
+            </transition>
+          </div>
+        </Listbox>
+        <Listbox
+          v-model="form.month"
+          as="div"
+        >
+          <ListboxLabel class="block mb-2 text-sm font-medium text-gray-700">
+            Miesiąc
+          </ListboxLabel>
+          <div class="relative mt-1 sm:mt-0">
+            <ListboxButton
+              class="relative py-2 pr-10 pl-3 w-full max-w-lg h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+            >
+              <span class="flex items-center">
+                {{ form.month.name }}
+              </span>
+              <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
+                <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
+              </span>
+            </ListboxButton>
+
+            <transition
+              leave-active-class="transition ease-in duration-100"
+              leave-from-class="opacity-100"
+              leave-to-class="opacity-0"
+            >
+              <ListboxOptions
+                class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+              >
+                <ListboxOption
+                  v-for="month in months"
+                  :key="month"
+                  v-slot="{ active, selected }"
+                  as="template"
+                  :value="month"
+                >
+                  <li
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
+                  >
+                    {{ month.name }}
 
                     <span
                       v-if="selected"
