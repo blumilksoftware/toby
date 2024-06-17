@@ -12,6 +12,9 @@ class UserResource extends JsonResource
 
     public function toArray($request): array
     {
+        $lastMedicalExam = $this->lastMedicalExam();
+        $lastOhsTraining = $this->lastOhsTraining();
+
         return [
             "id" => $this->id,
             "name" => $this->profile->full_name,
@@ -23,10 +26,10 @@ class UserResource extends JsonResource
             "lastActiveAt" => $this->last_active_at?->toDateTimeString(),
             "employmentForm" => $this->profile->employment_form->label(),
             "employmentDate" => $this->profile->employment_date->toDisplayString(),
-            "lastMedicalExamDate" => $this->profile->last_medical_exam_date?->toDisplayString(),
-            "nextMedicalExamDate" => $this->profile->next_medical_exam_date?->toDisplayString(),
-            "lastOhsTrainingDate" => $this->profile->last_ohs_training_date?->toDisplayString(),
-            "nextOhsTrainingDate" => $this->profile->next_ohs_training_date?->toDisplayString(),
+            "lastMedicalExamDate" => $lastMedicalExam?->from->toDisplayString(),
+            "nextMedicalExamDate" => $lastMedicalExam?->to->toDisplayString(),
+            "lastOhsTrainingDate" => $lastOhsTraining?->from->toDisplayString(),
+            "nextOhsTrainingDate" => $lastOhsTraining?->to->toDisplayString(),
         ];
     }
 }

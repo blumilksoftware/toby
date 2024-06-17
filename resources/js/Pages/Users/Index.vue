@@ -3,7 +3,7 @@ import { ref, watch, computed, reactive } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { debounce } from 'lodash'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import { EllipsisVerticalIcon, PencilIcon, NoSymbolIcon, ArrowPathIcon, ChevronUpDownIcon, CheckIcon, LockClosedIcon } from '@heroicons/vue/24/solid'
+import { EllipsisVerticalIcon, PencilIcon, NoSymbolIcon, ArrowPathIcon, ChevronUpDownIcon, CheckIcon, LockClosedIcon, ClockIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { DateTime } from 'luxon'
@@ -311,6 +311,17 @@ watch(form, debounce(() => {
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                           >
                             <LockClosedIcon class="mr-2 w-5 h-5 text-yellow-500" /> Uprawnienia
+                          </InertiaLink>
+                        </MenuItem>
+                        <MenuItem
+                          v-slot="{ active }"
+                          class="flex"
+                        >
+                          <InertiaLink
+                            :href="`/users/${user.id}/history`"
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
+                          >
+                            <ClockIcon class="mr-2 w-5 h-5 text-violet-500" /> Historia
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
