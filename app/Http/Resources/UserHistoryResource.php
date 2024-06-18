@@ -20,6 +20,7 @@ class UserHistoryResource extends JsonResource
             "typeLabel" => $this->type->label(),
             "employmentFormLabel" => $this->employment_form?->label(),
             "employmentForm" => $this->employment_form?->value,
+            "comment" => $this->comment,
             "userId" => $this->user_id,
         ];
     }

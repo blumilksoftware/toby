@@ -12,6 +12,7 @@ return new class() extends Migration {
         Schema::create("user_histories", function (Blueprint $table): void {
             $table->id();
             $table->foreignId("user_id")->constrained()->cascadeOnDelete();
+            $table->string("comment")->nullable();
             $table->date("from");
             $table->date("to")->nullable();
             $table->string("type");

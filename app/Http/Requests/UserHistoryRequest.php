@@ -16,6 +16,7 @@ class UserHistoryRequest extends FormRequest
         return [
             "from" => ["required", "date"],
             "to" => ["date", "after:from"],
+            "comment" => ["nullable", "string", "max:255"],
             "type" => ["required", new Enum(UserHistoryType::class)],
             "employmentForm" => [new Enum(EmploymentForm::class), "required_if:type," . UserHistoryType::Employment->value],
         ];
@@ -28,6 +29,7 @@ class UserHistoryRequest extends FormRequest
             "to" => $this->get("to"),
             "type" => $this->get("type"),
             "employment_form" => $this->get("type") === UserHistoryType::Employment->value ? $this->get("employmentForm") : null,
+            "comment" => $this->get("comment"),
         ];
     }
 }

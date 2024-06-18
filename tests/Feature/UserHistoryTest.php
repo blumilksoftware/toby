@@ -52,6 +52,7 @@ class UserHistoryTest extends FeatureTestCase
                 "to" => Carbon::now()->subDays(50)->format("Y-m-d"),
                 "type" => UserHistoryType::Employment->value,
                 "employmentForm" => EmploymentForm::EmploymentContract->value,
+                "comment" => "Test comment",
             ])
             ->assertRedirect("/users/{$this->user->id}/history");
 
@@ -61,6 +62,7 @@ class UserHistoryTest extends FeatureTestCase
             "to" => Carbon::now()->subDays(50)->format("Y-m-d"),
             "type" => UserHistoryType::Employment->value,
             "employment_form" => EmploymentForm::EmploymentContract->value,
+            "comment" => "Test comment",
         ]);
     }
 
@@ -82,6 +84,7 @@ class UserHistoryTest extends FeatureTestCase
                 "from" => Carbon::now()->subDays(200)->format("Y-m-d"),
                 "to" => Carbon::now()->subDays(70)->format("Y-m-d"),
                 "type" => UserHistoryType::MedicalExam->value,
+                "comment" => "Test comment",
             ])
             ->assertRedirect("/users/{$this->user->id}/history");
 
@@ -90,6 +93,7 @@ class UserHistoryTest extends FeatureTestCase
             "from" => Carbon::now()->subDays(200)->format("Y-m-d"),
             "to" => Carbon::now()->subDays(70)->format("Y-m-d"),
             "type" => UserHistoryType::MedicalExam->value,
+            "comment" => "Test comment",
         ]);
     }
 

@@ -14,6 +14,7 @@ const props = defineProps({
 const form = useForm({
   from: props.history.from,
   to: props.history.to,
+  comment: props.history.comment,
   type: props.types.find(type => type.value === props.history.type),
   employmentForm: props.employmentForms.find(employmentForm => employmentForm.value === props.history.employmentForm),
 })
@@ -21,6 +22,7 @@ const form = useForm({
 function updateForm() {
   form.transform(data => ({
     employmentForm: data.employmentForm?.value,
+    comment: data.comment,
     type: data.type.value,
     from: data.from,
     to: data.to,
@@ -31,7 +33,7 @@ function updateForm() {
 </script>
 
 <template>
-  <InertiaHead title="Dodaj wpis" />
+  <InertiaHead title="Edytuj wpis" />
   <div class="mx-auto w-full max-w-7xl">
     <div class="flex flex-col h-full bg-white shadow-md xl:col-span-2">
       <div class="p-4 sm:px-6">
@@ -223,6 +225,29 @@ function updateForm() {
               </div>
             </div>
           </div>
+          <div class="items-center py-4 sm:grid sm:grid-cols-3">
+            <label
+              for="comment"
+              class="block text-sm font-medium text-gray-700 sm:mt-px"
+            >
+              Komentarz
+            </label>
+            <div class="mt-1 sm:col-span-2 sm:mt-0">
+              <input
+                id="comment"
+                v-model="form.comment"
+                type="text"
+                class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+                :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.comment, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.comment }"
+              >
+              <p
+                v-if="form.errors.comment"
+                class="mt-2 text-sm text-red-600"
+              >
+                {{ form.errors.comment }}
+              </p>
+            </div>
+          </div>
           <div class="flex justify-end py-3">
             <div class="space-x-3">
               <InertiaLink
@@ -237,7 +262,7 @@ function updateForm() {
                 class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
                 type="submit"
               >
-                Dodaj
+                Zapisz
               </button>
             </div>
           </div>

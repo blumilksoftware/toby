@@ -49,6 +49,12 @@ defineProps({
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-normal"
                 scope="col"
               >
+                Komentarz
+              </th>
+              <th
+                class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-normal"
+                scope="col"
+              >
                 Od
               </th>
               <th
@@ -71,6 +77,9 @@ defineProps({
             >
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ item.typeLabel }} <span v-if="item.type === 'employment'">({{ item.employmentFormLabel }})</span>
+              </td>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
+                {{ item.comment || '-' }}
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-normal">
                 {{ item.from }}

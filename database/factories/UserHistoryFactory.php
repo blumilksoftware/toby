@@ -24,6 +24,7 @@ class UserHistoryFactory extends Factory
             "to" => $this->faker->date(),
             "type" => $type,
             "employment_form" => $type->is(UserHistoryType::Employment) ? $this->faker->randomElement(EmploymentForm::cases()) : null,
+            "comment" => $this->faker->sentence(),
         ];
     }
 }

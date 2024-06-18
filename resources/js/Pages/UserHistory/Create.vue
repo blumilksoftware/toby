@@ -14,6 +14,7 @@ const props = defineProps({
 const form = useForm({
   from: props.vacationFromDate,
   to: props.vacationFromDate,
+  comment: '',
   type: '',
   employmentForm: '',
 })
@@ -21,6 +22,7 @@ const form = useForm({
 function createForm() {
   form.transform(data => ({
     employmentForm: data.employmentForm?.value,
+    comment: data.comment,
     type: data.type.value,
     from: data.from,
     to: data.to,
@@ -149,15 +151,15 @@ function createForm() {
                     class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
                   >
                     <ListboxOption
-                      v-for="form in employmentForms"
-                      :key="form.value"
+                      v-for="employmentForm in employmentForms"
+                      :key="employmentForm.value"
                       v-slot="{ active, selected }"
-                      :value="form"
+                      :value="employmentForm"
                       as="template"
                     >
                       <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                         <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                          {{ form.label }}
+                          {{ employmentForm.label }}
                         </span>
 
                         <span
@@ -221,6 +223,29 @@ function createForm() {
                   {{ form.errors.to }}
                 </p>
               </div>
+            </div>
+          </div>
+          <div class="items-center py-4 sm:grid sm:grid-cols-3">
+            <label
+              for="comment"
+              class="block text-sm font-medium text-gray-700 sm:mt-px"
+            >
+              Komentarz
+            </label>
+            <div class="mt-1 sm:col-span-2 sm:mt-0">
+              <input
+                id="comment"
+                v-model="form.comment"
+                type="text"
+                class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+                :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.comment, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.comment }"
+              >
+              <p
+                v-if="form.errors.comment"
+                class="mt-2 text-sm text-red-600"
+              >
+                {{ form.errors.comment }}
+              </p>
             </div>
           </div>
           <div class="flex justify-end py-3">

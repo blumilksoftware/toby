@@ -13,6 +13,8 @@ use Toby\Enums\UserHistoryType;
 
 /**
  * @property int $id
+ * @property int $user_id
+ * @property string $comment
  * @property Carbon $from
  * @property Carbon $to
  * @property UserHistoryType $type
