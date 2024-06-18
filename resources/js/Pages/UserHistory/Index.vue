@@ -107,33 +107,35 @@ defineProps({
                     leave-to-class="transform opacity-0 scale-95"
                   >
                     <MenuItems
-                      class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
+                      class="absolute right-0 z-10 my-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
                     >
-                      <MenuItem
-                        v-slot="{ active }"
-                        class="flex"
-                      >
-                        <InertiaLink
-                          :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
-                          :href="`/users/history/${item.id}`"
+                      <div class="py-1">
+                        <MenuItem
+                          v-slot="{ active }"
+                          class="flex"
                         >
-                          <PencilIcon class="mr-2 w-5 h-5 text-blue-500" />
-                          Edytuj
-                        </InertiaLink>
-                      </MenuItem>
-                      <MenuItem
-                        v-slot="{ active }"
-                        class="flex"
-                      >
-                        <InertiaLink
-                          :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
-                          :method="'delete'"
-                          :href="`/users/history/${item.id}`"
+                          <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
+                            :href="`/users/history/${item.id}`"
+                          >
+                            <PencilIcon class="mr-2 w-5 h-5 text-blue-500" />
+                            Edytuj
+                          </InertiaLink>
+                        </MenuItem>
+                        <MenuItem
+                          v-slot="{ active }"
+                          class="flex"
                         >
-                          <TrashIcon class="mr-2 w-5 h-5 text-red-500" />
-                          Usuń
-                        </InertiaLink>
-                      </MenuItem>
+                          <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
+                            :method="'delete'"
+                            :href="`/users/history/${item.id}`"
+                          >
+                            <TrashIcon class="mr-2 w-5 h-5 text-red-500" />
+                            Usuń
+                          </InertiaLink>
+                        </MenuItem>
+                      </div>
                     </MenuItems>
                   </transition>
                 </Menu>

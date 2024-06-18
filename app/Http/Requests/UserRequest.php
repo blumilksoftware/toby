@@ -24,8 +24,6 @@ class UserRequest extends FormRequest
             "employmentDate" => ["required", "date_format:Y-m-d"],
             "birthday" => ["required", "date_format:Y-m-d", "before:today"],
             "slackId" => [],
-            "nextMedicalExamDate" => ["nullable", "after:lastMedicalExamDate"],
-            "nextOhsTrainingDate" => ["nullable", "after:lastOhsTrainingDate"],
         ];
     }
 
@@ -47,10 +45,6 @@ class UserRequest extends FormRequest
             "employment_date" => $this->get("employmentDate"),
             "birthday" => $this->get("birthday"),
             "slack_id" => $this->get("slackId"),
-            "last_medical_exam_date" => $this->get("lastMedicalExamDate"),
-            "next_medical_exam_date" => $this->get("nextMedicalExamDate"),
-            "last_ohs_training_date" => $this->get("lastOhsTrainingDate"),
-            "next_ohs_training_date" => $this->get("nextOhsTrainingDate"),
         ];
     }
 }

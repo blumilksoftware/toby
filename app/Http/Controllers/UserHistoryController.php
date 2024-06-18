@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Toby\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Enums\EmploymentForm;
 use Toby\Enums\UserHistoryType;
@@ -16,7 +15,7 @@ use Toby\Models\UserHistory;
 
 class UserHistoryController extends Controller
 {
-    public function index(Request $request, User $user): Response
+    public function index(User $user): Response
     {
         $this->authorize("manageUsers");
 

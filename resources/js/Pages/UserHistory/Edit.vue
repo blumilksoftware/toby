@@ -230,7 +230,7 @@ function updateForm() {
               for="comment"
               class="block text-sm font-medium text-gray-700 sm:mt-px"
             >
-              Komentarz
+              Komentarz (opcjonalne)
             </label>
             <div class="mt-1 sm:col-span-2 sm:mt-0">
               <input

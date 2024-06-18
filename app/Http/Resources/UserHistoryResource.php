@@ -14,8 +14,8 @@ class UserHistoryResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "from" => $this->from->format("Y-m-d"),
-            "to" => $this->to->toDateString("Y-m-d"),
+            "from" => $this->from->format("d-m-Y"),
+            "to" => $this->to->format("d-m-Y"),
             "type" => $this->type->value,
             "typeLabel" => $this->type->label(),
             "employmentFormLabel" => $this->employment_form?->label(),
