@@ -60,7 +60,7 @@ watch(form, debounce(() => {
 </script>
 
 <template>
-  <InertiaHead title="Wnioski" />
+  <InertiaHead title="Nadgodziny" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">

@@ -66,7 +66,7 @@ const vacationNavigation = computed(() =>
     {
       name: 'Nadgodziny',
       href: '/overtime/requests',
-      section: 'OvertimeRequest/ApproversIndex',
+      section: 'OvertimeRequest/IndexForApprovers',
       icon: ClockIcon,
       can: props.auth.can.listAllOvertimeRequests,
       badge: props.overtimeRequestsCount,
@@ -74,7 +74,7 @@ const vacationNavigation = computed(() =>
     {
       name: 'Moje nadgodziny',
       href: '/overtime/requests/me',
-      section: 'OvertimeRequest/ApproversIndex',
+      section: 'OvertimeRequest/Index',
       icon: ClockIcon,
       can: !props.auth.can.listAllOvertimeRequests && props.auth.overtimeEnabled,
     },
