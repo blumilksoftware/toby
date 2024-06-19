@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Toby\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Toby\Slack\Elements\SlackMessage;
 use Toby\Slack\Elements\VacationRequestsAttachment;
 
@@ -29,6 +29,8 @@ class VacationRequestsSummaryNotification extends QueuedNotification
 
     public function toSlack(): SlackMessage
     {
+        $this->loadRelations();
+
         return (new SlackMessage())
             ->text(__("Requests wait for your approval - status for day :date:", ["date" => $this->day->toDisplayString()]))
             ->withAttachment(new VacationRequestsAttachment($this->vacationRequests));
@@ -36,6 +38,8 @@ class VacationRequestsSummaryNotification extends QueuedNotification
 
     public function toMail(Notifiable $notifiable): MailMessage
     {
+        $this->loadRelations();
+
         $url = route(
             "vacation.requests.indexForApprovers",
             [
@@ -73,5 +77,10 @@ class VacationRequestsSummaryNotification extends QueuedNotification
 
         return $message
             ->action(__("Go to requests"), $url);
+    }
+
+    protected function loadRelations(): void
+    {
+        $this->vacationRequests->load(["user"]);
     }
 }
