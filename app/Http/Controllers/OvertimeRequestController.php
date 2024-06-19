@@ -28,7 +28,7 @@ class OvertimeRequestController extends Controller
 {
     public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): RedirectResponse|Response
     {
-        if ($request->user()->can("listAllRequests")) {
+        if ($request->user()->can("listAllOvertimeRequests")) {
             return redirect()->route("overtime.requests.indexForApprovers");
         }
         $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
@@ -90,7 +90,7 @@ class OvertimeRequestController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
-        if ($request->user()->cannot("listAllRequests")) {
+        if ($request->user()->cannot("listAllOvertimeRequests")) {
             abort(403);
         }
 
@@ -111,7 +111,7 @@ class OvertimeRequestController extends Controller
             ->orderByProfileField("first_name")
             ->get();
 
-        return inertia("OvertimeRequest/ApproversIndex", [
+        return inertia("OvertimeRequest/IndexForApprovers", [
             "requests" => OvertimeRequestResource::collection($overtimeRequests),
             "users" => SimpleUserResource::collection($users),
             "filters" => [
@@ -148,6 +148,8 @@ class OvertimeRequestController extends Controller
 
     public function store(OvertimeRequestRequest $request, CreateAction $createAction): RedirectResponse
     {
+        $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
+
         $overtimeRequest = $createAction->execute($request->data(), $request->user());
 
         return redirect()
