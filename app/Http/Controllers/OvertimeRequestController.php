@@ -26,8 +26,11 @@ use Toby\Models\User;
 
 class OvertimeRequestController extends Controller
 {
-    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
+    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): RedirectResponse|Response
     {
+        if ($request->user()->can("listAllRequests")) {
+            return redirect()->route("overtime.requests.indexForApprovers");
+        }
         $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
 
         $status = $request->get("status", "all");

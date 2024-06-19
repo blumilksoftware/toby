@@ -179,7 +179,7 @@ defineProps({
           </h3>
           <div class="mt-2 max-w-xl text-sm text-gray-500">
             <p>
-              Rozliczenie nadgodzin oznaczy nadgodziny jako rozliczone.
+              Rozliczenie nadgodzin spowoduje oznaczenie ich jako rozliczone.
             </p>
           </div>
           <div class="mt-5">

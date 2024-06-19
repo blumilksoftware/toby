@@ -28,7 +28,14 @@ abstract class OvertimeRequestState extends State
                 AcceptedByTechnical::class,
                 Approved::class,
             ], Cancelled::class)
-            ->allowTransition(Approved::class, Settled::class);
+            ->allowTransition(Approved::class, Settled::class)
+            ->allowTransition([
+                Created::class,
+                WaitingForTechnical::class,
+                AcceptedByTechnical::class,
+                Approved::class,
+                Settled::class,
+            ], Cancelled::class);
     }
 
     public function label(): string

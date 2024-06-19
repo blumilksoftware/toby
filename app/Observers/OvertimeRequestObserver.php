@@ -14,7 +14,7 @@ class OvertimeRequestObserver
         $count = $overtime->yearPeriod->overtimeRequests()->count();
         $number = $count + 1;
 
-        $overtime->name = "{$number}/{$overtime->yearPeriod->year}";
+        $overtime->name = "N/{$number}/{$overtime->yearPeriod->year}";
     }
 
     public function updating(OvertimeRequest $overtime): void

@@ -183,6 +183,9 @@ return [
         "birthday" => [
             "before" => "Data urodzenia musi być datą wcześniejszą od dzisiaj.",
         ],
+        "to" => [
+            "after" => "Data końcowa musi być datą późniejszą od daty początkowej.",
+        ],
     ],
     "attributes" => [
         "to" => "do",
