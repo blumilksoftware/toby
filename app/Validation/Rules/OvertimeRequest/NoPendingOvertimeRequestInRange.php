@@ -15,7 +15,7 @@ class NoPendingOvertimeRequestInRange implements OvertimeRequestRule
             ->user
             ->overtimeRequests()
             ->overlapsWith($overtimeRequest)
-            ->states(OvertimeRequestStatesRetriever::pendingStates())
+            ->states(array_merge(OvertimeRequestStatesRetriever::pendingStates(), OvertimeRequestStatesRetriever::settledStates(), OvertimeRequestStatesRetriever::successStates()))
             ->exists();
     }
 

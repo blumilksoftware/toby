@@ -202,7 +202,7 @@ class OvertimeRequestTest extends FeatureTestCase
         ]);
     }
 
-    public function testUserCannotCreateOvertimeRequestIfHeHasPendingVacationRequestInThisRange(): void
+    public function testUserCannotCreateOvertimeRequestIfHeHasPendingOvertimeRequestInThisRange(): void
     {
         $user = User::factory()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
@@ -211,6 +211,67 @@ class OvertimeRequestTest extends FeatureTestCase
 
         OvertimeRequest::factory([
             "state" => WaitingForTechnical::class,
+            "from" => Carbon::create($currentYearPeriod->year, 2, 7, 19)->format("Y-m-d H:i"),
+            "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
+        ])
+            ->for($user)
+            ->for($currentYearPeriod)
+            ->create();
+
+        $this->actingAs($user)
+            ->post("/overtime/requests", [
+                "user" => $user->id,
+                "type" => SettlementType::Money->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 21)->format("Y-m-d H:i"),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 23)->format("Y-m-d H:i"),
+            ])
+            ->assertSessionHasErrors([
+                "overtimeRequest" => __("You have a pending request in this date range."),
+            ]);
+
+        $this->actingAs($user)
+            ->post("/overtime/requests", [
+                "user" => $user->id,
+                "type" => SettlementType::Money->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 18)->format("Y-m-d H:i"),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
+            ])
+            ->assertSessionHasErrors([
+                "overtimeRequest" => __("You have a pending request in this date range."),
+            ]);
+
+        $this->actingAs($user)
+            ->post("/overtime/requests", [
+                "user" => $user->id,
+                "type" => SettlementType::Money->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 21)->format("Y-m-d H:i"),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
+            ])
+            ->assertSessionHasErrors([
+                "overtimeRequest" => __("You have a pending request in this date range."),
+            ]);
+
+        $this->actingAs($user)
+            ->post("/overtime/requests", [
+                "user" => $user->id,
+                "type" => SettlementType::Money->value,
+                "from" => Carbon::create($currentYearPeriod->year, 2, 6, 21)->format("Y-m-d H:i"),
+                "to" => Carbon::create($currentYearPeriod->year, 2, 8, 22)->format("Y-m-d H:i"),
+            ])
+            ->assertSessionHasErrors([
+                "overtimeRequest" => __("You have a pending request in this date range."),
+            ]);
+    }
+
+    public function testUserCannotCreateOvertimeRequestIfHeHasSettledOvertimeRequestInThisRange(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+        $currentYearPeriod = YearPeriod::current();
+
+        OvertimeRequest::factory([
+            "state" => Settled::class,
             "from" => Carbon::create($currentYearPeriod->year, 2, 7, 20)->format("Y-m-d H:i"),
             "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
         ])
