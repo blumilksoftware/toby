@@ -202,7 +202,7 @@ class OvertimeRequestTest extends FeatureTestCase
         ]);
     }
 
-    public function testUserCannotCreateOvertimeRequestIfHeHasPendingOvertimeRequestInThisRange(): void
+    public function testEmployeeCannotCreateOvertimeRequestIfHeHasPendingOvertimeRequestInThisRange(): void
     {
         $user = User::factory()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
@@ -263,7 +263,7 @@ class OvertimeRequestTest extends FeatureTestCase
             ]);
     }
 
-    public function testUserCannotCreateOvertimeRequestIfHeHasSettledOvertimeRequestInThisRange(): void
+    public function testEmployeeCannotCreateOvertimeRequestIfHeHasSettledOvertimeRequestInThisRange(): void
     {
         $user = User::factory()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
@@ -331,6 +331,86 @@ class OvertimeRequestTest extends FeatureTestCase
         $this->assertDatabaseHas("overtime_requests", [
             "id" => $overtimeRequest->id,
             "state" => Settled::$name,
+        ]);
+    }
+
+    public function testEmployeeCannotSettleOvertimeRequestIfItIsNotApproved(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $overtimeRequest = OvertimeRequest::factory()
+            ->for($user)
+            ->create(["state" => WaitingForTechnical::$name]);
+
+        $this->actingAs($user)
+            ->post("/overtime/requests/{$overtimeRequest->id}/settle")
+            ->assertStatus(403);
+
+        $this->assertDatabaseHas("overtime_requests", [
+            "id" => $overtimeRequest->id,
+            "state" => WaitingForTechnical::$name,
+        ]);
+    }
+
+    public function testEmployeeCannotSettleOvertimeRequestIfItIsRejected(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $overtimeRequest = OvertimeRequest::factory()
+            ->for($user)
+            ->create(["state" => Rejected::$name]);
+
+        $this->actingAs($user)
+            ->post("/overtime/requests/{$overtimeRequest->id}/settle")
+            ->assertStatus(403);
+
+        $this->assertDatabaseHas("overtime_requests", [
+            "id" => $overtimeRequest->id,
+            "state" => Rejected::$name,
+        ]);
+    }
+
+    public function testEmployeeCannotCancelOvertimeRequestIfItIsSettled(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $overtimeRequest = OvertimeRequest::factory()
+            ->for($user)
+            ->create(["state" => Settled::$name]);
+
+        $this->actingAs($user)
+            ->post("/overtime/requests/{$overtimeRequest->id}/cancel")
+            ->assertStatus(403);
+
+        $this->assertDatabaseHas("overtime_requests", [
+            "id" => $overtimeRequest->id,
+            "state" => Settled::$name,
+        ]);
+    }
+
+    public function testEmployeeCannotCancelOvertimeRequestIfItIsApproved(): void
+    {
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $overtimeRequest = OvertimeRequest::factory()
+            ->for($user)
+            ->create(["state" => Approved::$name]);
+
+        $this->actingAs($user)
+            ->post("/overtime/requests/{$overtimeRequest->id}/cancel")
+            ->assertStatus(403);
+
+        $this->assertDatabaseHas("overtime_requests", [
+            "id" => $overtimeRequest->id,
+            "state" => Approved::$name,
         ]);
     }
 
