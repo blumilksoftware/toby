@@ -187,7 +187,7 @@ return [
             "required_if" => "Forma zatrudnienia jest wymagana.",
         ],
         "to" => [
-            "required_if" => "Data zakończenia jest wymagana.",
+            "required_if" => "Data do jest wymagane.",
         ],
     ],
     "attributes" => [
