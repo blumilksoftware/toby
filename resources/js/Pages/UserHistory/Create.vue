@@ -41,6 +41,7 @@ function createForm() {
           Dodaj wpis
         </h2>
       </div>
+      {{ form }}
       <form
         class="px-6 h-full border-t border-gray-200"
         @submit.prevent="createForm"

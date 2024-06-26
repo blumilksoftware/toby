@@ -16,7 +16,7 @@ const form = useForm({
   to: props.history.to,
   comment: props.history.comment,
   type: props.types.find(type => type.value === props.history.type),
-  employmentForm: props.employmentForms.find(employmentForm => employmentForm.value === props.history.employmentForm),
+  employmentForm: props.employmentForms.find(employmentForm => employmentForm.value === props.history.employmentForm) ?? '',
 })
 
 function updateForm() {
@@ -154,7 +154,7 @@ function updateForm() {
                       v-for="employmentForm in employmentForms"
                       :key="employmentForm.value"
                       v-slot="{ active, selected }"
-                      :value="form"
+                      :value="employmentForm"
                       as="template"
                     >
                       <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">

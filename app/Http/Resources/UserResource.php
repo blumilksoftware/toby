@@ -26,10 +26,10 @@ class UserResource extends JsonResource
             "lastActiveAt" => $this->last_active_at?->toDateTimeString(),
             "employmentForm" => $this->profile->employment_form->label(),
             "employmentDate" => $this->profile->employment_date->toDisplayString(),
-            "lastMedicalExamDate" => $lastMedicalExam?->from->toDisplayString(),
-            "nextMedicalExamDate" => $lastMedicalExam?->to->toDisplayString(),
-            "lastOhsTrainingDate" => $lastOhsTraining?->from->toDisplayString(),
-            "nextOhsTrainingDate" => $lastOhsTraining?->to->toDisplayString(),
+            "lastMedicalExamDate" => $lastMedicalExam?->from?->toDisplayString(),
+            "nextMedicalExamDate" => $lastMedicalExam?->to?->toDisplayString(),
+            "lastOhsTrainingDate" => $lastOhsTraining?->from?->toDisplayString(),
+            "nextOhsTrainingDate" => $lastOhsTraining?->to?->toDisplayString(),
         ];
     }
 }

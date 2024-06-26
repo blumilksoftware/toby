@@ -15,7 +15,7 @@ class UserHistoryRequest extends FormRequest
     {
         return [
             "from" => ["required", "date"],
-            "to" => ["date", "after:from"],
+            "to" => ["nullable", "date", "after:from", "required_if:type," . UserHistoryType::MedicalExam->value . "," . UserHistoryType::OhsTraining->value],
             "comment" => ["nullable", "string", "max:255"],
             "type" => ["required", new Enum(UserHistoryType::class)],
             "employmentForm" => [new Enum(EmploymentForm::class), "required_if:type," . UserHistoryType::Employment->value],
