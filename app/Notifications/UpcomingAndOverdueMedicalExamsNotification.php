@@ -61,10 +61,11 @@ class UpcomingAndOverdueMedicalExamsNotification extends QueuedNotification
                 ->line(__("Below is a list of employees with upcoming health examinations:"));
 
             foreach ($this->usersUpcomingMedicalExams as $user) {
+                $lastMedicalExamDate = $user->lastMedicalExam();
                 $message->line(__(":user - :date (in :difference days)", [
                     "user" => $user->profile->full_name,
-                    "date" => $user->profile->next_medical_exam_date->toDisplayString(),
-                    "difference" => (int)$user->profile->next_medical_exam_date->diffInDays(Carbon::today()),
+                    "date" => $lastMedicalExamDate->to->toDisplayString(),
+                    "difference" => (int)$lastMedicalExamDate->to->diffInDays(Carbon::today(), true),
                 ]));
             }
         }
@@ -74,10 +75,11 @@ class UpcomingAndOverdueMedicalExamsNotification extends QueuedNotification
                 ->line(__("Below is a list of employees with overdue examinations:"));
 
             foreach ($this->usersOverdueMedicalExams as $user) {
+                $lastMedicalExamDate = $user->lastMedicalExam();
                 $message->line(__(":user - :date (overdue :difference days)", [
                     "user" => $user->profile->full_name,
-                    "date" => $user->profile->next_medical_exam_date->toDisplayString(),
-                    "difference" => (int)$user->profile->next_medical_exam_date->diffInDays(Carbon::today()),
+                    "date" => $lastMedicalExamDate->to->toDisplayString(),
+                    "difference" => (int)$lastMedicalExamDate->to->diffInDays(Carbon::today(), true),
                 ]));
             }
         }
