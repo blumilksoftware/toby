@@ -7,7 +7,7 @@
     "Blusia", // Agnieszka Rudek
   ],
   "ignoreDeps": [
-    "registry.blumilk.pl/toby/toby",
+    "registry.blumilk.pl/internal-public/toby",
   ],
   "packageRules": [
     {
