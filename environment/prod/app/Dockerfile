@@ -5,7 +5,7 @@ ARG PHP_MODULE_NAME=php${PHP_VERSION}
 ARG UNIT_VERSION=1.31.1-1
 
 ### PHP DEPENDENCIES ###
-FROM composer:2.7.6@sha256:f8174c15479f5b45d6127daab0e618e760427b8cbcc2129818d50d70993e6ad2 as vendor
+FROM composer:2.7.6@sha256:264770dada6ae4b9e52838127b678cddfa9cb95f79f382f8f53c6378825ae6a8 as vendor
 
 WORKDIR /app_composer_dependencies
 
