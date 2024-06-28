@@ -24,6 +24,7 @@ use Toby\Http\Controllers\SelectYearPeriodController;
 use Toby\Http\Controllers\TechnologyController;
 use Toby\Http\Controllers\TimesheetController;
 use Toby\Http\Controllers\UserController;
+use Toby\Http\Controllers\UserHistoryController;
 use Toby\Http\Controllers\VacationCalendarController;
 use Toby\Http\Controllers\VacationLimitController;
 use Toby\Http\Controllers\VacationRequestController;
@@ -45,6 +46,19 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->whereNumber("user");
     Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
         ->whereNumber("user");
+    Route::get("/users/{user}/history", [UserHistoryController::class, "index"])
+        ->whereNumber("user")
+        ->name("users.history");
+    Route::get("/users/{user}/history/create", [UserHistoryController::class, "create"])
+        ->whereNumber("user");
+    Route::post("/users/{user}/history", [UserHistoryController::class, "store"])
+        ->whereNumber("user");
+    Route::get("/users/history/{history}", [UserHistoryController::class, "edit"])
+        ->whereNumber("history");
+    Route::put("/users/history/{history}", [UserHistoryController::class, "update"])
+        ->whereNumber("history");
+    Route::delete("/users/history/{history}", [UserHistoryController::class, "destroy"])
+        ->whereNumber("history");
 
     Route::resource("equipment-items", EquipmentController::class)
         ->except("show")
