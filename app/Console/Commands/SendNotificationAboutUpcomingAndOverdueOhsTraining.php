@@ -28,7 +28,10 @@ class SendNotificationAboutUpcomingAndOverdueOhsTraining extends Command
             })->get();
 
         $usersForOverdueOhsTraining = User::query()
-            ->whereRelation("histories", function ($query): void {
+            ->whereDoesntHave("histories", function ($query): void {
+                $query->where("type", UserHistoryType::OhsTraining)
+                    ->where("to", ">", Carbon::now());
+            })->withWhereHas("histories", function ($query): void {
                 $query->where("type", UserHistoryType::OhsTraining)
                     ->where("to", "<", Carbon::now());
             })->get();

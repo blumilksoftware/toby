@@ -20,7 +20,7 @@ class UserHistoryController extends Controller
         $this->authorize("manageUsers");
 
         $history = $user->histories()
-            ->orderBy("from", "desc")
+            ->orderBy("to", "desc")
             ->get();
 
         return inertia("UserHistory/Index", [

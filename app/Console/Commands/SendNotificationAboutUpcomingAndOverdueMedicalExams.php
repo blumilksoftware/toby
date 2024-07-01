@@ -28,7 +28,10 @@ class SendNotificationAboutUpcomingAndOverdueMedicalExams extends Command
             })->get();
 
         $usersOverdueMedicalExams = User::query()
-            ->whereRelation("histories", function ($query): void {
+            ->whereDoesntHave("histories", function ($query): void {
+                $query->where("type", UserHistoryType::MedicalExam)
+                    ->where("to", ">", Carbon::now());
+            })->withWhereHas("histories", function ($query): void {
                 $query->where("type", UserHistoryType::MedicalExam)
                     ->where("to", "<", Carbon::now());
             })->get();

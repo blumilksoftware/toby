@@ -15,7 +15,7 @@ const form = useForm({
   to: props.history.to,
   comment: props.history.comment,
   type: props.types.find(type => type.value === props.history.type),
-  employmentForm: props.employmentForms.find(employmentForm => employmentForm.value === props.history.employmentForm) ?? '',
+  employmentForm: props.employmentForms.find(employmentForm => employmentForm.value === props.history.employment_form) ?? '',
 })
 
 function updateForm() {
