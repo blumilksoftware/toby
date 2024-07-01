@@ -56,7 +56,7 @@ class UserHistoryController extends Controller
         $this->authorize("manageUsers");
 
         return inertia("UserHistory/Edit", [
-            "history" => UserHistoryResource::make($history),
+            "history" => $history,
             "types" => UserHistoryType::casesToSelect(),
             "employmentForms" => EmploymentForm::casesToSelect(),
         ]);
