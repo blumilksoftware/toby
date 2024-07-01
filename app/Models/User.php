@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Toby\Enums\Role;
+use Toby\Enums\UserHistoryType;
 use Toby\Notifications\Notifiable as NotifiableInterface;
 
 /**
@@ -86,6 +87,27 @@ class User extends Authenticatable implements NotifiableInterface
     public function vacations(): HasMany
     {
         return $this->hasMany(Vacation::class);
+    }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(UserHistory::class);
+    }
+
+    public function lastMedicalExam(): ?UserHistory
+    {
+        return $this->histories()
+            ->where("type", UserHistoryType::MedicalExam)
+            ->orderBy("from", "desc")
+            ->first();
+    }
+
+    public function lastOhsTraining(): ?UserHistory
+    {
+        return $this->histories()
+            ->where("type", UserHistoryType::OhsTraining)
+            ->orderBy("from", "desc")
+            ->first();
     }
 
     public function keys(): HasMany

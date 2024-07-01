@@ -31,6 +31,7 @@ class UserController extends Controller
         $status = $request->query("status", "active");
 
         $users = User::query()
+            ->with("histories")
             ->search($searchText)
             ->status($status)
             ->orderByProfileField("last_name")

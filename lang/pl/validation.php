@@ -183,7 +183,11 @@ return [
         "birthday" => [
             "before" => "Data urodzenia musi być datą wcześniejszą od dzisiaj.",
         ],
+        "employmentForm" => [
+            "required_if" => "Forma zatrudnienia jest wymagana.",
+        ],
         "to" => [
+            "required_if" => "Data do jest wymagane.",
             "after" => "Data końcowa musi być datą późniejszą od daty początkowej.",
         ],
     ],
@@ -203,5 +207,8 @@ return [
         "assignee" => "przydzielona osoba",
         "assignedAt" => "data przydzielenia",
         "birthday" => "data urodzenia",
+        "type" => "typ wpisu",
+        "employmentForm" => "forma zatrudnienia",
+        "comment" => "komentarz",
     ],
 ];

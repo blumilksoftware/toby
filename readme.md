@@ -39,13 +39,11 @@ Application will be running under [localhost:8751](localhost:8751) and [http://t
 App images will be accessible under the following tags:
 
 Beta:
-- `registry.blumilk.pl/toby/toby:beta`
-
-Production image will be accessible in the new registry since `v1.2.1` tag.
+- `registry.blumilk.pl/internal-public/toby:beta`
 
 Prod:
-- `registry.blumilk.pl/toby/toby:latest`
-- `registry.blumilk.pl/toby/toby:v1.2.3` (depends on releases/tags)
+- `registry.blumilk.pl/internal-public/toby:latest`
+- `registry.blumilk.pl/internal-public/toby:v1.2.3` (depends on releases/tags)
 
 
 ### Further reading
