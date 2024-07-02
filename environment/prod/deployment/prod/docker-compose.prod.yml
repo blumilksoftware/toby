@@ -50,7 +50,7 @@ services:
       - .deployment
 
   toby-prod-database:
-    image: postgres:15@sha256:4b4da96c37fefd6f28c3f58e7470bbc6d2cb34ac5641b9df7221d962eb4bc55d
+    image: postgres:15@sha256:751715f313b698bfea2d49bdac577ff779b96e6849a10bfb5cb9ee495ca1e547
     container_name: toby-prod-database
     environment:
       - PGPASSWORD=${DOCKER_TOBY_PROD_DB_ROOT_PASSWORD:? variable DOCKER_TOBY_PROD_DB_ROOT_PASSWORD not set}
