@@ -11,6 +11,7 @@ const props = defineProps({
   auth: Object,
   years: Object,
   vacationRequestsCount: Number,
+  overtimeRequestsCount: Number,
   deployInformation: Object,
   lastUpdate: String,
 })
@@ -51,6 +52,7 @@ function vacationPageOpened() {
       :auth="auth"
       :show-refresh-button="isUpdated"
       :vacation-requests-count="vacationRequestsCount"
+      :overtime-requests-count="overtimeRequestsCount"
       :years="years"
       @open="vacationPageOpened"
     />

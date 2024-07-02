@@ -188,6 +188,7 @@ return [
         ],
         "to" => [
             "required_if" => "Data do jest wymagane.",
+            "after" => "Data końcowa musi być datą późniejszą od daty początkowej.",
         ],
     ],
     "attributes" => [

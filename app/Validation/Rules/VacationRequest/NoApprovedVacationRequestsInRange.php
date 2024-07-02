@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Toby\Validation\Rules;
+namespace Toby\Validation\Rules\VacationRequest;
 
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Models\VacationRequest;
 
-class NoPendingVacationRequestInRange implements VacationRequestRule
+class NoApprovedVacationRequestsInRange implements VacationRequestRule
 {
     public function check(VacationRequest $vacationRequest): bool
     {
@@ -15,12 +15,12 @@ class NoPendingVacationRequestInRange implements VacationRequestRule
             ->user
             ->vacationRequests()
             ->overlapsWith($vacationRequest)
-            ->states(VacationRequestStatesRetriever::pendingStates())
+            ->states(VacationRequestStatesRetriever::successStates())
             ->exists();
     }
 
     public function errorMessage(): string
     {
-        return __("You have a pending request in this date range.");
+        return __("You have an approved request in this date range.");
     }
 }

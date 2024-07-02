@@ -31,6 +31,7 @@ import {
   SunIcon,
   UserGroupIcon,
   XMarkIcon,
+  ClockIcon,
 } from '@heroicons/vue/24/outline'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
 
@@ -38,6 +39,7 @@ const props = defineProps({
   auth: Object,
   years: Object,
   vacationRequestsCount: Number,
+  overtimeRequestsCount: Number,
   showRefreshButton: Boolean,
   lastUpdate: String,
 })
@@ -60,6 +62,21 @@ const vacationNavigation = computed(() =>
       icon: RectangleStackIcon,
       can: props.auth.can.listAllRequests,
       badge: props.vacationRequestsCount,
+    },
+    {
+      name: 'Nadgodziny',
+      href: '/overtime/requests',
+      section: 'OvertimeRequest',
+      icon: ClockIcon,
+      can: props.auth.can.listAllOvertimeRequests,
+      badge: props.overtimeRequestsCount,
+    },
+    {
+      name: 'Moje nadgodziny',
+      href: '/overtime/requests/me',
+      section: 'OvertimeRequest',
+      icon: ClockIcon,
+      can: !props.auth.can.listAllOvertimeRequests && props.auth.overtimeEnabled,
     },
     {
       name: 'Kalendarz',

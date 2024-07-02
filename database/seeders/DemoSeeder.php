@@ -53,6 +53,20 @@ class DemoSeeder extends Seeder
             ->create();
 
         User::factory([
+            "email" => "jerzy.nowak@example.com",
+            "remember_token" => Str::random(10),
+        ])
+            ->employee()
+            ->hasProfile([
+                "first_name" => "Jerzy",
+                "last_name" => "Nowak",
+                "employment_form" => EmploymentForm::EmploymentContract,
+                "position" => "programista",
+                "employment_date" => Carbon::createFromDate(2021, 5, 10),
+            ])
+            ->create();
+
+        User::factory([
             "email" => "anna.nowak@example.com",
             "remember_token" => Str::random(10),
         ])

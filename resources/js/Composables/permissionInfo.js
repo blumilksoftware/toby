@@ -75,6 +75,21 @@ const permissionsInfo = [
     'section': 'Urlopy',
   },
   {
+    'name': 'Zarządzanie wnioskami jako przełożony administracyjny',
+    'value': 'manageOvertimeAsAdministrativeApprover',
+    'section': 'Nadgodziny',
+  },
+  {
+    'name': 'Zarządzanie wnioskami jako przełożony techniczny',
+    'value': 'manageOvertimeAsTechnicalApprover',
+    'section': 'Nadgodziny',
+  },
+  {
+    'name': 'Przeglądanie wszystkich wniosków',
+    'value': 'listAllOvertimeRequests',
+    'section': 'Nadgodziny',
+  },
+  {
     'name': 'Nadchodzące i zaległe badania medycyny pracy',
     'value': 'receiveUpcomingAndOverdueMedicalExamsNotification',
     'section': 'Powiadomienia',
