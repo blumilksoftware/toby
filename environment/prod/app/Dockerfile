@@ -1,11 +1,11 @@
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.7
+ARG PHP_VERSION=8.3.8
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
 
 ### PHP DEPENDENCIES ###
-FROM composer:2.7.6@sha256:f8174c15479f5b45d6127daab0e618e760427b8cbcc2129818d50d70993e6ad2 as vendor
+FROM composer:2.7.7@sha256:2df6a8c0e8cac0438b2492f104ed53c85816937c77beb72f6a50867d0af1e2e1 AS vendor
 
 WORKDIR /app_composer_dependencies
 
@@ -20,7 +20,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:22.2.0-bullseye-slim@sha256:5baa25a7a7d4fde6ae7180db579f930748b9c6cd9c2ccf0065b9ea2c61585405 as frontend
+FROM node:22.3.0-bullseye-slim@sha256:bdd4d07d0320466d0720f916d752b0fa31314d53c06caad6efe85956e59ab966 AS frontend
 
 WORKDIR /app_frontend_dependencies
 
@@ -35,7 +35,7 @@ COPY resources/css ./resources/css/
 RUN npm run build
 
 ### NGINIX UNIT PHP MODULE ###
-FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
+FROM php:${PHP_VERSION}-cli-bullseye AS unit-modules-builder
 
 RUN apt-get update && apt-get install --assume-yes \
         git \
@@ -53,7 +53,7 @@ RUN git clone https://github.com/nginx/unit \
 
 
 ### APPLICATION ###
-FROM php:${PHP_VERSION}-cli-bullseye as app
+FROM php:${PHP_VERSION}-cli-bullseye AS app
 
 ARG UNIT_VERSION
 # https://packages.nginx.org/unit/debian/pool/unit/u/unit/
