@@ -5,7 +5,6 @@ import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } f
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
-  auth: Object,
   employmentForms: Array,
   types: Array,
   userId: Number,
@@ -255,7 +254,7 @@ function createForm() {
             <div class="space-x-3">
               <InertiaLink
                 class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
-                href="/vacation/requests"
+                :href="`/users/${props.userId}/history`"
               >
                 Anuluj
               </InertiaLink>

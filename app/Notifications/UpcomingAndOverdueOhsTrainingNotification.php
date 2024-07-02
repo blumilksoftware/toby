@@ -61,10 +61,11 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
                 ->line(__("Below is a list of employees with upcoming OHS training:"));
 
             foreach ($this->usersForUpcomingOhsTraining as $user) {
+                $lastOhsTraining = $user->lastOhsTraining();
                 $message->line(__(":user - :date (in :difference days)", [
                     "user" => $user->profile->full_name,
-                    "date" => $user->profile->next_ohs_training_date->toDisplayString(),
-                    "difference" => (int)$user->profile->next_ohs_training_date->diffInDays(Carbon::today()),
+                    "date" => $lastOhsTraining->to->toDisplayString(),
+                    "difference" => (int)$lastOhsTraining->to->diffInDays(Carbon::today(), true),
                 ]));
             }
         }
@@ -74,10 +75,11 @@ class UpcomingAndOverdueOhsTrainingNotification extends QueuedNotification
                 ->line(__("Below is a list of employees with overdue OHS training:"));
 
             foreach ($this->usersForOverdueOhsTraining as $user) {
+                $lastOhsTraining = $user->lastOhsTraining();
                 $message->line(__(":user - :date (overdue :difference days)", [
                     "user" => $user->profile->full_name,
-                    "date" => $user->profile->next_ohs_training_date->toDisplayString(),
-                    "difference" => (int)$user->profile->next_ohs_training_date->diffInDays(Carbon::today()),
+                    "date" => $lastOhsTraining->to->toDisplayString(),
+                    "difference" => (int)$lastOhsTraining->to->diffInDays(Carbon::today(), true),
                 ]));
             }
         }

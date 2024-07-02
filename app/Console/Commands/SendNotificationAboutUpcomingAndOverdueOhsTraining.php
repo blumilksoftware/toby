@@ -7,6 +7,7 @@ namespace Toby\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission;
+use Toby\Enums\UserHistoryType;
 use Toby\Models\User;
 use Toby\Notifications\UpcomingAndOverdueOhsTrainingNotification;
 
@@ -20,15 +21,20 @@ class SendNotificationAboutUpcomingAndOverdueOhsTraining extends Command
         $usersToNotify = Permission::findByName("receiveUpcomingAndOverdueOhsTrainingNotification")->users()->get();
 
         $usersForUpcomingOhsTraining = User::query()
-            ->whereRelation("profile", "next_ohs_training_date", ">", Carbon::now())
-            ->whereRelation("profile", "next_ohs_training_date", "<=", Carbon::now()->addMonths(2))
-            ->orderByProfileField("next_ohs_training_date", "desc")
-            ->get();
+            ->whereRelation("histories", function ($query): void {
+                $query->where("type", UserHistoryType::OhsTraining)
+                    ->where("to", ">", Carbon::now())
+                    ->where("to", "<=", Carbon::now()->addMonths(2));
+            })->get();
 
         $usersForOverdueOhsTraining = User::query()
-            ->whereRelation("profile", "next_ohs_training_date", "<=", Carbon::now())
-            ->orderByProfileField("next_ohs_training_date", "desc")
-            ->get();
+            ->whereDoesntHave("histories", function ($query): void {
+                $query->where("type", UserHistoryType::OhsTraining)
+                    ->where("to", ">", Carbon::now());
+            })->withWhereHas("histories", function ($query): void {
+                $query->where("type", UserHistoryType::OhsTraining)
+                    ->where("to", "<", Carbon::now());
+            })->get();
 
         if ($usersForUpcomingOhsTraining->isEmpty() && $usersForOverdueOhsTraining->isEmpty()) {
             return;

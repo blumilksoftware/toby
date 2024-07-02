@@ -16,7 +16,7 @@ use Toby\Enums\UserHistoryType;
  * @property int $user_id
  * @property string $comment
  * @property Carbon $from
- * @property Carbon $to
+ * @property ?Carbon $to
  * @property UserHistoryType $type
  * @property EmploymentForm $employment_form
  * @property User $user
@@ -27,8 +27,8 @@ class UserHistory extends Model
 
     protected $guarded = [];
     protected $casts = [
-        "from" => "date:Y-m-d",
-        "to" => "date:Y-m-d",
+        "from" => "date",
+        "to" => "date",
         "type" => UserHistoryType::class,
         "employment_form" => EmploymentForm::class,
     ];

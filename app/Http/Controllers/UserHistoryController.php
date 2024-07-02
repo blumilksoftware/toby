@@ -20,7 +20,7 @@ class UserHistoryController extends Controller
         $this->authorize("manageUsers");
 
         $history = $user->histories()
-            ->orderBy("from", "desc")
+            ->orderBy("to", "desc")
             ->get();
 
         return inertia("UserHistory/Index", [
@@ -56,7 +56,7 @@ class UserHistoryController extends Controller
         $this->authorize("manageUsers");
 
         return inertia("UserHistory/Edit", [
-            "history" => UserHistoryResource::make($history),
+            "history" => $history,
             "types" => UserHistoryType::casesToSelect(),
             "employmentForms" => EmploymentForm::casesToSelect(),
         ]);

@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueOhsTraining;
+use Toby\Enums\UserHistoryType;
 use Toby\Models\User;
 use Toby\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 use Toby\Notifications\UpcomingAndOverdueOhsTrainingNotification;
@@ -21,17 +22,26 @@ class UpcomingAndOverdueOhsTrainingNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $userWithUpcomingOhsTraining = User::factory()->employee()->hasProfile([
-            "next_ohs_training_date" => Carbon::now()->addMonth(),
-        ])->create();
+        $userWithUpcomingOhsTraining = User::factory()->employee()->hasProfile()->create();
+        $userWithUpcomingOhsTraining->histories()->create([
+            "type" => UserHistoryType::OhsTraining,
+            "from" => Carbon::now()->subMonth(),
+            "to" => Carbon::now()->addMonth(),
+        ]);
 
-        $userWithDistantOhsTrainingDate = User::factory()->employee()->hasProfile([
-            "next_ohs_training_date" => Carbon::now()->addYear(),
-        ])->create();
+        $userWithDistantOhsTrainingDate = User::factory()->employee()->hasProfile()->create();
+        $userWithDistantOhsTrainingDate->histories()->create([
+            "type" => UserHistoryType::OhsTraining,
+            "from" => Carbon::now()->subMonth(),
+            "to" => Carbon::now()->addYear(),
+        ]);
 
-        $userWithOverdueOhsTraining = User::factory()->employee()->hasProfile([
-            "next_ohs_training_date" => Carbon::now()->subMonth(),
-        ])->create();
+        $userWithOverdueOhsTraining = User::factory()->employee()->hasProfile()->create();
+        $userWithOverdueOhsTraining->histories()->create([
+            "type" => UserHistoryType::OhsTraining,
+            "from" => Carbon::now()->subMonth(),
+            "to" => Carbon::now()->subMonth(),
+        ]);
 
         $administrativeApprover = User::factory()->administrativeApprover()->create();
 
@@ -44,22 +54,25 @@ class UpcomingAndOverdueOhsTrainingNotificationTest extends TestCase
             function ($notification) use ($administrativeApprover, $userWithUpcomingOhsTraining, $userWithDistantOhsTrainingDate, $userWithOverdueOhsTraining) {
                 $mailData = $notification->toMail($administrativeApprover)->toArray();
 
+                $lastOhsTraining = $userWithUpcomingOhsTraining->lastOhsTraining();
                 $this->assertContains(__(":user - :date (in :difference days)", [
                     "user" => $userWithUpcomingOhsTraining->profile->full_name,
-                    "date" => $userWithUpcomingOhsTraining->profile->next_ohs_training_date->toDisplayString(),
-                    "difference" => (int)$userWithUpcomingOhsTraining->profile->next_ohs_training_date->diffInDays(Carbon::today()),
+                    "date" => $lastOhsTraining->to->toDisplayString(),
+                    "difference" => (int)$lastOhsTraining->to->diffInDays(Carbon::today(), true),
                 ]), $mailData["introLines"]);
 
+                $lastOhsTraining = $userWithOverdueOhsTraining->lastOhsTraining();
                 $this->assertContains(__(":user - :date (overdue :difference days)", [
                     "user" => $userWithOverdueOhsTraining->profile->full_name,
-                    "date" => $userWithOverdueOhsTraining->profile->next_ohs_training_date->toDisplayString(),
-                    "difference" => (int)$userWithOverdueOhsTraining->profile->next_ohs_training_date->diffInDays(Carbon::today()),
+                    "date" => $lastOhsTraining->to->toDisplayString(),
+                    "difference" => (int)$lastOhsTraining->to->diffInDays(Carbon::today(), true),
                 ]), $mailData["introLines"]);
 
+                $lastOhsTraining = $userWithDistantOhsTrainingDate->lastOhsTraining();
                 $this->assertNotContains(__(":user - :date (in :difference days)", [
                     "user" => $userWithDistantOhsTrainingDate->profile->full_name,
-                    "date" => $userWithDistantOhsTrainingDate->profile->next_ohs_training_date->toDisplayString(),
-                    "difference" => (int)$userWithDistantOhsTrainingDate->profile->next_ohs_training_date->diffInDays(Carbon::today()),
+                    "date" => $lastOhsTraining->to->toDisplayString(),
+                    "difference" => (int)$lastOhsTraining->to->diffInDays(Carbon::today(), true),
                 ]), $mailData["introLines"]);
 
                 return true;
