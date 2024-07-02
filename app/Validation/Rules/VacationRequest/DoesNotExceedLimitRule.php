@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Validation\Rules;
+namespace Toby\Validation\Rules\VacationRequest;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;

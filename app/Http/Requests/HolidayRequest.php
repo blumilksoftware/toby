@@ -7,6 +7,7 @@ namespace Toby\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
+use Toby\Helpers\DateFormats;
 use Toby\Http\Rules\YearPeriodExists;
 use Toby\Models\YearPeriod;
 
@@ -17,7 +18,7 @@ class HolidayRequest extends FormRequest
         return [
             "name" => ["required", "min:3", "max:150"],
             "date" => ["required",
-                "date_format:Y-m-d",
+                "date_format:" . DateFormats::DATE,
                 Rule::unique("holidays", "date")->ignore($this->holiday),
                 new YearPeriodExists(),
             ],

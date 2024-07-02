@@ -6,6 +6,7 @@ namespace Toby\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Toby\Helpers\DateFormats;
 
 class EquipmentRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class EquipmentRequest extends FormRequest
             "name" => ["required", "min:3", "max:80"],
             "isMobile" => ["required", "boolean"],
             "assignee" => ["required_with:assignedAt", "nullable", "exists:users,id"],
-            "assignedAt" => ["required_with:assignee", "nullable", "date_format:Y-m-d"],
+            "assignedAt" => ["required_with:assignee", "nullable", "date_format:" . DateFormats::DATE],
             "labels" => ["array", "distinct"],
         ];
     }

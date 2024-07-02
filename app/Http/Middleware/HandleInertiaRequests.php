@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                         $permission->name => $user && $user->hasPermissionTo($permission),
                     ],
                 ),
+            "overtimeEnabled" => $user && $user->can("canUseOvertimeRequestFunctionality", $user),
         ];
     }
 
