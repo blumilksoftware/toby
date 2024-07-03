@@ -31,11 +31,12 @@ class OvertimeRequestController extends Controller
         if ($request->user()->can("listAllOvertimeRequests")) {
             return redirect()->route("overtime.requests.indexForApprovers");
         }
-        $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
+        $user = $request->user();
+        $this->authorize("canUseOvertimeRequestFunctionality", $user);
 
         $status = $request->get("status", "all");
 
-        $overtimeRequests = $request->user()
+        $overtimeRequests = $user
             ->overtimeRequests()
             ->with(["user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriodRetriever->selected())
@@ -43,32 +44,32 @@ class OvertimeRequestController extends Controller
             ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->paginate();
 
-        $pending = $request->user()
+        $pending = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::pendingStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
-        $success = $request->user()
+        $success = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::successStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
-        $failed = $request->user()
+        $failed = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::failedStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
-        $settled = $request->user()
+        $settled = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::settledStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
         return inertia("OvertimeRequest/Index", [

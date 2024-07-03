@@ -19,6 +19,6 @@ class OvertimeRequestObserver
 
     public function updating(OvertimeRequest $overtime): void
     {
-        CacheQuery::forget("overtimeStats");
+        CacheQuery::forget("overtime{$overtime->user->id}");
     }
 }
