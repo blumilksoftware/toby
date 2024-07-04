@@ -294,7 +294,7 @@ async function refreshEstimatedHours(from, to) {
           <div class="flex justify-end py-3">
             <div class="space-x-3">
               <InertiaLink
-                href="/vacation/requests"
+                href="/overtime/requests"
                 class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
               >
                 Anuluj
