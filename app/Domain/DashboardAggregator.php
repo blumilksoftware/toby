@@ -51,7 +51,7 @@ class DashboardAggregator
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereBelongsTo($yearPeriod)
-            ->cache()
+            ->cache("vacations{$user->id}")
             ->approved()
             ->get()
             ->mapWithKeys(
@@ -64,7 +64,7 @@ class DashboardAggregator
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereBelongsTo($yearPeriod)
-            ->cache()
+            ->cache("vacations{$user->id}")
             ->pending()
             ->get()
             ->mapWithKeys(
@@ -92,7 +92,6 @@ class DashboardAggregator
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
                 ->latest("updated_at")
                 ->limit(3)
-                ->cache()
                 ->get();
         } else {
             $vacationRequests = $user->vacationRequests()
@@ -100,7 +99,6 @@ class DashboardAggregator
                 ->whereBelongsTo($yearPeriod)
                 ->latest("updated_at")
                 ->limit(3)
-                ->cache()
                 ->get();
         }
 

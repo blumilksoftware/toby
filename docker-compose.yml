@@ -38,7 +38,7 @@ services:
         condition: service_healthy
 
   database:
-    image: postgres:15@sha256:4b4da96c37fefd6f28c3f58e7470bbc6d2cb34ac5641b9df7221d962eb4bc55d
+    image: postgres:15@sha256:751715f313b698bfea2d49bdac577ff779b96e6849a10bfb5cb9ee495ca1e547
     container_name: toby-db-dev
     environment:
       - PGPASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
@@ -75,7 +75,7 @@ services:
     restart: unless-stopped
 
   mailpit:
-    image: axllent/mailpit:v1.18@sha256:dd0079bfb02cfba5b47371d0acc517bd2b0e09039a8c73c876a6f9358aca94f7
+    image: axllent/mailpit:v1.18@sha256:28fb41d4488335d9abc89c30f18dff481b36d6efe83d44cdb6d8be2f25bc52a0
     container_name: toby-mailpit-dev
     labels:
       - "traefik.enable=true"

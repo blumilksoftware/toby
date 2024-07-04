@@ -24,12 +24,12 @@ class OvertimeRequestResource extends JsonResource
             "name" => $this->name,
             "user" => new SimpleUserResource($this->user),
             "state" => $this->state,
-            "from" => $this->from->format(DateFormats::DATETIME),
-            "to" => $this->to->format(DateFormats::DATETIME),
+            "from" => $this->from->format(DateFormats::DATETIME_DISPLAY),
+            "to" => $this->to->format(DateFormats::DATETIME_DISPLAY),
             "hours" => $this->hours,
             "settlementType" => $this->settlement_type,
             "settled" => $this->settled,
-            "displayDate" => $this->getDate($this->from->toDisplayString(), $this->to->toDisplayString()),
+            "displayDate" => $this->getDate($this->from->toDisplayString(DateFormats::DATETIME_DISPLAY), $this->to->toDisplayString(DateFormats::DATETIME_DISPLAY)),
             "comment" => $this->comment,
             "can" => [
                 "acceptAsTechnical" => $this->resource->state->canTransitionTo(AcceptedByTechnical::class)

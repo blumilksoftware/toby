@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
+use Toby\Enums\UserHistoryType;
 use Toby\Models\User;
 use Toby\Notifications\UpcomingAndOverdueMedicalExamsNotification;
 
@@ -20,17 +21,26 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $userWithUpcomingMedicalExam = User::factory()->employee()->hasProfile([
-            "next_medical_exam_date" => Carbon::now()->addMonth(),
-        ])->create();
+        $userWithUpcomingMedicalExam = User::factory()->employee()->hasProfile()->create();
+        $userWithUpcomingMedicalExam->histories()->create([
+            "type" => UserHistoryType::MedicalExam,
+            "from" => Carbon::now()->subMonth(),
+            "to" => Carbon::now()->addMonth(),
+        ]);
 
-        $userWithDistantMedicalExamDate = User::factory()->employee()->hasProfile([
-            "next_medical_exam_date" => Carbon::now()->addYear(),
-        ])->create();
+        $userWithDistantMedicalExamDate = User::factory()->employee()->hasProfile()->create();
+        $userWithDistantMedicalExamDate->histories()->create([
+            "type" => UserHistoryType::MedicalExam,
+            "from" => Carbon::now()->subMonth(),
+            "to" => Carbon::now()->addYear(),
+        ]);
 
-        $userWithOverdueMedicalExam = User::factory()->employee()->hasProfile([
-            "next_medical_exam_date" => Carbon::now()->subMonth(),
-        ])->create();
+        $userWithOverdueMedicalExam = User::factory()->employee()->hasProfile()->create();
+        $userWithOverdueMedicalExam->histories()->create([
+            "type" => UserHistoryType::MedicalExam,
+            "from" => Carbon::now()->subMonth(),
+            "to" => Carbon::now()->subMonth(),
+        ]);
 
         $administrativeApprover = User::factory()->administrativeApprover()->create();
 
@@ -43,22 +53,25 @@ class UpcomingAndOverdueMedicalExamsNotificationTest extends TestCase
             function ($notification) use ($administrativeApprover, $userWithUpcomingMedicalExam, $userWithOverdueMedicalExam, $userWithDistantMedicalExamDate) {
                 $mailData = $notification->toMail($administrativeApprover)->toArray();
 
+                $lastMedicalExamDate = $userWithUpcomingMedicalExam->lastMedicalExam();
                 $this->assertContains(__(":user - :date (in :difference days)", [
                     "user" => $userWithUpcomingMedicalExam->profile->full_name,
-                    "date" => $userWithUpcomingMedicalExam->profile->next_medical_exam_date->toDisplayString(),
-                    "difference" => (int)$userWithUpcomingMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today()),
+                    "date" => $lastMedicalExamDate->to->toDisplayString(),
+                    "difference" => (int)$lastMedicalExamDate->to->diffInDays(Carbon::today(), true),
                 ]), $mailData["introLines"]);
 
+                $lastMedicalExamDate = $userWithOverdueMedicalExam->lastMedicalExam();
                 $this->assertContains(__(":user - :date (overdue :difference days)", [
                     "user" => $userWithOverdueMedicalExam->profile->full_name,
-                    "date" => $userWithOverdueMedicalExam->profile->next_medical_exam_date->toDisplayString(),
-                    "difference" => (int)$userWithOverdueMedicalExam->profile->next_medical_exam_date->diffInDays(Carbon::today()),
+                    "date" => $lastMedicalExamDate->to->toDisplayString(),
+                    "difference" => (int)$lastMedicalExamDate->to->diffInDays(Carbon::today(), true),
                 ]), $mailData["introLines"]);
 
+                $lastMedicalExamDate = $userWithOverdueMedicalExam->lastMedicalExam();
                 $this->assertNotContains(__(":user - :date (in :difference days)", [
                     "user" => $userWithDistantMedicalExamDate->profile->full_name,
-                    "date" => $userWithDistantMedicalExamDate->profile->next_medical_exam_date->toDisplayString(),
-                    "difference" => (int)$userWithDistantMedicalExamDate->profile->next_medical_exam_date->diffInDays(Carbon::today()),
+                    "date" => $lastMedicalExamDate->to->toDisplayString(),
+                    "difference" => (int)$lastMedicalExamDate->to->diffInDays(Carbon::today(), true),
                 ]), $mailData["introLines"]);
 
                 return true;

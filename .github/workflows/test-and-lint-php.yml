@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-22.04
     services:
       pgsql:
-        image: postgres:15@sha256:4b4da96c37fefd6f28c3f58e7470bbc6d2cb34ac5641b9df7221d962eb4bc55d
+        image: postgres:15@sha256:751715f313b698bfea2d49bdac577ff779b96e6849a10bfb5cb9ee495ca1e547
         env:
           POSTGRES_DB: toby
           POSTGRES_USER: toby
@@ -34,7 +34,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Validate composer.json and composer.lock
         run: composer validate
@@ -47,7 +47,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-dependencies
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@c665c7a15b5295c2488ac8a87af9cb806cd72198 # 2.30.4
+        uses: shivammathur/setup-php@2e947f1f6932d141d076ca441d0e1e881775e95b # 2.31.0
         with:
           php-version: 8.3
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, intl, gd

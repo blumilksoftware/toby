@@ -3,6 +3,9 @@
   "employment_contract": "Umowa o pracę",
   "commission_contract": "Umowa zlecenie",
   "b2b_contract": "Kontrakt B2B",
+  "employment": "Zatrudnienie",
+  "medical_exam": "Badanie lekarskie",
+  "ohs_training": "Szkolenie BHP",
   "board_member_contract": "Członek zarządu",
   "vacation": "Urlop wypoczynkowy",
   "vacation_on_request": "Urlop na żądanie",
@@ -187,5 +190,8 @@
   "Labels": "Etykiety",
   "Is mobile": "Czy mobilny",
   "Assignee": "Przypisany do",
-  "Assigned at": "Przypisany od"
+  "Assigned at": "Przypisany od",
+  "User history created.": "Historia użytkownika utworzona.",
+  "User history updated.": "Historia użytkownika zaktualizowana.",
+  "User history deleted.": "Historia użytkownika usunięta."
 }

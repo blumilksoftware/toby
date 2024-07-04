@@ -39,6 +39,7 @@ const props = defineProps({
   auth: Object,
   years: Object,
   vacationRequestsCount: Number,
+  overtimeRequestsCount: Number,
   showRefreshButton: Boolean,
   lastUpdate: String,
 })
@@ -55,13 +56,6 @@ const vacationNavigation = computed(() =>
       can: !props.auth.can.listAllRequests,
     },
     {
-      name: 'Moje nadgodziny',
-      href: '/overtime/requests/me',
-      section: 'OvertimeRequest/Index',
-      icon: ClockIcon,
-      can: props.auth.overtimeEnabled,
-    },
-    {
       name: 'Wnioski',
       href: '/vacation/requests',
       section: 'VacationRequest',
@@ -72,9 +66,17 @@ const vacationNavigation = computed(() =>
     {
       name: 'Nadgodziny',
       href: '/overtime/requests',
-      section: 'OvertimeRequest/ApproversIndex',
+      section: 'OvertimeRequest',
       icon: ClockIcon,
-      can: props.auth.can.listAllRequests,
+      can: props.auth.can.listAllOvertimeRequests,
+      badge: props.overtimeRequestsCount,
+    },
+    {
+      name: 'Moje nadgodziny',
+      href: '/overtime/requests/me',
+      section: 'OvertimeRequest',
+      icon: ClockIcon,
+      can: !props.auth.can.listAllOvertimeRequests && props.auth.overtimeEnabled,
     },
     {
       name: 'Kalendarz',

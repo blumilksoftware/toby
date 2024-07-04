@@ -15,7 +15,6 @@ use Toby\Actions\OvertimeRequest\CreateAction;
 use Toby\Actions\OvertimeRequest\RejectAction;
 use Toby\Actions\OvertimeRequest\SettleAction;
 use Toby\Domain\OvertimeRequestStatesRetriever;
-use Toby\Enums\Month;
 use Toby\Enums\SettlementType;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Requests\OvertimeRequestRequest;
@@ -27,13 +26,17 @@ use Toby\Models\User;
 
 class OvertimeRequestController extends Controller
 {
-    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response
+    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): RedirectResponse|Response
     {
-        $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
+        if ($request->user()->can("listAllOvertimeRequests")) {
+            return redirect()->route("overtime.requests.indexForApprovers");
+        }
+        $user = $request->user();
+        $this->authorize("canUseOvertimeRequestFunctionality", $user);
 
         $status = $request->get("status", "all");
 
-        $overtimeRequests = $request->user()
+        $overtimeRequests = $user
             ->overtimeRequests()
             ->with(["user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriodRetriever->selected())
@@ -41,32 +44,32 @@ class OvertimeRequestController extends Controller
             ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->paginate();
 
-        $pending = $request->user()
+        $pending = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::pendingStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
-        $success = $request->user()
+        $success = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::successStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
-        $failed = $request->user()
+        $failed = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::failedStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
-        $settled = $request->user()
+        $settled = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::settledStates())
-            ->cache(key: "overtimeStats")
+            ->cache(key: "overtime{$user->id}")
             ->count();
 
         return inertia("OvertimeRequest/Index", [
@@ -88,20 +91,18 @@ class OvertimeRequestController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
-        if ($request->user()->cannot("listAllRequests")) {
+        if ($request->user()->cannot("listAllOvertimeRequests")) {
             abort(403);
         }
 
         $yearPeriod = $yearPeriodRetriever->selected();
         $status = $request->get("status", "all");
         $user = $request->get("user");
-        $month = $request->get("month") ?? Month::current()->value;
 
         $overtimeRequests = OvertimeRequest::query()
             ->with(["user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriod)
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
-            ->when($month !== null, fn(Builder $query) => $query->whereMonth("from", Month::fromNameOrCurrent($month)->toCarbonNumber()))
             ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->latest()
             ->paginate();
@@ -111,14 +112,12 @@ class OvertimeRequestController extends Controller
             ->orderByProfileField("first_name")
             ->get();
 
-        return inertia("OvertimeRequest/ApproversIndex", [
+        return inertia("OvertimeRequest/IndexForApprovers", [
             "requests" => OvertimeRequestResource::collection($overtimeRequests),
             "users" => SimpleUserResource::collection($users),
-            "months" => Month::cases(),
             "filters" => [
                 "status" => $status,
                 "user" => (int)$user,
-                "month" => $month,
             ],
         ]);
     }
@@ -150,6 +149,8 @@ class OvertimeRequestController extends Controller
 
     public function store(OvertimeRequestRequest $request, CreateAction $createAction): RedirectResponse
     {
+        $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
+
         $overtimeRequest = $createAction->execute($request->data(), $request->user());
 
         return redirect()

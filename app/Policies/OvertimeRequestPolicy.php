@@ -14,14 +14,14 @@ class OvertimeRequestPolicy
 {
     public function acceptAsTechApprover(User $user): bool
     {
-        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
-            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageOvertimeAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageOvertimeAsTechnicalApprover");
     }
 
     public function reject(User $user): bool
     {
-        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
-            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageOvertimeAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageOvertimeAsTechnicalApprover");
     }
 
     public function cancel(User $user, OvertimeRequest $overtimeRequest): bool
@@ -33,8 +33,8 @@ class OvertimeRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
-            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageOvertimeAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageOvertimeAsTechnicalApprover");
     }
 
     public function settle(User $user, OvertimeRequest $overtimeRequest): bool
@@ -45,8 +45,8 @@ class OvertimeRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
-            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageOvertimeAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageOvertimeAsTechnicalApprover");
     }
 
     public function show(User $user, OvertimeRequest $overtimeRequest): bool
@@ -55,7 +55,7 @@ class OvertimeRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover") ||
-            $user->hasPermissionTo("manageRequestsAsTechnicalApprover");
+        return $user->hasPermissionTo("manageOvertimeAsAdministrativeApprover") ||
+            $user->hasPermissionTo("manageOvertimeAsTechnicalApprover");
     }
 }

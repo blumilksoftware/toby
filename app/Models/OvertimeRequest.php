@@ -76,8 +76,25 @@ class OvertimeRequest extends Model
 
     public function scopeOverlapsWith(Builder $query, self $overtimeRequest): Builder
     {
-        return $query->where("from", "<=", $overtimeRequest->to)
-            ->where("to", ">=", $overtimeRequest->from);
+        return $query->where(function (Builder $query) use ($overtimeRequest): void {
+            // right side of period
+            $query->where("from", "<=", $overtimeRequest->from)
+                ->where("to", ">", $overtimeRequest->from)
+                ->where("to", "<", $overtimeRequest->to);
+        })->orWhere(function (Builder $query) use ($overtimeRequest): void {
+            // left side of period
+            $query->where("from", "<", $overtimeRequest->to)
+                ->where("to", ">", $overtimeRequest->to)
+                ->where("from", ">", $overtimeRequest->from);
+        })->orWhere(function (Builder $query) use ($overtimeRequest): void {
+            // inside period
+            $query->where("from", "<=", $overtimeRequest->from)
+                ->where("to", ">=", $overtimeRequest->to);
+        })->orWhere(function (Builder $query) use ($overtimeRequest): void {
+            // includes period
+            $query->where("from", ">=", $overtimeRequest->from)
+                ->where("to", "<=", $overtimeRequest->to);
+        });
     }
 
     protected static function newFactory(): OvertimeRequestFactory
