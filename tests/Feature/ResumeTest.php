@@ -55,7 +55,6 @@ class ResumeTest extends FeatureTestCase
             "last_name" => "Kowalski",
             "employment_form" => EmploymentForm::EmploymentContract,
             "position" => "user",
-            "employment_date" => Carbon::createFromDate(2021, 1, 4),
         ])->create();
 
         $this->actingAs($admin)

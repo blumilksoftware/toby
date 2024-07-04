@@ -11,6 +11,7 @@ use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Enums\EmploymentForm;
 use Toby\Enums\Role;
+use Toby\Enums\UserHistoryType;
 use Toby\Enums\VacationType;
 use Toby\Models\Benefit;
 use Toby\Models\BenefitsReport;
@@ -48,11 +49,17 @@ class DemoSeeder extends Seeder
                 "last_name" => "Kowalski",
                 "employment_form" => EmploymentForm::EmploymentContract,
                 "position" => "programista",
-                "employment_date" => Carbon::createFromDate(2021, 12, 31),
             ])
             ->create();
+        $user->histories()->create([
+            "from" => Carbon::createFromDate(2021, 12, 31),
+            "to" => null,
+            "type" => UserHistoryType::Employment,
+            "employment_form" => EmploymentForm::EmploymentContract,
+            "is_employed_at_current_company" => true,
+        ]);
 
-        User::factory([
+        $programmer = User::factory([
             "email" => "jerzy.nowak@example.com",
             "remember_token" => Str::random(10),
         ])
@@ -62,11 +69,17 @@ class DemoSeeder extends Seeder
                 "last_name" => "Nowak",
                 "employment_form" => EmploymentForm::EmploymentContract,
                 "position" => "programista",
-                "employment_date" => Carbon::createFromDate(2021, 5, 10),
             ])
             ->create();
+        $programmer->histories()->create([
+            "from" => Carbon::createFromDate(2021, 5, 10),
+            "to" => null,
+            "type" => UserHistoryType::Employment,
+            "employment_form" => EmploymentForm::EmploymentContract,
+            "is_employed_at_current_company" => true,
+        ]);
 
-        User::factory([
+        $tester = User::factory([
             "email" => "anna.nowak@example.com",
             "remember_token" => Str::random(10),
         ])
@@ -76,11 +89,17 @@ class DemoSeeder extends Seeder
                 "last_name" => "Nowak",
                 "employment_form" => EmploymentForm::CommissionContract,
                 "position" => "tester",
-                "employment_date" => Carbon::createFromDate(2021, 5, 10),
             ])
             ->create();
+        $tester->histories()->create([
+            "from" => Carbon::createFromDate(2021, 5, 10),
+            "to" => null,
+            "type" => UserHistoryType::Employment,
+            "employment_form" => EmploymentForm::CommissionContract,
+            "is_employed_at_current_company" => true,
+        ]);
 
-        User::factory([
+        $programmer = User::factory([
             "email" => "tola.sawicka@example.com",
             "role" => Role::Employee,
             "remember_token" => Str::random(10),
@@ -91,9 +110,15 @@ class DemoSeeder extends Seeder
                 "last_name" => "Sawicka",
                 "employment_form" => EmploymentForm::B2bContract,
                 "position" => "programista",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
             ])
             ->create();
+        $programmer->histories()->create([
+            "from" => Carbon::createFromDate(2021, 1, 4),
+            "to" => null,
+            "type" => UserHistoryType::Employment,
+            "employment_form" => EmploymentForm::B2bContract,
+            "is_employed_at_current_company" => true,
+        ]);
 
         $technicalApprover = User::factory([
             "email" => "maciej.ziolkowski@example.com",
@@ -105,9 +130,15 @@ class DemoSeeder extends Seeder
                 "last_name" => "Ziółkowski",
                 "employment_form" => EmploymentForm::BoardMemberContract,
                 "position" => "programista",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
             ])
             ->create();
+        $technicalApprover->histories()->create([
+            "from" => Carbon::createFromDate(2021, 1, 4),
+            "to" => null,
+            "type" => UserHistoryType::Employment,
+            "employment_form" => EmploymentForm::BoardMemberContract,
+            "is_employed_at_current_company" => true,
+        ]);
 
         $administrativeApprover = User::factory([
             "email" => "katarzyna.zajac@example.com",
@@ -119,11 +150,17 @@ class DemoSeeder extends Seeder
                 "last_name" => "Zając",
                 "employment_form" => EmploymentForm::EmploymentContract,
                 "position" => "dyrektor",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
             ])
             ->create();
+        $administrativeApprover->histories()->create([
+            "from" => Carbon::createFromDate(2021, 1, 4),
+            "to" => null,
+            "type" => UserHistoryType::Employment,
+            "employment_form" => EmploymentForm::EmploymentContract,
+            "is_employed_at_current_company" => true,
+        ]);
 
-        User::factory([
+        $administrator = User::factory([
             "email" => "milosz.borowski@example.com",
             "remember_token" => Str::random(10),
         ])
@@ -133,9 +170,15 @@ class DemoSeeder extends Seeder
                 "last_name" => "Borowski",
                 "employment_form" => EmploymentForm::EmploymentContract,
                 "position" => "administrator",
-                "employment_date" => Carbon::createFromDate(2021, 1, 4),
             ])
             ->create();
+        $administrator->histories()->create([
+            "from" => Carbon::createFromDate(2021, 1, 4),
+            "to" => null,
+            "type" => UserHistoryType::Employment,
+            "employment_form" => EmploymentForm::EmploymentContract,
+            "is_employed_at_current_company" => true,
+        ]);
 
         $users = User::all();
 

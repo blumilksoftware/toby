@@ -22,7 +22,6 @@ class ProfileFactory extends Factory
             "last_name" => $this->faker->lastName(),
             "employment_form" => $this->faker->randomElement(EmploymentForm::cases()),
             "position" => $this->faker->jobTitle(),
-            "employment_date" => Carbon::createFromInterface($this->faker->dateTimeBetween("2020-10-27"))->toDateString(),
             "birthday" => Carbon::createFromInterface($this->faker->dateTimeBetween("1970-01-01", "1998-01-01"))->toDateString(),
         ];
     }
