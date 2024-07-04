@@ -75,8 +75,19 @@ defineProps({
               :key="item.id"
               class="bg-blumilk-25"
             >
-              <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                {{ item.typeLabel }} <span v-if="item.type === 'employment'">({{ item.employmentFormLabel }})</span>
+              <td class="p-4 text-sm text-gray-500 whitespace-nowrap flex items-center">
+                {{ item.typeLabel }}
+                <span
+                  v-if="item.type === 'employment'"
+                  class="flex items-center"
+                >
+                  ({{ item.employmentFormLabel }})
+                  <img
+                    v-if="item.isEmployedAtCurrentCompany === true"
+                    class="h-4 text0red-500 ml-3"
+                    src="/images/logo.svg"
+                  >
+                </span>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ item.comment || '-' }}

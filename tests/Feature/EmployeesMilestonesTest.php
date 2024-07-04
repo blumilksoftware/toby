@@ -73,19 +73,37 @@ class EmployeesMilestonesTest extends FeatureTestCase
     public function testSortingBySeniority(): void
     {
         $user1 = User::factory()
-            ->hasProfile(["employment_date" => Carbon::createFromDate(2023, 1, 31)])
+            ->hasProfile()
             ->employee()
             ->create();
+        $user1->histories()->create([
+            "from" => Carbon::createFromDate(2023, 1, 31),
+            "type" => "employment",
+            "employment_form" => "employment_contract",
+            "is_employed_at_current_company" => true,
+        ]);
 
         $user2 = User::factory()
-            ->hasProfile(["employment_date" => Carbon::createFromDate(2022, 1, 1)])
+            ->hasProfile()
             ->employee()
             ->create();
+        $user2->histories()->create([
+            "from" => Carbon::createFromDate(2022, 1, 1),
+            "type" => "employment",
+            "employment_form" => "employment_contract",
+            "is_employed_at_current_company" => true,
+        ]);
 
         $user3 = User::factory()
-            ->hasProfile(["employment_date" => Carbon::createFromDate(2021, 10, 4)])
+            ->hasProfile()
             ->employee()
             ->create();
+        $user3->histories()->create([
+            "from" => Carbon::createFromDate(2021, 10, 4),
+            "type" => "employment",
+            "employment_form" => "employment_contract",
+            "is_employed_at_current_company" => true,
+        ]);
 
         $sortedUsersByLongestSeniority = $this->employeesMilestonesRetriever->getResults(null, "seniority-asc")->values();
 

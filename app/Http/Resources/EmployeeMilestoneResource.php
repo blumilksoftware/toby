@@ -30,7 +30,7 @@ class EmployeeMilestoneResource extends JsonResource
             "isBirthdayToday" => (bool)$upcomingBirthday?->isToday(),
             "seniorityDisplayDate" => $seniority,
             "isWorkAnniversaryToday" => $isSeniorityAnniversaryToday,
-            "employmentDate" => $this->profile->employment_date->toDisplayString(),
+            "employmentDate" => $this->startOfEmploymentInCurrentCompany()?->from->toDisplayString(),
         ];
     }
 }

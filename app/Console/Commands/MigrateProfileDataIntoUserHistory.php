@@ -22,6 +22,7 @@ class MigrateProfileDataIntoUserHistory extends Command
         foreach ($users as $user) {
             $this->moveMedicalDataToHistory($user);
             $this->moveOhsDataToHistory($user);
+            $this->moveEmploymentDataToHistory($user);
         }
     }
 
@@ -43,6 +44,19 @@ class MigrateProfileDataIntoUserHistory extends Command
                 "from" => $user->profile->last_ohs_training_date,
                 "to" => $user->profile->next_ohs_training_date,
                 "type" => UserHistoryType::OhsTraining,
+            ]);
+        }
+    }
+
+    private function moveEmploymentDataToHistory(User $user): void
+    {
+        if ($user->profile->employment_date) {
+            $user->histories()->create([
+                "from" => $user->profile->employment_date,
+                "to" => null,
+                "type" => UserHistoryType::Employment,
+                "employment_form" => $user->profile->employment_form,
+                "is_employed_at_current_company" => true,
             ]);
         }
     }

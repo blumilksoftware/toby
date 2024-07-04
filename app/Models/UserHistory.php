@@ -19,6 +19,7 @@ use Toby\Enums\UserHistoryType;
  * @property ?Carbon $to
  * @property UserHistoryType $type
  * @property EmploymentForm $employment_form
+ * @property bool $is_employed_at_current_company
  * @property User $user
  */
 class UserHistory extends Model
@@ -31,6 +32,7 @@ class UserHistory extends Model
         "to" => "date",
         "type" => UserHistoryType::class,
         "employment_form" => EmploymentForm::class,
+        "is_employed_at_current_company" => "boolean",
     ];
 
     public function user(): BelongsTo

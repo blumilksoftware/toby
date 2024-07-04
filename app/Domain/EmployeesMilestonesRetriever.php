@@ -6,7 +6,9 @@ namespace Toby\Domain;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Toby\Enums\UserHistoryType;
 use Toby\Models\User;
+use Toby\Models\UserHistory;
 
 class EmployeesMilestonesRetriever
 {
@@ -42,7 +44,16 @@ class EmployeesMilestonesRetriever
     {
         return User::query()
             ->search($searchText)
-            ->orderByProfileField("employment_date", $direction)
+            ->orderBy(
+                UserHistory::query()
+                    ->select("from")
+                    ->whereColumn("users.id", "user_histories.user_id")
+                    ->where("type", UserHistoryType::Employment)
+                    ->where("is_employed_at_current_company", true)
+                    ->orderBy("from", $direction)
+                    ->limit(1),
+                $direction,
+            )
             ->get();
     }
 }

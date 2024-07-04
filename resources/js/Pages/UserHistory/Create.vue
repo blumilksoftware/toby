@@ -1,7 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
@@ -16,6 +16,7 @@ const form = useForm({
   comment: '',
   type: '',
   employmentForm: '',
+  isEmployedAtCurrentCompany: false,
 })
 
 function createForm() {
@@ -25,6 +26,7 @@ function createForm() {
     type: data.type.value,
     from: data.from,
     to: data.to,
+    isEmployedAtCurrentCompany: data.isEmployedAtCurrentCompany,
   }))
     .post(`/users/${props.userId}/history`)
 }
@@ -248,6 +250,28 @@ function createForm() {
               >
                 {{ form.errors.comment }}
               </p>
+            </div>
+          </div>
+          <div
+            v-if="form.type?.value === 'employment'"
+            class="items-center py-4 sm:grid sm:grid-cols-3"
+          >
+            <label
+              for="flowSkipped"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Zatrudniony w obecnej firmie
+            </label>
+            <div class="mt-2 sm:col-span-2 sm:mt-0">
+              <Switch
+                id="flowSkipped"
+                v-model="form.isEmployedAtCurrentCompany"
+                :class="[form.isEmployedAtCurrentCompany ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
+              >
+                <span
+                  :class="[form.isEmployedAtCurrentCompany ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']"
+                />
+              </Switch>
             </div>
           </div>
           <div class="flex justify-end py-3">
