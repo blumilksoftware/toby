@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Toby\Validation\Rules;
+namespace Toby\Validation\Rules\VacationRequest;
 
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Models\VacationRequest;

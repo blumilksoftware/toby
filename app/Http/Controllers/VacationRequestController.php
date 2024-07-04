@@ -37,41 +37,46 @@ class VacationRequestController extends Controller
 {
     public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response|RedirectResponse
     {
-        if ($request->user()->can("listAllRequests")) {
+        $user = $request->user();
+
+        if ($user->can("listAllRequests")) {
             return redirect()->route("vacation.requests.indexForApprovers");
         }
 
         $status = $request->get("status", "all");
         $withoutRemote = $request->boolean("withoutRemote", default: false);
 
-        $vacationRequests = $request->user()
+        $vacationRequests = $user
             ->vacationRequests()
             ->with(["vacations.user.profile", "user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
-            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
+            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $user))
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->paginate();
 
-        $pending = $request->user()
+        $pending = $user
             ->vacationRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::pendingStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
+            ->cache(key: "vacations{$user->id}")
             ->count();
 
-        $success = $request->user()
+        $success = $user
             ->vacationRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::successStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
+            ->cache(key: "vacations{$user->id}")
             ->count();
 
-        $failed = $request->user()
+        $failed = $user
             ->vacationRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::failedStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
+            ->cache(key: "vacations{$user->id}")
             ->count();
 
         return inertia("VacationRequest/Index", [

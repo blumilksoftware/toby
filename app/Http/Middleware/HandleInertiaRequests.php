@@ -10,9 +10,11 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Spatie\Permission\Models\Permission;
+use Toby\Domain\OvertimeRequestStatesRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\UserResource;
+use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
 
@@ -30,6 +32,7 @@ class HandleInertiaRequests extends Middleware
             "flash" => $this->getFlashData($request),
             "years" => $this->getYearsData($request),
             "vacationRequestsCount" => $this->getVacationRequestsCount($request),
+            "overtimeRequestsCount" => $this->getOvertimeRequestsCount($request),
             "deployInformation" => $this->getDeployInformation(),
             "lastUpdate" => $this->cache->rememberForever("last_update", fn(): string => Carbon::now()->toIso8601String()),
         ]);
@@ -48,6 +51,7 @@ class HandleInertiaRequests extends Middleware
                         $permission->name => $user && $user->hasPermissionTo($permission),
                     ],
                 ),
+            "overtimeEnabled" => $user && $user->can("canUseOvertimeRequestFunctionality", $user),
         ];
     }
 
@@ -74,6 +78,20 @@ class HandleInertiaRequests extends Middleware
                 ->whereBelongsTo($this->yearPeriodRetriever->selected())
                 ->states(
                     VacationRequestStatesRetriever::waitingForUserActionStates($user),
+                )
+                ->count()
+            : null;
+    }
+
+    protected function getOvertimeRequestsCount(Request $request): Closure
+    {
+        $user = $request->user();
+
+        return fn(): ?int => $user && $user->can("listAllRequests")
+            ? OvertimeRequest::query()
+                ->whereBelongsTo($this->yearPeriodRetriever->selected())
+                ->states(
+                    OvertimeRequestStatesRetriever::waitingForUserActionStates($user),
                 )
                 ->count()
             : null;
