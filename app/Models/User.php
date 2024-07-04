@@ -102,6 +102,24 @@ class User extends Authenticatable implements NotifiableInterface
             ->first();
     }
 
+    public function startOfEmploymentInCurrentCompany(): ?UserHistory
+    {
+        return $this->histories()
+            ->where("type", UserHistoryType::Employment)
+            ->where("is_employed_at_current_company", true)
+            ->orderBy("from", "asc")
+            ->first();
+    }
+
+    public function endOfEmploymentInCurrentCompany(): ?UserHistory
+    {
+        return $this->histories()
+            ->where("type", UserHistoryType::Employment)
+            ->where("is_employed_at_current_company", true)
+            ->orderBy("from", "desc")
+            ->first();
+    }
+
     public function keys(): HasMany
     {
         return $this->hasMany(Key::class);
@@ -135,6 +153,13 @@ class User extends Authenticatable implements NotifiableInterface
     public function scopeOrderByProfileField(Builder $query, string $field, string $direction = "asc"): Builder
     {
         $profileQuery = Profile::query()->select($field)->whereColumn("users.id", "profiles.user_id");
+
+        return $query->orderBy($profileQuery, $direction);
+    }
+
+    public function scopeOrderByUserHistoryField(Builder $query, string $field, string $direction = "asc"): Builder
+    {
+        $profileQuery = UserHistory::query()->select($field)->whereColumn("users.id", "histories.user_id");
 
         return $query->orderBy($profileQuery, $direction);
     }
@@ -178,10 +203,19 @@ class User extends Authenticatable implements NotifiableInterface
 
     public function seniority(): ?string
     {
-        $employmentDate = $this->profile->employment_date;
+        $startOfEmploymentInCurrentCompany = $this->startOfEmploymentInCurrentCompany();
+        $employmentDate = $startOfEmploymentInCurrentCompany?->from;
 
-        if ($employmentDate->isFuture() || $employmentDate->isToday()) {
+        if (!$employmentDate || $employmentDate->isFuture() || $employmentDate->isToday()) {
             return null;
+        }
+
+        if ($startOfEmploymentInCurrentCompany->to !== null) {
+            $endOfEmploymentInCurrentCompany = $this->endOfEmploymentInCurrentCompany();
+
+            if ($endOfEmploymentInCurrentCompany->to !== null) {
+                return $employmentDate->longAbsoluteDiffForHumans($endOfEmploymentInCurrentCompany->to, 2);
+            }
         }
 
         return $employmentDate->longAbsoluteDiffForHumans(Carbon::today(), 2);

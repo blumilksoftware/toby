@@ -30,6 +30,7 @@ class UserHistoryRequest extends FormRequest
             "type" => $this->get("type"),
             "employment_form" => $this->get("type") === UserHistoryType::Employment->value ? $this->get("employmentForm") : null,
             "comment" => $this->get("comment"),
+            "is_employed_at_current_company" => $this->get("type") === UserHistoryType::Employment->value ? $this->boolean("isEmployedAtCurrentCompany") : null,
         ];
     }
 }
