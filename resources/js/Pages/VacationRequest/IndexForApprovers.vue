@@ -2,7 +2,7 @@
 import { CheckIcon, ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
-import { watch, reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
@@ -43,6 +43,7 @@ const form = reactive({
   user: props.users.data.find(user => user.id === props.filters.user) ?? null,
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
   type: props.types.find(type => type.value === props.filters.type) ?? null,
+  withTrashedUsers: props.filters.withTrashedUsers ?? false,
 })
 
 watch(form, debounce(() => {
@@ -50,6 +51,7 @@ watch(form, debounce(() => {
     user: form.user?.id,
     status: form.status.value,
     type: form.type?.value,
+    withTrashedUsers: form.withTrashedUsers,
   }, {
     preserveState: true,
     replace: true,
@@ -68,8 +70,8 @@ watch(form, debounce(() => {
       </div>
       <div>
         <InertiaLink
-          href="/vacation/requests/create"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          href="/vacation/requests/create"
         >
           Dodaj wniosek
         </InertiaLink>
@@ -116,8 +118,8 @@ watch(form, debounce(() => {
               >
                 <ListboxOption
                   v-slot="{ active }"
-                  as="template"
                   :value="null"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
@@ -138,8 +140,8 @@ watch(form, debounce(() => {
                   v-for="user in users.data"
                   :key="user.id"
                   v-slot="{ active }"
-                  as="template"
                   :value="user"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
@@ -198,8 +200,8 @@ watch(form, debounce(() => {
                   v-for="status in statuses"
                   :key="status.value"
                   v-slot="{ active, selected }"
-                  as="template"
                   :value="status"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -255,8 +257,8 @@ watch(form, debounce(() => {
               >
                 <ListboxOption
                   v-slot="{ active, selected }"
-                  as="template"
                   :value="null"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -275,8 +277,8 @@ watch(form, debounce(() => {
                   v-for="type in types"
                   :key="type.value"
                   v-slot="{ active }"
-                  as="template"
                   :value="type"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -294,6 +296,20 @@ watch(form, debounce(() => {
             </transition>
           </div>
         </Listbox>
+        <div class="flex items-center space-x-2 mt-3 md:mt-0">
+          <input
+            id="withTrashedUsers"
+            v-model="form.withTrashedUsers"
+            class="left-6 top-1/2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+            type="checkbox"
+          >
+          <label
+            class="block text-sm font-medium text-gray-700"
+            for="withTrashedUsers"
+          >
+            Zablokowani użytkownicy
+          </label>
+        </div>
       </div>
     </div>
     <div class="overflow-auto xl:overflow-visible">
@@ -301,44 +317,44 @@ watch(form, debounce(() => {
         <thead class="bg-gray-50">
           <tr>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Numer
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Pracownik
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Rodzaj wniosku
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Od
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Do
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Dni urlopu
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Status
             </th>
@@ -349,8 +365,8 @@ watch(form, debounce(() => {
           <InertiaLink
             v-for="request in requests.data"
             :key="request.id"
-            as="tr"
             :href="`/vacation/requests/${request.id}`"
+            as="tr"
             class="relative hover:bg-blumilk-25 hover:cursor-pointer"
           >
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
@@ -402,8 +418,8 @@ watch(form, debounce(() => {
           </InertiaLink>
           <tr v-if="! requests.data.length">
             <td
-              colspan="100%"
               class="py-4 text-xl leading-5 text-center text-gray-700"
+              colspan="100%"
             >
               <EmptyState>
                 <template #title>
