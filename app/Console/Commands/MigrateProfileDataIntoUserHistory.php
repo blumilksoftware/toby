@@ -29,7 +29,7 @@ class MigrateProfileDataIntoUserHistory extends Command
     private function moveMedicalDataToHistory(User $user): void
     {
         if ($user->profile->last_medical_exam_date && $user->profile->next_medical_exam_date) {
-            $user->histories()->create([
+            $user->histories()->firstOrCreate([
                 "from" => $user->profile->last_medical_exam_date,
                 "to" => $user->profile->next_medical_exam_date,
                 "type" => UserHistoryType::MedicalExam,
@@ -40,7 +40,7 @@ class MigrateProfileDataIntoUserHistory extends Command
     private function moveOhsDataToHistory(User $user): void
     {
         if ($user->profile->last_ohs_training_date && $user->profile->next_ohs_training_date) {
-            $user->histories()->create([
+            $user->histories()->firstOrCreate([
                 "from" => $user->profile->last_ohs_training_date,
                 "to" => $user->profile->next_ohs_training_date,
                 "type" => UserHistoryType::OhsTraining,
@@ -51,7 +51,7 @@ class MigrateProfileDataIntoUserHistory extends Command
     private function moveEmploymentDataToHistory(User $user): void
     {
         if ($user->profile->employment_date) {
-            $user->histories()->create([
+            $user->histories()->firstOrCreate([
                 "from" => $user->profile->employment_date,
                 "to" => null,
                 "type" => UserHistoryType::Employment,
