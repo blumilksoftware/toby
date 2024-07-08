@@ -5,13 +5,24 @@ import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
 import VacationBar from '@/Shared/VacationBar.vue'
 import CalendarComponent from '@/Shared/CalendarComponent.vue'
+import { ref, watch } from 'vue'
 
-defineProps({
+const props = defineProps({
   request: Object,
   activities: Object,
   stats: Object,
   auth: Object,
   handyCalendarData: Object,
+})
+
+const handyCalendarKey = ref(0)
+
+const forceRerender = () => {
+  handyCalendarKey.value += 1
+}
+
+watch(() => props.handyCalendarData, () => {
+  forceRerender()
 })
 </script>
 
@@ -286,6 +297,7 @@ defineProps({
           class="grid grid-cols-1 gap-8 py-8 px-4 mx-auto max-w-3xl border-t border-gray-200 sm:grid-cols-2 sm:px-6"
         >
           <CalendarComponent
+            :key="handyCalendarKey"
             :start-month="handyCalendarData.startMonth"
             :end-month="handyCalendarData.endMonth"
             :vacations="handyCalendarData.vacations"
