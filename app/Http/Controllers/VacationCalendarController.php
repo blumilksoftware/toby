@@ -23,11 +23,13 @@ class VacationCalendarController extends Controller
     ): Response {
         $month = Month::fromNameOrCurrent((string)$month);
         $currentUser = $request->user();
+        $withTrashedUsers = $request->boolean("withBlockedUsers");
 
         $yearPeriod = $yearPeriodRetriever->selected();
         $carbonMonth = Carbon::create($yearPeriod->year, $month->toCarbonNumber());
 
         $users = User::query()
+            ->withTrashed($withTrashedUsers)
             ->where("id", "!=", $currentUser->id)
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
@@ -42,6 +44,7 @@ class VacationCalendarController extends Controller
             "current" => Month::current(),
             "selected" => $month->value,
             "users" => SimpleUserResource::collection($users),
+            "withBlockedUsers" => $withTrashedUsers,
         ]);
     }
 }
