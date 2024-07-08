@@ -66,7 +66,7 @@ watch(form, debounce(() => {
 <template>
   <InertiaHead title="Kalendarz" />
   <div class="bg-white shadow-md">
-    <div class="flex justify-between items-center p-4 sm:px-6">
+    <div class="flex-row sm:flex justify-between items-center p-4 sm:px-6">
       <div class="flex items-center">
         <h2 class="text-lg font-medium leading-6 text-center text-gray-900">
           Kalendarz
@@ -111,12 +111,12 @@ watch(form, debounce(() => {
         </div>
       </div>
       <div
-        class="flex"
+        class="flex mt-3 sm:mt-0"
       >
         <a
           v-if="auth.can.manageRequestsAsAdministrativeApprover"
           :href="`/vacation/timesheet/${selectedMonth.value}`"
-          class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          class="block py-3 px-4 sm:ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
         >
           Pobierz plik Excel
         </a>
@@ -131,7 +131,7 @@ watch(form, debounce(() => {
     </div>
     <div
       v-if="auth.can.manageRequestsAsAdministrativeApprover"
-      class="flex items-center space-x-2 pb-2 sm:px-6"
+      class="flex items-center space-x-2 pb-2 px-4 sm:px-6"
     >
       <input
         id="withTrashedUsers"
