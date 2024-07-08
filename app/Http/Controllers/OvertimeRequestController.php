@@ -103,7 +103,7 @@ class OvertimeRequestController extends Controller
         $overtimeRequests = OvertimeRequest::query()
             ->with(["user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriod)
-            ->whereRelation("user", fn($query) => $query->withTrashed($withTrashedUsers))
+            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($withTrashedUsers))
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->latest()
