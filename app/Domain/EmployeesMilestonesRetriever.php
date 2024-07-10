@@ -12,18 +12,23 @@ use Toby\Models\UserHistory;
 
 class EmployeesMilestonesRetriever
 {
+    protected bool $hasPermissionToViewInactiveUsers;
+
     public function __construct(
         protected VacationTypeConfigRetriever $configRetriever,
     ) {}
 
-    public function getResults(?string $searchText, ?string $sort): Collection
+    public function getResults(User $user, ?string $searchText, ?string $sort): Collection
     {
+        $this->hasPermissionToViewInactiveUsers = $user->hasPermissionTo("showInactiveUsers");
+
         return match ($sort) {
             "birthday-asc" => $this->getUpcomingBirthdays($searchText),
             "birthday-desc" => $this->getUpcomingBirthdays($searchText, "desc"),
             "seniority-asc" => $this->getSeniority($searchText),
             "seniority-desc" => $this->getSeniority($searchText, "desc"),
             default => User::query()
+                ->withTrashed($this->hasPermissionToViewInactiveUsers)
                 ->search($searchText)
                 ->orderByProfileField("last_name")
                 ->orderByProfileField("first_name")
@@ -34,6 +39,7 @@ class EmployeesMilestonesRetriever
     public function getUpcomingBirthdays(?string $searchText, string $direction = "asc"): Collection
     {
         $users = User::query()
+            ->withTrashed($this->hasPermissionToViewInactiveUsers)
             ->search($searchText)
             ->get();
 
@@ -43,6 +49,7 @@ class EmployeesMilestonesRetriever
     public function getSeniority(?string $searchText, string $direction = "asc"): Collection
     {
         return User::query()
+            ->withTrashed($this->hasPermissionToViewInactiveUsers)
             ->search($searchText)
             ->orderBy(
                 UserHistory::query()

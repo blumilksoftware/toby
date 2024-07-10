@@ -98,14 +98,15 @@ class OvertimeRequestController extends Controller
         $yearPeriod = $yearPeriodRetriever->selected();
         $status = $request->get("status", "all");
         $user = $request->get("user");
-        $withTrashedUsers = $request->boolean("withTrashedUsers") ?? false;
+        $authUser = $request->user();
+        $withTrashedUsers = $authUser->can("showInactiveUsers");
 
         $overtimeRequests = OvertimeRequest::query()
             ->with(["user.permissions", "user.profile"])
             ->whereBelongsTo($yearPeriod)
             ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($withTrashedUsers))
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
-            ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
+            ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $authUser))
             ->latest()
             ->paginate();
 

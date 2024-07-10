@@ -33,7 +33,7 @@ class EquipmentController extends Controller
         $searchQuery = $request->query("search");
 
         $equipmentItems = EquipmentItem::query()
-            ->with("assignee")
+            ->with(["assignee" => fn($query) => $query->withTrashed()])
             ->search($searchQuery)
             ->when(
                 $request->query("assignee") && $request->query("assignee") !== "unassigned",
@@ -49,6 +49,7 @@ class EquipmentController extends Controller
             ->withQueryString();
 
         $users = User::query()
+            ->withTrashed()
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

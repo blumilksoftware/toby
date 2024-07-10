@@ -40,6 +40,7 @@ return [
         "managePermissions",
         "manageHolidays",
         "manageUsers",
+        "showInactiveUsers",
         "manageKeys",
         "manageTechnologies",
         "manageResumes",

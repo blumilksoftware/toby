@@ -23,7 +23,7 @@ class VacationCalendarController extends Controller
     ): Response {
         $month = Month::fromNameOrCurrent((string)$month);
         $currentUser = $request->user();
-        $withTrashedUsers = $request->boolean("withBlockedUsers");
+        $withTrashedUsers = $currentUser->hasPermissionTo("showInactiveUsers");
 
         $yearPeriod = $yearPeriodRetriever->selected();
         $carbonMonth = Carbon::create($yearPeriod->year, $month->toCarbonNumber());

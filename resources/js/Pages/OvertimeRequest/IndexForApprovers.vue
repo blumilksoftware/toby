@@ -46,14 +46,12 @@ const statuses = [
 const form = reactive({
   user: props.users.data.find(user => user.id === props.filters.user) ?? null,
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
-  withTrashedUsers: props.filters.withTrashedUsers ?? false,
 })
 
 watch(form, debounce(() => {
   Inertia.get('/overtime/requests', {
     user: form.user?.id,
     status: form.status.value,
-    withTrashedUsers: form.withTrashedUsers,
   }, {
     preserveState: true,
     replace: true,
@@ -167,20 +165,6 @@ watch(form, debounce(() => {
                 </ListboxOption>
               </ListboxOptions>
             </transition>
-          </div>
-          <div class="flex items-center space-x-2 mt-3">
-            <input
-              id="withTrashedUsers"
-              v-model="form.withTrashedUsers"
-              class="left-6 top-1/2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-              type="checkbox"
-            >
-            <label
-              class="block text-sm font-medium text-gray-700"
-              for="withTrashedUsers"
-            >
-              Zablokowani użytkownicy
-            </label>
           </div>
         </Listbox>
         <Listbox

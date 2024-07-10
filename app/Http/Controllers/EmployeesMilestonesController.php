@@ -16,7 +16,7 @@ class EmployeesMilestonesController extends Controller
         $searchText = $request->query("search");
         $sort = $request->query("sort");
 
-        $users = $employeesMilestoneRetriever->getResults($searchText, $sort);
+        $users = $employeesMilestoneRetriever->getResults($request->user(), $searchText, $sort);
 
         return inertia("EmployeesMilestones", [
             "users" => EmployeeMilestoneResource::collection($users),

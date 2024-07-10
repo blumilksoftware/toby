@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Toby\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Response;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Helpers\YearPeriodRetriever;
@@ -16,7 +18,7 @@ use Toby\Models\YearPeriod;
 
 class VacationLimitController extends Controller
 {
-    public function edit(YearPeriodRetriever $yearPeriodRetriever, UserVacationStatsRetriever $statsRetriever): Response
+    public function edit(Request $request, YearPeriodRetriever $yearPeriodRetriever, UserVacationStatsRetriever $statsRetriever): Response
     {
         $this->authorize("manageVacationLimits");
 
@@ -25,6 +27,7 @@ class VacationLimitController extends Controller
 
         $limits = $yearPeriod
             ->vacationLimits()
+            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($request->user()->hasPermissionTo("showInactiveUsers")))
             ->with("user.profile")
             ->has("user")
             ->get()

@@ -1,11 +1,9 @@
 <script setup>
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
 import CalendarDay from '@/Shared/CalendarDay.vue'
-import { debounce } from 'lodash'
-import { Inertia } from '@inertiajs/inertia'
 
 const props = defineProps({
   users: Object,
@@ -14,11 +12,6 @@ const props = defineProps({
   current: String,
   selected: String,
   years: Object,
-  withBlockedUsers: Boolean,
-})
-
-const form = reactive({
-  withTrashedUsers: props.withBlockedUsers ?? false,
 })
 
 let activeElement = ref(undefined)
@@ -52,15 +45,6 @@ function linkParameters(user, day) {
 function linkVacationRequest(user){
   return props.auth.user.id === user.id || props.auth.can.manageRequestsAsTechnicalApprover || props.auth.can.manageRequestsAsAdministrativeApprover
 }
-
-watch(form, debounce(() => {
-  Inertia.get('', {
-    withBlockedUsers: form.withTrashedUsers,
-  }, {
-    preserveState: true,
-    replace: true,
-  })
-}, 150))
 </script>
 
 <template>
@@ -75,7 +59,7 @@ watch(form, debounce(() => {
           <InertiaLink
             v-if="previousMonth"
             as="button"
-            :href="`/calendar/${previousMonth.value}?withBlockedUsers=${form.withTrashedUsers}`"
+            :href="`/calendar/${previousMonth.value}`"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="w-5 h-5" />
@@ -89,7 +73,7 @@ watch(form, debounce(() => {
           <InertiaLink
             v-if="years.current.year === years.selected.year"
             as="button"
-            :href="`/calendar/${currentMonth.value}?withBlockedUsers=${form.withTrashedUsers}`"
+            :href="`/calendar/${currentMonth.value}`"
             class="hidden focus:relative items-center p-2 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border-y border-gray-300 focus:outline-blumilk-500 md:flex"
           >
             Dzisiaj
@@ -97,7 +81,7 @@ watch(form, debounce(() => {
           <InertiaLink
             v-if="nextMonth"
             as="button"
-            :href="`/calendar/${nextMonth.value}?withBlockedUsers=${form.withTrashedUsers}`"
+            :href="`/calendar/${nextMonth.value}`"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="w-5 h-5" />
@@ -128,23 +112,6 @@ watch(form, debounce(() => {
           Pobierz nadgodziny
         </a>
       </div>
-    </div>
-    <div
-      v-if="auth.can.manageRequestsAsAdministrativeApprover"
-      class="flex items-center space-x-2 pb-2 px-4 sm:px-6"
-    >
-      <input
-        id="withTrashedUsers"
-        v-model="form.withTrashedUsers"
-        class="left-6 top-1/2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-        type="checkbox"
-      >
-      <label
-        class="block text-sm font-medium text-gray-700"
-        for="withTrashedUsers"
-      >
-        Zablokowani użytkownicy
-      </label>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm text-center border border-gray-300">

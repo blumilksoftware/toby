@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Toby\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -24,6 +25,7 @@ class ResumeController extends Controller
 
         $resumes = Resume::query()
             ->with("user")
+            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed(false))
             ->latest("updated_at")
             ->paginate();
 

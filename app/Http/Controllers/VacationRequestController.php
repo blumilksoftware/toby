@@ -105,7 +105,8 @@ class VacationRequestController extends Controller
         $status = $request->get("status", "all");
         $user = $request->get("user");
         $type = $request->get("type");
-        $withTrashedUsers = $request->boolean("withTrashedUsers") ?? false;
+        $authUser = $request->user();
+        $withTrashedUsers = $authUser->can("showInactiveUsers");
 
         $vacationRequests = VacationRequest::query()
             ->with(["vacations.user.profile", "user.permissions", "user.profile"])
@@ -113,7 +114,7 @@ class VacationRequestController extends Controller
             ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($withTrashedUsers))
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))
-            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
+            ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $authUser))
             ->latest()
             ->paginate();
 
@@ -131,7 +132,6 @@ class VacationRequestController extends Controller
                 "status" => $status,
                 "user" => (int)$user,
                 "type" => $type,
-                "withTrashedUsers" => $withTrashedUsers,
             ],
         ]);
     }

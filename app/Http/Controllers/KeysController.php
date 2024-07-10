@@ -28,6 +28,7 @@ class KeysController extends Controller
             ->sortBy("id");
 
         $users = User::query()
+            ->withTrashed($request->user()->hasPermissionTo("showInactiveUsers"))
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

@@ -158,6 +158,7 @@ watch(form, debounce(() => {
             <tr
               v-for="user in users.data"
               :key="user.id"
+              :class="[user.user.isActive ? '' : 'bg-gray-100']"
             >
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 <div class="flex">
