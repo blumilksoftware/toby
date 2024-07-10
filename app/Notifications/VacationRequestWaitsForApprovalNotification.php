@@ -38,7 +38,7 @@ class VacationRequestWaitsForApprovalNotification extends VacationRequestNotific
         }
 
         $attachment = Attachment::create()
-            ->setCallbackId((string)$this->vacationRequest->id)
+            ->setCallbackId("vacation:{$this->vacationRequest->id}")
             ->setText(__("Available actions:"))
             ->setActions($actions);
 

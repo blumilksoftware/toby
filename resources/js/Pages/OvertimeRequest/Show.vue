@@ -190,7 +190,7 @@ defineProps({
               preserve-scroll
               class="inline-flex justify-center items-center py-2 px-4 font-medium text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:text-sm"
             >
-              Rozlicz nadogdziny
+              Rozlicz nadgodziny
             </InertiaLink>
           </div>
         </div>
