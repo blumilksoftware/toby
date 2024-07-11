@@ -11,11 +11,18 @@ use Inertia\Response;
 use Toby\Actions\CreateUserAction;
 use Toby\Actions\SyncUserPermissionsWithRoleAction;
 use Toby\Actions\UpdateUserAction;
+use Toby\Domain\DashboardAggregator;
 use Toby\Enums\EmploymentForm;
 use Toby\Enums\Role;
+use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Requests\UserRequest;
+use Toby\Http\Resources\BirthdayResource;
+use Toby\Http\Resources\EquipmentItemResource;
+use Toby\Http\Resources\OvertimeRequestResource;
 use Toby\Http\Resources\UserFormDataResource;
 use Toby\Http\Resources\UserResource;
+use Toby\Http\Resources\VacationRequestResource;
+use Toby\Models\EquipmentItem;
 use Toby\Models\User;
 
 class UserController extends Controller
@@ -141,5 +148,43 @@ class UserController extends Controller
 
         return back()
             ->with("success", __("User restored."));
+    }
+
+    public function show(
+        User $user,
+        YearPeriodRetriever $yearPeriodRetriever,
+        DashboardAggregator $dashboardAggregator,
+    ): Response {
+        $this->authorize("manageUsers");
+
+        $yearPeriod = $yearPeriodRetriever->selected();
+        $equipment = EquipmentItem::query()
+            ->with("assignee")
+            ->where("assignee_id", $user->id)
+            ->get();
+        $vacationRequests = $user->vacationRequests()
+            ->with(["user", "vacations", "vacations.user", "vacations.user.profile", "user.permissions", "user.profile"])
+            ->whereBelongsTo($yearPeriod)
+            ->latest("updated_at")
+            ->limit(2)
+            ->get();
+        $overtimeRequests = $user->overtimeRequests()
+            ->with(["user", "user.profile", "user.permissions"])
+            ->whereBelongsTo($yearPeriod)
+            ->latest("updated_at")
+            ->limit(2)
+            ->get();
+
+        return inertia("Users/Show", [
+            "user" => new UserResource($user),
+            "vacationRequests" => VacationRequestResource::collection($vacationRequests),
+            "overtimeRequests" => OvertimeRequestResource::collection($overtimeRequests),
+            "benefits" => $dashboardAggregator->aggregateUserBenefits($user),
+            "calendar" => $dashboardAggregator->aggregateCalendarData($user, $yearPeriod),
+            "stats" => $dashboardAggregator->aggregateStats($user, $yearPeriod),
+            "equipmentItems" => EquipmentItemResource::collection($equipment),
+            "upcomingBirthday" => new BirthdayResource($user),
+            "seniority" => $user->seniority(),
+        ]);
     }
 }

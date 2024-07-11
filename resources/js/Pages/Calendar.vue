@@ -30,7 +30,7 @@ function isActiveDay(key) {
 }
 
 function setActiveDay(key) {
-  if(activeElement.value === undefined)
+  if (activeElement.value === undefined)
     activeElement.value = key
 }
 
@@ -42,7 +42,7 @@ function linkParameters(user, day) {
   return props.auth.can.createRequestsOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
 }
 
-function linkVacationRequest(user){
+function linkVacationRequest(user) {
   return props.auth.user.id === user.id || props.auth.can.manageRequestsAsTechnicalApprover || props.auth.can.manageRequestsAsAdministrativeApprover
 }
 </script>
@@ -58,8 +58,8 @@ function linkVacationRequest(user){
         <div class="flex items-center ml-3 rounded-md shadow-sm md:items-stretch">
           <InertiaLink
             v-if="previousMonth"
-            as="button"
             :href="`/calendar/${previousMonth.value}`"
+            as="button"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="w-5 h-5" />
@@ -72,16 +72,16 @@ function linkVacationRequest(user){
           </span>
           <InertiaLink
             v-if="years.current.year === years.selected.year"
-            as="button"
             :href="`/calendar/${currentMonth.value}`"
+            as="button"
             class="hidden focus:relative items-center p-2 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border-y border-gray-300 focus:outline-blumilk-500 md:flex"
           >
             Dzisiaj
           </InertiaLink>
           <InertiaLink
             v-if="nextMonth"
-            as="button"
             :href="`/calendar/${nextMonth.value}`"
+            as="button"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
           >
             <ChevronRightIcon class="w-5 h-5" />
@@ -125,9 +125,9 @@ function linkVacationRequest(user){
             <th
               v-for="day in calendar"
               :key="day.dayOfMonth"
+              :class="{ 'bg-red-100 text-red-800': day.isWeekend || day.isHoliday, 'text-blumilk-600 bg-blumilk-25': day.isToday }"
               class="p-2 text-lg font-semibold text-gray-900 border border-gray-300"
               style="min-width: 46px;"
-              :class="{ 'bg-red-100 text-red-800': day.isWeekend || day.isHoliday, 'text-blumilk-600 bg-blumilk-25': day.isToday }"
             >
               <div>
                 {{ day.dayOfMonth }}
@@ -144,7 +144,25 @@ function linkVacationRequest(user){
             :key="user.id"
           >
             <th class="p-2 border border-gray-300">
-              <div class="flex justify-start items-center">
+              <InertiaLink
+                v-if="auth.can.manageRequestsAsAdministrativeApprover"
+                :href="`/users/${user.id}`"
+              >
+                <div class="flex justify-start items-center">
+                  <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
+                    <img :src="user.avatar">
+                  </span>
+                  <div class="ml-3">
+                    <div class="text-sm font-medium text-gray-900 truncate">
+                      {{ user.name }}
+                    </div>
+                  </div>
+                </div>
+              </InertiaLink>
+              <div
+                v-else
+                class="flex justify-start items-center"
+              >
                 <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
                   <img :src="user.avatar">
                 </span>
@@ -158,26 +176,26 @@ function linkVacationRequest(user){
             <td
               v-for="day in calendar"
               :key="day.dayOfMonth"
-              class="border border-gray-300"
               :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday }"
-              @mouseover="setActiveDay(user.id + '+' + day.date)"
+              class="border border-gray-300"
               @mouseleave="unsetActiveDay"
+              @mouseover="setActiveDay(user.id + '+' + day.date)"
             >
               <div
                 v-if="user.id in day.vacations"
                 class="flex justify-center items-center"
               >
                 <CalendarDay
-                  :vacation="day.vacations[user.id]"
                   :see-vacation-details="linkVacationRequest(user)"
+                  :vacation="day.vacations[user.id]"
                 />
               </div>
               <template
                 v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && (auth.user.id === user.id || auth.can.createRequestsOnBehalfOfEmployee)"
               >
                 <InertiaLink
-                  href="/vacation/requests/create"
                   :data="linkParameters(user, day)"
+                  href="/vacation/requests/create"
                 >
                   <div class="flex justify-center items-center">
                     <VacationTypeCalendarIcon
