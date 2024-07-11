@@ -27,7 +27,7 @@ class ResumeController extends Controller
         $resumes = Resume::query()
             ->with("user")
             ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($request->user()->hasPermissionTo("showInactiveUsers")))
-            ->orWhere("user_id", null)
+            ->orWhereNull("user_id")
             ->latest("updated_at")
             ->paginate();
 
