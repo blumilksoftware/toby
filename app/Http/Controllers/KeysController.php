@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Toby\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,13 +23,15 @@ class KeysController extends Controller
 {
     public function index(Request $request): Response
     {
+        $authUser = $request->user();
         $keys = Key::query()
+            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($authUser->hasPermissionTo("showInactiveUsers")))
             ->with("user")
             ->get()
             ->sortBy("id");
 
         $users = User::query()
-            ->withTrashed($request->user()->hasPermissionTo("showInactiveUsers"))
+            ->withTrashed($authUser->hasPermissionTo("showInactiveUsers"))
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

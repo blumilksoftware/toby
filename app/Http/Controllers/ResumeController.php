@@ -6,6 +6,7 @@ namespace Toby\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Toby\Domain\ResumeGenerator;
@@ -19,13 +20,14 @@ use Toby\Models\User;
 
 class ResumeController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $this->authorize("manageResumes");
 
         $resumes = Resume::query()
             ->with("user")
-            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed(false))
+            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($request->user()->hasPermissionTo("showInactiveUsers")))
+            ->orWhere("user_id", null)
             ->latest("updated_at")
             ->paginate();
 

@@ -28,6 +28,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", false)
                             ->where("manageHolidays", false)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", false)
                             ->where("manageKeys", false)
                             ->where("manageTechnologies", false)
@@ -69,6 +70,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", false)
                             ->where("manageHolidays", false)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", false)
                             ->where("manageKeys", false)
                             ->where("manageTechnologies", true)
@@ -110,6 +112,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", true)
                             ->where("manageHolidays", true)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", true)
                             ->where("manageKeys", true)
                             ->where("manageTechnologies", true)
