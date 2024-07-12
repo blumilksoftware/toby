@@ -161,6 +161,7 @@ class UserController extends Controller
         $equipment = EquipmentItem::query()
             ->with("assignee")
             ->where("assignee_id", $user->id)
+            ->take(5)
             ->get();
         $vacationRequests = $user->vacationRequests()
             ->with(["user", "vacations", "vacations.user", "vacations.user.profile", "user.permissions", "user.profile"])

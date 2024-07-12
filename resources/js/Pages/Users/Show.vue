@@ -30,11 +30,11 @@ defineProps({
         <div class=" overflow-hidden bg-white shadow">
           <div class="p-6 bg-white">
             <div class="sm:flex sm:justify-between sm:items-center">
-              <div class="sm:flex sm:space-x-5">
+              <div class="sm:flex sm:space-x-5 sm:items-center">
                 <div class="shrink-0">
                   <img
-                    class="mx-auto w-20 h-20 rounded-full"
                     :src="user.avatar"
+                    class="mx-auto w-20 h-20 rounded-full"
                   >
                 </div>
                 <div class="mt-4 text-center sm:pt-1 sm:mt-0 sm:text-left">
@@ -53,6 +53,7 @@ defineProps({
       <VacationStats :stats="stats" />
       <UserVacationRequests
         :label="'Wnioski'"
+        :profile-page="true"
         :requests="vacationRequests.data"
       />
       <UserOvertimeRequests :requests="overtimeRequests.data" />
@@ -88,8 +89,8 @@ defineProps({
         </div>
       </section>
       <BenefitList
-        :label="'Benefity'"
         :benefits="benefits.data"
+        :label="'Benefity'"
       />
       <section class="bg-white shadow-md">
         <div class="w-100 p-4 sm:px-6 border-b border-gray-200 flex items-center">
@@ -137,6 +138,17 @@ defineProps({
               Brak sprzętu
             </template>
           </EmptyState>
+          <div
+            v-if="equipmentItems.data.length"
+            class="mb-6"
+          >
+            <InertiaLink
+              :href="`/equipment-items?assignee=${user.id}`"
+              class="flex justify-center items-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 shadow-sm"
+            >
+              Zobacz wszystkie
+            </InertiaLink>
+          </div>
         </div>
       </section>
     </div>
