@@ -27,6 +27,7 @@ import { DateTime } from 'luxon'
 import { useToast } from 'vue-toastification'
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   auth: Object,
@@ -252,7 +253,9 @@ watch(form, debounce(() => {
                 >
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                <InertiaLink :href="`/users/${user.id}`">
+                <UserProfileLink
+                  :user="user"
+                >
                   <div class="flex">
                     <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                       <img
@@ -269,7 +272,7 @@ watch(form, debounce(() => {
                       </p>
                     </div>
                   </div>
-                </InertiaLink>
+                </UserProfileLink>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.lastActiveAt ? DateTime.fromSQL(user.lastActiveAt).toRelative() : '-' }}

@@ -6,6 +6,7 @@ import VacationType from '@/Shared/VacationType.vue'
 import VacationBar from '@/Shared/VacationBar.vue'
 import CalendarComponent from '@/Shared/CalendarComponent.vue'
 import { ref, watch } from 'vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   request: Object,
@@ -51,20 +52,25 @@ watch(() => props.handyCalendarData, () => {
                 Pracownik
               </dt>
               <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <div class="flex">
-                  <img
-                    class="w-10 h-10 rounded-full"
-                    :src="request.user.avatar"
-                  >
-                  <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900">
-                      {{ request.user.name }}
-                    </p>
-                    <p class="text-sm text-gray-500">
-                      {{ request.user.email }}
-                    </p>
+                <UserProfileLink
+                  :user="request.user"
+                  class="flex"
+                >
+                  <div class="flex">
+                    <img
+                      :src="request.user.avatar"
+                      class="w-10 h-10 rounded-full"
+                    >
+                    <div class="ml-3">
+                      <p class="text-sm font-medium text-gray-900">
+                        {{ request.user.name }}
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        {{ request.user.email }}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </UserProfileLink>
               </dd>
             </div>
             <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
@@ -144,8 +150,8 @@ watch(() => props.handyCalendarData, () => {
                     <div class="shrink-0 ml-4">
                       <a
                         :href="`/vacation/requests/${request.id}/download`"
-                        target="_blank"
                         class="font-medium text-blumilk-600 hover:text-blumilk-500"
+                        target="_blank"
                       >
                         Pobierz
                       </a>
@@ -174,10 +180,10 @@ watch(() => props.handyCalendarData, () => {
           <div class="mt-5">
             <InertiaLink
               :href="`/vacation/requests/${request.id}/accept-as-technical`"
-              method="post"
               as="button"
-              preserve-scroll
               class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              method="post"
+              preserve-scroll
             >
               Zaakceptuj wniosek
             </InertiaLink>
@@ -200,10 +206,10 @@ watch(() => props.handyCalendarData, () => {
           <div class="mt-5">
             <InertiaLink
               :href="`/vacation/requests/${request.id}/accept-as-administrative`"
-              method="post"
               as="button"
-              preserve-scroll
               class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              method="post"
+              preserve-scroll
             >
               Zaakceptuj wniosek
             </InertiaLink>
@@ -226,10 +232,10 @@ watch(() => props.handyCalendarData, () => {
           <div class="mt-5">
             <InertiaLink
               :href="`/vacation/requests/${request.id}/reject`"
-              method="post"
               as="button"
-              preserve-scroll
               class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
+              method="post"
+              preserve-scroll
             >
               Odrzuć wniosek
             </InertiaLink>
@@ -252,10 +258,10 @@ watch(() => props.handyCalendarData, () => {
           <div class="mt-5">
             <InertiaLink
               :href="`/vacation/requests/${request.id}/cancel`"
-              method="post"
               as="button"
-              preserve-scroll
               class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
+              method="post"
+              preserve-scroll
             >
               Anuluj wniosek
             </InertiaLink>
@@ -298,11 +304,11 @@ watch(() => props.handyCalendarData, () => {
         >
           <CalendarComponent
             :key="handyCalendarKey"
-            :start-month="handyCalendarData.startMonth"
             :end-month="handyCalendarData.endMonth"
-            :vacations="handyCalendarData.vacations"
-            :pending-vacations="handyCalendarData.pendingVacations"
             :holidays="handyCalendarData.holidays"
+            :pending-vacations="handyCalendarData.pendingVacations"
+            :start-month="handyCalendarData.startMonth"
+            :vacations="handyCalendarData.vacations"
           />
         </div>
       </div>

@@ -1,6 +1,7 @@
 <script setup>
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationBar from '@/Shared/VacationBar.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   years: Object,
@@ -57,7 +58,9 @@ function isCurrentMonth(month) {
               class="hover:bg-blumilk-25"
             >
               <th class="p-4 text-sm font-semibold text-gray-500 capitalize whitespace-nowrap">
-                <InertiaLink :href="`/users/${item.user.id}`">
+                <UserProfileLink
+                  :user="item.user"
+                >
                   <div class="flex justify-start items-center">
                     <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                       <img
@@ -73,7 +76,7 @@ function isCurrentMonth(month) {
                       </div>
                     </div>
                   </div>
-                </InertiaLink>
+                </UserProfileLink>
               </th>
               <td
                 v-for="month in months"

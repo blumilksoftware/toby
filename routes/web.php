@@ -42,6 +42,7 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->except("show")
         ->whereNumber("user");
     Route::get("/users/{user}", [UserController::class, "show"])
+        ->withTrashed()
         ->whereNumber("user");
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")

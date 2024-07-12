@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   benefitsReport: Object,
@@ -21,21 +22,23 @@ const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedU
 function calculateSumOfBenefits(benefits) {
   let sum = 0
 
-  for(const benefit of benefits){
-    if(benefit.employer){
+  for (const benefit of benefits) {
+    if (benefit.employer) {
       sum += benefit.employer
     }
   }
 
   return (new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })).format(sum / 100)
 }
+
 function isBenefitHasCompanion(benefitId) {
   return props.benefitsReport.benefits.find((benefit) => benefit.id === benefitId && benefit.companion === true)
 }
-function generateUrl(){
+
+function generateUrl() {
   const params = new URLSearchParams()
 
-  selectedUsers.value.forEach((id) =>  params.append('users[]', id))
+  selectedUsers.value.forEach((id) => params.append('users[]', id))
 
   return params
 }
@@ -56,17 +59,17 @@ function generateUrl(){
           :href="`/benefits-reports/${props.benefitsReport.id}/download?${generateUrl()}`"
         >
           <button
-            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             :class="[selectedUsers.length === 0 ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Pobierz raport
           </button>
         </a>
         <button
           v-else
-          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           :class="[selectedUsers.length === 0 ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
           :disabled="selectedUsers.length === 0"
+          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
         >
           Pobierz raport
         </button>
@@ -77,16 +80,16 @@ function generateUrl(){
         <thead class="divide-y divide-gray-300">
           <tr class="divide-x divide-gray-300">
             <th
-              scope="col"
-              rowspan="2"
               class="relative w-16 px-8 space-x-4 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
+              rowspan="2"
+              scope="col"
             >
               <input
-                type="checkbox"
-                class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-                :disabled="benefitsReportData.length === 0"
                 :checked="indeterminate || selectedUsers.length === benefitsReportData.length && benefitsReportData.length > 0"
+                :disabled="benefitsReportData.length === 0"
                 :indeterminate="indeterminate"
+                class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                type="checkbox"
                 @change="selectedUsers = $event.target.checked ? benefitsReportData.map((item) => ( item.user.id )) : []"
               >
               <div class="flex justify-start items-center pl-4">
@@ -105,8 +108,8 @@ function generateUrl(){
               </div>
             </th>
             <th
-              rowspan="2"
               class="p-2 text-base font-semibold text-gray-900 even:bg-gray-100"
+              rowspan="2"
             >
               Wykorzystane dofinansowanie
             </th>
@@ -150,20 +153,25 @@ function generateUrl(){
                 />
                 <input
                   v-model="selectedUsers"
-                  type="checkbox"
-                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
                   :value="item.user.id"
+                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                  type="checkbox"
                 >
               </div>
               <div class="flex justify-start items-center pl-4">
-                <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
-                  <img :src="item.user.avatar">
-                </span>
-                <div class="ml-3">
-                  <div class="text-sm font-medium text-gray-900 truncate">
-                    {{ item.user.name }}
+                <UserProfileLink
+                  :user="item.user"
+                  class="flex justify-start items-center"
+                >
+                  <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
+                    <img :src="item.user.avatar">
+                  </span>
+                  <div class="ml-3">
+                    <div class="text-sm font-medium text-gray-900 truncate">
+                      {{ item.user.name }}
+                    </div>
                   </div>
-                </div>
+                </UserProfileLink>
               </div>
             </td>
             <template
@@ -174,10 +182,10 @@ function generateUrl(){
                 v-if="!isBenefitHasCompanion(benefit.id)"
                 class="text-right px-3"
               >
-                <span v-if="benefit.employer">{{ new Intl.NumberFormat('pl-PL').format(benefit.employer/100) }}</span>
+                <span v-if="benefit.employer">{{ new Intl.NumberFormat('pl-PL').format(benefit.employer / 100) }}</span>
               </td>
               <td class="text-right px-3">
-                <span v-if="benefit.employee">{{ new Intl.NumberFormat('pl-PL').format(benefit.employee/100) }}</span>
+                <span v-if="benefit.employee">{{ new Intl.NumberFormat('pl-PL').format(benefit.employee / 100) }}</span>
               </td>
             </template>
             <td>

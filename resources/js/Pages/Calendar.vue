@@ -4,6 +4,7 @@ import { computed, ref } from 'vue'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
 import CalendarDay from '@/Shared/CalendarDay.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   users: Object,
@@ -144,9 +145,8 @@ function linkVacationRequest(user) {
             :key="user.id"
           >
             <th class="p-2 border border-gray-300">
-              <InertiaLink
-                v-if="auth.can.manageRequestsAsAdministrativeApprover"
-                :href="`/users/${user.id}`"
+              <UserProfileLink
+                :user="user"
               >
                 <div class="flex justify-start items-center">
                   <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
@@ -158,20 +158,7 @@ function linkVacationRequest(user) {
                     </div>
                   </div>
                 </div>
-              </InertiaLink>
-              <div
-                v-else
-                class="flex justify-start items-center"
-              >
-                <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
-                  <img :src="user.avatar">
-                </span>
-                <div class="ml-3">
-                  <div class="text-sm font-medium text-gray-900 truncate">
-                    {{ user.name }}
-                  </div>
-                </div>
-              </div>
+              </UserProfileLink>
             </th>
             <td
               v-for="day in calendar"

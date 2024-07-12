@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import VacationLimitPopup from '@/Shared/VacationLimitPopup.vue'
 import RemainingFromPreviousYearPopup from '@/Shared/RemainingFromPreviousYearPopup.vue'
 import TakeVacationDaysFromPreviousYearModal from '@/Shared/Modals/TakeVacationDaysFromPreviousYearModal.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   limits: Object,
@@ -101,7 +102,9 @@ watch(() => form.items, () => {
                 class="hover:bg-blumilk-25"
               >
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                  <InertiaLink :href="`/users/${item.user.id}`">
+                  <UserProfileLink
+                    :user="item.user"
+                  >
                     <div class="flex">
                       <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
                         <img
@@ -118,7 +121,7 @@ watch(() => form.items, () => {
                         </p>
                       </div>
                     </div>
-                  </InertiaLink>
+                  </UserProfileLink>
                 </td>
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   {{ item.user.employmentForm }}
