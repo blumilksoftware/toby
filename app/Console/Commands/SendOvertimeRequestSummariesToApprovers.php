@@ -9,7 +9,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission;
 use Toby\Domain\OvertimeRequestStatesRetriever;
-use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Models\Holiday;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
@@ -20,7 +19,7 @@ class SendOvertimeRequestSummariesToApprovers extends Command
     protected $signature = "toby:send-overtime-request-reminders {--f|force}";
     protected $description = "Sends overtime request reminders to approvers if they didn't approve";
 
-    public function handle(VacationTypeConfigRetriever $configRetriever): void
+    public function handle(): void
     {
         $now = Carbon::today();
 
