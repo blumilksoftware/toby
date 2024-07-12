@@ -193,7 +193,7 @@ watch(form, debounce(() => {
                   as="template"
                 >
                   <li
-                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9', user.isActive ? '' : 'bg-gray-100']"
                   >
                     <div class="flex items-center">
                       <img
@@ -270,6 +270,7 @@ watch(form, debounce(() => {
               v-for="item in equipmentItems.data"
               :key="item.id"
               class="hover:bg-blumilk-25"
+              :class="[item.assignee ? item.assignee.isActive ? '' : 'bg-gray-100' : '', 'hover:bg-blumilk-25']"
             >
               <td class="p-4 text-sm text-gray-500 font-semibold whitespace-nowrap">
                 {{ item.idNumber }}

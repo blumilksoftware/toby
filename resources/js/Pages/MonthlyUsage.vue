@@ -55,7 +55,7 @@ function isCurrentMonth(month) {
             <tr
               v-for="item in monthlyUsage"
               :key="item.user.id"
-              class="hover:bg-blumilk-25"
+              :class="[item.user.isActive ? '' : 'bg-gray-100', 'hover:bg-blumilk-25']"
             >
               <th class="p-4 text-sm font-semibold text-gray-500 capitalize whitespace-nowrap">
                 <UserProfileLink

@@ -84,7 +84,7 @@ defineProps({
             <tr
               v-for="resume in resumes.data"
               :key="resume.id"
-              class="hover:bg-blumilk-25"
+              :class="[resume.user?.isActive ? '' : 'bg-gray-100', 'hover:bg-blumilk-25']"
             >
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 <div

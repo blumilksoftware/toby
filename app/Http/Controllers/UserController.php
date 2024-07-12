@@ -134,7 +134,7 @@ class UserController extends Controller
         $user->delete();
 
         return back()
-            ->with("success", __("User deleted."));
+            ->with("success", __("User blocked."));
     }
 
     /**

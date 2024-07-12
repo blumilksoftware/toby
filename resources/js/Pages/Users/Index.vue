@@ -238,7 +238,7 @@ watch(form, debounce(() => {
             <tr
               v-for="user in users.data"
               :key="user.id"
-              :class="[ selectedUsers.find((selectedUser) => selectedUser.email === user.email) && 'bg-blumilk-25', { 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
+              :class="[ selectedUsers.find((selectedUser) => selectedUser.email === user.email) && 'bg-blumilk-25', { 'bg-gray-100': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
             >
               <td class="relative w-12 px-6 sm:w-16 sm:px-8">
                 <div

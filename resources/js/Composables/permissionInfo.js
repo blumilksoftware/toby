@@ -15,6 +15,11 @@ const permissionsInfo = [
     'section': 'Użytkownicy',
   },
   {
+    'name': 'Widoczność zablokowanych użytkowników',
+    'value': 'showInactiveUsers',
+    'section': 'Użytkownicy',
+  },
+  {
     'name': 'Zarządzanie kluczami',
     'value': 'manageKeys',
     'section': 'Biuro',

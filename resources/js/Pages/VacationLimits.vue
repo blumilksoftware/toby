@@ -99,7 +99,7 @@ watch(() => form.items, () => {
               <tr
                 v-for="(item, index) in form.items"
                 :key="item.id"
-                class="hover:bg-blumilk-25"
+                :class="[item.user.deleted ? 'bg-gray-100' : '', 'hover:bg-blumilk-25']"
               >
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   <UserProfileLink
