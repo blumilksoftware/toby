@@ -49,7 +49,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", false)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", false)
                             ->where("receiveVacationRequestStatusChangedNotification", false)
-                            ->where("manageEquipment", false),
+                            ->where("manageEquipment", false)
+                            ->where("receiveOvertimeRequestsSummaryNotification", false),
                     ),
             );
     }
@@ -90,7 +91,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
-                            ->where("manageEquipment", false),
+                            ->where("manageEquipment", false)
+                            ->where("receiveOvertimeRequestsSummaryNotification", true),
                     ),
             );
     }
@@ -131,7 +133,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
-                            ->where("manageEquipment", true),
+                            ->where("manageEquipment", true)
+                            ->where("receiveOvertimeRequestsSummaryNotification", false),
                     ),
             );
     }

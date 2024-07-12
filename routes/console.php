@@ -9,6 +9,7 @@ use Toby\Console\Commands\SendDailySummaryToSlack;
 use Toby\Console\Commands\SendNotificationAboutBenefitsReportCreation;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueOhsTraining;
+use Toby\Console\Commands\SendOvertimeRequestSummariesToApprovers;
 use Toby\Console\Commands\SendVacationRequestSummariesToApprovers;
 use Toby\Jobs\CheckYearPeriod;
 
@@ -19,6 +20,11 @@ Schedule::command(SendDailySummaryToSlack::class)
     ->onOneServer();
 
 Schedule::command(SendVacationRequestSummariesToApprovers::class)
+    ->weekdays()
+    ->dailyAt("08:30")
+    ->onOneServer();
+
+Schedule::command(SendOvertimeRequestSummariesToApprovers::class)
     ->weekdays()
     ->dailyAt("08:30")
     ->onOneServer();

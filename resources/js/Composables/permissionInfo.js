@@ -119,6 +119,11 @@ const permissionsInfo = [
     'value': 'receiveVacationRequestStatusChangedNotification',
     'section': 'Powiadomienia',
   },
+  {
+    'name': 'Podsumowania wniosków o nadgodziny',
+    'value': 'receiveOvertimeRequestsSummaryNotification',
+    'section': 'Powiadomienia',
+  },
 ]
 
 export function usePermissionInfo() {
