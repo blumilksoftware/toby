@@ -130,7 +130,7 @@ class User extends Authenticatable implements NotifiableInterface
 
     public function canSeeInactiveUsers(): bool
     {
-        return $this->hasPermissionTo("showInactiveUsers");
+        return $this->can("showInactiveUsers");
     }
 
     public function keys(): HasMany
