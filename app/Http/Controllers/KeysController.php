@@ -25,13 +25,13 @@ class KeysController extends Controller
     {
         $authUser = $request->user();
         $keys = Key::query()
-            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($authUser->hasPermissionTo("showInactiveUsers")))
+            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($authUser->canSeeInactiveUsers()))
             ->with("user")
             ->get()
             ->sortBy("id");
 
         $users = User::query()
-            ->withTrashed($authUser->hasPermissionTo("showInactiveUsers"))
+            ->withTrashed($authUser->canSeeInactiveUsers())
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

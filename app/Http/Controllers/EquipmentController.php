@@ -6,6 +6,8 @@ namespace Toby\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -26,22 +28,24 @@ class EquipmentController extends Controller
      */
     public function index(Request $request): RedirectResponse|Response
     {
-        if ($request->user()->cannot("manageEquipment")) {
+        $authUser = $request->user();
+
+        if ($authUser->cannot("manageEquipment")) {
             return redirect()->route("equipment-items.indexForEmployee");
         }
 
         $searchQuery = $request->query("search");
 
         $equipmentItems = EquipmentItem::query()
-            ->with(["assignee" => fn($query) => $query->withTrashed()])
+            ->with(["assignee" => fn(BelongsTo $query): BelongsTo => $query->withTrashed()])
             ->search($searchQuery)
             ->when(
                 $request->query("assignee") && $request->query("assignee") !== "unassigned",
-                fn($query) => $query->where("assignee_id", $request->query("assignee")),
+                fn(Builder $query): Builder => $query->where("assignee_id", $request->query("assignee")),
             )
             ->when(
                 $request->query("assignee") === "unassigned",
-                fn($query) => $query->where("assignee_id", null),
+                fn(Builder $query): Builder => $query->where("assignee_id", null),
             )
             ->labels($request->query("labels"))
             ->orderBy("id_number")
@@ -49,7 +53,7 @@ class EquipmentController extends Controller
             ->withQueryString();
 
         $users = User::query()
-            ->withTrashed()
+            ->withTrashed($authUser->canSeeInactiveUsers())
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

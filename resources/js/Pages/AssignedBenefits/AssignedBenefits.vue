@@ -173,7 +173,7 @@ function isBenefitHasCompanion(benefitId) {
               :key="item.user.id"
               :class="[item.user.isActive ? '' : 'bg-gray-100', 'group hover:bg-blumilk-25 divide-x divide-gray-300']"
             >
-              <th class="group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 hover:bg-blumilk-25 group-hover:bg-blumilk-25">
+              <th :class="[item.user.isActive ? 'bg-white' : 'bg-gray-100', 'group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 hover:bg-blumilk-25 group-hover:bg-blumilk-25']">
                 <div class="flex justify-start items-center">
                   <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
                     <img :src="item.user.avatar">

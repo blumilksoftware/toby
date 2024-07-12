@@ -69,7 +69,7 @@ class BenefitsReportController extends Controller
         $nameReport = $request->get("name");
 
         $users = User::query()
-            ->withTrashed($request->user()->can("showInactiveUsers"))
+            ->withTrashed($request->user()->canSeeInactiveUsers())
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

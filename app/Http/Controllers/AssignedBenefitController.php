@@ -28,7 +28,7 @@ class AssignedBenefitController extends Controller
         $this->authorize("manageBenefits");
 
         $users = User::query()
-            ->withTrashed($request->user()->hasPermissionTo("showInactiveUsers"))
+            ->withTrashed($request->user()->canSeeInactiveUsers())
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

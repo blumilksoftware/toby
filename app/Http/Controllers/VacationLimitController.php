@@ -27,7 +27,7 @@ class VacationLimitController extends Controller
 
         $limits = $yearPeriod
             ->vacationLimits()
-            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($request->user()->hasPermissionTo("showInactiveUsers")))
+            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($request->user()->canSeeInactiveUsers()))
             ->with("user.profile")
             ->has("user")
             ->get()

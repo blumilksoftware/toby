@@ -192,7 +192,7 @@ watch(form, debounce(() => {
                   :value="user.id"
                 >
                   <li
-                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9', user.isActive ? '' : 'bg-gray-100']"
                   >
                     <div class="flex items-center">
                       <img

@@ -20,7 +20,7 @@ class EmployeesMilestonesRetriever
 
     public function getResults(User $user, ?string $searchText, ?string $sort): Collection
     {
-        $this->hasPermissionToViewInactiveUsers = $user->hasPermissionTo("showInactiveUsers");
+        $this->hasPermissionToViewInactiveUsers = $user->canSeeInactiveUsers();
 
         return match ($sort) {
             "birthday-asc" => $this->getUpcomingBirthdays($searchText),

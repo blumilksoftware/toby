@@ -106,7 +106,7 @@ class VacationRequestController extends Controller
         $user = $request->get("user");
         $type = $request->get("type");
         $authUser = $request->user();
-        $withTrashedUsers = $authUser->can("showInactiveUsers");
+        $withTrashedUsers = $authUser->canSeeInactiveUsers();
 
         $vacationRequests = VacationRequest::query()
             ->with(["vacations.user.profile", "user.permissions", "user.profile"])

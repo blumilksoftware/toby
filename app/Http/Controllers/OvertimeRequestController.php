@@ -99,7 +99,7 @@ class OvertimeRequestController extends Controller
         $status = $request->get("status", "all");
         $user = $request->get("user");
         $authUser = $request->user();
-        $withTrashedUsers = $authUser->can("showInactiveUsers");
+        $withTrashedUsers = $authUser->canSeeInactiveUsers();
 
         $overtimeRequests = OvertimeRequest::query()
             ->with(["user.permissions", "user.profile"])
