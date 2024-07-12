@@ -136,12 +136,12 @@ function generateUrl(){
           <tr
             v-for="item in benefitsReportData"
             :key="item.user.id"
-            :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25']"
-            class="group bg-white hover:bg-blumilk-25 group-hover:bg-blumilk-25 divide-x divide-gray-300"
+            :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25', [!item.user.isActive ? 'bg-gray-100' : 'bg-white']]"
+            class="group hover:bg-blumilk-25 group-hover:bg-blumilk-25 divide-x divide-gray-300"
           >
             <td
-              :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25']"
-              class="relative w-12 px-6 sm:w-16 sm:px-8 space-x-4 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 group bg-white hover:bg-blumilk-25 group-hover:bg-blumilk-25"
+              :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25', [!item.user.isActive ? 'bg-gray-100' : 'bg-white']]"
+              class="relative w-12 px-6 sm:w-16 sm:px-8 space-x-4 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 group hover:bg-blumilk-25 group-hover:bg-blumilk-25"
             >
               <div>
                 <div

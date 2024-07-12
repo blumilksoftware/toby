@@ -6,6 +6,7 @@ namespace Toby\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Inertia\Response;
 use Toby\Enums\Month;
@@ -22,11 +23,12 @@ class AssignedBenefitController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $this->authorize("manageBenefits");
 
         $users = User::query()
+            ->withTrashed($request->user()->canSeeInactiveUsers())
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();

@@ -50,7 +50,7 @@ function linkVacationRequest(user){
 <template>
   <InertiaHead title="Kalendarz" />
   <div class="bg-white shadow-md">
-    <div class="flex justify-between items-center p-4 sm:px-6">
+    <div class="flex-row sm:flex justify-between items-center p-4 sm:px-6">
       <div class="flex items-center">
         <h2 class="text-lg font-medium leading-6 text-center text-gray-900">
           Kalendarz
@@ -95,12 +95,12 @@ function linkVacationRequest(user){
         </div>
       </div>
       <div
-        class="flex"
+        class="flex mt-3 sm:mt-0"
       >
         <a
           v-if="auth.can.manageRequestsAsAdministrativeApprover"
           :href="`/vacation/timesheet/${selectedMonth.value}`"
-          class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          class="block py-3 px-4 sm:ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
         >
           Pobierz plik Excel
         </a>
@@ -142,6 +142,7 @@ function linkVacationRequest(user){
           <tr
             v-for="user in users.data"
             :key="user.id"
+            :class="[user.isActive ? '' : 'bg-gray-100']"
           >
             <th class="p-2 border border-gray-300">
               <div class="flex justify-start items-center">

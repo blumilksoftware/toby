@@ -96,7 +96,7 @@ function submitGiveKey() {
             <tr
               v-for="key in keys.data"
               :key="key.id"
-              class="hover:bg-blumilk-25"
+              :class="[key.user.isActive ? '' : 'bg-gray-100', 'hover:bg-blumilk-25']"
             >
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 Klucz nr {{ key.id }}

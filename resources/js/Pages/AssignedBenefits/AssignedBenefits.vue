@@ -171,9 +171,9 @@ function isBenefitHasCompanion(benefitId) {
             <tr
               v-for="(item, index) in form.items"
               :key="item.user.id"
-              class="group hover:bg-blumilk-25 divide-x divide-gray-300"
+              :class="[item.user.isActive ? '' : 'bg-gray-100', 'group hover:bg-blumilk-25 divide-x divide-gray-300']"
             >
-              <th class="group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 bg-white hover:bg-blumilk-25 group-hover:bg-blumilk-25">
+              <th :class="[item.user.isActive ? 'bg-white' : 'bg-gray-100', 'group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 hover:bg-blumilk-25 group-hover:bg-blumilk-25']">
                 <div class="flex justify-start items-center">
                   <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
                     <img :src="item.user.avatar">
@@ -198,7 +198,8 @@ function isBenefitHasCompanion(benefitId) {
                     :name="`${benefit.id}-employer-${index}`"
                     type="number"
                     step="0.01"
-                    class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
+                    class=""
+                    :class="[item.user.isActive ? '' : 'bg-gray-100', 'w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300']"
                     title="Wprowadź kwotę."
                     min="0"
                   >
@@ -209,7 +210,7 @@ function isBenefitHasCompanion(benefitId) {
                     :name="`${benefit.id}-employee-${index}`"
                     type="number"
                     step="0.01"
-                    class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
+                    :class="[item.user.isActive ? '' : 'bg-gray-100', 'w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300']"
                     title="Wprowadź kwotę."
                     min="0"
                   >
@@ -226,7 +227,7 @@ function isBenefitHasCompanion(benefitId) {
                 <TextArea
                   v-model="item.comment"
                   :resize="true"
-                  class="w-full sm:text-sm border-none appearance-none mt-1 focus:ring-0 focus:bg-blumilk-25 group-hover:bg-blumilk-25 resize-y h-full"
+                  :class="[item.user.isActive ? '' : 'bg-gray-100', 'w-full sm:text-sm border-none appearance-none mt-1 focus:ring-0 focus:bg-blumilk-25 group-hover:bg-blumilk-25 resize-y h-full']"
                   style="min-height: 40px"
                 />
               </td>
