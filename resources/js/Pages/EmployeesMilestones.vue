@@ -4,12 +4,9 @@ import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
-import { CheckIcon, ChevronUpDownIcon, CalendarDaysIcon, CakeIcon } from '@heroicons/vue/24/solid'
-import { Listbox,
-  ListboxButton,
-  ListboxOption,
-  ListboxOptions,
-} from '@headlessui/vue'
+import { CakeIcon, CalendarDaysIcon, CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const sortOptions = [
   {
@@ -74,9 +71,9 @@ watch(form, debounce(() => {
           </div>
           <input
             v-model.trim="form.search"
-            type="search"
             class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
             placeholder="Szukaj"
+            type="search"
           >
         </div>
         <Listbox
@@ -107,8 +104,8 @@ watch(form, debounce(() => {
                   v-for="option in sortOptions"
                   :key="option.value"
                   v-slot="{ active, selected }"
-                  as="template"
                   :value="option"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -133,22 +130,22 @@ watch(form, debounce(() => {
           <thead class="bg-gray-50">
             <tr>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 <span>
                   Imię i nazwisko
                 </span>
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 Następne urodziny
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 Data zatrudnienia
               </th>
@@ -161,22 +158,26 @@ watch(form, debounce(() => {
               :class="[user.user.isActive ? '' : 'bg-gray-100']"
             >
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                <div class="flex">
-                  <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
-                    <img
-                      class="w-10 h-10 rounded-full"
-                      :src="user.user.avatar"
-                    >
-                  </span>
-                  <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900 break-all">
-                      {{ user.user.name }}
-                    </p>
-                    <p class="text-sm text-gray-500 break-all">
-                      {{ user.user.email }}
-                    </p>
+                <UserProfileLink
+                  :user="user.user"
+                >
+                  <div class="flex">
+                    <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
+                      <img
+                        :src="user.user.avatar"
+                        class="w-10 h-10 rounded-full"
+                      >
+                    </span>
+                    <div class="ml-3">
+                      <p class="text-sm font-medium text-gray-900 break-all">
+                        {{ user.user.name }}
+                      </p>
+                      <p class="text-sm text-gray-500 break-all">
+                        {{ user.user.email }}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </UserProfileLink>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 <div class="flex flex-col gap-1">
@@ -217,8 +218,8 @@ watch(form, debounce(() => {
               v-if="! users.data.length"
             >
               <td
-                colspan="100%"
                 class="py-4 text-xl leading-5 text-center text-gray-700"
+                colspan="100%"
               >
                 <EmptyState>
                   <template #title>
