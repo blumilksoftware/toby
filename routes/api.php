@@ -13,7 +13,7 @@ use Toby\Slack\SlackActionController;
 use Toby\Slack\SlackCommandController;
 
 Route::post("slack/commands", [SlackCommandController::class, "getResponse"]);
-Route::post("slack/actions", [SlackActionController::class, "handleVacationRequestAction"]);
+Route::post("slack/actions", [SlackActionController::class, "handleAction"]);
 
 Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("vacation/calculate-days", CalculateVacationDaysController::class);

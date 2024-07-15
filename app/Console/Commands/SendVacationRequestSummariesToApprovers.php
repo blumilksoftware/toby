@@ -34,6 +34,7 @@ class SendVacationRequestSummariesToApprovers extends Command
         foreach ($users as $user) {
             $vacationRequests = VacationRequest::query()
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
+                ->orderByDesc("updated_at")
                 ->get();
 
             if ($vacationRequests->isNotEmpty() && $this->worksToday($user, $now, $configRetriever)) {
