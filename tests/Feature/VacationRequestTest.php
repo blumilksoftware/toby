@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\PolishHolidaysRetriever;
@@ -657,6 +658,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testEmployeeCanDownloadHisVacationRequestAsPdf(): void
     {
+        Storage::fake();
         $user = User::factory()->create();
         $currentYearPeriod = YearPeriod::current();
 
@@ -683,6 +685,7 @@ class VacationRequestTest extends FeatureTestCase
 
     public function testEmployeeCannotDownloadAnotherEmployeesVacationRequestAsPdf(): void
     {
+        Storage::fake();
         $user = User::factory()->create();
         $anotherUser = User::factory()->create();
         $currentYearPeriod = YearPeriod::current();

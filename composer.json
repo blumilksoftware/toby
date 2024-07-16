@@ -20,7 +20,7 @@
         "laravel/telescope": "^5.1.0",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1.55",
-        "phpoffice/phpword": "1.1",
+        "phpoffice/phpword": "1.2",
         "sentry/sentry-laravel": "^4.6.1",
         "spatie/laravel-google-calendar": "3.8",
         "spatie/laravel-model-states": "^2.7.1",
