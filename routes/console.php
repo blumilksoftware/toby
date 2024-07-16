@@ -9,6 +9,8 @@ use Toby\Console\Commands\SendDailySummaryToSlack;
 use Toby\Console\Commands\SendNotificationAboutBenefitsReportCreation;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueOhsTraining;
+use Toby\Console\Commands\SendNotificationAboutUpcomingMedicalExamsForEmployees;
+use Toby\Console\Commands\SendNotificationAboutUpcomingOhsTrainingForEmployees;
 use Toby\Console\Commands\SendOvertimeRequestSummariesToApprovers;
 use Toby\Console\Commands\SendVacationRequestSummariesToApprovers;
 use Toby\Jobs\CheckYearPeriod;
@@ -47,6 +49,14 @@ Schedule::job(CheckYearPeriod::class)
 
 Schedule::command(PruneStaleTagsCommand::class)
     ->hourly()
+    ->onOneServer();
+
+Schedule::command(SendNotificationAboutUpcomingMedicalExamsForEmployees::class)
+    ->weeklyOn(1, "08:30")
+    ->onOneServer();
+
+Schedule::command(SendNotificationAboutUpcomingOhsTrainingForEmployees::class)
+    ->weeklyOn(1, "08:30")
     ->onOneServer();
 
 $scheduledTask = Schedule::command(BackupPostgresDatabase::class)
