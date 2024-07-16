@@ -5,7 +5,7 @@
     "keywords": ["toby", "laravel", "hr"],
     "license": "MIT",
     "require": {
-        "php": "^8.3.0",
+        "php": "^8.3.8",
         "ext-pdo": "*",
         "ext-redis": "*",
         "azuyalabs/yasumi": "^2.7",
