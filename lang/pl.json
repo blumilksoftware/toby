@@ -75,6 +75,8 @@
   "The request :title is waiting for your administrative approval.\nUser: :requester\nDate: :date (number of days: :days)": "Wniosek :title czeka na Twoją akceptację administracyjną.\nPracownik: :requester\nData: :date (liczba dni: :days)",
   "The request :title has been approved by you as a technical approver.\nUser: :requester\nDate: :date (number of days: :days)": "Wniosek :title został zaakceptowany przez Ciebie jako przełożonego technicznego.\nPracownik: :requester\nData: :date (liczba dni: :days)",
   "The request :title has been approved by you as an administrative approver.\nUser: :requester\nDate: :date (number of days: :days)": "Wniosek :title został zaakceptowany przez Ciebie jako przełożonego administracyjnego.\nPracownik: :requester\nData: :date (liczba dni: :days)",
+  "The deadline for occupational ohs training for you is about to expire - :date (overdue :difference days)": "Niedługo mija termin szkolenia BHP dla Ciebie - :date (przeterminowane za :difference dni)",
+  "The deadline for occupational health examinations for you is about to expire - :date (overdue :difference days)": "Niedługo mija termin badań lekarskich z medycyny pracy dla Ciebie - :date (przeterminowane za :difference dni)",
   "Request :title has been :status": "Wniosek :title został :status",
   "Request :title in :application": "Wniosek :title w aplikacji :application",
   "The request :title from user :requester has been :status.": "Wniosek :title użytkownika :requester został :status.",
