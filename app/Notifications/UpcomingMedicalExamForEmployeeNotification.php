@@ -21,7 +21,7 @@ class UpcomingMedicalExamForEmployeeNotification extends QueuedNotification
 
     public function via(): array
     {
-        return [Channels::MAIL];
+        return [Channels::SLACK];
     }
 
     public function toSlack(): SlackMessage
