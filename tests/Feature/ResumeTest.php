@@ -138,6 +138,7 @@ class ResumeTest extends FeatureTestCase
 
     public function testAdminCanDeleteResume(): void
     {
+        Storage::fake("resumes");
         $resume = Resume::factory()->create();
         $admin = User::factory()->admin()->create();
 

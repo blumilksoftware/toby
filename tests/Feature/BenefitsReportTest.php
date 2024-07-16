@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
@@ -87,6 +88,7 @@ class BenefitsReportTest extends FeatureTestCase
 
     public function testAdminCanDownloadBenefitsReport(): void
     {
+        Storage::fake();
         $admin = User::factory()->admin()->create();
 
         [$firstUser, $secondUser] = User::factory(2)->create();
