@@ -1,5 +1,5 @@
 <script setup>
-import { ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 import { computed, ref, watch } from 'vue'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
@@ -14,8 +14,10 @@ const props = defineProps({
   auth: Object,
   calendar: Object,
   current: String,
-  selected: String,
+  selectedMonth: String,
   years: Object,
+  previousYearPeriod: Object,
+  nextYearPeriod: Object,
 })
 
 let activeElement = ref(undefined)
@@ -25,7 +27,7 @@ const { getMonths, findMonth } = useMonthInfo()
 const months = getMonths()
 
 const form = useForm({
-  selectedMonth: months.find(month => month.value === props.selected),
+  selectedMonth: months.find(month => month.value === props.selectedMonth),
 })
 
 watch(() => form.selectedMonth, (value) => {
@@ -34,7 +36,7 @@ watch(() => form.selectedMonth, (value) => {
   }
 })
 
-const selectedMonth = computed(() => findMonth(props.selected))
+const selectedMonth = computed(() => findMonth(props.selectedMonth))
 const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
 const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
 
@@ -76,6 +78,14 @@ function linkVacationRequest(user) {
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9 md:hover:bg-gray-50"
           >
             <ChevronLeftIcon class="w-5 h-5" />
+          </InertiaLink>
+          <InertiaLink
+            v-else-if="previousYearPeriod"
+            :href="`/calendar/${months[11].value}/${previousYearPeriod.year}`"
+            as="button"
+            class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9 md:hover:bg-gray-50"
+          >
+            <ChevronDoubleLeftIcon class="w-5 h-5" />
           </InertiaLink>
           <span
             v-else
@@ -134,9 +144,17 @@ function linkVacationRequest(user) {
           >
             <ChevronRightIcon class="w-5 h-5" />
           </InertiaLink>
+          <InertiaLink
+            v-else-if="nextYearPeriod"
+            :href="`/calendar/${months[0].value}/${nextYearPeriod.year}`"
+            as="button"
+            class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
+          >
+            <ChevronDoubleRightIcon class="w-5 h-5" />
+          </InertiaLink>
           <span
             v-else
-            class="flex justify-center items-center p-2 text-gray-400 bg-gray-100 rounded-r-md border border-l-0 border-gray-300 md:px-2 md:w-9"
+            class="flex justify-center items-center text-gray-400 bg-gray-100 rounded-r-md border border-l-0 border-gray-300 md:px-2 md:w-9"
           >
             <ChevronRightIcon class="w-5 h-5" />
           </span>
