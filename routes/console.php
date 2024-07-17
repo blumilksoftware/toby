@@ -10,7 +10,7 @@ use Toby\Console\Commands\SendNotificationAboutBenefitsReportCreation;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueOhsTraining;
 use Toby\Console\Commands\SendNotificationAboutUpcomingMedicalExamsForEmployees;
-use Toby\Console\Commands\SendNotificationAboutUpcomingOhsTrainingForEmployees;
+use Toby\Console\Commands\SendNotificationAboutUpcomingOhsTrainingsForEmployees;
 use Toby\Console\Commands\SendOvertimeRequestSummariesToApprovers;
 use Toby\Console\Commands\SendVacationRequestSummariesToApprovers;
 use Toby\Jobs\CheckYearPeriod;
@@ -55,7 +55,7 @@ Schedule::command(SendNotificationAboutUpcomingMedicalExamsForEmployees::class)
     ->weeklyOn(1, "08:30")
     ->onOneServer();
 
-Schedule::command(SendNotificationAboutUpcomingOhsTrainingForEmployees::class)
+Schedule::command(SendNotificationAboutUpcomingOhsTrainingsForEmployees::class)
     ->weeklyOn(1, "08:30")
     ->onOneServer();
 

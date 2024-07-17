@@ -10,9 +10,9 @@ use Toby\Enums\UserHistoryType;
 use Toby\Models\User;
 use Toby\Notifications\UpcomingOhsTrainingForEmployeeNotification;
 
-class SendNotificationAboutUpcomingOhsTrainingForEmployees extends Command
+class SendNotificationAboutUpcomingOhsTrainingsForEmployees extends Command
 {
-    protected $signature = "toby:send-notification-about-ohs-training-for-employees";
+    protected $signature = "toby:send-notification-about-ohs-trainings-for-employees";
     protected $description = "Send notifications about upcoming ohs trainings.";
 
     public function handle(): void
