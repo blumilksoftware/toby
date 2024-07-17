@@ -29,7 +29,7 @@ class UpcomingOhsTrainingForEmployeeNotification extends QueuedNotification
         $lastOhsTrainingDate = $this->user->lastOhsTraining();
 
         return (new SlackMessage())
-            ->text(__("The deadline for occupational ohs training for you is about to expire - :date (overdue :difference days)", [
+            ->text(__("The deadline for occupational ohs training for you is about to expire - :date (:difference days)", [
                 "date" => $lastOhsTrainingDate->to->toDisplayString(),
                 "difference" => (int)$lastOhsTrainingDate->to->diffInDays(Carbon::today(), true),
             ]));

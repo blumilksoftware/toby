@@ -29,7 +29,7 @@ class UpcomingMedicalExamForEmployeeNotification extends QueuedNotification
         $lastMedicalExamDate = $this->user->lastMedicalExam();
 
         return (new SlackMessage())
-            ->text(__("The deadline for occupational health examinations for you is about to expire - :date (overdue :difference days)", [
+            ->text(__("The deadline for occupational medical examinations for you is about to expire - :date (:difference days)", [
                 "date" => $lastMedicalExamDate->to->toDisplayString(),
                 "difference" => (int)$lastMedicalExamDate->to->diffInDays(Carbon::today(), true),
             ]));
