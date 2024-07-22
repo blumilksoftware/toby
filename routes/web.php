@@ -129,7 +129,7 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->whereNumber("yearPeriod")
         ->name("year-periods.select");
 
-    Route::get("/calendar/{month?}", [VacationCalendarController::class, "index"])
+    Route::get("/calendar/{month?}/{year?}", [VacationCalendarController::class, "index"])
         ->name("calendar");
 
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
