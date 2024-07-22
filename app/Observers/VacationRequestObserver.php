@@ -19,6 +19,6 @@ class VacationRequestObserver
 
     public function updating(VacationRequest $vacationRequest): void
     {
-        CacheQuery::forget("vacations{$vacationRequest->user->id}");
+        CacheQuery::forget("vacations:{$vacationRequest->user->id}");
     }
 }

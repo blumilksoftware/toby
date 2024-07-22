@@ -60,7 +60,7 @@ class VacationRequestController extends Controller
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::pendingStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(key: "vacations{$user->id}")
+            ->cache(key: "vacations:{$user->id}")
             ->count();
 
         $success = $user
@@ -68,7 +68,7 @@ class VacationRequestController extends Controller
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::successStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(key: "vacations{$user->id}")
+            ->cache(key: "vacations:{$user->id}")
             ->count();
 
         $failed = $user
@@ -76,7 +76,7 @@ class VacationRequestController extends Controller
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(VacationRequestStatesRetriever::failedStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(key: "vacations{$user->id}")
+            ->cache(key: "vacations:{$user->id}")
             ->count();
 
         return inertia("VacationRequest/Index", [

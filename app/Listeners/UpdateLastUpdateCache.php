@@ -16,6 +16,6 @@ class UpdateLastUpdateCache
 
     public function handle(VacationRequestChanged $event): void
     {
-        $this->cacheManager->set("last_update", Carbon::now()->toIso8601String());
+        $this->cacheManager->set("last:update", Carbon::now()->toIso8601String());
     }
 }

@@ -48,28 +48,28 @@ class OvertimeRequestController extends Controller
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::pendingStates())
-            ->cache(key: "overtime{$user->id}")
+            ->cache(key: "overtime:{$user->id}")
             ->count();
 
         $success = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::successStates())
-            ->cache(key: "overtime{$user->id}")
+            ->cache(key: "overtime:{$user->id}")
             ->count();
 
         $failed = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::failedStates())
-            ->cache(key: "overtime{$user->id}")
+            ->cache(key: "overtime:{$user->id}")
             ->count();
 
         $settled = $user
             ->overtimeRequests()
             ->whereBelongsTo($yearPeriodRetriever->selected())
             ->states(OvertimeRequestStatesRetriever::settledStates())
-            ->cache(key: "overtime{$user->id}")
+            ->cache(key: "overtime:{$user->id}")
             ->count();
 
         return inertia("OvertimeRequest/Index", [

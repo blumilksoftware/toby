@@ -13,7 +13,7 @@ class LastUpdateController
     public function __invoke(CacheManager $cache): JsonResponse
     {
         return new JsonResponse([
-            "lastUpdate" => $cache->get("last_update", Carbon::now()->toIso8601String()),
+            "lastUpdate" => $cache->get("last:update", Carbon::now()->toIso8601String()),
         ]);
     }
 }

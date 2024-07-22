@@ -25,7 +25,7 @@ return new class() extends Migration {
             $table->date("next_medical_exam_date")->nullable()->default(null);
             $table->date("last_ohs_training_date")->nullable()->default(null);
             $table->date("next_ohs_training_date")->nullable()->default(null);
-            $table->date("employment_date")->nullable();
+            $table->date("employment_date")->nullable()->default(null);
         });
     }
 };

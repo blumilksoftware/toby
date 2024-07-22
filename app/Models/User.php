@@ -99,7 +99,7 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->histories()
             ->where("type", UserHistoryType::MedicalExam)
             ->orderBy("to", "desc")
-            ->cache("userHistories{$this->id}")
+            ->cache("user:history{$this->id}")
             ->first();
     }
 
@@ -108,7 +108,7 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->histories()
             ->where("type", UserHistoryType::OhsTraining)
             ->orderBy("to", "desc")
-            ->cache("userHistories{$this->id}")
+            ->cache("user:history{$this->id}")
             ->first();
     }
 
@@ -118,7 +118,7 @@ class User extends Authenticatable implements NotifiableInterface
             ->where("type", UserHistoryType::Employment)
             ->where("is_employed_at_current_company", true)
             ->orderBy("from")
-            ->cache("userHistories{$this->id}")
+            ->cache("user:history{$this->id}")
             ->first();
     }
 

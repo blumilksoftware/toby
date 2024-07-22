@@ -16,6 +16,6 @@ class UserHistoryObserver
 
     public function updating(UserHistory $userHistory): void
     {
-        CacheQuery::forget("userHistories{$userHistory->user->id}");
+        CacheQuery::forget("user:history{$userHistory->user->id}");
     }
 }
