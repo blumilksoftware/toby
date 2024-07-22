@@ -70,9 +70,14 @@ class VacationCalendarController extends Controller
     private function changeYearPeriod(Request $request, string $month, int $year): RedirectResponse
     {
         $yearPeriod = YearPeriod::query()->where("year", $year)->firstOrFail();
-        $request->session()->put(YearPeriodRetriever::SESSION_KEY, $yearPeriod->id);
 
-        return redirect()->route("calendar", ["month" => $month])
-            ->with("info", __("Year period changed."));
+        if ($yearPeriod->id !== $request->session()->get(YearPeriodRetriever::SESSION_KEY)) {
+            $request->session()->put(YearPeriodRetriever::SESSION_KEY, $yearPeriod->id);
+
+            return redirect()->route("calendar", ["month" => $month])
+                ->with("info", __("Year period changed."));
+        }
+
+        return redirect()->route("calendar", ["month" => $month]);
     }
 }
