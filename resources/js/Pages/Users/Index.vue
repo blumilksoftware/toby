@@ -7,11 +7,11 @@ import {
   ArrowPathIcon,
   CheckIcon,
   ChevronUpDownIcon,
-  ClockIcon,
   EllipsisVerticalIcon,
   LockClosedIcon,
   NoSymbolIcon,
   PencilIcon,
+  InformationCircleIcon,
 } from '@heroicons/vue/24/solid'
 import {
   Listbox,
@@ -345,8 +345,8 @@ watch(form, debounce(() => {
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                             :href="`/users/${user.id}/history`"
                           >
-                            <ClockIcon class="mr-2 w-5 h-5 text-violet-500" />
-                            Historia
+                            <InformationCircleIcon class="mr-2 w-5 h-5 text-violet-500" />
+                            Szczegóły
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem

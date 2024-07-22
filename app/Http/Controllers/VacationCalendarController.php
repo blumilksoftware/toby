@@ -7,7 +7,6 @@ namespace Toby\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Inertia\Response;
 use Toby\Domain\CalendarGenerator;
 use Toby\Enums\Month;
@@ -57,8 +56,10 @@ class VacationCalendarController extends Controller
 
         return inertia("Calendar", [
             "calendar" => $calendar,
-            "current" => Month::current(),
+            "currentMonth" => Month::current(),
+            "currentYear" => Carbon::now()->year,
             "selectedMonth" => $month->value,
+            "selectedYear" => $yearPeriod->year,
             "users" => SimpleUserResource::collection($users),
             "withBlockedUsers" => $withTrashedUsers,
             "previousYearPeriod" => $previousYearPeriod,
@@ -69,10 +70,14 @@ class VacationCalendarController extends Controller
     private function changeYearPeriod(Request $request, string $month, int $year): RedirectResponse
     {
         $yearPeriod = YearPeriod::query()->where("year", $year)->firstOrFail();
-        $request->session()->put(YearPeriodRetriever::SESSION_KEY, $yearPeriod->id);
-        Cache::forget("selected_year_period");
 
-        return redirect()->route("calendar", ["month" => $month])
-            ->with("info", __("Year period changed."));
+        if ($yearPeriod->id !== $request->session()->get(YearPeriodRetriever::SESSION_KEY)) {
+            $request->session()->put(YearPeriodRetriever::SESSION_KEY, $yearPeriod->id);
+
+            return redirect()->route("calendar", ["month" => $month])
+                ->with("info", __("Year period changed."));
+        }
+
+        return redirect()->route("calendar", ["month" => $month]);
     }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
+import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleRightIcon, ChevronDoubleLeftIcon, ChevronUpDownIcon, ArrowUturnLeftIcon } from '@heroicons/vue/24/solid'
 import { computed, ref, watch } from 'vue'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
@@ -13,8 +13,10 @@ const props = defineProps({
   users: Object,
   auth: Object,
   calendar: Object,
-  current: String,
+  currentMonth: String,
+  currentYear: Number,
   selectedMonth: String,
+  selectedYear: Number,
   years: Object,
   previousYearPeriod: Object,
   nextYearPeriod: Object,
@@ -158,6 +160,17 @@ function linkVacationRequest(user) {
           >
             <ChevronDoubleRightIcon class="w-5 h-5" />
           </span>
+          <InertiaLink
+            v-if="selectedMonth.value !== currentMonth || currentYear !== selectedYear"
+            :href="`/calendar/${props.currentMonth}/${props.currentYear}`"
+            as="button"
+            class="flex focus:relative justify-center items-center p-2 bg-white md:px-2 md:hover:bg-gray-50 ml-1"
+          >
+            <ArrowUturnLeftIcon class="w-5 h-5 text-blumilk-600 hover:text-blumilk-500" />
+            <span class="ml-1.5 text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
+              Dzisiaj
+            </span>
+          </InertiaLink>
         </div>
       </div>
       <div
