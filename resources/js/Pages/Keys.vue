@@ -1,13 +1,27 @@
 <script setup>
-import { EllipsisVerticalIcon, TrashIcon, CheckIcon, ChevronUpDownIcon, KeyIcon, HomeIcon } from '@heroicons/vue/24/solid'
+import { CheckIcon, ChevronUpDownIcon, EllipsisVerticalIcon, HomeIcon, KeyIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import DominoMaskIcon from 'vue-material-design-icons/DominoMask.vue'
 import HandshakeIcon from 'vue-material-design-icons/Handshake.vue'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import {
+  Dialog,
+  DialogOverlay,
+  DialogTitle,
+  Listbox,
+  ListboxButton,
+  ListboxLabel,
+  ListboxOption,
+  ListboxOptions,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  TransitionChild,
+  TransitionRoot,
+} from '@headlessui/vue'
 import { computed, ref } from 'vue'
-import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   keys: Object,
@@ -22,7 +36,7 @@ const form = useForm({
   user: null,
 })
 
-const filteredUsers = computed(() => props.users.data.filter(user => user.id !== keyToGive.value.user?.id ))
+const filteredUsers = computed(() => props.users.data.filter(user => user.id !== keyToGive.value.user?.id))
 
 function giveKey(key) {
   keyToGive.value = key
@@ -55,9 +69,9 @@ function submitGiveKey() {
       <div v-if="auth.can.manageKeys">
         <InertiaLink
           as="button"
+          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           href="/keys"
           method="post"
-          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
         >
           Dodaj klucz
         </InertiaLink>
@@ -69,26 +83,26 @@ function submitGiveKey() {
           <thead class="bg-gray-50">
             <tr>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 Klucz
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 Kto ma
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 Od kiedy
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               />
             </tr>
           </thead>
@@ -96,7 +110,7 @@ function submitGiveKey() {
             <tr
               v-for="key in keys.data"
               :key="key.id"
-              class="hover:bg-blumilk-25"
+              :class="[key.user.isActive ? '' : 'bg-gray-100', 'hover:bg-blumilk-25']"
             >
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 Klucz nr {{ key.id }}
@@ -106,20 +120,25 @@ function submitGiveKey() {
                   v-if="key.user"
                   class="flex"
                 >
-                  <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
-                    <img
-                      class="w-10 h-10 rounded-full"
-                      :src="key.user.avatar"
-                    >
-                  </span>
-                  <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900 break-all">
-                      {{ key.user.name }}
-                    </p>
-                    <p class="text-sm text-gray-500 break-all">
-                      {{ key.user.email }}
-                    </p>
-                  </div>
+                  <UserProfileLink
+                    :user="key.user"
+                    class="flex"
+                  >
+                    <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
+                      <img
+                        :src="key.user.avatar"
+                        class="w-10 h-10 rounded-full"
+                      >
+                    </span>
+                    <div class="ml-3">
+                      <p class="text-sm font-medium text-gray-900 break-all">
+                        {{ key.user.name }}
+                      </p>
+                      <p class="text-sm text-gray-500 break-all">
+                        {{ key.user.email }}
+                      </p>
+                    </div>
+                  </UserProfileLink>
                 </div>
                 <div
                   v-else
@@ -163,11 +182,11 @@ function submitGiveKey() {
                           class="flex"
                         >
                           <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            :href="`/keys/${key.id}/take`"
                             as="button"
                             method="post"
                             preserve-scroll
-                            :href="`/keys/${key.id}/take`"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                           >
                             <DominoMaskIcon class="mr-2 w-5 h-5 text-purple-500" />
                             Zabierz klucze
@@ -192,11 +211,11 @@ function submitGiveKey() {
                           class="flex"
                         >
                           <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            :href="`/keys/${key.id}/leave-in-the-office`"
                             as="button"
                             method="post"
                             preserve-scroll
-                            :href="`/keys/${key.id}/leave-in-the-office`"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                           >
                             <HomeIcon class="mr-2 w-5 h-5 text-indigo-500" />
                             Zostaw klucze w biurze
@@ -208,11 +227,11 @@ function submitGiveKey() {
                           class="flex"
                         >
                           <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            :href="`/keys/${key.id}`"
                             as="button"
                             method="delete"
                             preserve-scroll
-                            :href="`/keys/${key.id}`"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                           >
                             <TrashIcon class="mr-2 w-5 h-5 text-red-500" />
                             Usuń
@@ -226,8 +245,8 @@ function submitGiveKey() {
             </tr>
             <tr v-if="!keys.data.length">
               <td
-                colspan="100%"
                 class="py-4 text-xl leading-5 text-center text-gray-700"
+                colspan="100%"
               >
                 <EmptyState class="text-gray-700">
                   <template #head>
@@ -248,8 +267,8 @@ function submitGiveKey() {
     </div>
   </div>
   <TransitionRoot
-    as="template"
     :show="giving"
+    as="template"
   >
     <Dialog
       is="div"
@@ -301,8 +320,8 @@ function submitGiveKey() {
                     </ListboxLabel>
                     <div class="relative mt-2">
                       <ListboxButton
-                        class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
                         :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.user, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.user }"
+                        class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
                       >
                         <span class="flex items-center">
                           <img
@@ -328,8 +347,8 @@ function submitGiveKey() {
                             v-for="user in filteredUsers"
                             :key="user.id"
                             v-slot="{ active, selected }"
-                            as="template"
                             :value="user"
+                            as="template"
                           >
                             <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']">
                               <div class="flex items-center">
@@ -367,16 +386,16 @@ function submitGiveKey() {
             <div class="mt-5 sm:mt-6">
               <div class="flex justify-end space-x-3">
                 <button
-                  type="button"
                   class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                  type="button"
                   @click="giving = false"
                 >
                   Anuluj
                 </button>
                 <button
-                  type="submit"
                   :disabled="form.processing"
                   class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
+                  type="submit"
                 >
                   Przekaż
                 </button>

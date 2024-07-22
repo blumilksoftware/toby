@@ -15,6 +15,11 @@ const permissionsInfo = [
     'section': 'Użytkownicy',
   },
   {
+    'name': 'Widoczność zablokowanych użytkowników',
+    'value': 'showInactiveUsers',
+    'section': 'Użytkownicy',
+  },
+  {
     'name': 'Zarządzanie kluczami',
     'value': 'manageKeys',
     'section': 'Biuro',
@@ -117,6 +122,11 @@ const permissionsInfo = [
   {
     'name': 'Status wniosku urlopowego został zmieniony',
     'value': 'receiveVacationRequestStatusChangedNotification',
+    'section': 'Powiadomienia',
+  },
+  {
+    'name': 'Podsumowania wniosków o nadgodziny',
+    'value': 'receiveOvertimeRequestsSummaryNotification',
     'section': 'Powiadomienia',
   },
 ]

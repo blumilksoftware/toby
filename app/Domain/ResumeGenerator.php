@@ -24,7 +24,10 @@ class ResumeGenerator
         $this->fillEducation($processor, $resume);
         $this->fillProjects($processor, $resume);
 
-        return $processor->save();
+        $path = storage_path("app/resumes/" . now() . ".docx");
+        $processor->saveAs($path);
+
+        return $path;
     }
 
     public function getTemplate(): string

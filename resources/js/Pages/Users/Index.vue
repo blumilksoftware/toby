@@ -1,15 +1,33 @@
 <script setup>
-import { ref, watch, computed, reactive } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { debounce } from 'lodash'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import { EllipsisVerticalIcon, PencilIcon, NoSymbolIcon, ArrowPathIcon, ChevronUpDownIcon, CheckIcon, LockClosedIcon, ClockIcon } from '@heroicons/vue/24/solid'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
+import {
+  ArrowPathIcon,
+  CheckIcon,
+  ChevronUpDownIcon,
+  EllipsisVerticalIcon,
+  LockClosedIcon,
+  NoSymbolIcon,
+  PencilIcon,
+  InformationCircleIcon,
+} from '@heroicons/vue/24/solid'
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+} from '@headlessui/vue'
 import { DateTime } from 'luxon'
 import { useToast } from 'vue-toastification'
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   auth: Object,
@@ -41,14 +59,14 @@ const toast = useToast()
 const selectedUsers = ref([])
 const indeterminate = computed(() => selectedUsers.value.length > 0 && selectedUsers.value.length < props.users.data.length)
 
-function copyEmails(){
+function copyEmails() {
   const emails = selectedUsers.value.map((user) => `"${user.name}" <${user.email}>`).join(', ')
   navigator.clipboard.writeText(emails)
   selectedUsers.value = []
   toast.info('Skopiowano adresy e-mail do schowka.')
 }
 
-function removeUser(user){
+function removeUser(user) {
   selectedUsers.value = selectedUsers.value.filter((selectedUser) => selectedUser.email !== user.email)
 }
 
@@ -76,8 +94,8 @@ watch(form, debounce(() => {
       </div>
       <div>
         <InertiaLink
-          href="users/create"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          href="users/create"
         >
           Dodaj użytkownika
         </InertiaLink>
@@ -91,9 +109,9 @@ watch(form, debounce(() => {
           </div>
           <input
             v-model.trim="form.search"
-            type="search"
             class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
             placeholder="Szukaj"
+            type="search"
           >
         </div>
         <Listbox
@@ -124,8 +142,8 @@ watch(form, debounce(() => {
                   v-for="status in statuses"
                   :key="status.value"
                   v-slot="{ active, selected }"
-                  as="template"
                   :value="status"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -150,8 +168,8 @@ watch(form, debounce(() => {
           class="flex absolute top-0 left-20 h-10 items-center bg-gray-50"
         >
           <button
-            type="button"
             class="items-center rounded border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-500 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
+            type="button"
             @click="copyEmails()"
           >
             Skopiuj adresy e-mail
@@ -161,15 +179,15 @@ watch(form, debounce(() => {
           <thead class="bg-gray-50">
             <tr>
               <th
-                scope="col"
                 class="relative w-16 px-8"
+                scope="col"
               >
                 <input
-                  type="checkbox"
-                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-                  :disabled="users.data.length === 0"
                   :checked="indeterminate || selectedUsers.length === users.data.length && users.data.length > 0"
+                  :disabled="users.data.length === 0"
                   :indeterminate="indeterminate"
+                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                  type="checkbox"
                   @change="selectedUsers = $event.target.checked ? users.data.map((user) => {
                     return {
                       email: user.email,
@@ -179,40 +197,40 @@ watch(form, debounce(() => {
                 >
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 <span v-if="selectedUsers.length === 0">
                   Imię i nazwisko
                 </span>
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 Ostatnia aktywność
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               >
                 Stanowisko
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-normal"
+                scope="col"
               >
                 Następne badanie lekarskie
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-normal"
+                scope="col"
               >
                 Następne szkolenie BHP
               </th>
               <th
-                scope="col"
                 class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                scope="col"
               />
             </tr>
           </thead>
@@ -220,7 +238,7 @@ watch(form, debounce(() => {
             <tr
               v-for="user in users.data"
               :key="user.id"
-              :class="[ selectedUsers.find((selectedUser) => selectedUser.email === user.email) && 'bg-blumilk-25', { 'bg-red-50': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
+              :class="[ selectedUsers.find((selectedUser) => selectedUser.email === user.email) && 'bg-blumilk-25', { 'bg-gray-100': user.deleted, 'hover:bg-blumilk-25': !user.deleted }]"
             >
               <td class="relative w-12 px-6 sm:w-16 sm:px-8">
                 <div
@@ -229,28 +247,32 @@ watch(form, debounce(() => {
                 />
                 <input
                   v-model="selectedUsers"
-                  type="checkbox"
-                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
                   :value="{email: user.email, name:user.name}"
+                  class="absolute left-6 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                  type="checkbox"
                 >
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                <div class="flex">
-                  <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
-                    <img
-                      class="w-10 h-10 rounded-full"
-                      :src="user.avatar"
-                    >
-                  </span>
-                  <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900 break-all">
-                      {{ user.name }}
-                    </p>
-                    <p class="text-sm text-gray-500 break-all">
-                      {{ user.email }}
-                    </p>
+                <UserProfileLink
+                  :user="user"
+                >
+                  <div class="flex">
+                    <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
+                      <img
+                        :src="user.avatar"
+                        class="w-10 h-10 rounded-full"
+                      >
+                    </span>
+                    <div class="ml-3">
+                      <p class="text-sm font-medium text-gray-900 break-all">
+                        {{ user.name }}
+                      </p>
+                      <p class="text-sm text-gray-500 break-all">
+                        {{ user.email }}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </UserProfileLink>
               </td>
               <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                 {{ user.lastActiveAt ? DateTime.fromSQL(user.lastActiveAt).toRelative() : '-' }}
@@ -295,10 +317,11 @@ watch(form, debounce(() => {
                           class="flex"
                         >
                           <InertiaLink
-                            :href="`/users/${user.id}/edit`"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
+                            :href="`/users/${user.id}/edit`"
                           >
-                            <PencilIcon class="mr-2 w-5 h-5 text-blue-500" /> Edytuj
+                            <PencilIcon class="mr-2 w-5 h-5 text-blue-500" />
+                            Edytuj
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
@@ -307,10 +330,11 @@ watch(form, debounce(() => {
                           class="flex"
                         >
                           <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                             :href="`/users/${user.id}/permissions`"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                           >
-                            <LockClosedIcon class="mr-2 w-5 h-5 text-yellow-500" /> Uprawnienia
+                            <LockClosedIcon class="mr-2 w-5 h-5 text-yellow-500" />
+                            Uprawnienia
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
@@ -318,10 +342,11 @@ watch(form, debounce(() => {
                           class="flex"
                         >
                           <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                             :href="`/users/${user.id}/history`"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
                           >
-                            <ClockIcon class="mr-2 w-5 h-5 text-violet-500" /> Historia
+                            <InformationCircleIcon class="mr-2 w-5 h-5 text-violet-500" />
+                            Szczegóły
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
@@ -329,14 +354,15 @@ watch(form, debounce(() => {
                           class="flex"
                         >
                           <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            :href="`/users/${user.id}`"
+                            :preserve-scroll="true"
                             as="button"
                             method="delete"
-                            :preserve-scroll="true"
-                            :href="`/users/${user.id}`"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                             @click="form.status.value !== 'all' ? removeUser(user): null"
                           >
-                            <NoSymbolIcon class="mr-2 w-5 h-5 text-red-500" /> Zablokuj
+                            <NoSymbolIcon class="mr-2 w-5 h-5 text-red-500" />
+                            Zablokuj
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -349,14 +375,15 @@ watch(form, debounce(() => {
                           class="flex"
                         >
                           <InertiaLink
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
+                            :href="`/users/${user.id}/restore`"
+                            :preserve-scroll="true"
                             as="button"
                             method="post"
-                            :preserve-scroll="true"
-                            :href="`/users/${user.id}/restore`"
-                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full text-left font-medium px-4 py-2 text-sm']"
                             @click="form.status.value !== 'all' ? removeUser(user): null"
                           >
-                            <ArrowPathIcon class="mr-2 w-5 h-5 text-green-500" /> Przywróć
+                            <ArrowPathIcon class="mr-2 w-5 h-5 text-green-500" />
+                            Przywróć
                           </InertiaLink>
                         </MenuItem>
                       </div>
@@ -369,8 +396,8 @@ watch(form, debounce(() => {
               v-if="! users.data.length"
             >
               <td
-                colspan="100%"
                 class="py-4 text-xl leading-5 text-center text-gray-700"
+                colspan="100%"
               >
                 <EmptyState>
                   <template #title>

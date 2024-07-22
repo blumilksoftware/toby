@@ -104,7 +104,7 @@ watch(form, debounce(() => {
             <tr
               v-for="item in equipmentItems.data"
               :key="item.id"
-              class="hover:bg-blumilk-25"
+              :class="[item.assignee ? item.assignee.isActive ? '' : 'bg-gray-100' : '', 'hover:bg-blumilk-25']"
             >
               <td class="p-4 text-sm text-gray-500 font-semibold whitespace-nowrap">
                 {{ item.idNumber }}

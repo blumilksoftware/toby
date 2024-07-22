@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import VacationLimitPopup from '@/Shared/VacationLimitPopup.vue'
 import RemainingFromPreviousYearPopup from '@/Shared/RemainingFromPreviousYearPopup.vue'
 import TakeVacationDaysFromPreviousYearModal from '@/Shared/Modals/TakeVacationDaysFromPreviousYearModal.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   limits: Object,
@@ -57,38 +58,38 @@ watch(() => form.items, () => {
             <thead class="bg-gray-50">
               <tr>
                 <th
-                  scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                  scope="col"
                 >
                   Imię i nazwisko
                 </th>
                 <th
-                  scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                  scope="col"
                 >
                   Forma zatrudnienia
                 </th>
                 <th
-                  scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                  scope="col"
                 >
                   Posiada limit?
                 </th>
                 <th
-                  scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                  scope="col"
                 >
-                  Pozostałe dni z {{ years.selected.year -1 }}
+                  Pozostałe dni z {{ years.selected.year - 1 }}
                 </th>
                 <th
-                  scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                  scope="col"
                 >
                   Przysługujące dni w roku {{ years.selected.year }}
                 </th>
                 <th
-                  scope="col"
                   class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+                  scope="col"
                 >
                   Łączny limit na rok {{ years.selected.year }}
                 </th>
@@ -98,25 +99,29 @@ watch(() => form.items, () => {
               <tr
                 v-for="(item, index) in form.items"
                 :key="item.id"
-                class="hover:bg-blumilk-25"
+                :class="[item.user.deleted ? 'bg-gray-100' : '', 'hover:bg-blumilk-25']"
               >
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
-                  <div class="flex">
-                    <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
-                      <img
-                        class="w-10 h-10 rounded-full"
-                        :src="item.user.avatar"
-                      >
-                    </span>
-                    <div class="ml-3">
-                      <p class="text-sm font-medium text-gray-900 break-all">
-                        {{ item.user.name }}
-                      </p>
-                      <p class="text-sm text-gray-500 break-all">
-                        {{ item.user.email }}
-                      </p>
+                  <UserProfileLink
+                    :user="item.user"
+                  >
+                    <div class="flex">
+                      <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
+                        <img
+                          :src="item.user.avatar"
+                          class="w-10 h-10 rounded-full"
+                        >
+                      </span>
+                      <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-900 break-all">
+                          {{ item.user.name }}
+                        </p>
+                        <p class="text-sm text-gray-500 break-all">
+                          {{ item.user.email }}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </UserProfileLink>
                 </td>
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   {{ item.user.employmentForm }}
@@ -133,13 +138,15 @@ watch(() => form.items, () => {
                 </td>
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   <RemainingFromPreviousYearPopup
-                    class="w-full"
-                    :year="years.selected.year - 1"
                     :remaining="item.remainingLastYear"
                     :to-next-year="item.fromPreviousYear"
+                    :year="years.selected.year - 1"
+                    class="w-full"
                     @change-previous-year="limitToChange = item; takingDaysFromPreviousYear = true"
                   >
-                    <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
+                    <div
+                      class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm"
+                    >
                       {{ item.remainingLastYear + item.fromPreviousYear }}
                     </div>
                   </RemainingFromPreviousYearPopup>
@@ -148,11 +155,11 @@ watch(() => form.items, () => {
                   <div class="mt-1 sm:col-span-2 sm:mt-0">
                     <input
                       v-model="item.days"
-                      type="number"
-                      min="0"
-                      class="block w-full disabled:text-slate-500 disabled:bg-slate-50 rounded-md disabled:border-slate-200 shadow-sm disabled:shadow-none disabled:cursor-not-allowed sm:text-sm"
-                      :disabled="!item.hasVacation"
                       :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`items.${index}.days`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`items.${index}.days`] }"
+                      :disabled="!item.hasVacation"
+                      class="block w-full disabled:text-slate-500 disabled:bg-slate-50 rounded-md disabled:border-slate-200 shadow-sm disabled:shadow-none disabled:cursor-not-allowed sm:text-sm"
+                      min="0"
+                      type="number"
                     >
                     <p
                       v-if="form.errors[`items.${index}.days`]"
@@ -164,14 +171,16 @@ watch(() => form.items, () => {
                 </td>
                 <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
                   <VacationLimitPopup
-                    class="w-full"
-                    :year="years.selected.year"
-                    :limit="item.limit"
                     :days="item.days"
                     :from-previous-year="item.fromPreviousYear"
+                    :limit="item.limit"
                     :to-next-year="item.toNextYear"
+                    :year="years.selected.year"
+                    class="w-full"
                   >
-                    <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
+                    <div
+                      class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm"
+                    >
                       {{ item.limit }}
                     </div>
                   </VacationLimitPopup>
@@ -179,8 +188,8 @@ watch(() => form.items, () => {
               </tr>
               <tr v-if="!form.items.length">
                 <td
-                  colspan="100%"
                   class="py-4 text-xl leading-5 text-center text-gray-700"
+                  colspan="100%"
                 >
                   Brak danych
                 </td>
@@ -190,10 +199,10 @@ watch(() => form.items, () => {
         </div>
         <div class="flex justify-end py-3 px-4">
           <button
-            type="submit"
-            class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
             :disabled="form.processing || !form.isDirty"
+            class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            type="submit"
           >
             Zapisz
           </button>
@@ -202,10 +211,10 @@ watch(() => form.items, () => {
     </div>
   </div>
   <TakeVacationDaysFromPreviousYearModal
+    :limit="limitToChange"
     :show="takingDaysFromPreviousYear"
     :year="years.selected.year - 1"
-    :limit="limitToChange"
-    @close="takingDaysFromPreviousYear = false"
     @changed="takingDaysFromPreviousYear = false"
+    @close="takingDaysFromPreviousYear = false"
   />
 </template>

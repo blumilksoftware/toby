@@ -17,18 +17,18 @@ defineProps({
 </script>
 
 <template>
-  <InertiaHead title="Historia użytkownika" />
+  <InertiaHead title="Szczegóły użytkownika" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Historia
+          Szczegóły
         </h2>
       </div>
       <div>
         <InertiaLink
-          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           :href="`/users/${userId}/history/create`"
+          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
         >
           Dodaj wpis
         </InertiaLink>
@@ -139,8 +139,8 @@ defineProps({
                         >
                           <InertiaLink
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'font-medium block px-4 py-2 text-sm']"
-                            :method="'delete'"
                             :href="`/users/history/${item.id}`"
+                            :method="'delete'"
                           >
                             <TrashIcon class="mr-2 w-5 h-5 text-red-500" />
                             Usuń

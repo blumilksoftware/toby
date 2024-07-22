@@ -1,6 +1,7 @@
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { CakeIcon } from '@heroicons/vue/24/outline'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 defineProps({
   birthdays: Object,
@@ -24,21 +25,26 @@ defineProps({
           :key="day.user.id"
           class="flex py-4"
         >
-          <img
-            class="w-10 h-10 rounded-full"
-            :src="day.user.avatar"
+          <UserProfileLink
+            :user="day.user"
+            class="flex"
           >
-          <div class="ml-3">
-            <p class="text-sm font-medium text-gray-900">
-              {{ day.user.name }}
-            </p>
-            <p class="text-sm text-gray-500">
-              {{ day.user.email }}
-            </p>
-            <p class="text-sm text-gray-500">
-              {{ day.displayDate }} - {{ day.relativeDate }}
-            </p>
-          </div>
+            <img
+              :src="day.user.avatar"
+              class="w-10 h-10 rounded-full"
+            >
+            <div class="ml-3">
+              <p class="text-sm font-medium text-gray-900">
+                {{ day.user.name }}
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ day.user.email }}
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ day.displayDate }} - {{ day.relativeDate }}
+              </p>
+            </div>
+          </UserProfileLink>
         </li>
       </ul>
       <EmptyState

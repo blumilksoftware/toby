@@ -2,7 +2,7 @@
 import { CheckIcon, ChevronRightIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
-import { watch, reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
@@ -68,8 +68,8 @@ watch(form, debounce(() => {
       </div>
       <div>
         <InertiaLink
-          href="/vacation/requests/create"
           class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          href="/vacation/requests/create"
         >
           Dodaj wniosek
         </InertiaLink>
@@ -116,8 +116,8 @@ watch(form, debounce(() => {
               >
                 <ListboxOption
                   v-slot="{ active }"
-                  as="template"
                   :value="null"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
@@ -138,11 +138,11 @@ watch(form, debounce(() => {
                   v-for="user in users.data"
                   :key="user.id"
                   v-slot="{ active }"
-                  as="template"
                   :value="user"
+                  as="template"
                 >
                   <li
-                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9']"
+                    :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9', user.isActive ? '' : 'bg-gray-100']"
                   >
                     <div class="flex items-center">
                       <img
@@ -198,8 +198,8 @@ watch(form, debounce(() => {
                   v-for="status in statuses"
                   :key="status.value"
                   v-slot="{ active, selected }"
-                  as="template"
                   :value="status"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -255,8 +255,8 @@ watch(form, debounce(() => {
               >
                 <ListboxOption
                   v-slot="{ active, selected }"
-                  as="template"
                   :value="null"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -275,8 +275,8 @@ watch(form, debounce(() => {
                   v-for="type in types"
                   :key="type.value"
                   v-slot="{ active }"
-                  as="template"
                   :value="type"
+                  as="template"
                 >
                   <li
                     :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default truncate select-none relative py-2 pl-3 pr-9']"
@@ -301,44 +301,44 @@ watch(form, debounce(() => {
         <thead class="bg-gray-50">
           <tr>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Numer
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Pracownik
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Rodzaj wniosku
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Od
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Do
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Dni urlopu
             </th>
             <th
-              scope="col"
               class="py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
+              scope="col"
             >
               Status
             </th>
@@ -349,9 +349,9 @@ watch(form, debounce(() => {
           <InertiaLink
             v-for="request in requests.data"
             :key="request.id"
-            as="tr"
             :href="`/vacation/requests/${request.id}`"
-            class="relative hover:bg-blumilk-25 hover:cursor-pointer"
+            as="tr"
+            :class="[request.user.isActive ? '' : 'bg-gray-100', 'relative hover:bg-blumilk-25 hover:cursor-pointer']"
           >
             <td class="p-4 text-sm text-gray-500 whitespace-nowrap">
               <InertiaLink
@@ -402,8 +402,8 @@ watch(form, debounce(() => {
           </InertiaLink>
           <tr v-if="! requests.data.length">
             <td
-              colspan="100%"
               class="py-4 text-xl leading-5 text-center text-gray-700"
+              colspan="100%"
             >
               <EmptyState>
                 <template #title>

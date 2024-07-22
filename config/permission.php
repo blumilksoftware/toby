@@ -40,6 +40,7 @@ return [
         "managePermissions",
         "manageHolidays",
         "manageUsers",
+        "showInactiveUsers",
         "manageKeys",
         "manageTechnologies",
         "manageResumes",
@@ -61,6 +62,7 @@ return [
         "receiveVacationRequestStatusChangedNotification",
         "receiveBenefitsReportCreationNotification",
         "manageEquipment",
+        "receiveOvertimeRequestsSummaryNotification",
     ],
     "permission_roles" => [
         Role::Administrator->value => [
@@ -85,6 +87,7 @@ return [
             "receiveVacationRequestWaitsForApprovalNotification",
             "receiveVacationRequestStatusChangedNotification",
             "manageEquipment",
+            "receiveOvertimeRequestsSummaryNotification",
         ],
         Role::AdministrativeApprover->value => [
             "managePermissions",
@@ -120,6 +123,7 @@ return [
             "receiveVacationRequestsSummaryNotification",
             "receiveVacationRequestWaitsForApprovalNotification",
             "receiveVacationRequestStatusChangedNotification",
+            "receiveOvertimeRequestsSummaryNotification",
         ],
         Role::Employee->value => [],
     ],

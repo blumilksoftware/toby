@@ -28,6 +28,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", false)
                             ->where("manageHolidays", false)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", false)
                             ->where("manageKeys", false)
                             ->where("manageTechnologies", false)
@@ -49,7 +50,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", false)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", false)
                             ->where("receiveVacationRequestStatusChangedNotification", false)
-                            ->where("manageEquipment", false),
+                            ->where("manageEquipment", false)
+                            ->where("receiveOvertimeRequestsSummaryNotification", false),
                     ),
             );
     }
@@ -69,6 +71,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", false)
                             ->where("manageHolidays", false)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", false)
                             ->where("manageKeys", false)
                             ->where("manageTechnologies", true)
@@ -90,7 +93,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
-                            ->where("manageEquipment", false),
+                            ->where("manageEquipment", false)
+                            ->where("receiveOvertimeRequestsSummaryNotification", true),
                     ),
             );
     }
@@ -110,6 +114,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", true)
                             ->where("manageHolidays", true)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", true)
                             ->where("manageKeys", true)
                             ->where("manageTechnologies", true)
@@ -131,7 +136,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
-                            ->where("manageEquipment", true),
+                            ->where("manageEquipment", true)
+                            ->where("receiveOvertimeRequestsSummaryNotification", false),
                     ),
             );
     }

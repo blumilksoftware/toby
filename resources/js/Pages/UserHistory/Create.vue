@@ -11,8 +11,8 @@ const props = defineProps({
 })
 
 const form = useForm({
-  from: props.vacationFromDate,
-  to: props.vacationFromDate,
+  from: '',
+  to: '',
   comment: '',
   type: '',
   employmentForm: '',

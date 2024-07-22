@@ -18,6 +18,7 @@ class SimpleUserResource extends JsonResource
             "last_name" => $this->profile->last_name,
             "email" => $this->email,
             "avatar" => $this->profile->getAvatar(),
+            "isActive" => $this->deleted_at === null,
         ];
     }
 }

@@ -41,6 +41,9 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::resource("users", UserController::class)
         ->except("show")
         ->whereNumber("user");
+    Route::get("/users/{user}", [UserController::class, "show"])
+        ->withTrashed()
+        ->whereNumber("user");
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
@@ -126,7 +129,7 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->whereNumber("yearPeriod")
         ->name("year-periods.select");
 
-    Route::get("/calendar/{month?}", [VacationCalendarController::class, "index"])
+    Route::get("/calendar/{month?}/{year?}", [VacationCalendarController::class, "index"])
         ->name("calendar");
 
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {

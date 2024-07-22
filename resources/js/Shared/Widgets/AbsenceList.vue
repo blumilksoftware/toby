@@ -1,7 +1,8 @@
 <script setup>
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { SunIcon } from '@heroicons/vue/24/solid'
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 defineProps({
   absences: Object,
@@ -20,12 +21,12 @@ defineProps({
       <TabList class="w-100 flex">
         <Tab
           v-slot="{ selected }"
-          class="w-1/2 h-auto"
           as="template"
+          class="w-1/2 h-auto"
         >
           <div
-            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
             :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white']"
+            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
           >
             <h3 class="text-md font-medium leading-6 w-full">
               Aktualne
@@ -34,12 +35,12 @@ defineProps({
         </Tab>
         <Tab
           v-slot="{ selected }"
-          class="w-1/2 h-auto"
           as="template"
+          class="w-1/2 h-auto"
         >
           <div
-            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
             :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white']"
+            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
           >
             <h3 class="text-md font-medium leading-6 w-full">
               Nadchodzące
@@ -58,21 +59,26 @@ defineProps({
               :key="day.id"
               class="flex py-4"
             >
-              <img
-                class="w-10 h-10 rounded-full"
-                :src="day.user.avatar"
+              <UserProfileLink
+                :user="day.user"
+                class="flex"
               >
-              <div class="ml-3">
-                <p class="text-sm font-medium text-gray-900">
-                  {{ day.user.name }}
-                </p>
-                <p class="text-sm text-gray-500">
-                  {{ day.user.email }}
-                </p>
-                <p class="text-sm text-gray-500">
-                  {{ day.displayDate }} <span v-if="day.pending">(oczekujące)</span>
-                </p>
-              </div>
+                <img
+                  :src="day.user.avatar"
+                  class="w-10 h-10 rounded-full"
+                >
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-gray-900">
+                    {{ day.user.name }}
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    {{ day.user.email }}
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    {{ day.displayDate }} <span v-if="day.pending">(oczekujące)</span>
+                  </p>
+                </div>
+              </UserProfileLink>
             </li>
           </ul>
           <EmptyState
@@ -98,8 +104,8 @@ defineProps({
               class="flex py-4"
             >
               <img
-                class="w-10 h-10 rounded-full"
                 :src="day.user.avatar"
+                class="w-10 h-10 rounded-full"
               >
               <div class="ml-3">
                 <p class="text-sm font-medium text-gray-900">

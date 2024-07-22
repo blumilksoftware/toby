@@ -131,6 +131,11 @@ class User extends Authenticatable implements NotifiableInterface
             ->first();
     }
 
+    public function canSeeInactiveUsers(): bool
+    {
+        return $this->can("showInactiveUsers");
+    }
+
     public function keys(): HasMany
     {
         return $this->hasMany(Key::class);

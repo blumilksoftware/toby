@@ -8,12 +8,17 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request as IlluminateRequest;
 use Spatie\SlashCommand\Controller as SlackController;
+use Toby\Actions\OvertimeRequest\AcceptAsTechnicalAction as OvertimeAcceptAsTechnicalAction;
+use Toby\Actions\OvertimeRequest\RejectAction as OvertimeRejectAction;
 use Toby\Actions\VacationRequest\AcceptAsAdministrativeAction;
 use Toby\Actions\VacationRequest\AcceptAsTechnicalAction;
 use Toby\Actions\VacationRequest\RejectAction;
+use Toby\Helpers\DateFormats;
+use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
 use Toby\Slack\Traits\FindsUserBySlackId;
+use Toby\States\OvertimeRequest\WaitingForTechnical as OvertimeWaitingForTechnical;
 use Toby\States\VacationRequest\WaitingForAdministrative;
 use Toby\States\VacationRequest\WaitingForTechnical;
 
@@ -22,7 +27,7 @@ class SlackActionController extends SlackController
     use FindsUserBySlackId;
     use AuthorizesRequests;
 
-    public function handleVacationRequestAction(IlluminateRequest $request, AcceptAsTechnicalAction $acceptAsTechnical, AcceptAsAdministrativeAction $acceptAsAdministrative, RejectAction $reject): JsonResponse
+    public function handleAction(IlluminateRequest $request, AcceptAsTechnicalAction $acceptAsTechnical, AcceptAsAdministrativeAction $acceptAsAdministrative, RejectAction $reject, OvertimeAcceptAsTechnicalAction $overtimeAcceptAsTechnical, OvertimeRejectAction $overtimeRejectAction): JsonResponse
     {
         $this->verifyWithSigning($request);
 
@@ -32,11 +37,21 @@ class SlackActionController extends SlackController
 
         $user = $this->findUserBySlackId($userSlackId);
 
-        $vacationRequestId = $payload["callback_id"];
+        [$type, $id] = explode(":", $payload["callback_id"]);
 
         $action = $payload["actions"][0]["value"];
 
-        $vacationRequest = VacationRequest::query()->findOrFail($vacationRequestId);
+        if ($type === "overtime") {
+            $overtimeRequest = OvertimeRequest::query()->findOrFail($id);
+
+            return match ($action) {
+                "overtime_technical_approval" => $this->handleOvertimeTechnicalApproval($user, $overtimeRequest, $overtimeAcceptAsTechnical),
+                "overtime_reject" => $this->handleOvertimeRejection($user, $overtimeRequest, $overtimeRejectAction),
+                default => $this->prepareUnrecognizedActionError(),
+            };
+        }
+
+        $vacationRequest = VacationRequest::query()->findOrFail($id);
 
         return match ($action) {
             "technical_approval" => $this->handleTechnicalApproval($user, $vacationRequest, $acceptAsTechnical),
@@ -44,6 +59,17 @@ class SlackActionController extends SlackController
             "reject" => $this->handleRejection($user, $vacationRequest, $reject),
             default => $this->prepareUnrecognizedActionError(),
         };
+    }
+
+    public function prepareOvertimeActionError(OvertimeRequest $overtimeRequest): JsonResponse
+    {
+        return response()->json([
+            "text" => __("You cannot perform this action because the current status of the request :title by user :requester is :status.", [
+                "title" => $overtimeRequest->name,
+                "requester" => $overtimeRequest->user->profile->full_name,
+                "status" => $overtimeRequest->state->label(),
+            ]),
+        ]);
     }
 
     protected function prepareAuthorizationError(): JsonResponse
@@ -149,6 +175,56 @@ class SlackActionController extends SlackController
             "text" => __("The request :title from user :requester has been rejected by you.", [
                 "title" => $vacationRequest->name,
                 "requester" => $vacationRequest->user->profile->full_name,
+            ]),
+        ]);
+    }
+
+    protected function handleOvertimeTechnicalApproval(User $user, OvertimeRequest $overtimeRequest, OvertimeAcceptAsTechnicalAction $acceptAsTechnical): JsonResponse
+    {
+        if ($user->cannot("acceptAsTechApprover", $overtimeRequest)) {
+            return $this->prepareAuthorizationError();
+        }
+
+        if (!$overtimeRequest->state->equals(OvertimeWaitingForTechnical::class)) {
+            return $this->prepareOvertimeActionError($overtimeRequest);
+        }
+
+        $acceptAsTechnical->execute($overtimeRequest, $user);
+
+        $title = $overtimeRequest->name;
+        $requester = $overtimeRequest->user->profile->full_name;
+        $from = $overtimeRequest->from;
+        $to = $overtimeRequest->to;
+        $hours = $overtimeRequest->hours;
+
+        $date = "{$from->format(DateFormats::DATETIME_DISPLAY)} - {$to->format(DateFormats::DATETIME_DISPLAY)}";
+
+        return response()->json([
+            "text" => __("The request :title has been approved by you as a technical approver.\nUser: :requester\nDate: :date (number of hours: :hours)", [
+                "title" => $overtimeRequest->name,
+                "requester" => $overtimeRequest->user->profile->full_name,
+                "date" => $date,
+                "hours" => $hours,
+            ]),
+        ]);
+    }
+
+    protected function handleOvertimeRejection(User $user, OvertimeRequest $overtimeRequest, OvertimeRejectAction $reject): JsonResponse
+    {
+        if ($user->cannot("reject", $overtimeRequest)) {
+            return $this->prepareAuthorizationError();
+        }
+
+        if (!$overtimeRequest->state->equals(OvertimeWaitingForTechnical::class)) {
+            return $this->prepareOvertimeActionError($overtimeRequest);
+        }
+
+        $reject->execute($overtimeRequest, $user);
+
+        return response()->json([
+            "text" => __("The request :title from user :requester has been rejected by you.", [
+                "title" => $overtimeRequest->name,
+                "requester" => $overtimeRequest->user->profile->full_name,
             ]),
         ]);
     }
