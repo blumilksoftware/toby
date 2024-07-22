@@ -166,8 +166,8 @@ function linkVacationRequest(user) {
             as="button"
             class="flex focus:relative justify-center items-center p-2 bg-white md:px-2 md:hover:bg-gray-50 ml-1"
           >
-            <ArrowUturnLeftIcon class="w-5 h-5 text-blumilk-400 hover:text-blumilk-500" />
-            <span class="ml-1.5 text-sm text-blumilk-400 hover:text-blumilk-500">
+            <ArrowUturnLeftIcon class="w-5 h-5 text-blumilk-600 hover:text-blumilk-500" />
+            <span class="ml-1.5 text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
               Dzisiaj
             </span>
           </InertiaLink>
