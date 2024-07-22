@@ -17,12 +17,12 @@ defineProps({
 </script>
 
 <template>
-  <InertiaHead title="Historia użytkownika" />
+  <InertiaHead title="Szczegóły użytkownika" />
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Historia
+          Szczegóły
         </h2>
       </div>
       <div>

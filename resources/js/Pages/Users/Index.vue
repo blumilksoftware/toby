@@ -346,7 +346,7 @@ watch(form, debounce(() => {
                             :href="`/users/${user.id}/history`"
                           >
                             <ClockIcon class="mr-2 w-5 h-5 text-violet-500" />
-                            Historia
+                            Szczegóły
                           </InertiaLink>
                         </MenuItem>
                         <MenuItem
