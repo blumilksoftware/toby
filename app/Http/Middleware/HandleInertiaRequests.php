@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
             "vacationRequestsCount" => $this->getVacationRequestsCount($request),
             "overtimeRequestsCount" => $this->getOvertimeRequestsCount($request),
             "deployInformation" => $this->getDeployInformation(),
-            "lastUpdate" => $this->cache->rememberForever("last:update", fn(): string => Carbon::now()->toIso8601String()),
+            "lastUpdate" => $this->cache->rememberForever("last_update", fn(): string => Carbon::now()->toIso8601String()),
         ]);
     }
 
