@@ -16,7 +16,6 @@ const form = useForm({
   employmentForm: props.employmentForms[0],
   role: props.roles[0],
   position: null,
-  employmentDate: null,
   birthday: null,
   slackId: null,
 })
@@ -245,28 +244,6 @@ function createUser() {
           </p>
         </div>
       </Listbox>
-      <div class="items-center py-4 sm:grid sm:grid-cols-3">
-        <label
-          for="employment_date"
-          class="block text-sm font-medium text-gray-700 sm:mt-px"
-        >
-          Data zatrudnienia
-        </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
-          <FlatPickr
-            id="employment_date"
-            v-model="form.employmentDate"
-            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentDate }"
-          />
-          <p
-            v-if="form.errors.employmentDate"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ form.errors.employmentDate }}
-          </p>
-        </div>
-      </div>
       <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
           for="slackId"
