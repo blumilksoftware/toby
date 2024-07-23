@@ -99,6 +99,7 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->histories()
             ->where("type", UserHistoryType::MedicalExam)
             ->orderBy("to", "desc")
+            ->cache("user:history{$this->id}")
             ->first();
     }
 
@@ -107,6 +108,7 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->histories()
             ->where("type", UserHistoryType::OhsTraining)
             ->orderBy("to", "desc")
+            ->cache("user:history{$this->id}")
             ->first();
     }
 
@@ -115,7 +117,8 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->histories()
             ->where("type", UserHistoryType::Employment)
             ->where("is_employed_at_current_company", true)
-            ->orderBy("from", "asc")
+            ->orderBy("from")
+            ->cache("user:history{$this->id}")
             ->first();
     }
 
@@ -243,15 +246,15 @@ class User extends Authenticatable implements NotifiableInterface
     {
         $today = Carbon::now();
 
-        $employmentDate = $this->profile->employment_date;
+        $employmentDate = $this->startOfEmploymentInCurrentCompany()?->from;
 
-        if ($employmentDate->isToday()) {
+        if ($employmentDate?->isToday()) {
             return false;
         }
 
-        $workAnniversary = $employmentDate->setYear($today->year);
+        $workAnniversary = $employmentDate?->setYear($today->year);
 
-        return $workAnniversary->isToday();
+        return $workAnniversary?->isToday() ?? false;
     }
 
     protected static function newFactory(): UserFactory

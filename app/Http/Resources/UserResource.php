@@ -14,6 +14,7 @@ class UserResource extends JsonResource
     {
         $lastMedicalExam = $this->lastMedicalExam();
         $lastOhsTraining = $this->lastOhsTraining();
+        $startOfEmploymentInCurrentCompany = $this->startOfEmploymentInCurrentCompany();
 
         return [
             "id" => $this->id,
@@ -25,7 +26,7 @@ class UserResource extends JsonResource
             "deleted" => $this->trashed(),
             "lastActiveAt" => $this->last_active_at?->toDateTimeString(),
             "employmentForm" => $this->profile->employment_form->label(),
-            "employmentDate" => $this->profile->employment_date->toDisplayString(),
+            "employmentDate" => $startOfEmploymentInCurrentCompany?->from->toDisplayString(),
             "lastMedicalExamDate" => $lastMedicalExam?->from?->toDisplayString(),
             "nextMedicalExamDate" => $lastMedicalExam?->to?->toDisplayString(),
             "lastOhsTrainingDate" => $lastOhsTraining?->from?->toDisplayString(),

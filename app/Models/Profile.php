@@ -21,10 +21,6 @@ use Toby\Helpers\ColorGenerator;
  * @property EmploymentForm $employment_form
  * @property Carbon $employment_date
  * @property Carbon $birthday
- * @property ?Carbon $last_medical_exam_date
- * @property ?Carbon $next_medical_exam_date
- * @property ?Carbon $last_ohs_training_date
- * @property ?Carbon $next_ohs_training_date
  */
 class Profile extends Model
 {
@@ -34,12 +30,7 @@ class Profile extends Model
     protected $guarded = [];
     protected $casts = [
         "employment_form" => EmploymentForm::class,
-        "employment_date" => "date",
         "birthday" => "date",
-        "last_medical_exam_date" => "date",
-        "next_medical_exam_date" => "date",
-        "last_ohs_training_date" => "date",
-        "next_ohs_training_date" => "date",
     ];
 
     public function user(): BelongsTo
