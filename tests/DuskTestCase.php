@@ -13,9 +13,6 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    /**
-     * @beforeClass
-     */
     public static function prepare(): void
     {
         if (!static::runningInDocker()) {
