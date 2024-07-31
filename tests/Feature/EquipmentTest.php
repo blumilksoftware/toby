@@ -7,9 +7,9 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Eloquent\Models\EquipmentItem;
-use Toby\Eloquent\Models\EquipmentLabel;
-use Toby\Eloquent\Models\User;
+use Toby\Models\EquipmentItem;
+use Toby\Models\EquipmentLabel;
+use Toby\Models\User;
 
 class EquipmentTest extends FeatureTestCase
 {

@@ -6,6 +6,14 @@ import { RectangleStackIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
   requests: Object,
+  profilePage: {
+    type: Boolean,
+    default: false,
+  },
+  label: {
+    type: String,
+    default: 'Moje wnioski',
+  },
 })
 
 </script>
@@ -14,7 +22,7 @@ defineProps({
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Moje wnioski
+        {{ label }}
       </h2>
     </div>
     <div class="px-4 pb-5 border-t border-gray-200 sm:px-6">
@@ -81,7 +89,15 @@ defineProps({
         class="mt-6"
       >
         <InertiaLink
+          v-if="!profilePage"
           href="/vacation/requests/me"
+          class="flex justify-center items-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 shadow-sm"
+        >
+          Zobacz wszystkie
+        </InertiaLink>
+        <InertiaLink
+          v-else
+          :href="`/vacation/requests?user=${requests[0].user.id}`"
           class="flex justify-center items-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 shadow-sm"
         >
           Zobacz wszystkie

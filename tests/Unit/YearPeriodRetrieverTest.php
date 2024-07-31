@@ -9,8 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Tests\Traits\InteractsWithYearPeriods;
-use Toby\Eloquent\Helpers\YearPeriodRetriever;
-use Toby\Eloquent\Models\YearPeriod;
+use Toby\Helpers\YearPeriodRetriever;
+use Toby\Models\YearPeriod;
 
 class YearPeriodRetrieverTest extends TestCase
 {

@@ -14,7 +14,7 @@ volumes:
 
 services:
   toby-beta-app:
-    image: ghcr.io/blumilksoftware/toby:beta
+    image: registry.blumilk.pl/internal-public/toby:beta
     container_name: toby-beta-app
     pull_policy: always
     deploy:
@@ -46,7 +46,7 @@ services:
       - .deployment
 
   toby-beta-database:
-    image: postgres:15
+    image: postgres:15@sha256:751715f313b698bfea2d49bdac577ff779b96e6849a10bfb5cb9ee495ca1e547
     container_name: toby-beta-database
     environment:
       - PGPASSWORD=${DOCKER_TOBY_BETA_DB_ROOT_PASSWORD:? variable DOCKER_TOBY_BETA_DB_ROOT_PASSWORD not set}
@@ -65,7 +65,7 @@ services:
     restart: unless-stopped
 
   toby-beta-redis:
-    image: redis:7.0-alpine3.16
+    image: redis:7.0-alpine3.16@sha256:2700d5097763fda285c463f4eefc3d0730a2df2a9d48e66707b19d5a5e5f23d4
     container_name: toby-beta-redis
     healthcheck:
       test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]

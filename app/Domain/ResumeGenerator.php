@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use PhpOffice\PhpWord\TemplateProcessor;
-use Toby\Eloquent\Models\Resume;
+use Toby\Models\Resume;
 
 class ResumeGenerator
 {
@@ -24,7 +24,10 @@ class ResumeGenerator
         $this->fillEducation($processor, $resume);
         $this->fillProjects($processor, $resume);
 
-        return $processor->save();
+        $path = storage_path("app/resumes/" . now() . ".docx");
+        $processor->saveAs($path);
+
+        return $path;
     }
 
     public function getTemplate(): string

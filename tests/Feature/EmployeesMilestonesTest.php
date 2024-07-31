@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Domain\EmployeesMilestonesRetriever;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class EmployeesMilestonesTest extends FeatureTestCase
 {
@@ -57,13 +57,13 @@ class EmployeesMilestonesTest extends FeatureTestCase
             ->employee()
             ->create();
 
-        $sortedUsersByUpcomingBirthday = $this->employeesMilestonesRetriever->getResults(null, "birthday-asc")->values();
+        $sortedUsersByUpcomingBirthday = $this->employeesMilestonesRetriever->getResults($user1, null, "birthday-asc")->values();
 
         $this->assertEquals($user1->id, $sortedUsersByUpcomingBirthday[0]->id);
         $this->assertEquals($user3->id, $sortedUsersByUpcomingBirthday[1]->id);
         $this->assertEquals($user2->id, $sortedUsersByUpcomingBirthday[2]->id);
 
-        $sortedUsersByFurthestBirthday = $this->employeesMilestonesRetriever->getResults(null, "birthday-desc")->values();
+        $sortedUsersByFurthestBirthday = $this->employeesMilestonesRetriever->getResults($user1, null, "birthday-desc")->values();
 
         $this->assertEquals($user2->id, $sortedUsersByFurthestBirthday[0]->id);
         $this->assertEquals($user3->id, $sortedUsersByFurthestBirthday[1]->id);
@@ -73,27 +73,45 @@ class EmployeesMilestonesTest extends FeatureTestCase
     public function testSortingBySeniority(): void
     {
         $user1 = User::factory()
-            ->hasProfile(["employment_date" => Carbon::createFromDate(2023, 1, 31)])
+            ->hasProfile()
             ->employee()
             ->create();
+        $user1->histories()->create([
+            "from" => Carbon::createFromDate(2023, 1, 31),
+            "type" => "employment",
+            "employment_form" => "employment_contract",
+            "is_employed_at_current_company" => true,
+        ]);
 
         $user2 = User::factory()
-            ->hasProfile(["employment_date" => Carbon::createFromDate(2022, 1, 1)])
+            ->hasProfile()
             ->employee()
             ->create();
+        $user2->histories()->create([
+            "from" => Carbon::createFromDate(2022, 1, 1),
+            "type" => "employment",
+            "employment_form" => "employment_contract",
+            "is_employed_at_current_company" => true,
+        ]);
 
         $user3 = User::factory()
-            ->hasProfile(["employment_date" => Carbon::createFromDate(2021, 10, 4)])
+            ->hasProfile()
             ->employee()
             ->create();
+        $user3->histories()->create([
+            "from" => Carbon::createFromDate(2021, 10, 4),
+            "type" => "employment",
+            "employment_form" => "employment_contract",
+            "is_employed_at_current_company" => true,
+        ]);
 
-        $sortedUsersByLongestSeniority = $this->employeesMilestonesRetriever->getResults(null, "seniority-asc")->values();
+        $sortedUsersByLongestSeniority = $this->employeesMilestonesRetriever->getResults($user1, null, "seniority-asc")->values();
 
         $this->assertEquals($user3->id, $sortedUsersByLongestSeniority[0]->id);
         $this->assertEquals($user2->id, $sortedUsersByLongestSeniority[1]->id);
         $this->assertEquals($user1->id, $sortedUsersByLongestSeniority[2]->id);
 
-        $sortedUsersByShortestSeniority = $this->employeesMilestonesRetriever->getResults(null, "seniority-desc")->values();
+        $sortedUsersByShortestSeniority = $this->employeesMilestonesRetriever->getResults($user1, null, "seniority-desc")->values();
 
         $this->assertEquals($user1->id, $sortedUsersByShortestSeniority[0]->id);
         $this->assertEquals($user2->id, $sortedUsersByShortestSeniority[1]->id);

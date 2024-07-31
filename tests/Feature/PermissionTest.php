@@ -7,7 +7,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
-use Toby\Eloquent\Models\User;
+use Toby\Models\User;
 
 class PermissionTest extends FeatureTestCase
 {
@@ -28,6 +28,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", false)
                             ->where("manageHolidays", false)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", false)
                             ->where("manageKeys", false)
                             ->where("manageTechnologies", false)
@@ -36,9 +37,12 @@ class PermissionTest extends FeatureTestCase
                             ->where("manageVacationLimits", false)
                             ->where("manageRequestsAsAdministrativeApprover", false)
                             ->where("manageRequestsAsTechnicalApprover", false)
+                            ->where("manageOvertimeAsAdministrativeApprover", false)
+                            ->where("manageOvertimeAsTechnicalApprover", false)
                             ->where("createRequestsOnBehalfOfEmployee", false)
                             ->where("listMonthlyUsage", false)
                             ->where("listAllRequests", false)
+                            ->where("listAllOvertimeRequests", false)
                             ->where("skipRequestFlow", false)
                             ->where("receiveUpcomingAndOverdueMedicalExamsNotification", false)
                             ->where("receiveUpcomingAndOverdueOhsTrainingNotification", false)
@@ -46,7 +50,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", false)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", false)
                             ->where("receiveVacationRequestStatusChangedNotification", false)
-                            ->where("manageEquipment", false),
+                            ->where("manageEquipment", false)
+                            ->where("receiveOvertimeRequestsSummaryNotification", false),
                     ),
             );
     }
@@ -66,6 +71,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", false)
                             ->where("manageHolidays", false)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", false)
                             ->where("manageKeys", false)
                             ->where("manageTechnologies", true)
@@ -74,9 +80,12 @@ class PermissionTest extends FeatureTestCase
                             ->where("manageVacationLimits", false)
                             ->where("manageRequestsAsAdministrativeApprover", false)
                             ->where("manageRequestsAsTechnicalApprover", true)
+                            ->where("manageOvertimeAsAdministrativeApprover", false)
+                            ->where("manageOvertimeAsTechnicalApprover", true)
                             ->where("createRequestsOnBehalfOfEmployee", false)
                             ->where("listMonthlyUsage", false)
                             ->where("listAllRequests", true)
+                            ->where("listAllOvertimeRequests", true)
                             ->where("skipRequestFlow", false)
                             ->where("receiveUpcomingAndOverdueMedicalExamsNotification", false)
                             ->where("receiveUpcomingAndOverdueOhsTrainingNotification", false)
@@ -84,7 +93,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
-                            ->where("manageEquipment", false),
+                            ->where("manageEquipment", false)
+                            ->where("receiveOvertimeRequestsSummaryNotification", true),
                     ),
             );
     }
@@ -104,6 +114,7 @@ class PermissionTest extends FeatureTestCase
                         fn(Assert $page) => $page
                             ->where("managePermissions", true)
                             ->where("manageHolidays", true)
+                            ->where("showInactiveUsers", false)
                             ->where("manageUsers", true)
                             ->where("manageKeys", true)
                             ->where("manageTechnologies", true)
@@ -112,9 +123,12 @@ class PermissionTest extends FeatureTestCase
                             ->where("manageVacationLimits", true)
                             ->where("manageRequestsAsAdministrativeApprover", true)
                             ->where("manageRequestsAsTechnicalApprover", false)
+                            ->where("manageOvertimeAsAdministrativeApprover", true)
+                            ->where("manageOvertimeAsTechnicalApprover", false)
                             ->where("createRequestsOnBehalfOfEmployee", true)
                             ->where("listMonthlyUsage", true)
                             ->where("listAllRequests", true)
+                            ->where("listAllOvertimeRequests", true)
                             ->where("skipRequestFlow", true)
                             ->where("receiveUpcomingAndOverdueMedicalExamsNotification", true)
                             ->where("receiveUpcomingAndOverdueOhsTrainingNotification", true)
@@ -122,7 +136,8 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestsSummaryNotification", true)
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
-                            ->where("manageEquipment", true),
+                            ->where("manageEquipment", true)
+                            ->where("receiveOvertimeRequestsSummaryNotification", false),
                     ),
             );
     }

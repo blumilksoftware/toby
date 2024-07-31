@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Toby\Domain;
 
 use Illuminate\Contracts\Config\Repository;
-use Toby\Domain\Enums\EmploymentForm;
-use Toby\Domain\Enums\Role;
-use Toby\Domain\Enums\VacationType;
+use Toby\Enums\EmploymentForm;
+use Toby\Enums\Role;
+use Toby\Enums\VacationType;
 
 class VacationTypeConfigRetriever
 {

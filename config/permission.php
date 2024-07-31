@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 use Spatie\Permission\Models\Permission;
-use Toby\Domain\Enums\Role;
+use Spatie\Permission\Models\Role as SpatieRole;
+use Toby\Enums\Role;
 
 return [
     "models" => [
         "permission" => Permission::class,
-        "role" => Spatie\Permission\Models\Role::class,
+        "role" => SpatieRole::class,
     ],
     "table_names" => [
         "roles" => "roles",
@@ -24,9 +25,11 @@ return [
         "team_foreign_key" => "team_id",
     ],
     "register_permission_check_method" => true,
+    "register_octane_reset_listener" => false,
     "teams" => false,
-    "display_permission_in_exception" => false,
-    "display_role_in_exception" => false,
+    "use_passport_client_credentials" => false,
+    "display_permission_in_exception" => true,
+    "display_role_in_exception" => true,
     "enable_wildcard_permission" => false,
     "cache" => [
         "expiration_time" => DateInterval::createFromDateString("24 hours"),
@@ -37,6 +40,7 @@ return [
         "managePermissions",
         "manageHolidays",
         "manageUsers",
+        "showInactiveUsers",
         "manageKeys",
         "manageTechnologies",
         "manageResumes",
@@ -45,6 +49,9 @@ return [
         "manageRequestsAsAdministrativeApprover",
         "manageRequestsAsTechnicalApprover",
         "createRequestsOnBehalfOfEmployee",
+        "manageOvertimeAsAdministrativeApprover",
+        "manageOvertimeAsTechnicalApprover",
+        "listAllOvertimeRequests",
         "listMonthlyUsage",
         "listAllRequests",
         "skipRequestFlow",
@@ -55,6 +62,7 @@ return [
         "receiveVacationRequestStatusChangedNotification",
         "receiveBenefitsReportCreationNotification",
         "manageEquipment",
+        "receiveOvertimeRequestsSummaryNotification",
     ],
     "permission_roles" => [
         Role::Administrator->value => [
@@ -68,6 +76,9 @@ return [
             "manageVacationLimits",
             "manageRequestsAsAdministrativeApprover",
             "manageRequestsAsTechnicalApprover",
+            "manageOvertimeAsAdministrativeApprover",
+            "manageOvertimeAsTechnicalApprover",
+            "listAllOvertimeRequests",
             "createRequestsOnBehalfOfEmployee",
             "listMonthlyUsage",
             "listAllRequests",
@@ -76,6 +87,7 @@ return [
             "receiveVacationRequestWaitsForApprovalNotification",
             "receiveVacationRequestStatusChangedNotification",
             "manageEquipment",
+            "receiveOvertimeRequestsSummaryNotification",
         ],
         Role::AdministrativeApprover->value => [
             "managePermissions",
@@ -87,6 +99,8 @@ return [
             "manageBenefits",
             "manageVacationLimits",
             "manageRequestsAsAdministrativeApprover",
+            "manageOvertimeAsAdministrativeApprover",
+            "listAllOvertimeRequests",
             "createRequestsOnBehalfOfEmployee",
             "listMonthlyUsage",
             "listAllRequests",
@@ -103,10 +117,13 @@ return [
             "manageTechnologies",
             "manageResumes",
             "manageRequestsAsTechnicalApprover",
+            "manageOvertimeAsTechnicalApprover",
+            "listAllOvertimeRequests",
             "listAllRequests",
             "receiveVacationRequestsSummaryNotification",
             "receiveVacationRequestWaitsForApprovalNotification",
             "receiveVacationRequestStatusChangedNotification",
+            "receiveOvertimeRequestsSummaryNotification",
         ],
         Role::Employee->value => [],
     ],

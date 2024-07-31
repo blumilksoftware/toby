@@ -23,19 +23,19 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Cache dependencies
-        uses: actions/cache@v4.0.1
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         with:
           path: node_modules
           key: ${{ runner.os }}-npm-dependencies-${{ hashFiles('package.lock') }}
           restore-keys: ${{ runner.os }}-npm-dependencies
 
       - name: Set up node
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
-          node-version: 20
+          node-version: 22.4.1
 
       - name: Instal npm dependencies
         run: npm clean-install

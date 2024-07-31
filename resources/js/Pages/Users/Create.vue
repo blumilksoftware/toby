@@ -16,13 +16,8 @@ const form = useForm({
   employmentForm: props.employmentForms[0],
   role: props.roles[0],
   position: null,
-  employmentDate: null,
   birthday: null,
   slackId: null,
-  lastMedicalExamDate: null,
-  nextMedicalExamDate: null,
-  lastOhsTrainingDate: null,
-  nextOhsTrainingDate: null,
 })
 
 function createUser() {
@@ -251,28 +246,6 @@ function createUser() {
       </Listbox>
       <div class="items-center py-4 sm:grid sm:grid-cols-3">
         <label
-          for="employment_date"
-          class="block text-sm font-medium text-gray-700 sm:mt-px"
-        >
-          Data zatrudnienia
-        </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
-          <FlatPickr
-            id="employment_date"
-            v-model="form.employmentDate"
-            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentDate }"
-          />
-          <p
-            v-if="form.errors.employmentDate"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ form.errors.employmentDate }}
-          </p>
-        </div>
-      </div>
-      <div class="items-center py-4 sm:grid sm:grid-cols-3">
-        <label
           for="slackId"
           class="block text-sm font-medium text-gray-700 sm:mt-px"
         >
@@ -313,94 +286,6 @@ function createUser() {
             class="mt-2 text-sm text-red-600"
           >
             {{ form.errors.birthday }}
-          </p>
-        </div>
-      </div>
-      <div class="items-center py-4 sm:grid sm:grid-cols-3">
-        <label
-          for="last_medical_exam_date"
-          class="block text-sm font-medium text-gray-700 sm:mt-px"
-        >
-          Data ostatniego badania lekarskiego
-        </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
-          <FlatPickr
-            id="last_medical_exam_date"
-            v-model="form.lastMedicalExamDate"
-            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.lastMedicalExamDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.lastMedicalExamDate }"
-          />
-          <p
-            v-if="form.errors.lastMedicalExamDate"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ form.errors.lastMedicalExamDate }}
-          </p>
-        </div>
-      </div>
-      <div class="items-center py-4 sm:grid sm:grid-cols-3">
-        <label
-          for="next_medical_exam_date"
-          class="block text-sm font-medium text-gray-700 sm:mt-px"
-        >
-          Data następnego badania lekarskiego
-        </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
-          <FlatPickr
-            id="next_medical_exam_date"
-            v-model="form.nextMedicalExamDate"
-            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.nextMedicalExamDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.nextMedicalExamDate }"
-          />
-          <p
-            v-if="form.errors.nextMedicalExamDate"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ form.errors.nextMedicalExamDate }}
-          </p>
-        </div>
-      </div>
-      <div class="items-center py-4 sm:grid sm:grid-cols-3">
-        <label
-          for="last_ohs_training_date"
-          class="block text-sm font-medium text-gray-700 sm:mt-px"
-        >
-          Data ostatniego szkolenia BHP
-        </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
-          <FlatPickr
-            id="last_ohs_training_date"
-            v-model="form.lastOhsTrainingDate"
-            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.lastOhsTrainingDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.lastOhsTrainingDate }"
-          />
-          <p
-            v-if="form.errors.lastOhsTrainingDate"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ form.errors.lastOhsTrainingDate }}
-          </p>
-        </div>
-      </div>
-      <div class="items-center py-4 sm:grid sm:grid-cols-3">
-        <label
-          for="next_ohs_training_date"
-          class="block text-sm font-medium text-gray-700 sm:mt-px"
-        >
-          Data następnego szkolenia BHP
-        </label>
-        <div class="mt-1 sm:col-span-2 sm:mt-0">
-          <FlatPickr
-            id="next_ohs_training_date"
-            v-model="form.nextOhsTrainingDate"
-            class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-            :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.nextOhsTrainingDate, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.nextOhsTrainingDate }"
-          />
-          <p
-            v-if="form.errors.nextOhsTrainingDate"
-            class="mt-2 text-sm text-red-600"
-          >
-            {{ form.errors.nextOhsTrainingDate }}
           </p>
         </div>
       </div>

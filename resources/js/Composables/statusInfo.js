@@ -5,6 +5,7 @@ import {
   HandThumbDownIcon as OutlineHandThumbDownIcon,
   HandThumbUpIcon as OutlineHandThumbUpIcon,
   XMarkIcon as OutlineXMarkIcon,
+  BanknotesIcon as OutlineBanknotesIcon,
 } from '@heroicons/vue/24/outline'
 
 import {
@@ -14,6 +15,7 @@ import {
   HandThumbDownIcon as SolidHandThumbDownIcon,
   HandThumbUpIcon as SolidHandThumbUpIcon,
   XMarkIcon as SolidXMarkIcon,
+  BanknotesIcon as BanknotesIcon,
 } from '@heroicons/vue/24/solid'
 
 const statuses = [
@@ -119,6 +121,19 @@ const statuses = [
     solid: {
       icon: SolidXMarkIcon,
       color: 'text-gray-900',
+    },
+  },
+  {
+    text: 'Rozliczony',
+    value: 'settled',
+    outline: {
+      icon: OutlineBanknotesIcon,
+      foreground: 'text-white',
+      background: 'bg-green-500',
+    },
+    solid: {
+      icon: BanknotesIcon,
+      color: 'text-green-500',
     },
   },
 ]

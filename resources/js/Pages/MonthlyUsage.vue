@@ -1,6 +1,7 @@
 <script setup>
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationBar from '@/Shared/VacationBar.vue'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   years: Object,
@@ -37,8 +38,8 @@ function isCurrentMonth(month) {
               <th
                 v-for="month in months"
                 :key="month"
-                class="py-3 px-6 text-xs font-semibold tracking-wider text-center text-gray-500 uppercase"
                 :class="{'bg-blumilk-50': isCurrentMonth(month)}"
+                class="py-3 px-6 text-xs font-semibold tracking-wider text-center text-gray-500 uppercase"
                 style="min-width: 46px;"
               >
                 <span :class="{'text-blumilk-600': isCurrentMonth(month)}">
@@ -54,36 +55,42 @@ function isCurrentMonth(month) {
             <tr
               v-for="item in monthlyUsage"
               :key="item.user.id"
-              class="hover:bg-blumilk-25"
+              :class="[item.user.isActive ? '' : 'bg-gray-100', 'hover:bg-blumilk-25']"
             >
               <th class="p-4 text-sm font-semibold text-gray-500 capitalize whitespace-nowrap">
-                <div class="flex justify-start items-center">
-                  <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
-                    <img
-                      class="w-10 h-10 rounded-full"
-                      :src="item.user.avatar"
-                    >
-                  </span>
-                  <div class="ml-3">
-                    <div
-                      class="text-sm font-medium text-gray-900 whitespace-nowrap"
-                    >
-                      {{ item.user.name }}
+                <UserProfileLink
+                  :user="item.user"
+                >
+                  <div class="flex justify-start items-center">
+                    <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
+                      <img
+                        :src="item.user.avatar"
+                        class="w-10 h-10 rounded-full"
+                      >
+                    </span>
+                    <div class="ml-3">
+                      <div
+                        class="text-sm font-medium text-gray-900 whitespace-nowrap"
+                      >
+                        {{ item.user.name }}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </UserProfileLink>
               </th>
               <td
                 v-for="month in months"
                 :key="month.value"
-                class="p-4 text-sm font-semibold text-center text-gray-500"
                 :class="{'bg-blumilk-25': isCurrentMonth(month)}"
+                class="p-4 text-sm font-semibold text-center text-gray-500"
               >
                 {{ item.months[month.value] ?? '-' }}
               </td>
               <td class="p-4 text-sm font-semibold text-center text-gray-500">
                 <div style="min-width: 300px;">
-                  <VacationBar :stats="{ used: item.stats.used, pending: item.stats.pending, remaining: item.stats.remaining }" />
+                  <VacationBar
+                    :stats="{ used: item.stats.used, pending: item.stats.pending, remaining: item.stats.remaining }"
+                  />
                 </div>
               </td>
             </tr>

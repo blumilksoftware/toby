@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use Toby\Infrastructure\Slack\Handlers\CatchAll;
-use Toby\Infrastructure\Slack\Handlers\DailySummary;
-use Toby\Infrastructure\Slack\Handlers\GiveKeysTo;
-use Toby\Infrastructure\Slack\Handlers\Help;
-use Toby\Infrastructure\Slack\Handlers\KeyList;
-use Toby\Infrastructure\Slack\Handlers\LeaveKeysInOffice;
-use Toby\Infrastructure\Slack\Handlers\RemoteWork;
-use Toby\Infrastructure\Slack\Handlers\TakeKeysFrom;
-use Toby\Infrastructure\Slack\Handlers\TakeKeysFromOffice;
+use Toby\Slack\Handlers\CatchAll;
+use Toby\Slack\Handlers\DailySummary;
+use Toby\Slack\Handlers\GiveKeysTo;
+use Toby\Slack\Handlers\Help;
+use Toby\Slack\Handlers\KeyList;
+use Toby\Slack\Handlers\LeaveKeysInOffice;
+use Toby\Slack\Handlers\RemoteWork;
+use Toby\Slack\Handlers\TakeKeysFrom;
+use Toby\Slack\Handlers\TakeKeysFromOffice;
 
 return [
     "signing_secret" => env("SLACK_SIGNING_SECRET"),

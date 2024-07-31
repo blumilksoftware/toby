@@ -4,6 +4,7 @@ import { GiftIcon } from '@heroicons/vue/24/solid'
 
 defineProps({
   benefits: Object,
+  label: String,
 })
 </script>
 
@@ -11,7 +12,7 @@ defineProps({
   <section class="bg-white shadow-md">
     <div class="p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Moje benefity
+        {{ label }}
       </h2>
     </div>
     <div class="px-4 border-t border-gray-200 sm:px-6">

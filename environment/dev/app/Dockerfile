@@ -1,9 +1,10 @@
-ARG PHP_VERSION=8.3.0
+# renovate: datasource=docker depName=php
+ARG PHP_VERSION=8.3.8
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
 
-FROM alpine:3.19.0 as secops-tools
+FROM alpine:3.20.1@sha256:b89d9c93e9ed3597455c90a0b88a8bbb5cb7188438f70953fede212a0c4394e0 AS secops-tools
 
 # https://github.com/FiloSottile/age/releases
 ARG AGE_VERSION="1.1.1"
@@ -19,12 +20,12 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
     && chmod +x /usr/local/bin/sops
 
 # https://hub.docker.com/r/composer/composer
-FROM composer/composer:2.7.1-bin as composer-bin
+FROM composer/composer:2.7.7-bin@sha256:aed26ab32c25912f683c971dd6d75999e5d235e14b84c6eb685fd97231c2a8a8 AS composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:21.6.2-bullseye-slim as node
+FROM node:22.3.0-bullseye-slim@sha256:bdd4d07d0320466d0720f916d752b0fa31314d53c06caad6efe85956e59ab966 AS node
 
-FROM php:${PHP_VERSION}-cli-bullseye as unit-modules-builder
+FROM php:${PHP_VERSION}-cli-bullseye AS unit-modules-builder
 
 RUN apt-get update && apt-get install --assume-yes \
         git \
@@ -40,7 +41,7 @@ RUN git clone https://github.com/nginx/unit \
         && ./configure php --module=${PHP_MODULE_NAME} \
         && make ${PHP_MODULE_NAME}
 
-FROM php:${PHP_VERSION}-cli-bullseye as app
+FROM php:${PHP_VERSION}-cli-bullseye AS app
 
 COPY --from=secops-tools /usr/local/bin/age /usr/local/bin/age
 COPY --from=secops-tools /usr/local/bin/age-keygen /usr/local/bin/age-keygen

@@ -29,8 +29,8 @@ defineProps({
       <Welcome :user="auth.user" />
       <VacationStats :stats="stats" />
       <VacationCalendar
-        :holidays="calendar.holidays"
         :approved-vacations="calendar.approvedVacations"
+        :holidays="calendar.holidays"
         :pending-vacations="calendar.pendingVacations"
       />
       <PendingVacationRequests
@@ -39,6 +39,7 @@ defineProps({
       />
       <UserVacationRequests
         v-else
+        :label="'Moje wnioski'"
         :requests="vacationRequests.data"
       />
     </div>
@@ -60,6 +61,7 @@ defineProps({
       />
       <BenefitList
         :benefits="benefits.data"
+        :label="'Moje benefity'"
       />
     </div>
   </div>

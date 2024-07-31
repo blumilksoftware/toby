@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Toby\Eloquent\Models\Benefit;
+use Toby\Models\Benefit;
 
 class BenefitFactory extends Factory
 {

@@ -7,8 +7,8 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Toby\Eloquent\Models\Resume;
-use Toby\Eloquent\Models\Technology;
+use Toby\Models\Resume;
+use Toby\Models\Technology;
 
 class ResumeFactory extends Factory
 {

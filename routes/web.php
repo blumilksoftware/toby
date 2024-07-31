@@ -3,32 +3,35 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Toby\Infrastructure\Http\Controllers\AnnualSummaryController;
-use Toby\Infrastructure\Http\Controllers\AssignedBenefitController;
-use Toby\Infrastructure\Http\Controllers\BenefitController;
-use Toby\Infrastructure\Http\Controllers\BenefitsReportController;
-use Toby\Infrastructure\Http\Controllers\DashboardController;
-use Toby\Infrastructure\Http\Controllers\EmployeesMilestonesController;
-use Toby\Infrastructure\Http\Controllers\EquipmentController;
-use Toby\Infrastructure\Http\Controllers\EquipmentLabelController;
-use Toby\Infrastructure\Http\Controllers\GoogleController;
-use Toby\Infrastructure\Http\Controllers\HolidayController;
-use Toby\Infrastructure\Http\Controllers\KeysController;
-use Toby\Infrastructure\Http\Controllers\LocalLoginController;
-use Toby\Infrastructure\Http\Controllers\LoginController;
-use Toby\Infrastructure\Http\Controllers\LogoutController;
-use Toby\Infrastructure\Http\Controllers\MonthlyUsageController;
-use Toby\Infrastructure\Http\Controllers\PermissionController;
-use Toby\Infrastructure\Http\Controllers\ResumeController;
-use Toby\Infrastructure\Http\Controllers\SelectYearPeriodController;
-use Toby\Infrastructure\Http\Controllers\TechnologyController;
-use Toby\Infrastructure\Http\Controllers\TimesheetController;
-use Toby\Infrastructure\Http\Controllers\UserController;
-use Toby\Infrastructure\Http\Controllers\VacationCalendarController;
-use Toby\Infrastructure\Http\Controllers\VacationLimitController;
-use Toby\Infrastructure\Http\Controllers\VacationRequestController;
-use Toby\Infrastructure\Http\Middleware\CheckIfLocalEnvironment;
-use Toby\Infrastructure\Http\Middleware\TrackUserLastActivity;
+use Toby\Http\Controllers\AnnualSummaryController;
+use Toby\Http\Controllers\AssignedBenefitController;
+use Toby\Http\Controllers\BenefitController;
+use Toby\Http\Controllers\BenefitsReportController;
+use Toby\Http\Controllers\DashboardController;
+use Toby\Http\Controllers\EmployeesMilestonesController;
+use Toby\Http\Controllers\EquipmentController;
+use Toby\Http\Controllers\EquipmentLabelController;
+use Toby\Http\Controllers\GoogleController;
+use Toby\Http\Controllers\HolidayController;
+use Toby\Http\Controllers\KeysController;
+use Toby\Http\Controllers\LocalLoginController;
+use Toby\Http\Controllers\LoginController;
+use Toby\Http\Controllers\LogoutController;
+use Toby\Http\Controllers\MonthlyUsageController;
+use Toby\Http\Controllers\OvertimeRequestController;
+use Toby\Http\Controllers\OvertimeTimesheetController;
+use Toby\Http\Controllers\PermissionController;
+use Toby\Http\Controllers\ResumeController;
+use Toby\Http\Controllers\SelectYearPeriodController;
+use Toby\Http\Controllers\TechnologyController;
+use Toby\Http\Controllers\TimesheetController;
+use Toby\Http\Controllers\UserController;
+use Toby\Http\Controllers\UserHistoryController;
+use Toby\Http\Controllers\VacationCalendarController;
+use Toby\Http\Controllers\VacationLimitController;
+use Toby\Http\Controllers\VacationRequestController;
+use Toby\Http\Middleware\CheckIfLocalEnvironment;
+use Toby\Http\Middleware\TrackUserLastActivity;
 
 Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): void {
     Route::get("/", DashboardController::class)
@@ -38,9 +41,29 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::resource("users", UserController::class)
         ->except("show")
         ->whereNumber("user");
+    Route::get("/users/{user}", [UserController::class, "show"])
+        ->withTrashed()
+        ->whereNumber("user");
     Route::post("/users/{user}/restore", [UserController::class, "restore"])
         ->whereNumber("user")
         ->withTrashed();
+    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
+        ->whereNumber("user");
+    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
+        ->whereNumber("user");
+    Route::get("/users/{user}/history", [UserHistoryController::class, "index"])
+        ->whereNumber("user")
+        ->name("users.history");
+    Route::get("/users/{user}/history/create", [UserHistoryController::class, "create"])
+        ->whereNumber("user");
+    Route::post("/users/{user}/history", [UserHistoryController::class, "store"])
+        ->whereNumber("user");
+    Route::get("/users/history/{history}", [UserHistoryController::class, "edit"])
+        ->whereNumber("history");
+    Route::put("/users/history/{history}", [UserHistoryController::class, "update"])
+        ->whereNumber("history");
+    Route::delete("/users/history/{history}", [UserHistoryController::class, "destroy"])
+        ->whereNumber("history");
 
     Route::resource("equipment-items", EquipmentController::class)
         ->except("show")
@@ -53,11 +76,6 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::resource("equipment-labels", EquipmentLabelController::class)
         ->only(["index", "store", "destroy"])
         ->whereNumber("equipmentLabels");
-
-    Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
-        ->whereNumber("user");
-    Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
-        ->whereNumber("user");
 
     Route::resource("benefits", BenefitController::class)
         ->only(["index", "store", "destroy"])
@@ -111,7 +129,7 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->whereNumber("yearPeriod")
         ->name("year-periods.select");
 
-    Route::get("/calendar/{month?}", [VacationCalendarController::class, "index"])
+    Route::get("/calendar/{month?}/{year?}", [VacationCalendarController::class, "index"])
         ->name("calendar");
 
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
@@ -159,6 +177,33 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
             ->name("monthly-usage");
         Route::get("/annual-summary", AnnualSummaryController::class)
             ->name("annual-summary");
+    });
+    Route::prefix("/overtime")->as("overtime.")->group(function (): void {
+        Route::get("/requests", [OvertimeRequestController::class, "indexForApprovers"])
+            ->name("requests.indexForApprovers");
+        Route::post("/requests", [OvertimeRequestController::class, "store"])
+            ->name("requests.store");
+        Route::get("/requests/me", [OvertimeRequestController::class, "index"])
+            ->name("requests.index");
+        Route::get("/requests/create", [OvertimeRequestController::class, "create"])
+            ->name("requests.create");
+        Route::get("/requests/{overtimeRequest}", [OvertimeRequestController::class, "show"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.show");
+        Route::post("/requests/{overtimeRequest}/reject", [OvertimeRequestController::class, "reject"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.reject");
+        Route::post("/requests/{overtimeRequest}/cancel", [OvertimeRequestController::class, "cancel"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.cancel");
+        Route::post("/requests/{overtimeRequest}/settle", [OvertimeRequestController::class, "settle"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.settle");
+        Route::post("/requests/{overtimeRequest}/accept-as-technical", [OvertimeRequestController::class, "acceptAsTechnical"])
+            ->whereNumber("overtimeRequest")
+            ->name("requests.accept-as-technical");
+        Route::get("/timesheet/{month}", OvertimeTimesheetController::class)
+            ->name("overtime-timesheet");
     });
 });
 

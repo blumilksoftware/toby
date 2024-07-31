@@ -5,6 +5,7 @@ import TextArea from '@/Shared/Forms/TextArea.vue'
 import { computed, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { debounce } from 'lodash'
+import UserProfileLink from '@/Shared/UserProfileLink.vue'
 
 const props = defineProps({
   current: String,
@@ -22,7 +23,10 @@ const currentMonth = computed(() => findMonth(props.current))
 
 const form = useForm({
   items: props.users.data.map((user) => {
-    const item = props.assignedBenefits.data ? props.assignedBenefits.data.find((assignedBenefit) => assignedBenefit.user === user.id) : { benefits: [], comment: null }
+    const item = props.assignedBenefits.data ? props.assignedBenefits.data.find((assignedBenefit) => assignedBenefit.user === user.id) : {
+      benefits: [],
+      comment: null,
+    }
 
     return {
       user: user,
@@ -32,8 +36,8 @@ const form = useForm({
 
         return {
           id: benefit.id,
-          employee: typeof assignedBenefit !== 'undefined' && assignedBenefit.employee ?  assignedBenefit.employee/100 : null,
-          employer: typeof assignedBenefit !== 'undefined' && assignedBenefit.employer ?  assignedBenefit.employer/100 : null,
+          employee: typeof assignedBenefit !== 'undefined' && assignedBenefit.employee ? assignedBenefit.employee / 100 : null,
+          employer: typeof assignedBenefit !== 'undefined' && assignedBenefit.employer ? assignedBenefit.employer / 100 : null,
         }
       }),
     }
@@ -55,8 +59,8 @@ function submitAssignedBenefits() {
           user: item.user.id,
           benefits: item.benefits.map((benefit) => ({
             id: benefit.id,
-            employee: benefit.employee ? benefit.employee*100 : null,
-            employer: benefit.employer ? benefit.employer*100 : null,
+            employee: benefit.employee ? benefit.employee * 100 : null,
+            employer: benefit.employer ? benefit.employer * 100 : null,
           })),
           comment: item.comment,
         }
@@ -64,24 +68,28 @@ function submitAssignedBenefits() {
     }))
     .put('/assigned-benefits')
 }
+
 function startCreatingBenefitsReport() {
   formBenefitsReport.name = `${currentMonth.value.name} ${props.years.selected.year}`
   creatingBenefitsReport.value = true
 }
+
 function submitCreateBenefitsReport() {
   formBenefitsReport.post('/benefits-reports')
 }
+
 function calculateSumOfBenefits(benefits) {
   let sum = 0
 
-  for(const benefit of benefits){
-    if(benefit.employer){
-      sum += benefit.employer*100
+  for (const benefit of benefits) {
+    if (benefit.employer) {
+      sum += benefit.employer * 100
     }
   }
 
   return (new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' })).format(sum / 100)
 }
+
 function isBenefitHasCompanion(benefitId) {
   return props.benefits.data.find((benefit) => benefit.id === benefitId && benefit.companion === true)
 }
@@ -98,10 +106,10 @@ function isBenefitHasCompanion(benefitId) {
       </div>
       <div v-if="auth.can.manageBenefits && benefits.data.length > 0">
         <button
-          type="button"
-          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           :class="[form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
           :disabled="form.isDirty"
+          class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          type="button"
           @click="startCreatingBenefitsReport"
         >
           Utwórz raport
@@ -114,8 +122,8 @@ function isBenefitHasCompanion(benefitId) {
           <thead class="divide-y divide-gray-300">
             <tr class="divide-x divide-gray-300">
               <th
-                rowspan="2"
                 class="py-2 w-64 text-lg font-semibold text-gray-800 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
+                rowspan="2"
               >
                 <div class="flex justify-center items-center">
                   {{ currentMonth.name }} {{ years.selected.year }}
@@ -133,14 +141,14 @@ function isBenefitHasCompanion(benefitId) {
                 </div>
               </th>
               <th
-                rowspan="2"
                 class="p-2 text-base font-semibold text-gray-900 even:bg-gray-100"
+                rowspan="2"
               >
                 Wykorzystane dofinansowanie
               </th>
               <th
-                rowspan="2"
                 class="p-2 text-base font-semibold text-gray-900 even:bg-gray-100"
+                rowspan="2"
                 style="min-width: 150px;"
               >
                 Notatki
@@ -171,18 +179,23 @@ function isBenefitHasCompanion(benefitId) {
             <tr
               v-for="(item, index) in form.items"
               :key="item.user.id"
-              class="group hover:bg-blumilk-25 divide-x divide-gray-300"
+              :class="[item.user.isActive ? '' : 'bg-gray-100', 'group hover:bg-blumilk-25 divide-x divide-gray-300']"
             >
-              <th class="group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 bg-white hover:bg-blumilk-25 group-hover:bg-blumilk-25">
+              <th :class="[item.user.isActive ? 'bg-white' : 'bg-gray-100', 'group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 hover:bg-blumilk-25 group-hover:bg-blumilk-25']">
                 <div class="flex justify-start items-center">
-                  <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
-                    <img :src="item.user.avatar">
-                  </span>
-                  <div class="ml-3">
-                    <div class="text-sm font-medium text-gray-900 truncate">
-                      {{ item.user.name }}
+                  <UserProfileLink
+                    :user="item.user"
+                    class="flex justify-start items-center"
+                  >
+                    <span class="inline-flex justify-center items-center w-8 h-8 rounded-full">
+                      <img :src="item.user.avatar">
+                    </span>
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-gray-900 truncate">
+                        {{ item.user.name }}
+                      </div>
                     </div>
-                  </div>
+                  </UserProfileLink>
                 </div>
               </th>
               <template
@@ -196,11 +209,11 @@ function isBenefitHasCompanion(benefitId) {
                   <input
                     v-model.number="benefit.employer"
                     :name="`${benefit.id}-employer-${index}`"
-                    type="number"
-                    step="0.01"
-                    class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
-                    title="Wprowadź kwotę."
                     min="0"
+                    step="0.01"
+                    :class="[item.user.isActive ? '' : 'bg-gray-100', 'w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300']"
+                    title="Wprowadź kwotę."
+                    type="number"
                   >
                 </td>
                 <td style="height: 40px">
@@ -209,7 +222,7 @@ function isBenefitHasCompanion(benefitId) {
                     :name="`${benefit.id}-employee-${index}`"
                     type="number"
                     step="0.01"
-                    class="w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25 focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300"
+                    :class="[item.user.isActive ? '' : 'bg-gray-100', 'w-full h-full sm:text-sm appearance-none border-none text-right p-0 px-3 m-0 ring-inset hover:bg-blumilk-25 group-hover:bg-blumilk-25  focus:bg-blumilk-25 focus:ring-2 focus:ring-blumilk-300']"
                     title="Wprowadź kwotę."
                     min="0"
                   >
@@ -226,7 +239,7 @@ function isBenefitHasCompanion(benefitId) {
                 <TextArea
                   v-model="item.comment"
                   :resize="true"
-                  class="w-full sm:text-sm border-none appearance-none mt-1 focus:ring-0 focus:bg-blumilk-25 group-hover:bg-blumilk-25 resize-y h-full"
+                  :class="[item.user.isActive ? '' : 'bg-gray-100', 'w-full sm:text-sm border-none appearance-none mt-1 focus:ring-0 focus:bg-blumilk-25 group-hover:bg-blumilk-25 resize-y h-full']"
                   style="min-height: 40px"
                 />
               </td>
@@ -236,10 +249,10 @@ function isBenefitHasCompanion(benefitId) {
       </div>
       <div class="flex justify-end py-3 px-4 sm:px-6">
         <button
-          type="submit"
-          class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
           :disabled="form.processing || !form.isDirty"
+          class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+          type="submit"
         >
           Zapisz
         </button>
@@ -247,8 +260,8 @@ function isBenefitHasCompanion(benefitId) {
     </form>
   </div>
   <TransitionRoot
-    as="template"
     :show="creatingBenefitsReport"
+    as="template"
   >
     <Dialog
       is="div"
@@ -292,8 +305,8 @@ function isBenefitHasCompanion(benefitId) {
                 </DialogTitle>
                 <div class="mt-5">
                   <label
-                    for="name"
                     class="block text-sm font-medium text-gray-700 sm:mt-px"
+                    for="name"
                   >
                     Nazwa
                   </label>
@@ -301,9 +314,9 @@ function isBenefitHasCompanion(benefitId) {
                     <input
                       id="name"
                       v-model="formBenefitsReport.name"
-                      type="text"
-                      class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
                       :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': formBenefitsReport.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !formBenefitsReport.errors.name }"
+                      class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+                      type="text"
                     >
                     <p
                       v-if="formBenefitsReport.errors.name"
@@ -318,17 +331,17 @@ function isBenefitHasCompanion(benefitId) {
             <div class="mt-5 sm:mt-6">
               <div class="flex justify-end space-x-3">
                 <button
-                  type="button"
                   class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                  type="button"
                   @click="creatingBenefitsReport = false"
                 >
                   Anuluj
                 </button>
                 <button
-                  type="submit"
-                  class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
                   :class="[formBenefitsReport.processing ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                   :disabled="formBenefitsReport.processing"
+                  class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
+                  type="submit"
                 >
                   Utwórz
                 </button>
