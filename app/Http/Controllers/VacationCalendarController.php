@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\CalendarGenerator;
+use Toby\Domain\MonthWorkingHoursCalculator;
 use Toby\Enums\Month;
 use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\SimpleUserResource;
@@ -21,6 +22,7 @@ class VacationCalendarController extends Controller
         Request $request,
         YearPeriodRetriever $yearPeriodRetriever,
         CalendarGenerator $calendarGenerator,
+        MonthWorkingHoursCalculator $monthWorkingHoursCalculator,
         ?string $month = null,
         ?int $year = null,
     ): Response|RedirectResponse {
@@ -29,6 +31,7 @@ class VacationCalendarController extends Controller
         }
 
         $month = Month::fromNameOrCurrent((string)$month);
+        /** @var User $currentUser */
         $currentUser = $request->user();
         $withTrashedUsers = $currentUser->canSeeInactiveUsers();
 
@@ -53,9 +56,13 @@ class VacationCalendarController extends Controller
         $users->prepend($currentUser);
 
         $calendar = $calendarGenerator->generate($carbonMonth);
+        $workingHours = $currentUser->isEmployedOnEmploymentContract()
+            ? $monthWorkingHoursCalculator->calculateHours($calendar, $currentUser) * 8
+            : null;
 
         return inertia("Calendar", [
             "calendar" => $calendar,
+            "workingHours" => $workingHours,
             "currentMonth" => Month::current(),
             "currentYear" => Carbon::now()->year,
             "selectedMonth" => $month->value,
