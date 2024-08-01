@@ -258,9 +258,9 @@ class User extends Authenticatable implements NotifiableInterface
         return $workAnniversary?->isToday() ?? false;
     }
 
-    public function isEmployedOnEmploymentContract(): bool
+    public function isEmployedOnEmploymentForm(EmploymentForm $employmentForm = EmploymentForm::EmploymentContract): bool
     {
-        return $this->profile->employment_form === EmploymentForm::EmploymentContract;
+        return $this->profile->employment_form === $employmentForm;
     }
 
     protected static function newFactory(): UserFactory

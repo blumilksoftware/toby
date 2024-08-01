@@ -56,7 +56,7 @@ class VacationCalendarController extends Controller
         $users->prepend($currentUser);
 
         $calendar = $calendarGenerator->generate($carbonMonth);
-        $workingHours = $currentUser->isEmployedOnEmploymentContract()
+        $workingHours = $currentUser->isEmployedOnEmploymentForm()
             ? $monthWorkingHoursCalculator->calculateHours($calendar, $currentUser) * 8
             : null;
 

@@ -14,13 +14,11 @@ class MonthWorkingHoursCalculator
         return collect($calendar)
             ->filter(
                 fn(array $day): bool => !$day["isWeekend"]
-                && !$day["isHoliday"]
-                && (
-                    (
+                    && !$day["isHoliday"]
+                    && ((
                         isset($day["vacations"][$user->id])
                             && in_array($day["vacations"][$user->id]["type"]->value, [VacationType::RemoteWork->value, VacationType::Delegation->value], true)
-                    ) || !isset($day["vacations"][$user->id])
-                ),
+                    ) || !isset($day["vacations"][$user->id])),
             )
             ->count();
     }
