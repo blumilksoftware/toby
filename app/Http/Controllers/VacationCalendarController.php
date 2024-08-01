@@ -57,7 +57,7 @@ class VacationCalendarController extends Controller
 
         $calendar = $calendarGenerator->generate($carbonMonth);
         $workingHours = $currentUser->isEmployedOnEmploymentForm()
-            ? $monthWorkingHoursCalculator->calculateHours($calendar, $currentUser) * 8
+            ? $monthWorkingHoursCalculator->calculateHours($calendar, $currentUser) * config("toby.number_of_hours_on_employment_contract.full_time")
             : null;
 
         return inertia("Calendar", [
