@@ -48,7 +48,8 @@ class VacationRequestPolicy
             return true;
         }
 
-        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover");
+        return $user->hasPermissionTo("manageRequestsAsAdministrativeApprover")
+            || $user->hasPermissionTo("cancelRequestsAsTechnicalApprover");
     }
 
     public function show(User $user, VacationRequest $vacationRequest): bool
