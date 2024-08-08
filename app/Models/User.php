@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Toby\Enums\EmploymentForm;
 use Toby\Enums\Role;
 use Toby\Enums\UserHistoryType;
 use Toby\Notifications\Notifiable as NotifiableInterface;
@@ -255,6 +256,11 @@ class User extends Authenticatable implements NotifiableInterface
         $workAnniversary = $employmentDate?->setYear($today->year);
 
         return $workAnniversary?->isToday() ?? false;
+    }
+
+    public function isEmployedOnEmploymentForm(EmploymentForm $employmentForm = EmploymentForm::EmploymentContract): bool
+    {
+        return $this->profile->employment_form === $employmentForm;
     }
 
     protected static function newFactory(): UserFactory
