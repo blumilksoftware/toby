@@ -60,6 +60,11 @@ const permissionsInfo = [
     'section': 'Urlopy',
   },
   {
+    'name': 'Anulowanie wniosków jako przełożony techniczny',
+    'value': 'cancelRequestsAsTechnicalApprover',
+    'section': 'Urlopy',
+  },
+  {
     'name': 'Tworzenie wniosków w imieniu pracownika',
     'value': 'createRequestsOnBehalfOfEmployee',
     'section': 'Urlopy',
