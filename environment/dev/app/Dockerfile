@@ -1,10 +1,10 @@
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.11
+ARG PHP_VERSION=8.3.12
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
 
-FROM alpine:3.20.2@sha256:0a4eaa0eecf5f8c050e5bba433f58c052be7587ee8af3e8b3910ef9ab5fbe9f5 AS secops-tools
+FROM alpine:3.20.3@sha256:beefdbd8a1da6d2915566fde36db9db0b524eb737fc57cd1367effd16dc0d06d AS secops-tools
 
 # https://github.com/FiloSottile/age/releases
 ARG AGE_VERSION="1.1.1"
@@ -23,7 +23,7 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
 FROM composer/composer:2.7.9-bin@sha256:c94279dd97032306607c831c6cbe66c506b85e6a8d9faa5113771d7bafabccb9 AS composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:22.8.0-bullseye-slim@sha256:16b692be9bb31dc00fb51bfa5e43567bf66e9ef0ff269d70753b3b2e07946dab AS node
+FROM node:22.9.0-bullseye-slim@sha256:4a83e32ec60a6a33ec2eef397a0782f144d5114e45ceed717758b92391e852d6 AS node
 
 FROM php:${PHP_VERSION}-cli-bullseye AS unit-modules-builder
 

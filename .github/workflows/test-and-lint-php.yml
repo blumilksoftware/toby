@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-22.04
     services:
       pgsql:
-        image: postgres:15@sha256:e600c23d564a5fc7824093c89b4c25dacb1cdd5de64e9e7ced0c630cfbcc1890
+        image: postgres:15@sha256:8e97b8526ed19304b144f7478bc9201646acf0723cdc100e9bb7495712cbadb6
         env:
           POSTGRES_DB: toby
           POSTGRES_USER: toby
@@ -34,7 +34,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
 
       - name: Validate composer.json and composer.lock
         run: composer validate

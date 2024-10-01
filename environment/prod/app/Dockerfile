@@ -1,11 +1,11 @@
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.11
+ARG PHP_VERSION=8.3.12
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
 
 ### PHP DEPENDENCIES ###
-FROM composer:2.7.8@sha256:57000529b4609b66beeba3ebdd0ebb68b28be262c30669dfccb31003febb245a AS vendor
+FROM composer:2.7.9@sha256:cb3483dc851665462a66c59982577dfbbde0ae2059e8b5550c2f49f44b8c333e AS vendor
 
 WORKDIR /app_composer_dependencies
 
@@ -20,7 +20,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:22.8.0-bullseye-slim@sha256:16b692be9bb31dc00fb51bfa5e43567bf66e9ef0ff269d70753b3b2e07946dab AS frontend
+FROM node:22.9.0-bullseye-slim@sha256:4a83e32ec60a6a33ec2eef397a0782f144d5114e45ceed717758b92391e852d6 AS frontend
 
 WORKDIR /app_frontend_dependencies
 

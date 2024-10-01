@@ -16,6 +16,7 @@ class VacationRequestWaitsForApprovalNotification extends VacationRequestNotific
     {
         $url = route("vacation.requests.show", ["vacationRequest" => $this->vacationRequest->id]);
         $seeDetails = __("See details");
+        $actions = [];
 
         if ($this->vacationRequest->state->equals(WaitingForTechnical::class)) {
             $actions = [
