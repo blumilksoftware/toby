@@ -25,9 +25,10 @@ class KeysController extends Controller
     {
         $authUser = $request->user();
         $keys = Key::query()
-            ->where(fn(Builder $query): Builder => $query
-                ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($authUser->canSeeInactiveUsers()))
-                ->orWhereNull("user_id")
+            ->where(
+                fn(Builder $query): Builder => $query
+                    ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($authUser->canSeeInactiveUsers()))
+                    ->orWhereNull("user_id"),
             )
             ->with("user")
             ->get()
