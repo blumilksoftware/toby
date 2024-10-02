@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d636f011958c95cad1015a1bda6b5318",
+    "content-hash": "060c72b2d85e09cdef7a076fef9aab7b",
     "packages": [
         {
             "name": "azuyalabs/yasumi",
@@ -2227,16 +2227,16 @@
         },
         {
             "name": "laravel/sanctum",
-            "version": "v4.0.2",
+            "version": "v4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sanctum.git",
-                "reference": "9cfc0ce80cabad5334efff73ec856339e8ec1ac1"
+                "reference": "54aea9d13743ae8a6cdd3c28dbef128a17adecab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/9cfc0ce80cabad5334efff73ec856339e8ec1ac1",
-                "reference": "9cfc0ce80cabad5334efff73ec856339e8ec1ac1",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/54aea9d13743ae8a6cdd3c28dbef128a17adecab",
+                "reference": "54aea9d13743ae8a6cdd3c28dbef128a17adecab",
                 "shasum": ""
             },
             "require": {
@@ -2287,7 +2287,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2024-04-10T19:39:58+00:00"
+            "time": "2024-09-27T14:55:41+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -9317,16 +9317,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v8.2.6",
+            "version": "v8.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "f0bf5fcf12bb8d88382513a4673c53123a2322f4"
+                "reference": "a830a06481689b103f671e4cdc4e786fe4e589c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/f0bf5fcf12bb8d88382513a4673c53123a2322f4",
-                "reference": "f0bf5fcf12bb8d88382513a4673c53123a2322f4",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/a830a06481689b103f671e4cdc4e786fe4e589c6",
+                "reference": "a830a06481689b103f671e4cdc4e786fe4e589c6",
                 "shasum": ""
             },
             "require": {
@@ -9383,9 +9383,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v8.2.6"
+                "source": "https://github.com/laravel/dusk/tree/v8.2.7"
             },
-            "time": "2024-09-24T13:39:00+00:00"
+            "time": "2024-09-27T14:58:19+00:00"
         },
         {
             "name": "maximebf/debugbar",
