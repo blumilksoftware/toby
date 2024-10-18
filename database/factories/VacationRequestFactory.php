@@ -10,7 +10,6 @@ use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Enums\VacationType;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
-use Toby\Models\YearPeriod;
 
 class VacationRequestFactory extends Factory
 {
@@ -24,7 +23,6 @@ class VacationRequestFactory extends Factory
         return [
             "user_id" => User::factory(),
             "creator_id" => fn(array $attributes): int => $attributes["user_id"],
-            "year_period_id" => YearPeriod::factory(),
             "type" => $this->faker->randomElement(VacationType::cases()),
             "state" => $this->faker->randomElement(VacationRequestStatesRetriever::all()),
             "from" => $from,

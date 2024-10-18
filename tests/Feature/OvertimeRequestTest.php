@@ -13,7 +13,6 @@ use Toby\Enums\SettlementType;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\Profile;
 use Toby\Models\User;
-use Toby\Models\YearPeriod;
 use Toby\States\OvertimeRequest\Approved;
 use Toby\States\OvertimeRequest\Cancelled;
 use Toby\States\OvertimeRequest\Rejected;
@@ -30,13 +29,13 @@ class OvertimeRequestTest extends FeatureTestCase
             ->employee()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
-        $currentYearPeriod = YearPeriod::current();
+
+        $year = Carbon::now();
 
         OvertimeRequest::factory()
             ->count(10)
             ->for($user)
-            ->for($currentYearPeriod)
-            ->create();
+            ->create(["from" => $year]);
 
         $this->actingAs($user)
             ->get("/overtime/requests/me")
@@ -55,14 +54,14 @@ class OvertimeRequestTest extends FeatureTestCase
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
 
-        $currentYearPeriod = YearPeriod::current();
+        $year = Carbon::now()->year;
 
         $this->actingAs($user)
             ->post("/overtime/requests", [
                 "user" => $user->id,
                 "type" => SettlementType::Money->value,
-                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 20)->format("Y-m-d H:i"),
-                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 23)->format("Y-m-d H:i"),
+                "from" => Carbon::create($year, 2, 7, 20)->format("Y-m-d H:i"),
+                "to" => Carbon::create($year, 2, 7, 23)->format("Y-m-d H:i"),
                 "comment" => "Comment for the overtime request.",
             ])
             ->assertSessionHasNoErrors()
@@ -70,11 +69,10 @@ class OvertimeRequestTest extends FeatureTestCase
 
         $this->assertDatabaseHas("overtime_requests", [
             "user_id" => $user->id,
-            "year_period_id" => $currentYearPeriod->id,
             "settlement_type" => SettlementType::Money->value,
             "state" => WaitingForTechnical::$name,
-            "from" => Carbon::create($currentYearPeriod->year, 2, 7, 20)->format("Y-m-d H:i"),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 7, 23)->format("Y-m-d H:i"),
+            "from" => Carbon::create($year, 2, 7, 20)->format("Y-m-d H:i"),
+            "to" => Carbon::create($year, 2, 7, 23)->format("Y-m-d H:i"),
             "hours" => 3,
             "comment" => "Comment for the overtime request.",
         ]);
@@ -207,23 +205,23 @@ class OvertimeRequestTest extends FeatureTestCase
         $user = User::factory()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
-        $currentYearPeriod = YearPeriod::current();
+
+        $year = Carbon::now()->year;
 
         OvertimeRequest::factory([
             "state" => WaitingForTechnical::class,
-            "from" => Carbon::create($currentYearPeriod->year, 2, 7, 19)->format("Y-m-d H:i"),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
+            "from" => Carbon::create($year, 2, 7, 19)->format("Y-m-d H:i"),
+            "to" => Carbon::create($year, 2, 7, 22)->format("Y-m-d H:i"),
         ])
             ->for($user)
-            ->for($currentYearPeriod)
             ->create();
 
         $this->actingAs($user)
             ->post("/overtime/requests", [
                 "user" => $user->id,
                 "type" => SettlementType::Money->value,
-                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 21)->format("Y-m-d H:i"),
-                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 23)->format("Y-m-d H:i"),
+                "from" => Carbon::create($year, 2, 7, 21)->format("Y-m-d H:i"),
+                "to" => Carbon::create($year, 2, 7, 23)->format("Y-m-d H:i"),
             ])
             ->assertSessionHasErrors([
                 "overtimeRequest" => __("You have a pending request in this date range."),
@@ -233,8 +231,8 @@ class OvertimeRequestTest extends FeatureTestCase
             ->post("/overtime/requests", [
                 "user" => $user->id,
                 "type" => SettlementType::Money->value,
-                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 18)->format("Y-m-d H:i"),
-                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
+                "from" => Carbon::create($year, 2, 7, 18)->format("Y-m-d H:i"),
+                "to" => Carbon::create($year, 2, 7, 22)->format("Y-m-d H:i"),
             ])
             ->assertSessionHasErrors([
                 "overtimeRequest" => __("You have a pending request in this date range."),
@@ -244,8 +242,8 @@ class OvertimeRequestTest extends FeatureTestCase
             ->post("/overtime/requests", [
                 "user" => $user->id,
                 "type" => SettlementType::Money->value,
-                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 21)->format("Y-m-d H:i"),
-                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
+                "from" => Carbon::create($year, 2, 7, 21)->format("Y-m-d H:i"),
+                "to" => Carbon::create($year, 2, 7, 22)->format("Y-m-d H:i"),
             ])
             ->assertSessionHasErrors([
                 "overtimeRequest" => __("You have a pending request in this date range."),
@@ -255,8 +253,8 @@ class OvertimeRequestTest extends FeatureTestCase
             ->post("/overtime/requests", [
                 "user" => $user->id,
                 "type" => SettlementType::Money->value,
-                "from" => Carbon::create($currentYearPeriod->year, 2, 6, 21)->format("Y-m-d H:i"),
-                "to" => Carbon::create($currentYearPeriod->year, 2, 8, 22)->format("Y-m-d H:i"),
+                "from" => Carbon::create($year, 2, 6, 21)->format("Y-m-d H:i"),
+                "to" => Carbon::create($year, 2, 8, 22)->format("Y-m-d H:i"),
             ])
             ->assertSessionHasErrors([
                 "overtimeRequest" => __("You have a pending request in this date range."),
@@ -268,23 +266,23 @@ class OvertimeRequestTest extends FeatureTestCase
         $user = User::factory()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
-        $currentYearPeriod = YearPeriod::current();
+
+        $year = Carbon::now()->year;
 
         OvertimeRequest::factory([
             "state" => Settled::class,
-            "from" => Carbon::create($currentYearPeriod->year, 2, 7, 20)->format("Y-m-d H:i"),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 7, 22)->format("Y-m-d H:i"),
+            "from" => Carbon::create($year, 2, 7, 20)->format("Y-m-d H:i"),
+            "to" => Carbon::create($year, 2, 7, 22)->format("Y-m-d H:i"),
         ])
             ->for($user)
-            ->for($currentYearPeriod)
             ->create();
 
         $this->actingAs($user)
             ->post("/overtime/requests", [
                 "user" => $user->id,
                 "type" => SettlementType::Money->value,
-                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 21)->format("Y-m-d H:i"),
-                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 23)->format("Y-m-d H:i"),
+                "from" => Carbon::create($year, 2, 7, 21)->format("Y-m-d H:i"),
+                "to" => Carbon::create($year, 2, 7, 23)->format("Y-m-d H:i"),
             ])
             ->assertSessionHasErrors([
                 "overtimeRequest" => __("You have a pending request in this date range."),
@@ -420,14 +418,14 @@ class OvertimeRequestTest extends FeatureTestCase
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
 
-        $currentYearPeriod = YearPeriod::current();
+        $year = Carbon::now()->year;
 
         $this->actingAs($user)
             ->post("/overtime/requests", [
                 "user" => $user->id,
                 "type" => SettlementType::Money->value,
-                "from" => Carbon::create($currentYearPeriod->year, 2, 7, 20)->format("Y-m-d H:i"),
-                "to" => Carbon::create($currentYearPeriod->year, 2, 7, 23, 5)->format("Y-m-d H:i"),
+                "from" => Carbon::create($year, 2, 7, 20)->format("Y-m-d H:i"),
+                "to" => Carbon::create($year, 2, 7, 23, 5)->format("Y-m-d H:i"),
                 "comment" => "Comment for the overtime request.",
             ])
             ->assertSessionHasNoErrors()
@@ -435,11 +433,10 @@ class OvertimeRequestTest extends FeatureTestCase
 
         $this->assertDatabaseHas("overtime_requests", [
             "user_id" => $user->id,
-            "year_period_id" => $currentYearPeriod->id,
             "settlement_type" => SettlementType::Money->value,
             "state" => WaitingForTechnical::$name,
-            "from" => Carbon::create($currentYearPeriod->year, 2, 7, 20)->format("Y-m-d H:i"),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 7, 23, 5)->format("Y-m-d H:i"),
+            "from" => Carbon::create($year, 2, 7, 20)->format("Y-m-d H:i"),
+            "to" => Carbon::create($year, 2, 7, 23, 5)->format("Y-m-d H:i"),
             "hours" => 4,
             "comment" => "Comment for the overtime request.",
         ]);

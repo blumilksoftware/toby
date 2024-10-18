@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Toby\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Toby\Helpers\DateFormats;
-use Toby\Http\Rules\YearPeriodExists;
-use Toby\Models\YearPeriod;
 
 class HolidayRequest extends FormRequest
 {
@@ -20,7 +17,6 @@ class HolidayRequest extends FormRequest
             "date" => ["required",
                 "date_format:" . DateFormats::DATE,
                 Rule::unique("holidays", "date")->ignore($this->holiday),
-                new YearPeriodExists(),
             ],
         ];
     }
@@ -32,7 +28,6 @@ class HolidayRequest extends FormRequest
         return [
             "name" => $this->get("name"),
             "date" => $date,
-            "year_period_id" => YearPeriod::findByYear(Carbon::create($date)->year)->id,
         ];
     }
 }

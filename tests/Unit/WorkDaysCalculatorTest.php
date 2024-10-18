@@ -8,16 +8,15 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
-use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\WorkDaysCalculator;
 use Toby\Enums\VacationType;
+use Toby\Models\Holiday;
 
 class WorkDaysCalculatorTest extends TestCase
 {
     use RefreshDatabase;
     use InteractsWithSession;
-    use InteractsWithYearPeriods;
 
     public WorkDaysCalculator $workDaysCalculator;
 
@@ -27,12 +26,10 @@ class WorkDaysCalculatorTest extends TestCase
 
         $this->workDaysCalculator = $this->app->make(WorkDaysCalculator::class);
 
-        $yearPeriod = $this->createYearPeriod(2023);
-
         $polishHolidaysRetriever = $this->app->make(PolishHolidaysRetriever::class);
 
-        foreach ($polishHolidaysRetriever->getForYearPeriod($yearPeriod) as $holiday) {
-            $yearPeriod->holidays()->create([
+        foreach ($polishHolidaysRetriever->getForYear(2023) as $holiday) {
+            Holiday::query()->create([
                 "name" => $holiday["name"],
                 "date" => $holiday["date"],
             ]);

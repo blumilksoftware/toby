@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $id
  * @property User $user
- * @property YearPeriod $yearPeriod
+ * @property int $year
  * @property int $limit
  * @property int $days
  * @property int $from_previous_year
@@ -33,11 +33,6 @@ class VacationLimit extends Model
     {
         return $this->belongsTo(User::class)
             ->withTrashed();
-    }
-
-    public function yearPeriod(): BelongsTo
-    {
-        return $this->belongsTo(YearPeriod::class);
     }
 
     protected static function newFactory(): VacationLimitFactory

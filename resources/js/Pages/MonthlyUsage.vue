@@ -2,19 +2,35 @@
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import VacationBar from '@/Shared/VacationBar.vue'
 import UserProfileLink from '@/Shared/UserProfileLink.vue'
+import { ref, watch } from 'vue'
+import { DateTime } from 'luxon'
+import { Inertia } from '@inertiajs/inertia'
+import YearPicker from '@/Shared/Forms/YearPicker.vue'
 
 const props = defineProps({
-  years: Object,
+  year: Number,
   monthlyUsage: Object,
   currentMonth: String,
 })
+
+const selectedYear = ref(props.year)
+const currentDate = DateTime.now()
 
 const { getMonths } = useMonthInfo()
 const months = getMonths()
 
 function isCurrentMonth(month) {
-  return (props.years.selected.year === props.years.current.year && props.currentMonth === month.value)
+  return (props.year === currentDate.year && props.currentMonth === month.value)
 }
+
+watch(selectedYear, (value, oldValue) => {
+  if (value === oldValue)
+    return
+
+  Inertia.visit('/vacation/monthly-usage', {
+    data: { year: value },
+  })
+})
 </script>
 
 <template>
@@ -23,7 +39,13 @@ function isCurrentMonth(month) {
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div class="flex items-center">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Wykorzystanie miesięczne urlopu
+          Wykorzystanie miesięczne urlopu w roku
+          <YearPicker
+            v-model="selectedYear"
+            :from="currentDate.year + 1"
+            :to="currentDate.year - 20"
+            class="inline-block ml-2"
+          />
         </h2>
       </div>
     </div>

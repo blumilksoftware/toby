@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Toby\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Enums\Month;
-use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\SimpleUserResource;
 use Toby\Models\User;
 
@@ -16,33 +16,32 @@ class MonthlyUsageController extends Controller
 {
     public function __invoke(
         Request $request,
-        YearPeriodRetriever $yearPeriodRetriever,
         UserVacationStatsRetriever $statsRetriever,
     ): Response {
         $this->authorize("listMonthlyUsage");
 
-        $currentYearPeriod = $yearPeriodRetriever->selected();
+        $year = $request->integer("year", Carbon::now()->year);
         $currentUser = $request->user();
 
         $users = User::query()
             ->withTrashed($currentUser->canSeeInactiveUsers())
-            ->withVacationLimitIn($currentYearPeriod)
+            ->withVacationLimitIn($year)
             ->where("id", "!=", $currentUser->id)
             ->orderByProfileField("last_name")
             ->orderByProfileField("first_name")
             ->get();
 
-        if ($currentUser->hasVacationLimit($currentYearPeriod)) {
+        if ($currentUser->hasVacationLimit($year)) {
             $users->prepend($currentUser);
         }
 
         $monthlyUsage = [];
 
         foreach ($users as $user) {
-            $vacationsByMonth = $statsRetriever->getUsedVacationDaysByMonth($user, $currentYearPeriod);
-            $limit = $statsRetriever->getVacationDaysLimit($user, $currentYearPeriod);
-            $used = $statsRetriever->getUsedVacationDays($user, $currentYearPeriod);
-            $pending = $statsRetriever->getPendingVacationDays($user, $currentYearPeriod);
+            $vacationsByMonth = $statsRetriever->getUsedVacationDaysByMonth($user, $year);
+            $limit = $statsRetriever->getVacationDaysLimit($user, $year);
+            $used = $statsRetriever->getUsedVacationDays($user, $year);
+            $pending = $statsRetriever->getPendingVacationDays($user, $year);
             $remaining = $limit - $used - $pending;
 
             $monthlyUsage[] = [
@@ -57,6 +56,7 @@ class MonthlyUsageController extends Controller
         }
 
         return inertia("MonthlyUsage", [
+            "year" => $year,
             "monthlyUsage" => $monthlyUsage,
             "currentMonth" => Month::current(),
         ]);

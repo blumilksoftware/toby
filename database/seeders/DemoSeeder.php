@@ -17,6 +17,7 @@ use Toby\Models\Benefit;
 use Toby\Models\BenefitsReport;
 use Toby\Models\EquipmentItem;
 use Toby\Models\EquipmentLabel;
+use Toby\Models\Holiday;
 use Toby\Models\Key;
 use Toby\Models\Resume;
 use Toby\Models\Technology;
@@ -24,7 +25,6 @@ use Toby\Models\User;
 use Toby\Models\VacationLimit;
 use Toby\Models\VacationRequest;
 use Toby\Models\VacationRequestActivity;
-use Toby\Models\YearPeriod;
 use Toby\States\VacationRequest\AcceptedByAdministrative;
 use Toby\States\VacationRequest\AcceptedByTechnical;
 use Toby\States\VacationRequest\Approved;
@@ -184,54 +184,33 @@ class DemoSeeder extends Seeder
 
         $year = Carbon::now()->year;
 
-        YearPeriod::factory()
-            ->count(3)
-            ->sequence(
-                [
-                    "year" => Carbon::createFromDate($year - 1)->year,
-                ],
-                [
-                    "year" => Carbon::createFromDate($year)->year,
-                ],
-                [
-                    "year" => Carbon::createFromDate($year + 1)->year,
-                ],
-            )
-            ->afterCreating(function (YearPeriod $yearPeriod) use ($users): void {
-                foreach ($users as $user) {
-                    VacationLimit::factory([
-                        "days" => $user->profile->employment_form === EmploymentForm::EmploymentContract ? 26 : null,
-                    ])
-                        ->for($yearPeriod)
-                        ->for($user)
-                        ->create();
-                }
-            })
-            ->afterCreating(function (YearPeriod $yearPeriod): void {
-                $polishHolidaysRetriever = new PolishHolidaysRetriever();
+        foreach ([$year - 1, $year, $year + 1] as $i) {
+            $polishHolidaysRetriever = new PolishHolidaysRetriever();
 
-                foreach ($polishHolidaysRetriever->getForYearPeriod($yearPeriod) as $holiday) {
-                    $yearPeriod->holidays()->create([
-                        "name" => $holiday["name"],
-                        "date" => $holiday["date"],
-                    ]);
-                }
-            })
-            ->create();
+            foreach ($polishHolidaysRetriever->getForYear($i) as $holiday) {
+                Holiday::query()->create([
+                    "name" => $holiday["name"],
+                    "date" => $holiday["date"],
+                ]);
+            }
+        }
 
-        $currentYearPeriod = YearPeriod::query()->where("year", $year)->first();
+        foreach ($users as $item) {
+            VacationLimit::factory()
+                ->for($item)
+                ->create(["year" => $year]);
+        }
 
         /** @var VacationRequest $vacationRequestApproved */
         $vacationRequestApproved = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
             "state" => Created::class,
-            "from" => Carbon::create($currentYearPeriod->year, 1, 31)->toDateString(),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 4)->toDateString(),
+            "from" => Carbon::create($year, 1, 31)->toDateString(),
+            "to" => Carbon::create($year, 2, 4)->toDateString(),
             "comment" => "Komentarz do wniosku urlopowego.",
         ])
             ->for($user)
             ->for($user, "creator")
-            ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
@@ -243,7 +222,6 @@ class DemoSeeder extends Seeder
                     $vacationRequest->vacations()->create([
                         "date" => $day,
                         "user_id" => $vacationRequest->user->id,
-                        "year_period_id" => $vacationRequest->yearPeriod->id,
                     ]);
                 }
             })
@@ -295,13 +273,12 @@ class DemoSeeder extends Seeder
         $vacationRequestWaitsForAdminApproval = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
             "state" => Created::class,
-            "from" => Carbon::create($currentYearPeriod->year, 2, 14)->toDateString(),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 14)->toDateString(),
+            "from" => Carbon::create($year, 2, 14)->toDateString(),
+            "to" => Carbon::create($year, 2, 14)->toDateString(),
             "comment" => "Komentarz do wniosku urlopowego.",
         ])
             ->for($user)
             ->for($user, "creator")
-            ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
@@ -313,7 +290,6 @@ class DemoSeeder extends Seeder
                     $vacationRequest->vacations()->create([
                         "date" => $day,
                         "user_id" => $vacationRequest->user->id,
-                        "year_period_id" => $vacationRequest->yearPeriod->id,
                     ]);
                 }
             })
@@ -354,13 +330,12 @@ class DemoSeeder extends Seeder
         $vacationRequestRejected = VacationRequest::factory([
             "type" => VacationType::Vacation->value,
             "state" => Created::class,
-            "from" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
-            "to" => Carbon::create($currentYearPeriod->year, 2, 7)->toDateString(),
+            "from" => Carbon::create($year, 2, 7)->toDateString(),
+            "to" => Carbon::create($year, 2, 7)->toDateString(),
             "comment" => "",
         ])
             ->for($user)
             ->for($user, "creator")
-            ->for($currentYearPeriod)
             ->afterCreating(function (VacationRequest $vacationRequest): void {
                 $days = app(WorkDaysCalculator::class)->calculateDays(
                     $vacationRequest->from,
@@ -372,7 +347,6 @@ class DemoSeeder extends Seeder
                     $vacationRequest->vacations()->create([
                         "date" => $day,
                         "user_id" => $vacationRequest->user->id,
-                        "year_period_id" => $vacationRequest->yearPeriod->id,
                     ]);
                 }
             })

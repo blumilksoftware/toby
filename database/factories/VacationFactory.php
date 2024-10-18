@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Toby\Models\User;
 use Toby\Models\Vacation;
 use Toby\Models\VacationRequest;
-use Toby\Models\YearPeriod;
 
 class VacationFactory extends Factory
 {
@@ -20,7 +19,6 @@ class VacationFactory extends Factory
         return [
             "user_id" => User::factory(),
             "vacation_request_id" => VacationRequest::factory(),
-            "year_period_id" => YearPeriod::factory(),
             "date" => CarbonImmutable::create($this->faker->dateTimeThisYear),
         ];
     }

@@ -16,6 +16,7 @@ class SimpleUserResource extends JsonResource
             "id" => $this->id,
             "name" => $this->profile->full_name,
             "last_name" => $this->profile->last_name,
+            "employmentForm" => $this->profile->employment_form->label(),
             "email" => $this->email,
             "avatar" => $this->profile->getAvatar(),
             "isActive" => $this->deleted_at === null,

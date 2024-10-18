@@ -1,11 +1,11 @@
 <script setup>
 import VacationPopup from '@/Shared/VacationPopup.vue'
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo'
 import { DateTime } from 'luxon'
 import Popper from 'vue3-popper'
 
 const props = defineProps({
+  year: Number,
   holidays: Object,
   vacations: Object,
   pendingVacations: Object,
@@ -15,12 +15,11 @@ const props = defineProps({
 
 
 const { findType } = useVacationTypeInfo()
-const { year } = useCurrentYearPeriodInfo()
 
 const months = []
 
 for (let i = props.startMonth; i < props.endMonth + 1; i++) {
-  const currentMonth = DateTime.fromObject({ year: year.value, month: i }).startOf('month')
+  const currentMonth = DateTime.fromObject({ year: props.year, month: i }).startOf('month')
 
   const start = currentMonth.startOf('week')
   const end = currentMonth.endOf('month').endOf('week')

@@ -3,7 +3,6 @@ import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import { CheckIcon, ChevronUpDownIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 import { reactive, ref, watch } from 'vue'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import SettlementType from '@/Shared/SettlementType.vue'
 import axios from 'axios'
@@ -33,19 +32,13 @@ refreshEstimatedHours(form.from, form.to)
 
 const estimatedHours = ref(0)
 
-const { minDate, maxDate } = useCurrentYearPeriodInfo()
-
 const fromInputConfig = reactive({
-  minDate,
-  maxDate,
   enableTime: true,
   dateFormat: 'Y-m-d H:i',
   altFormat: 'd.m.Y H:i',
 })
 
 const toInputConfig = reactive({
-  minDate,
-  maxDate,
   enableTime: true,
   dateFormat: 'Y-m-d H:i',
   altFormat: 'd.m.Y H:i',
@@ -65,15 +58,13 @@ function onFromChange(selectedDates, dateStr) {
   if (form.to === null) {
     form.to = dateStr
 
-    return
+
   }
 }
 
 function onToChange(selectedDates, dateStr) {
   if (form.from === null) {
     form.from = dateStr
-
-    return
   }
 }
 

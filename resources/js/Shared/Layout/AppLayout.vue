@@ -9,7 +9,6 @@ import { updateFavicon } from '@/Shared/updateFavicon'
 const props = defineProps({
   flash: Object,
   auth: Object,
-  years: Object,
   vacationRequestsCount: Number,
   overtimeRequestsCount: Number,
   deployInformation: Object,
@@ -53,7 +52,6 @@ function vacationPageOpened() {
       :show-refresh-button="isUpdated"
       :vacation-requests-count="vacationRequestsCount"
       :overtime-requests-count="overtimeRequestsCount"
-      :years="years"
       @open="vacationPageOpened"
     />
     <main class="flex flex-col flex-1 py-8 lg:ml-60">

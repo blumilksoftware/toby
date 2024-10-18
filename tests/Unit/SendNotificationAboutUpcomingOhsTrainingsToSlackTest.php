@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Console\Commands\SendNotificationAboutUpcomingOhsTrainingsForEmployees;
 use Toby\Models\User;
 use Toby\Notifications\UpcomingOhsTrainingForEmployeeNotification;
@@ -18,7 +17,6 @@ use Toby\Notifications\UpcomingOhsTrainingForEmployeeNotification;
 class SendNotificationAboutUpcomingOhsTrainingsToSlackTest extends TestCase
 {
     use RefreshDatabase;
-    use InteractsWithYearPeriods;
 
     protected User $user;
 
@@ -27,7 +25,6 @@ class SendNotificationAboutUpcomingOhsTrainingsToSlackTest extends TestCase
         parent::setUp();
 
         Notification::fake();
-        $this->createCurrentYearPeriod();
         Http::fake(fn(): array => [
             "channel" => Str::random(8),
             "message" => ["ts" => Carbon::now()->toDateTimeString()],

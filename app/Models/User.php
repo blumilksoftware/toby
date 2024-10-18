@@ -142,10 +142,10 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->hasMany(Key::class);
     }
 
-    public function hasVacationLimit(YearPeriod $yearPeriod): bool
+    public function hasVacationLimit(int $year): bool
     {
         return $this->vacationLimits()
-            ->whereBelongsTo($yearPeriod)
+            ->where("year", $year)
             ->whereNotNull("days")
             ->exists();
     }
@@ -181,12 +181,12 @@ class User extends Authenticatable implements NotifiableInterface
         return $query->orderBy($profileQuery, $direction);
     }
 
-    public function scopeWithVacationLimitIn(Builder $query, YearPeriod $yearPeriod): Builder
+    public function scopeWithVacationLimitIn(Builder $query, int $year): Builder
     {
         return $query->whereRelation(
             "vacationlimits",
             fn(Builder $query): Builder => $query
-                ->whereBelongsTo($yearPeriod)
+                ->where("year", $year)
                 ->whereNotNull("days"),
         );
     }
@@ -211,7 +211,7 @@ class User extends Authenticatable implements NotifiableInterface
 
         $birthday = $this->profile->birthday->setYear($today->year);
 
-        if (((int)$birthday->diffInDays(absolute: false)) > 0) {
+        if (((int)$birthday->diffInDays()) > 0) {
             $birthday->setYear($today->year + 1);
         }
 

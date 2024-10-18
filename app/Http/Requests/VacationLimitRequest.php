@@ -6,7 +6,6 @@ namespace Toby\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
-use Toby\Models\VacationLimit;
 
 class VacationLimitRequest extends FormRequest
 {
@@ -14,20 +13,14 @@ class VacationLimitRequest extends FormRequest
     {
         return [
             "items" => ["required", "array"],
-            "items.*.id" => ["required", "exists:vacation_limits,id"],
+            "items.*.user" => ["required", "exists:users,id"],
+            "items.*.year" => ["required", "integer"],
             "items.*.days" => ["nullable", "integer", "min:0", "max:100"],
         ];
     }
 
-    public function vacationLimits(): Collection
+    public function data(): Collection
     {
-        return VacationLimit::query()->find($this->collect("items")->pluck("id"));
-    }
-
-    public function data(): array
-    {
-        return $this->collect("items")
-            ->keyBy("id")
-            ->toArray();
+        return $this->collect("items");
     }
 }

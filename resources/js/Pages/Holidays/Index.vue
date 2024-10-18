@@ -3,10 +3,27 @@ import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/s
 import { FlagIcon } from '@heroicons/vue/24/outline'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import YearPicker from '@/Shared/Forms/YearPicker.vue'
+import { ref, watch } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import { DateTime } from 'luxon'
 
-defineProps({
+const props = defineProps({
   holidays: Object,
   auth: Object,
+  year: Number,
+})
+
+const selectedYear = ref(props.year)
+const currentDate = DateTime.now()
+
+watch(selectedYear, (value, oldValue) => {
+  if (value === oldValue)
+    return
+
+  Inertia.visit('/holidays', {
+    data: { year: value },
+  })
 })
 </script>
 
@@ -16,7 +33,13 @@ defineProps({
     <div class="flex justify-between items-center p-4 sm:px-6">
       <div>
         <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Dni wolne od pracy
+          Dni wolne od pracy w roku
+          <YearPicker
+            v-model="selectedYear"
+            :from="currentDate.year + 1"
+            :to="currentDate.year - 20"
+            class="inline-block ml-2"
+          />
         </h2>
       </div>
       <div v-if="auth.can.manageHolidays">

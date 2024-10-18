@@ -17,7 +17,6 @@ defineProps({
   vacationRequests: Object,
   stats: Object,
   calendar: Object,
-  years: Object,
   benefits: Object,
 })
 </script>
@@ -56,7 +55,6 @@ defineProps({
         :birthdays="upcoming.birthdays.data"
       />
       <UpcomingHolidays
-        v-if="years.current.year === years.selected.year && upcoming.holidays.data.length"
         :holidays="upcoming.holidays.data"
       />
       <BenefitList

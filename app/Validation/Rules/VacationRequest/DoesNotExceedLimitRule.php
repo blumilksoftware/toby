@@ -12,7 +12,6 @@ use Toby\Domain\WorkDaysCalculator;
 use Toby\Enums\VacationType;
 use Toby\Models\User;
 use Toby\Models\VacationRequest;
-use Toby\Models\YearPeriod;
 
 class DoesNotExceedLimitRule implements VacationRequestRule
 {
@@ -27,8 +26,8 @@ class DoesNotExceedLimitRule implements VacationRequestRule
             return true;
         }
 
-        $limit = $this->getUserVacationLimit($vacationRequest->user, $vacationRequest->yearPeriod);
-        $vacationDays = $this->getVacationDaysWithLimit($vacationRequest->user, $vacationRequest->yearPeriod);
+        $limit = $this->getUserVacationLimit($vacationRequest->user, $vacationRequest->from->year);
+        $vacationDays = $this->getVacationDaysWithLimit($vacationRequest->user, $vacationRequest->from->year);
         $estimatedDays = $this->workDaysCalculator
             ->calculateDays($vacationRequest->from, $vacationRequest->to, $vacationRequest->type)
             ->count();
@@ -41,18 +40,18 @@ class DoesNotExceedLimitRule implements VacationRequestRule
         return __("Vacation limit has been exceeded.");
     }
 
-    protected function getUserVacationLimit(User $user, YearPeriod $yearPeriod): int
+    protected function getUserVacationLimit(User $user, int $year): int
     {
         return $user->vacationLimits()
-            ->whereBelongsTo($yearPeriod)
+            ->where("year", $year)
             ->first()
             ?->limit ?? 0;
     }
 
-    protected function getVacationDaysWithLimit(User $user, YearPeriod $yearPeriod): int
+    protected function getVacationDaysWithLimit(User $user, int $year): int
     {
         return $user->vacations()
-            ->whereBelongsTo($yearPeriod)
+            ->whereYear("date", $year)
             ->whereRelation(
                 "vacationRequest",
                 fn(Builder $query): Builder => $query

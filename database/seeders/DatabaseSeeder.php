@@ -12,11 +12,10 @@ use Toby\Models\Benefit;
 use Toby\Models\BenefitsReport;
 use Toby\Models\EquipmentItem;
 use Toby\Models\EquipmentLabel;
+use Toby\Models\Holiday;
 use Toby\Models\Key;
 use Toby\Models\User;
-use Toby\Models\VacationLimit;
 use Toby\Models\VacationRequest;
-use Toby\Models\YearPeriod;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,49 +32,24 @@ class DatabaseSeeder extends Seeder
 
         $users = User::all();
 
-        YearPeriod::factory()
-            ->count(3)
-            ->sequence(
-                [
-                    "year" => Carbon::now()->year - 1,
-                ],
-                [
-                    "year" => Carbon::now()->year,
-                ],
-                [
-                    "year" => Carbon::now()->year + 1,
-                ],
-            )
-            ->afterCreating(function (YearPeriod $yearPeriod) use ($users): void {
-                foreach ($users as $user) {
-                    VacationLimit::factory()
-                        ->for($yearPeriod)
-                        ->for($user)
-                        ->create();
-                }
-            })
-            ->afterCreating(function (YearPeriod $yearPeriod): void {
-                $polishHolidaysRetriever = new PolishHolidaysRetriever();
+        $year = Carbon::now()->year;
 
-                foreach ($polishHolidaysRetriever->getForYearPeriod($yearPeriod) as $holiday) {
-                    $yearPeriod->holidays()->create([
-                        "name" => $holiday["name"],
-                        "date" => $holiday["date"],
-                    ]);
-                }
-            })
-            ->create();
+        foreach ([$year - 1, $year, $year + 1] as $i) {
+            $polishHolidaysRetriever = new PolishHolidaysRetriever();
 
-        $yearPeriods = YearPeriod::all();
+            foreach ($polishHolidaysRetriever->getForYear($i) as $holiday) {
+                Holiday::query()->create([
+                    "name" => $holiday["name"],
+                    "date" => $holiday["date"],
+                ]);
+            }
+        }
 
         foreach ($users as $user) {
             VacationRequest::factory()
                 ->count(50)
                 ->for($user)
                 ->for($user, "creator")
-                ->sequence(fn() => [
-                    "year_period_id" => $yearPeriods->random()->id,
-                ])
                 ->afterCreating(function (VacationRequest $vacationRequest): void {
                     $days = app(WorkDaysCalculator::class)->calculateDays(
                         $vacationRequest->from,
@@ -87,7 +61,6 @@ class DatabaseSeeder extends Seeder
                         $vacationRequest->vacations()->create([
                             "date" => $day,
                             "user_id" => $vacationRequest->user->id,
-                            "year_period_id" => $vacationRequest->yearPeriod->id,
                         ]);
                     }
                 })

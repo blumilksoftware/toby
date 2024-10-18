@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace Toby\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules\Enum;
 use Toby\Enums\VacationType;
 use Toby\Helpers\DateFormats;
-use Toby\Http\Rules\YearPeriodExists;
-use Toby\Models\YearPeriod;
 
 class VacationRequestRequest extends FormRequest
 {
@@ -19,8 +16,8 @@ class VacationRequestRequest extends FormRequest
         return [
             "user" => ["required", "exists:users,id"],
             "type" => ["required", new Enum(VacationType::class)],
-            "from" => ["required", "date_format:" . DateFormats::DATE, new YearPeriodExists()],
-            "to" => ["required", "date_format:" . DateFormats::DATE, new YearPeriodExists()],
+            "from" => ["required", "date_format:" . DateFormats::DATE],
+            "to" => ["required", "date_format:" . DateFormats::DATE],
             "flowSkipped" => ["nullable", "boolean"],
             "comment" => ["nullable"],
         ];
@@ -33,15 +30,9 @@ class VacationRequestRequest extends FormRequest
             "type" => $this->get("type"),
             "from" => $this->get("from"),
             "to" => $this->get("to"),
-            "year_period_id" => $this->yearPeriod()->id,
             "comment" => $this->get("comment"),
             "flow_skipped" => $this->boolean("flowSkipped"),
         ];
-    }
-
-    public function yearPeriod(): YearPeriod
-    {
-        return YearPeriod::findByYear(Carbon::create($this->get("from"))->year);
     }
 
     public function createsOnBehalfOfEmployee(): bool

@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Actions\OvertimeRequest\AcceptAsTechnicalAction;
 use Toby\Actions\OvertimeRequest\CancelAction;
@@ -16,7 +17,6 @@ use Toby\Actions\OvertimeRequest\RejectAction;
 use Toby\Actions\OvertimeRequest\SettleAction;
 use Toby\Domain\OvertimeRequestStatesRetriever;
 use Toby\Enums\SettlementType;
-use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Requests\OvertimeRequestRequest;
 use Toby\Http\Resources\OvertimeRequestActivityResource;
 use Toby\Http\Resources\OvertimeRequestResource;
@@ -26,48 +26,50 @@ use Toby\Models\User;
 
 class OvertimeRequestController extends Controller
 {
-    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): RedirectResponse|Response
+    public function index(Request $request): RedirectResponse|Response
     {
         if ($request->user()->can("listAllOvertimeRequests")) {
             return redirect()->route("overtime.requests.indexForApprovers");
         }
+
         $user = $request->user();
         $this->authorize("canUseOvertimeRequestFunctionality", $user);
 
         $status = $request->get("status", "all");
+        $year = $request->integer("year", Carbon::now()->year);
 
         $overtimeRequests = $user
             ->overtimeRequests()
+            ->whereYear("from", $year)
             ->with(["user.permissions", "user.profile"])
-            ->whereBelongsTo($yearPeriodRetriever->selected())
             ->latest()
             ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $request->user()))
             ->paginate();
 
         $pending = $user
             ->overtimeRequests()
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::pendingStates())
             ->cache(key: "overtime:{$user->id}")
             ->count();
 
         $success = $user
             ->overtimeRequests()
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::successStates())
             ->cache(key: "overtime:{$user->id}")
             ->count();
 
         $failed = $user
             ->overtimeRequests()
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::failedStates())
             ->cache(key: "overtime:{$user->id}")
             ->count();
 
         $settled = $user
             ->overtimeRequests()
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::settledStates())
             ->cache(key: "overtime:{$user->id}")
             ->count();
@@ -83,29 +85,30 @@ class OvertimeRequestController extends Controller
             ],
             "filters" => [
                 "status" => $status,
+                "year" => $year,
             ],
         ]);
     }
 
     public function indexForApprovers(
         Request $request,
-        YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
         if ($request->user()->cannot("listAllOvertimeRequests")) {
             abort(403);
         }
 
-        $yearPeriod = $yearPeriodRetriever->selected();
         $status = $request->get("status", "all");
         $user = $request->get("user");
+        $year = $request->get("year");
+
         $authUser = $request->user();
         $withTrashedUsers = $authUser->canSeeInactiveUsers();
 
         $overtimeRequests = OvertimeRequest::query()
             ->with(["user.permissions", "user.profile"])
-            ->whereBelongsTo($yearPeriod)
             ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($withTrashedUsers))
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
+            ->when($year !== null, fn(Builder $query): Builder => $query->whereYear("from", $year))
             ->states(OvertimeRequestStatesRetriever::filterByStatusGroup($status, $authUser))
             ->latest()
             ->paginate();
@@ -122,6 +125,7 @@ class OvertimeRequestController extends Controller
             "filters" => [
                 "status" => $status,
                 "user" => (int)$user,
+                "year" => $year === null ? $year : (int)$year,
             ],
         ]);
     }

@@ -10,7 +10,6 @@ use Toby\Domain\OvertimeRequestStatesRetriever;
 use Toby\Enums\SettlementType;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
-use Toby\Models\YearPeriod;
 
 class OvertimeRequestFactory extends Factory
 {
@@ -25,7 +24,6 @@ class OvertimeRequestFactory extends Factory
         return [
             "user_id" => User::factory(),
             "creator_id" => fn(array $attributes): int => $attributes["user_id"],
-            "year_period_id" => YearPeriod::factory(),
             "state" => $this->faker->randomElement(OvertimeRequestStatesRetriever::all()),
             "from" => $from,
             "to" => $to,

@@ -33,11 +33,10 @@ import {
   XMarkIcon,
   ClockIcon,
 } from '@heroicons/vue/24/outline'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/24/solid'
+import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 
 const props = defineProps({
   auth: Object,
-  years: Object,
   vacationRequestsCount: Number,
   overtimeRequestsCount: Number,
   showRefreshButton: Boolean,
@@ -405,89 +404,20 @@ const emit = defineEmits(['open'])
       >
         <Bars3CenterLeftIcon class="w-6 h-6" />
       </button>
-      <div class="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center">
-          <div>
-            <Menu
-              as="div"
-              class="inline-block relative text-left"
-            >
-              <div class="flex justify-center items-center">
-                <div class="mr-4 text-sm">
-                  Wybrany rok:
-                </div>
-                <div>
-                  <MenuButton
-                    class="inline-flex justify-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500  shadow-sm"
-                  >
-                    {{ years.selected.year }}
-                    <ChevronDownIcon class="-mr-1 ml-2 w-5 h-5" />
-                  </MenuButton>
-                </div>
-                <button
-                  v-if="showRefreshButton && refreshablePages.includes($page.component)"
-                  class="inline-flex items-center py-2.5 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm ml-3"
-                  @click="reloadPage"
-                >
-                  <div class="hidden sm:block">
-                    Odśwież
-                  </div>
-                  <div class="sm:hidden">
-                    <ArrowPathIcon class="h-4 w-4" />
-                  </div>
-                </button>
-              </div>
-
-              <transition
-                enter-active-class="transition ease-out duration-100"
-                enter-from-class="transform opacity-0 scale-95"
-                enter-to-class="transform opacity-100 scale-100"
-                leave-active-class="transition ease-in duration-75"
-                leave-from-class="transform opacity-100 scale-100"
-                leave-to-class="transform opacity-0 scale-95"
-              >
-                <MenuItems
-                  class="absolute right-0 mt-2 w-24 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
-                >
-                  <div class="py-1">
-                    <MenuItem
-                      v-for="(item, index) in years.navigation"
-                      :key="index"
-                      v-slot="{ active }"
-                    >
-                      <InertiaLink
-                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full px-4 py-2 text-sm']"
-                        :href="item.link"
-                        :preserve-state="false"
-                        as="button"
-                        method="post"
-                      >
-                        {{ item.year }}
-                        <CheckIcon
-                          v-if="item.year === years.selected.year"
-                          class="ml-2 w-5 h-5 text-blumilk-500"
-                        />
-                      </InertiaLink>
-                    </MenuItem>
-                  </div>
-                </MenuItems>
-              </transition>
-            </Menu>
-          </div>
-          <div
-            v-if="years.current.year !== years.selected.year"
-            class="hidden ml-3 text-sm sm:block"
+      <div class="flex flex-1 justify-between items-center px-4 sm:px-6 lg:px-8">
+        <div>
+          <button
+            v-if="showRefreshButton && refreshablePages.includes($page.component)"
+            class="inline-flex items-center py-2.5 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm ml-3"
+            @click="reloadPage"
           >
-            <InertiaLink
-              :href="years.current.link"
-              :preserve-state="false"
-              as="button"
-              class="font-semibold text-blumilk-600 hover:text-blumilk-500"
-              method="post"
-            >
-              Wróć do obecnego roku
-            </inertialink>
-          </div>
+            <div class="hidden sm:block">
+              Odśwież
+            </div>
+            <div class="sm:hidden">
+              <ArrowPathIcon class="h-4 w-4" />
+            </div>
+          </button>
         </div>
         <div class="flex items-center ml-4 md:ml-6">
           <Menu

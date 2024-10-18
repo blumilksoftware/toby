@@ -6,6 +6,7 @@ import { computed, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { debounce } from 'lodash'
 import UserProfileLink from '@/Shared/UserProfileLink.vue'
+import { DateTime } from 'luxon'
 
 const props = defineProps({
   current: String,
@@ -13,13 +14,15 @@ const props = defineProps({
   benefits: Object,
   benefitsReports: Object,
   assignedBenefits: Object,
-  years: Object,
   auth: Object,
 })
 
+const currentDate = DateTime.now()
+
 const creatingBenefitsReport = ref(false)
-const { findMonth } = useMonthInfo()
-const currentMonth = computed(() => findMonth(props.current))
+const months = useMonthInfo().getMonths()
+
+const currentMonth = computed(() => months[currentDate.month - 1]?.name)
 
 const form = useForm({
   items: props.users.data.map((user) => {
@@ -70,7 +73,7 @@ function submitAssignedBenefits() {
 }
 
 function startCreatingBenefitsReport() {
-  formBenefitsReport.name = `${currentMonth.value.name} ${props.years.selected.year}`
+  formBenefitsReport.name = `${currentMonth.value.name} ${currentDate.year}`
   creatingBenefitsReport.value = true
 }
 
@@ -126,7 +129,7 @@ function isBenefitHasCompanion(benefitId) {
                 rowspan="2"
               >
                 <div class="flex justify-center items-center">
-                  {{ currentMonth.name }} {{ years.selected.year }}
+                  {{ currentMonth }} {{ currentDate.year }}
                 </div>
               </th>
               <th
