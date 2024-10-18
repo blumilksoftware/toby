@@ -39,6 +39,10 @@ class VacationRequestController extends Controller
     {
         $user = $request->user();
 
+        if ($user->can("listAllRequests")) {
+            return redirect()->route("vacation.requests.indexForApprovers");
+        }
+
         $year = $request->integer("year", Carbon::now()->year);
         $status = $request->get("status", "all");
         $withoutRemote = $request->boolean("withoutRemote");

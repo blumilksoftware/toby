@@ -93,6 +93,7 @@ class DashboardAggregator
 
         $query = $user->can("listAllRequests")
             ? VacationRequest::query()
+                ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
             : $user->vacationRequests();
 
         $vacationRequests = $query
