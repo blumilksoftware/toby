@@ -14,8 +14,11 @@ class MigrateYearPeriodYearToVacationLimits extends Command
 
     public function handle(): void
     {
-        DB::table("vacation_limits")
-            ->join("year_periods", "year_periods.id", "=", "vacation_limits.year_period_id")
-            ->update(["vacation_limits.year" => DB::raw("year_periods.year")]);
+        DB::statement("
+            UPDATE vacation_limits
+            SET year = year_periods.year
+            FROM year_periods
+            WHERE year_periods.id = vacation_limits.year_period_id
+        ");
     }
 }

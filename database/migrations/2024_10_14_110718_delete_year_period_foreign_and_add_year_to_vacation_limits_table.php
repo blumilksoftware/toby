@@ -13,9 +13,11 @@ return new class() extends Migration {
     {
         Schema::table("vacation_limits", function (Blueprint $table): void {
             $table->integer("year")->nullable();
+        });
 
-            Artisan::call(MigrateYearPeriodYearToVacationLimits::class);
+        Artisan::call(MigrateYearPeriodYearToVacationLimits::class);
 
+        Schema::table("vacation_limits", function (Blueprint $table): void {
             $table->integer("year")->nullable(false)->change();
             $table->dropConstrainedForeignId("year_period_id");
         });
