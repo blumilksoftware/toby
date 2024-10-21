@@ -111,19 +111,19 @@ function linkVacationRequest(user) {
       </div>
       <div class="flex-row">
         <div
-          class="flex items-center mt-3 sm:mt-0"
+          class="flex items-center justify-end gap-3 mt-3 sm:mt-0"
         >
           <a
             v-if="auth.can.manageRequestsAsAdministrativeApprover"
             :href="`/vacation/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
-            class="block py-3 px-4 sm:ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Pobierz plik Excel
           </a>
           <a
             v-if="auth.can.manageOvertimeAsAdministrativeApprover"
             :href="`/overtime/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
-            class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Pobierz nadgodziny
           </a>
