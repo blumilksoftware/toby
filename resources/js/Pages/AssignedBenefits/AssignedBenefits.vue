@@ -1,8 +1,7 @@
 <script setup>
-import { useMonthInfo } from '@/Composables/monthInfo.js'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import TextArea from '@/Shared/Forms/TextArea.vue'
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { debounce } from 'lodash'
 import UserProfileLink from '@/Shared/UserProfileLink.vue'
@@ -20,9 +19,6 @@ const props = defineProps({
 const currentDate = DateTime.now()
 
 const creatingBenefitsReport = ref(false)
-const months = useMonthInfo().getMonths()
-
-const currentMonth = computed(() => months[currentDate.month - 1]?.name)
 
 const form = useForm({
   items: props.users.data.map((user) => {
@@ -73,7 +69,7 @@ function submitAssignedBenefits() {
 }
 
 function startCreatingBenefitsReport() {
-  formBenefitsReport.name = `${currentMonth.value.name} ${currentDate.year}`
+  formBenefitsReport.name = currentDate.toLocaleString({ month: 'long', year: 'numeric' })
   creatingBenefitsReport.value = true
 }
 
@@ -129,7 +125,7 @@ function isBenefitHasCompanion(benefitId) {
                 rowspan="2"
               >
                 <div class="flex justify-center items-center">
-                  {{ currentMonth }} {{ currentDate.year }}
+                  {{ currentDate.toLocaleString({ month: 'long', year: 'numeric' }) }}
                 </div>
               </th>
               <th
