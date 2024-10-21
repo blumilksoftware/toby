@@ -69,7 +69,9 @@ function submitAssignedBenefits() {
 }
 
 function startCreatingBenefitsReport() {
-  formBenefitsReport.name = currentDate.toLocaleString({ month: 'long', year: 'numeric' })
+  const name = currentDate.toLocaleString({ month: 'long', year: 'numeric' })
+
+  formBenefitsReport.name = name.at(0).toUpperCase() + name.slice(1)
   creatingBenefitsReport.value = true
 }
 
@@ -124,7 +126,7 @@ function isBenefitHasCompanion(benefitId) {
                 class="py-2 w-64 text-lg font-semibold text-gray-800 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
                 rowspan="2"
               >
-                <div class="flex justify-center items-center">
+                <div class="flex justify-center items-center capitalize">
                   {{ currentDate.toLocaleString({ month: 'long', year: 'numeric' }) }}
                 </div>
               </th>
