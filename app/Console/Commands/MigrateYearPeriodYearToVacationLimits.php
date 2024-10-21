@@ -6,6 +6,7 @@ namespace Toby\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class MigrateYearPeriodYearToVacationLimits extends Command
 {
@@ -14,6 +15,12 @@ class MigrateYearPeriodYearToVacationLimits extends Command
 
     public function handle(): void
     {
+        if (!Schema::hasTable("year_periods")) {
+            $this->error("Year periods don't exist");
+
+            return;
+        }
+
         DB::statement("
             UPDATE vacation_limits
             SET year = year_periods.year
