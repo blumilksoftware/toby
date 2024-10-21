@@ -116,6 +116,14 @@ watch(selectedYear, (value, oldValue) => {
                 </div>
               </td>
             </tr>
+            <tr v-if="!monthlyUsage.length">
+              <td
+                class="py-4 text-xl leading-5 text-center text-gray-700"
+                colspan="100%"
+              >
+                Brak danych
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

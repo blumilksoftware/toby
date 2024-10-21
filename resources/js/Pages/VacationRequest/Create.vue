@@ -130,7 +130,6 @@ async function refreshEstimatedDays(from, to, vacationType) {
 async function refreshVacationStats(user) {
   const res = await axios.post('/api/vacation/calculate-stats', { user: user.id, year: year.value })
 
-  console.log(res.data)
   stats.value = res.data
 }
 

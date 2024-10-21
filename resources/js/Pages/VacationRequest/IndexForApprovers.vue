@@ -55,6 +55,7 @@ watch(form, debounce(() => {
     user: form.user?.id,
     status: form.status.value,
     type: form.type?.value,
+    year: form.year,
   }, {
     preserveState: true,
     replace: true,
