@@ -8,7 +8,7 @@ use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 use Toby\Enums\VacationType;
-use Toby\Models\YearPeriod;
+use Toby\Models\Holiday;
 
 class WorkDaysCalculator
 {
@@ -19,8 +19,7 @@ class WorkDaysCalculator
     public function calculateDays(CarbonInterface $from, CarbonInterface $to, ?VacationType $vacationType = null): Collection
     {
         $period = CarbonPeriod::create($from, $to);
-        $yearPeriod = YearPeriod::findByYear($from->year);
-        $holidays = $yearPeriod->holidays()->pluck("date");
+        $holidays = $this->getHolidays($from->year);
 
         $validDays = new Collection();
 
@@ -48,5 +47,12 @@ class WorkDaysCalculator
         }
 
         return true;
+    }
+
+    protected function getHolidays(int $year): Collection
+    {
+        return Holiday::query()
+            ->whereYear("date", $year)
+            ->pluck("date");
     }
 }

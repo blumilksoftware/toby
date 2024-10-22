@@ -8,12 +8,16 @@ import { reactive, watch } from 'vue'
 import { debounce } from 'lodash'
 import { Inertia } from '@inertiajs/inertia'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import { DateTime } from 'luxon'
+import YearPicker from '@/Shared/Forms/YearPicker.vue'
 
 const props = defineProps({
   requests: Object,
   stats: Object,
   filters: Object,
 })
+
+const currentDate = DateTime.now()
 
 const statuses = [
   {
@@ -37,10 +41,11 @@ const statuses = [
 const form = reactive({
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
   withoutRemote: props.filters.withoutRemote ?? false,
+  year: props.filters.year,
 })
 
 watch(form, debounce(() => {
-  Inertia.get('/vacation/requests/me', { status: form.status.value, withoutRemote: form.withoutRemote }, {
+  Inertia.get('/vacation/requests/me', { status: form.status.value, year: form.year, withoutRemote: form.withoutRemote }, {
     preserveState: true,
     replace: false,
   })
@@ -53,7 +58,13 @@ watch(form, debounce(() => {
   <div class="bg-white shadow-md">
     <div class="flex justify-between items-center p-4 sm:px-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900">
-        Moje wnioski
+        Moje wnioski w roku
+        <YearPicker
+          v-model="form.year"
+          :from="currentDate.year + 1"
+          :to="currentDate.year - 20"
+          class="inline-block ml-2"
+        />
       </h2>
       <div>
         <InertiaLink

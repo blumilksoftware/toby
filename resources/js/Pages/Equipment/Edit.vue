@@ -116,9 +116,6 @@ function editEquipmentItem() {
       >
         <ListboxLabel class="block text-sm font-medium text-gray-700">
           Przydzielona osoba
-          <span class="text-xs text-gray-500">
-            (opcjonalna)
-          </span>
         </ListboxLabel>
         <div class="relative mt-1 sm:col-span-2 sm:mt-0">
           <ListboxButton

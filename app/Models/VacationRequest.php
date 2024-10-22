@@ -29,7 +29,6 @@ use Toby\States\VacationRequest\VacationRequestState;
  * @property bool $flow_skipped
  * @property User $user
  * @property User $creator
- * @property YearPeriod $yearPeriod
  * @property Collection $activities
  * @property Collection $vacations
  * @property Collection $event_ids
@@ -60,11 +59,6 @@ class VacationRequest extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, "creator_id");
-    }
-
-    public function yearPeriod(): BelongsTo
-    {
-        return $this->belongsTo(YearPeriod::class);
     }
 
     public function activities(): HasMany

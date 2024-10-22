@@ -14,7 +14,7 @@ use Toby\Http\Resources\VacationRequestResource;
 use Toby\Models\Holiday;
 use Toby\Models\User;
 use Toby\Models\Vacation;
-use Toby\Models\YearPeriod;
+use Toby\Models\VacationRequest;
 
 class DashboardAggregator
 {
@@ -24,14 +24,16 @@ class DashboardAggregator
         protected UserBenefitsRetriever $benefitsRetriever,
     ) {}
 
-    public function aggregateStats(User $user, YearPeriod $yearPeriod): array
+    public function aggregateStats(User $user, ?int $year = null): array
     {
-        $limit = $this->vacationStatsRetriever->getVacationDaysLimit($user, $yearPeriod);
-        $hasLimit = $this->vacationStatsRetriever->hasVacationDaysLimit($user, $yearPeriod);
-        $used = $this->vacationStatsRetriever->getUsedVacationDays($user, $yearPeriod);
-        $pending = $this->vacationStatsRetriever->getPendingVacationDays($user, $yearPeriod);
-        $remoteWork = $this->vacationStatsRetriever->getRemoteWorkDays($user, $yearPeriod);
-        $other = $this->vacationStatsRetriever->getOtherApprovedVacationDays($user, $yearPeriod);
+        $year ??= Carbon::now()->year;
+
+        $limit = $this->vacationStatsRetriever->getVacationDaysLimit($user, $year);
+        $hasLimit = $this->vacationStatsRetriever->hasVacationDaysLimit($user, $year);
+        $used = $this->vacationStatsRetriever->getUsedVacationDays($user, $year);
+        $pending = $this->vacationStatsRetriever->getPendingVacationDays($user, $year);
+        $remoteWork = $this->vacationStatsRetriever->getRemoteWorkDays($user, $year);
+        $other = $this->vacationStatsRetriever->getOtherApprovedVacationDays($user, $year);
         $remaining = $limit - $used - $pending;
 
         return [
@@ -45,12 +47,12 @@ class DashboardAggregator
         ];
     }
 
-    public function aggregateCalendarData(User $user, YearPeriod $yearPeriod): array
+    public function aggregateCalendarData(User $user, ?int $year = null): array
     {
         $approvedVacations = $user
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
-            ->whereBelongsTo($yearPeriod)
+            ->whereYear("date", $year ?? Carbon::now()->year)
             ->cache("vacations:{$user->id}")
             ->approved()
             ->get()
@@ -63,7 +65,7 @@ class DashboardAggregator
         $pendingVacations = $user
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
-            ->whereBelongsTo($yearPeriod)
+            ->whereYear("date", $year ?? Carbon::now()->year)
             ->cache("vacations:{$user->id}")
             ->pending()
             ->get()
@@ -73,8 +75,9 @@ class DashboardAggregator
                 ],
             );
 
-        $holidays = $yearPeriod
-            ->holidays
+        $holidays = Holiday::query()
+            ->whereYear("date", $year)
+            ->get()
             ->mapWithKeys(fn(Holiday $holiday): array => [$holiday->date->toDateString() => $holiday->name]);
 
         return [
@@ -84,23 +87,21 @@ class DashboardAggregator
         ];
     }
 
-    public function aggregateVacationRequests(User $user, YearPeriod $yearPeriod): JsonResource
+    public function aggregateVacationRequests(User $user, ?int $year = null): JsonResource
     {
-        if ($user->can("listAllRequests")) {
-            $vacationRequests = $yearPeriod->vacationRequests()
-                ->with(["user", "vacations", "vacations.user", "vacations.user.profile", "user.permissions", "user.profile"])
+        $year ??= Carbon::now()->year;
+
+        $query = $user->can("listAllRequests")
+            ? VacationRequest::query()
                 ->states(VacationRequestStatesRetriever::waitingForUserActionStates($user))
-                ->latest("updated_at")
-                ->limit(3)
-                ->get();
-        } else {
-            $vacationRequests = $user->vacationRequests()
-                ->with(["user", "vacations", "vacations.user", "vacations.user.profile", "user.permissions", "user.profile"])
-                ->whereBelongsTo($yearPeriod)
-                ->latest("updated_at")
-                ->limit(3)
-                ->get();
-        }
+            : $user->vacationRequests();
+
+        $vacationRequests = $query
+            ->with(["user", "vacations", "vacations.user", "vacations.user.profile", "user.permissions", "user.profile"])
+            ->whereYear("from", $year)
+            ->latest("updated_at")
+            ->limit(3)
+            ->get();
 
         return VacationRequestResource::collection($vacationRequests);
     }

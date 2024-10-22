@@ -28,7 +28,6 @@ use Toby\States\OvertimeRequest\OvertimeRequestState;
  * @property string $comment
  * @property User $user
  * @property User $creator
- * @property YearPeriod $yearPeriod
  * @property Collection $activities
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -57,11 +56,6 @@ class OvertimeRequest extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, "creator_id");
-    }
-
-    public function yearPeriod(): BelongsTo
-    {
-        return $this->belongsTo(YearPeriod::class);
     }
 
     public function activities(): HasMany

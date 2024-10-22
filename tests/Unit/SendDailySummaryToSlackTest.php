@@ -9,14 +9,12 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Console\Commands\SendDailySummaryToSlack;
 use Toby\Models\Holiday;
 
 class SendDailySummaryToSlackTest extends TestCase
 {
     use RefreshDatabase;
-    use InteractsWithYearPeriods;
 
     protected function setUp(): void
     {
@@ -26,7 +24,6 @@ class SendDailySummaryToSlackTest extends TestCase
             "channel" => Str::random(8),
             "message" => ["ts" => Carbon::now()->toDateTimeString()],
         ]);
-        $this->createCurrentYearPeriod();
     }
 
     public function testCommandSendsMessageToSlackIfWeekday(): void

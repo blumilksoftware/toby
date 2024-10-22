@@ -18,7 +18,6 @@ use Toby\Domain\VacationRequestStatesRetriever;
  * @property Carbon $date
  * @property User $user
  * @property VacationRequest $vacationRequest
- * @property YearPeriod $yearPeriod
  */
 class Vacation extends Model
 {
@@ -39,11 +38,6 @@ class Vacation extends Model
     public function vacationRequest(): BelongsTo
     {
         return $this->belongsTo(VacationRequest::class);
-    }
-
-    public function yearPeriod(): BelongsTo
-    {
-        return $this->belongsTo(YearPeriod::class);
     }
 
     public function scopeApproved(Builder $query): Builder

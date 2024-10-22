@@ -1,54 +1,50 @@
 <script setup>
 import {
   ArrowUturnLeftIcon,
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ChevronUpDownIcon,
 } from '@heroicons/vue/24/solid'
-import { computed, ref, watch } from 'vue'
-import { useMonthInfo } from '@/Composables/monthInfo.js'
+import { ref, watch } from 'vue'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
 import CalendarDay from '@/Shared/CalendarDay.vue'
 import UserProfileLink from '@/Shared/UserProfileLink.vue'
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { useForm } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
+import { DateTime } from 'luxon'
+import MonthPicker from '@/Shared/Forms/MonthPicker.vue'
 
 const props = defineProps({
   users: Object,
   auth: Object,
   calendar: Object,
   workingHours: Number,
-  currentMonth: String,
-  currentYear: Number,
-  selectedMonth: String,
-  selectedYear: Number,
-  years: Object,
-  previousYearPeriod: Object,
-  nextYearPeriod: Object,
+  selectedDate: String,
 })
 
 let activeElement = ref(undefined)
 
-const { getMonths, findMonth } = useMonthInfo()
+const currentDate = DateTime.now()
 
-const months = getMonths()
+const selectedMonth = ref(DateTime.fromISO(props.selectedDate))
 
-const form = useForm({
-  selectedMonth: months.find(month => month.value === props.selectedMonth),
-})
-
-watch(() => form.selectedMonth, (value) => {
-  if (value) {
-    Inertia.visit(`/calendar/${value.value}`)
+watch(selectedMonth, (value, oldValue) => {
+  if (!value || value.toFormat('LL-YYY') === oldValue?.toFormat('LL-YYY')) {
+    return
   }
+
+  Inertia.visit(`/calendar/${value.toFormat('LL-yyyy')}`)
 })
 
-const selectedMonth = computed(() => findMonth(props.selectedMonth))
-const previousMonth = computed(() => months[months.indexOf(selectedMonth.value) - 1])
-const nextMonth = computed(() => months[months.indexOf(selectedMonth.value) + 1])
+function previousMonth() {
+  selectedMonth.value = selectedMonth.value.minus({ month: 1 })
+}
+
+function nextMonth() {
+  selectedMonth.value = selectedMonth.value.plus({ month: 1 })
+}
+
+function currentMonth() {
+  selectedMonth.value = currentDate
+}
 
 function isActiveDay(key) {
   return activeElement.value === key
@@ -81,121 +77,53 @@ function linkVacationRequest(user) {
           Kalendarz
         </h2>
         <div class="flex items-center sm:ml-3 md:items-stretch">
-          <InertiaLink
-            v-if="previousMonth"
-            :href="`/calendar/${previousMonth.value}`"
-            as="button"
+          <button
+            type="button"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9 md:hover:bg-gray-50"
+            @click="previousMonth()"
           >
             <ChevronLeftIcon class="w-5 h-5" />
-          </InertiaLink>
-          <InertiaLink
-            v-else-if="previousYearPeriod"
-            :href="`/calendar/${months[11].value}/${previousYearPeriod.year}`"
-            as="button"
-            class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9 md:hover:bg-gray-50"
-          >
-            <ChevronDoubleLeftIcon class="w-5 h-5" />
-          </InertiaLink>
-          <span
-            v-else
-            class="flex justify-center items-center text-gray-400 bg-gray-100 rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9"
-          >
-            <ChevronDoubleLeftIcon class="w-5 h-5" />
-          </span>
-          <Listbox
-            v-model="form.selectedMonth"
-            as="div"
-            class="items-center grid-cols-3 w-[135px] h-[] text-sm font-medium text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border-y border-gray-300 focus:outline-blumilk-500"
-          >
-            <div class="relative sm:col-span-2 sm:mt-0">
-              <ListboxButton
-                class="relative pr-10 pl-3 w-full h-[36px] max-w-lg text-left bg-white focus:outline-none shadow-sm sm:text-sm cursor-pointer"
-              >
-                <template v-if="form.selectedMonth">
-                  <span class="block truncate text-center">
-                    {{ form.selectedMonth.name }}
-                  </span>
-                  <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-                    <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
-                  </span>
-                </template>
-              </ListboxButton>
-              <transition
-                leave-active-class="transition ease-in duration-100"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-              >
-                <ListboxOptions
-                  class="overflow-auto absolute z-10 py-1 mt-1 w-auto max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
-                >
-                  <ListboxOption
-                    v-for="month in months"
-                    :key="month.value"
-                    v-slot="{ active, selected }"
-                    :value="month"
-                    as="template"
-                  >
-                    <li :class="[active ? 'bg-gray-100' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9 cursor-pointer']">
-                      <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                        {{ month.name }}
-                      </span>
-                    </li>
-                  </ListboxOption>
-                </ListboxOptions>
-              </transition>
-            </div>
-          </Listbox>
-          <InertiaLink
-            v-if="nextMonth"
-            :href="`/calendar/${nextMonth.value}`"
-            as="button"
+          </button>
+          <MonthPicker
+            :model-value="selectedMonth.toFormat('LL-yyyy')"
+            class="block w-40 shadow-sm disabled:bg-gray-100 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
+            @update:model-value="selectedMonth = DateTime.fromFormat($event, 'LL/yyyy')"
+          />
+          <button
+            type="button"
             class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
+            @click="nextMonth()"
           >
             <ChevronRightIcon class="w-5 h-5" />
-          </InertiaLink>
-          <InertiaLink
-            v-else-if="nextYearPeriod"
-            :href="`/calendar/${months[0].value}/${nextYearPeriod.year}`"
-            as="button"
-            class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
-          >
-            <ChevronDoubleRightIcon class="w-5 h-5" />
-          </InertiaLink>
-          <span
-            v-else
-            class="flex justify-center items-center text-gray-400 bg-gray-100 rounded-r-md border border-l-0 border-gray-300 md:px-2 md:w-9"
-          >
-            <ChevronDoubleRightIcon class="w-5 h-5" />
-          </span>
-          <InertiaLink
-            v-if="selectedMonth.value !== currentMonth || currentYear !== selectedYear"
-            :href="`/calendar/${props.currentMonth}/${props.currentYear}`"
-            as="button"
+          </button>
+          <button
+            v-if="selectedMonth.toFormat('LL-yyyy') !== currentDate.toFormat('LL-yyyy')"
+            type="button"
             class="flex focus:relative justify-center items-center p-2 bg-white md:px-2 md:hover:bg-gray-50 ml-1"
+            @click="currentMonth()"
           >
             <ArrowUturnLeftIcon class="w-5 h-5 text-blumilk-600 hover:text-blumilk-500" />
             <span class="ml-1.5 text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
               Dzisiaj
             </span>
-          </InertiaLink>
+          </button>
         </div>
       </div>
       <div class="flex-row">
         <div
-          class="flex items-center mt-3 sm:mt-0"
+          class="flex items-center justify-end gap-3 mt-3 sm:mt-0"
         >
           <a
             v-if="auth.can.manageRequestsAsAdministrativeApprover"
-            :href="`/vacation/timesheet/${selectedMonth.value}`"
-            class="block py-3 px-4 sm:ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            :href="`/vacation/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
+            class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Pobierz plik Excel
           </a>
           <a
             v-if="auth.can.manageOvertimeAsAdministrativeApprover"
-            :href="`/overtime/timesheet/${selectedMonth.value}`"
-            class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            :href="`/overtime/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
+            class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Pobierz nadgodziny
           </a>
@@ -215,8 +143,8 @@ function linkVacationRequest(user) {
         <thead>
           <tr>
             <th class="py-2 w-64 text-lg font-semibold text-gray-800 border border-gray-300">
-              <div class="flex justify-center items-center">
-                {{ selectedMonth.name }} {{ years.selected.year }}
+              <div class="flex justify-center items-center capitalize">
+                {{ selectedMonth.toLocaleString({ month: 'long', year: 'numeric' }) }}
               </div>
             </th>
             <th

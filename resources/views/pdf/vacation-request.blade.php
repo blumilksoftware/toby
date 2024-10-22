@@ -74,7 +74,7 @@
         <h2>Wniosek</h2>
         <p class="content">
             Proszę o {{ mb_strtolower($vacationRequest->type->label()) }} w okresie od dnia {{ $vacationRequest->from->format("d.m.Y") }}
-            do dnia {{ $vacationRequest->to->format("d.m.Y") }} włącznie tj. {{ $vacationRequest->vacations()->count() }} dni roboczych za rok {{ $vacationRequest->yearPeriod->year }}.
+            do dnia {{ $vacationRequest->to->format("d.m.Y") }} włącznie tj. {{ $vacationRequest->vacations()->count() }} dni roboczych za rok {{ $vacationRequest->to->year }}.
         </p>
     </div>
 

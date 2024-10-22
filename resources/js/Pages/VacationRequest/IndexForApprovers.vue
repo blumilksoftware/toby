@@ -8,6 +8,8 @@ import { Inertia } from '@inertiajs/inertia'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
+import { DateTime } from 'luxon'
+import YearPicker from '@/Shared/Forms/YearPicker.vue'
 
 const props = defineProps({
   requests: Object,
@@ -15,6 +17,8 @@ const props = defineProps({
   filters: Object,
   types: Object,
 })
+
+const currentDate = DateTime.now()
 
 const statuses = [
   {
@@ -43,6 +47,7 @@ const form = reactive({
   user: props.users.data.find(user => user.id === props.filters.user) ?? null,
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
   type: props.types.find(type => type.value === props.filters.type) ?? null,
+  year: props.filters.year ?? null,
 })
 
 watch(form, debounce(() => {
@@ -50,6 +55,7 @@ watch(form, debounce(() => {
     user: form.user?.id,
     status: form.status.value,
     type: form.type?.value,
+    year: form.year,
   }, {
     preserveState: true,
     replace: true,
@@ -76,7 +82,7 @@ watch(form, debounce(() => {
       </div>
     </div>
     <div class="border-t border-gray-200">
-      <div class="grid grid-cols-1 gap-2 p-4 md:grid-cols-3 md:gap-4">
+      <div class="grid grid-cols-1 gap-2 p-4 md:grid-cols-4 md:gap-4">
         <Listbox
           v-model="form.user"
           as="div"
@@ -294,6 +300,14 @@ watch(form, debounce(() => {
             </transition>
           </div>
         </Listbox>
+        <YearPicker
+          v-model="form.year"
+          nullable
+          label="Rok"
+          :from="currentDate.year + 1"
+          :to="currentDate.year - 20"
+          class="inline-block ml-2"
+        />
       </div>
     </div>
     <div class="overflow-auto xl:overflow-visible">

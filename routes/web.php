@@ -22,7 +22,6 @@ use Toby\Http\Controllers\OvertimeRequestController;
 use Toby\Http\Controllers\OvertimeTimesheetController;
 use Toby\Http\Controllers\PermissionController;
 use Toby\Http\Controllers\ResumeController;
-use Toby\Http\Controllers\SelectYearPeriodController;
 use Toby\Http\Controllers\TechnologyController;
 use Toby\Http\Controllers\TimesheetController;
 use Toby\Http\Controllers\UserController;
@@ -125,17 +124,13 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
     Route::get("/employees-milestones", [EmployeesMilestonesController::class, "index"])
         ->name("employees-milestones");
 
-    Route::post("/year-periods/{yearPeriod}/select", SelectYearPeriodController::class)
-        ->whereNumber("yearPeriod")
-        ->name("year-periods.select");
-
     Route::get("/calendar/{month?}/{year?}", [VacationCalendarController::class, "index"])
         ->name("calendar");
 
     Route::prefix("/vacation")->as("vacation.")->group(function (): void {
         Route::get("/limits", [VacationLimitController::class, "edit"])
             ->name("limits");
-        Route::post("/limits/{limit}/take-from-last-year", [VacationLimitController::class, "takeFromLastYear"])
+        Route::post("/limits/take-from-last-year", [VacationLimitController::class, "takeFromLastYear"])
             ->name("limits.take");
 
         Route::get("/timesheet/{month}", TimesheetController::class)

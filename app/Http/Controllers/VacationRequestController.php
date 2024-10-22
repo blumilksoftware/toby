@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -22,7 +23,6 @@ use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Enums\VacationType;
-use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Requests\VacationRequestRequest;
 use Toby\Http\Resources\SimpleUserResource;
 use Toby\Http\Resources\SimpleVacationRequestResource;
@@ -35,7 +35,7 @@ use Toby\Models\VacationRequest;
 
 class VacationRequestController extends Controller
 {
-    public function index(Request $request, YearPeriodRetriever $yearPeriodRetriever): Response|RedirectResponse
+    public function index(Request $request): Response|RedirectResponse
     {
         $user = $request->user();
 
@@ -43,13 +43,14 @@ class VacationRequestController extends Controller
             return redirect()->route("vacation.requests.indexForApprovers");
         }
 
+        $year = $request->integer("year", Carbon::now()->year);
         $status = $request->get("status", "all");
-        $withoutRemote = $request->boolean("withoutRemote", default: false);
+        $withoutRemote = $request->boolean("withoutRemote");
 
         $vacationRequests = $user
             ->vacationRequests()
             ->with(["vacations.user.profile", "user.permissions", "user.profile"])
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->latest()
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $user))
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
@@ -57,7 +58,7 @@ class VacationRequestController extends Controller
 
         $pending = $user
             ->vacationRequests()
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::pendingStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->cache(key: "vacations:{$user->id}")
@@ -65,7 +66,7 @@ class VacationRequestController extends Controller
 
         $success = $user
             ->vacationRequests()
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::successStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->cache(key: "vacations:{$user->id}")
@@ -73,7 +74,7 @@ class VacationRequestController extends Controller
 
         $failed = $user
             ->vacationRequests()
-            ->whereBelongsTo($yearPeriodRetriever->selected())
+            ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::failedStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
             ->cache(key: "vacations:{$user->id}")
@@ -89,19 +90,19 @@ class VacationRequestController extends Controller
             ],
             "filters" => [
                 "status" => $status,
+                "year" => $year,
             ],
         ]);
     }
 
     public function indexForApprovers(
         Request $request,
-        YearPeriodRetriever $yearPeriodRetriever,
     ): RedirectResponse|Response {
         if ($request->user()->cannot("listAllRequests")) {
             return redirect()->route("vacation.requests.index");
         }
 
-        $yearPeriod = $yearPeriodRetriever->selected();
+        $year = $request->get("year");
         $status = $request->get("status", "all");
         $user = $request->get("user");
         $type = $request->get("type");
@@ -110,10 +111,10 @@ class VacationRequestController extends Controller
 
         $vacationRequests = VacationRequest::query()
             ->with(["vacations.user.profile", "user.permissions", "user.profile"])
-            ->whereBelongsTo($yearPeriod)
             ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($withTrashedUsers))
             ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
             ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))
+            ->when($year !== null, fn(Builder $query): Builder => $query->whereYear("from", $year))
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $authUser))
             ->latest()
             ->paginate();
@@ -132,6 +133,7 @@ class VacationRequestController extends Controller
                 "status" => $status,
                 "user" => (int)$user,
                 "type" => $type,
+                "year" => $year === null ? $year : (int)$year,
             ],
         ]);
     }
@@ -142,21 +144,22 @@ class VacationRequestController extends Controller
     public function show(
         VacationRequest $vacationRequest,
         UserVacationStatsRetriever $statsRetriever,
-        YearPeriodRetriever $yearPeriodRetriever,
     ): Response {
         $this->authorize("show", $vacationRequest);
 
         $vacationRequest->load(["vacations.user.profile", "user.permissions", "user.profile", "activities.user.profile"]);
-        $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $vacationRequest->yearPeriod);
-        $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
-        $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $vacationRequest->yearPeriod);
+        $year = $vacationRequest->from->year;
+
+        $limit = $statsRetriever->getVacationDaysLimit($vacationRequest->user, $year);
+        $used = $statsRetriever->getUsedVacationDays($vacationRequest->user, $year);
+        $pending = $statsRetriever->getPendingVacationDays($vacationRequest->user, $year);
         $remaining = $limit - $used - $pending;
 
-        $yearPeriod = $yearPeriodRetriever->selected();
         $requestFromDateMonth = $vacationRequest->from->month;
         $requestToDateMonth = $vacationRequest->to->month;
 
-        $holidays = $yearPeriod->holidays()
+        $holidays = Holiday::query()
+            ->whereYear("date", $year)
             ->get();
 
         $user = $vacationRequest->user;
@@ -164,14 +167,14 @@ class VacationRequestController extends Controller
         $vacations = $user
             ->vacations()
             ->with("vacationRequest.vacations")
-            ->whereBelongsTo($yearPeriod)
+            ->whereYear("date", $year)
             ->approved()
             ->get();
 
         $pendingVacations = $user
             ->vacations()
             ->with("vacationRequest.vacations")
-            ->whereBelongsTo($yearPeriod)
+            ->whereYear("date", $year)
             ->pending()
             ->get();
 

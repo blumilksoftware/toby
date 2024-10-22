@@ -8,6 +8,8 @@ import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } f
 import Pagination from '@/Shared/Pagination.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import SettlementType from '@/Shared/SettlementType.vue'
+import { DateTime } from 'luxon'
+import YearPicker from '@/Shared/Forms/YearPicker.vue'
 
 const props = defineProps({
   auth: Object,
@@ -15,6 +17,8 @@ const props = defineProps({
   users: Object,
   filters: Object,
 })
+
+const currentDate = DateTime.now()
 
 const statuses = [
   {
@@ -46,12 +50,14 @@ const statuses = [
 const form = reactive({
   user: props.users.data.find(user => user.id === props.filters.user) ?? null,
   status: statuses.find(status => status.value === props.filters.status) ?? statuses[0],
+  year: props.filters.year ?? null,
 })
 
 watch(form, debounce(() => {
   Inertia.get('/overtime/requests', {
     user: form.user?.id,
     status: form.status.value,
+    year: form.year,
   }, {
     preserveState: true,
     replace: true,
@@ -218,6 +224,14 @@ watch(form, debounce(() => {
             </transition>
           </div>
         </Listbox>
+        <YearPicker
+          v-model="form.year"
+          nullable
+          label="Rok"
+          :from="currentDate.year + 1"
+          :to="currentDate.year - 20"
+          class="inline-block ml-2"
+        />
       </div>
     </div>
     <div class="overflow-auto xl:overflow-visible">

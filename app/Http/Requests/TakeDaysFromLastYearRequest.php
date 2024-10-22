@@ -11,12 +11,14 @@ class TakeDaysFromLastYearRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "user" => ["required", "exists:users,id"],
+            "year" => ["required", "integer"],
             "days" => ["required", "integer"],
         ];
     }
 
-    public function getDays(): int
+    public function getData(): array
     {
-        return $this->integer("days");
+        return $this->only(["user", "year", "days"]);
     }
 }

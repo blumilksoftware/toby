@@ -12,7 +12,6 @@ use Inertia\Middleware;
 use Spatie\Permission\Models\Permission;
 use Toby\Domain\OvertimeRequestStatesRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
-use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Resources\UserResource;
 use Toby\Models\OvertimeRequest;
 use Toby\Models\User;
@@ -21,7 +20,6 @@ use Toby\Models\VacationRequest;
 class HandleInertiaRequests extends Middleware
 {
     public function __construct(
-        protected YearPeriodRetriever $yearPeriodRetriever,
         protected CacheManager $cache,
     ) {}
 
@@ -30,7 +28,6 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             "auth" => $this->getAuthData($request),
             "flash" => $this->getFlashData($request),
-            "years" => $this->getYearsData($request),
             "vacationRequestsCount" => $this->getVacationRequestsCount($request),
             "overtimeRequestsCount" => $this->getOvertimeRequestsCount($request),
             "deployInformation" => $this->getDeployInformation(),
@@ -64,18 +61,12 @@ class HandleInertiaRequests extends Middleware
         ];
     }
 
-    protected function getYearsData(Request $request): Closure
-    {
-        return fn(): array => $request->user() ? $this->yearPeriodRetriever->links() : [];
-    }
-
     protected function getVacationRequestsCount(Request $request): Closure
     {
         $user = $request->user();
 
         return fn(): ?int => $user && $user->can("listAllRequests")
             ? VacationRequest::query()
-                ->whereBelongsTo($this->yearPeriodRetriever->selected())
                 ->states(
                     VacationRequestStatesRetriever::waitingForUserActionStates($user),
                 )
@@ -89,7 +80,6 @@ class HandleInertiaRequests extends Middleware
 
         return fn(): ?int => $user && $user->can("listAllRequests")
             ? OvertimeRequest::query()
-                ->whereBelongsTo($this->yearPeriodRetriever->selected())
                 ->states(
                     OvertimeRequestStatesRetriever::waitingForUserActionStates($user),
                 )

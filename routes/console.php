@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Cache\Console\PruneStaleTagsCommand;
 use Illuminate\Support\Facades\Schedule;
 use Toby\Console\Commands\Database\BackupPostgresDatabase;
+use Toby\Console\Commands\GenerateHolidays;
 use Toby\Console\Commands\SendDailySummaryToSlack;
 use Toby\Console\Commands\SendNotificationAboutBenefitsReportCreation;
 use Toby\Console\Commands\SendNotificationAboutUpcomingAndOverdueMedicalExams;
@@ -13,7 +14,6 @@ use Toby\Console\Commands\SendNotificationAboutUpcomingMedicalExamsForEmployees;
 use Toby\Console\Commands\SendNotificationAboutUpcomingOhsTrainingsForEmployees;
 use Toby\Console\Commands\SendOvertimeRequestSummariesToApprovers;
 use Toby\Console\Commands\SendVacationRequestSummariesToApprovers;
-use Toby\Jobs\CheckYearPeriod;
 
 Schedule::command(SendDailySummaryToSlack::class)
     ->when(config("services.slack.enabled"))
@@ -43,7 +43,7 @@ Schedule::command(SendNotificationAboutBenefitsReportCreation::class)
     ->lastDayOfMonth("08:00")
     ->onOneServer();
 
-Schedule::job(CheckYearPeriod::class)
+Schedule::command(GenerateHolidays::class)
     ->yearlyOn(1, 1, "01:00")
     ->onOneServer();
 

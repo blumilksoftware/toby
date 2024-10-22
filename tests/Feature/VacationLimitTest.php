@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Carbon;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\FeatureTestCase;
 use Toby\Models\User;
 use Toby\Models\VacationLimit;
-use Toby\Models\YearPeriod;
 
 class VacationLimitTest extends FeatureTestCase
 {
@@ -20,8 +20,7 @@ class VacationLimitTest extends FeatureTestCase
         $admin = User::factory()->admin()->create();
 
         VacationLimit::factory(10)
-            ->for(YearPeriod::current())
-            ->create();
+            ->create(["year" => Carbon::now()->year]);
 
         $this->actingAs($admin)
             ->get("/vacation/limits")
@@ -29,7 +28,7 @@ class VacationLimitTest extends FeatureTestCase
             ->assertInertia(
                 fn(Assert $page) => $page
                     ->component("VacationLimits")
-                    ->has("limits", 10),
+                    ->has("limits", 11),
             );
     }
 
@@ -37,23 +36,24 @@ class VacationLimitTest extends FeatureTestCase
     {
         $admin = User::factory()->admin()->create();
 
-        VacationLimit::factory(3)
-            ->for(YearPeriod::current())
-            ->create();
+        $year = Carbon::now()->year;
 
-        [$limit1, $limit2, $limit3] = VacationLimit::all();
+        [$user1, $user2, $user3] = User::factory(3)->create();
 
         $data = [
             [
-                "id" => $limit1->id,
+                "user" => $user1->id,
+                "year" => $year,
                 "days" => 25,
             ],
             [
-                "id" => $limit2->id,
+                "user" => $user2->id,
+                "year" => $year,
                 "days" => null,
             ],
             [
-                "id" => $limit3->id,
+                "user" => $user3->id,
+                "year" => $year,
                 "days" => 20,
             ],
         ];
@@ -65,17 +65,20 @@ class VacationLimitTest extends FeatureTestCase
             ->assertRedirect();
 
         $this->assertDatabaseHas("vacation_limits", [
-            "id" => $limit1->id,
+            "user_id" => $user1->id,
+            "year" => $year,
             "days" => 25,
         ]);
 
         $this->assertDatabaseHas("vacation_limits", [
-            "id" => $limit2->id,
+            "user_id" => $user2->id,
+            "year" => $year,
             "days" => null,
         ]);
 
         $this->assertDatabaseHas("vacation_limits", [
-            "id" => $limit3->id,
+            "user_id" => $user3->id,
+            "year" => $year,
             "days" => 20,
         ]);
     }

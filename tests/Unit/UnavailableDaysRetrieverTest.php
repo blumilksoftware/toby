@@ -9,26 +9,23 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
-use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Domain\PolishHolidaysRetriever;
 use Toby\Domain\UnavailableDaysRetriever;
 use Toby\Enums\Role;
 use Toby\Enums\VacationType;
+use Toby\Models\Holiday;
 use Toby\Models\User;
 use Toby\Models\Vacation;
 use Toby\Models\VacationRequest;
-use Toby\Models\YearPeriod;
 use Toby\States\VacationRequest\Approved;
 
 class UnavailableDaysRetrieverTest extends TestCase
 {
     use RefreshDatabase;
     use InteractsWithSession;
-    use InteractsWithYearPeriods;
 
     public UnavailableDaysRetriever $unavailableDaysRetriever;
     public User $user;
-    public YearPeriod $yearPeriod;
 
     protected function setUp(): void
     {
@@ -36,11 +33,9 @@ class UnavailableDaysRetrieverTest extends TestCase
 
         $this->unavailableDaysRetriever = $this->app->make(UnavailableDaysRetriever::class);
         $this->user = User::factory(["role" => Role::Employee])->create();
-        $this->yearPeriod = $this->createYearPeriod(2023);
 
         $vacationRequest = VacationRequest::factory()
             ->for($this->user)
-            ->for($this->yearPeriod)
             ->create([
                 "from" => Carbon::parse("2023-07-05"),
                 "to" => Carbon::parse("2023-07-09"),
@@ -49,7 +44,6 @@ class UnavailableDaysRetrieverTest extends TestCase
 
         Vacation::factory()
             ->for($vacationRequest)
-            ->for($this->yearPeriod)
             ->for($this->user)
             ->count(5)
             ->state(new Sequence(
@@ -63,8 +57,8 @@ class UnavailableDaysRetrieverTest extends TestCase
 
         $polishHolidaysRetriever = $this->app->make(PolishHolidaysRetriever::class);
 
-        foreach ($polishHolidaysRetriever->getForYearPeriod($this->yearPeriod) as $holiday) {
-            $this->yearPeriod->holidays()->create([
+        foreach ($polishHolidaysRetriever->getForYear(2023) as $holiday) {
+            Holiday::query()->create([
                 "name" => $holiday["name"],
                 "date" => $holiday["date"],
             ]);
@@ -193,7 +187,7 @@ class UnavailableDaysRetrieverTest extends TestCase
             "2023-12-31",
         ];
 
-        $actualUnavailableDays = $this->unavailableDaysRetriever->getUnavailableDays($this->user, $this->yearPeriod)
+        $actualUnavailableDays = $this->unavailableDaysRetriever->getUnavailableDays($this->user, 2023)
             ->map(fn(Carbon $date): string => $date->toDateString())
             ->toArray();
 
@@ -211,7 +205,7 @@ class UnavailableDaysRetrieverTest extends TestCase
         ];
 
         $actualUnavailableDays = $this->unavailableDaysRetriever
-            ->getUnavailableDays($this->user, $this->yearPeriod, VacationType::Delegation)
+            ->getUnavailableDays($this->user, 2023, VacationType::Delegation)
             ->map(fn(Carbon $date): string => $date->toDateString())
             ->toArray();
 

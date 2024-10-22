@@ -11,10 +11,13 @@ class VacationRequestObserver
 {
     public function creating(VacationRequest $vacationRequest): void
     {
-        $count = $vacationRequest->yearPeriod->vacationRequests()->count();
+        $count = VacationRequest::query()
+            ->whereYear("from", $vacationRequest->from)
+            ->count();
+
         $number = $count + 1;
 
-        $vacationRequest->name = "{$number}/{$vacationRequest->yearPeriod->year}";
+        $vacationRequest->name = "{$number}/{$vacationRequest->from->year}";
     }
 
     public function updating(VacationRequest $vacationRequest): void

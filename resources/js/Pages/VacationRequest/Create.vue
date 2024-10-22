@@ -3,11 +3,11 @@ import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Switch } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon, XCircleIcon } from '@heroicons/vue/24/solid'
-import { reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import axios from 'axios'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
 import VacationChart from '@/Shared/VacationChart.vue'
 import VacationType from '@/Shared/VacationType.vue'
+import { DateTime } from 'luxon'
 
 const props = defineProps({
   auth: Object,
@@ -29,6 +29,7 @@ const form = useForm({
 })
 
 let isDirty = ref(false)
+const currentDate = DateTime.now()
 
 watch(form, formData => {
   const { from, to } = formData.data()
@@ -46,17 +47,15 @@ const stats = ref({
   remaining: 0,
 })
 
-const { minDate, maxDate } = useCurrentYearPeriodInfo()
-
-const fromInputConfig = reactive({
-  minDate,
-  maxDate,
+const year = computed(() => {
+  return form.from === null
+    ? currentDate.year
+    : DateTime.fromISO(form.from).year
 })
 
-const toInputConfig = reactive({
-  minDate,
-  maxDate,
-})
+const fromInputConfig = reactive({})
+
+const toInputConfig = reactive({})
 
 watch(() => form.user, user => {
   resetForm()
@@ -69,6 +68,13 @@ watch(() => form.vacationType, vacationType => {
   refreshEstimatedDays(form.from, form.to, vacationType)
   refreshUnavailableDays(form.user, vacationType)
 })
+
+watch(year, () => {
+  refreshEstimatedDays(form.from, form.to, form.vacationType)
+  refreshUnavailableDays(form.user, form.vacationType)
+  refreshVacationStats(form.user)
+})
+
 
 function createForm() {
   form
@@ -96,6 +102,7 @@ function onToChange(selectedDates, dateStr) {
 
     return
   }
+
   refreshEstimatedDays(form.from, form.to, form.vacationType)
 }
 
@@ -121,7 +128,7 @@ async function refreshEstimatedDays(from, to, vacationType) {
 }
 
 async function refreshVacationStats(user) {
-  const res = await axios.post('/api/vacation/calculate-stats', { user: user.id })
+  const res = await axios.post('/api/vacation/calculate-stats', { user: user.id, year: year.value })
 
   stats.value = res.data
 }
@@ -129,7 +136,7 @@ async function refreshVacationStats(user) {
 async function refreshUnavailableDays(user) {
   const res = await axios.post(
     '/api/vacation/calculate-unavailable-days',
-    { user: user.id, vacationType: form.vacationType?.value },
+    { user: user.id, vacationType: form.vacationType?.value, year: year.value },
   )
   const unavailableDays = res.data
 
@@ -473,6 +480,9 @@ async function refreshAvailableTypes(user) {
           </span>
           <span v-else>
             Moje dane o urlopie
+          </span>
+          <span>
+            w roku {{ year }}
           </span>
         </h2>
       </div>

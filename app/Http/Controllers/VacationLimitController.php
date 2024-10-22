@@ -4,54 +4,49 @@ declare(strict_types=1);
 
 namespace Toby\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Response;
 use Toby\Domain\UserVacationStatsRetriever;
-use Toby\Helpers\YearPeriodRetriever;
 use Toby\Http\Requests\TakeDaysFromLastYearRequest;
 use Toby\Http\Requests\VacationLimitRequest;
-use Toby\Http\Resources\UserResource;
+use Toby\Http\Resources\SimpleUserResource;
+use Toby\Models\User;
 use Toby\Models\VacationLimit;
-use Toby\Models\YearPeriod;
 
 class VacationLimitController extends Controller
 {
-    public function edit(Request $request, YearPeriodRetriever $yearPeriodRetriever, UserVacationStatsRetriever $statsRetriever): Response
+    public function edit(Request $request, UserVacationStatsRetriever $statsRetriever): Response
     {
         $this->authorize("manageVacationLimits");
 
-        $yearPeriod = $yearPeriodRetriever->selected();
-        $previousYearPeriod = YearPeriod::findByYear($yearPeriod->year - 1);
+        $year = $request->integer("year", Carbon::now()->year);
 
-        $limits = $yearPeriod
-            ->vacationLimits()
-            ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($request->user()->canSeeInactiveUsers()))
-            ->with("user.profile")
-            ->has("user")
+        $users = User::query()
+            ->with(["vacationLimits" => fn(HasMany $query): HasMany => $query->where("year", $year)->limit(1)])
+            ->withTrashed($request->user()->canSeeInactiveUsers())
             ->get()
-            ->sortBy(
-                fn(
-                    VacationLimit $limit,
-                ): string => "{$limit->user->profile->last_name} {$limit->user->profile->first_name}",
-            )
+            ->sortBy(fn(User $user): string => "{$user->profile->last_name} {$user->profile->first_name}")
             ->values();
 
-        $limitsResource = $limits->map(fn(VacationLimit $limit): array => [
-            "id" => $limit->id,
-            "user" => new UserResource($limit->user),
-            "hasVacation" => $limit->hasVacation(),
-            "days" => $limit->days,
-            "limit" => $limit->limit,
-            "fromPreviousYear" => $limit->from_previous_year,
-            "toNextYear" => $limit->to_next_year,
-            "remainingLastYear" => $previousYearPeriod
-                ? $statsRetriever->getRemainingVacationDays($limit->user, $previousYearPeriod)
-                : 0,
-        ]);
+        $limitsResource = $users->map(function (User $user) use ($statsRetriever, $year): array {
+            $limit = $user->vacationLimits->first();
+
+            return [
+                "user" => new SimpleUserResource($user),
+                "hasVacation" => $limit?->hasVacation() ?? false,
+                "days" => $limit?->days ?? 0,
+                "limit" => $limit?->limit ?? 0,
+                "fromPreviousYear" => $limit?->from_previous_year ?? 0,
+                "toNextYear" => $limit?->to_next_year ?? 0,
+                "remainingLastYear" => $statsRetriever->getRemainingVacationDays($user, $year - 1),
+            ];
+        });
 
         return inertia("VacationLimits", [
+            "year" => $year,
             "limits" => $limitsResource,
         ]);
     }
@@ -60,10 +55,14 @@ class VacationLimitController extends Controller
     {
         $this->authorize("manageVacationLimits");
 
-        $data = $request->data();
-
-        foreach ($request->vacationLimits() as $limit) {
-            $limit->update($data[$limit->id]);
+        foreach ($request->data() as $limit) {
+            VacationLimit::query()->updateOrCreate(
+                [
+                    "user_id" => $limit["user"],
+                    "year" => $limit["year"],
+                ],
+                ["days" => $limit["days"]],
+            );
         }
 
         return redirect()
@@ -71,26 +70,25 @@ class VacationLimitController extends Controller
             ->with("success", __("Vacation limits updated."));
     }
 
-    public function takeFromLastYear(
-        TakeDaysFromLastYearRequest $request,
-        VacationLimit $limit,
-    ): RedirectResponse {
+    public function takeFromLastYear(TakeDaysFromLastYearRequest $request): RedirectResponse
+    {
         $this->authorize("manageVacationLimits");
 
-        $days = $request->getDays();
-        $yearPeriod = $limit->yearPeriod;
-        $previousYearPeriod = YearPeriod::findByYear($yearPeriod->year - 1);
+        $data = $request->getData();
 
-        if ($previousYearPeriod) {
-            $previousLimit = $limit->user->vacationLimits()->whereBelongsTo($previousYearPeriod)->first();
+        $limit = VacationLimit::query()->updateOrCreate([
+            "user_id" => $data["user"],
+            "year" => $data["year"],
+        ], [
+            "from_previous_year" => $data["days"],
+        ]);
 
-            $previousLimit->update([
-                "to_next_year" => $days,
-            ]);
-        }
+        $previousLimit = $limit->user->vacationLimits()
+            ->where("year", $limit->year - 1)
+            ->first();
 
-        $limit->update([
-            "from_previous_year" => $days,
+        $previousLimit?->update([
+            "to_next_year" => $data["days"],
         ]);
 
         return redirect()

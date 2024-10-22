@@ -1,14 +1,11 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3'
 import FlatPickr from 'vue-flatpickr-component'
-import useCurrentYearPeriodInfo from '@/Composables/yearPeriodInfo.js'
 
 const form = useForm({
   name: null,
   date: null,
 })
-
-const { minDate, maxDate } = useCurrentYearPeriodInfo()
 
 function createHoliday() {
   form.post('/holidays')
@@ -61,7 +58,6 @@ function createHoliday() {
           <FlatPickr
             id="date"
             v-model="form.date"
-            :config="{minDate, maxDate}"
             class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
             :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.date, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.date }"
           />

@@ -9,20 +9,17 @@ use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Toby\Domain\OvertimeTimesheetExport;
 use Toby\Enums\EmploymentForm;
-use Toby\Enums\Month;
-use Toby\Helpers\YearPeriodRetriever;
 use Toby\Models\User;
 
 class OvertimeTimesheetController extends Controller
 {
-    public function __invoke(
-        Month $month,
-        YearPeriodRetriever $yearPeriodRetriever,
-    ): BinaryFileResponse {
+    public function __invoke(?string $month = null): BinaryFileResponse
+    {
         $this->authorize("manageRequestsAsAdministrativeApprover");
 
-        $yearPeriod = $yearPeriodRetriever->selected();
-        $carbonMonth = Carbon::create($yearPeriod->year, $month->toCarbonNumber());
+        $month = Carbon::canBeCreatedFromFormat($month, "m-Y")
+            ? Carbon::createFromFormat("m-Y", $month)
+            : Carbon::now();
 
         $users = User::query()
             ->whereRelation("profile", "employment_form", EmploymentForm::EmploymentContract)
@@ -30,10 +27,10 @@ class OvertimeTimesheetController extends Controller
             ->orderByProfileField("first_name")
             ->get();
 
-        $filename = "overtime-{$carbonMonth->translatedFormat("F Y")}.xlsx";
+        $filename = "overtime-{$month->translatedFormat("F Y")}.xlsx";
 
         $timesheet = (new OvertimeTimesheetExport())
-            ->forMonth($carbonMonth)
+            ->forMonth($month)
             ->forUsers($users);
 
         return Excel::download($timesheet, $filename);

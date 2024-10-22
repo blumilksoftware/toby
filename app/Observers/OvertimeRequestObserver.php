@@ -11,10 +11,13 @@ class OvertimeRequestObserver
 {
     public function creating(OvertimeRequest $overtime): void
     {
-        $count = $overtime->yearPeriod->overtimeRequests()->count();
+        $count = OvertimeRequest::query()
+            ->whereYear("from", $overtime->from)
+            ->count();
+
         $number = $count + 1;
 
-        $overtime->name = "N/{$number}/{$overtime->yearPeriod->year}";
+        $overtime->name = "N/{$number}/{$overtime->from->year}";
     }
 
     public function updating(OvertimeRequest $overtime): void

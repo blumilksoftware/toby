@@ -1,11 +1,11 @@
 <script setup>
-import { useMonthInfo } from '@/Composables/monthInfo.js'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import TextArea from '@/Shared/Forms/TextArea.vue'
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { debounce } from 'lodash'
 import UserProfileLink from '@/Shared/UserProfileLink.vue'
+import { DateTime } from 'luxon'
 
 const props = defineProps({
   current: String,
@@ -13,13 +13,12 @@ const props = defineProps({
   benefits: Object,
   benefitsReports: Object,
   assignedBenefits: Object,
-  years: Object,
   auth: Object,
 })
 
+const currentDate = DateTime.now()
+
 const creatingBenefitsReport = ref(false)
-const { findMonth } = useMonthInfo()
-const currentMonth = computed(() => findMonth(props.current))
 
 const form = useForm({
   items: props.users.data.map((user) => {
@@ -70,7 +69,9 @@ function submitAssignedBenefits() {
 }
 
 function startCreatingBenefitsReport() {
-  formBenefitsReport.name = `${currentMonth.value.name} ${props.years.selected.year}`
+  const name = currentDate.toLocaleString({ month: 'long', year: 'numeric' })
+
+  formBenefitsReport.name = name.at(0).toUpperCase() + name.slice(1)
   creatingBenefitsReport.value = true
 }
 
@@ -125,8 +126,8 @@ function isBenefitHasCompanion(benefitId) {
                 class="py-2 w-64 text-lg font-semibold text-gray-800 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
                 rowspan="2"
               >
-                <div class="flex justify-center items-center">
-                  {{ currentMonth.name }} {{ years.selected.year }}
+                <div class="flex justify-center items-center capitalize">
+                  {{ currentDate.toLocaleString({ month: 'long', year: 'numeric' }) }}
                 </div>
               </th>
               <th

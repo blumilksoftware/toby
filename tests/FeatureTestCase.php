@@ -7,13 +7,11 @@ namespace Tests;
 use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Carbon;
-use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Models\BenefitsReport;
 
 abstract class FeatureTestCase extends BaseTestCase
 {
     use CreatesApplication;
-    use InteractsWithYearPeriods;
 
     protected function setUp(): void
     {
@@ -22,7 +20,6 @@ abstract class FeatureTestCase extends BaseTestCase
         $this->withoutVite();
 
         Carbon::setTestNow(Carbon::createFromDate(2022, 1, 1));
-        $this->createCurrentYearPeriod();
 
         BenefitsReport::factory()->create([
             "name" => "current",

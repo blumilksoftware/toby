@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use Tests\Traits\InteractsWithYearPeriods;
 use Toby\Console\Commands\SendNotificationAboutUpcomingMedicalExamsForEmployees;
 use Toby\Models\User;
 use Toby\Notifications\UpcomingMedicalExamForEmployeeNotification;
@@ -16,7 +15,6 @@ use Toby\Notifications\UpcomingMedicalExamForEmployeeNotification;
 class SendNotificationAboutUpcomingMedicalExamsToSlackTest extends TestCase
 {
     use RefreshDatabase;
-    use InteractsWithYearPeriods;
 
     protected User $user;
 
@@ -25,7 +23,6 @@ class SendNotificationAboutUpcomingMedicalExamsToSlackTest extends TestCase
         parent::setUp();
 
         Notification::fake();
-        $this->createCurrentYearPeriod();
         $this->user = User::factory()->employee()->create();
     }
 

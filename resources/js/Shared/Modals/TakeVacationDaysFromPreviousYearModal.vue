@@ -17,6 +17,8 @@ const emit = defineEmits(['close', 'changed'])
 const allDays = ref(0)
 
 const form = useForm({
+  user: props.limit?.user.id,
+  year: props.year,
   days: 0,
 })
 
@@ -28,11 +30,7 @@ function cancel() {
 
 function submitForm() {
   form
-    .transform(data => ({
-      ...data,
-      city: data.city?.id,
-    }))
-    .post(`/vacation/limits/${props.limit.id}/take-from-last-year`, {
+    .post('/vacation/limits/take-from-last-year', {
       preserveState: (page) => Object.keys(page.props.errors).length,
       preserveScroll: true,
       onSuccess() {
@@ -47,7 +45,9 @@ watch(() => props.show, () => {
   }
 
   allDays.value = props.limit.remainingLastYear + props.limit.fromPreviousYear
-  form.defaults('days', props.limit.fromPreviousYear)
+  form.defaults('days', props.limit?.fromPreviousYear)
+  form.defaults('year', props.year)
+  form.defaults('user', props.limit?.user.id)
   form.reset()
   form.clearErrors()
 })
@@ -123,7 +123,7 @@ watch(() => props.show, () => {
                     for="name"
                     class="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Przeniesione dni na rok {{ year + 1 }}
+                    Przeniesione dni na rok {{ year }}
                   </label>
                   <input
                     v-model="form.days"
@@ -144,7 +144,7 @@ watch(() => props.show, () => {
                     for="name"
                     class="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Pozostałe dni w roku {{ year }}
+                    Pozostałe dni w roku {{ year - 1 }}
                   </label>
                   <div class="inline-flex items-center py-2 px-4 mt-1 w-full max-w-lg text-gray-500 bg-gray-50 rounded-md border border-gray-300 sm:col-span-2 sm:mt-0 sm:text-sm">
                     {{ remaining }}

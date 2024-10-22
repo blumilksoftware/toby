@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Toby\Console\Commands;
 
 use Illuminate\Console\Command;
-use Toby\Models\YearPeriod;
+use Illuminate\Support\Facades\DB;
+use Toby\Models\VacationRequest;
 
 class RebuildDocumentNumberingSystem extends Command
 {
@@ -14,18 +15,20 @@ class RebuildDocumentNumberingSystem extends Command
 
     public function handle(): void
     {
-        $yearPeriods = YearPeriod::all();
+        $years = DB::table(VacationRequest::class)
+            ->select([DB::raw("YEAR(from) as year")])
+            ->groupBy("year")
+            ->value("year");
 
-        foreach ($yearPeriods as $yearPeriod) {
+        foreach ($years as $year) {
             $number = 1;
 
-            $vacationRequests = $yearPeriod
-                ->vacationRequests()
-                ->oldest()
+            $vacationRequests = VacationRequest::query()
+                ->whereYear("date", $year)
                 ->get();
 
             foreach ($vacationRequests as $vacationRequest) {
-                $vacationRequest->update(["name" => "{$number}/{$yearPeriod->year}"]);
+                $vacationRequest->update(["name" => "{$number}/{$year}"]);
 
                 $number++;
             }
