@@ -65,7 +65,7 @@ defineProps({
               >
                 <img
                   :src="day.user.avatar"
-                  class="w-10 h-10 rounded-full"
+                  class="size-10 rounded-full"
                 >
                 <div class="ml-3">
                   <p class="text-sm font-medium text-gray-900">
@@ -108,7 +108,7 @@ defineProps({
             >
               <img
                 :src="day.user.avatar"
-                class="w-10 h-10 rounded-full"
+                class="size-10 rounded-full"
               >
               <div class="ml-3">
                 <p class="text-sm font-medium text-gray-900">

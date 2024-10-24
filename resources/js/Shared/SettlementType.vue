@@ -15,7 +15,7 @@ const settlementTypeInfo = computed(() => findType(props.type))
   <div class="flex items-center">
     <component
       :is="settlementTypeInfo.icon"
-      :class="[settlementTypeInfo.color ,'w-5 h-5 mr-1.5']"
+      :class="[settlementTypeInfo.color ,'size-5 mr-1.5']"
       :size="20"
     />
     <span>{{ settlementTypeInfo.text }}</span>

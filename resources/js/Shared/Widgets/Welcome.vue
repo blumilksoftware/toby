@@ -12,7 +12,7 @@ defineProps({
           <div class="sm:flex sm:space-x-5">
             <div class="shrink-0">
               <img
-                class="mx-auto w-20 h-20 rounded-full"
+                class="mx-auto size-20 rounded-full"
                 :src="user.avatar"
               >
             </div>

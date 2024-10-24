@@ -3,6 +3,7 @@ import Status from '@/Shared/Status.vue'
 import VacationType from '@/Shared/VacationType.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { RectangleStackIcon } from '@heroicons/vue/24/solid'
+import InertiaLink from '@/Shared/InertiaLink.vue'
 
 defineProps({
   requests: Object,
@@ -71,7 +72,7 @@ defineProps({
             <p class="py-2">
               <EmptyState>
                 <template #head>
-                  <RectangleStackIcon class="mx-auto w-12 h-12" />
+                  <RectangleStackIcon class="mx-auto size-12" />
                 </template>
                 <template #title>
                   Brak wniosków

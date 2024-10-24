@@ -1,44 +1,45 @@
 {
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "lint": "./node_modules/.bin/eslint resources/js --ext .js,.vue",
-        "lintf": "./node_modules/.bin/eslint resources/js --ext .js,.vue --fix"
+        "lint": "eslint .",
+        "lintf": "eslint . --fix"
     },
     "dependencies": {
+        "@blumilksoftware/eslint-config": "^3.0.0",
         "@headlessui/vue": "^1.7.23",
         "@heroicons/vue": "^2.1.5",
-        "@inertiajs/inertia": "^0.11.1",
-        "@inertiajs/inertia-vue3": "^0.6.0",
-        "@inertiajs/progress": "^0.2.7",
+        "@inertiajs/vue3": "^1.2.0",
         "@tailwindcss/forms": "^0.5.9",
         "@tailwindcss/line-clamp": "^0.4.4",
         "@tailwindcss/typography": "^0.5.15",
-        "@vitejs/plugin-vue": "^4.6.2",
-        "@vue/compiler-sfc": "^3.5.10",
+        "@vitejs/plugin-vue": "^5.1.4",
+        "@vue/compiler-sfc": "^3.5.12",
+        "@vueuse/core": "^11.1.0",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.7",
         "echarts": "^5.5.1",
+        "eslint": "^9.13.0",
         "flatpickr": "^4.6.13",
-        "floating-vue": "^2.0.0",
-        "laravel-vite-plugin": "^0.8.1",
+        "floating-vue": "^5.2.2",
+        "laravel-vite-plugin": "^1.0.5",
         "lodash": "^4.17.21",
         "luxon": "^3.5.0",
         "postcss": "^8.4.47",
-        "tailwindcss": "^3.4.13",
-        "vite": "^4.5.5",
-        "vue": "^3.5.10",
-        "vue-echarts": "^6.7.3",
+        "tailwindcss": "^3.4.14",
+        "vite": "^5.4.10",
+        "vue": "^3.5.12",
+        "vue-echarts": "^7.0.3",
         "vue-flatpickr-component": "^11.0.5",
         "vue-loader": "^17.4.2",
-        "vue-material-design-icons": "^5.3.0",
+        "vue-material-design-icons": "^5.3.1",
         "vue-toastification": "^2.0.0-rc.5",
         "vue3-popper": "^1.5.0",
         "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
-        "eslint": "^8.57.1",
-        "eslint-plugin-vue": "^9.28.0"
+        "eslint-plugin-vue": "^9.29.1"
     }
 }
