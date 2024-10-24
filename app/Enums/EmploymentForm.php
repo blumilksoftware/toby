@@ -11,11 +11,6 @@ enum EmploymentForm: string
     case B2bContract = "b2b_contract";
     case BoardMemberContract = "board_member_contract";
 
-    public function label(): string
-    {
-        return __($this->value);
-    }
-
     public static function casesToSelect(): array
     {
         $cases = collect(EmploymentForm::cases());
@@ -26,5 +21,10 @@ enum EmploymentForm: string
                 "value" => $enum->value,
             ],
         )->toArray();
+    }
+
+    public function label(): string
+    {
+        return __($this->value);
     }
 }
