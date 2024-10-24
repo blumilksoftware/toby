@@ -11,11 +11,6 @@ enum Role: string
     case TechnicalApprover = "technical_approver";
     case AdministrativeApprover = "administrative_approver";
 
-    public function label(): string
-    {
-        return __($this->value);
-    }
-
     public static function casesToSelect(): array
     {
         $cases = collect(Role::cases());
@@ -26,6 +21,11 @@ enum Role: string
                 "value" => $enum->value,
             ],
         )->toArray();
+    }
+
+    public function label(): string
+    {
+        return __($this->value);
     }
 
     public function permissions(): array

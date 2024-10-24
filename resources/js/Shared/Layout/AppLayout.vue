@@ -5,29 +5,29 @@ import { useToast } from 'vue-toastification'
 import { ref, watch } from 'vue'
 import DeployInfo from '@/Shared/DeployInfo.vue'
 import { updateFavicon } from '@/Shared/updateFavicon'
-
-const props = defineProps({
-  flash: Object,
-  auth: Object,
-  vacationRequestsCount: Number,
-  overtimeRequestsCount: Number,
-  deployInformation: Object,
-  lastUpdate: String,
-})
+import { Head } from '@inertiajs/vue3'
+import { useGlobalProps } from '@/Composables/useGlobalProps'
 
 const toast = useToast()
 
-watch(() => props.flash, flash => {
-  if (flash.success) {
-    toast.success(flash.success)
+const {
+  deployInformation,
+  flash,
+  auth,
+  lastUpdate,
+} = useGlobalProps()
+
+watch(flash, value => {
+  if (value.success) {
+    toast.success(value.success)
   }
 
-  if (flash.info) {
-    toast.info(flash.info)
+  if (value.info) {
+    toast.info(value.info)
   }
 
-  if (flash.error) {
-    toast.error(flash.error)
+  if (value.error) {
+    toast.error(value.error)
   }
 }, { immediate: true })
 
@@ -40,18 +40,18 @@ function vacationPageOpened() {
 </script>
 
 <template>
+  <Head>
+    <slot name="title" />
+  </Head>
   <LastUpdate
-    v-if="props.auth.can.listAllRequests"
+    v-if="auth.can.listAllRequests"
     :is-updated="isUpdated"
     :last-update="lastUpdate"
     @last-update-updated="isUpdated = true"
   />
   <div class="relative min-h-screen">
     <MainMenu
-      :auth="auth"
       :show-refresh-button="isUpdated"
-      :vacation-requests-count="vacationRequestsCount"
-      :overtime-requests-count="overtimeRequestsCount"
       @open="vacationPageOpened"
     />
     <main class="flex flex-col flex-1 py-8 lg:ml-60">

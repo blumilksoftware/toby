@@ -1,4 +1,6 @@
 <script setup>
+import InertiaLink from '@/Shared/InertiaLink.vue'
+
 defineProps({
   holidays: Object,
 })

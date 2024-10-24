@@ -43,7 +43,7 @@ defineProps({
         :show-description="false"
       >
         <template #head>
-          <GiftIcon class="mx-auto w-12 h-12" />
+          <GiftIcon class="mx-auto size-12" />
         </template>
         <template #title>
           Brak benetifów

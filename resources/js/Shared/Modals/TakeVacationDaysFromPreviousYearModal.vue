@@ -1,6 +1,6 @@
 <script setup>
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
 
 const props = defineProps({
@@ -73,7 +73,7 @@ watch(() => props.show, () => {
           leave-from="opacity-100"
           leave-to="opacity-0"
         >
-          <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <DialogOverlay class="fixed inset-0 bg-gray-500/75 transition-opacity" />
         </TransitionChild>
 
         <span class="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
@@ -87,7 +87,7 @@ watch(() => props.show, () => {
           leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         >
           <form
-            class="inline-block relative px-4 pt-5 pb-4 text-left align-bottom bg-white rounded-lg shadow-xl transition-all transform sm:p-6 sm:my-8 sm:w-full sm:max-w-md sm:align-middle"
+            class="inline-block relative px-4 pt-5 pb-4 text-left align-bottom bg-white rounded-lg shadow-xl transition-all sm:p-6 sm:my-8 sm:w-full sm:max-w-md sm:align-middle"
             @submit.prevent="submitForm"
           >
             <div>
@@ -104,9 +104,9 @@ watch(() => props.show, () => {
                   </span>
                   <div class="mt-1 sm:col-span-2 sm:mt-0">
                     <div class="flex justify-start items-center">
-                      <span class="inline-flex justify-center items-center w-10 h-10 rounded-full">
+                      <span class="inline-flex justify-center items-center size-10 rounded-full">
                         <img
-                          class="w-10 h-10 rounded-full"
+                          class="size-10 rounded-full"
                           :src="limit.user.avatar"
                         >
                       </span>

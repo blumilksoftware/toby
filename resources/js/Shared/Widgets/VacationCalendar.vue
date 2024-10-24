@@ -7,6 +7,7 @@ import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import { viewModes, find as findViewMode } from '@/Shared/Widgets/Calendar/ViewModeOptions.js'
 import DayComponent from '@/Shared/Widgets/Calendar/DayComponent.vue'
+import { useStorage } from '@vueuse/core'
 
 const props = defineProps({
   holidays: Object,
@@ -18,11 +19,9 @@ const currentDate = DateTime.now()
 const months = useMonthInfo().getMonths()
 const { findType } = useVacationTypeInfo()
 
-const viewMode = localStorage.getItem('calendarViewMode') ?? 'week'
-
 const calendar = reactive({
   days: [],
-  viewMode: viewMode,
+  viewMode: useStorage('calendarViewMode', 'week'),
   date: currentDate.startOf('week'),
 })
 
@@ -92,7 +91,6 @@ function next() {
 
 function updateViewMode(type) {
   calendar.viewMode = type
-  localStorage.setItem('calendarViewMode', type)
   loadCalendar()
 }
 
@@ -150,13 +148,13 @@ function getVacationInfo(day) {
           >
             <span class="sr-only">Poprzedni {{ calendarState.viewMode.details.shortcut }}</span>
             <ChevronLeftIcon
-              class="h-5 w-5"
+              class="size-5"
               aria-hidden="true"
             />
           </button>
           <button
             type="button"
-            class="hidden border-t border-b border-gray-300 bg-white px-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
+            class="hidden border-y border-gray-300 bg-white px-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:relative md:block"
             @click="today"
           >
             Dzisiaj
@@ -173,7 +171,7 @@ function getVacationInfo(day) {
           >
             <span class="sr-only">Następny {{ calendarState.viewMode.details.shortcut }}</span>
             <ChevronRightIcon
-              class="h-5 w-5"
+              class="size-5"
               aria-hidden="true"
             />
           </button>
@@ -190,7 +188,7 @@ function getVacationInfo(day) {
           <span class="md:hidden">{{ calendarState.viewMode.details.shortcut }}</span>
           <span class="hidden md:inline-block">{{ calendarState.viewMode.details.name }}</span>
           <ChevronDownIcon
-            class="ml-2 h-5 w-5 text-gray-400"
+            class="ml-2 size-5 text-gray-400"
             aria-hidden="true"
           />
         </MenuButton>
@@ -205,7 +203,7 @@ function getVacationInfo(day) {
           leave-to-class="transform opacity-0 scale-95"
         >
           <MenuItems
-            class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
           >
             <div class="py-1">
               <MenuItem
@@ -220,7 +218,7 @@ function getVacationInfo(day) {
                   {{ option.shortcut }}
                   <CheckIcon
                     v-if="option.is(calendar.viewMode)"
-                    class="ml-2 w-5 h-5 text-blumilk-500"
+                    class="ml-2 size-5 text-blumilk-500"
                   />
                 </button>
               </MenuItem>

@@ -34,14 +34,14 @@ import {
   ClockIcon,
 } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
+import InertiaLink from '@/Shared/InertiaLink.vue'
+import { useGlobalProps } from '@/Composables/useGlobalProps'
 
 const props = defineProps({
-  auth: Object,
-  vacationRequestsCount: Number,
-  overtimeRequestsCount: Number,
   showRefreshButton: Boolean,
-  lastUpdate: String,
 })
+
+const { auth, vacationRequestsCount, overtimeRequestsCount } = useGlobalProps()
 
 const sidebarOpen = ref(false)
 
@@ -52,30 +52,30 @@ const vacationNavigation = computed(() =>
       href: '/vacation/requests/me',
       section: 'VacationRequest',
       icon: DocumentTextIcon,
-      can: !props.auth.can.listAllRequests,
+      can: !auth.value.can.listAllRequests,
     },
     {
       name: 'Wnioski',
       href: '/vacation/requests',
       section: 'VacationRequest',
       icon: RectangleStackIcon,
-      can: props.auth.can.listAllRequests,
-      badge: props.vacationRequestsCount,
+      can: auth.value.can.listAllRequests,
+      badge: vacationRequestsCount.value,
     },
     {
       name: 'Nadgodziny',
       href: '/overtime/requests',
       section: 'OvertimeRequest',
       icon: ClockIcon,
-      can: props.auth.can.listAllOvertimeRequests,
-      badge: props.overtimeRequestsCount,
+      can: auth.value.can.listAllOvertimeRequests,
+      badge: overtimeRequestsCount.value,
     },
     {
       name: 'Moje nadgodziny',
       href: '/overtime/requests/me',
       section: 'OvertimeRequest',
       icon: ClockIcon,
-      can: !props.auth.can.listAllOvertimeRequests && props.auth.overtimeEnabled,
+      can: !auth.value.can.listAllOvertimeRequests && auth.value.overtimeEnabled,
     },
     {
       name: 'Kalendarz',
@@ -89,7 +89,7 @@ const vacationNavigation = computed(() =>
       href: '/vacation/monthly-usage',
       section: 'MonthlyUsage',
       icon: AdjustmentsVerticalIcon,
-      can: props.auth.can.listMonthlyUsage,
+      can: auth.value.can.listMonthlyUsage,
     },
     {
       name: 'Dni wolne',
@@ -103,7 +103,7 @@ const vacationNavigation = computed(() =>
       href: '/vacation/limits',
       section: 'VacationLimits',
       icon: SunIcon,
-      can: props.auth.can.manageVacationLimits,
+      can: auth.value.can.manageVacationLimits,
     },
     {
       name: 'Podsumowanie roczne',
@@ -120,7 +120,7 @@ const miscNavigation = computed(() => [
     href: '/users',
     section: 'Users',
     icon: UserGroupIcon,
-    can: props.auth.can.manageUsers,
+    can: auth.value.can.manageUsers,
   },
   {
     name: 'Jubileusze',
@@ -141,14 +141,14 @@ const miscNavigation = computed(() => [
     href: '/technologies',
     section: 'Technologies',
     icon: BeakerIcon,
-    can: props.auth.can.manageResumes,
+    can: auth.value.can.manageResumes,
   },
   {
     name: 'CV',
     href: '/resumes',
     section: 'Resumes',
     icon: RectangleGroupIcon,
-    can: props.auth.can.manageResumes,
+    can: auth.value.can.manageResumes,
   },
   {
     name: 'Benefity',
@@ -162,28 +162,28 @@ const miscNavigation = computed(() => [
     href: '/assigned-benefits',
     section: 'AssignedBenefits',
     icon: BanknotesIcon,
-    can: props.auth.can.manageBenefits,
+    can: auth.value.can.manageBenefits,
   },
   {
     name: 'Raporty benefitowe',
     href: '/benefits-reports',
     section: 'BenefitsReport',
     icon: DocumentDuplicateIcon,
-    can: props.auth.can.manageBenefits,
+    can: auth.value.can.manageBenefits,
   },
   {
     name: 'Sprzęt',
     href: '/equipment-items',
     section: 'Equipment',
     icon: ComputerDesktopIcon,
-    can: props.auth.can.manageEquipment,
+    can: auth.value.can.manageEquipment,
   },
   {
     name: 'Mój sprzęt',
     href: '/equipment-items/me',
     section: 'Equipment',
     icon: ComputerDesktopIcon,
-    can: !props.auth.can.manageEquipment,
+    can: !auth.value.can.manageEquipment,
   },
 ].filter(item => item.can))
 
@@ -216,7 +216,7 @@ const emit = defineEmits(['open'])
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+        <DialogOverlay class="fixed inset-0 bg-gray-600/75" />
       </TransitionChild>
       <TransitionChild
         as="template"
@@ -239,11 +239,11 @@ const emit = defineEmits(['open'])
           >
             <div class="absolute top-0 right-0 pt-2 -mr-12">
               <button
-                class="flex justify-center items-center ml-1 w-10 h-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                class="flex justify-center items-center ml-1 size-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                 type="button"
                 @click="sidebarOpen = false"
               >
-                <XMarkIcon class="w-6 h-6 text-white" />
+                <XMarkIcon class="size-6 text-white" />
               </button>
             </div>
           </TransitionChild>
@@ -261,11 +261,11 @@ const emit = defineEmits(['open'])
           <nav class="overflow-y-auto shrink-0 py-5 h-full space-y-5">
             <div class="px-2 space-y-1">
               <InertiaLink
-                :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md']"
+                :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center p-2 text-base leading-6 font-medium rounded-md']"
                 href="/"
                 @click="sidebarOpen = false;emit('open')"
               >
-                <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
+                <HomeIcon class="shrink-0 mr-4 size-6 text-blumilk-200" />
                 Strona główna
               </InertiaLink>
             </div>
@@ -276,13 +276,13 @@ const emit = defineEmits(['open'])
               <InertiaLink
                 v-for="item in vacationNavigation"
                 :key="item.name"
-                :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center p-2 text-base font-medium rounded-md']"
                 :href="item.href"
                 @click="sidebarOpen = false;item.href === '/vacation/requests' ? emit('open') : null"
               >
                 <component
                   :is="item.icon"
-                  class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
+                  class="shrink-0 mr-4 size-6 text-blumilk-200"
                 />
                 {{ item.name }}
                 <span
@@ -300,13 +300,13 @@ const emit = defineEmits(['open'])
               <InertiaLink
                 v-for="item in miscNavigation"
                 :key="item.name"
-                :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+                :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center p-2 text-base font-medium rounded-md']"
                 :href="item.href"
                 @click="sidebarOpen = false;refreshableHrefs.includes(item.href) ? emit('open') : null"
               >
                 <component
                   :is="item.icon"
-                  class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
+                  class="shrink-0 mr-4 size-6 text-blumilk-200"
                 />
                 {{ item.name }}
                 <span
@@ -337,11 +337,11 @@ const emit = defineEmits(['open'])
       </div>
       <nav class="flex overflow-y-auto flex-col flex-1 px-2 mt-5 space-y-4">
         <InertiaLink
-          :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 mt-1 text-sm leading-6 font-medium rounded-md']"
+          :class="[$page.component === 'Dashboard' ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center p-2 mt-1 text-sm leading-6 font-medium rounded-md']"
           href="/"
           @click="emit('open')"
         >
-          <HomeIcon class="shrink-0 mr-4 w-6 h-6 text-blumilk-200" />
+          <HomeIcon class="shrink-0 mr-4 size-6 text-blumilk-200" />
           Strona główna
         </InertiaLink>
         <div
@@ -351,13 +351,13 @@ const emit = defineEmits(['open'])
           <InertiaLink
             v-for="item in vacationNavigation"
             :key="item.name"
-            :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center p-2 text-sm leading-6 font-medium rounded-md']"
             :href="item.href"
             @click="refreshableHrefs.includes(item.href) ? emit('open') : null"
           >
             <component
               :is="item.icon"
-              class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
+              class="shrink-0 mr-4 size-6 text-blumilk-200"
             />
             {{ item.name }}
             <span
@@ -375,12 +375,12 @@ const emit = defineEmits(['open'])
           <InertiaLink
             v-for="item in miscNavigation"
             :key="item.name"
-            :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md']"
+            :class="[$page.component.startsWith(item.section) ? 'bg-blumilk-800 text-white' : 'text-blumilk-100 hover:text-white hover:bg-blumilk-600', 'group flex items-center p-2 text-sm leading-6 font-medium rounded-md']"
             :href="item.href"
           >
             <component
               :is="item.icon"
-              class="shrink-0 mr-4 w-6 h-6 text-blumilk-200"
+              class="shrink-0 mr-4 size-6 text-blumilk-200"
             />
             {{ item.name }}
             <span
@@ -402,7 +402,7 @@ const emit = defineEmits(['open'])
         type="button"
         @click="sidebarOpen = true"
       >
-        <Bars3CenterLeftIcon class="w-6 h-6" />
+        <Bars3CenterLeftIcon class="size-6" />
       </button>
       <div class="flex flex-1 justify-between items-center px-4 sm:px-6 lg:px-8">
         <div>
@@ -415,7 +415,7 @@ const emit = defineEmits(['open'])
               Odśwież
             </div>
             <div class="sm:hidden">
-              <ArrowPathIcon class="h-4 w-4" />
+              <ArrowPathIcon class="size-4" />
             </div>
           </button>
         </div>
@@ -429,12 +429,12 @@ const emit = defineEmits(['open'])
             >
               <img
                 :src="auth.user.avatar"
-                class="w-8 h-8 rounded-full"
+                class="size-8 rounded-full"
               >
               <span class="hidden ml-3 text-sm font-medium text-gray-700 lg:block">
                 {{ auth.user.name }}
               </span>
-              <ChevronDownIcon class="hidden shrink-0 ml-1 w-5 h-5 text-gray-400 lg:block" />
+              <ChevronDownIcon class="hidden shrink-0 ml-1 size-5 text-gray-400 lg:block" />
             </MenuButton>
             <transition
               enter-active-class="transition ease-out duration-100"
@@ -445,7 +445,7 @@ const emit = defineEmits(['open'])
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="absolute right-0 py-1 mt-2 w-48 bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right"
+                class="absolute right-0 py-1 mt-2 w-48 bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg origin-top-right"
               >
                 <MenuItem v-slot="{ active }">
                   <InertiaLink

@@ -31,7 +31,7 @@ defineProps({
           >
             <img
               :src="day.user.avatar"
-              class="w-10 h-10 rounded-full"
+              class="size-10 rounded-full"
             >
             <div class="ml-3">
               <p class="text-sm font-medium text-gray-900">
@@ -52,7 +52,7 @@ defineProps({
         :show-description="false"
       >
         <template #head>
-          <CakeIcon class="h-12 w-12 mx-auto" />
+          <CakeIcon class="size-12 mx-auto" />
         </template>
         <template #title>
           Brak nadchodzących urodzin

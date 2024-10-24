@@ -1,28 +1,19 @@
 import '../css/app.css'
 import { createApp, h } from 'vue'
-import { createInertiaApp, Head } from '@inertiajs/inertia-vue3'
-import { InertiaProgress } from '@inertiajs/progress'
-import AppLayout from '@/Shared/Layout/AppLayout.vue'
 import Flatpickr from 'flatpickr'
 import { Settings } from 'luxon'
-import { Polish } from 'flatpickr/dist/l10n/pl.js'
 import Toast from 'vue-toastification'
-import InertiaLink from '@/Shared/InertiaLink.js'
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import FloatingVue from 'floating-vue'
+import { createInertiaApp } from '@inertiajs/vue3'
+import { Polish } from 'flatpickr/dist/l10n/pl'
+
+const appName = import.meta.env.VITE_APP_NAME || 'Toby'
 
 createInertiaApp({
-  resolve: (name) => {
-    const page = resolvePageComponent(
-      `./Pages/${name}.vue`,
-      import.meta.glob('./Pages/**/*.vue'),
-    )
-
-    page.then((module) => {
-      module.default.layout = module.default.layout || AppLayout
-    })
-
-    return page
+  title: (title) => title ? `${title} - ${appName}` : appName,
+  resolve: name => {
+    const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+    return pages[`./Pages/${name}.vue`]
   },
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
@@ -34,16 +25,12 @@ createInertiaApp({
         pauseOnFocusLoss: false,
       })
       .use(FloatingVue)
-      .component('InertiaLink', InertiaLink)
-      .component('InertiaHead', Head)
       .mount(el)
   },
-  title: title => `${title} - Toby`,
-})
-
-InertiaProgress.init({
-  delay: 0,
-  color: '#527ABA',
+  progress: {
+    delay: 0,
+    color: '#527ABA',
+  },
 })
 
 Flatpickr.localize(Polish)

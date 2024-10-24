@@ -15,7 +15,7 @@ const statusInfo = computed(() => findStatus(props.status))
   <div class="flex items-center">
     <component
       :is="statusInfo.solid.icon"
-      :class="[statusInfo.solid.color, 'w-5 h-5 mr-1']"
+      :class="[statusInfo.solid.color, 'size-5 mr-1']"
     />
     <span>{{ statusInfo.text }}</span>
   </div>

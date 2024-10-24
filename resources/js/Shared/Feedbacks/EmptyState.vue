@@ -12,7 +12,7 @@ defineProps({
 <template>
   <div class="text-center my-5 text-gray-500">
     <slot name="head">
-      <MagnifyingGlassIcon class="mx-auto w-12 h-12" />
+      <MagnifyingGlassIcon class="mx-auto size-12" />
     </slot>
     <h3 class="mt-2 text-sm font-medium">
       <slot name="title">

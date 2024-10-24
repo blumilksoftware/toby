@@ -65,7 +65,7 @@ defineProps({
               >
                 <img
                   :src="day.user.avatar"
-                  class="w-10 h-10 rounded-full"
+                  class="size-10 rounded-full"
                 >
                 <div class="ml-3">
                   <p class="text-sm font-medium text-gray-900">
@@ -86,7 +86,7 @@ defineProps({
             :show-description="false"
           >
             <template #head>
-              <SunIcon class="mx-auto w-12 h-12" />
+              <SunIcon class="mx-auto size-12" />
             </template>
             <template #title>
               Brak nieobecności
@@ -105,7 +105,7 @@ defineProps({
             >
               <img
                 :src="day.user.avatar"
-                class="w-10 h-10 rounded-full"
+                class="size-10 rounded-full"
               >
               <div class="ml-3">
                 <p class="text-sm font-medium text-gray-900">
@@ -125,7 +125,7 @@ defineProps({
             :show-description="false"
           >
             <template #head>
-              <SunIcon class="mx-auto w-12 h-12" />
+              <SunIcon class="mx-auto size-12" />
             </template>
             <template #title>
               Brak nieobecności

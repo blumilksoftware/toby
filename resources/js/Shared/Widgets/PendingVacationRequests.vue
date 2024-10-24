@@ -2,6 +2,7 @@
 import VacationType from '@/Shared/VacationType.vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import { RectangleStackIcon } from '@heroicons/vue/24/solid'
+import InertiaLink from '@/Shared/InertiaLink.vue'
 
 defineProps({
   requests: Object,
@@ -56,7 +57,7 @@ defineProps({
               <div class="mt-3 text-sm text-gray-600">
                 <div class="flex">
                   <img
-                    class="w-10 h-10 rounded-full"
+                    class="size-10 rounded-full"
                     :src="request.user.avatar"
                   >
                   <div class="ml-3">
@@ -74,7 +75,7 @@ defineProps({
           <li v-if="! requests.length">
             <EmptyState>
               <template #head>
-                <RectangleStackIcon class="mx-auto w-12 h-12" />
+                <RectangleStackIcon class="mx-auto size-12" />
               </template>
               <template #title>
                 Brak wniosków

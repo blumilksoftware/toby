@@ -44,6 +44,43 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
         protected Collection $types,
     ) {}
 
+    public static function afterSheet(AfterSheet $event): void
+    {
+        $sheet = $event->getSheet();
+        $lastRow = $sheet->getDelegate()->getHighestRow();
+
+        $sheet->append([
+            __("Sum:"),
+            null,
+            null,
+            null,
+            "=SUM(E2:E{$lastRow})",
+        ]);
+
+        $lastRow++;
+
+        $sheet->getDelegate()->getStyle("A{$lastRow}")
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+
+        $sheet->getDelegate()->getStyle("A{$lastRow}")
+            ->getFont()
+            ->setBold(true);
+
+        $sheet->getDelegate()->getStyle("E{$lastRow}")
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getDelegate()->mergeCells("A{$lastRow}:D{$lastRow}");
+
+        $sheet->getDelegate()->getStyle("A{$lastRow}:E{$lastRow}")
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(Border::BORDER_THIN)
+            ->getColor()
+            ->setRGB("B7B7B7");
+    }
+
     public function title(): string
     {
         return $this->user->profile->full_name;
@@ -139,43 +176,6 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
         }
 
         $sheet->getStyle("A1:{$lastColumn}{$lastRow}")
-            ->getBorders()
-            ->getAllBorders()
-            ->setBorderStyle(Border::BORDER_THIN)
-            ->getColor()
-            ->setRGB("B7B7B7");
-    }
-
-    public static function afterSheet(AfterSheet $event): void
-    {
-        $sheet = $event->getSheet();
-        $lastRow = $sheet->getDelegate()->getHighestRow();
-
-        $sheet->append([
-            __("Sum:"),
-            null,
-            null,
-            null,
-            "=SUM(E2:E{$lastRow})",
-        ]);
-
-        $lastRow++;
-
-        $sheet->getDelegate()->getStyle("A{$lastRow}")
-            ->getAlignment()
-            ->setHorizontal(Alignment::HORIZONTAL_RIGHT);
-
-        $sheet->getDelegate()->getStyle("A{$lastRow}")
-            ->getFont()
-            ->setBold(true);
-
-        $sheet->getDelegate()->getStyle("E{$lastRow}")
-            ->getAlignment()
-            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-        $sheet->getDelegate()->mergeCells("A{$lastRow}:D{$lastRow}");
-
-        $sheet->getDelegate()->getStyle("A{$lastRow}:E{$lastRow}")
             ->getBorders()
             ->getAllBorders()
             ->setBorderStyle(Border::BORDER_THIN)

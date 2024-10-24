@@ -35,12 +35,12 @@ const filteredItems = computed(() =>
         @change="query = $event.target.value"
       />
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-        <ChevronUpDownIcon class="h-5 w-5 text-gray-400" />
+        <ChevronUpDownIcon class="size-5 text-gray-400" />
       </ComboboxButton>
 
       <ComboboxOptions
         v-if="filteredItems.length"
-        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
       >
         <ComboboxOption
           v-for="item in filteredItems"
@@ -58,7 +58,7 @@ const filteredItems = computed(() =>
               v-if="selected"
               :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-blumilk-600']"
             >
-              <CheckIcon class="h-5 w-5" />
+              <CheckIcon class="size-5" />
             </span>
           </li>
         </ComboboxOption>

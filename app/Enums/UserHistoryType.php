@@ -10,11 +10,6 @@ enum UserHistoryType: string
     case MedicalExam = "medical_exam";
     case OhsTraining = "ohs_training";
 
-    public function label(): string
-    {
-        return __($this->value);
-    }
-
     public static function casesToSelect(): array
     {
         $cases = collect(UserHistoryType::cases());
@@ -25,5 +20,10 @@ enum UserHistoryType: string
                 "value" => $enum->value,
             ],
         )->toArray();
+    }
+
+    public function label(): string
+    {
+        return __($this->value);
     }
 }

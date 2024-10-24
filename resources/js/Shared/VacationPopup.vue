@@ -1,6 +1,7 @@
 <script setup>
 import VacationType from '@/Shared/VacationType.vue'
 import Status from '@/Shared/Status.vue'
+import InertiaLink from '@/Shared/InertiaLink.vue'
 
 defineProps({
   vacation: Object,

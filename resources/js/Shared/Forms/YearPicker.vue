@@ -45,7 +45,7 @@ const value = computed({
             {{ value !== null || !nullable ? value : 'Wszystkie' }}
           </span>
           <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
-            <ChevronUpDownIcon class="w-5 h-5 text-gray-400" />
+            <ChevronUpDownIcon class="size-5 text-gray-400" />
           </span>
         </ListboxButton>
 
@@ -55,7 +55,7 @@ const value = computed({
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="overflow-auto absolute z-10 py-1 mt-1 max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm"
+            class="overflow-auto absolute z-10 py-1 mt-1 max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
           >
             <ListboxOption
               v-if="nullable"
@@ -72,7 +72,7 @@ const value = computed({
                   v-if="selected"
                   :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                 >
-                  <CheckIcon class="w-5 h-5" />
+                  <CheckIcon class="size-5" />
                 </span>
               </li>
             </ListboxOption>
@@ -92,7 +92,7 @@ const value = computed({
                   v-if="selected"
                   :class="['text-blumilk-600 absolute inset-y-0 right-0 flex items-center pr-4']"
                 >
-                  <CheckIcon class="w-5 h-5" />
+                  <CheckIcon class="size-5" />
                 </span>
               </li>
             </ListboxOption>
