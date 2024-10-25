@@ -22,8 +22,8 @@ const props = defineProps({
 
 const { auth } = useGlobalProps()
 
-const hihighlighted = useStorage('calendar-hihighlight', [])
-const order = useStorage('calendar-order', props.users.data.map(user => user.id))
+const highlighted = useStorage(`calendar-highlight:${auth.value.user.id}`, [])
+const order = useStorage(`calendar-order:${auth.value.user.id}`, props.users.data.map(user => user.id))
 
 const usersInOrder = ref([...props.users.data].sort((a, b) => order.value.indexOf(a.id) > order.value.indexOf(b.id) ? 1 : -1))
 
@@ -64,13 +64,13 @@ function linkVacationRequest(user) {
 }
 
 function toggleHighlight(id) {
-  if (hihighlighted.value.includes(id)) {
-    hihighlighted.value = hihighlighted.value.filter(item => item !== id)
+  if (highlighted.value.includes(id)) {
+    highlighted.value = highlighted.value.filter(item => item !== id)
 
     return
   }
 
-  hihighlighted.value.push(id)
+  highlighted.value.push(id)
 }
 </script>
 
@@ -181,10 +181,10 @@ function toggleHighlight(id) {
           >
             <template #item="{ element }">
               <tr
-                :class="[!element.isActive && 'bg-gray-100', element.isActive && hihighlighted.includes(element.id) && 'bg-green-600/5']"
+                :class="[!element.isActive && 'bg-gray-100', element.isActive && highlighted.includes(element.id) && 'bg-green-600/5']"
               >
                 <th
-                  :class="['p-2 border border-gray-300 text-left', hihighlighted.includes(element.id) && 'bg-green-600/5']"
+                  :class="['p-2 border border-gray-300 text-left', highlighted.includes(element.id) && 'bg-green-600/5']"
                   @click="toggleHighlight(element.id)"
                 >
                   <UserProfileLink
