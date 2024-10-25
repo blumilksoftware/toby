@@ -30,6 +30,7 @@ class EquipmentItem extends Model
 
     protected $casts = [
         "assigned_at" => "date",
+        "is_mobile" => "boolean",
         "labels" => AsCollection::class,
     ];
     protected $fillable = [
