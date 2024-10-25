@@ -189,7 +189,7 @@ function toggleHighlight(id) {
                 >
                   <UserProfileLink
                     class="inline-flex"
-                    :element="element"
+                    :user="element"
                   >
                     <div class="flex justify-start items-center">
                       <span class="inline-flex justify-center items-center size-8 rounded-full handle cursor-move">
