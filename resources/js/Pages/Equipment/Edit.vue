@@ -5,6 +5,7 @@ import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, Sw
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 import MultipleCombobox from '@/Shared/Forms/MultipleCombobox.vue'
 import InertiaLink from '@/Shared/InertiaLink.vue'
+import AppLayout from '@/Shared/Layout/AppLayout.vue'
 
 const props = defineProps({
   equipmentItem: Object,
