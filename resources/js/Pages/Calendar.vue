@@ -60,11 +60,11 @@ function unsetActiveDay() {
 }
 
 function linkParameters(user, day) {
-  return props.auth.can.createRequestsOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
+  return auth.value.can.createRequestsOnBehalfOfEmployee ? { user: user.id, from_date: day.date } : { from_date: day.date }
 }
 
 function linkVacationRequest(user) {
-  return props.auth.user.id === user.id || props.auth.can.manageRequestsAsTechnicalApprover || props.auth.can.manageRequestsAsAdministrativeApprover
+  return auth.value.user.id === user.id || auth.value.can.manageRequestsAsTechnicalApprover || auth.value.can.manageRequestsAsAdministrativeApprover
 }
 </script>
 
