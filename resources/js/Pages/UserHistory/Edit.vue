@@ -28,6 +28,7 @@ function updateForm() {
     type: data.type.value,
     from: data.from,
     to: data.to,
+    isEmployedAtCurrentCompany: data.isEmployedAtCurrentCompany,
   }))
     .put(`/users/history/${props.history.id}`)
 }
