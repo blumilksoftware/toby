@@ -20,10 +20,10 @@ const statusInfo = computed(() => findStatus(props.activity.state))
     />
     <div class="flex relative space-x-3">
       <div>
-        <span :class="[statusInfo.outline.background, statusInfo.outline.foreground, 'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white']">
+        <span :class="[statusInfo.outline.background, statusInfo.outline.foreground, 'size-8 rounded-full flex items-center justify-center ring-8 ring-white']">
           <component
             :is="statusInfo.outline.icon"
-            class="w-5 h-5 text-white"
+            class="size-5 text-white"
           />
         </span>
       </div>

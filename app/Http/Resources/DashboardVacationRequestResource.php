@@ -10,7 +10,6 @@ use Toby\Domain\VacationTypeConfigRetriever;
 
 class DashboardVacationRequestResource extends JsonResource
 {
-    public static $wrap = null;
     protected VacationTypeConfigRetriever $configRetriever;
 
     public function __construct($resource)
@@ -19,6 +18,8 @@ class DashboardVacationRequestResource extends JsonResource
 
         $this->configRetriever = app(VacationTypeConfigRetriever::class);
     }
+
+    public static $wrap = null;
 
     public function toArray($request): array
     {

@@ -21,11 +21,6 @@ enum VacationType: string
     case RemoteWork = "remote_work";
     case Delegation = "delegation";
 
-    public function label(): string
-    {
-        return __($this->value);
-    }
-
     public static function casesToSelect(): array
     {
         $cases = VacationType::all();
@@ -41,5 +36,10 @@ enum VacationType: string
     public static function all(): Collection
     {
         return new Collection(VacationType::cases());
+    }
+
+    public function label(): string
+    {
+        return __($this->value);
     }
 }

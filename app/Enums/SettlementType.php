@@ -9,11 +9,6 @@ enum SettlementType: string
     case Hours = "hours";
     case Money = "money";
 
-    public function label(): string
-    {
-        return __($this->value);
-    }
-
     public static function casesToSelect(): array
     {
         return array_map(
@@ -23,5 +18,10 @@ enum SettlementType: string
             ],
             SettlementType::cases(),
         );
+    }
+
+    public function label(): string
+    {
+        return __($this->value);
     }
 }

@@ -1,11 +1,12 @@
 <script setup>
-import { usePage } from '@inertiajs/inertia-vue3'
+import InertiaLink from '@/Shared/InertiaLink.vue'
+import { useGlobalProps } from '@/Composables/useGlobalProps.js'
 
 defineProps({
   user: Object,
 })
 
-const auth =  usePage().props.value.auth
+const { auth } = useGlobalProps()
 </script>
 
 <template>

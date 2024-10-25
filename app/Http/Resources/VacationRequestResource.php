@@ -13,7 +13,6 @@ use Toby\States\VacationRequest\Rejected;
 
 class VacationRequestResource extends JsonResource
 {
-    public static $wrap = null;
     protected VacationTypeConfigRetriever $configRetriever;
 
     public function __construct($resource)
@@ -22,6 +21,8 @@ class VacationRequestResource extends JsonResource
 
         $this->configRetriever = app(VacationTypeConfigRetriever::class);
     }
+
+    public static $wrap = null;
 
     public function toArray($request): array
     {

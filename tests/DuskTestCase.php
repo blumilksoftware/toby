@@ -20,6 +20,11 @@ abstract class DuskTestCase extends BaseTestCase
         }
     }
 
+    protected static function runningInDocker(): bool
+    {
+        return isset($_ENV["DUSK_IN_DOCKER"]) && $_ENV["DUSK_IN_DOCKER"] === "true";
+    }
+
     protected function driver(): RemoteWebDriver
     {
         $options = (new ChromeOptions())->addArguments(
@@ -53,10 +58,5 @@ abstract class DuskTestCase extends BaseTestCase
     {
         return isset($_SERVER["DUSK_HEADLESS_DISABLED"]) ||
             isset($_ENV["DUSK_HEADLESS_DISABLED"]);
-    }
-
-    protected static function runningInDocker(): bool
-    {
-        return isset($_ENV["DUSK_IN_DOCKER"]) && $_ENV["DUSK_IN_DOCKER"] === "true";
     }
 }

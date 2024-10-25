@@ -49,7 +49,7 @@ function removeItem(index) {
             class="py-4 text-red-500 hover:text-gray-600 opacity-100 group-hover:opacity-100 transition-opacity hover:scale-110 lg:opacity-0 handle"
             type="button"
           >
-            <Squares2X2Icon class="w-5 h-5 text-gray-500" />
+            <Squares2X2Icon class="size-5 text-gray-500" />
           </button>
           <Disclosure
             v-slot="{ open }"
@@ -57,7 +57,7 @@ function removeItem(index) {
             class="flex-1 border border-gray-200"
           >
             <div class="flex">
-              <DisclosureButton class="transition transition-colors rounded-md group w-full max-w-full overflow-hidden flex items-center justify-between p-4 font-semibold text-gray-500 hover:text-blumilk-500 transition transition-colors rounded-md focus:outline-none">
+              <DisclosureButton class="transition rounded-md group w-full max-w-full overflow-hidden flex items-center justify-between p-4 font-semibold text-gray-500 hover:text-blumilk-500 focus:outline-none">
                 <div class="break-all line-clamp-1 text-md">
                   <slot
                     name="itemHeader"
@@ -67,7 +67,7 @@ function removeItem(index) {
                 </div>
                 <div class="ml-2">
                   <svg
-                    :class="[open ? '-rotate-90' : 'rotate-90', 'h-6 w-6 transform transition-transform ease-in-out duration-150']"
+                    :class="[open ? '-rotate-90' : 'rotate-90', 'size-6 transition-transform ease-in-out duration-150']"
                     viewBox="0 0 20 20"
                   >
                     <path
@@ -94,7 +94,7 @@ function removeItem(index) {
             type="button"
             @click="removeItem(index)"
           >
-            <TrashIcon class="w-5 h-5 text-red-500" />
+            <TrashIcon class="size-5 text-red-500" />
           </button>
         </div>
       </template>

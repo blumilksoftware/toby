@@ -15,6 +15,25 @@ class CreateUserCommandTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 
+    public static function userRolesProvider(): Generator
+    {
+        yield "administrator role" => [
+            "role" => "administrator",
+        ];
+
+        yield "employee role" => [
+            "role" => "employee",
+        ];
+
+        yield "technical_approver role" => [
+            "role" => "technical_approver",
+        ];
+
+        yield "administrative_approver role" => [
+            "role" => "administrative_approver",
+        ];
+    }
+
     public function testUserCanBeCreated(): void
     {
         $this->artisan(CreateUser::class, ["email" => "test@example.com"])
@@ -41,25 +60,6 @@ class CreateUserCommandTest extends FeatureTestCase
                 "role" => $role,
             ],
         );
-    }
-
-    public static function userRolesProvider(): Generator
-    {
-        yield "administrator role" => [
-            "role" => "administrator",
-        ];
-
-        yield "employee role" => [
-            "role" => "employee",
-        ];
-
-        yield "technical_approver role" => [
-            "role" => "technical_approver",
-        ];
-
-        yield "administrative_approver role" => [
-            "role" => "administrative_approver",
-        ];
     }
 
     public function testUserWithTheSameEmailCannotBeCreated(): void

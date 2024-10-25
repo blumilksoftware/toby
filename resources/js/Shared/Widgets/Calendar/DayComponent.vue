@@ -3,6 +3,7 @@ import Popper from 'vue3-popper'
 import { ref } from 'vue'
 import VacationPopup from '@/Shared/VacationPopup.vue'
 import VacationIcon from '@/Shared/VacationTypeCalendarIcon.vue'
+import InertiaLink from '@/Shared/InertiaLink.vue'
 
 defineProps({
   day: {
@@ -54,7 +55,7 @@ function onMouseleave() {
     >
       <time
         :datetime="day.date"
-        :class="[ day.isToday && 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
+        :class="[ day.isToday && 'flex size-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
       >
         {{ day.dayNumber }}
       </time>
@@ -76,7 +77,7 @@ function onMouseleave() {
       <div class="flex justify-between">
         <time
           :datetime="day.date"
-          :class="[ day.isToday && 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
+          :class="[ day.isToday && 'flex size-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white' ]"
         >
           {{ day.dayNumber }}
         </time>
@@ -100,7 +101,7 @@ function onMouseleave() {
       <time
         :datetime="day.date"
         class="cursor-default"
-        :class="{ 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
+        :class="{ 'flex size-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
       >
         {{ day.dayNumber }}
       </time>
@@ -114,7 +115,7 @@ function onMouseleave() {
     >
       <time
         :datetime="day.date"
-        :class="{ 'flex h-6 w-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
+        :class="{ 'flex size-6 items-center justify-center rounded-full bg-blumilk-500 font-semibold text-white': day.isToday }"
       >
         {{ day.dayNumber }}
       </time>

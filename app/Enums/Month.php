@@ -23,6 +23,16 @@ enum Month: string
     case November = "november";
     case December = "december";
 
+    public static function current(): Month
+    {
+        return Month::from(Str::lower(Carbon::now()->englishMonth));
+    }
+
+    public static function fromNameOrCurrent(string $name): Month
+    {
+        return Month::tryFrom($name) ?? Month::current();
+    }
+
     public function toCarbonNumber(): int
     {
         return match ($this) {
@@ -39,15 +49,5 @@ enum Month: string
             self::November => CarbonInterface::NOVEMBER,
             self::December => CarbonInterface::DECEMBER,
         };
-    }
-
-    public static function current(): Month
-    {
-        return Month::from(Str::lower(Carbon::now()->englishMonth));
-    }
-
-    public static function fromNameOrCurrent(string $name): Month
-    {
-        return Month::tryFrom($name) ?? Month::current();
     }
 }
