@@ -37,7 +37,7 @@ class EquipmentExport implements WithHeadings, WithStyles, WithEvents, WithStric
                 $equipmentItem->id_number,
                 $equipmentItem->name,
                 $equipmentItem->labels?->implode(", "),
-                $equipmentItem->is_mobile,
+                $equipmentItem->is_mobile ? 'Tak' : 'Nie',
                 $equipmentItem->assignee->profile->full_name ?? "",
                 $equipmentItem->assigned_at ? Date::dateTimeToExcel($equipmentItem->assigned_at) : "",
             ];
