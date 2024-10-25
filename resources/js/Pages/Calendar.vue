@@ -10,6 +10,7 @@ import { router } from '@inertiajs/vue3'
 import InertiaLink from '@/Shared/InertiaLink.vue'
 import { useGlobalProps } from '@/Composables/useGlobalProps'
 import AppLayout from '@/Shared/Layout/AppLayout.vue'
+import { useStorage } from '@vueuse/core'
 
 const props = defineProps({
   users: Object,
@@ -21,6 +22,8 @@ const props = defineProps({
 const { auth } = useGlobalProps()
 
 let activeElement = ref(undefined)
+
+const hihighlighted =  useStorage('calendar-hihighlight', [])
 
 const currentDate = DateTime.now()
 
@@ -65,6 +68,16 @@ function linkParameters(user, day) {
 
 function linkVacationRequest(user) {
   return auth.value.user.id === user.id || auth.value.can.manageRequestsAsTechnicalApprover || auth.value.can.manageRequestsAsAdministrativeApprover
+}
+
+function toggleHighlight(id) {
+  if (hihighlighted.value.includes(id)) {
+    hihighlighted.value = hihighlighted.value.filter(item => item !== id)
+
+    return
+  }
+
+  hihighlighted.value.push(id)
 }
 </script>
 
@@ -168,10 +181,14 @@ function linkVacationRequest(user) {
             <tr
               v-for="user in users.data"
               :key="user.id"
-              :class="[user.isActive ? '' : 'bg-gray-100']"
+              :class="[!user.isActive && 'bg-gray-100', user.isActive && hihighlighted.includes(user.id) && 'bg-green-600/5']"
             >
-              <th class="p-2 border border-gray-300">
+              <th
+                :class="['p-2 border border-gray-300 text-left', hihighlighted.includes(user.id) && 'bg-green-600/5']"
+                @click="toggleHighlight(user.id)"
+              >
                 <UserProfileLink
+                  class="inline-flex"
                   :user="user"
                 >
                   <div class="flex justify-start items-center">

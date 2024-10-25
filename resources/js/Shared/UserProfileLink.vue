@@ -11,8 +11,9 @@ const { auth } = useGlobalProps()
 
 <template>
   <InertiaLink
-    v-if="auth.can.manageUsers"
+    v-if="!auth.can.manageUsers"
     :href="`/users/${user.id}`"
+    @click.stop
   >
     <slot />
   </InertiaLink>
