@@ -11,6 +11,7 @@ import InertiaLink from '@/Shared/InertiaLink.vue'
 import { useGlobalProps } from '@/Composables/useGlobalProps'
 import AppLayout from '@/Shared/Layout/AppLayout.vue'
 import { useStorage } from '@vueuse/core'
+import Draggable from 'vuedraggable'
 
 const props = defineProps({
   users: Object,
@@ -21,9 +22,10 @@ const props = defineProps({
 
 const { auth } = useGlobalProps()
 
-let activeElement = ref(undefined)
+const hihighlighted = useStorage('calendar-hihighlight', [])
+const order = useStorage('calendar-order', props.users.data.map(user => user.id))
 
-const hihighlighted =  useStorage('calendar-hihighlight', [])
+const usersInOrder = ref([...props.users.data].sort((a, b) => order.value.indexOf(a.id) > order.value.indexOf(b.id) ? 1 : -1))
 
 const currentDate = DateTime.now()
 
@@ -37,6 +39,10 @@ watch(selectedMonth, (value, oldValue) => {
   router.visit(`/calendar/${value.toFormat('LL-yyyy')}`)
 })
 
+watch(usersInOrder, (value) => {
+  order.value = value.map(item => item.id)
+})
+
 function previousMonth() {
   selectedMonth.value = selectedMonth.value.minus({ month: 1 })
 }
@@ -47,19 +53,6 @@ function nextMonth() {
 
 function currentMonth() {
   selectedMonth.value = currentDate
-}
-
-function isActiveDay(key) {
-  return activeElement.value === key
-}
-
-function setActiveDay(key) {
-  if (activeElement.value === undefined)
-    activeElement.value = key
-}
-
-function unsetActiveDay() {
-  activeElement.value = undefined
 }
 
 function linkParameters(user, day) {
@@ -158,7 +151,7 @@ function toggleHighlight(id) {
             <tr>
               <th class="py-2 w-64 text-lg font-semibold text-gray-800 border border-gray-300">
                 <div class="flex justify-center items-center capitalize">
-                  {{ selectedMonth.toLocaleString({ month: 'long', year: 'numeric' }) }}
+                  {{ selectedMonth.toLocaleString({month: 'long', year: 'numeric'}) }}
                 </div>
               </th>
               <th
@@ -177,66 +170,73 @@ function toggleHighlight(id) {
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              v-for="user in users.data"
-              :key="user.id"
-              :class="[!user.isActive && 'bg-gray-100', user.isActive && hihighlighted.includes(user.id) && 'bg-green-600/5']"
-            >
-              <th
-                :class="['p-2 border border-gray-300 text-left', hihighlighted.includes(user.id) && 'bg-green-600/5']"
-                @click="toggleHighlight(user.id)"
+          <Draggable
+            v-model="usersInOrder"
+            tag="tbody"
+            ghost-class="opacity-50"
+            handle=".handle"
+            :animation="200"
+            :component-data="{tag: 'div', type: 'transition-group'}"
+            :item-key="((item) => usersInOrder.indexOf(item))"
+          >
+            <template #item="{ element }">
+              <tr
+                :class="[!element.isActive && 'bg-gray-100', element.isActive && hihighlighted.includes(element.id) && 'bg-green-600/5']"
               >
-                <UserProfileLink
-                  class="inline-flex"
-                  :user="user"
+                <th
+                  :class="['p-2 border border-gray-300 text-left', hihighlighted.includes(element.id) && 'bg-green-600/5']"
+                  @click="toggleHighlight(element.id)"
                 >
-                  <div class="flex justify-start items-center">
-                    <span class="inline-flex justify-center items-center size-8 rounded-full">
-                      <img :src="user.avatar">
-                    </span>
-                    <div class="ml-3">
-                      <div class="text-sm font-medium text-gray-900 truncate">
-                        {{ user.name }}
+                  <UserProfileLink
+                    class="inline-flex"
+                    :element="element"
+                  >
+                    <div class="flex justify-start items-center">
+                      <span class="inline-flex justify-center items-center size-8 rounded-full handle cursor-move">
+                        <img :src="element.avatar">
+                      </span>
+                      <div class="ml-3">
+                        <div class="text-sm font-medium text-gray-900 truncate">
+                          {{ element.name }}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </UserProfileLink>
-              </th>
-              <td
-                v-for="day in calendar"
-                :key="day.dayOfMonth"
-                :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday }"
-                class="border border-gray-300"
-                @mouseleave="unsetActiveDay"
-                @mouseover="setActiveDay(user.id + '+' + day.date)"
-              >
-                <div
-                  v-if="user.id in day.vacations"
-                  class="flex justify-center items-center"
+                  </UserProfileLink>
+                </th>
+                <td
+                  v-for="day in calendar"
+                  :key="day.dayOfMonth"
+                  :class="{ 'bg-blumilk-25': day.isToday, 'bg-red-100': day.isWeekend || day.isHoliday }"
+                  class="border border-gray-300 group"
                 >
-                  <CalendarDay
-                    :see-vacation-details="linkVacationRequest(user)"
-                    :vacation="day.vacations[user.id]"
-                  />
-                </div>
-                <template
-                  v-else-if="isActiveDay(user.id + '+' + day.date) && !day.isWeekend && !day.isHoliday && (auth.user.id === user.id || auth.can.createRequestsOnBehalfOfEmployee)"
-                >
-                  <InertiaLink
-                    :data="linkParameters(user, day)"
-                    href="/vacation/requests/create"
+                  <div
+                    v-if="element.id in day.vacations"
+                    class="flex justify-center items-center"
                   >
-                    <div class="flex justify-center items-center">
-                      <VacationTypeCalendarIcon
-                        type="create"
-                      />
-                    </div>
-                  </InertiaLink>
-                </template>
-              </td>
-            </tr>
-          </tbody>
+                    <CalendarDay
+                      :see-vacation-details="linkVacationRequest(element)"
+                      :vacation="day.vacations[element.id]"
+                    />
+                  </div>
+                  <template
+                    v-else-if="!day.isWeekend && !day.isHoliday && (auth.user.id === element.id || auth.can.createRequestsOnBehalfOfEmployee)"
+                  >
+                    <InertiaLink
+                      :data="linkParameters(element, day)"
+                      href="/vacation/requests/create"
+                      class="hidden group-hover:block"
+                    >
+                      <div class="flex justify-center items-center">
+                        <VacationTypeCalendarIcon
+                          type="create"
+                        />
+                      </div>
+                    </InertiaLink>
+                  </template>
+                </td>
+              </tr>
+            </template>
+          </Draggable>
         </table>
       </div>
     </div>
