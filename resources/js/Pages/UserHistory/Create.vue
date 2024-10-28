@@ -36,8 +36,7 @@ function createForm() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Dodaj wpis</template>
+  <AppLayout title="Dodaj wpis">
     <div class="mx-auto w-full max-w-7xl">
       <div class="flex flex-col h-full bg-white shadow-md xl:col-span-2">
         <div class="p-4 sm:px-6">

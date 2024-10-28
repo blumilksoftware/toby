@@ -42,7 +42,7 @@ class PermissionController extends Controller
         $action->execute($user, $request->input("permissions"));
 
         return redirect()
-            ->route("users.index")
+            ->back()
             ->with("success", __("Permissions updated."));
     }
 }

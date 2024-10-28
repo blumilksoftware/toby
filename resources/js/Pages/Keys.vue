@@ -62,8 +62,7 @@ function submitGiveKey() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Klucze</template>
+  <AppLayout title="Klucze">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>

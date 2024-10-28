@@ -34,8 +34,7 @@ function createUser() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Dodawanie użytkownika</template>
+  <AppLayout title="Dodawanie użytkownika">
     <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">

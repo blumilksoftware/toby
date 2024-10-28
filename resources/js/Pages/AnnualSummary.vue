@@ -27,8 +27,7 @@ watch(selectedYear, (value, oldValue) => {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Podsumowanie roczne</template>
+  <AppLayout title="Podsumowanie roczne">
     <div class="bg-white shadow-md">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">

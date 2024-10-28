@@ -75,8 +75,7 @@ function toggleHighlight(id) {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Kalendarz</template>
+  <AppLayout title="Kalendarz">
     <div class="bg-white shadow-md">
       <div class="flex-row sm:flex justify-between items-center p-4 sm:px-6">
         <div class="flex-row sm:flex items-center">

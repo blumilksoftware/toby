@@ -7,8 +7,9 @@ import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import UserOvertimeRequests from '@/Shared/Widgets/UserOvertimeRequests.vue'
 import InertiaLink from '@/Shared/InertiaLink.vue'
 import AppLayout from '@/Shared/Layout/AppLayout.vue'
+import UserLayout from '@/Shared/Layout/UserLayout.vue'
 
-defineProps({
+const props = defineProps({
   user: Object,
   current: Object,
   upcoming: Object,
@@ -22,37 +23,13 @@ defineProps({
   seniority: String,
   equipmentItems: Object,
 })
+
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Profil użytkownika</template>
+  <UserLayout title="Profil użytkownika" :user="user">
     <div class="grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8">
       <div class="grid grid-cols-1 gap-4 xl:col-span-2">
-        <section>
-          <div class=" overflow-hidden bg-white shadow">
-            <div class="p-6 bg-white">
-              <div class="sm:flex sm:justify-between sm:items-center">
-                <div class="sm:flex sm:space-x-5 sm:items-center">
-                  <div class="shrink-0">
-                    <img
-                      :src="user.avatar"
-                      class="mx-auto size-20 rounded-full"
-                    >
-                  </div>
-                  <div class="mt-4 text-center sm:pt-1 sm:mt-0 sm:text-left">
-                    <p class="text-xl font-bold text-gray-900 sm:text-2xl">
-                      {{ user.name }}
-                    </p>
-                    <p class="text-sm font-medium text-gray-600">
-                      {{ user.role }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
         <VacationStats :stats="stats" />
         <UserVacationRequests
           :label="'Wnioski'"
@@ -156,5 +133,5 @@ defineProps({
         </section>
       </div>
     </div>
-  </AppLayout>
+  </UserLayout>
 </template>

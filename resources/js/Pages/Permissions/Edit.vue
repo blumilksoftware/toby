@@ -3,7 +3,7 @@ import { Switch } from '@headlessui/vue'
 import { usePermissionInfo } from '@/Composables/permissionInfo.js'
 import { useForm } from '@inertiajs/vue3'
 import InertiaLink from '@/Shared/InertiaLink.vue'
-import AppLayout from '@/Shared/Layout/AppLayout.vue'
+import UserLayout from '@/Shared/Layout/UserLayout.vue'
 
 const props = defineProps({
   user: Object,
@@ -23,43 +23,9 @@ function editPermissions() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Edycja uprawnień</template>
+  <UserLayout title="Edycja uprawnień" :user="user">
     <div class="bg-white shadow-md">
-      <div class="p-6">
-        <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Edytuj uprawnienia
-        </h2>
-      </div>
-      <div
-        class="bg-gray-50 w-full py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase"
-      >
-        Użytkownik
-      </div>
-      <div class="items-center p-4 flex">
-        <div class="flex">
-          <img
-            class="size-14 mt-1 rounded-full"
-            :src="user.avatar"
-          >
-          <div class="ml-3">
-            <p class="text-md font-medium text-gray-900">
-              {{ user.name }}
-            </p>
-            <p class="text-sm text-gray-500">
-              {{ user.role }}
-            </p>
-            <p class="text-sm text-gray-500">
-              {{ user.email }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="bg-gray-50 w-full py-3 px-4 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase">
-        Uprawnienia
-      </div>
       <form
-        class="w-full py-2 px-4"
         @submit.prevent="editPermissions"
       >
         <template
@@ -68,7 +34,7 @@ function editPermissions() {
         >
           <div
             v-if="sectionPermissions.length > 0"
-            class="w-full my-4 border border-gray-200 items-start"
+            class="w-full my-4 border-t border-gray-200 items-start"
           >
             <div
               class="group w-full max-w-full overflow-hidden flex items-center justify-between p-4 font-semibold text-gray-500"
@@ -120,7 +86,7 @@ function editPermissions() {
           </div>
         </template>
         <div class="flex justify-end py-3">
-          <div class="space-x-3">
+          <div class="space-x-3 px-4 py-2">
             <InertiaLink
               href="/users"
               class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
@@ -139,5 +105,5 @@ function editPermissions() {
         </div>
       </form>
     </div>
-  </AppLayout>
+  </UserLayout>
 </template>

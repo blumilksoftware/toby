@@ -57,8 +57,7 @@ watch(form, debounce(() => {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Sprzęt</template>
+  <AppLayout title="Sprzęt">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>

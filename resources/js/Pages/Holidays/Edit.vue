@@ -19,8 +19,7 @@ function editHoliday() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Edytuj dzień wolny</template>
+  <AppLayout title="Edytuj dzień wolny">
     <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">

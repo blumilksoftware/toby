@@ -32,8 +32,7 @@ watch(() => props.handyCalendarData, () => {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>`Wniosek ${request.name}`</template>
+  <AppLayout :title="`Wniosek ${request.name}`">
     <div class="grid grid-cols-1 gap-6 xl:grid-cols-3 xl:grid-flow-col-dense">
       <div class="space-y-6 xl:col-span-2 xl:col-start-1">
         <div class="bg-white shadow-md">

@@ -32,8 +32,7 @@ function submitCreateBenefit() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Benefity</template>
+  <AppLayout title="Benefity">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>

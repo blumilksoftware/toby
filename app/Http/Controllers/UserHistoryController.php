@@ -10,6 +10,7 @@ use Toby\Enums\EmploymentForm;
 use Toby\Enums\UserHistoryType;
 use Toby\Http\Requests\UserHistoryRequest;
 use Toby\Http\Resources\UserHistoryResource;
+use Toby\Http\Resources\UserResource;
 use Toby\Models\User;
 use Toby\Models\UserHistory;
 
@@ -25,7 +26,7 @@ class UserHistoryController extends Controller
 
         return inertia("UserHistory/Index", [
             "history" => UserHistoryResource::collection($history),
-            "userId" => $user->id,
+            "user" => new UserResource($user),
         ]);
     }
 
@@ -47,7 +48,7 @@ class UserHistoryController extends Controller
         $user->histories()->create($request->data());
 
         return redirect()
-            ->route("users.history", $user)
+            ->back("users.history", $user)
             ->with("success", __("User history created."));
     }
 

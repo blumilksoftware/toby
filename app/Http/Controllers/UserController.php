@@ -94,7 +94,8 @@ class UserController extends Controller
         $this->authorize("manageUsers");
 
         return inertia("Users/Edit", [
-            "user" => new UserFormDataResource($user),
+            "user" => new UserResource($user),
+            "form" => new UserFormDataResource($user),
             "employmentForms" => EmploymentForm::casesToSelect(),
             "roles" => Role::casesToSelect(),
         ]);
@@ -120,7 +121,7 @@ class UserController extends Controller
         }
 
         return redirect()
-            ->route("users.index")
+            ->back()
             ->with("success", __("User updated."));
     }
 

@@ -33,8 +33,7 @@ function editEquipmentItem() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Edytowanie sprzętu</template>
+  <AppLayout title="Edytowanie sprzętu">
     <div class="mx-auto w-full max-w-7xl bg-white shadow-md">
       <div class="p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">
