@@ -2,15 +2,12 @@
 
 import InertiaLink from '@/Shared/InertiaLink.vue'
 import AppLayout from '@/Shared/Layout/AppLayout.vue'
-import { usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
 const props = defineProps({
   user: Object,
   title: String,
 })
-
-const page = usePage()
 
 const pages = computed(() => [
   {
@@ -34,8 +31,6 @@ const pages = computed(() => [
     href: `/vacation/requests?user=${props.user.id}`,
   },
 ])
-
-const current = computed(() => pages.value.find(item => page.url === (item.href)))
 </script>
 
 <template>
@@ -67,11 +62,11 @@ const current = computed(() => pages.value.find(item => page.url === (item.href)
             v-for="page in pages"
             :key="page.href"
             :href="page.href"
-            :class="[current.href === page.href ? 'text-blumilk-600 font-semibold' : 'hover:bg-blumilk-25 text-gray-700 focus:z-10', 'group relative min-w-0 flex-1 overflow-hidden focus:outline-blumilk-500 bg-white p-4 text-sm font-medium text-center']"
+            :class="[$page.url === page.href ? 'text-blumilk-600 font-semibold' : 'hover:bg-blumilk-25 text-gray-700 focus:z-10', 'group relative min-w-0 flex-1 overflow-hidden focus:outline-blumilk-500 bg-white p-4 text-sm font-medium text-center']"
           >
             <span>{{ page.name }}</span>
             <span
-              :class="[current.href === page.href ? 'bg-blumilk-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']"
+              :class="[$page.url === page.href ? 'bg-blumilk-500' : 'bg-transparent', 'absolute inset-x-0 bottom-0 h-0.5']"
             />
           </InertiaLink>
         </div>
