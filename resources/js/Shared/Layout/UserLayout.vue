@@ -57,7 +57,7 @@ const pages = computed(() => [
             </div>
           </div>
         </div>
-        <div class="border-t hidden relative divide-x divide-gray-200 shadow md:flex">
+        <div class="border-t relative divide-x divide-gray-200 shadow flex flex-col md:flex-row">
           <InertiaLink
             v-for="page in pages"
             :key="page.href"
