@@ -3,34 +3,42 @@
 import InertiaLink from '@/Shared/InertiaLink.vue'
 import AppLayout from '@/Shared/Layout/AppLayout.vue'
 import { computed } from 'vue'
+import { useGlobalProps } from '@/Composables/useGlobalProps.js'
 
 const props = defineProps({
   user: Object,
   title: String,
 })
 
+const { auth } = useGlobalProps()
+
 const pages = computed(() => [
   {
     name: 'Informacje podstawowe',
     href: `/users/${props.user.id}`,
+    show: true,
   },
   {
     name: 'Edycja danych',
     href: `/users/${props.user.id}/edit`,
+    show: true,
   },
   {
     name: 'Uprawnienia',
     href: `/users/${props.user.id}/permissions`,
+    show: auth.value.can.managePermissions,
   },
   {
     name: 'Historia',
     href: `/users/${props.user.id}/history`,
+    show: true,
   },
   {
     name: 'Wnioski',
     href: `/vacation/requests?user=${props.user.id}`,
+    show: true,
   },
-])
+].filter(item => item.show))
 </script>
 
 <template>
