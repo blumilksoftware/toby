@@ -48,7 +48,7 @@ class UserHistoryController extends Controller
         $user->histories()->create($request->data());
 
         return redirect()
-            ->back("users.history", $user)
+            ->route("users.history", $user)
             ->with("success", __("User history created."));
     }
 
@@ -81,7 +81,7 @@ class UserHistoryController extends Controller
         $history->delete();
 
         return redirect()
-            ->back()
+            ->route("users.history", $history->user_id)
             ->with("success", __("User history deleted."));
     }
 }
