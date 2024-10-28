@@ -4,24 +4,25 @@ import FlatPickr from 'vue-flatpickr-component'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/24/solid'
 import InertiaLink from '@/Shared/InertiaLink.vue'
-import AppLayout from '@/Shared/Layout/AppLayout.vue'
+import UserLayout from '@/Shared/Layout/UserLayout.vue'
 
 const props = defineProps({
   employmentForms: Object,
   roles: Object,
+  form: Object,
   user: Object,
 })
 
 const form = useForm({
-  firstName: props.user.firstName,
-  lastName: props.user.lastName,
-  email: props.user.email,
-  role: props.roles.find(role => role.value === props.user.role),
-  position: props.user.position,
-  employmentForm: props.employmentForms.find(form => form.value === props.user.employmentForm),
-  employmentDate: props.user.employmentDate,
-  birthday: props.user.birthday,
-  slackId: props.user.slackId,
+  firstName: props.form.firstName,
+  lastName: props.form.lastName,
+  email: props.form.email,
+  role: props.roles.find(role => role.value === props.form.role),
+  position: props.form.position,
+  employmentForm: props.employmentForms.find(form => form.value === props.form.employmentForm),
+  employmentDate: props.form.employmentDate,
+  birthday: props.form.birthday,
+  slackId: props.form.slackId,
 })
 
 function editUser() {
@@ -36,14 +37,8 @@ function editUser() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Edycja użytkownika</template>
+  <UserLayout title="Edycja użytkownika" :user="user">
     <div class="bg-white shadow-md">
-      <div class="p-4 sm:px-6">
-        <h2 class="text-lg font-medium leading-6 text-gray-900">
-          Edytuj użytkownika
-        </h2>
-      </div>
       <form
         class="px-6 border-t border-gray-200"
         @submit.prevent="editUser"
@@ -321,5 +316,5 @@ function editUser() {
         </div>
       </form>
     </div>
-  </AppLayout>
+  </UserLayout>
 </template>

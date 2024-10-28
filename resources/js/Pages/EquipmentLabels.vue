@@ -29,8 +29,7 @@ function submitCreateLabel() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Etykiety</template>
+  <AppLayout title="Etykiety">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>

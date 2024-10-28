@@ -160,8 +160,7 @@ async function refreshAvailableTypes(user) {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Dodaj wniosek</template>
+  <AppLayout title="Dodaj wniosek">
     <div
       :class="[stats.limit > 0 ? ' grid grid-cols-1 gap-4 items-start xl:grid-cols-3 xl:gap-8' : 'mx-auto w-full max-w-7xl']"
     >

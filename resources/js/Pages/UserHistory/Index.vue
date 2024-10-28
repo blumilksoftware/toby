@@ -7,18 +7,17 @@ import {
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import InertiaLink from '@/Shared/InertiaLink.vue'
-import AppLayout from '@/Shared/Layout/AppLayout.vue'
+import UserLayout from '@/Shared/Layout/UserLayout.vue'
 
-defineProps({
+const props = defineProps({
+  user: Object,
   history: Object,
-  userId: Number,
 })
 
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Szczegóły użytkownika</template>
+  <UserLayout title="Szczegóły użytkownika" :user="user">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>
@@ -28,7 +27,7 @@ defineProps({
         </div>
         <div>
           <InertiaLink
-            :href="`/users/${userId}/history/create`"
+            :href="`/users/${user.id}/history/create`"
             class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
             Dodaj wpis
@@ -175,5 +174,5 @@ defineProps({
         </div>
       </div>
     </div>
-  </AppLayout>
+  </UserLayout>
 </template>

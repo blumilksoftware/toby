@@ -10,6 +10,10 @@ import { useGlobalProps } from '@/Composables/useGlobalProps'
 
 const toast = useToast()
 
+defineProps({
+  title: String,
+})
+
 const {
   deployInformation,
   flash,
@@ -40,9 +44,7 @@ function vacationPageOpened() {
 </script>
 
 <template>
-  <Head>
-    <slot name="title" />
-  </Head>
+  <Head :title="title" />
   <LastUpdate
     v-if="auth.can.listAllRequests"
     :is-updated="isUpdated"

@@ -29,8 +29,7 @@ function submitCreateTechnology() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Technologie</template>
+  <AppLayout title="Technologie">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>

@@ -14,8 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>CV</template>
+  <AppLayout title="CV">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <h2 class="text-lg font-medium leading-6 text-gray-900">

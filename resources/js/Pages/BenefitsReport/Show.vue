@@ -48,8 +48,7 @@ function generateUrl() {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>`Raport benefitowy - ${benefitsReport.name}`</template>
+  <AppLayout :title="`Raport benefitowy - ${benefitsReport.name}`">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>

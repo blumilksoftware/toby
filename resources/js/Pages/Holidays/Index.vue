@@ -31,8 +31,7 @@ watch(selectedYear, (value, oldValue) => {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Dni wolne od pracy</template>
+  <AppLayout title="Dni wolne od pracy">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>

@@ -100,8 +100,7 @@ function isBenefitHasCompanion(benefitId) {
 </script>
 
 <template>
-  <AppLayout>
-    <template #title>Aktualne benefity</template>
+  <AppLayout title="Aktualne benefity">
     <div class="bg-white shadow-md">
       <div class="flex justify-between items-center p-4 sm:px-6">
         <div>
