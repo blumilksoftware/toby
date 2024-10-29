@@ -1,6 +1,6 @@
 <script setup>
 import { ArrowUturnLeftIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import VacationTypeCalendarIcon from '@/Shared/VacationTypeCalendarIcon.vue'
 import CalendarDay from '@/Shared/CalendarDay.vue'
 import UserProfileLink from '@/Shared/UserProfileLink.vue'
@@ -22,10 +22,14 @@ const props = defineProps({
 
 const { auth } = useGlobalProps()
 
-const highlighted = useStorage(`calendar-highlight:${auth.value.user.id}`, [])
-const order = useStorage(`calendar-order:${auth.value.user.id}`, props.users.data.map(user => user.id))
+const defaultOrder = computed(() => props.users.data.map(user => user.id))
 
-const usersInOrder = ref([...props.users.data].sort((a, b) => order.value.indexOf(a.id) > order.value.indexOf(b.id) ? 1 : -1))
+const highlighted = useStorage(`calendar-highlight:${auth.value.user.id}`, [])
+const order = useStorage(`calendar-order:${auth.value.user.id}`, defaultOrder.value)
+
+const settingsChanged = computed(() => highlighted.value.length || defaultOrder.value.toString() !== order.value.toString())
+
+const usersInOrder = ref(defaultSort())
 
 const currentDate = DateTime.now()
 
@@ -72,6 +76,16 @@ function toggleHighlight(id) {
 
   highlighted.value.push(id)
 }
+
+function defaultSort() {
+  return [...props.users.data].sort((a, b) => order.value.indexOf(a.id) > order.value.indexOf(b.id) ? 1 : -1)
+}
+
+function resetSettings() {
+  highlighted.value = []
+  order.value = defaultOrder.value
+  usersInOrder.value = defaultSort()
+}
 </script>
 
 <template>
@@ -88,7 +102,7 @@ function toggleHighlight(id) {
               class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-l-md border border-r-0 border-gray-300 md:px-2 md:w-9 md:hover:bg-gray-50"
               @click="previousMonth()"
             >
-              <ChevronLeftIcon class="size-5" />
+              <ChevronLeftIcon class="size-6 md:size-5" />
             </button>
             <MonthPicker
               :model-value="selectedMonth.toFormat('LL-yyyy')"
@@ -100,7 +114,7 @@ function toggleHighlight(id) {
               class="flex focus:relative justify-center items-center p-2 text-gray-400 hover:text-gray-500 bg-white rounded-r-md border border-l-0 border-gray-300 focus:outline-blumilk-500 md:px-2 md:w-9 md:hover:bg-gray-50"
               @click="nextMonth()"
             >
-              <ChevronRightIcon class="size-5" />
+              <ChevronRightIcon class="size-6 md:size-5" />
             </button>
             <button
               v-if="selectedMonth.toFormat('LL-yyyy') !== currentDate.toFormat('LL-yyyy')"
@@ -119,6 +133,16 @@ function toggleHighlight(id) {
           <div
             class="flex items-center justify-end gap-3 mt-3 sm:mt-0"
           >
+            <button
+              v-if="settingsChanged"
+              type="button"
+              class="flex focus:relative justify-center items-center p-2 bg-white md:px-2 md:hover:bg-gray-50 ml-1"
+              @click="resetSettings"
+            >
+              <span class="ml-1.5 text-sm font-semibold text-blumilk-600 hover:text-blumilk-500">
+                Domyślne ustawienia
+              </span>
+            </button>
             <a
               v-if="auth.can.manageRequestsAsAdministrativeApprover"
               :href="`/vacation/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
@@ -183,7 +207,7 @@ function toggleHighlight(id) {
                 :class="[!element.isActive && 'bg-gray-100', element.isActive && highlighted.includes(element.id) && 'bg-green-600/5']"
               >
                 <th
-                  :class="['p-2 border border-gray-300 text-left', highlighted.includes(element.id) && 'bg-green-600/5']"
+                  :class="['p-2 border border-gray-300 text-left handle', highlighted.includes(element.id) && 'bg-green-600/5']"
                   @click="toggleHighlight(element.id)"
                 >
                   <UserProfileLink
@@ -191,7 +215,7 @@ function toggleHighlight(id) {
                     :user="element"
                   >
                     <div class="flex justify-start items-center">
-                      <span class="inline-flex justify-center items-center size-8 rounded-full handle cursor-move">
+                      <span class="inline-flex justify-center items-center size-8 rounded-full">
                         <img :src="element.avatar">
                       </span>
                       <div class="ml-3">

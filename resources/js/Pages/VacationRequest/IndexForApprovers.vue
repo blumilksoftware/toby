@@ -308,7 +308,7 @@ watch(form, debounce(() => {
             label="Rok"
             :from="currentDate.year + 1"
             :to="currentDate.year - 20"
-            class="inline-block ml-2"
+            class="inline-block"
           />
         </div>
       </div>
