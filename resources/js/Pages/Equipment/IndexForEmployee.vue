@@ -11,6 +11,7 @@ import {
   XMarkIcon,
   ComputerDesktopIcon,
 } from '@heroicons/vue/24/solid'
+import AppLayout from '@/Shared/Layout/AppLayout.vue'
 
 const props = defineProps({
   equipmentItems: Object,

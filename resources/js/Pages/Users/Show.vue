@@ -6,7 +6,6 @@ import { ComputerDesktopIcon } from '@heroicons/vue/24/outline'
 import EmptyState from '@/Shared/Feedbacks/EmptyState.vue'
 import UserOvertimeRequests from '@/Shared/Widgets/UserOvertimeRequests.vue'
 import InertiaLink from '@/Shared/InertiaLink.vue'
-import AppLayout from '@/Shared/Layout/AppLayout.vue'
 import UserLayout from '@/Shared/Layout/UserLayout.vue'
 
 const props = defineProps({
