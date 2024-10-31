@@ -22,7 +22,7 @@ class VacationCalendarController extends Controller
         ?string $month = null,
     ): Response|RedirectResponse {
         $month = Carbon::canBeCreatedFromFormat($month, "m-Y")
-            ? Carbon::createFromFormat("m-Y", $month)
+            ? Carbon::createFromFormat("d-m-Y", "01-$month")
             : Carbon::now();
 
         /** @var User $currentUser */

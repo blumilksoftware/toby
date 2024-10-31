@@ -20,7 +20,7 @@ class TimesheetController extends Controller
         $this->authorize("manageRequestsAsAdministrativeApprover");
 
         $month = Carbon::canBeCreatedFromFormat($month, "m-Y")
-            ? Carbon::createFromFormat("m-Y", $month)
+            ? Carbon::createFromFormat("d-m-Y", "01-$month")
             : Carbon::now();
 
         $users = User::query()
