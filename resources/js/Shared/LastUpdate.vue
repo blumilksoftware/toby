@@ -1,30 +1,25 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import axios from 'axios'
-import { updateFavicon } from '@/Shared/updateFavicon'
-
-const props = defineProps({
-  lastUpdate: String,
-})
 
 const emit = defineEmits(['lastUpdateUpdated'])
+
+let interval = undefined
 
 const fetchLastUpdate = async () => {
   try {
     const response = await axios.get('/api/last-update')
-    if (response.data.lastUpdate !== props.lastUpdate) {
-      emit('lastUpdateUpdated')
-      updateFavicon('/images/icon-alert.png')
-    }
+    emit('lastUpdateUpdated', response.data.lastUpdate)
   } catch (error) {
     console.error('Failed to fetch last update.')
   }
 }
 
 onMounted(() => {
-  fetchLastUpdate()
-  setInterval(fetchLastUpdate, import.meta.env.VITE_LAST_UPDATE_TIMEOUT)
+  interval = setInterval(fetchLastUpdate, import.meta.env.VITE_LAST_UPDATE_TIMEOUT)
 })
+
+onUnmounted(() => clearInterval(interval))
 </script>
 
 <template>

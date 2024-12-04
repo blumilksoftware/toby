@@ -2,7 +2,7 @@
 import MainMenu from '@/Shared/MainMenu.vue'
 import LastUpdate from '@/Shared/LastUpdate.vue'
 import { useToast } from 'vue-toastification'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import DeployInfo from '@/Shared/DeployInfo.vue'
 import { updateFavicon } from '@/Shared/updateFavicon'
 import { Head } from '@inertiajs/vue3'
@@ -21,6 +21,8 @@ const {
   lastUpdate,
 } = useGlobalProps()
 
+const lastUpdateValue = ref(lastUpdate.value)
+
 watch(flash, value => {
   if (value.success) {
     toast.success(value.success)
@@ -35,26 +37,20 @@ watch(flash, value => {
   }
 }, { immediate: true })
 
-const isUpdated = ref(false)
+const isUpdated = computed(() => lastUpdate.value !== lastUpdateValue.value)
 
-function vacationPageOpened() {
-  isUpdated.value = false
-  updateFavicon('/images/icon.png')
-}
+watch(isUpdated, (value) => updateFavicon(value ? '/images/icon-alert.png' : '/images/icon.png'), { immediate: true })
 </script>
 
 <template>
   <Head :title="title" />
   <LastUpdate
     v-if="auth.can.listAllRequests"
-    :is-updated="isUpdated"
-    :last-update="lastUpdate"
-    @last-update-updated="isUpdated = true"
+    @last-update-updated="lastUpdateValue = $event"
   />
   <div class="relative min-h-screen">
     <MainMenu
-      :show-refresh-button="isUpdated"
-      @open="vacationPageOpened"
+      :show-refresh-button="isUpdated && auth.can.listAllRequests"
     />
     <main class="flex flex-col flex-1 py-8 lg:ml-60">
       <div class="lg:px-4">
