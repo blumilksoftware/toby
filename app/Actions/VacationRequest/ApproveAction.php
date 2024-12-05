@@ -35,7 +35,10 @@ class ApproveAction
 
     protected function notify(VacationRequest $vacationRequest): void
     {
-        $users = Permission::findByName("receiveVacationRequestStatusChangedNotification")->users()->get();
+        $users = Permission::findByName("receiveVacationRequestStatusChangedNotification")
+            ->users()
+            ->where("id", "!=", $vacationRequest->user->id)
+            ->get();
 
         foreach ($users as $user) {
             $user->notify(new VacationRequestStatusChangedNotification($vacationRequest, $user));
