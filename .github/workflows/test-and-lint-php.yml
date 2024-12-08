@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-22.04
     services:
       pgsql:
-        image: postgres:15@sha256:8e97b8526ed19304b144f7478bc9201646acf0723cdc100e9bb7495712cbadb6
+        image: postgres:15@sha256:6cbdd616ae7ea61fa88873fdab529b3fd141b8a8311bfe4e6e62575f643f88fe
         env:
           POSTGRES_DB: toby
           POSTGRES_USER: toby
@@ -34,13 +34,13 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Cache dependencies
-        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
         with:
           path: vendor
           key: ${{ runner.os }}-composer-dependencies-${{ hashFiles('composer.lock') }}

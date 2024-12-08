@@ -1,5 +1,5 @@
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.3.12
+ARG PHP_VERSION=8.4.1
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
@@ -20,10 +20,10 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
     && chmod +x /usr/local/bin/sops
 
 # https://hub.docker.com/r/composer/composer
-FROM composer/composer:2.7.9-bin@sha256:c94279dd97032306607c831c6cbe66c506b85e6a8d9faa5113771d7bafabccb9 AS composer-bin
+FROM composer/composer:2.8.3-bin@sha256:9f83907ae037ada989775f462a19932cdd388fefcbf3b697780363bba1767f94 AS composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:22.9.0-bullseye-slim@sha256:4a83e32ec60a6a33ec2eef397a0782f144d5114e45ceed717758b92391e852d6 AS node
+FROM node:22.12.0-bullseye-slim@sha256:9f385b101f66ecdf9ed9218d000cd5a35600722f0aab8112632371765109c065 AS node
 
 FROM php:${PHP_VERSION}-cli-bullseye AS unit-modules-builder
 
