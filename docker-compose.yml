@@ -38,7 +38,7 @@ services:
         condition: service_healthy
 
   database:
-    image: postgres:15@sha256:8e97b8526ed19304b144f7478bc9201646acf0723cdc100e9bb7495712cbadb6
+    image: postgres:15@sha256:6cbdd616ae7ea61fa88873fdab529b3fd141b8a8311bfe4e6e62575f643f88fe
     container_name: toby-db-dev
     environment:
       - PGPASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
@@ -99,7 +99,7 @@ services:
     restart: unless-stopped
 
   selenium:
-    image: selenium/standalone-chrome@sha256:3e48c9040f1948ee07283c18b7efc2b1687ce8513e4d3aeb3e34fa6058a61abc
+    image: selenium/standalone-chrome@sha256:9aea0e8f2b0a90da142082d8d739b9aa996dad922efc00e4084b5b82087b57f7
     container_name: toby-selenium-dev
     volumes:
       - /dev/shm:/dev/shm
