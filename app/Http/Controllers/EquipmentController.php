@@ -122,7 +122,7 @@ class EquipmentController extends Controller
     ): RedirectResponse {
         $this->authorize("manageEquipment");
 
-        EquipmentItem::query()->create($request->data());
+        EquipmentItem::query()->create($request->getData());
 
         return redirect()
             ->route("equipment-items.index")
@@ -157,7 +157,7 @@ class EquipmentController extends Controller
     ): RedirectResponse {
         $this->authorize("manageUsers");
 
-        $equipmentItem->update($request->data());
+        $equipmentItem->update($request->getData());
 
         return redirect()
             ->route("equipment-items.index")
