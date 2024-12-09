@@ -22,7 +22,7 @@ class EquipmentRequest extends FormRequest
         ];
     }
 
-    public function data(): array
+    public function getData(): array
     {
         return [
             "id_number" => $this->get("idNumber"),

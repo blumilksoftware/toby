@@ -55,7 +55,7 @@ class VacationLimitController extends Controller
     {
         $this->authorize("manageVacationLimits");
 
-        foreach ($request->data() as $limit) {
+        foreach ($request->getData() as $limit) {
             VacationLimit::query()->updateOrCreate(
                 [
                     "user_id" => $limit["user"],

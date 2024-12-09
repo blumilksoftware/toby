@@ -33,7 +33,7 @@ class EquipmentLabelController extends Controller
     {
         $this->authorize("manageEquipment");
 
-        $label = EquipmentLabel::query()->create($request->data());
+        $label = EquipmentLabel::query()->create($request->getData());
 
         return redirect()
             ->back()

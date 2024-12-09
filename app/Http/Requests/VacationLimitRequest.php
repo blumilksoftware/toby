@@ -19,7 +19,7 @@ class VacationLimitRequest extends FormRequest
         ];
     }
 
-    public function data(): Collection
+    public function getData(): Collection
     {
         return $this->collect("items");
     }

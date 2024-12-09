@@ -33,7 +33,7 @@ class TechnologyController extends Controller
     {
         $this->authorize("manageResumes");
 
-        $technology = Technology::query()->create($request->data());
+        $technology = Technology::query()->create($request->getData());
 
         return redirect()
             ->back()
