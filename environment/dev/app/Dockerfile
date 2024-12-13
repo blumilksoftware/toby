@@ -1,5 +1,5 @@
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.4.1
+ARG PHP_VERSION=8.3.14
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.31.1-1
