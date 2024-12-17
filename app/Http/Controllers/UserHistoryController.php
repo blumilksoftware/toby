@@ -45,7 +45,7 @@ class UserHistoryController extends Controller
     {
         $this->authorize("manageUsers");
 
-        $user->histories()->create($request->data());
+        $user->histories()->create($request->getData());
 
         return redirect()
             ->route("users.history", $user)
@@ -67,7 +67,7 @@ class UserHistoryController extends Controller
     {
         $this->authorize("manageUsers");
 
-        $history->update($request->data());
+        $history->update($request->getData());
 
         return redirect()
             ->route("users.history", $history->user_id)

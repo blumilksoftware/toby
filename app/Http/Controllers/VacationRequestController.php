@@ -256,7 +256,7 @@ class VacationRequestController extends Controller
             $this->authorize("skipRequestFlow");
         }
 
-        $vacationRequest = $createAction->execute($request->data(), $request->user());
+        $vacationRequest = $createAction->execute($request->getData(), $request->user());
 
         return redirect()
             ->route("vacation.requests.show", $vacationRequest)

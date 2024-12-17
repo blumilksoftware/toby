@@ -159,7 +159,7 @@ class OvertimeRequestController extends Controller
     {
         $this->authorize("canUseOvertimeRequestFunctionality", $request->user());
 
-        $overtimeRequest = $createAction->execute($request->data(), $request->user());
+        $overtimeRequest = $createAction->execute($request->getData(), $request->user());
 
         return redirect()
             ->route("overtime.requests.show", $overtimeRequest)
