@@ -14,7 +14,8 @@ on:
       - 'composer.json'
       - 'composer.lock'
       - 'phpunit.xml'
-      - 'env.ci'
+      - '.env.ci'
+      - 'test-and-lint-php.yml'
 
 jobs:
   test-and-lint-php:
@@ -23,13 +24,12 @@ jobs:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-22.04
     services:
-      pgsql:
+      postgres:
         image: postgres:15@sha256:6cbdd616ae7ea61fa88873fdab529b3fd141b8a8311bfe4e6e62575f643f88fe
         env:
-          POSTGRES_DB: toby
+          POSTGRES_DB: toby-test
           POSTGRES_USER: toby
           POSTGRES_PASSWORD: password
-          PGPASSWORD: password
         ports:
           - 5432:5432
 
@@ -60,4 +60,6 @@ jobs:
         run: composer cs
 
       - name: Execute tests
-        run: php artisan test --env=ci
+        run: |
+          cp .env.ci .env
+          php artisan test --colors=always
