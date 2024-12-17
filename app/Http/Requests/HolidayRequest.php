@@ -21,7 +21,7 @@ class HolidayRequest extends FormRequest
         ];
     }
 
-    public function data(): array
+    public function getData(): array
     {
         $date = $this->get("date");
 

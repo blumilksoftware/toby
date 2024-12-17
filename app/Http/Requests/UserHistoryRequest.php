@@ -22,7 +22,7 @@ class UserHistoryRequest extends FormRequest
         ];
     }
 
-    public function data(): array
+    public function getData(): array
     {
         return [
             "from" => $this->get("from"),

@@ -48,7 +48,7 @@ class HolidayController extends Controller
     {
         $this->authorize("manageHolidays");
 
-        Holiday::query()->create($request->data());
+        Holiday::query()->create($request->getData());
 
         return redirect()
             ->route("holidays.index")
@@ -74,7 +74,7 @@ class HolidayController extends Controller
     {
         $this->authorize("manageHolidays");
 
-        $holiday->update($request->data());
+        $holiday->update($request->getData());
 
         return redirect()
             ->route("holidays.index")

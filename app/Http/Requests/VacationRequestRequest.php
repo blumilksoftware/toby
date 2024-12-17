@@ -23,7 +23,7 @@ class VacationRequestRequest extends FormRequest
         ];
     }
 
-    public function data(): array
+    public function getData(): array
     {
         return [
             "user_id" => $this->get("user"),
