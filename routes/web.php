@@ -39,6 +39,7 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
 
     Route::resource("users", UserController::class)
         ->except("show")
+        ->withTrashed()
         ->whereNumber("user");
     Route::get("/users/{user}", [UserController::class, "show"])
         ->withTrashed()
@@ -47,21 +48,29 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         ->whereNumber("user")
         ->withTrashed();
     Route::get("/users/{user}/permissions", [PermissionController::class, "show"])
+        ->withTrashed()
         ->whereNumber("user");
     Route::patch("/users/{user}/permissions", [PermissionController::class, "update"])
+        ->withTrashed()
         ->whereNumber("user");
     Route::get("/users/{user}/history", [UserHistoryController::class, "index"])
+        ->withTrashed()
         ->whereNumber("user")
         ->name("users.history");
     Route::get("/users/{user}/history/create", [UserHistoryController::class, "create"])
+        ->withTrashed()
         ->whereNumber("user");
     Route::post("/users/{user}/history", [UserHistoryController::class, "store"])
+        ->withTrashed()
         ->whereNumber("user");
     Route::get("/users/history/{history}", [UserHistoryController::class, "edit"])
+        ->withTrashed()
         ->whereNumber("history");
     Route::put("/users/history/{history}", [UserHistoryController::class, "update"])
+        ->withTrashed()
         ->whereNumber("history");
     Route::delete("/users/history/{history}", [UserHistoryController::class, "destroy"])
+        ->withTrashed()
         ->whereNumber("history");
 
     Route::resource("equipment-items", EquipmentController::class)

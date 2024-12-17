@@ -104,15 +104,19 @@ class VacationRequestController extends Controller
 
         $year = $request->get("year");
         $status = $request->get("status", "all");
-        $user = $request->get("user");
         $type = $request->get("type");
         $authUser = $request->user();
         $withTrashedUsers = $authUser->canSeeInactiveUsers();
 
+        $user = User::query()
+            ->withTrashed($withTrashedUsers)
+            ->where("id", $request->get("user"))
+            ->first();
+
         $vacationRequests = VacationRequest::query()
             ->with(["vacations.user.profile", "user.permissions", "user.profile"])
             ->whereRelation("user", fn(Builder $query): Builder => $query->withTrashed($withTrashedUsers))
-            ->when($user !== null, fn(Builder $query): Builder => $query->where("user_id", $user))
+            ->when($user !== null, fn(Builder $query): Builder => $query->whereBelongsTo($user))
             ->when($type !== null, fn(Builder $query): Builder => $query->where("type", $type))
             ->when($year !== null, fn(Builder $query): Builder => $query->whereYear("from", $year))
             ->states(VacationRequestStatesRetriever::filterByStatusGroup($status, $authUser))
@@ -131,7 +135,7 @@ class VacationRequestController extends Controller
             "types" => VacationType::casesToSelect(),
             "filters" => [
                 "status" => $status,
-                "user" => (int)$user,
+                "user" => $user?->id,
                 "type" => $type,
                 "year" => $year === null ? $year : (int)$year,
             ],
