@@ -13,7 +13,7 @@
         "dompdf/dompdf": "^3.0",
         "fakerphp/faker": "^1.24.1",
         "guzzlehttp/guzzle": "^7.9.2",
-        "inertiajs/inertia-laravel": "^1.3.1",
+        "inertiajs/inertia-laravel": "^2.0",
         "laragear/cache-query": "^4.0",
         "laravel/framework": "^11.34.2",
         "laravel/sanctum": "^4.0.5",
@@ -34,7 +34,7 @@
         "laravel/dusk": "^8.2.12",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.5.0",
-        "phpunit/phpunit": "^11.4.4",
+        "phpunit/phpunit": "^11.5",
         "spatie/laravel-ignition": "^2.9.0"
     },
     "autoload": {

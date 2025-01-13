@@ -1,18 +1,19 @@
 <script setup>
 import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { computed, reactive, onMounted } from 'vue'
+import { computed, reactive, onMounted, ref } from 'vue'
 import { DateTime } from 'luxon'
 import useVacationTypeInfo from '@/Composables/vacationTypeInfo.js'
 import { useMonthInfo } from '@/Composables/monthInfo.js'
 import { viewModes, find as findViewMode } from '@/Shared/Widgets/Calendar/ViewModeOptions.js'
 import DayComponent from '@/Shared/Widgets/Calendar/DayComponent.vue'
 import { useStorage } from '@vueuse/core'
+import axios from 'axios'
 
 const props = defineProps({
-  holidays: Object,
-  approvedVacations: Object,
-  pendingVacations: Object,
+  initHolidays: Object,
+  initApprovedVacations: Object,
+  initPendingVacations: Object,
 })
 
 const currentDate = DateTime.now()
@@ -25,6 +26,11 @@ const calendar = reactive({
   date: currentDate.startOf('week'),
 })
 
+const holidays = ref(new Map())
+const approvedVacations = ref(new Map())
+const pendingVacations = ref(new Map())
+const loadedYears = ref([])
+
 const calendarState = reactive({
   viewMode: {
     isWeek: computed(() => calendar.viewMode === 'week'),
@@ -36,7 +42,22 @@ const calendarState = reactive({
   isNext: computed(() => calendar.date.plus({ [calendar.viewMode]: 1 }).year === currentDate.year),
 })
 
-onMounted(() => loadCalendar())
+onMounted(() => {
+  for (const [key, value] of Object.entries(props.initHolidays)) {
+    holidays.value.set(key, value)
+  }
+
+  for (const [key, value] of Object.entries(props.initApprovedVacations)) {
+    approvedVacations.value.set(key, value)
+  }
+
+  for (const [key, value] of Object.entries(props.initPendingVacations)) {
+    pendingVacations.value.set(key, value)
+  }
+
+  loadedYears.value.push(currentDate.year)
+  loadCalendar()
+})
 
 function loadCalendar() {
   let days = []
@@ -50,6 +71,25 @@ function loadCalendar() {
 
   calendar.days = days
 }
+
+async function loadYear(year) {
+  const res = await axios.get(`/api/dashboard/calendar/${year}`)
+
+  for (const [key, value] of Object.entries(res.data.holidays)) {
+    holidays.value.set(key, value)
+  }
+
+  for (const [key, value] of Object.entries(res.data.approvedVacations)) {
+    approvedVacations.value.set(key, value)
+  }
+
+  for (const [key, value] of Object.entries(res.data.pendingVacations)) {
+    pendingVacations.value.set(key, value)
+  }
+
+  loadedYears.value.push(year)
+}
+
 function prepareDay(day) {
   const isCurrentMonth = isInCurrentMonth(day)
   const startDay = {
@@ -71,20 +111,32 @@ function prepareDay(day) {
   }
 }
 
-function today() {
+async function today() {
   calendar.date = currentDate
 
+  if (!loadedYears.value.includes(calendar.date.year)) {
+    await loadYear(calendar.date.year)
+  }
+
   loadCalendar()
 }
 
-function previous() {
+async function previous() {
   calendar.date = calendar.date.minus({ [calendar.viewMode]: 1 })
 
+  if (!loadedYears.value.includes(calendar.date.year)) {
+    await loadYear(calendar.date.year)
+  }
+
   loadCalendar()
 }
 
-function next() {
+async function next() {
   calendar.date = calendar.date.plus({ [calendar.viewMode]: 1 })
+
+  if (!loadedYears.value.includes(calendar.date.year)) {
+    await loadYear(calendar.date.year)
+  }
 
   loadCalendar()
 }
@@ -107,19 +159,19 @@ function isToday(date) {
 }
 
 function isHoliday(date) {
-  return props.holidays[date.toISODate()] !== undefined
+  return holidays.value.has(date.toISODate())
 }
 
 function getHolidayInfo(day) {
-  return props.holidays[day.date]
+  return holidays.value.get(day.date)
 }
 
 function isVacation(date) {
-  return props.approvedVacations[date.toISODate()] !== undefined
+  return approvedVacations.value.has(date.toISODate())
 }
 
 function isPendingVacation(date) {
-  return props.pendingVacations[date.toISODate()] !== undefined
+  return pendingVacations.value.has(date.toISODate())
 }
 
 function getVacationType(day) {
@@ -127,7 +179,7 @@ function getVacationType(day) {
 }
 
 function getVacationInfo(day) {
-  return day.isVacation ? props.approvedVacations[day.date] : props.pendingVacations[day.date]
+  return day.isVacation ? approvedVacations.value.get(day.date) : pendingVacations.value.get(day.date)
 }
 </script>
 
@@ -141,9 +193,7 @@ function getVacationInfo(day) {
         <div class="flex items-center rounded-md shadow-sm md:items-stretch">
           <button
             type="button"
-            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 py-2 pl-3 pr-4 text-gray-400 focus:relative md:w-9 md:px-2"
-            :class="[ calendarState.isPrevious ? 'bg-white hover:text-gray-500 md:hover:bg-gray-50' : 'bg-gray-100' ]"
-            :disabled="!calendarState.isPrevious"
+            class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 py-2 pl-3 pr-4 text-gray-400 focus:relative md:w-9 md:px-2 bg-white hover:text-gray-500 md:hover:bg-gray-50"
             @click="previous"
           >
             <span class="sr-only">Poprzedni {{ calendarState.viewMode.details.shortcut }}</span>
@@ -164,9 +214,7 @@ function getVacationInfo(day) {
           />
           <button
             type="button"
-            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 py-2 pl-4 pr-3 text-gray-400 focus:relative md:w-9 md:px-2"
-            :class="[ calendarState.isNext ? 'bg-white hover:text-gray-500 md:hover:bg-gray-50' : 'bg-gray-100' ]"
-            :disabled="!calendarState.isNext"
+            class="flex items-center justify-center rounded-r-md border border-l-0 border-gray-300 py-2 pl-4 pr-3 text-gray-400 focus:relative md:w-9 md:px-2 bg-white hover:text-gray-500 md:hover:bg-gray-50"
             @click="next"
           >
             <span class="sr-only">Następny {{ calendarState.viewMode.details.shortcut }}</span>

@@ -9,6 +9,7 @@ use Toby\Http\Controllers\Api\CalculateUserVacationStatsController;
 use Toby\Http\Controllers\Api\CalculateVacationDaysController;
 use Toby\Http\Controllers\Api\GetAvailableVacationTypesController;
 use Toby\Http\Controllers\Api\LastUpdateController;
+use Toby\Http\Controllers\DashboardController;
 use Toby\Slack\SlackActionController;
 use Toby\Slack\SlackCommandController;
 
@@ -21,5 +22,7 @@ Route::middleware("auth:sanctum")->group(function (): void {
     Route::post("vacation/calculate-unavailable-days", CalculateUserUnavailableDaysController::class);
     Route::post("vacation/get-available-vacation-types", GetAvailableVacationTypesController::class);
     Route::post("overtime/calculate-hours", CalculateOvertimeHoursController::class);
+
+    Route::get("dashboard/calendar/{year}", [DashboardController::class, "loadCalendar"]);
     Route::get("last-update", LastUpdateController::class);
 });

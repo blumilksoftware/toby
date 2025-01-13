@@ -33,7 +33,7 @@ use Toby\Http\Middleware\CheckIfLocalEnvironment;
 use Toby\Http\Middleware\TrackUserLastActivity;
 
 Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): void {
-    Route::get("/", DashboardController::class)
+    Route::get("/", [DashboardController::class, "index"])
         ->name("dashboard");
     Route::post("/logout", LogoutController::class);
 
