@@ -7,20 +7,12 @@ namespace Toby\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
-use Toby\Domain\DailySummaryRetriever;
 use Toby\Domain\DashboardAggregator;
-use Toby\Domain\UserVacationStatsRetriever;
-use Toby\Domain\VacationTypeConfigRetriever;
 
 class DashboardController extends Controller
 {
-    public function __invoke(
-        Request $request,
-        UserVacationStatsRetriever $vacationStatsRetriever,
-        VacationTypeConfigRetriever $configRetriever,
-        DailySummaryRetriever $dailySummaryRetriever,
-        DashboardAggregator $dashboardAggregator,
-    ): Response {
+    public function index(Request $request, DashboardAggregator $dashboardAggregator): Response
+    {
         $user = $request->user();
         $year = Carbon::now()->year;
 
@@ -32,5 +24,10 @@ class DashboardController extends Controller
             "calendar" => $dashboardAggregator->aggregateCalendarData($user, $year),
             "stats" => $dashboardAggregator->aggregateStats($user, $year),
         ]);
+    }
+
+    public function loadCalendar(Request $request, int $year, DashboardAggregator $dashboardAggregator): array
+    {
+        return $dashboardAggregator->aggregateCalendarData($request->user(), $year);
     }
 }

@@ -31,9 +31,9 @@ const { auth } = useGlobalProps()
         <Welcome :user="auth.user" />
         <VacationStats :stats="stats" />
         <VacationCalendar
-          :approved-vacations="calendar.approvedVacations"
-          :holidays="calendar.holidays"
-          :pending-vacations="calendar.pendingVacations"
+          :init-approved-vacations="calendar.approvedVacations"
+          :init-holidays="calendar.holidays"
+          :init-pending-vacations="calendar.pendingVacations"
         />
         <PendingVacationRequests
           v-if="auth.can.listAllRequests"
