@@ -42,9 +42,7 @@ const calendarState = reactive({
   isNext: computed(() => calendar.date.plus({ [calendar.viewMode]: 1 }).year === currentDate.year),
 })
 
-onMounted(async () => initCalendar())
-
-function initCalendar() {
+onMounted(() => {
   for (const [key, value] of Object.entries(props.initHolidays)) {
     holidays.value.set(key, value)
   }
@@ -59,7 +57,8 @@ function initCalendar() {
 
   loadedYears.value.push(currentDate.year)
   loadCalendar()
-}
+},
+)
 
 function loadCalendar() {
   let days = []
