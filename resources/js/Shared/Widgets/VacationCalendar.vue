@@ -57,8 +57,7 @@ onMounted(() => {
 
   loadedYears.value.push(currentDate.year)
   loadCalendar()
-},
-)
+})
 
 function loadCalendar() {
   let days = []
