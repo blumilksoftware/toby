@@ -41,6 +41,7 @@ class UserBenefitsRetriever
                 "name" => $benefit["name"],
                 "employee" => $assignedBenefit["employee"],
                 "employer" => $assignedBenefit["employer"],
+                "isUsed" => true,
             ];
         }
 

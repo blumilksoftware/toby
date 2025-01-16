@@ -11,9 +11,10 @@ class BenefitResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            "id" => $this->id,
-            "name" => $this->name,
-            "companion" => $this->companion,
+            "id" => $this->resource["id"] ?? $this->id,
+            "name" => $this->resource["name"] ?? $this->name,
+            "companion" => $this->resource["companion"] ?? $this->companion,
+            "isUsed" => $this->resource["isUsed"] ?? false,
         ];
     }
 }

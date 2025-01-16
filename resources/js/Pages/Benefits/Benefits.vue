@@ -1,5 +1,5 @@
 <script setup>
-import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { EllipsisVerticalIcon, TrashIcon, ShieldCheckIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -88,6 +88,11 @@ function submitCreateBenefit() {
                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                   >
                     {{ benefit.companion ? "Dla osoby towarzyszącej" : "Dla pracownika" }}
+                  </span>
+                </td>
+                <td class="px-4 py-2 text-sm text-right text-gray-500 whitespace-nowrap">
+                  <span v-if="benefit.isUsed">
+                    <ShieldCheckIcon class="size-5 text-gray-400" />
                   </span>
                 </td>
                 <td class="px-4 py-2 text-sm text-right text-gray-500 whitespace-nowrap">
