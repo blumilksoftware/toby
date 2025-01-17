@@ -1,5 +1,5 @@
 <script setup>
-import { EllipsisVerticalIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { EllipsisVerticalIcon, TrashIcon, ShieldCheckIcon } from '@heroicons/vue/24/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -80,7 +80,14 @@ function submitCreateBenefit() {
                 class="hover:bg-blumilk-25"
               >
                 <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
-                  {{ benefit.name }}
+                  <div class="flex items-center gap-1 font-medium">
+                    {{ benefit.name }}
+                    <span v-if="benefit.isUsed"
+                          v-tooltip.right="'Posiadany benefit'"
+                    >
+                      <ShieldCheckIcon class="size-5 text-gray-500" />
+                    </span>
+                  </div>
                 </td>
                 <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
                   <span

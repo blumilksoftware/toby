@@ -36,7 +36,7 @@ const currentDate = DateTime.now()
 const selectedMonth = ref(DateTime.fromISO(props.selectedDate))
 
 watch(selectedMonth, (value, oldValue) => {
-  if (!value || value.toFormat('LL-YYY') === oldValue?.toFormat('LL-YYY')) {
+  if (!value || value.toFormat('LL-yyyy') === oldValue?.toFormat('LL-yyyy')) {
     return
   }
 

@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Toby\Domain\UserBenefitsRetriever;
 use Toby\Http\Requests\BenefitRequest;
 use Toby\Http\Resources\BenefitResource;
 use Toby\Models\Benefit;
@@ -24,8 +25,17 @@ class BenefitController extends Controller
             ->paginate()
             ->withQueryString();
 
+        $userBenefitsRetriever = new UserBenefitsRetriever();
+        $userBenefits = $userBenefitsRetriever->getAssignedBenefits($request->user());
+        $userBenefitIds = collect($userBenefits)->pluck("id")->toArray();
+
         return inertia("Benefits/Benefits", [
-            "benefits" => BenefitResource::collection($benefits),
+            "benefits" => BenefitResource::collection($benefits->through(fn($benefit) => [
+                "id" => $benefit->id,
+                "name" => $benefit->name,
+                "companion" => $benefit->companion,
+                "isUsed" => in_array($benefit->id, $userBenefitIds, true),
+            ])),
         ]);
     }
 
