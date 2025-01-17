@@ -80,7 +80,13 @@ function submitCreateBenefit() {
                 class="hover:bg-blumilk-25"
               >
                 <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
-                  {{ benefit.name }}
+                  <div class="flex items-center gap-1 font-medium">
+                    {{ benefit.name }}
+                    <span v-if="benefit.isUsed"
+                          v-tooltip.right="'Posiadany benefit'">
+                      <ShieldCheckIcon class="size-5 text-gray-500" />
+                    </span>
+                  </div>
                 </td>
                 <td class="px-4 py-2 text-sm text-gray-500 whitespace-nowrap">
                   <span
@@ -88,11 +94,6 @@ function submitCreateBenefit() {
                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                   >
                     {{ benefit.companion ? "Dla osoby towarzyszącej" : "Dla pracownika" }}
-                  </span>
-                </td>
-                <td class="px-4 py-2 text-sm text-right text-gray-500 whitespace-nowrap">
-                  <span v-if="benefit.isUsed">
-                    <ShieldCheckIcon class="size-5 text-gray-400" />
                   </span>
                 </td>
                 <td class="px-4 py-2 text-sm text-right text-gray-500 whitespace-nowrap">
