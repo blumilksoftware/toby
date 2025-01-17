@@ -83,7 +83,8 @@ function submitCreateBenefit() {
                   <div class="flex items-center gap-1 font-medium">
                     {{ benefit.name }}
                     <span v-if="benefit.isUsed"
-                          v-tooltip.right="'Posiadany benefit'">
+                          v-tooltip.right="'Posiadany benefit'"
+                    >
                       <ShieldCheckIcon class="size-5 text-gray-500" />
                     </span>
                   </div>
