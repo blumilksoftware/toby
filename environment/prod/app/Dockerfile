@@ -77,6 +77,7 @@ COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 # Install Postgresql client (https://www.postgresql.org/download/linux/debian/)
 ARG POSTGRESQL_CLIENT_VERSION=15
 # https://pecl.php.net/package/redis
+# renovate: datasource=github-tags depName=phpredis/phpredis
 ARG PHPREDIS_VERSION=6.1.0
 
 RUN apt-get update \

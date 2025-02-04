@@ -92,6 +92,7 @@ RUN ln --symbolic /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/
 RUN mv "${PHP_INI_DIR}/php.ini-development" "${PHP_INI_DIR}/php.ini"
 
 # https://pecl.php.net/package/redis
+# renovate: datasource=github-tags depName=phpredis/phpredis
 ARG PHPREDIS_VERSION=6.1.0
 
 RUN apt-get update && apt-get install --assume-yes \
@@ -118,6 +119,7 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --o
     && apt-get install --assume-yes postgresql-client-15
 
 # For other versions check: https://pecl.php.net/package/xdebug
+# renovate: datasource=github-tags depName=xdebug/xdebug
 ARG XDEBUG_VERSION=3.4.1
 ARG INSTALL_XDEBUG=true
 
