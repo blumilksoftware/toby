@@ -2,7 +2,7 @@
 ARG PHP_VERSION=8.4.2
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
-ARG UNIT_VERSION=1.31.1-1
+ARG UNIT_VERSION=1.34.1-1
 
 ### PHP DEPENDENCIES ###
 FROM composer:2.8.5@sha256:e0c9ac329256c25b0dee572df37d986570fb26bb6baaa7d0abe69b84181701e1 AS vendor
@@ -77,7 +77,7 @@ COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 # Install Postgresql client (https://www.postgresql.org/download/linux/debian/)
 ARG POSTGRESQL_CLIENT_VERSION=15
 # https://pecl.php.net/package/redis
-ARG PHPREDIS_VERSION=6.0.2
+ARG PHPREDIS_VERSION=6.1.0
 
 RUN apt-get update \
     && apt-get install --assume-yes gpg \

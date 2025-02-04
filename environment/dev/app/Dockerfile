@@ -2,7 +2,7 @@
 ARG PHP_VERSION=8.4.2
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
-ARG UNIT_VERSION=1.31.1-1
+ARG UNIT_VERSION=1.34.1-1
 
 FROM alpine:3.21.2@sha256:56fa17d2a7e7f168a043a2712e63aed1f8543aeafdcee47c58dcffe38ed51099 AS secops-tools
 
@@ -92,7 +92,7 @@ RUN ln --symbolic /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/
 RUN mv "${PHP_INI_DIR}/php.ini-development" "${PHP_INI_DIR}/php.ini"
 
 # https://pecl.php.net/package/redis
-ARG PHPREDIS_VERSION=6.0.2
+ARG PHPREDIS_VERSION=6.1.0
 
 RUN apt-get update && apt-get install --assume-yes \
         libpcre3-dev \
@@ -118,7 +118,7 @@ RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --o
     && apt-get install --assume-yes postgresql-client-15
 
 # For other versions check: https://pecl.php.net/package/xdebug
-ARG XDEBUG_VERSION=3.3.1
+ARG XDEBUG_VERSION=3.4.1
 ARG INSTALL_XDEBUG=true
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
