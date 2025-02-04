@@ -5,7 +5,7 @@
     "keywords": ["toby", "laravel", "hr"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "ext-pdo": "*",
         "ext-redis": "*",
         "azuyalabs/yasumi": "^2.7",
@@ -50,8 +50,8 @@
         }
     },
     "scripts": {
-        "cs": "./vendor/bin/php-cs-fixer fix --dry-run --diff --config codestyle.php",
-        "csf": "./vendor/bin/php-cs-fixer fix --diff --config codestyle.php",
+        "cs": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --dry-run --diff --config codestyle.php",
+        "csf": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --diff --config codestyle.php",
         "test": [
             "@putenv XDEBUG_MODE=off",
             "@php artisan test"
