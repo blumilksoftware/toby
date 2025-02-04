@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-22.04
     services:
       postgres:
-        image: postgres:15@sha256:6cbdd616ae7ea61fa88873fdab529b3fd141b8a8311bfe4e6e62575f643f88fe
+        image: postgres:15@sha256:6b75eb519c8f829ca1049273207183cf3decccbe6fda06c0e2c3e9e76249df7f
         env:
           POSTGRES_DB: toby-test
           POSTGRES_USER: toby
@@ -40,14 +40,14 @@ jobs:
         run: composer validate
 
       - name: Cache dependencies
-        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         with:
           path: vendor
           key: ${{ runner.os }}-composer-dependencies-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-dependencies
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # 2.31.1
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # 2.32.0
         with:
           php-version: 8.3
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, intl, gd
