@@ -15,7 +15,7 @@
         "guzzlehttp/guzzle": "^7.9.3",
         "inertiajs/inertia-laravel": "^2.0.1",
         "laragear/cache-query": "^4.2.2",
-        "laravel/framework": "^11.41.3",
+        "laravel/framework": "^11.44.2",
         "laravel/sanctum": "^4.0.8",
         "laravel/socialite": "^5.19.0",
         "laravel/telescope": "^5.7.0",
