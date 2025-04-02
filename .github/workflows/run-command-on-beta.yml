@@ -12,7 +12,7 @@ jobs:
 
   run-command:
     name: Run command via ssh
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: run php artisan command
         uses: appleboy/ssh-action@2ead5e36573f08b82fbfce1504f1a4b05a647c6f # v1.2.2

@@ -22,7 +22,7 @@ jobs:
     name: Test & lint PHP stuff
     timeout-minutes: 10
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       # renovate: datasource=docker depName=php
       PHP_VERSION: 8.4.5
