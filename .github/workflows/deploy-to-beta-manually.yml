@@ -12,7 +12,7 @@ jobs:
   deploy:
     environment: beta
     name: Deploy to beta
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       DOCKER_REGISTRY: registry.blumilk.pl
       DOCKER_REGISTRY_USER_NAME: robot@blumilkbot-harbor
