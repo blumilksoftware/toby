@@ -8,16 +8,26 @@ services:
         - USER_ID=${DOCKER_HOST_USER_ID:-1000}
     labels:
       - "traefik.enable=true"
-      - "traefik.blumilk.environment=true"
+      - "traefik.blumilk.local.environment=true"
       # HTTP
-      - "traefik.http.routers.toby-http-router.rule=Host(`toby.blumilk.localhost`)"
+      - "traefik.http.routers.toby-http-router.rule=Host(`${APP_DOCKER_HOST_NAME}`)"
       - "traefik.http.routers.toby-http-router.entrypoints=web"
+      - "traefik.http.routers.toby-http-router.service=toby-app"
       # HTTP to HTTPS redirect
-      #      - "traefik.http.routers.toby-http-router.middlewares=https-redirect@file"
+      #- "traefik.http.routers.toby-http-router.middlewares=https-redirect@file"
       # HTTPS
-      - "traefik.http.routers.toby-https-router.rule=Host(`toby.blumilk.localhost`)"
+      - "traefik.http.routers.toby-https-router.rule=Host(`${APP_DOCKER_HOST_NAME}`)"
       - "traefik.http.routers.toby-https-router.entrypoints=websecure"
       - "traefik.http.routers.toby-https-router.tls=true"
+      - "traefik.http.routers.toby-https-router.service=toby-app"
+      # APP LOADBALANCER
+      - "traefik.http.services.toby-app.loadbalancer.server.port=80"
+      # VITE DEV SERVER
+      - "traefik.http.routers.toby-vite-dev-server-https-router.rule=Host(`toby-vite-dev-server.blumilk.local.env`)"
+      - "traefik.http.routers.toby-vite-dev-server-https-router.entrypoints=websecure"
+      - "traefik.http.routers.toby-vite-dev-server-https-router.tls=true"
+      - "traefik.http.routers.toby-vite-dev-server-https-router.service=toby-vite-dev-server"
+      - "traefik.http.services.toby-vite-dev-server.loadbalancer.server.port=5173"
     container_name: toby-app-dev
     working_dir: /application
     volumes:
@@ -29,7 +39,7 @@ services:
       - ${DOCKER_APP_HOST_PORT:-8751}:80
     networks:
       - toby-dev
-      - traefik-proxy-blumilk-local
+      - traefik-proxy-blumilk-local-environment
     restart: unless-stopped
     depends_on:
       database:
@@ -79,14 +89,14 @@ services:
     container_name: toby-mailpit-dev
     labels:
       - "traefik.enable=true"
-      - "traefik.blumilk.environment=true"
+      - "traefik.blumilk.local.environment=true"
       # HTTP
-      - "traefik.http.routers.toby-mailpit-http-router.rule=Host(`toby-mailpit.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailpit-http-router.rule=Host(`${MAILPIT_DOCKER_HOST_NAME}`)"
       - "traefik.http.routers.toby-mailpit-http-router.entrypoints=web"
       # HTTP to HTTPS redirect
-#      - "traefik.http.routers.toby-mailpit-http-router.middlewares=https-redirect@file"
+      #- "traefik.http.routers.toby-mailpit-http-router.middlewares=https-redirect@file"
       # HTTPS
-      - "traefik.http.routers.toby-mailpit-https-router.rule=Host(`toby-mailpit.blumilk.localhost`)"
+      - "traefik.http.routers.toby-mailpit-https-router.rule=Host(`${MAILPIT_DOCKER_HOST_NAME}`)"
       - "traefik.http.routers.toby-mailpit-https-router.entrypoints=websecure"
       - "traefik.http.routers.toby-mailpit-https-router.tls=true"
       # LOADBALANCER MAILPIT PORT
@@ -95,7 +105,7 @@ services:
       - ${DOCKER_MAILPIT_DASHBOARD_HOST_PORT:-8025}:8025
     networks:
       - toby-dev
-      - traefik-proxy-blumilk-local
+      - traefik-proxy-blumilk-local-environment
     restart: unless-stopped
 
   selenium:
@@ -110,7 +120,7 @@ services:
 networks:
   toby-dev:
     driver: bridge
-  traefik-proxy-blumilk-local:
+  traefik-proxy-blumilk-local-environment:
     external: true
 
 volumes:
