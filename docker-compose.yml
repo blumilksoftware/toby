@@ -23,7 +23,7 @@ services:
       # APP LOADBALANCER
       - "traefik.http.services.toby-app.loadbalancer.server.port=80"
       # VITE DEV SERVER
-      - "traefik.http.routers.toby-vite-dev-server-https-router.rule=Host(`toby-vite-dev-server.blumilk.local.env`)"
+      - "traefik.http.routers.toby-vite-dev-server-https-router.rule=Host(`${VITE_DEV_SERVER_DOCKER_HOST_NAME}`)"
       - "traefik.http.routers.toby-vite-dev-server-https-router.entrypoints=websecure"
       - "traefik.http.routers.toby-vite-dev-server-https-router.tls=true"
       - "traefik.http.routers.toby-vite-dev-server-https-router.service=toby-vite-dev-server"
