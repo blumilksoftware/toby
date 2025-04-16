@@ -1,7 +1,6 @@
-import { defineConfig, loadEnv  } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import laravel from 'laravel-vite-plugin'
-import { networkInterfaces } from 'os'
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
@@ -11,8 +10,11 @@ export default ({ mode }) => {
       outDir: './public/build/',
     },
     server: {
-      host: Object.values(networkInterfaces()).flat().find(i => i.family === 'IPv4' && !i.internal).address,
-      port: process.env.VITE_PORT,
+      host: true,
+      port: 5173,
+      strictPort: true,
+      origin: 'https://' + process.env.VITE_DEV_SERVER_DOCKER_HOST_NAME,
+      cors: true, // Allow any origin
     },
     resolve: {
       alias: {
