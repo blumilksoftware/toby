@@ -190,7 +190,6 @@ return [
             EmploymentForm::CommissionContract,
             EmploymentForm::B2bContract,
             EmploymentForm::BoardMemberContract,
-            EmploymentForm::EmploymentContract,
         ],
         VacationTypeConfigRetriever::KEY_REQUEST_ALLOWED_FOR => [
             Role::Employee,
