@@ -498,5 +498,28 @@ class DemoSeeder extends Seeder
                 "Wyposażenie biura",
             ],
         ])->create();
+
+
+        foreach ($users as $user) {
+            VacationRequest::factory()
+                ->count(50)
+                ->for($user)
+                ->for($user, "creator")
+                ->afterCreating(function (VacationRequest $vacationRequest): void {
+                    $days = app(WorkDaysCalculator::class)->calculateDays(
+                        $vacationRequest->from,
+                        $vacationRequest->to,
+                        $vacationRequest->type,
+                    );
+
+                    foreach ($days as $day) {
+                        $vacationRequest->vacations()->create([
+                            "date" => $day,
+                            "user_id" => $vacationRequest->user->id,
+                        ]);
+                    }
+                })
+                ->create();
+        }
     }
 }

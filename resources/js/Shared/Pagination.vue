@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import InertiaLink from '@/Shared/InertiaLink.vue'
 
 const props = defineProps({
   pagination: Object,
@@ -17,14 +18,14 @@ const nextLink = computed(() => props.pagination.links.at(-1)?.url)
   >
     <div class="flex flex-1 justify-between sm:hidden">
       <Component
-        :is="prevLink ? 'InertiaLink': 'span'"
+        :is="prevLink ? InertiaLink: 'span'"
         :href="prevLink"
         class="inline-flex relative items-center py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300"
       >
         Poprzednia
       </Component>
       <Component
-        :is="nextLink ? 'InertiaLink': 'span'"
+        :is="nextLink ? InertiaLink: 'span'"
         :href="nextLink"
         class="inline-flex relative items-center py-2 px-4 ml-3 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300"
       >
@@ -47,7 +48,7 @@ const nextLink = computed(() => props.pagination.links.at(-1)?.url)
           :key="index"
         >
           <Component
-            :is="link.url ? 'InertiaLink' : 'span'"
+            :is="link.url ? InertiaLink : 'span'"
             :href="link.url"
             :preserve-scroll="true"
             class="inline-flex relative items-center py-2 px-4 text-sm font-medium rounded-md border"
