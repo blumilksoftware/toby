@@ -29,7 +29,8 @@ class TimesheetController extends Controller
             ->orderByProfileField("first_name")
             ->get();
 
-        $types = VacationType::all();
+        $types = VacationType::all()
+            ->filter(fn(VacationType $type): bool => $configRetriever->isVacation($type));
 
         $filename = "{$month->translatedFormat("F Y")}.xlsx";
 
