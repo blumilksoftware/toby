@@ -30,12 +30,7 @@ class TimesheetController extends Controller
             ->get();
 
         $types = VacationType::all()
-            ->filter(
-                fn(VacationType $type): bool => $configRetriever->isAvailableFor(
-                    $type,
-                    EmploymentForm::EmploymentContract,
-                ) && $configRetriever->isVacation($type),
-            );
+            ->filter(fn(VacationType $type): bool => $configRetriever->isVacation($type));
 
         $filename = "{$month->translatedFormat("F Y")}.xlsx";
 
