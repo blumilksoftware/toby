@@ -74,12 +74,18 @@ watch(form, debounce(() => {
             Lista wniosków
           </h2>
         </div>
-        <div>
+        <div class="flex items-center gap-4">
           <InertiaLink
             class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             href="/vacation/requests/create"
           >
             Dodaj wniosek
+          </InertiaLink>
+          <InertiaLink
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            href="/vacation/requests/bulk/create"
+          >
+            Dodaj kilka wniosków
           </InertiaLink>
         </div>
       </div>

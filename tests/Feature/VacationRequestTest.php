@@ -173,6 +173,110 @@ class VacationRequestTest extends FeatureTestCase
         ]);
     }
 
+    public function testUserCanBulkCreateVacationRequest(): void
+    {
+        $creator = User::factory()->admin()->create();
+
+        $users = User::factory()
+            ->count(3)
+            ->has(Profile::factory())
+            ->create();
+
+        $currentYear = Carbon::now()->year;
+
+        $this->actingAs($creator)
+            ->post("/vacation/requests/bulk", [
+                "users" => [$users[0]->id, $users[1]->id, $users[2]->id],
+                "type" => VacationType::RemoteWork->value,
+                "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+                "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+                "comment" => "Comment for the vacation request.",
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $users[0]->id,
+            "creator_id" => $creator->id,
+            "type" => VacationType::RemoteWork->value,
+            "state" => Approved::$name,
+            "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ]);
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $users[1]->id,
+            "creator_id" => $creator->id,
+            "type" => VacationType::RemoteWork->value,
+            "state" => Approved::$name,
+            "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ]);
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $users[2]->id,
+            "creator_id" => $creator->id,
+            "type" => VacationType::RemoteWork->value,
+            "state" => Approved::$name,
+            "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ]);
+    }
+
+    public function testWhenBulkCreatingOnlyValidatedUsersHaveCreatedRequest(): void
+    {
+        $creator = User::factory()->admin()->create();
+        $user = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $invalidUser = User::factory()
+            ->has(Profile::factory())
+            ->create();
+
+        $currentYear = Carbon::now()->year;
+
+        VacationLimit::factory([
+            "days" => 20,
+            "year" => $currentYear,
+        ])
+            ->for($user)
+            ->create();
+
+        $this->actingAs($creator)
+            ->post("/vacation/requests/bulk", [
+                "users" => [$user->id, $invalidUser->id],
+                "type" => VacationType::Vacation->value,
+                "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+                "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+                "comment" => "Comment for the vacation request.",
+                "flowSkipped" => true,
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $user->id,
+            "creator_id" => $creator->id,
+            "type" => VacationType::Vacation->value,
+            "state" => Approved::$name,
+            "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ]);
+
+        $this->assertDatabaseMissing("vacation_requests", [
+            "user_id" => $invalidUser->id,
+            "creator_id" => $creator->id,
+            "type" => VacationType::Vacation->value,
+            "state" => Approved::$name,
+            "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+            "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+            "comment" => "Comment for the vacation request.",
+        ]);
+    }
+
     public function testTechnicalApproverCanApproveVacationRequest(): void
     {
         $user = User::factory()->create();
