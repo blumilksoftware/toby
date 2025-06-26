@@ -20,6 +20,8 @@ abstract class VacationRequestNotification extends QueuedNotification
         protected User $user,
     ) {
         parent::__construct();
+
+        $this->afterCommit();
     }
 
     public function via(): array

@@ -16,6 +16,7 @@ use Inertia\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Toby\Actions\VacationRequest\AcceptAsAdministrativeAction;
 use Toby\Actions\VacationRequest\AcceptAsTechnicalAction;
+use Toby\Actions\VacationRequest\BulkCreateAction;
 use Toby\Actions\VacationRequest\CancelAction;
 use Toby\Actions\VacationRequest\CreateAction;
 use Toby\Actions\VacationRequest\RejectAction;
@@ -23,6 +24,7 @@ use Toby\Domain\UserVacationStatsRetriever;
 use Toby\Domain\VacationRequestStatesRetriever;
 use Toby\Domain\VacationTypeConfigRetriever;
 use Toby\Enums\VacationType;
+use Toby\Http\Requests\BulkVacationRequestRequest;
 use Toby\Http\Requests\VacationRequestRequest;
 use Toby\Http\Resources\SimpleUserResource;
 use Toby\Http\Resources\SimpleVacationRequestResource;
@@ -246,6 +248,30 @@ class VacationRequestController extends Controller
         ]);
     }
 
+    public function bulkCreate(Request $request, VacationTypeConfigRetriever $configRetriever): Response
+    {
+        $this->authorize("createRequestsOnBehalfOfEmployee");
+
+        $users = User::query()
+            ->orderByProfileField("last_name")
+            ->orderByProfileField("first_name")
+            ->get();
+
+        foreach ($users as $user) {
+            $typesByUser[$user->id] = VacationType::all()
+                ->filter(fn(VacationType $type): bool => $configRetriever->isAvailableFor($type, $user->profile->employment_form))
+                ->filter(fn(VacationType $type): bool => $configRetriever->isRequestAllowedFor($type, $request->user()->role))
+                ->pluck("value");
+        }
+
+        return inertia("VacationRequest/BulkCreate", [
+            "types" => VacationType::casesToSelect(),
+            "users" => SimpleUserResource::collection($users),
+            "typesByUser" => $typesByUser ?? [],
+            "vacationFromDate" => $request->get("from_date"),
+        ]);
+    }
+
     /**
      * @throws AuthorizationException
      * @throws ValidationException
@@ -264,6 +290,35 @@ class VacationRequestController extends Controller
 
         return redirect()
             ->route("vacation.requests.show", $vacationRequest)
+            ->with("success", __("Request created."));
+    }
+
+    /**
+     * @throws AuthorizationException
+     * @throws ValidationException
+     */
+    public function bulkStore(BulkVacationRequestRequest $request, BulkCreateAction $bulkCreateAction): RedirectResponse
+    {
+        $this->authorize("createRequestsOnBehalfOfEmployee");
+
+        if ($request->wantsSkipFlow()) {
+            $this->authorize("skipRequestFlow");
+        }
+
+        $result = $bulkCreateAction->execute($request->getUsers(), $request->getData(), $request->user());
+
+        if ($result["errors"]->isNotEmpty()) {
+            $messages = [];
+
+            foreach ($result["errors"] as $key => $error) {
+                $messages["vacationRequests.$key"] = $error;
+            }
+
+            throw ValidationException::withMessages($messages);
+        }
+
+        return redirect()
+            ->route("vacation.requests.indexForApprovers")
             ->with("success", __("Request created."));
     }
 

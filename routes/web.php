@@ -158,6 +158,12 @@ Route::middleware(["auth", TrackUserLastActivity::class])->group(function (): vo
         Route::post("/requests", [VacationRequestController::class, "store"])
             ->name("requests.store");
 
+        Route::get("/requests/bulk/create", [VacationRequestController::class, "bulkCreate"])
+            ->name("requests.bulk.create");
+
+        Route::post("/requests/bulk", [VacationRequestController::class, "bulkStore"])
+            ->name("requests.bulk.store");
+
         Route::get("/requests/{vacationRequest}", [VacationRequestController::class, "show"])
             ->whereNumber("vacationRequest")
             ->name("requests.show");
