@@ -48,7 +48,7 @@ services:
         condition: service_healthy
 
   database:
-    image: postgres:15@sha256:9e9298817d19f4bd60c5028a25762b394db37dda173dd3d035a1bc155542051a
+    image: postgres:15@sha256:b77bf42292afa2fd5d56289f00118166c10aff6f11bfd54de4eb696a0a09108e
     container_name: toby-db-dev
     environment:
       - PGPASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
@@ -85,7 +85,7 @@ services:
     restart: unless-stopped
 
   mailpit:
-    image: axllent/mailpit:v1.24@sha256:06cf27fde6ea653c68b5c80f7d5d7280d56d17248e34de4b4ef15f9f4f86662c
+    image: axllent/mailpit:v1.26@sha256:079759020faa42e243a07aaa3e31086de70e93e78b02b844e4149e0108dd5428
     container_name: toby-mailpit-dev
     labels:
       - "traefik.enable=true"
@@ -109,7 +109,7 @@ services:
     restart: unless-stopped
 
   selenium:
-    image: selenium/standalone-chrome@sha256:e9c13f8706b2377d1b9855ed0664931dba5f64c19f6663da156478ebaaa68a02
+    image: selenium/standalone-chrome@sha256:c8c0ce633bca5c2e268e808b70ab424585ad8a9d23e4562bf252589b10a95e25
     container_name: toby-selenium-dev
     volumes:
       - /dev/shm:/dev/shm
