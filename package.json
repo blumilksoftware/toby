@@ -1,4 +1,5 @@
 {
+    "name": "toby",
     "private": true,
     "type": "module",
     "scripts": {
