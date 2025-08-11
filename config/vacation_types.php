@@ -51,7 +51,6 @@ return [
             EmploymentForm::EmploymentContract,
         ],
         VacationTypeConfigRetriever::KEY_REQUEST_ALLOWED_FOR => [
-            Role::Employee,
             Role::Administrator,
             Role::AdministrativeApprover,
             Role::TechnicalApprover,
