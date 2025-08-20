@@ -852,16 +852,15 @@ class VacationRequestTest extends FeatureTestCase
             ])
             ->assertOk()
             ->assertJson([
-                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
-                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
-                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
-                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
-                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
-                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
-                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
-                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
-                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
             ]);
     }
 
@@ -878,16 +877,16 @@ class VacationRequestTest extends FeatureTestCase
             ])
             ->assertOk()
             ->assertJson([
-                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
-                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
-                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
-                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
-                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
-                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
-                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
-                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
-                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
             ]);
     }
 
@@ -904,17 +903,17 @@ class VacationRequestTest extends FeatureTestCase
             ])
             ->assertOk()
             ->assertJson([
-                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
-                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
-                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
-                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
-                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
-                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
-                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
-                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
-                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
                 ["label" => "Delegacja", "value" => "delegation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
             ]);
     }
 
@@ -931,17 +930,17 @@ class VacationRequestTest extends FeatureTestCase
             ])
             ->assertOk()
             ->assertJson([
-                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
-                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
-                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
-                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
-                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
-                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
-                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
-                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
-                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
                 ["label" => "Delegacja", "value" => "delegation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
             ]);
     }
 
@@ -957,8 +956,8 @@ class VacationRequestTest extends FeatureTestCase
             ])
             ->assertOk()
             ->assertJson([
-                ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Nieobecność", "value" => "absence"],
             ]);
     }
 
@@ -974,8 +973,8 @@ class VacationRequestTest extends FeatureTestCase
             ])
             ->assertOk()
             ->assertJson([
-                ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Nieobecność", "value" => "absence"],
             ]);
     }
 
@@ -991,8 +990,8 @@ class VacationRequestTest extends FeatureTestCase
             ])
             ->assertOk()
             ->assertJson([
-                ["label" => "Nieobecność", "value" => "absence"],
                 ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Nieobecność", "value" => "absence"],
             ]);
     }
 }

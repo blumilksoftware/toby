@@ -8,18 +8,18 @@ use Illuminate\Support\Collection;
 
 enum VacationType: string
 {
-    case Vacation = "vacation";
-    case OnRequest = "vacation_on_request";
-    case Special = "special_vacation";
-    case Childcare = "childcare_vacation";
-    case Training = "training_vacation";
-    case Unpaid = "unpaid_vacation";
-    case Volunteering = "volunteering_vacation";
-    case TimeInLieu = "time_in_lieu";
-    case Sick = "sick_vacation";
-    case Absence = "absence";
     case RemoteWork = "remote_work";
+    case Absence = "absence";
+    case Vacation = "vacation";
+    case Sick = "sick_vacation";
+    case Special = "special_vacation";
     case Delegation = "delegation";
+    case TimeInLieu = "time_in_lieu";
+    case Unpaid = "unpaid_vacation";
+    case OnRequest = "vacation_on_request";
+    case Training = "training_vacation";
+    case Childcare = "childcare_vacation";
+    case Volunteering = "volunteering_vacation";
 
     public static function casesToSelect(): array
     {
