@@ -25,7 +25,6 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Toby\Enums\VacationType;
 use Toby\Models\Holiday;
 use Toby\Models\User;
 use Toby\Models\Vacation;
