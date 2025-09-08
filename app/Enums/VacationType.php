@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 enum VacationType: string
 {
     case RemoteWork = "remote_work";
-    case Absence = "absence";
     case Vacation = "vacation";
     case Sick = "sick_vacation";
     case Special = "special_vacation";
@@ -20,6 +19,7 @@ enum VacationType: string
     case Training = "training_vacation";
     case Childcare = "childcare_vacation";
     case Volunteering = "volunteering_vacation";
+    case Absence = "absence";
 
     public static function casesToSelect(): array
     {

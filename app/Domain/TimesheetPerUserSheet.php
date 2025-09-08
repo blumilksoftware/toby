@@ -25,7 +25,6 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Toby\Enums\VacationType;
 use Toby\Models\Holiday;
 use Toby\Models\User;
 use Toby\Models\Vacation;
@@ -121,7 +120,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
                 $workedThisDay ? static::HOURS_PER_DAY : null,
             ];
 
-            foreach (VacationType::cases() as $type) {
+            foreach ($this->types as $type) {
                 $row[] = $vacationsForDay->has($type->value) ? static::HOURS_PER_DAY : null;
             }
 
