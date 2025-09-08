@@ -121,7 +121,7 @@ class TimesheetPerUserSheet implements WithTitle, WithHeadings, WithEvents, With
                 $workedThisDay ? static::HOURS_PER_DAY : null,
             ];
 
-            foreach (VacationType::cases() as $type) {
+            foreach ($this->types as $type) {
                 $row[] = $vacationsForDay->has($type->value) ? static::HOURS_PER_DAY : null;
             }
 
