@@ -998,17 +998,13 @@ class VacationRequestTest extends FeatureTestCase
     public function testEmployeeWithPermissionToCreateOnBehalfSeesAllVacationTypesForEmployee(): void
     {
         $employeeWithPermission = User::factory()
-            ->hasProfile([
-                'employment_form' => EmploymentForm::EmploymentContract,
-            ])
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
 
         $employeeWithPermission->givePermissionTo('createRequestsOnBehalfOfEmployee');
 
         $targetEmployee = User::factory()
-            ->hasProfile([
-                'employment_form' => EmploymentForm::EmploymentContract,
-            ])
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
 
         $this->actingAs($employeeWithPermission)
