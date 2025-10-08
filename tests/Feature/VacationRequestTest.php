@@ -1001,15 +1001,15 @@ class VacationRequestTest extends FeatureTestCase
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
 
-        $employeeWithPermission->givePermissionTo('createRequestsOnBehalfOfEmployee');
+        $employeeWithPermission->givePermissionTo("createRequestsOnBehalfOfEmployee");
 
         $targetEmployee = User::factory()
             ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
             ->create();
 
         $this->actingAs($employeeWithPermission)
-            ->post('/api/vacation/get-available-vacation-types', [
-                'user' => $targetEmployee->id,
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $targetEmployee->id,
             ])
             ->assertOk()
             ->assertJson([
@@ -1026,5 +1026,4 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
             ]);
     }
-
 }
