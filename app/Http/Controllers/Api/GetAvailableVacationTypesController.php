@@ -19,10 +19,17 @@ class GetAvailableVacationTypesController extends Controller
     ): JsonResponse {
         /** @var User $user */
         $user = User::query()->find($request->get("user"));
+        $currentUser = $request->user();
 
         $types = VacationType::all()
-            ->filter(fn(VacationType $type): bool => $configRetriever->isAvailableFor($type, $user->profile->employment_form))
-            ->filter(fn(VacationType $type): bool => $configRetriever->isRequestAllowedFor($type, $request->user()->role))
+            ->filter(function (VacationType $type) use ($configRetriever, $user, $currentUser): bool {
+                if ($currentUser->can("createRequestsOnBehalfOfEmployee")) {
+                    return $configRetriever->isAvailableFor($type, $user->profile->employment_form);
+                }
+
+                return $configRetriever->isRequestAllowedFor($type, $currentUser->role)
+                    && $configRetriever->isAvailableFor($type, $user->profile->employment_form);
+            })
             ->map(fn(VacationType $type): array => [
                 "label" => $type->label(),
                 "value" => $type->value,
