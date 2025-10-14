@@ -119,6 +119,7 @@ return [
             "receiveBenefitsReportCreationNotification",
             "manageEquipment",
             "downloadWorkHoursSummary",
+            "downloadOvertimeSummary",
         ],
         Role::TechnicalApprover->value => [
             "manageTechnologies",
