@@ -64,6 +64,8 @@ return [
         "receiveBenefitsReportCreationNotification",
         "manageEquipment",
         "receiveOvertimeRequestsSummaryNotification",
+        "downloadWorkHoursSummary",
+        "downloadOvertimeSummary",
     ],
     "permission_roles" => [
         Role::Administrator->value => [
@@ -90,6 +92,8 @@ return [
             "receiveVacationRequestStatusChangedNotification",
             "manageEquipment",
             "receiveOvertimeRequestsSummaryNotification",
+            "downloadWorkHoursSummary",
+            "downloadOvertimeSummary",
         ],
         Role::AdministrativeApprover->value => [
             "managePermissions",
@@ -114,6 +118,7 @@ return [
             "receiveVacationRequestStatusChangedNotification",
             "receiveBenefitsReportCreationNotification",
             "manageEquipment",
+            "downloadWorkHoursSummary",
         ],
         Role::TechnicalApprover->value => [
             "manageTechnologies",

@@ -52,7 +52,9 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestWaitsForApprovalNotification", false)
                             ->where("receiveVacationRequestStatusChangedNotification", false)
                             ->where("manageEquipment", false)
-                            ->where("receiveOvertimeRequestsSummaryNotification", false),
+                            ->where("receiveOvertimeRequestsSummaryNotification", false)
+                            ->where("downloadWorkHoursSummary", false)
+                            ->where("downloadOvertimeSummary", false),
                     ),
             );
     }
@@ -96,7 +98,9 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
                             ->where("manageEquipment", false)
-                            ->where("receiveOvertimeRequestsSummaryNotification", true),
+                            ->where("receiveOvertimeRequestsSummaryNotification", true)
+                            ->where("downloadWorkHoursSummary", false)
+                            ->where("downloadOvertimeSummary", false),
                     ),
             );
     }
@@ -140,7 +144,9 @@ class PermissionTest extends FeatureTestCase
                             ->where("receiveVacationRequestWaitsForApprovalNotification", true)
                             ->where("receiveVacationRequestStatusChangedNotification", true)
                             ->where("manageEquipment", true)
-                            ->where("receiveOvertimeRequestsSummaryNotification", false),
+                            ->where("receiveOvertimeRequestsSummaryNotification", false)
+                            ->where("downloadWorkHoursSummary", true)
+                            ->where("downloadOvertimeSummary", true),
                     ),
             );
     }
