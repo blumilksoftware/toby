@@ -15,7 +15,7 @@ class OvertimeTimesheetController extends Controller
 {
     public function __invoke(?string $month = null): BinaryFileResponse
     {
-        $this->authorize("manageRequestsAsAdministrativeApprover");
+        $this->authorize("downloadOvertimeSummary");
 
         $month = Carbon::canBeCreatedFromFormat($month, "m-Y")
             ? Carbon::createFromFormat("d-m-Y", "01-$month")

@@ -78,14 +78,14 @@ watch(form, debounce(() => {
           </h2>
         </div>
         <div
-          v-if="auth.can.manageRequestsAsAdministrativeApprover"
+          v-if="auth.can.downloadOvertimeSummary"
           class="flex"
         >
           <a
             :href="`/overtime/timesheet/${filters.month}`"
             class="block py-3 px-4 ml-3 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
           >
-            Pobierz plik Excel
+            Pobierz nadgodziny
           </a>
         </div>
       </div>

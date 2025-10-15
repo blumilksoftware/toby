@@ -17,7 +17,7 @@ class TimesheetController extends Controller
 {
     public function __invoke(VacationTypeConfigRetriever $configRetriever, ?string $month = null): BinaryFileResponse
     {
-        $this->authorize("manageRequestsAsAdministrativeApprover");
+        $this->authorize("downloadWorkHoursSummary");
 
         $month = Carbon::canBeCreatedFromFormat($month, "m-Y")
             ? Carbon::createFromFormat("d-m-Y", "01-$month")

@@ -816,30 +816,30 @@
         },
         {
             "name": "azuyalabs/yasumi",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/azuyalabs/yasumi.git",
-                "reference": "37d1215d4f4012d3185bb9990c76ca17a4ff1c30"
+                "reference": "cc07874da062070fdc201a4297a7724f7d6aafb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/azuyalabs/yasumi/zipball/37d1215d4f4012d3185bb9990c76ca17a4ff1c30",
-                "reference": "37d1215d4f4012d3185bb9990c76ca17a4ff1c30",
+                "url": "https://api.github.com/repos/azuyalabs/yasumi/zipball/cc07874da062070fdc201a4297a7724f7d6aafb2",
+                "reference": "cc07874da062070fdc201a4297a7724f7d6aafb2",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=8.0"
+                "php": ">=8.1"
             },
             "require-dev": {
+                "azuyalabs/php-cs-fixer-config": "^0.3",
                 "ext-intl": "*",
-                "friendsofphp/php-cs-fixer": "^2.19 || ^3.40",
                 "mikey179/vfsstream": "^1.6",
-                "phan/phan": "^5.4",
-                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
                 "phpunit/phpunit": "^8.5 || ^9.6",
-                "vimeo/psalm": "^5.16"
+                "vimeo/psalm": "^6.12"
             },
             "suggest": {
                 "ext-calendar": "For calculating the date of Easter"
@@ -858,10 +858,11 @@
                 {
                     "name": "Sacha Telgenhof",
                     "email": "me@sachatelgenhof.com",
+                    "homepage": "https://www.sachatelgenhof.com",
                     "role": "Maintainer"
                 }
             ],
-            "description": "The easy PHP Library for calculating holidays.",
+            "description": "The easy PHP Library for calculating holidays",
             "homepage": "https://www.yasumi.dev",
             "keywords": [
                 "Bank",
@@ -885,7 +886,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2024-01-07T14:12:44+00:00"
+            "time": "2025-07-13T15:40:05+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
