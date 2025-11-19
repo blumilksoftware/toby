@@ -11,6 +11,7 @@ import CalendarRemoveIcon from 'vue-material-design-icons/CalendarRemove.vue'
 import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import PlaneTrainIcon from 'vue-material-design-icons/PlaneTrain.vue'
+import WaterPlusIcon from 'vue-material-design-icons/WaterPlus.vue'
 
 const types = [
   {
@@ -73,6 +74,13 @@ const types = [
     text: 'Zwolnienie lekarskie',
     value: 'sick_vacation',
     icon: MedicalBagIcon,
+    color: 'text-rose-500',
+    border: 'border-rose-500',
+  },
+  {
+    text: 'Oddanie krwi',
+    value: 'blood_donation_vacation',
+    icon: WaterPlusIcon,
     color: 'text-rose-500',
     border: 'border-rose-500',
   },
