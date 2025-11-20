@@ -861,6 +861,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -887,6 +888,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -914,6 +916,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -941,6 +944,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -1024,6 +1028,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 }

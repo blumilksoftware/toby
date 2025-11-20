@@ -19,6 +19,7 @@ enum VacationType: string
     case Training = "training_vacation";
     case Childcare = "childcare_vacation";
     case Volunteering = "volunteering_vacation";
+    case BloodDonation = "blood_donation_vacation";
     case Absence = "absence";
 
     public static function casesToSelect(): array
