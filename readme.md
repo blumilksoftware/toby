@@ -1,7 +1,7 @@
 ![He's watching you](toby.png)
 
 # @blumilksoftware/toby
-> HR software you love to hate.
+> HR software you love to hate. :)
 
 ## Local development
 ### Prerequisites
