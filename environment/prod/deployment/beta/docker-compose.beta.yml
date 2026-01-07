@@ -46,7 +46,7 @@ services:
       - .deployment
 
   toby-beta-database:
-    image: postgres:15@sha256:a7711af921c380de0fda7c48a61fab5ac4def145fd9fc00ccea7355fd6270bb4
+    image: postgres:17@sha256:bac8128cd62a35471a1e97966861aa2ac88c8d2f408767a425ae70695a607c99
     container_name: toby-beta-database
     environment:
       - PGPASSWORD=${DOCKER_TOBY_BETA_DB_ROOT_PASSWORD:? variable DOCKER_TOBY_BETA_DB_ROOT_PASSWORD not set}
