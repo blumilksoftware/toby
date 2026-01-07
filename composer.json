@@ -14,7 +14,7 @@
         "fakerphp/faker": "^1.24.1",
         "guzzlehttp/guzzle": "^7.10.0",
         "inertiajs/inertia-laravel": "^2.0.18",
-        "laragear/cache-query": "^4.2.2",
+        "laragear/cache-query": "^5.0.1",
         "laravel/framework": "^11.45.3",
         "laravel/sanctum": "^4.1.2",
         "laravel/socialite": "^5.24.1",
