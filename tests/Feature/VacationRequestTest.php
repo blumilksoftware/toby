@@ -861,6 +861,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -887,6 +888,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -914,6 +916,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -941,6 +944,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 
@@ -992,6 +996,39 @@ class VacationRequestTest extends FeatureTestCase
             ->assertJson([
                 ["label" => "Praca zdalna", "value" => "remote_work"],
                 ["label" => "Nieobecność", "value" => "absence"],
+            ]);
+    }
+
+    public function testEmployeeWithPermissionToCreateOnBehalfSeesAllVacationTypesForEmployee(): void
+    {
+        $employeeWithPermission = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $employeeWithPermission->givePermissionTo("createRequestsOnBehalfOfEmployee");
+
+        $targetEmployee = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $this->actingAs($employeeWithPermission)
+            ->post("/api/vacation/get-available-vacation-types", [
+                "user" => $targetEmployee->id,
+            ])
+            ->assertOk()
+            ->assertJson([
+                ["label" => "Praca zdalna", "value" => "remote_work"],
+                ["label" => "Urlop wypoczynkowy", "value" => "vacation"],
+                ["label" => "Zwolnienie lekarskie", "value" => "sick_vacation"],
+                ["label" => "Urlop okolicznościowy", "value" => "special_vacation"],
+                ["label" => "Delegacja", "value" => "delegation"],
+                ["label" => "Odbiór za święto", "value" => "time_in_lieu"],
+                ["label" => "Urlop bezpłatny", "value" => "unpaid_vacation"],
+                ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
+                ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
+                ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Wolontariat", "value" => "volunteering_vacation"],
+                ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
     }
 }

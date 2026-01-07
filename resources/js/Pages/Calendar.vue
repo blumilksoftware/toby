@@ -144,14 +144,14 @@ function resetSettings() {
               </span>
             </button>
             <a
-              v-if="auth.can.manageRequestsAsAdministrativeApprover"
+              v-if="auth.can.downloadWorkHoursSummary"
               :href="`/vacation/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
               class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             >
-              Pobierz plik Excel
+              Pobierz podsumowanie godzin
             </a>
             <a
-              v-if="auth.can.manageOvertimeAsAdministrativeApprover"
+              v-if="auth.can.downloadOvertimeSummary"
               :href="`/overtime/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
               class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
             >

@@ -85,6 +85,11 @@ const permissionsInfo = [
     'section': 'Urlopy',
   },
   {
+    'name': 'Pobieranie podsumowania godzin pracy',
+    'value': 'downloadWorkHoursSummary',
+    'section': 'Urlopy',
+  },
+  {
     'name': 'Zarządzanie wnioskami jako przełożony administracyjny',
     'value': 'manageOvertimeAsAdministrativeApprover',
     'section': 'Nadgodziny',
@@ -97,6 +102,11 @@ const permissionsInfo = [
   {
     'name': 'Przeglądanie wszystkich wniosków',
     'value': 'listAllOvertimeRequests',
+    'section': 'Nadgodziny',
+  },
+  {
+    'name': 'Pobieranie podsumowania nadgodzin',
+    'value': 'downloadOvertimeSummary',
     'section': 'Nadgodziny',
   },
   {
