@@ -41,6 +41,6 @@
         "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
-        "eslint-plugin-vue": "^9.33.0"
+        "eslint-plugin-vue": "^10.6.2"
     }
 }
