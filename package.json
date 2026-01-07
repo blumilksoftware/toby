@@ -32,7 +32,7 @@
         "tailwindcss": "^3.4.19",
         "vite": "^6.3.5",
         "vue": "^3.5.26",
-        "vue-echarts": "^7.0.3",
+        "vue-echarts": "^8.0.1",
         "vue-flatpickr-component": "^11.0.5",
         "vue-loader": "^17.4.2",
         "vue-material-design-icons": "^5.3.1",
