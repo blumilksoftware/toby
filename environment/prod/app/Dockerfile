@@ -1,11 +1,11 @@
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.4.7
+ARG PHP_VERSION=8.4.16
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.34.1-1
 
 ### PHP DEPENDENCIES ###
-FROM composer:2.8.9@sha256:9f2a31e610b009bbf38cbc378384f74b60295dbe44ac0dd6077b5f74391dd15e AS vendor
+FROM composer:2.8.12@sha256:5248900ab8b5f7f880c2d62180e40960cd87f60149ec9a1abfd62ac72a02577c AS vendor
 
 WORKDIR /app_composer_dependencies
 
@@ -20,7 +20,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:22.17.0-bullseye-slim@sha256:98663a445a21da13827b841d8df7b4d8743d5133e0d7a4e28ec0852140aa1abe AS frontend
+FROM node:22.17.1-bullseye-slim@sha256:741a60f76e79ab4080ebb10d24ec0c2aa4527fc44e33a8d609c416cc351b4fff AS frontend
 
 WORKDIR /app_frontend_dependencies
 
@@ -78,7 +78,7 @@ COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 ARG POSTGRESQL_CLIENT_VERSION=15
 # https://pecl.php.net/package/redis
 # renovate: datasource=github-tags depName=phpredis/phpredis
-ARG PHPREDIS_VERSION=6.2.0
+ARG PHPREDIS_VERSION=6.3.0
 
 RUN apt-get update \
     && apt-get install --assume-yes gpg \
