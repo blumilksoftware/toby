@@ -20,7 +20,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:22.17.1-bullseye-slim@sha256:741a60f76e79ab4080ebb10d24ec0c2aa4527fc44e33a8d609c416cc351b4fff AS frontend
+FROM node:24.12.0-bullseye-slim@sha256:08008d86922fb2b5d06c7b4b478a6f698f649d7cf1fefa68578e7af49aed6186 AS frontend
 
 WORKDIR /app_frontend_dependencies
 
