@@ -48,7 +48,7 @@ services:
         condition: service_healthy
 
   database:
-    image: postgres:15@sha256:a7711af921c380de0fda7c48a61fab5ac4def145fd9fc00ccea7355fd6270bb4
+    image: postgres:16@sha256:056b54f00419b49289227ab12d09df508543883f407fe9935a2cec430ef8aa8d
     container_name: toby-db-dev
     environment:
       - PGPASSWORD=${DOCKER_DEV_DB_ROOT_PASSWORD}
