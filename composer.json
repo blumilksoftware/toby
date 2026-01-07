@@ -24,7 +24,7 @@
         "phpoffice/phpword": "^1.4.0",
         "sentry/sentry-laravel": "^4.15.3",
         "spatie/laravel-google-calendar": "^3.8.4",
-        "spatie/laravel-model-states": "^2.12.2",
+        "spatie/laravel-model-states": "^2.11.3",
         "spatie/laravel-permission": "^6.24.0",
         "spatie/laravel-slack-slash-command": "^1.12.2"
     },
