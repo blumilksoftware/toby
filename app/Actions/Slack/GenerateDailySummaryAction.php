@@ -28,10 +28,10 @@ class GenerateDailySummaryAction
                 "id" => $request->user->id,
                 "name" => $request->user->profile->fullName,
             ])->toArray(),
-            "birthdays" => $this->dailySummaryRetriever->getUpcomingBirthdays()->map(fn(User $user) => [
+            "birthdays" => $this->dailySummaryRetriever->getUpcomingBirthdays($day)->map(fn(User $user) => [
                 "id" => $user->id,
                 "name" => $user->profile->fullName,
-                "when" => $user->upcomingBirthday()->toDateTimeString(),
+                "when" => $user->upcomingBirthday($day)->toDateTimeString(),
             ])->toArray(),
         ]);
 

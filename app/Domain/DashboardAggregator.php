@@ -125,7 +125,7 @@ class DashboardAggregator
 
         $upcomingAbsences = $this->dailySummaryRetriever->getUpcomingAbsences($today);
         $upcomingRemoteDays = $this->dailySummaryRetriever->getUpcomingRemoteDays($today);
-        $upcomingBirthdays = $this->dailySummaryRetriever->getUpcomingBirthdays(3);
+        $upcomingBirthdays = $this->dailySummaryRetriever->getUpcomingBirthdays($today, 3);
 
         $upcomingHolidays = Holiday::query()
             ->whereDate("date", ">=", $today)
