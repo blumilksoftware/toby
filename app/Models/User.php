@@ -201,18 +201,18 @@ class User extends Authenticatable implements NotifiableInterface
         };
     }
 
-    public function upcomingBirthday(): ?Carbon
+    public function upcomingBirthday(?Carbon $date = null): ?Carbon
     {
         if (!$this->profile->birthday) {
             return null;
         }
 
-        $today = Carbon::today();
+        $date ??= Carbon::today();
 
-        $birthday = $this->profile->birthday->setYear($today->year);
+        $birthday = $this->profile->birthday->setYear($date->year);
 
-        if (((int)$birthday->diffInDays()) > 0) {
-            $birthday->setYear($today->year + 1);
+        if (((int)$birthday->diffInDays($date)) > 0) {
+            $birthday->setYear($date->year + 1);
         }
 
         return $birthday;

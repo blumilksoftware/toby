@@ -33,10 +33,10 @@ class UpdateDailySummaryAction
                     "pending" => $request->state->equals(...VacationRequestStatesRetriever::pendingStates()),
                 ],
             )->toArray(),
-            "birthdays" => $this->dailySummaryRetriever->getUpcomingBirthdays()->map(fn(User $user) => [
+            "birthdays" => $this->dailySummaryRetriever->getUpcomingBirthdays($dailySummary->day)->map(fn(User $user) => [
                 "id" => $user->id,
                 "name" => $user->profile->fullName,
-                "when" => $user->upcomingBirthday()->toDateTimeString(),
+                "when" => $user->upcomingBirthday($dailySummary->day)->toDateTimeString(),
             ])->toArray(),
         ]);
 

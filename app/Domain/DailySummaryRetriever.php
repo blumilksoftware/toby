@@ -92,12 +92,12 @@ class DailySummaryRetriever
     /**
      * @return Collection<User>
      */
-    public function getUpcomingBirthdays(?int $limit = null): Collection
+    public function getUpcomingBirthdays(Carbon $date, ?int $limit = null): Collection
     {
         $users = User::query()
             ->whereRelation("profile", fn(Builder $query): Builder => $query->whereNotNull("birthday"))
             ->get()
-            ->sortBy(fn(User $user): int => (int)$user->upcomingBirthday()->diffInDays(Carbon::today()), descending: true);
+            ->sortBy(fn(User $user): int => (int)$user->upcomingBirthday($date)->diffInDays($date), descending: true);
 
         if ($limit) {
             return $users->take($limit);
