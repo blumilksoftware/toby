@@ -12,6 +12,7 @@ import HomeCityIcon from 'vue-material-design-icons/HomeCity.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import PlaneTrainIcon from 'vue-material-design-icons/PlaneTrain.vue'
 import WaterPlusIcon from 'vue-material-design-icons/WaterPlus.vue'
+import HumanMaleChildIcon from 'vue-material-design-icons/HumanMaleChild.vue'
 
 const types = [
   {
@@ -41,6 +42,13 @@ const types = [
     icon: BabyCarriageIcon,
     color: 'text-purple-500',
     border: 'border-purple-500',
+  },
+  {
+    text: 'Urlop ojcowski',
+    value: 'paternity_leave',
+    icon: HumanMaleChildIcon,
+    color: 'text-purple-800',
+    border: 'border-purple-800',
   },
   {
     text: 'Urlop szkoleniowy',
