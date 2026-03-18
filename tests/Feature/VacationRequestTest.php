@@ -1031,6 +1031,7 @@ class VacationRequestTest extends FeatureTestCase
                 ["label" => "Urlop na żądanie", "value" => "vacation_on_request"],
                 ["label" => "Urlop szkoleniowy", "value" => "training_vacation"],
                 ["label" => "Opieka nad dzieckiem (art. 188 kp)", "value" => "childcare_vacation"],
+                ["label" => "Urlop ojcowski", "value" => "paternity_leave"],
                 ["label" => "Wolontariat", "value" => "volunteering_vacation"],
                 ["label" => "Oddanie krwi", "value" => "blood_donation_vacation"],
             ]);
