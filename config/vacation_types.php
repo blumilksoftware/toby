@@ -158,7 +158,7 @@ return [
             Role::TechnicalApprover,
         ],
         VacationTypeConfigRetriever::KEY_IS_VACATION => true,
-        VacationTypeConfigRetriever::KEY_DURING_NON_WORKDAYS => false,
+        VacationTypeConfigRetriever::KEY_DURING_NON_WORKDAYS => true,
     ],
     VacationType::Training->value => [
         VacationTypeConfigRetriever::KEY_TECHNICAL_APPROVAL => true,
