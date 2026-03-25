@@ -8,6 +8,10 @@ on:
       - ready_for_review
       - reopened
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   check-pr-title:
     name: Check PR title
