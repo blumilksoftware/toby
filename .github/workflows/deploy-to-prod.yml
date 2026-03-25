@@ -84,8 +84,8 @@ jobs:
           username: ${{ secrets.VPS_OVH_BF7EC892_USERNAME }}
           key: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.VPS_OVH_BF7EC892_SSH_PRIVATE_KEY_PASSPHRASE }}
-          script_stop: true
           script: |
+            set -e
             cd ${{ secrets.TOBY_VPS_LIVE_APP_PATH }}/environment/prod/deployment/prod
             make prod-deploy SOPS_AGE_KEY=${{ secrets.SOPS_AGE_PROD_SECRET_KEY }}
             docker images --filter dangling=true | grep "${{ env.DOCKER_IMAGE_NAME }}" | awk '{print $3}'| xargs --no-run-if-empty docker rmi
