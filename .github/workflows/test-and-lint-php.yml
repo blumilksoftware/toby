@@ -17,6 +17,9 @@ on:
       - '.env.ci'
       - 'test-and-lint-php.yml'
 
+permissions:
+  contents: read
+
 jobs:
   test-and-lint-php:
     name: Test & lint PHP stuff

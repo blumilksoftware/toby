@@ -15,6 +15,9 @@ on:
       - 'package.json'
       - 'package-lock.json'
 
+permissions:
+  contents: read
+
 jobs:
   test-and-lint-js:
     name: Test & lint JS stuff
