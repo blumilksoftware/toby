@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16.3",
-        "blumilksoftware/codestyle": "^4.1.0",
+        "blumilksoftware/codestyle": "^5.1.1",
         "laravel/dusk": "^8.3.4",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.8.3",
