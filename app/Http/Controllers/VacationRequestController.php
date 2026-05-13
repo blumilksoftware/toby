@@ -46,7 +46,7 @@ class VacationRequestController extends Controller
         }
 
         $year = $request->integer("year", Carbon::now()->year);
-        $status = $request->get("status", "all");
+        $status = $request->input("status", "all");
         $withoutRemote = $request->boolean("withoutRemote");
 
         $vacationRequests = $user
@@ -104,15 +104,15 @@ class VacationRequestController extends Controller
             return redirect()->route("vacation.requests.index");
         }
 
-        $year = $request->get("year");
-        $status = $request->get("status", "all");
-        $type = $request->get("type");
+        $year = $request->input("year");
+        $status = $request->input("status", "all");
+        $type = $request->input("type");
         $authUser = $request->user();
         $withTrashedUsers = $authUser->canSeeInactiveUsers();
 
         $user = User::query()
             ->withTrashed($withTrashedUsers)
-            ->where("id", $request->get("user"))
+            ->where("id", $request->input("user"))
             ->first();
 
         $vacationRequests = VacationRequest::query()
@@ -243,8 +243,8 @@ class VacationRequestController extends Controller
         return inertia("VacationRequest/Create", [
             "vacationTypes" => VacationType::casesToSelect(),
             "users" => SimpleUserResource::collection($users),
-            "vacationUserId" => (int)$request->get("user"),
-            "vacationFromDate" => $request->get("from_date"),
+            "vacationUserId" => (int)$request->input("user"),
+            "vacationFromDate" => $request->input("from_date"),
         ]);
     }
 
@@ -268,7 +268,7 @@ class VacationRequestController extends Controller
             "types" => VacationType::casesToSelect(),
             "users" => SimpleUserResource::collection($users),
             "typesByUser" => $typesByUser ?? [],
-            "vacationFromDate" => $request->get("from_date"),
+            "vacationFromDate" => $request->input("from_date"),
         ]);
     }
 

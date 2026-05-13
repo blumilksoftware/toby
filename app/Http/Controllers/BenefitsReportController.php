@@ -66,7 +66,7 @@ class BenefitsReportController extends Controller
     {
         $this->authorize("manageBenefits");
 
-        $nameReport = $request->get("name");
+        $nameReport = $request->input("name");
 
         $users = User::query()
             ->withTrashed($request->user()->canSeeInactiveUsers())

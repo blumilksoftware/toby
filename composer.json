@@ -14,8 +14,8 @@
         "fakerphp/faker": "^1.24.1",
         "guzzlehttp/guzzle": "^7.10.0",
         "inertiajs/inertia-laravel": "^2.0.24",
-        "laragear/cache-query": "^4.2.2",
-        "laravel/framework": "^11.51.0",
+        "laragear/cache-query": "^6.0.0",
+        "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.3.2",
         "laravel/socialite": "^5.24.3",
         "laravel/telescope": "^5.20.0",
@@ -29,12 +29,12 @@
         "spatie/laravel-slack-slash-command": "^1.13.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.16.5",
+        "barryvdh/laravel-debugbar": "^4.0",
         "blumilksoftware/codestyle": "^5.1.1",
         "laravel/dusk": "^8.3.6",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.4",
-        "phpunit/phpunit": "^11.5.55",
+        "phpunit/phpunit": "^12.0",
         "spatie/laravel-ignition": "^2.12.0"
     },
     "autoload": {

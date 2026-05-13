@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Laragear\CacheQuery\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Toby\Enums\EmploymentForm;
@@ -100,7 +101,9 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->histories()
             ->where("type", UserHistoryType::MedicalExam)
             ->orderBy("to", "desc")
-            ->cache("user:history{$this->id}")
+            ->cache(function(Cache $cache) {
+                $cache->ttl(60)->as("user:history:{$this->id}");
+            })
             ->first();
     }
 
@@ -109,7 +112,9 @@ class User extends Authenticatable implements NotifiableInterface
         return $this->histories()
             ->where("type", UserHistoryType::OhsTraining)
             ->orderBy("to", "desc")
-            ->cache("user:history{$this->id}")
+            ->cache(function(Cache $cache) {
+                $cache->ttl(60)->as("user:history:{$this->id}");
+            })
             ->first();
     }
 
@@ -119,7 +124,9 @@ class User extends Authenticatable implements NotifiableInterface
             ->where("type", UserHistoryType::Employment)
             ->where("is_employed_at_current_company", true)
             ->orderBy("from")
-            ->cache("user:history{$this->id}")
+            ->cache(function(Cache $cache) {
+                $cache->ttl(60)->as("user:history:{$this->id}");
+            })
             ->first();
     }
 

@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Response;
+use Laragear\CacheQuery\Cache;
 use Toby\Actions\OvertimeRequest\AcceptAsTechnicalAction;
 use Toby\Actions\OvertimeRequest\CancelAction;
 use Toby\Actions\OvertimeRequest\CreateAction;
@@ -35,7 +36,7 @@ class OvertimeRequestController extends Controller
         $user = $request->user();
         $this->authorize("canUseOvertimeRequestFunctionality", $user);
 
-        $status = $request->get("status", "all");
+        $status = $request->input("status", "all");
         $year = $request->integer("year", Carbon::now()->year);
 
         $overtimeRequests = $user
@@ -50,28 +51,36 @@ class OvertimeRequestController extends Controller
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::pendingStates())
-            ->cache(key: "overtime:{$user->id}")
+            ->cache(function(Cache $cache) use ($user) {
+                $cache->ttl(60)->as("overtime:{$user->id}");
+            })
             ->count();
 
         $success = $user
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::successStates())
-            ->cache(key: "overtime:{$user->id}")
+            ->cache(function(Cache $cache) use ($user) {
+                $cache->ttl(60)->as("overtime:{$user->id}");
+            })
             ->count();
 
         $failed = $user
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::failedStates())
-            ->cache(key: "overtime:{$user->id}")
+            ->cache(function(Cache $cache) use ($user) {
+                $cache->ttl(60)->as("overtime:{$user->id}");
+            })
             ->count();
 
         $settled = $user
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::settledStates())
-            ->cache(key: "overtime:{$user->id}")
+            ->cache(function(Cache $cache) use ($user) {
+                $cache->ttl(60)->as("overtime:{$user->id}");
+            })
             ->count();
 
         return inertia("OvertimeRequest/Index", [
@@ -97,9 +106,9 @@ class OvertimeRequestController extends Controller
             abort(403);
         }
 
-        $status = $request->get("status", "all");
-        $user = $request->get("user");
-        $year = $request->get("year");
+        $status = $request->input("status", "all");
+        $user = $request->input("user");
+        $year = $request->input("year");
 
         $authUser = $request->user();
         $withTrashedUsers = $authUser->canSeeInactiveUsers();
@@ -151,7 +160,7 @@ class OvertimeRequestController extends Controller
 
         return inertia("OvertimeRequest/Create", [
             "settlementTypes" => SettlementType::casesToSelect(),
-            "overtimeFromDate" => $request->get("from_date"),
+            "overtimeFromDate" => $request->input("from_date"),
         ]);
     }
 
