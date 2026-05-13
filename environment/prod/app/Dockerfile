@@ -24,7 +24,7 @@ FROM node:22.22.2-bullseye-slim@sha256:f414ad225653500910a84d4206bb3f10f449acfb0
 
 WORKDIR /app_frontend_dependencies
 
-COPY package.json package-lock.json postcss.config.js tailwind.config.js vite.config.js ./
+COPY package.json package-lock.json postcss.config.js vite.config.js ./
 COPY ./environment/prod/app/vite.env .env
 
 RUN npm clean-install
