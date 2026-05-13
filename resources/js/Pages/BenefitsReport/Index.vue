@@ -48,7 +48,7 @@ watch(form, debounce(() => {
             <input
               v-model.trim="form.search"
               type="search"
-              class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+              class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
               placeholder="Szukaj"
             >
           </div>
@@ -95,7 +95,7 @@ watch(form, debounce(() => {
                   class="inline-block relative text-left"
                 >
                   <MenuButton
-                    class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                    class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                   >
                     <EllipsisVerticalIcon class="size-5" />
                   </MenuButton>
@@ -109,7 +109,7 @@ watch(form, debounce(() => {
                     leave-to-class="transform opacity-0 scale-95"
                   >
                     <MenuItems
-                      class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg origin-top-right"
+                      class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg origin-top-right"
                     >
                       <div class="py-1">
                         <MenuItem

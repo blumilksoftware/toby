@@ -104,7 +104,7 @@ class UserVacationStatsRetriever
     {
         return $user->vacationLimits()
             ->where("year", $year ?? Carbon::today()->year)
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("vacations:{$user->id}");
             })
             ->first()?->limit ?? 0;
@@ -114,7 +114,7 @@ class UserVacationStatsRetriever
     {
         return $user->vacationLimits()
             ->where("year", $year ?? Carbon::today()->year)
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("vacations:{$user->id}");
             })
             ->first()?->hasVacation() ?? false;

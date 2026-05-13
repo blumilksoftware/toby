@@ -190,7 +190,7 @@ function getVacationInfo(day) {
         {{ calendarState.monthName }} {{ calendar.date.year }}
       </h2>
       <div class="flex justify-center">
-        <div class="flex items-center rounded-md shadow-sm md:items-stretch">
+        <div class="flex items-center rounded-md shadow-xs md:items-stretch">
           <button
             type="button"
             class="flex items-center justify-center rounded-l-md border border-r-0 border-gray-300 py-2 pl-3 pr-4 text-gray-400 focus:relative md:w-9 md:px-2 bg-white hover:text-gray-500 md:hover:bg-gray-50"
@@ -231,7 +231,7 @@ function getVacationInfo(day) {
       >
         <MenuButton
           type="button"
-          class="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+          class="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50"
         >
           <span class="md:hidden">{{ calendarState.viewMode.details.shortcut }}</span>
           <span class="hidden md:inline-block">{{ calendarState.viewMode.details.name }}</span>
@@ -251,7 +251,7 @@ function getVacationInfo(day) {
           leave-to-class="transform opacity-0 scale-95"
         >
           <MenuItems
-            class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+            class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden"
           >
             <div class="py-1">
               <MenuItem

@@ -67,19 +67,19 @@ watch(form, debounce(() => {
         </div>
         <div>
           <a
-            class="inline-flex mr-2 items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex mr-2 items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             href="equipment-items/download"
           >
             Pobierz plik Excel
           </a>
           <InertiaLink
-            class="inline-flex mr-2 items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex mr-2 items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             href="equipment-labels"
           >
             Zarządzaj etykietami
           </InertiaLink>
           <InertiaLink
-            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             href="equipment-items/create"
           >
             Dodaj sprzęt
@@ -94,7 +94,7 @@ watch(form, debounce(() => {
             </div>
             <input
               v-model.trim="form.search"
-              class="inline-block align-baseline py-2 pr-3 pl-10 w-full placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+              class="inline-block align-baseline py-2 pr-3 pl-10 w-full placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
               placeholder="Szukaj"
               type="search"
             >
@@ -110,7 +110,7 @@ watch(form, debounce(() => {
           >
             <div class="relative mt-1 sm:mt-0">
               <ListboxButton
-                class="relative py-2 pr-10 pl-3 w-full  h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm placeholder:text-gray-500 focus:text-gray-800 focus:placeholder:text-gray-400 "
+                class="relative py-2 pr-10 pl-3 w-full  h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 shadow-xs cursor-default sm:text-sm placeholder:text-gray-500 focus:text-gray-800 focus:placeholder:text-gray-400 "
               >
                 <span
                   v-if="form.assignee === null"
@@ -144,7 +144,7 @@ watch(form, debounce(() => {
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
-                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                 >
                   <ListboxOption
                     v-slot="{ active }"
@@ -342,7 +342,7 @@ watch(form, debounce(() => {
                     class="inline-block relative text-left"
                   >
                     <MenuButton
-                      class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                      class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                     >
                       <EllipsisVerticalIcon class="size-5" />
                     </MenuButton>
@@ -356,7 +356,7 @@ watch(form, debounce(() => {
                       leave-to-class="transform opacity-0 scale-95"
                     >
                       <MenuItems
-                        class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg origin-top-right"
+                        class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg origin-top-right"
                       >
                         <div class="py-1">
                           <MenuItem

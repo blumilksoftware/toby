@@ -1,4 +1,5 @@
 import '../css/app.css'
+import 'flatpickr/dist/themes/light.css'
 import { createApp, h } from 'vue'
 import Flatpickr from 'flatpickr'
 import { Settings } from 'luxon'

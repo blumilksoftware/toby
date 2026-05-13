@@ -106,7 +106,7 @@ function resetSettings() {
             </button>
             <MonthPicker
               :model-value="selectedMonth.toFormat('LL-yyyy')"
-              class="block w-40 shadow-sm disabled:bg-gray-100 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
+              class="block w-40 shadow-xs disabled:bg-gray-100 focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300"
               @update:model-value="selectedMonth = DateTime.fromFormat($event, 'LL/yyyy')"
             />
             <button
@@ -146,14 +146,14 @@ function resetSettings() {
             <a
               v-if="auth.can.downloadWorkHoursSummary"
               :href="`/vacation/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
-              class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             >
               Pobierz podsumowanie godzin
             </a>
             <a
               v-if="auth.can.downloadOvertimeSummary"
               :href="`/overtime/timesheet/${selectedMonth.toFormat('LL-yyyy')}`"
-              class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="block py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             >
               Pobierz nadgodziny
             </a>

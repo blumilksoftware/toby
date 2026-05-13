@@ -54,7 +54,7 @@ watch(form, debounce(() => {
             <input
               v-model.trim="form.search"
               type="search"
-              class="inline-block align-baseline py-2 pr-3 pl-10 w-full placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+              class="inline-block align-baseline py-2 pr-3 pl-10 w-full placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
               placeholder="Szukaj"
             >
           </div>

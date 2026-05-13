@@ -56,8 +56,8 @@ function editEquipmentItem() {
               id="idNumber"
               v-model="form.idNumber"
               type="text"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.idNumber, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.idNumber }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.idNumber, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.idNumber }"
             >
             <p
               v-if="form.errors.idNumber"
@@ -79,8 +79,8 @@ function editEquipmentItem() {
               id="name"
               v-model="form.name"
               type="text"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
             >
             <p
               v-if="form.errors.name"
@@ -103,10 +103,10 @@ function editEquipmentItem() {
             <Switch
               id="isMobile"
               v-model="form.isMobile"
-              :class="[form.isMobile ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
+              :class="[form.isMobile ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
             >
               <span
-                :class="[form.isMobile ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block size-5 rounded-full bg-white shadow ring-0 transition ease-in-out duration-200']"
+                :class="[form.isMobile ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block size-5 rounded-full bg-white shadow-sm ring-0 transition ease-in-out duration-200']"
               />
             </Switch>
           </div>
@@ -121,7 +121,7 @@ function editEquipmentItem() {
           </ListboxLabel>
           <div class="relative mt-1 sm:col-span-2 sm:mt-0">
             <ListboxButton
-              class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
+              class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-hidden focus:ring-1 shadow-xs cursor-default sm:text-sm"
               :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.assignee, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.assignee }"
             >
               <span
@@ -151,7 +151,7 @@ function editEquipmentItem() {
               leave-to-class="opacity-0"
             >
               <ListboxOptions
-                class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
               >
                 <ListboxOption
                   v-for="user in users.data"
@@ -214,8 +214,8 @@ function editEquipmentItem() {
             <FlatPickr
               id="date_from"
               v-model="form.assignedAt"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.assignedAt, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.assignedAt }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.assignedAt, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.assignedAt }"
             />
             <p
               v-if="form.errors.assignedAt"
@@ -253,13 +253,13 @@ function editEquipmentItem() {
           <div class="space-x-3">
             <InertiaLink
               href="/equipment-items"
-              class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             >
               Anuluj
             </InertiaLink>
             <button
               type="submit"
-              class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
               :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
               :disabled="form.processing || !form.isDirty"
             >

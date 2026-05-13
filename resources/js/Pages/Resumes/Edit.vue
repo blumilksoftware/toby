@@ -138,7 +138,7 @@ function submitResume() {
                 </ListboxLabel>
                 <div class="relative mt-2">
                   <ListboxButton
-                    class="relative py-2 pr-10 pl-3 w-full max-w-md h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+                    class="relative py-2 pr-10 pl-3 w-full max-w-md h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 shadow-xs cursor-default sm:text-sm"
                   >
                     <span v-if="form.user === null">
                       Nie istnieje w bazie
@@ -164,7 +164,7 @@ function submitResume() {
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
-                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                     >
                       <ListboxOption
                         v-slot="{ active }"
@@ -231,8 +231,8 @@ function submitResume() {
                     id="name"
                     v-model="form.name"
                     type="text"
-                    class="block w-full max-w-md rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
+                    class="block w-full max-w-md rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
                   >
                   <p
                     v-if="form.errors.name"
@@ -266,8 +266,8 @@ function submitResume() {
                   <input
                     v-model="element.school"
                     type="text"
-                    class="block w-full rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.school`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.school`] }"
+                    class="block w-full rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.school`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.school`] }"
                   >
                   <p
                     v-if="form.errors[`education.${index}.school`]"
@@ -285,8 +285,8 @@ function submitResume() {
                   <input
                     v-model="element.degree"
                     type="text"
-                    class="block w-full rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.degree`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.degree`] }"
+                    class="block w-full rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.degree`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.degree`] }"
                   >
                   <p
                     v-if="form.errors[`education.${index}.degree`]"
@@ -304,8 +304,8 @@ function submitResume() {
                   <input
                     v-model="element.fieldOfStudy"
                     type="text"
-                    class="block w-full rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.fieldOfStudy`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.fieldOfStudy`] }"
+                    class="block w-full rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.fieldOfStudy`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.fieldOfStudy`] }"
                   >
                   <p
                     v-if="form.errors[`education.${index}.fieldOfStudy`]"
@@ -322,8 +322,8 @@ function submitResume() {
                 <div class="mt-1 sm:mt-0">
                   <MonthPicker
                     v-model="element.startDate"
-                    class="block w-full rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.startDate`] }"
+                    class="block w-full rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.startDate`] }"
                   />
                   <p
                     v-if="form.errors[`education.${index}.startDate`]"
@@ -343,15 +343,15 @@ function submitResume() {
                       <input
                         v-model="element.current"
                         type="checkbox"
-                        class="focus:ring-blumilk-500 size-4 text-blumilk-600 border-gray-300 rounded mr-1"
+                        class="focus:ring-blumilk-500 size-4 text-blumilk-600 border-gray-300 rounded-sm mr-1"
                       >
                       W trakcie
                     </label>
                     <MonthPicker
                       v-model="element.endDate"
                       :disabled="element.current"
-                      class="block w-full rounded-md shadow-sm sm:text-sm disabled:bg-gray-100"
-                      :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.endDate`] }"
+                      class="block w-full rounded-md shadow-xs sm:text-sm disabled:bg-gray-100"
+                      :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`education.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`education.${index}.endDate`] }"
                     />
                   </div>
                   <p
@@ -518,8 +518,8 @@ function submitResume() {
                     :id="`project-description-${index}`"
                     v-model="element.description"
                     rows="5"
-                    class="block w-full rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.description`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.description`] }"
+                    class="block w-full rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.description`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.description`] }"
                   />
                   <p
                     v-if="form.errors[`projects.${index}.description`]"
@@ -562,8 +562,8 @@ function submitResume() {
                   <MonthPicker
                     :id="`project-startDate-${index}`"
                     v-model="element.startDate"
-                    class="block w-full rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.startDate`] }"
+                    class="block w-full rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.startDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.startDate`] }"
                   />
                   <p
                     v-if="form.errors[`projects.${index}.startDate`]"
@@ -586,7 +586,7 @@ function submitResume() {
                       <input
                         v-model="element.current"
                         type="checkbox"
-                        class="focus:ring-blumilk-500 size-4 text-blumilk-600 border-gray-300 rounded mr-1"
+                        class="focus:ring-blumilk-500 size-4 text-blumilk-600 border-gray-300 rounded-sm mr-1"
                       >
                       W trakcie
                     </label>
@@ -594,8 +594,8 @@ function submitResume() {
                       :id="`project-endDate-${index}`"
                       v-model="element.endDate"
                       :disabled="element.current"
-                      class="block w-full rounded-md shadow-sm sm:text-sm disabled:bg-gray-100"
-                      :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.endDate`] }"
+                      class="block w-full rounded-md shadow-xs sm:text-sm disabled:bg-gray-100"
+                      :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.endDate`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.endDate`] }"
                     />
                   </div>
                   <p
@@ -618,8 +618,8 @@ function submitResume() {
                     :id="`project-tasks-${index}`"
                     v-model="element.tasks"
                     rows="5"
-                    class="block w-full rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.tasks`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.tasks`] }"
+                    class="block w-full rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors[`projects.${index}.tasks`], 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors[`projects.${index}.tasks`] }"
                   />
                   <p
                     v-if="form.errors[`projects.${index}.tasks`]"
@@ -635,13 +635,13 @@ function submitResume() {
             <div class="flex justify-end">
               <InertiaLink
                 href="/resumes"
-                class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
               >
                 Anuluj
               </InertiaLink>
               <button
                 type="submit"
-                class="inline-flex justify-center py-2 px-4 ml-3 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                class="inline-flex justify-center py-2 px-4 ml-3 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                 :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                 :disabled="form.processing || !form.isDirty"
               >

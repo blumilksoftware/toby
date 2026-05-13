@@ -51,7 +51,7 @@ class OvertimeRequestController extends Controller
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::pendingStates())
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("overtime:{$user->id}");
             })
             ->count();
@@ -60,7 +60,7 @@ class OvertimeRequestController extends Controller
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::successStates())
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("overtime:{$user->id}");
             })
             ->count();
@@ -69,7 +69,7 @@ class OvertimeRequestController extends Controller
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::failedStates())
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("overtime:{$user->id}");
             })
             ->count();
@@ -78,7 +78,7 @@ class OvertimeRequestController extends Controller
             ->overtimeRequests()
             ->whereYear("from", $year)
             ->states(OvertimeRequestStatesRetriever::settledStates())
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("overtime:{$user->id}");
             })
             ->count();

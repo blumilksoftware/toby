@@ -1,11 +1,38 @@
+@import 'tailwindcss';
 @import 'flatpickr/dist/themes/light.css';
 @import 'flatpickr/dist/plugins/monthSelect/style.css';
 @import 'vue-toastification/dist/index.css';
 @import 'floating-vue/dist/style.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --font-sans: Inter var;
+
+  --color-blumilk-25: #f4f8fd;
+  --color-blumilk-50: #d5dfee;
+  --color-blumilk-100: #c7d4e9;
+  --color-blumilk-200: #aabddd;
+  --color-blumilk-300: #8ca7d1;
+  --color-blumilk-400: #6f90c6;
+  --color-blumilk-500: #527aba;
+  --color-blumilk-600: #3c5f97;
+  --color-blumilk-700: #2c466f;
+  --color-blumilk-800: #1c2d47;
+  --color-blumilk-900: #0c141f;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 .flatpickr-months .flatpickr-prev-month:hover svg,
 .flatpickr-months .flatpickr-next-month:hover svg {
@@ -31,11 +58,10 @@
 .flatpickr-day.startRange.nextMonthDay,
 .flatpickr-day.endRange.nextMonthDay,
 .flatpickr-monthSelect-month.selected {
-    background: #527ABA;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    color: #fff;
-    border-color: #527ABA;
+    background: #527ABA !important;
+    box-shadow: none !important;
+    color: #fff !important;
+    border-color: #527ABA !important;
 }
 
 .flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)),

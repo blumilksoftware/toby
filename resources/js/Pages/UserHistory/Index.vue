@@ -28,7 +28,7 @@ const props = defineProps({
         <div>
           <InertiaLink
             :href="`/users/${user.id}/history/create`"
-            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-center text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
           >
             Dodaj wpis
           </InertiaLink>
@@ -104,7 +104,7 @@ const props = defineProps({
                     class="inline-block relative text-left"
                   >
                     <MenuButton
-                      class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                      class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                     >
                       <EllipsisVerticalIcon class="size-5" />
                     </MenuButton>
@@ -118,7 +118,7 @@ const props = defineProps({
                       leave-to-class="transform opacity-0 scale-95"
                     >
                       <MenuItems
-                        class="absolute right-0 z-10 my-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg origin-top-right"
+                        class="absolute right-0 z-10 my-2 w-56 bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg origin-top-right"
                       >
                         <div class="py-1">
                           <MenuItem

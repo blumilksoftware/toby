@@ -61,7 +61,7 @@ function createForm() {
                 <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                   <ListboxButton
                     :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
-                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
+                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-hidden focus:ring-1 shadow-xs cursor-default sm:text-sm"
                   >
                     <template v-if="form.type">
                       <span class="block truncate">
@@ -72,7 +72,7 @@ function createForm() {
                       </span>
                     </template>
                     <template v-else>
-                      <span class="!text-gray-400">Wybierz opcję</span>
+                      <span class="text-gray-400!">Wybierz opcję</span>
                       <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
                         <ChevronUpDownIcon class="size-5 text-gray-400" />
                       </span>
@@ -84,7 +84,7 @@ function createForm() {
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
-                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                     >
                       <ListboxOption
                         v-for="type in types"
@@ -128,7 +128,7 @@ function createForm() {
                 <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                   <ListboxButton
                     :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
-                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
+                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-hidden focus:ring-1 shadow-xs cursor-default sm:text-sm"
                   >
                     <template v-if="form.employmentForm">
                       <span class="block truncate">
@@ -139,7 +139,7 @@ function createForm() {
                       </span>
                     </template>
                     <template v-else>
-                      <span class="!text-gray-400">Wybierz opcję</span>
+                      <span class="text-gray-400!">Wybierz opcję</span>
                       <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
                         <ChevronUpDownIcon class="size-5 text-gray-400" />
                       </span>
@@ -151,7 +151,7 @@ function createForm() {
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
-                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                     >
                       <ListboxOption
                         v-for="employmentForm in employmentForms"
@@ -194,8 +194,8 @@ function createForm() {
                   <FlatPickr
                     id="date_from"
                     v-model="form.from"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.from, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.from }"
-                    class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.from, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.from }"
+                    class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
                   />
                   <p
                     v-if="form.errors.from"
@@ -216,8 +216,8 @@ function createForm() {
                   <FlatPickr
                     id="date_to"
                     v-model="form.to"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.to, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.to }"
-                    class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.to, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.to }"
+                    class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
                   />
                   <p
                     v-if="form.errors.to"
@@ -243,8 +243,8 @@ function createForm() {
                   id="comment"
                   v-model="form.comment"
                   type="text"
-                  class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-                  :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.comment, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.comment }"
+                  class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+                  :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.comment, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.comment }"
                 >
                 <p
                   v-if="form.errors.comment"
@@ -268,10 +268,10 @@ function createForm() {
                 <Switch
                   id="flowSkipped"
                   v-model="form.isEmployedAtCurrentCompany"
-                  :class="[form.isEmployedAtCurrentCompany ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
+                  :class="[form.isEmployedAtCurrentCompany ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
                 >
                   <span
-                    :class="[form.isEmployedAtCurrentCompany ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block size-5 rounded-full bg-white shadow ring-0 transition ease-in-out duration-200']"
+                    :class="[form.isEmployedAtCurrentCompany ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block size-5 rounded-full bg-white shadow-sm ring-0 transition ease-in-out duration-200']"
                   />
                 </Switch>
               </div>
@@ -279,7 +279,7 @@ function createForm() {
             <div class="flex justify-end py-3">
               <div class="space-x-3">
                 <InertiaLink
-                  class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                  class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                   :href="`/users/${props.userId}/history`"
                 >
                   Anuluj
@@ -287,7 +287,7 @@ function createForm() {
                 <button
                   :class="[form.processing ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                   :disabled="form.processing"
-                  class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                  class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                   type="submit"
                 >
                   Dodaj

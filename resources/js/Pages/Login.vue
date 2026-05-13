@@ -36,7 +36,7 @@ const showError = ref(true)
             </div>
             <div class="flex shrink-0 ml-4">
               <button
-                class="inline-flex text-red-100 hover:text-red-400 bg-red-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
+                class="inline-flex text-red-100 hover:text-red-400 bg-red-500 rounded-md focus:outline-hidden focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
                 @click="showError = false"
               >
                 <span class="sr-only">Close</span>
@@ -57,7 +57,7 @@ const showError = ref(true)
       >
       <a
         href="/login/google/start"
-        class="inline-flex justify-center items-center py-2 px-6 font-medium text-white bg-blumilk-500 hover:bg-blumilk-700 rounded-md shadow-sm text-md"
+        class="inline-flex justify-center items-center py-2 px-6 font-medium text-white bg-blumilk-500 hover:bg-blumilk-700 rounded-md shadow-xs text-md"
       >
         Zaloguj się za pomocą Google
         <svg
@@ -74,7 +74,7 @@ const showError = ref(true)
       <a
         v-if="showLocalLoginButton"
         href="/login/local"
-        class="inline-flex justify-center items-center py-2 px-6 font-medium text-white bg-blumilk-500 hover:bg-blumilk-700 rounded-md shadow-sm text-md"
+        class="inline-flex justify-center items-center py-2 px-6 font-medium text-white bg-blumilk-500 hover:bg-blumilk-700 rounded-md shadow-xs text-md"
       >
         Zaloguj się za pomocą hasła
       </a>

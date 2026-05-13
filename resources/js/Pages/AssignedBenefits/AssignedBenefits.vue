@@ -112,7 +112,7 @@ function isBenefitHasCompanion(benefitId) {
           <button
             :class="[form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
             :disabled="form.isDirty"
-            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             type="button"
             @click="startCreatingBenefitsReport"
           >
@@ -126,7 +126,7 @@ function isBenefitHasCompanion(benefitId) {
             <thead class="divide-y divide-gray-300">
               <tr class="divide-x divide-gray-300">
                 <th
-                  class="py-2 w-64 text-lg font-semibold text-gray-800 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
+                  class="py-2 w-64 text-lg font-semibold text-gray-800 sticky left-0 bg-white outline-solid outline-1 outline-offset-0 outline-gray-300"
                   rowspan="2"
                 >
                   <div class="flex justify-center items-center capitalize">
@@ -185,7 +185,7 @@ function isBenefitHasCompanion(benefitId) {
                 :key="item.user.id"
                 :class="[item.user.isActive ? '' : 'bg-gray-100', 'group hover:bg-blumilk-25 divide-x divide-gray-300']"
               >
-                <th :class="[item.user.isActive ? 'bg-white' : 'bg-gray-100', 'group p-2 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 hover:bg-blumilk-25 group-hover:bg-blumilk-25']">
+                <th :class="[item.user.isActive ? 'bg-white' : 'bg-gray-100', 'group p-2 sticky left-0 outline-solid outline-1 outline-offset-0 outline-gray-300 hover:bg-blumilk-25 group-hover:bg-blumilk-25']">
                   <div class="flex justify-start items-center">
                     <UserProfileLink
                       :user="item.user"
@@ -255,7 +255,7 @@ function isBenefitHasCompanion(benefitId) {
           <button
             :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
             :disabled="form.processing || !form.isDirty"
-            class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             type="submit"
           >
             Zapisz
@@ -318,8 +318,8 @@ function isBenefitHasCompanion(benefitId) {
                       <input
                         id="name"
                         v-model="formBenefitsReport.name"
-                        :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': formBenefitsReport.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !formBenefitsReport.errors.name }"
-                        class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
+                        :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': formBenefitsReport.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !formBenefitsReport.errors.name }"
+                        class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
                         type="text"
                       >
                       <p
@@ -335,7 +335,7 @@ function isBenefitHasCompanion(benefitId) {
               <div class="mt-5 sm:mt-6">
                 <div class="flex justify-end space-x-3">
                   <button
-                    class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                    class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                     type="button"
                     @click="creatingBenefitsReport = false"
                   >
@@ -344,7 +344,7 @@ function isBenefitHasCompanion(benefitId) {
                   <button
                     :class="[formBenefitsReport.processing ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                     :disabled="formBenefitsReport.processing"
-                    class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
+                    class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs sm:text-sm"
                     type="submit"
                   >
                     Utwórz

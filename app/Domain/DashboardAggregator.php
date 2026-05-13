@@ -54,7 +54,7 @@ class DashboardAggregator
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereYear("date", $year ?? Carbon::now()->year)
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("vacations:{$user->id}");
             })
             ->approved()
@@ -69,7 +69,7 @@ class DashboardAggregator
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereYear("date", $year ?? Carbon::now()->year)
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("vacations:{$user->id}");
             })
             ->pending()

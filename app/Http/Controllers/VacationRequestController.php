@@ -64,7 +64,7 @@ class VacationRequestController extends Controller
             ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::pendingStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("vacations:{$user->id}");
             })
             ->count();
@@ -74,7 +74,7 @@ class VacationRequestController extends Controller
             ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::successStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("vacations:{$user->id}");
             })
             ->count();
@@ -84,7 +84,7 @@ class VacationRequestController extends Controller
             ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::failedStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(function(Cache $cache) use ($user) {
+            ->cache(function (Cache $cache) use ($user): void {
                 $cache->ttl(60)->as("vacations:{$user->id}");
             })
             ->count();

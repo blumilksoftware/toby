@@ -99,7 +99,7 @@ function getVacationInfo(day) {
       <div>Sb</div>
       <div>Nd</div>
     </div>
-    <div class="grid grid-cols-7 mt-2 text-sm ring-1 ring-gray-200 shadow">
+    <div class="grid grid-cols-7 mt-2 text-sm ring-1 ring-gray-200 shadow-sm">
       <template
         v-for="(day, dayIdx) in month.days"
         :key="dayIdx"

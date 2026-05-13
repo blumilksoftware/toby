@@ -44,7 +44,7 @@ const pages = computed(() => [
 <template>
   <AppLayout :title="title">
     <section>
-      <div class="bg-white shadow mb-8">
+      <div class="bg-white shadow-sm mb-8">
         <div class="p-6 bg-white">
           <div class="sm:flex sm:justify-between sm:items-center">
             <div class="sm:flex sm:space-x-5 sm:items-center">
@@ -65,7 +65,7 @@ const pages = computed(() => [
             </div>
           </div>
         </div>
-        <div class="border-t relative divide-x divide-gray-200 shadow flex flex-col md:flex-row">
+        <div class="border-t relative divide-x divide-gray-200 shadow-sm flex flex-col md:flex-row">
           <InertiaLink
             v-for="page in pages"
             :key="page.href"
