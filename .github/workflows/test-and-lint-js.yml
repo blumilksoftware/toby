@@ -38,7 +38,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: 22.17.1
+          node-version: 22.22.2
 
       - name: Instal npm dependencies
         run: npm clean-install

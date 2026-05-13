@@ -17,7 +17,7 @@ class CalculateUserVacationStatsController extends Controller
         UserVacationStatsRetriever $vacationStatsRetriever,
     ): JsonResponse {
         /** @var User $user */
-        $user = User::query()->find($request->get("user"));
+        $user = User::query()->find($request->input("user"));
         $year = $request->getYear();
 
         $limit = $vacationStatsRetriever->getVacationDaysLimit($user, $year);

@@ -26,7 +26,7 @@ defineProps({
         >
           <div
             :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white']"
-            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
+            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-hidden"
           >
             <h3 class="text-md font-medium leading-6 w-full">
               Aktualne
@@ -40,7 +40,7 @@ defineProps({
         >
           <div
             :class="[selected ? 'border-b-2 border-b-blumilk-500 text-blumilk-600' : 'border-b-2 border-b-white']"
-            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-none"
+            class="w-100 border-b border-gray-200 p-2 sm:px-6 cursor-pointer flex items-center focus:outline-hidden"
           >
             <h3 class="text-md font-medium leading-6 w-full">
               Nadchodzące

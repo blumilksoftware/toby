@@ -71,7 +71,7 @@ class AssignedBenefitController extends Controller
             ->first();
 
         $data = Arr::where(
-            $request->get("data"),
+            $request->input("data"),
             fn(array $item): bool => $users->contains(fn(User $user): bool => $user->id === $item["user"]),
         );
 

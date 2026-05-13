@@ -57,8 +57,8 @@ function createUser() {
               id="firstName"
               v-model="form.firstName"
               type="text"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.firstName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.firstName }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.firstName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.firstName }"
             >
             <p
               v-if="form.errors.firstName"
@@ -80,8 +80,8 @@ function createUser() {
               id="lastName"
               v-model="form.lastName"
               type="text"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.lastName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.lastName }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.lastName, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.lastName }"
             >
             <p
               v-if="form.errors.lastName"
@@ -103,8 +103,8 @@ function createUser() {
               id="email"
               v-model="form.email"
               type="email"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.email, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.email }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.email, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.email }"
             >
             <p
               v-if="form.errors.email"
@@ -126,8 +126,8 @@ function createUser() {
               id="position"
               v-model="form.position"
               type="text"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.position, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.position }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.position, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.position }"
             >
             <p
               v-if="form.errors.position"
@@ -147,8 +147,8 @@ function createUser() {
           </ListboxLabel>
           <div class="relative mt-1 sm:col-span-2 sm:mt-0">
             <ListboxButton
-              class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.role, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.role }"
+              class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-hidden focus:ring-1 shadow-xs cursor-default sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.role, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.role }"
             >
               <span class="block truncate">{{ form.role.label }}</span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
@@ -160,7 +160,7 @@ function createUser() {
               leave-from-class="opacity-100"
               leave-to-class="opacity-0"
             >
-              <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm">
+              <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm">
                 <ListboxOption
                   v-for="role in roles"
                   :key="role.value"
@@ -201,8 +201,8 @@ function createUser() {
           </ListboxLabel>
           <div class="relative mt-1 sm:col-span-2 sm:mt-0">
             <ListboxButton
-              class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentForm }"
+              class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-hidden focus:ring-1 shadow-xs cursor-default sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.employmentForm, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.employmentForm }"
             >
               <span class="block truncate">{{ form.employmentForm.label }}</span>
               <span class="flex absolute inset-y-0 right-0 items-center pr-2 pointer-events-none">
@@ -215,7 +215,7 @@ function createUser() {
               leave-from-class="opacity-100"
               leave-to-class="opacity-0"
             >
-              <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm">
+              <ListboxOptions class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm">
                 <ListboxOption
                   v-for="employmentForm in employmentForms"
                   :key="employmentForm.value"
@@ -258,8 +258,8 @@ function createUser() {
               id="position"
               v-model="form.slackId"
               type="text"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.slackId, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.slackId }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.slackId, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.slackId }"
             >
             <p
               v-if="form.errors.slackId"
@@ -280,8 +280,8 @@ function createUser() {
             <FlatPickr
               id="birthday"
               v-model="form.birthday"
-              class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-              :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.birthday, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.birthday }"
+              class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+              :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.birthday, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.birthday }"
             />
             <p
               v-if="form.errors.birthday"
@@ -295,13 +295,13 @@ function createUser() {
           <div class="space-x-3">
             <InertiaLink
               href="/users"
-              class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             >
               Anuluj
             </InertiaLink>
             <button
               type="submit"
-              class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
               :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
               :disabled="form.processing || !form.isDirty"
             >

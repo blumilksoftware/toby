@@ -100,7 +100,7 @@ defineProps({
         </div>
         <div
           v-if="request.can.acceptAsTechnical"
-          class="bg-white shadow"
+          class="bg-white shadow-sm"
         >
           <div class="py-5 px-4 sm:p-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -116,7 +116,7 @@ defineProps({
               <InertiaLink
                 :href="`/overtime/requests/${request.id}/accept-as-technical`"
                 as="button"
-                class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                 method="post"
                 preserve-scroll
               >
@@ -127,7 +127,7 @@ defineProps({
         </div>
         <div
           v-if="request.can.reject"
-          class="bg-white shadow"
+          class="bg-white shadow-sm"
         >
           <div class="py-5 px-4 sm:p-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -142,7 +142,7 @@ defineProps({
               <InertiaLink
                 :href="`/overtime/requests/${request.id}/reject`"
                 as="button"
-                class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
+                class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
                 method="post"
                 preserve-scroll
               >
@@ -153,7 +153,7 @@ defineProps({
         </div>
         <div
           v-if="request.can.cancel"
-          class="bg-white border border-red-500 shadow"
+          class="bg-white border border-red-500 shadow-sm"
         >
           <div class="py-5 px-4 sm:p-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -168,7 +168,7 @@ defineProps({
               <InertiaLink
                 :href="`/overtime/requests/${request.id}/cancel`"
                 as="button"
-                class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
+                class="inline-flex justify-center items-center py-2 px-4 font-medium text-red-700 bg-red-100 hover:bg-red-200 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm"
                 method="post"
                 preserve-scroll
               >
@@ -179,7 +179,7 @@ defineProps({
         </div>
         <div
           v-if="request.can.settle"
-          class="bg-white border border-blue-500 shadow"
+          class="bg-white border border-blue-500 shadow-sm"
         >
           <div class="py-5 px-4 sm:p-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900">
@@ -194,7 +194,7 @@ defineProps({
               <InertiaLink
                 :href="`/overtime/requests/${request.id}/settle`"
                 as="button"
-                class="inline-flex justify-center items-center py-2 px-4 font-medium text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:text-sm"
+                class="inline-flex justify-center items-center py-2 px-4 font-medium text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:text-sm"
                 method="post"
                 preserve-scroll
               >

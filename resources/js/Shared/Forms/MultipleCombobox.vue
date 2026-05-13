@@ -55,7 +55,7 @@ const filteredItems = computed(() =>
         {{ item }}
         <button
           type="button"
-          class="shrink-0 ml-0.5 size-5 rounded-full inline-flex items-center justify-center text-white hover:bg-blumilk-600 focus:outline-none"
+          class="shrink-0 ml-0.5 size-5 rounded-full inline-flex items-center justify-center text-white hover:bg-blumilk-600 focus:outline-hidden"
           @click="selectedItems.splice(index, 1)"
         >
           <svg
@@ -77,15 +77,15 @@ const filteredItems = computed(() =>
       <ComboboxInput
         :id="id"
         placeholder="Etykiety"
-        class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+        class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-xs focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
         @change="query = $event.target.value"
       />
-      <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+      <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden">
         <ChevronUpDownIcon class="size-5 text-gray-400" />
       </ComboboxButton>
 
       <ComboboxOptions
-        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+        class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm"
       >
         <ComboboxOption
           v-for="item in filteredItems"

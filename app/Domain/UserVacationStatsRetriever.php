@@ -7,6 +7,7 @@ namespace Toby\Domain;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Laragear\CacheQuery\Cache;
 use Toby\Enums\VacationType;
 use Toby\Models\User;
 use Toby\Models\Vacation;
@@ -103,7 +104,9 @@ class UserVacationStatsRetriever
     {
         return $user->vacationLimits()
             ->where("year", $year ?? Carbon::today()->year)
-            ->cache("vacations:{$user->id}")
+            ->cache(function (Cache $cache) use ($user): void {
+                $cache->ttl(60)->as("vacations:{$user->id}");
+            })
             ->first()?->limit ?? 0;
     }
 
@@ -111,7 +114,9 @@ class UserVacationStatsRetriever
     {
         return $user->vacationLimits()
             ->where("year", $year ?? Carbon::today()->year)
-            ->cache("vacations:{$user->id}")
+            ->cache(function (Cache $cache) use ($user): void {
+                $cache->ttl(60)->as("vacations:{$user->id}");
+            })
             ->first()?->hasVacation() ?? false;
     }
 

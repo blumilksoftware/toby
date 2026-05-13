@@ -205,7 +205,7 @@ async function refreshAvailableTypes(user) {
                 </ListboxLabel>
                 <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                   <ListboxButton
-                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
+                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-hidden focus:ring-1 shadow-xs cursor-default sm:text-sm"
                     :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.user, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.user }"
                   >
                     <span class="flex items-center">
@@ -226,7 +226,7 @@ async function refreshAvailableTypes(user) {
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
-                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                     >
                       <ListboxOption
                         v-for="user in users.data"
@@ -301,7 +301,7 @@ async function refreshAvailableTypes(user) {
                 </ListboxLabel>
                 <div class="relative mt-1 sm:col-span-2 sm:mt-0">
                   <ListboxButton
-                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-none focus:ring-1 shadow-sm cursor-default sm:text-sm"
+                    class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border focus:outline-hidden focus:ring-1 shadow-xs cursor-default sm:text-sm"
                     :class="{ 'border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500': form.errors.type, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.type }"
                   >
                     <template v-if="form.vacationType">
@@ -322,7 +322,7 @@ async function refreshAvailableTypes(user) {
                     leave-to-class="opacity-0"
                   >
                     <ListboxOptions
-                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                      class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                     >
                       <ListboxOption
                         v-for="vacationType in vacationTypes"
@@ -366,8 +366,8 @@ async function refreshAvailableTypes(user) {
                     id="date_from"
                     v-model="form.from"
                     :config="fromInputConfig"
-                    class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.from, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.from }"
+                    class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.from, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.from }"
                     @on-change="onFromChange"
                   />
                   <p
@@ -390,8 +390,8 @@ async function refreshAvailableTypes(user) {
                     id="date_to"
                     v-model="form.to"
                     :config="toInputConfig"
-                    class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-                    :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.to, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.to }"
+                    class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+                    :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.to, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.to }"
                     @on-change="onToChange"
                   />
                   <p
@@ -425,7 +425,7 @@ async function refreshAvailableTypes(user) {
                     id="comment"
                     v-model="form.comment"
                     rows="4"
-                    class="block w-full max-w-lg rounded-md border-gray-300 focus:border-blumilk-500 focus:ring-blumilk-500 shadow-sm sm:text-sm"
+                    class="block w-full max-w-lg rounded-md border-gray-300 focus:border-blumilk-500 focus:ring-blumilk-500 shadow-xs sm:text-sm"
                   />
                 </div>
               </div>
@@ -443,10 +443,10 @@ async function refreshAvailableTypes(user) {
                   <Switch
                     id="flowSkipped"
                     v-model="form.flowSkipped"
-                    :class="[form.flowSkipped ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
+                    :class="[form.flowSkipped ? 'bg-blumilk-500' : 'bg-gray-200', 'relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-blumilk-500']"
                   >
                     <span
-                      :class="[form.flowSkipped ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block size-5 rounded-full bg-white shadow ring-0 transition ease-in-out duration-200']"
+                      :class="[form.flowSkipped ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block size-5 rounded-full bg-white shadow-sm ring-0 transition ease-in-out duration-200']"
                     />
                   </Switch>
                 </div>
@@ -456,13 +456,13 @@ async function refreshAvailableTypes(user) {
               <div class="space-x-3">
                 <InertiaLink
                   href="/vacation/requests"
-                  class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                  class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                 >
                   Anuluj
                 </InertiaLink>
                 <button
                   type="submit"
-                  class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                  class="inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                   :class="[form.processing || !isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                   :disabled="form.processing || !isDirty"
                 >

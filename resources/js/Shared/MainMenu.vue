@@ -236,7 +236,7 @@ const emit = defineEmits(['open'])
           >
             <div class="absolute top-0 right-0 pt-2 -mr-12">
               <button
-                class="flex justify-center items-center ml-1 size-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                class="flex justify-center items-center ml-1 size-10 rounded-full focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-white"
                 type="button"
                 @click="sidebarOpen = false"
               >
@@ -394,7 +394,7 @@ const emit = defineEmits(['open'])
   <div class="flex flex-col flex-1 lg:pl-60">
     <div class="flex relative z-10 shrink-0 h-16 bg-white border-b border-gray-200">
       <button
-        class="px-4 text-gray-400 border-r border-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
+        class="px-4 text-gray-400 border-r border-gray-200 focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-blumilk-500 lg:hidden"
         type="button"
         @click="sidebarOpen = true"
       >
@@ -404,7 +404,7 @@ const emit = defineEmits(['open'])
         <div>
           <button
             v-if="showRefreshButton"
-            class="inline-flex items-center py-2.5 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm ml-3"
+            class="inline-flex items-center py-2.5 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs ml-3"
             @click="reloadPage"
           >
             <div class="hidden sm:block">
@@ -421,7 +421,7 @@ const emit = defineEmits(['open'])
             class="relative ml-3"
           >
             <MenuButton
-              class="flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 lg:p-2 lg:hover:bg-gray-50 lg:rounded-md"
+              class="flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 lg:p-2 lg:hover:bg-gray-50 lg:rounded-md"
             >
               <img
                 :src="auth.user.avatar"
@@ -441,7 +441,7 @@ const emit = defineEmits(['open'])
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="absolute right-0 py-1 mt-2 w-48 bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg origin-top-right"
+                class="absolute right-0 py-1 mt-2 w-48 bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg origin-top-right"
               >
                 <MenuItem v-slot="{ active }">
                   <InertiaLink
