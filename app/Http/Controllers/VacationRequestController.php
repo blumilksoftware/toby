@@ -13,6 +13,7 @@ use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 use Inertia\Response;
+use Laragear\CacheQuery\Cache;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Toby\Actions\VacationRequest\AcceptAsAdministrativeAction;
 use Toby\Actions\VacationRequest\AcceptAsTechnicalAction;
@@ -63,7 +64,9 @@ class VacationRequestController extends Controller
             ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::pendingStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(key: "vacations:{$user->id}")
+            ->cache(function(Cache $cache) use ($user) {
+                $cache->ttl(60)->as("vacations:{$user->id}");
+            })
             ->count();
 
         $success = $user
@@ -71,7 +74,9 @@ class VacationRequestController extends Controller
             ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::successStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(key: "vacations:{$user->id}")
+            ->cache(function(Cache $cache) use ($user) {
+                $cache->ttl(60)->as("vacations:{$user->id}");
+            })
             ->count();
 
         $failed = $user
@@ -79,7 +84,9 @@ class VacationRequestController extends Controller
             ->whereYear("from", $year)
             ->states(VacationRequestStatesRetriever::failedStates())
             ->when($withoutRemote, fn(Builder $query): Builder => $query->excludeType(VacationType::RemoteWork))
-            ->cache(key: "vacations:{$user->id}")
+            ->cache(function(Cache $cache) use ($user) {
+                $cache->ttl(60)->as("vacations:{$user->id}");
+            })
             ->count();
 
         return inertia("VacationRequest/Index", [
