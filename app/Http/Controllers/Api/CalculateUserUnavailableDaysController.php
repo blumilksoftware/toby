@@ -20,7 +20,7 @@ class CalculateUserUnavailableDaysController extends Controller
         UnavailableDaysRetriever $unavailableDaysRetriever,
     ): JsonResponse {
         /** @var User $user */
-        $user = User::query()->find($request->get("user"));
+        $user = User::query()->find($request->input("user"));
         $year = $request->getYear();
 
         $unavailableDays = $unavailableDaysRetriever->getUnavailableDays($user, $year, $request->vacationType())

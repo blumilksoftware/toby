@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <section>
-    <div class=" overflow-hidden bg-white shadow">
+    <div class=" overflow-hidden bg-white shadow-sm">
       <div class="p-6 bg-white">
         <div class="sm:flex sm:justify-between sm:items-center">
           <div class="sm:flex sm:space-x-5">

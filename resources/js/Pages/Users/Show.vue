@@ -123,7 +123,7 @@ const props = defineProps({
             >
               <InertiaLink
                 :href="`/equipment-items?assignee=${user.id}`"
-                class="flex justify-center items-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 shadow-sm"
+                class="flex justify-center items-center py-2 px-4 w-full text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 shadow-xs"
               >
                 Zobacz wszystkie
               </InertiaLink>

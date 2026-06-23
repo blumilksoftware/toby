@@ -57,7 +57,7 @@ function removeItem(index) {
             class="flex-1 border border-gray-200"
           >
             <div class="flex">
-              <DisclosureButton class="transition rounded-md group w-full max-w-full overflow-hidden flex items-center justify-between p-4 font-semibold text-gray-500 hover:text-blumilk-500 focus:outline-none">
+              <DisclosureButton class="transition rounded-md group w-full max-w-full overflow-hidden flex items-center justify-between p-4 font-semibold text-gray-500 hover:text-blumilk-500 focus:outline-hidden">
                 <div class="break-all line-clamp-1 text-md">
                   <slot
                     name="itemHeader"
@@ -102,7 +102,7 @@ function removeItem(index) {
     <div class="px-8">
       <button
         type="button"
-        class="p-4 mx-auto mt-4 w-full font-semibold text-center text-blumilk-600 hover:bg-blumilk-25 focus:outline-none transition-colors"
+        class="p-4 mx-auto mt-4 w-full font-semibold text-center text-blumilk-600 hover:bg-blumilk-25 focus:outline-hidden transition-colors"
         @click="addItem()"
       >
         {{ addLabel }}

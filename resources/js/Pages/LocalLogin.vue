@@ -45,8 +45,8 @@ function localLogin() {
                 id="email"
                 v-model="form.email"
                 type="email"
-                class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm text-black"
-                :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.email, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.email }"
+                class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm text-black"
+                :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.email, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.email }"
               >
               <p
                 v-if="form.errors.email"
@@ -68,8 +68,8 @@ function localLogin() {
                 id="password"
                 v-model="form.password"
                 type="password"
-                class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm text-black"
-                :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.password, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.password }"
+                class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm text-black"
+                :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.password, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.password }"
               >
               <p
                 v-if="form.errors.password"
@@ -82,7 +82,7 @@ function localLogin() {
           <div class="py-4 mt-2">
             <button
               type="submit"
-              class="w-full inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="w-full inline-flex justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
               :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
               :disabled="form.processing || !form.isDirty"
             >

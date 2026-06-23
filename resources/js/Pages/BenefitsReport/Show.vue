@@ -63,7 +63,7 @@ function generateUrl() {
           >
             <button
               :class="[selectedUsers.length === 0 ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
-              class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             >
               Pobierz raport
             </button>
@@ -72,7 +72,7 @@ function generateUrl() {
             v-else
             :class="[selectedUsers.length === 0 ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
             :disabled="selectedUsers.length === 0"
-            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
           >
             Pobierz raport
           </button>
@@ -83,7 +83,7 @@ function generateUrl() {
           <thead class="divide-y divide-gray-300">
             <tr class="divide-x divide-gray-300">
               <th
-                class="w-16 px-8 space-x-4 sticky left-0 bg-white outline outline-1 outline-offset-0 outline-gray-300"
+                class="w-16 px-8 space-x-4 sticky left-0 bg-white outline-solid outline-1 outline-offset-0 outline-gray-300"
                 rowspan="2"
                 scope="col"
               >
@@ -91,7 +91,7 @@ function generateUrl() {
                   :checked="indeterminate || selectedUsers.length === benefitsReportData.length && benefitsReportData.length > 0"
                   :disabled="benefitsReportData.length === 0"
                   :indeterminate="indeterminate"
-                  class="absolute left-6 top-1/2 -mt-2 size-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                  class="absolute left-6 top-1/2 -mt-2 size-4 rounded-sm border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
                   type="checkbox"
                   @change="selectedUsers = $event.target.checked ? benefitsReportData.map((item) => ( item.user.id )) : []"
                 >
@@ -147,7 +147,7 @@ function generateUrl() {
             >
               <td
                 :class="[ selectedUsers.find((selectedUser) => selectedUser === item.user.id) && 'bg-blumilk-25', [!item.user.isActive ? 'bg-gray-100' : 'bg-white']]"
-                class="w-12 px-6 sm:w-16 sm:px-8 space-x-4 sticky left-0 outline outline-1 outline-offset-0 outline-gray-300 group hover:bg-blumilk-25 group-hover:bg-blumilk-25"
+                class="w-12 px-6 sm:w-16 sm:px-8 space-x-4 sticky left-0 outline-solid outline-1 outline-offset-0 outline-gray-300 group hover:bg-blumilk-25 group-hover:bg-blumilk-25"
               >
                 <div>
                   <div
@@ -157,7 +157,7 @@ function generateUrl() {
                   <input
                     v-model="selectedUsers"
                     :value="item.user.id"
-                    class="absolute left-6 top-1/2 -mt-2 size-4 rounded border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                    class="absolute left-6 top-1/2 -mt-2 size-4 rounded-sm border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
                     type="checkbox"
                   >
                 </div>

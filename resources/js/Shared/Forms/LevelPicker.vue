@@ -32,7 +32,7 @@ const currentIndex = computed(() => props.levels.findIndex((level) => level.leve
         :value="level"
       >
         <div
-          :class="`${selectedValue.backgroundColor} hover:opacity-80 cursor-pointer transition-colors duration-200 easy-in-out focus:outline-none flex-1`"
+          :class="`${selectedValue.backgroundColor} hover:opacity-80 cursor-pointer transition-colors duration-200 easy-in-out focus:outline-hidden flex-1`"
         />
       </RadioGroupOption>
       <div

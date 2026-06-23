@@ -47,7 +47,7 @@ defineProps({
           <div class="py-2">
             <button
               type="button"
-              class="inline-flex w-full justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+              class="inline-flex w-full justify-center py-2 px-4 text-sm font-medium text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
               @click="close(); emit('changePreviousYear');"
             >
               Przenieś dni

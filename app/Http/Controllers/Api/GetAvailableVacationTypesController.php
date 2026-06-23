@@ -18,7 +18,7 @@ class GetAvailableVacationTypesController extends Controller
         VacationTypeConfigRetriever $configRetriever,
     ): JsonResponse {
         /** @var User $user */
-        $user = User::query()->find($request->get("user"));
+        $user = User::query()->find($request->input("user"));
         $currentUser = $request->user();
 
         $types = VacationType::all()

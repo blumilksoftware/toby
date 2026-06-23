@@ -6,6 +6,7 @@ namespace Toby\Domain;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
+use Laragear\CacheQuery\Cache;
 use Toby\Http\Resources\BirthdayResource;
 use Toby\Http\Resources\DashboardVacationRequestResource;
 use Toby\Http\Resources\HolidayResource;
@@ -53,7 +54,9 @@ class DashboardAggregator
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereYear("date", $year ?? Carbon::now()->year)
-            ->cache("vacations:{$user->id}")
+            ->cache(function (Cache $cache) use ($user): void {
+                $cache->ttl(60)->as("vacations:{$user->id}");
+            })
             ->approved()
             ->get()
             ->mapWithKeys(
@@ -66,7 +69,9 @@ class DashboardAggregator
             ->vacations()
             ->with(["vacationRequest.vacations", "vacationRequest.user.profile"])
             ->whereYear("date", $year ?? Carbon::now()->year)
-            ->cache("vacations:{$user->id}")
+            ->cache(function (Cache $cache) use ($user): void {
+                $cache->ttl(60)->as("vacations:{$user->id}");
+            })
             ->pending()
             ->get()
             ->mapWithKeys(

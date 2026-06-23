@@ -78,7 +78,7 @@ watch(form, debounce(() => {
         </h2>
         <div v-if="auth.overtimeEnabled">
           <InertiaLink
-            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             href="/overtime/requests/create"
           >
             Dodaj wniosek
@@ -96,7 +96,7 @@ watch(form, debounce(() => {
             </ListboxLabel>
             <div class="relative mt-1 sm:mt-0">
               <ListboxButton
-                class="relative py-2 pr-10 pl-3 w-full max-w-lg h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+                class="relative py-2 pr-10 pl-3 w-full max-w-lg h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 shadow-xs cursor-default sm:text-sm"
               >
                 <span v-if="form.user === null">
                   Wszyscy
@@ -122,7 +122,7 @@ watch(form, debounce(() => {
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
-                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                 >
                   <ListboxOption
                     v-slot="{ active }"
@@ -186,7 +186,7 @@ watch(form, debounce(() => {
             </ListboxLabel>
             <div class="relative mt-1 sm:mt-0">
               <ListboxButton
-                class="relative py-2 pr-10 pl-3 w-full max-w-lg h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+                class="relative py-2 pr-10 pl-3 w-full max-w-lg h-10 text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 shadow-xs cursor-default sm:text-sm"
               >
                 <span class="flex items-center">
                   {{ form.status.name }}
@@ -202,7 +202,7 @@ watch(form, debounce(() => {
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
-                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                 >
                   <ListboxOption
                     v-for="status in statuses"

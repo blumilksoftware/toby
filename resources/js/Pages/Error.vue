@@ -70,7 +70,7 @@ const error = computed(() => errors[this.status])
             <div class="flex mt-10 space-x-3 sm:pl-6 sm:border-l sm:border-transparent">
               <InertiaLink
                 href="/"
-                class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
               >
                 Wróć do strony głównej
               </InertiaLink>

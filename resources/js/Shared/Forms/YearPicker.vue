@@ -39,7 +39,7 @@ const value = computed({
       </ListboxLabel>
       <div class="relative mt-1 sm:mt-0">
         <ListboxButton
-          class="relative py-2 pr-10 pl-3 w-full text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+          class="relative py-2 pr-10 pl-3 w-full text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 shadow-xs cursor-default sm:text-sm"
         >
           <span class="flex items-center">
             {{ value !== null || !nullable ? value : 'Wszystkie' }}
@@ -55,7 +55,7 @@ const value = computed({
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="overflow-auto absolute z-10 py-1 mt-1 max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+            class="overflow-auto absolute z-10 py-1 mt-1 max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
           >
             <ListboxOption
               v-if="nullable"

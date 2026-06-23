@@ -43,7 +43,7 @@ function submitCreateBenefit() {
         <div v-if="auth.can.manageBenefits">
           <button
             type="button"
-            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+            class="inline-flex items-center py-3 px-4 text-sm font-medium leading-4 text-white bg-blumilk-600 hover:bg-blumilk-700 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
             @click="creating = true"
           >
             Dodaj benefit
@@ -104,7 +104,7 @@ function submitCreateBenefit() {
                     class="inline-block relative text-left"
                   >
                     <MenuButton
-                      class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                      class="flex items-center text-gray-400 hover:text-gray-600 rounded-full focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                     >
                       <EllipsisVerticalIcon class="size-5" />
                     </MenuButton>
@@ -118,7 +118,7 @@ function submitCreateBenefit() {
                       leave-to-class="transform opacity-0 scale-95"
                     >
                       <MenuItems
-                        class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg origin-top-right"
+                        class="absolute right-0 z-10 mt-2 w-56 bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg origin-top-right"
                       >
                         <div class="py-1">
                           <MenuItem
@@ -218,8 +218,8 @@ function submitCreateBenefit() {
                         id="name"
                         v-model="form.name"
                         type="text"
-                        class="block w-full max-w-lg rounded-md shadow-sm sm:text-sm"
-                        :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
+                        class="block w-full max-w-lg rounded-md shadow-xs sm:text-sm"
+                        :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.name, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.name }"
                       >
                       <p
                         v-if="form.errors.name"
@@ -233,8 +233,8 @@ function submitCreateBenefit() {
                         id="companion"
                         v-model="form.companion"
                         type="checkbox"
-                        class="rounded size-4 border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
-                        :class="{ 'border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500': form.errors.companion, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.companion }"
+                        class="rounded-sm size-4 border-gray-300 text-blumilk-600 focus:ring-blumilk-500"
+                        :class="{ 'border-red-300 text-red-900 focus:outline-hidden focus:ring-red-500 focus:border-red-500': form.errors.companion, 'focus:ring-blumilk-500 focus:border-blumilk-500 sm:text-sm border-gray-300': !form.errors.companion }"
                       >
                       <label
                         for="companion"
@@ -256,14 +256,14 @@ function submitCreateBenefit() {
                 <div class="flex justify-end space-x-3">
                   <button
                     type="button"
-                    class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm"
+                    class="py-2 px-4 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-md border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs"
                     @click="creating = false"
                   >
                     Anuluj
                   </button>
                   <button
                     type="submit"
-                    class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-sm sm:text-sm"
+                    class="inline-flex justify-center py-2 px-4 text-base font-medium text-white bg-blumilk-600 rounded-md border border-transparent focus:outline-hidden focus:ring-2 focus:ring-blumilk-500 focus:ring-offset-2 shadow-xs sm:text-sm"
                     :class="[form.processing || !form.isDirty ? 'disabled:opacity-60' : 'hover:bg-blumilk-700']"
                     :disabled="form.processing || !form.isDirty"
                   >

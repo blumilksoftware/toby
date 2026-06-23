@@ -72,7 +72,7 @@ watch(form, debounce(() => {
             </div>
             <input
               v-model.trim="form.search"
-              class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
+              class="block py-2 pr-3 pl-10 w-full max-w-lg placeholder:text-gray-500 focus:text-gray-900 focus:placeholder:text-gray-400 bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 sm:text-sm"
               placeholder="Szukaj"
               type="search"
             >
@@ -83,7 +83,7 @@ watch(form, debounce(() => {
           >
             <div class="relative mt-1 sm:mt-0">
               <ListboxButton
-                class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-none focus:ring-1 focus:ring-blumilk-500 shadow-sm cursor-default sm:text-sm"
+                class="relative py-2 pr-10 pl-3 w-full max-w-lg text-left bg-white rounded-md border border-gray-300 focus:border-blumilk-500 focus:outline-hidden focus:ring-1 focus:ring-blumilk-500 shadow-xs cursor-default sm:text-sm"
               >
                 <span class="flex items-center">
                   {{ form.sort.name }}
@@ -99,7 +99,7 @@ watch(form, debounce(() => {
                 leave-to-class="opacity-0"
               >
                 <ListboxOptions
-                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-none ring-1 ring-black/5 shadow-lg sm:text-sm"
+                  class="overflow-auto absolute z-10 py-1 mt-1 w-full max-w-lg max-h-60 text-base bg-white rounded-md focus:outline-hidden ring-1 ring-black/5 shadow-lg sm:text-sm"
                 >
                   <ListboxOption
                     v-for="option in sortOptions"

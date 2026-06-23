@@ -28,10 +28,10 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       # renovate: datasource=docker depName=php
-      PHP_VERSION: 8.4.16
+      PHP_VERSION: 8.4.20
     services:
       postgres:
-        image: postgres:15@sha256:a7711af921c380de0fda7c48a61fab5ac4def145fd9fc00ccea7355fd6270bb4
+        image: postgres:15@sha256:32016c79bea24c14917660106bc23a03341d94b9983aeb41f4130b4f3fbd6dd0
         env:
           POSTGRES_DB: toby-test
           POSTGRES_USER: toby
@@ -53,7 +53,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-dependencies
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # 2.36.0
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_pgsql, intl, gd
