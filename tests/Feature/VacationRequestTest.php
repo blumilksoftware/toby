@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -245,9 +246,9 @@ class VacationRequestTest extends FeatureTestCase
                     ->component("VacationRequest/BulkCreate")
                     ->where(
                         "typesByUser.{$targetEmployee->id}",
-                        fn(array $types): bool => in_array(VacationType::Delegation->value, $types, true)
-                            && in_array(VacationType::TimeInLieu->value, $types, true)
-                            && in_array(VacationType::Vacation->value, $types, true),
+                        fn(Collection $types): bool => $types->contains(VacationType::Delegation->value)
+                            && $types->contains(VacationType::TimeInLieu->value)
+                            && $types->contains(VacationType::Vacation->value),
                     ),
             );
     }
