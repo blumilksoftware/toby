@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -222,6 +223,66 @@ class VacationRequestTest extends FeatureTestCase
             "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
             "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
             "comment" => "Comment for the vacation request.",
+        ]);
+    }
+
+    public function testEmployeeWithPermissionSeesUsersForDelegationAndTimeInLieuInBulkCreate(): void
+    {
+        $creator = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $creator->givePermissionTo("createRequestsOnBehalfOfEmployee");
+
+        $targetEmployee = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $this->actingAs($creator)
+            ->get("/vacation/requests/bulk/create")
+            ->assertOk()
+            ->assertInertia(
+                fn(Assert $page) => $page
+                    ->component("VacationRequest/BulkCreate")
+                    ->where(
+                        "typesByUser.{$targetEmployee->id}",
+                        fn(Collection $types): bool => $types->contains(VacationType::Delegation->value)
+                            && $types->contains(VacationType::TimeInLieu->value)
+                            && $types->contains(VacationType::Vacation->value),
+                    ),
+            );
+    }
+
+    public function testEmployeeWithPermissionCanCreateDelegationRequestForVisibleUser(): void
+    {
+        $creator = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $creator->givePermissionTo("createRequestsOnBehalfOfEmployee");
+
+        $targetEmployee = User::factory()
+            ->has(Profile::factory(["employment_form" => EmploymentForm::EmploymentContract]))
+            ->create();
+
+        $currentYear = Carbon::now()->year;
+
+        $this->actingAs($creator)
+            ->post("/vacation/requests/bulk", [
+                "users" => [$targetEmployee->id],
+                "type" => VacationType::Delegation->value,
+                "from" => Carbon::create($currentYear, 2, 7)->toDateString(),
+                "to" => Carbon::create($currentYear, 2, 11)->toDateString(),
+                "comment" => "Comment for the vacation request.",
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $this->assertDatabaseHas("vacation_requests", [
+            "user_id" => $targetEmployee->id,
+            "creator_id" => $creator->id,
+            "type" => VacationType::Delegation->value,
+            "state" => Approved::$name,
         ]);
     }
 
