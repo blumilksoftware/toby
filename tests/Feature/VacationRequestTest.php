@@ -224,6 +224,7 @@ class VacationRequestTest extends FeatureTestCase
             "comment" => "Comment for the vacation request.",
         ]);
     }
+
     public function testEmployeeWithPermissionSeesUsersForDelegationAndTimeInLieuInBulkCreate(): void
     {
         $creator = User::factory()
