@@ -1,10 +1,10 @@
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.4.11
+ARG PHP_VERSION=8.4.23
 ARG PHP_MODULE_NAME=php${PHP_VERSION}
 # https://github.com/nginx/unit/tags
 ARG UNIT_VERSION=1.34.1-1
 
-FROM alpine:3.22.4@sha256:310c62b5e7ca5b08167e4384c68db0fd2905dd9c7493756d356e893909057601 AS secops-tools
+FROM alpine:3.22.5@sha256:14358309a308569c32bdc37e2e0e9694be33a9d99e68afb0f5ff33cc1f695dce AS secops-tools
 
 # https://github.com/FiloSottile/age/releases
 ARG AGE_VERSION="1.1.1"
@@ -20,12 +20,12 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
     && chmod +x /usr/local/bin/sops
 
 # https://hub.docker.com/r/composer/composer
-FROM composer/composer:2.9.7-bin@sha256:a742abd4ab1087c2d98bc63e84fe6a510886c5afbe35ef227d5932a22ee797dc AS composer-bin
+FROM composer/composer:2.9.8-bin@sha256:2cde59fd0009d0b4f0fa8532a189290352d9fe3d80fbcc3a887ac69b9eeeef27 AS composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:22.22.2-bullseye-slim@sha256:f414ad225653500910a84d4206bb3f10f449acfb01815e3b41a0774f450ee802 AS node
+FROM node:22.22.3-bookworm-slim@sha256:f81e523790f0a2c86827ff6356a28fad2edbe0fe36bc3c4275a4d1e16304bf43 AS node
 
-FROM php:${PHP_VERSION}-cli-bullseye AS unit-modules-builder
+FROM php:${PHP_VERSION}-cli-bookworm AS unit-modules-builder
 
 RUN apt-get update && apt-get install --assume-yes \
         git \
@@ -41,7 +41,7 @@ RUN git clone https://github.com/nginx/unit \
         && ./configure php --module=${PHP_MODULE_NAME} \
         && make ${PHP_MODULE_NAME}
 
-FROM php:${PHP_VERSION}-cli-bullseye AS app
+FROM php:${PHP_VERSION}-cli-bookworm AS app
 
 COPY --from=secops-tools /usr/local/bin/age /usr/local/bin/age
 COPY --from=secops-tools /usr/local/bin/age-keygen /usr/local/bin/age-keygen
@@ -49,15 +49,15 @@ COPY --from=secops-tools /usr/local/bin/sops /usr/local/bin/sops
 
 ARG UNIT_VERSION
 # https://packages.nginx.org/unit/debian/pool/unit/u/unit/
-ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bullseye"
+ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bookworm"
 ARG PHP_MODULE_NAME
 
 COPY --from=unit-modules-builder /unit/build/lib/unit/modules/${PHP_MODULE_NAME}.unit.so /usr/lib/unit/modules/${PHP_MODULE_NAME}.unit.so
 
 # Install Nginx Unit
 RUN curl --output /usr/share/keyrings/nginx-keyring.gpg https://unit.nginx.org/keys/nginx-keyring.gpg \
-    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
-    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bookworm unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bookworm unit' | tee --append /etc/apt/sources.list.d/unit.list \
     && apt-get update && apt-get install --assume-yes \
         systemd \
         unit=${NGINX_UNIT_VERSION} \
@@ -114,13 +114,13 @@ RUN apt-get update && apt-get install --assume-yes \
 
 # Install Postgresql client (https://www.postgresql.org/download/linux/debian/)
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --output /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null \
-    && bash -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+    && bash -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
     && apt-get update \
     && apt-get install --assume-yes postgresql-client-15
 
 # For other versions check: https://pecl.php.net/package/xdebug
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.5.1
+ARG XDEBUG_VERSION=3.5.3
 ARG INSTALL_XDEBUG=true
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
