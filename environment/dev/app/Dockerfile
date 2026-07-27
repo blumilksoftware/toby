@@ -23,9 +23,9 @@ RUN wget --output-document age.tar.gz "https://github.com/FiloSottile/age/releas
 FROM composer/composer:2.9.8-bin@sha256:2cde59fd0009d0b4f0fa8532a189290352d9fe3d80fbcc3a887ac69b9eeeef27 AS composer-bin
 
 # https://hub.docker.com/_/node
-FROM node:22.22.3-bullseye-slim@sha256:f81e523790f0a2c86827ff6356a28fad2edbe0fe36bc3c4275a4d1e16304bf43 AS node
+FROM node:22.22.3-bookworm-slim@sha256:f81e523790f0a2c86827ff6356a28fad2edbe0fe36bc3c4275a4d1e16304bf43 AS node
 
-FROM php:${PHP_VERSION}-cli-bullseye AS unit-modules-builder
+FROM php:${PHP_VERSION}-cli-bookworm AS unit-modules-builder
 
 RUN apt-get update && apt-get install --assume-yes \
         git \
@@ -41,7 +41,7 @@ RUN git clone https://github.com/nginx/unit \
         && ./configure php --module=${PHP_MODULE_NAME} \
         && make ${PHP_MODULE_NAME}
 
-FROM php:${PHP_VERSION}-cli-bullseye AS app
+FROM php:${PHP_VERSION}-cli-bookworm AS app
 
 COPY --from=secops-tools /usr/local/bin/age /usr/local/bin/age
 COPY --from=secops-tools /usr/local/bin/age-keygen /usr/local/bin/age-keygen
@@ -49,15 +49,15 @@ COPY --from=secops-tools /usr/local/bin/sops /usr/local/bin/sops
 
 ARG UNIT_VERSION
 # https://packages.nginx.org/unit/debian/pool/unit/u/unit/
-ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bullseye"
+ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bookworm"
 ARG PHP_MODULE_NAME
 
 COPY --from=unit-modules-builder /unit/build/lib/unit/modules/${PHP_MODULE_NAME}.unit.so /usr/lib/unit/modules/${PHP_MODULE_NAME}.unit.so
 
 # Install Nginx Unit
 RUN curl --output /usr/share/keyrings/nginx-keyring.gpg https://unit.nginx.org/keys/nginx-keyring.gpg \
-    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
-    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bookworm unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bookworm unit' | tee --append /etc/apt/sources.list.d/unit.list \
     && apt-get update && apt-get install --assume-yes \
         systemd \
         unit=${NGINX_UNIT_VERSION} \
@@ -114,7 +114,7 @@ RUN apt-get update && apt-get install --assume-yes \
 
 # Install Postgresql client (https://www.postgresql.org/download/linux/debian/)
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --output /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null \
-    && bash -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+    && bash -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
     && apt-get update \
     && apt-get install --assume-yes postgresql-client-15
 

@@ -20,7 +20,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 ### FRONTEND ###
-FROM node:22.22.3-bullseye-slim@sha256:f81e523790f0a2c86827ff6356a28fad2edbe0fe36bc3c4275a4d1e16304bf43 AS frontend
+FROM node:22.22.3-bookworm-slim@sha256:f81e523790f0a2c86827ff6356a28fad2edbe0fe36bc3c4275a4d1e16304bf43 AS frontend
 
 WORKDIR /app_frontend_dependencies
 
@@ -35,7 +35,7 @@ COPY resources/css ./resources/css/
 RUN npm run build
 
 ### NGINIX UNIT PHP MODULE ###
-FROM php:${PHP_VERSION}-cli-bullseye AS unit-modules-builder
+FROM php:${PHP_VERSION}-cli-bookworm AS unit-modules-builder
 
 RUN apt-get update && apt-get install --assume-yes \
         git \
@@ -53,19 +53,19 @@ RUN git clone https://github.com/nginx/unit \
 
 
 ### APPLICATION ###
-FROM php:${PHP_VERSION}-cli-bullseye AS app
+FROM php:${PHP_VERSION}-cli-bookworm AS app
 
 ARG UNIT_VERSION
 # https://packages.nginx.org/unit/debian/pool/unit/u/unit/
-ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bullseye"
+ARG NGINX_UNIT_VERSION="${UNIT_VERSION}~bookworm"
 ARG PHP_MODULE_NAME
 
 COPY --from=unit-modules-builder /unit/build/lib/unit/modules/${PHP_MODULE_NAME}.unit.so /usr/lib/unit/modules/${PHP_MODULE_NAME}.unit.so
 
 # Install Nginx Unit
 RUN curl --output /usr/share/keyrings/nginx-keyring.gpg https://unit.nginx.org/keys/nginx-keyring.gpg \
-    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
-    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bullseye unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bookworm unit' | tee --append /etc/apt/sources.list.d/unit.list \
+    && echo 'deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/debian/ bookworm unit' | tee --append /etc/apt/sources.list.d/unit.list \
     && apt-get update && apt-get install --assume-yes \
         systemd \
         unit=${NGINX_UNIT_VERSION} \
@@ -83,7 +83,7 @@ ARG PHPREDIS_VERSION=6.3.0
 RUN apt-get update \
     && apt-get install --assume-yes gpg \
     && curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmour --output /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null \
-    && echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
+    && echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update && apt-get install --assume-yes \
         postgresql-client-${POSTGRESQL_CLIENT_VERSION} \
         libpcre3-dev \
