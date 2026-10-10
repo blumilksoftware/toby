@@ -28,10 +28,10 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       # renovate: datasource=docker depName=php
-      PHP_VERSION: 8.4.23
+      PHP_VERSION: 8.4.26
     services:
       postgres:
-        image: postgres:15@sha256:74e110c41804365e3915fcc09d5e7a1eff50161aaa94d5da0e58e0cd75ae509c
+        image: postgres:15@sha256:c961aa287d8698297cb26cdfadfbe9fd2cbaf77e53cfffe9636e8d8a1e4d842c
         env:
           POSTGRES_DB: toby-test
           POSTGRES_USER: toby
@@ -40,7 +40,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
       - name: Validate composer.json and composer.lock
         run: composer validate
