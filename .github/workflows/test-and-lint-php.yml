@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       # renovate: datasource=docker depName=php
-      PHP_VERSION: 8.4.26
+      PHP_VERSION: 8.4.27
     services:
       postgres:
         image: postgres:15@sha256:c961aa287d8698297cb26cdfadfbe9fd2cbaf77e53cfffe9636e8d8a1e4d842c
