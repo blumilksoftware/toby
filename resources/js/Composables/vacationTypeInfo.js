@@ -13,6 +13,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import PlaneTrainIcon from 'vue-material-design-icons/PlaneTrain.vue'
 import WaterPlusIcon from 'vue-material-design-icons/WaterPlus.vue'
 import HumanMaleChildIcon from 'vue-material-design-icons/HumanMaleChild.vue'
+import HumanFemaleGirlIcon from 'vue-material-design-icons/HumanFemaleGirl.vue'
 
 const types = [
   {
@@ -49,6 +50,13 @@ const types = [
     icon: HumanMaleChildIcon,
     color: 'text-purple-800',
     border: 'border-purple-800',
+  },
+  {
+    text: 'Urlop macierzyński',
+    value: 'maternity_leave',
+    icon: HumanFemaleGirlIcon,
+    color: 'text-fuchsia-800',
+    border: 'border-fuchsia-800',
   },
   {
     text: 'Urlop szkoleniowy',
