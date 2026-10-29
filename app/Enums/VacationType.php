@@ -19,6 +19,7 @@ enum VacationType: string
     case Training = "training_vacation";
     case Childcare = "childcare_vacation";
     case PaternityLeave = "paternity_leave";
+    case MaternityLeave = "maternity_leave";
     case Volunteering = "volunteering_vacation";
     case BloodDonation = "blood_donation_vacation";
     case Absence = "absence";
